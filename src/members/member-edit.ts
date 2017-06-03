@@ -16,7 +16,8 @@ export class MemberEdit {
     router;
     i18n;
     member;
-    member_orig;
+    member_info_orig;
+    life_story_orig;
     dialog;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
@@ -32,34 +33,29 @@ export class MemberEdit {
 
     activate(member) {
         this.member = member;
-        this.member_orig = deepClone(this.member);
+        this.member_info_orig = deepClone(this.member.member_info);
+        this.life_story_orig = "" + member.story_info.story_text;
     }
 
 
-    @computedFrom('member.first_name', 'member.last_name', 'member.former_last_name', 'member.former_first_name', 'member.PlaceOfBirth',
-        'member.birth_date', 'member.date_of_death', 'member.NickName', 'member.gender')
+    @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name', 'member.member_info.PlaceOfBirth',
+        'member.member_info.birth_date', 'member.member_info.date_of_death', 'member.member_info.NickName', 'member.member_info.gender', 'member.story_info.life_story')
     get dirty() {
-        return JSON.stringify(this.member) != JSON.stringify(this.member_orig);
-    }
-
-    @computedFrom('member.first_name', 'member.last_name', 'member.former_last_name', 'member.former_first_name', 'member.PlaceOfBirth',
-        'member.birth_date', 'member.date_of_death', 'member.NickName', 'member.gender')
-    get clean() {
-        return JSON.stringify(this.member) === JSON.stringify(this.member_orig);
+        return JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig) || this.member.story_info.story_text != this.life_story_orig ;
     }
 
     prev_member() {
         if (this.dirty) {
             return
         }
-        this.handle_member(this.member.id, 'prev');
+        this.handle_member(this.member.member_info.id, 'prev');
     }
 
     next_member() {
         if (this.dirty) {
             return
         }
-        this.handle_member(this.member.id, 'next');
+        this.handle_member(this.member.member_info.id, 'next');
     }
 
     handle_member(member_id, direction) {
@@ -67,19 +63,19 @@ export class MemberEdit {
     }
 
     cancel_edit_mode() {
-        this.member = deepClone(this.member_orig);
+        this.member.member_info = deepClone(this.member_info_orig);
     }
 
 
     toggle_gender() {
-        if (this.member.gender == 'F') {
-            this.member.gender = 'M'
+        if (this.member.member_info.gender == 'F') {
+            this.member.member_info.gender = 'M'
         }
-        else if (this.member.gender == 'M') {
-            this.member.gender = 'F'
+        else if (this.member.member_info.gender == 'M') {
+            this.member.member_info.gender = 'F'
         }
         else {
-            this.member.gender = 'F'
+            this.member.member_info.gender = 'F'
         }
     }
 }
