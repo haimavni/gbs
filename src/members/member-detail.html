@@ -79,13 +79,13 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-6" style="padding-right: 0;">
+                <div class="col-md-6" if.bind="!user.editing" style="padding-right: 0;">
                     <h3>${'members.life-summary' & t}</h3>
                     <p dir="rtl" style="overflow:auto;max-height: 200px;" innerhtml.bind="member.story_info.story_text">
                     </p>
                 </div>
-                <div if.bind="! user.editig">
-                    <froala-editor value.two-way="memmber.sotry_info.story_text"></froala-editor>
+                <div class="col-md-6" if.bind="user.editing">
+                    <froala-editor value.two-way="member.story_info.story_text"></froala-editor>
                 </div>
             </div>
         </div>
