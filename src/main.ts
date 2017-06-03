@@ -27,8 +27,11 @@ export function configure(aurelia: Aurelia) {
       });
     })
     .plugin('aurelia-dialog')
-
     .feature('resources');
+
+  aurelia.use.globalResources('./services/user');
+  aurelia.use.globalResources('./services/member_list');
+  aurelia.use.globalResources('./user/user-mode');
 
   if (environment.debug) {
     aurelia.use.developmentLogging();

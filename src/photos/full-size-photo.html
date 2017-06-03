@@ -1,0 +1,25 @@
+<template>
+    <div class="slide" click.trigger="mark_face($event)">
+        <div class="slide" click="mark_face($event)"> <img src="${photo_url}" /> <button class="face" repeat.for="face of faces" click.trigger=
+                "handle_face(face, $event, $index)" style.bind="face_location(face)" title.bind="face.name">            </button> </div>
+    </div>
+    <style>
+        div.slide {
+            position: relative;
+        }
+
+        button.face {
+            border-radius: 50%;
+            border-color: rgba(0, 0, 0, 0);
+            border-style: solid;
+            border-width: 2px;
+            opacity: 0;
+            position: absolute;
+        }
+
+        button.face:hover {
+            border-color: rgba(255, 255, 0, 1.0);
+            opacity: 0.5;
+        }
+    </style>
+</template>

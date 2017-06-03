@@ -1,0 +1,100 @@
+<template>
+    <div style="margin-top:50px">
+        <div class="row">
+            <h3 dir="rtl" style="float: right">
+                ${member.member_info.full_name}
+            </h3>
+        </div>
+        <div class="row slide-list">
+            <div class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
+            <div class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
+            <a repeat.for="image of member.images" click.trigger="photo_clicked(image)">
+                 <img class="slide-photo" src="${image.path}" style="float:right;" />
+            </a>
+        </div>
+        <div>
+            <!-- if.bind="! user.editing"-->
+            <div class="row" dir="rtl">
+                <div class="col-md-6">
+                    <div class="row" if.bind="member.family_connections.hasFamilyConnections">
+                        <h3>${'members.family-connections' & t}</h3>
+                    </div>
+                    <div class="row family-chains">
+                        <table class="noborder">
+                            <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || family_connections.parents.ma)">
+                                <td class="relation-kind">${'parents' & t}</td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <a type="button" class="btn btn-default" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
+                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.pa.id}">
+                                                ${member.family_connections.parents.pa.name}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="button" class="btn btn-default" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
+                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.ma.id}">
+                                                ${member.family_connections.parents.ma.name}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr if.bind="member.family_connections.siblings.length > 0">
+                                <td class="relation-kind">${'siblings' & t}</td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <a type="button" class="btn btn-default" repeat.for="sibling of member.family_connections.siblings" route-href="route: member-details; params.bind: {id:sibling.id}">
+                                                    ${sibling.name}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr if.bind="member.family_connections.spouses.length > 0">
+                                <td class="relation-kind">${member.spouses & t}</td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <a type="button" class="btn btn-default" repeat.for="spouse of member.family_connections.spouses" route-href="route: member-details; params.bind: {id:spouse.id}">
+                                                    ${spouse.name}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr if.bind="member.family_connections.children.length> 0">
+                                <td class="relation-kind">${'children' & t}</td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <a type="button" class="btn btn-default" repeat.for="child of member.family_connections.children" route-href="route: member-details; params.bind: {id:child.id}">
+                                                ${child.name}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding-right: 0;">
+                    <h3>${'members.life-summary' & t}</h3>
+                    <p dir="rtl" style="overflow:auto;max-height: 200px;" innerhtml.bind="member.story_info.story_text">
+                    </p>
+                </div>
+                <div if.bind="! user.editig">
+                    <froala-editor value.two-way="memmber.sotry_info.story_text"></froala-editor>
+                </div>
+            </div>
+        </div>
+        <div if.bind="user.editing">
+            <div class="row" dir="rtl">
+                <div class="col-md-offset-6 col-md-6">
+                    <compose view-model="./member-edit" model.bind="member.member_info"></compose>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

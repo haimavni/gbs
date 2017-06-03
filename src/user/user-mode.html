@@ -1,0 +1,19 @@
+<template>
+    <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right">
+        <i class="fa fa-lg fa-sign-in"></i>
+        ${'user.login' | t}
+    </a>
+
+    <a href if.bind="user.isLoggedIn" click.trigger="logout()" class="border-right" >
+        <i class="fa fa-lg fa-sign-out"></i>
+        ${'user.logout' | t}
+    </a>
+
+    <a if.bind="user.isLoggedIn && user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" t="[title]user.can-edit" class="border-right">
+        <i class="fa fa-lg ${user.editing ? 'fa-eye' : 'fa-pencil' }"></i>
+    </a>
+
+    <a if.bind="user.isLoggedIn && user.privileges.ADMIN" href click.trigger="manage_users()" t="[title]user.manage-users" class="border-right">
+        <i class="fa fa-lg fa-cogs"></i>
+    </a>
+</template>
