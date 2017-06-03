@@ -1,7 +1,19 @@
 <template>
     <div class="row" style="margin-top: 20px;" dir="rtl">
         <h3>${'members.editing-member' & t}</h3>
-        <div class="col-md-10 col-md-offset-2" style="font-size:14px;">
+    </div>
+    <div class="row">
+        <div class="col-md-6 family-chains">
+            <div class="row">
+                <div class="col-md-6">
+                    <a type="button" class="btn btn-default" style="width:100%;" click.trigger="find_father()">Father</a>
+                </div>
+                <div class="col-md-6" style="padding-right:0px;">
+                    <a type="button" class="btn btn-default" style="width:100%;" click.trigger="find_mother()">Mother</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="font-size:14px;float:right">
             <div class="row toolbar">
                 <div class="col-md-12" style="padding-right:0px">
                     <div class="btn-group" style="margin-bottom:15px;">
@@ -29,49 +41,51 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <form class="form-horizontal" role="form">
-                <!--The left wing of the form-->
-                <div class="col-md-5 col-md-offset-1">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="former_name" t="[placeholder]members.former-name" value.bind="member.member_info.FormerName"
-                            disabled.bind="true">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="former_first_name" t="[placeholder]members.former-first-name" value.bind="member.member_info.former_first_name">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="former_last_name" t="[placeholder]members.former-last-name" value.bind="member.member_info.former_last_name">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="birth_place" t="[placeholder]members.birth-place" value.bind="member.member_info.PlaceOfBirth">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="date_of_death" t="[placeholder]members.date-of-death" value.bind="member.member_info.date_of_death">
-                    </div>
+    </div>
+    <div class="row">
+        <form class="form-horizontal member-info" role="form">
+            <!--The left wing of the form-->
+            <div class="col-md-6 member-info-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="former_name" t="[placeholder]members.former-name" value.bind="member.member_info.FormerName"
+                        disabled.bind="true">
                 </div>
-                <!--The right wing of the form-->
-                <div class="col-md-5 col-md-offset-1">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="member_name" t="[placeholder]members.member-name" value.bind="member.member_info.Name" disabled.bind="true">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="first_name" t="[placeholder]members.first-name" value.bind="member.member_info.first_name">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="last_name" t="[placeholder]members.last-name" value.bind="member.member_info.last_name">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="DateOfBirth" disabled.bind="true" value.bind="member.member_info.DateOfBirth">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="birth_date" t="[placeholder]members.date-of-birth" value.bind="member.member_info.birth_date">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="nick_name" t="[placeholder]members.nick-name" value.bind="member.member_info.NickName">
-                    </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="former_first_name" t="[placeholder]members.former-first-name" value.bind="member.member_info.former_first_name">
                 </div>
-            </form>
-        </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="former_last_name" t="[placeholder]members.former-last-name" value.bind="member.member_info.former_last_name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="birth_place" t="[placeholder]members.birth-place" value.bind="member.member_info.PlaceOfBirth">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="date_of_death" t="[placeholder]members.date-of-death" value.bind="member.member_info.date_of_death">
+                </div>
+            </div>
+            <!--The right wing of the form-->
+            <div class="col-md-6 member-info-right">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="member_name" t="[placeholder]members.member-name" value.bind="member.member_info.Name"
+                        disabled.bind="true">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="first_name" t="[placeholder]members.first-name" value.bind="member.member_info.first_name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="last_name" t="[placeholder]members.last-name" value.bind="member.member_info.last_name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="DateOfBirth" disabled.bind="true" value.bind="member.member_info.DateOfBirth">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="birth_date" t="[placeholder]members.date-of-birth" value.bind="member.member_info.birth_date">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nick_name" t="[placeholder]members.nick-name" value.bind="member.member_info.NickName">
+                </div>
+            </div>
+        </form>
+    </div>
     </div>
 </template>

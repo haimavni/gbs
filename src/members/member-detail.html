@@ -84,18 +84,23 @@
                         </div>
                     </div>
                 </div>
-            <div class="col-md-6">
+                <div class="col-md-6">
 
-                <div class="row" if.bind="!user.editing" style="padding-right: 0;">
-                    <h3>${'members.life-summary' & t}</h3>
-                    <p dir="rtl" style="overflow:auto;max-height: 200px;" innerhtml.bind="member.story_info.story_text">
-                    </p>
-                </div>
+                    <div class="row" if.bind="!user.editing" style="padding-right: 0;">
+                        <h3>${'members.life-summary' & t}</h3>
+                        <p dir="rtl" style="overflow:auto;max-height: 200px;" innerhtml.bind="member.story_info.story_text">
+                        </p>
+                    </div>
 
-                <div class="row" if.bind="user.editing" style="margin-left:40px;margin-top:30px;max-height:250px;">
-                    <froala-editor value.two-way="member.story_info.story_text"></froala-editor>
+                    <div class="row" if.bind="user.editing" style="margin-left:40px;margin-top:30px;max-height:250px;">
+                        <froala-editor value.two-way="member.story_info.story_text" config.bind="{
+                            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
+                                 'emoticons', 'color', 'fontSize', 'html'],
+                                 language: 'he'
+                                      }">
+                        </froala-editor>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
