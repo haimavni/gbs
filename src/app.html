@@ -1,4 +1,10 @@
 <template>
-  <froala-editor value.two-way="message"></froala-editor>
-  <div innerhtml.bind="message"></div>
+  <require from="app.css"></require>
+  <div class="row">
+    <div class="col-md-6">
+      <froala-editor value.two-way="message"></froala-editor>
+    </div>
+    <div class="col-md-6">
+      <div innerhtml.bind="message"></div>
+    </div>
 </template>

@@ -85,6 +85,9 @@
         "source": [
           "[**/*.js]",
           "**/*.{css,html}"
+        ],
+        "dependencies": [
+          "bootstrap-sass"
         ]
       },
       {

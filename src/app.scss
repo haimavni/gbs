@@ -1,0 +1,130 @@
+$navbar-default-bgxxx: #800;
+$body-bgxxx: lightblue;
+$slide-height: 220px;
+$list-group-border: white; 
+$list-group-bg: #eeeeee;
+@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+.navbar-centered {
+    width: 1200px;
+}
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+body{
+  font-family: "Alef Hebrew",
+               “Helvetica Neue”,
+               Helvetica,
+               Arial,
+               sans-serif;
+  /*width: 1170px;*/
+}
+.navbar-brand{
+    font-weight: bold;
+}
+.top-head {
+    background-image: url("/images/background-top.png");
+    background-repeat: no-repeat;
+}
+
+.slide-list {
+    background-color: #cccccc;
+    max-height: $slide-height;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide-photo {
+    height: $slide-height;
+}
+.slide-list .slide-control
+{
+    position: absolute;
+    opacity: 0.31;
+    height: 20%;
+    width: 32px;
+    top: 40%;
+    cursor: pointer;
+}
+.slide-list .slide-control:hover {
+    opacity: 1.0;
+}
+.slide-list .slide-control.next
+{
+    right: 0%;
+    color: white;
+}
+.slide-list .slide-control.prev
+{
+    left: 0%;
+    color: white;
+}
+.slide-list .slide-control.expand
+{
+    right: 45%;
+    height: 45%;
+    color: white;
+}
+.family-chains button
+{
+    min-width: 130px;
+    border-radius:5px;
+}
+.family-chains a
+{
+    min-width: 130px;
+    border-radius:5px;
+    border-right: solid 2px gray;
+    border-bottom: solid 2px gray;
+    background-color: lightgray;
+}
+.family-chains ul
+{
+    list-style-type: none;
+    /*margin: 10px;*/
+    /*padding: 10px;*/
+}
+.family-chains ul li
+{
+    float: right;
+    margin:5px;
+}
+
+.relation-kind
+{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+a.border-right
+{
+    border-right:solid gray 1px;
+    margin-right:10px;
+    padding-right:10px;
+}
+
+body {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar-centered {
+    margin-left: auto;
+    margin-right: auto;
+    /*width:1170px;*/
+}
+
+ux-dialog-overlay.active {
+    background-color: black;
+    opacity: .5;
+}
+
+.full {
+  background: url(http://placehold.it/1920x1080) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.disabled {
+    opacity: 0.5;
+}
