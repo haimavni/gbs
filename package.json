@@ -10,8 +10,10 @@
   "dependencies": {
     "aurelia-animator-css": "^1.0.1",
     "aurelia-bootstrapper": "^2.1.0",
+    "aurelia-dialog": "^1.0.0-rc.1.0.3",
     "aurelia-froala-editor": "^2.6.0",
     "aurelia-i18n": "^1.6.1",
+    "aurelia-validation": "^1.0.0",
     "bluebird": "^3.4.1",
     "bootstrap-sass": "^3.3.7",
     "i18next": "^8.4.0",
