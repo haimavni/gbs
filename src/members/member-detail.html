@@ -78,22 +78,24 @@
                             </tr>
                         </table>
                     </div>
+                    <div if.bind="user.editing">
+                        <div class="row" dir="rtl">
+                            <compose view-model="./member-edit" model.bind="member.member_info"></compose>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6" if.bind="!user.editing" style="padding-right: 0;">
+            <div class="col-md-6">
+
+                <div class="row" if.bind="!user.editing" style="padding-right: 0;">
                     <h3>${'members.life-summary' & t}</h3>
                     <p dir="rtl" style="overflow:auto;max-height: 200px;" innerhtml.bind="member.story_info.story_text">
                     </p>
                 </div>
-                <div class="col-md-6" if.bind="user.editing">
+
+                <div class="row" if.bind="user.editing" style="margin-left:40px;margin-top:30px;max-height:250px;">
                     <froala-editor value.two-way="member.story_info.story_text"></froala-editor>
                 </div>
             </div>
-        </div>
-        <div if.bind="user.editing">
-            <div class="row" dir="rtl">
-                <div class="col-md-offset-6 col-md-6">
-                    <compose view-model="./member-edit" model.bind="member.member_info"></compose>
-                </div>
             </div>
         </div>
     </div>
