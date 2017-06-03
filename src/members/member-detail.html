@@ -97,7 +97,9 @@
                             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
                                  'emoticons', 'color', 'fontSize', 'html'],
                                  language: 'he'
-                                      }">
+                                      }" event-handlers.bind="{
+        'contentChanged ': notify_change
+    }">
                         </froala-editor>
                     </div>
                 </div>

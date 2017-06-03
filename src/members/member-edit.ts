@@ -27,6 +27,7 @@ export class MemberEdit {
         this.router = router;
         this.i18n = i18n;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
+        this.eventAggregator.subscribe('EditorContentChanged', () => {this.handle_editor_changed()};
         this.dialog = dialog;
 
     }
@@ -77,6 +78,10 @@ export class MemberEdit {
         else {
             this.member.member_info.gender = 'F'
         }
+    }
+
+    handle_editor_changed() {
+        alert('editor content changed');
     }
 }
 

@@ -71,4 +71,8 @@ export class MemberDetail {
         this.openDialog(image);
     }
 
+    notify_change(editor, e) {
+        this.eventAggregator.publish('EditorContentChanged');
+    }
+
 }

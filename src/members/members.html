@@ -11,9 +11,9 @@
                 </a>
                 </div>
                 <div class="col-md-1" if.bind="! user.editing"></div>
-                <div class="col-md-9"></div>
-                <div class="col-md-2">
-                    <div class="input-group">
+                <div class="col-md-6"></div>
+                <div class="col-md-5">
+                    <div class="input-group" style="width:100%">
                         <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce">
                         <span class="input-group-btn" if.bind="filter">
                         <button class="btn btn-default cl-clear-filter-btn" type="button" click.delegate="filter = ''">
