@@ -1,7 +1,5 @@
-const max = 32;
-
 export class FilterValueConverter {
-  toView(array, value, ...properties) {
+  toView(array, value, max=32, ...properties) {
     value = (value || '').trim().toLowerCase();
     
     if (!value) {

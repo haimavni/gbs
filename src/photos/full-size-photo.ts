@@ -5,16 +5,18 @@ import { DialogService } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
 import { User } from "../services/user";
 import {MemberPicker} from "../members/member-picker";
+import environment from "../environment";
 
 @autoinject()
 export class FullSizePhoto {
     dialogController;
     dialogService;
-    photo_url;
+    baseURL;
     faces = [];
+    candidates = [];
     api;
     user;
-    image;
+    slide;
     router;
 
     constructor(dialogController: DialogController, dialogService: DialogService, api: MemberGateway, user: User, router: Router) {
@@ -28,9 +30,9 @@ export class FullSizePhoto {
 
     activate(model) {
         console.debug("enter activate");
-        this.image = model.image;
-        this.photo_url = this.image.path;
-        this.get_faces(this.image.id);
+        this.slide = model.slide;
+        this.baseURL = environment.baseURL;
+        this.get_faces(this.slide.photo_id);
 
     }
 
@@ -39,6 +41,7 @@ export class FullSizePhoto {
         this.api.call_server('stories/get_faces', { photo_id: photo_id })
             .then((data) => {
                 this.faces = data.faces;
+                this.candidates = data.candidates;
             });
     }
 
@@ -79,17 +82,19 @@ export class FullSizePhoto {
         }
         if (resizing) {
             this.faces = this.faces.splice(0);
-            this.api.call_server_post('stories/resize_face', { face: face });
+            this.api.call_server_post('stories/resize_face', { face: face, resizing: true });
             return;
         }
         this.dialogService.open({ viewModel: MemberPicker, model: {  }, lock: false }).whenClosed(response => {
             face.member_id = response.output.member_id;
-            this.api.call_server_post('stories/resize_face', { face: face });
-            console.log(response.member_id);
+            console.log("member id: " + face.member_id);
+            this.api.call_server_post('stories/resize_face', { face: face, resizing: false })
+            .then(response => face.name = response.member_name);
         });
     }
 
     remove_face(face) {
+        this.api.call_server_post('stories/remove_face', {face: face})
         let i = this.faces.indexOf(face);
         this.faces.splice(i, 1);
     }
@@ -104,7 +109,7 @@ export class FullSizePhoto {
         if (!this.user.editing) {
             return;
         }
-        let photo_id = this.image.id;
+        let photo_id = this.slide.photo_id;
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 20, name: "unknown" };
         this.faces.push(face);
         this.api.call_server_post('stories/add_face', { face: face });

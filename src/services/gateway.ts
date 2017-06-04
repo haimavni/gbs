@@ -17,10 +17,8 @@ export class MemberGateway {
     httpClient.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl(environment.baseURL) 
-        //.withBaseUrl(environment.baseURL)
+        .withBaseUrl(environment.baseURL + '/gbs/') 
         .withDefaults({ mode: "o-cors" });
-      //.withBaseUrl(environment.baseURL);
     });
 
   }
@@ -32,6 +30,7 @@ export class MemberGateway {
     //data = data ? data : {};
     return this.httpClient.fetch(url) //, {method: "POST", body: json(data))
       .then(response => response.json())
+      .catch(error => alert("error: " + error))
   }
 
   call_server_post(url: string, data?: any) {
@@ -39,6 +38,7 @@ export class MemberGateway {
     let x = JSON.stringify(data);
     return this.httpClient.fetch(url, {method: "POST", body: x})
       .then(response => response.json())
+      .catch(error => alert("error: " + error))
   }
 
   getMemberList() {
