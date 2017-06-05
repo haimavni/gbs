@@ -79,11 +79,18 @@ export class MemberEdit {
     }
 
     save_edited_data() {
-        this.api.call_server_post('stories/save_member_info', { member_info: this.member.member_info })
-            .then(data => {
+        let data = {};
+        if (this.dirty_info){
+            data['member_info'] = this.member.member_info;
+        }
+        if (this.dirty_story) {
+            let story_info = {story_id: this.member.member_info.story_id, story_text: this.member.story_info.story_text.replace(/\&/g, '~1').replace(/;/g, '~2') }
+            data['story_info'] = story_info;
+        }
+        this.api.call_server_post('stories/save_member_info', data)
+            .then(response => {
                 this.member_info_orig = deepClone(this.member.member_info);
-                let x = this.dirty;
-                console.log("dirty: " + this.dirty);
+                this.life_story_orig = this.member.story_info.story_text;
             });
     }
 
