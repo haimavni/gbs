@@ -1,8 +1,7 @@
 <template>
-
     <div class="row" style="margin-bottom:20px;max-width:600px;">
         <div class="col-md-1" if.bind="user.editing">
-            <a route-href="route: member-creation" class="btn btn-primary cl-create-btn">
+            <a route-href="route: member-creation" class="btn btn-primary cl-create-btn" style="margin-left:80px;">
                     <i class="fa fa-plus-square-o"></i> ${'members.new' & t}
                 </a>
         </div>
@@ -10,7 +9,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-8">
             <div class="input-group">
-                <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce">
+                <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float: right;margin-left:375px;">
                 <span class="input-group-btn" if.bind="filter">
                         <button class="btn btn-default cl-clear-filter-btn" type="button" click.delegate="filter = ''">
                             <i class="fa fa-times"></i>
@@ -23,7 +22,7 @@
 
     <div class="member-list" style="max-width: 600px;max-height:400px;">
         <ul class="list-group">
-            <li repeat.for="member of members | filter : filter : 8 :'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
+            <li repeat.for="member of members | filter : filter : 8 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
                 style="width:130px;float:right;min-height:166px;font-size:9px;vertical-align: text-bottom;">
 
                 <a click.trigger="select(member)" style="vertical-align: text-bottom;align-content: center;">
@@ -33,5 +32,17 @@
             </li>
         </ul>
     </div>
+
+    <style>
+        ux-dialog-container.active>div {
+            background-color: lightgray;
+            margin-left: auto;
+            margin-right: auto;
+            width: 680px;
+            height: 500px;
+            margin-top: 200px;
+            margin-bottom:200px;
+        }
+    </style>
 
 </template>

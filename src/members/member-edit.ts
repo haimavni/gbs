@@ -7,6 +7,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { computedFrom } from 'aurelia-framework';
+import { MemberPicker } from "../members/member-picker";
 
 @autoinject()
 export class MemberEdit {
@@ -27,7 +28,7 @@ export class MemberEdit {
         this.router = router;
         this.i18n = i18n;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.eventAggregator.subscribe('EditorContentChanged', () => {this.handle_editor_changed()};
+        this.eventAggregator.subscribe('EditorContentChanged', () => { this.handle_editor_changed() };
         this.dialog = dialog;
 
     }
@@ -42,7 +43,7 @@ export class MemberEdit {
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name', 'member.member_info.PlaceOfBirth',
         'member.member_info.birth_date', 'member.member_info.date_of_death', 'member.member_info.NickName', 'member.member_info.gender', 'member.story_info.life_story')
     get dirty() {
-        return JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig) || this.member.story_info.story_text != this.life_story_orig ;
+        return JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig) || this.member.story_info.story_text != this.life_story_orig;
     }
 
     prev_member() {
@@ -83,6 +84,18 @@ export class MemberEdit {
     handle_editor_changed() {
         alert('editor content changed');
     }
+
+    find_father() {
+        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup}).whenClosed(response => {
+            this.member.father_id = response.output.member_id;
+        });
+
+    }
+
+    setup(modalContainer: Element, modalOverlay: Element) {
+        console.log("Hi, I am in setup!")
+    }
+
 }
 
 function deepClone(obj) {

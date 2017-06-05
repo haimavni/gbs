@@ -8,6 +8,7 @@ import { DialogController } from 'aurelia-dialog';
 export class MemberPicker {
 
     filter = "";
+    gender = "";
     user;
     eventAggregator;
     members = [];
@@ -31,11 +32,15 @@ export class MemberPicker {
         return this.memberList.getMemberList().then(members => {
             this.members = members.member_list;
         })
-      }
-        
+    }
+
+    activate(model) {
+        console.log('picking member: ' + model);
+        this.gender = model.gender;
+    }
     select(member) {
         console.log("selected member ${member.id}");
-        this.dialogController.ok({member_id: member.id});
+        this.dialogController.ok({ member_id: member.id });
     }
 
 }

@@ -1,4 +1,12 @@
+import environment from './environment';
+
 export class App {
+  baseURL;
+
+  constructor() {
+    this.baseURL = environment.baseURL;
+  }
+
   public router;
   configureRouter(config, router) {
     router.title = 'gbstories';

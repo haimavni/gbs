@@ -29,14 +29,24 @@ export class MemberDetail {
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
+        console.log("member details constructed");
+    }
+
+    created(view) {
+        console.log("member details created " + view);
     }
 
     activate(params, config) {
+        console.log("member details activated");
         return this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
                 this.member = member;
                 config.navModel.setTitle(this.member.fullName);
             });
+    }
+
+    detached() {
+        console.log("member details detached");
     }
 
     tryDelete() {
@@ -73,8 +83,9 @@ export class MemberDetail {
         this.openDialog(slide);
     }
 
-    notify_change(editor, e) {
-        this.eventAggregator.publish('EditorContentChanged');
+    notify_change(e, editor) {
+        //this is not the class this. question: how to notify the form editor
+        //this.publish('EditorContentChanged'); //will not work!
     }
 
 }
