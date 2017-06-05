@@ -30,14 +30,18 @@ export class MemberPicker {
 
     created() {
         return this.memberList.getMemberList().then(members => {
-            this.members = members.member_list;
+            let parents = members.member_list.slice();
+            if (this.gender) {
+                parents = parents.filter(member => member.gender == this.gender);
+            }
+            this.members = parents;
         })
     }
 
     activate(model) {
-        console.log('picking member: ' + model);
         this.gender = model.gender;
     }
+
     select(member) {
         console.log("selected member ${member.id}");
         this.dialogController.ok({ member_id: member.id });
