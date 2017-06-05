@@ -36,14 +36,24 @@ export class MemberEdit {
     activate(member) {
         this.member = member;
         this.member_info_orig = deepClone(this.member.member_info);
-        this.life_story_orig = "" + member.story_info.story_text;
+        this.life_story_orig = member.story_info.story_text.slice();
     }
 
 
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name', 'member.member_info.PlaceOfBirth',
         'member.member_info.birth_date', 'member.member_info.date_of_death', 'member.member_info.NickName', 'member.member_info.gender', 'member.story_info.life_story')
+    get dirty_info() {
+        return JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
+    }
+
+    @computedFrom('member.story_info.story_text')
+    get dirty_story() {
+        return this.member.story_info.story_text != this.life_story_orig;
+    }
+
     get dirty() {
-        return JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig) || this.member.story_info.story_text != this.life_story_orig;
+        console.log('dirty info: ' + this.dirty_info + ' dirty story: ' + this.dirty_story);
+        return this.dirty_story || this.dirty_info;
     }
 
     prev_member() {
@@ -69,7 +79,12 @@ export class MemberEdit {
     }
 
     save_edited_data() {
-
+        this.api.call_server_post('stories/save_member_info', { member_info: this.member.member_info })
+            .then(data => {
+                this.member_info_orig = deepClone(this.member.member_info);
+                let x = this.dirty;
+                console.log("dirty: " + this.dirty);
+            });
     }
 
     toggle_gender() {
@@ -89,13 +104,13 @@ export class MemberEdit {
     }
 
     find_father() {
-        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'M' }, lock: false, position: this.setup, rejectOnCancel : true }).whenClosed(response => {
+        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'M' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
             this.member.father_id = response.output.member_id;
         });
     }
 
     find_mother() {
-        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup, rejectOnCancel : true }).whenClosed(response => {
+        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
             this.member.mother_id = response.output.member_id;
         });
     }

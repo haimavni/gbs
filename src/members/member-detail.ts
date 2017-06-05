@@ -83,9 +83,4 @@ export class MemberDetail {
         this.openDialog(slide);
     }
 
-    notify_change(e, editor) {
-        //this is not the class this. question: how to notify the form editor
-        //this.publish('EditorContentChanged'); //will not work!
-    }
-
 }
