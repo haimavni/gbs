@@ -23,20 +23,27 @@
                         <button type="button" tabindex="-1" class="btn btn-default ${dirty ? 'disabled' : ''}" click.trigger="prev_member()" disabled.bind="dirty">
                                 <i class="fa fa-large fa-chevron-right" ></i>
                             </button>
-                        <a class="btn btn-default ${member.member_info.gender ? '' : 'btn-danger'}" href click.trigger="toggle_gender()" t="[title]members.gender">
+                        <button type="button" class="btn btn-default ${member.member_info.gender ? '' : 'btn-danger'}" href click.trigger="toggle_gender()"
+                            t="[title]members.gender">
                                 <i class="fa fa-male fa-small" if.bind="member.member_info.gender=='M' || !member.member_info.gender"></i>
                                 <i class="fa fa-female fa-small" if.bind="member.member_info.gender=='F'"></i>
-                            </a>
-                        <a class="btn btn-default" href click.trigger="member.member_info.visible = !member.member_info.visible" title="Visibility">
+                            </button>
+                        <button type="button" class="btn btn-default" href click.trigger="member.member_info.visible = !member.member_info.visible"
+                            title="Visibility">
                                 <i class="fa ${member.member_info.visible ? 'fa-eye' : 'fa-eye-slash'}" ></i>
-                            </a>
-                        <a class="btn btn-default ${dirty ? 'btn-warning' : 'disabled'}" href click.trigger="save_edited_data()" t="[title]members.save"
-                            disabled.bind="clean">
-                                <i class="fa fa-save"></i>
-                            </a>
-                        <a class="btn btn-default ${dirty ? '' : 'disabled'}" href click.trigger="cancel_edit_mode()" t="[title]members.cancel" disabled.bind="clean">
-                                <i class="fa fa-rotate-left"></i>
-                            </a>
+                            </button>
+                        <button class="btn btn-default ${dirty ? 'btn-warning' : 'disabled'}" type="button" type="button" class="btn btn-default" click.trigger="save_edited_data()"
+                            t="[title]members.save" disabled.bind="! dirty">
+                                <i class="fa  fa-large fa-save"></i>
+                            </button>
+                        <button type="button" type="button" class="btn btn-default" click.trigger="cancel_edit_mode()"
+                            t="[title]members.cancel" disabled.bind="! dirty">
+                                <i class="fa  fa-large fa-rotate-left"></i>
+                            </button>
+                        <button type="button" type="button" class="btn btn-warning" click.trigger="try_delete()"
+                            t="[title]members.delete-member" disabled.bind="dirty">
+                                <i class="fa fa-large fa-trash"></i>
+                            </button>
                     </div>
                 </div>
             </div>

@@ -100,7 +100,7 @@ export class FullSizePhoto {
     }
 
 
-    jump_to_member(member_id) {
+    private jump_to_member(member_id) {
         this.dialogController.ok();
         this.router.navigateToRoute('member-details', {id: member_id});
     }

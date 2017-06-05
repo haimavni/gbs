@@ -22,7 +22,8 @@
     "birth-place": "מקום לידה",
     "save": "שמור",
     "cancel": "בטל את השינויים",
-    "gender": "מין"
+    "gender": "מין",
+    "delete-member": "הסר מרשימת החברים"
   },
   "user": {
     "login": "התחבר",

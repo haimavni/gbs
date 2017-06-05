@@ -68,6 +68,9 @@ export class MemberEdit {
         this.member.member_info = deepClone(this.member_info_orig);
     }
 
+    save_edited_data() {
+
+    }
 
     toggle_gender() {
         if (this.member.member_info.gender == 'F') {
@@ -86,10 +89,15 @@ export class MemberEdit {
     }
 
     find_father() {
-        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup}).whenClosed(response => {
+        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'M' }, lock: false, position: this.setup, rejectOnCancel : true }).whenClosed(response => {
             this.member.father_id = response.output.member_id;
         });
+    }
 
+    find_mother() {
+        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup, rejectOnCancel : true }).whenClosed(response => {
+            this.member.mother_id = response.output.member_id;
+        });
     }
 
     setup(modalContainer: Element, modalOverlay: Element) {
