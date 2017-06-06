@@ -44,31 +44,30 @@ export class MemberEdit {
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name', 'member.member_info.PlaceOfBirth',
         'member.member_info.birth_date', 'member.member_info.date_of_death', 'member.member_info.NickName', 'member.member_info.gender', 'member.story_info.life_story')
     get dirty_info() {
-        return JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
+        let dirty = JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
+        this.eventAggregator.publish('DirtyInfo', dirty);
+        return dirty 
     }
 
     @computedFrom('member.story_info.story_text')
     get dirty_story() {
-        return this.member.story_info.story_text != this.life_story_orig;
+        let dirty = this.member.story_info.story_text != this.life_story_orig;
+        this.eventAggregator.publish('DirtyStory', dirty);
+        return dirty
     }
 
-    get dirty() {
+    /*get dirty() {
         console.log('dirty info: ' + this.dirty_info + ' dirty story: ' + this.dirty_story);
-        return this.dirty_story || this.dirty_info;
-    }
-
+        let dirty = this.dirty_story || this.dirty_info;
+        this.eventAggregator.publish('MemberDataDirty', dirty);
+        return dirty;
+    }*/
     
     prev_member() {
-        if (this.dirty) {
-            return
-        }
         this.handle_member(this.member.member_info.id, 'prev');
     }
 
     next_member() {
-        if (this.dirty) {
-            return
-        }
         this.handle_member(this.member.member_info.id, 'next');
     }
 

@@ -4,6 +4,7 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { computedFrom } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { MemberEdit } from './member-edit';
@@ -19,6 +20,8 @@ export class MemberDetail {
     member;
     dialog;
     baseURL;
+    dirty_info = false;
+    dirty_story = false;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -28,11 +31,18 @@ export class MemberDetail {
         this.i18n = i18n;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.eventAggregator.subscribe('ParentFound', (parent) => {this.set_parent(this.member, parent)});
-
+        this.eventAggregator.subscribe('DirtyStory', dirty => {this.dirty_story = dirty});
+        this.eventAggregator.subscribe('DirtyInfo', dirty => {this.dirty_info = dirty});
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         console.log("member details constructed");
     }
+
+ @computedFrom('dirty_info', 'dirty_story')
+ get disabled_if()
+ {
+     return this.dirty_story || this.dirty_info ? "disabled" : "";
+ }
 
     created(view) {
         console.log("member details created " + view);

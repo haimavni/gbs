@@ -26,13 +26,13 @@
                                 <td>
                                     <ul>
                                         <li>
-                                            <a type="button" class="btn btn-default" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
+                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.pa.id}">
                                                 ${member.family_connections.parents.pa.name}
                                             </a>
                                         </li>
                                         <li>
-                                            <a type="button" class="btn btn-default" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
+                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.ma.id}">
                                                 ${member.family_connections.parents.ma.name}
                                             </a>
@@ -45,7 +45,7 @@
                                 <td>
                                     <ul>
                                         <li>
-                                            <a type="button" class="btn btn-default" repeat.for="sibling of member.family_connections.siblings" route-href="route: member-details; params.bind: {id:sibling.id}">
+                                            <a type="button" class="btn btn-default ${disabled_if}" repeat.for="sibling of member.family_connections.siblings" route-href="route: member-details; params.bind: {id:sibling.id}">
                                                     ${sibling.name}
                                             </a>
                                         </li>
@@ -57,7 +57,7 @@
                                 <td>
                                     <ul>
                                         <li>
-                                            <a type="button" class="btn btn-default" repeat.for="spouse of member.family_connections.spouses" route-href="route: member-details; params.bind: {id:spouse.id}">
+                                            <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" route-href="route: member-details; params.bind: {id:spouse.id}">
                                                     ${spouse.name}
                                             </a>
                                         </li>
@@ -69,7 +69,7 @@
                                 <td>
                                     <ul>
                                         <li>
-                                            <a type="button" class="btn btn-default" repeat.for="child of member.family_connections.children" route-href="route: member-details; params.bind: {id:child.id}">
+                                            <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" route-href="route: member-details; params.bind: {id:child.id}">
                                                 ${child.name}
                                             </a>
                                         </li>
