@@ -8,6 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { computedFrom } from 'aurelia-framework';
 import { MemberPicker } from "../members/member-picker";
+import { MemberList } from '../services/member_list';
 
 @autoinject()
 export class MemberEdit {
@@ -17,20 +18,21 @@ export class MemberEdit {
     router;
     i18n;
     member;
+    memberList;
     member_info_orig;
     life_story_orig;
     dialog;
 
-    constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
+    constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
         this.user = user;
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.router = router;
         this.i18n = i18n;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.eventAggregator.subscribe('EditorContentChanged', () => { this.handle_editor_changed() };
+        this.eventAggregator.subscribe('EditorContentChanged', () => { this.handle_editor_changed() });
         this.dialog = dialog;
-
+        this.memberList = memberList;
     }
 
     activate(member) {
@@ -38,7 +40,6 @@ export class MemberEdit {
         this.member_info_orig = deepClone(this.member.member_info);
         this.life_story_orig = member.story_info.story_text.slice();
     }
-
 
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name', 'member.member_info.PlaceOfBirth',
         'member.member_info.birth_date', 'member.member_info.date_of_death', 'member.member_info.NickName', 'member.member_info.gender', 'member.story_info.life_story')
@@ -56,6 +57,7 @@ export class MemberEdit {
         return this.dirty_story || this.dirty_info;
     }
 
+    
     prev_member() {
         if (this.dirty) {
             return
@@ -80,11 +82,13 @@ export class MemberEdit {
 
     save_edited_data() {
         let data = {};
-        if (this.dirty_info){
+        if (this.dirty_info) {
             data['member_info'] = this.member.member_info;
+        } else {
+           data['member_id'] = this.member.member_info.id;
         }
         if (this.dirty_story) {
-            let story_info = {story_id: this.member.member_info.story_id, story_text: this.member.story_info.story_text.replace(/\&/g, '~1').replace(/;/g, '~2') }
+            let story_info = { story_id: this.member.member_info.story_id, story_text: this.member.story_info.story_text.replace(/\&/g, '~1').replace(/;/g, '~2') }
             data['story_info'] = story_info;
         }
         this.api.call_server_post('stories/save_member_info', data)
@@ -112,15 +116,30 @@ export class MemberEdit {
 
     find_father() {
         this.dialog.open({ viewModel: MemberPicker, model: { gender: 'M' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
-            this.member.father_id = response.output.member_id;
+            this.member.member_info.father_id = response.output.member_id;
+            let father = this.get_member_data(this.member.member_info.father_id);
+            this.eventAggregator.publish('ParentFound', father);
         });
     }
 
     find_mother() {
         this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
-            this.member.mother_id = response.output.member_id;
+            this.member.member_info.mother_id = response.output.member_id;
+            let mother = this.get_member_data(this.member.member_info.mother_id);
+            this.eventAggregator.publish('ParentFound', mother);
         });
     }
+
+    get_member_data(member_id) {
+        let candidates = this.memberList.members.member_list.filter(member => member.id == member_id);
+        if (candidates) {
+            return candidates[0]
+        }
+        else {
+            return {}
+        }
+    }
+
 
     setup(modalContainer: Element, modalOverlay: Element) {
         console.log("Hi, I am in setup!")

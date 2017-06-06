@@ -9,7 +9,7 @@ export class FilterValueConverter {
     let arr = array.filter(item => 
       parts.every(part =>
       properties.some(property => 
-        (item[property] || '').toLowerCase().includes(part)));
+        (item[property] || '').toLowerCase().includes(part))));
     arr = arr.slice(0, max);
     return arr;
   }

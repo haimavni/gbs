@@ -27,6 +27,8 @@ export class MemberDetail {
         this.router = router;
         this.i18n = i18n;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
+        this.eventAggregator.subscribe('ParentFound', (parent) => {this.set_parent(this.member, parent)});
+
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         console.log("member details constructed");
@@ -48,6 +50,16 @@ export class MemberDetail {
     detached() {
         console.log("member details detached");
     }
+
+    set_parent(member, parent) {
+        if (parent.gender == 'M') {
+             this.member.family_connections.parents.pa = parent
+        } else {
+             this.member.family_connections.parents.ma = parent
+        }
+        this.member.family_connections.hasFamilyConnections = true;
+    }
+
 
     tryDelete() {
         if (confirm(this.i18n.tr('members.confirmDelete'))) {

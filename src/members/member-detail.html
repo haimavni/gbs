@@ -21,7 +21,7 @@
                     </div>
                     <div class="row family-chains">
                         <table class="noborder">
-                            <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || family_connections.parents.ma)">
+                            <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
                                 <td class="relation-kind">${'parents' & t}</td>
                                 <td>
                                     <ul>
