@@ -46,14 +46,16 @@ export class MemberEdit {
     get dirty_info() {
         let dirty = JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
         this.eventAggregator.publish('DirtyInfo', dirty);
-        return dirty 
+        console.log('dirty info? ' + dirty);
+        return dirty;
     }
 
     @computedFrom('member.story_info.story_text')
     get dirty_story() {
         let dirty = this.member.story_info.story_text != this.life_story_orig;
         this.eventAggregator.publish('DirtyStory', dirty);
-        return dirty
+        console.log('dirty story? ' + dirty);
+        return dirty;
     }
 
     /*get dirty() {
@@ -93,7 +95,9 @@ export class MemberEdit {
         this.api.call_server_post('stories/save_member_info', data)
             .then(response => {
                 this.member_info_orig = deepClone(this.member.member_info);
+
                 this.life_story_orig = this.member.story_info.story_text;
+                this.member = deepClone(this.member);
             });
     }
 
@@ -115,7 +119,9 @@ export class MemberEdit {
 
     find_father() {
         this.dialog.open({ viewModel: MemberPicker, model: { gender: 'M' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
+
             this.member.member_info.father_id = response.output.member_id;
+            this.member.member_info = deepClone(this.member.member_info);
             let father = this.get_member_data(this.member.member_info.father_id);
             this.eventAggregator.publish('ParentFound', father);
         });
@@ -124,6 +130,7 @@ export class MemberEdit {
     find_mother() {
         this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
             this.member.member_info.mother_id = response.output.member_id;
+            this.member.member_info = deepClone(this.member.member_info);
             let mother = this.get_member_data(this.member.member_info.mother_id);
             this.eventAggregator.publish('ParentFound', mother);
         });

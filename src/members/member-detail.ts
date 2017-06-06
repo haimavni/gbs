@@ -30,19 +30,18 @@ export class MemberDetail {
         this.router = router;
         this.i18n = i18n;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.eventAggregator.subscribe('ParentFound', (parent) => {this.set_parent(this.member, parent)});
-        this.eventAggregator.subscribe('DirtyStory', dirty => {this.dirty_story = dirty});
-        this.eventAggregator.subscribe('DirtyInfo', dirty => {this.dirty_info = dirty});
+        this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
+        this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
+        this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         console.log("member details constructed");
     }
 
- @computedFrom('dirty_info', 'dirty_story')
- get disabled_if()
- {
-     return this.dirty_story || this.dirty_info ? "disabled" : "";
- }
+    @computedFrom('dirty_info', 'dirty_story')
+    get disabled_if() {
+        return this.dirty_story || this.dirty_info ? "disabled" : "";
+    }
 
     created(view) {
         console.log("member details created " + view);
@@ -63,9 +62,9 @@ export class MemberDetail {
 
     set_parent(member, parent) {
         if (parent.gender == 'M') {
-             this.member.family_connections.parents.pa = parent
+            this.member.family_connections.parents.pa = parent
         } else {
-             this.member.family_connections.parents.ma = parent
+            this.member.family_connections.parents.ma = parent
         }
         this.member.family_connections.hasFamilyConnections = true;
     }
