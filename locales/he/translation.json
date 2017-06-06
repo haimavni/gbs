@@ -23,7 +23,9 @@
     "save": "שמור",
     "cancel": "בטל את השינויים",
     "gender": "מין",
-    "delete-member": "הסר מרשימת החברים"
+    "delete-member": "הסר מרשימת החברים",
+    "father": "אבא",
+    "mother": "אמא"
   },
   "user": {
     "login": "התחבר",

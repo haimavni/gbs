@@ -57,14 +57,7 @@ export class MemberEdit {
         console.log('dirty story? ' + dirty);
         return dirty;
     }
-
-    /*get dirty() {
-        console.log('dirty info: ' + this.dirty_info + ' dirty story: ' + this.dirty_story);
-        let dirty = this.dirty_story || this.dirty_info;
-        this.eventAggregator.publish('MemberDataDirty', dirty);
-        return dirty;
-    }*/
-    
+  
     prev_member() {
         this.handle_member(this.member.member_info.id, 'prev');
     }
