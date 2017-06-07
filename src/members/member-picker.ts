@@ -46,7 +46,7 @@ export class MemberPicker {
 
     select(member) {
         console.log("selected member ${member.id}");
-        this.dialogController.ok({ member_id: member.id });
+        this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
     }
 
 }

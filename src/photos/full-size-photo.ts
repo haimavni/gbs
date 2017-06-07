@@ -75,6 +75,7 @@ export class FullSizePhoto {
             else {
                 face.r = 0;
                 this.remove_face(face);
+                return;
             }
         }
         else {
@@ -87,8 +88,9 @@ export class FullSizePhoto {
         }
         this.dialogService.open({ viewModel: MemberPicker, model: {face_identifier: true}, lock: false }).whenClosed(response => {
             face.member_id = response.output.member_id;
+            let make_profile_photo = response.output.make_profile_photo;
             console.log("member id: " + face.member_id);
-            this.api.call_server_post('stories/resize_face', { face: face, resizing: false })
+            this.api.call_server_post('stories/resize_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
             .then(response => face.name = response.member_name);
         });
     }
