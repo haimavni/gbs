@@ -25,7 +25,8 @@
     "gender": "מין",
     "delete-member": "הסר מרשימת החברים",
     "father": "אבא",
-    "mother": "אמא"
+    "mother": "אמא",
+    "make-profile-photo": "קבע כתמונת הפרופיל"
   },
   "user": {
     "login": "התחבר",

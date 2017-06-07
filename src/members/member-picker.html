@@ -1,13 +1,21 @@
 <template>
+
     <div class="row" style="margin-bottom:20px;max-width:600px;">
-        <div class="col-md-1" if.bind="user.editing">
+        <div class="col-md-3">
             <a route-href="route: member-creation" class="btn btn-primary cl-create-btn">
                     <i class="fa fa-plus-square-o"></i> ${'members.new' & t}
                 </a>
         </div>
-        <div class="col-md-1" if.bind="! user.editing"></div>
-        <div class="col-md-3"></div>
-        <div class="col-md-8">
+        <div if.bind="face_identifier" class="col-md-1" style="padding-left:0px;">
+            <div class="checkbox">
+                <label t="[title]members.make-profile-photo">
+                    <input type="checkbox" value.bind="make_profile_photo" checked.bind="make_profile_photo">
+                    <i class="fa fa-user-circle"></i>
+                 </label>
+            </div>
+        </div>
+        <div if.bind="!face_identifier" class="col-md-1"></div>
+        <div class="col-md-7">
             <div class="input-group">
                 <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float: right;width:300px;">
                 <span class="input-group-btn" if.bind="filter">

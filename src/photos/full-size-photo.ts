@@ -85,7 +85,7 @@ export class FullSizePhoto {
             this.api.call_server_post('stories/resize_face', { face: face, resizing: true });
             return;
         }
-        this.dialogService.open({ viewModel: MemberPicker, model: {  }, lock: false }).whenClosed(response => {
+        this.dialogService.open({ viewModel: MemberPicker, model: {face_identifier: true}, lock: false }).whenClosed(response => {
             face.member_id = response.output.member_id;
             console.log("member id: " + face.member_id);
             this.api.call_server_post('stories/resize_face', { face: face, resizing: false })

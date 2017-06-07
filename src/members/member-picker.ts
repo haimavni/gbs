@@ -9,13 +9,14 @@ export class MemberPicker {
 
     filter = "";
     gender = "";
+    face_identifier = false;
     user;
     eventAggregator;
     members = [];
     memberList;
     selectedId;
     dialogController;
-
+    make_profile_photo = false;
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController) {
         this.user = user;
@@ -40,6 +41,7 @@ export class MemberPicker {
 
     activate(model) {
         this.gender = model.gender;
+        this.face_identifier = model.face_identifier;
     }
 
     select(member) {
