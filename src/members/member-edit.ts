@@ -57,7 +57,7 @@ export class MemberEdit {
         console.log('dirty story? ' + dirty);
         return dirty;
     }
-  
+
     prev_member() {
         this.handle_member(this.member.member_info.id, 'prev');
     }
@@ -79,7 +79,7 @@ export class MemberEdit {
         if (this.dirty_info) {
             data['member_info'] = this.member.member_info;
         } else {
-           data['member_id'] = this.member.member_info.id;
+            data['member_id'] = this.member.member_info.id;
         }
         if (this.dirty_story) {
             let story_info = { story_id: this.member.member_info.story_id, story_text: this.member.story_info.story_text.replace(/\&/g, '~1').replace(/;/g, '~2') }
@@ -91,6 +91,7 @@ export class MemberEdit {
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = deepClone(this.member);
+                this.eventAggregator.publish('MemberDetailsUpdated', this.member.member_info);
             });
     }
 

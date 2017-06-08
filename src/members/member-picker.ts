@@ -42,6 +42,9 @@ export class MemberPicker {
     activate(model) {
         this.gender = model.gender;
         this.face_identifier = model.face_identifier;
+        /*this.filter = this.memberList.member_name(model.member_id)*/
+        this.memberList.get_member_by_id(model.member_id)
+            .then(result => this.filter = result.name)
     }
 
     select(member) {

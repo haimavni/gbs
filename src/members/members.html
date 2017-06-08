@@ -25,9 +25,9 @@
                 </div>
             </div>
 
-            <div class="member-list" style="margin-left:60px;">
+            <div class="member-list content-area" style="margin-left:60px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 32 :'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
+                    <li repeat.for="member of members | filter : filter : 24 :'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
                         style="width:130px;float:right;min-height:166px;font-size:9px;vertical-align: text-bottom;">
 
                         <a route-href="route: member-details; params.bind: {id:member.id}" style="vertical-align: text-bottom;align-content: center;border:none;">

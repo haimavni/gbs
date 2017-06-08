@@ -4,8 +4,9 @@ import { DialogController } from 'aurelia-dialog';
 import { DialogService } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
 import { User } from "../services/user";
-import {MemberPicker} from "../members/member-picker";
+import { MemberPicker } from "../members/member-picker";
 import environment from "../environment";
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject()
 export class FullSizePhoto {
@@ -18,13 +19,20 @@ export class FullSizePhoto {
     user;
     slide;
     router;
+    eventAggregator;
 
-    constructor(dialogController: DialogController, dialogService: DialogService, api: MemberGateway, user: User, router: Router) {
+    constructor(dialogController: DialogController,
+        dialogService: DialogService,
+        api: MemberGateway,
+        user: User,
+        router: Router,
+        eventAggregator: EventAggregator) {
         this.dialogController = dialogController;
         this.dialogService = dialogService;
         this.api = api;
         this.user = user;
         this.router = router;
+        this.eventAggregator = eventAggregator;
         console.debug("constructing dialog");
     }
 
@@ -86,17 +94,20 @@ export class FullSizePhoto {
             this.api.call_server_post('stories/resize_face', { face: face, resizing: true });
             return;
         }
-        this.dialogService.open({ viewModel: MemberPicker, model: {face_identifier: true}, lock: false }).whenClosed(response => {
+        this.dialogService.open({ viewModel: MemberPicker, model: { face_identifier: true, member_id: face.member_id }, lock: false }).whenClosed(response => {
             face.member_id = response.output.member_id;
             let make_profile_photo = response.output.make_profile_photo;
             console.log("member id: " + face.member_id);
             this.api.call_server_post('stories/resize_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
-            .then(response => face.name = response.member_name);
+                .then(response => {
+                    face.name = response.member_name;
+                    this.eventAggregator.publish('MemberGotProfilePhoto', {member_id: face.member_id});
+                });
         });
     }
 
     remove_face(face) {
-        this.api.call_server_post('stories/remove_face', {face: face})
+        this.api.call_server_post('stories/remove_face', { face: face })
         let i = this.faces.indexOf(face);
         this.faces.splice(i, 1);
     }
@@ -104,7 +115,7 @@ export class FullSizePhoto {
 
     private jump_to_member(member_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('member-details', {id: member_id});
+        this.router.navigateToRoute('member-details', { id: member_id });
     }
 
     mark_face(event) {
