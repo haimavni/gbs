@@ -49,6 +49,12 @@ export class MemberDetail {
 
     activate(params, config) {
         console.log("member details activated");
+        if (params.id == 'new') {  //todo: wip. see in "Learning Aurelia"
+          this.member = {fullName: 'New Member'};
+          config.navModel.setTitle(this.member.fullName);
+          return;
+        }
+
         return this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
                 this.member = member;
