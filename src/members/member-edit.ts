@@ -46,7 +46,6 @@ export class MemberEdit {
     get dirty_info() {
         let dirty = JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
         this.eventAggregator.publish('DirtyInfo', dirty);
-        console.log('dirty info? ' + dirty);
         return dirty;
     }
 

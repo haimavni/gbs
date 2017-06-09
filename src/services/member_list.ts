@@ -50,10 +50,13 @@ export class MemberList {
             });
     }
 
-    update_member_details(member_info) {
+    update_member_details(member_id: number, member_info: any) {
         //work in progress
-        this.get_member_by_id(member_info.id)
-            .then(member => { member.name = member_info.name; });
+        this.get_member_by_id(member_id)
+            .then(member => { 
+                member.name = member_info.name; 
+                member.gender = member_info.gender;
+            });
     }
 
     set_profile_photo(member_id) {
