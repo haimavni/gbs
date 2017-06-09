@@ -25,14 +25,18 @@
                                 <td class="relation-kind">${'parents' & t}</td>
                                 <td>
                                     <ul>
-                                        <li>
+                                        <li style="margin-left:0px;">
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.pa.id}">
+                                                <span style="width:32px;margin:0;padding:0;">
                                                 <img src.bind="get_profile_photo(member.family_connections.parents.pa)" style="height:32px;border-radius:50%;" />
+                                                </span>
+                                                <span style="margin:0;padding:0">
                                                 ${member.family_connections.parents.pa.name}
+                                                </span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li style="margin-right:0px;">
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.ma.id}">
                                                 <img src.bind="get_profile_photo(member.family_connections.parents.ma)" style="height:32px;border-radius:50%;" />
@@ -107,8 +111,8 @@
                 </div>
             </div>
         </div>
-        <div class=navbar-fixed-bottom navbar navbar-default" style="min-height:100px;">
-            <div class="footer-area"></div>
+        <div class=navbar-fixed-bottom navbar navbar-default " style="min-height:100px; ">
+            <div class="footer-area "></div>
         </div>
     </div>
 </template>
