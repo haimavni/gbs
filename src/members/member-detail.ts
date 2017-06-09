@@ -104,11 +104,13 @@ export class MemberDetail {
         this.openDialog(slide);
     }
 
-    foo(detail){
-    console.log("width=" + detail.width);
-    console.log("height=" + detail.height);
-    console.log("old width=" + detail.widthOld);
-    console.log("old height=" + detail.heightOld);
-}
+    
+    get_profile_photo(member) {
+        if (member.has_profile_photo) {
+            return environment.baseURL + "/gbs/static/gb_photos/profile_photos/PP-" + member.id + '.jpg';
+        } else {
+           return environment.baseURL + "/gbs/static/images/dummy_face.png";
+        }
+    }
 
 }

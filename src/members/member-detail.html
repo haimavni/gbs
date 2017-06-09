@@ -28,12 +28,14 @@
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.pa.id}">
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.pa)" style="height:32px;border-radius:50%;" />
                                                 ${member.family_connections.parents.pa.name}
                                             </a>
                                         </li>
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.ma.id}">
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.ma)" style="height:32px;border-radius:50%;" />
                                                 ${member.family_connections.parents.ma.name}
                                             </a>
                                         </li>
@@ -46,6 +48,7 @@
                                     <ul>
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="sibling of member.family_connections.siblings" route-href="route: member-details; params.bind: {id:sibling.id}">
+                                                <img src.bind="get_profile_photo(sibling)" style="height:32px;border-radius:50%;" />
                                                     ${sibling.name}
                                             </a>
                                         </li>
@@ -58,6 +61,7 @@
                                     <ul>
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" route-href="route: member-details; params.bind: {id:spouse.id}">
+                                                <img src.bind="get_profile_photo(spouse)" style="height:32px;border-radius:50%;" />
                                                     ${spouse.name}
                                             </a>
                                         </li>
@@ -70,6 +74,7 @@
                                     <ul>
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" route-href="route: member-details; params.bind: {id:child.id}">
+                                                <img src.bind="get_profile_photo(child)" style="height:32px;border-radius:50%;" />
                                                 ${child.name}
                                             </a>
                                         </li>
