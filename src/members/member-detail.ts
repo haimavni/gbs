@@ -104,4 +104,11 @@ export class MemberDetail {
         this.openDialog(slide);
     }
 
+    foo(detail){
+    console.log("width=" + detail.width);
+    console.log("height=" + detail.height);
+    console.log("old width=" + detail.widthOld);
+    console.log("old height=" + detail.heightOld);
+}
+
 }

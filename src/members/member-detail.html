@@ -1,7 +1,7 @@
 <template>
     <div style="margin-top:50px">
-        <div class="row">
-            <h3 dir="rtl" style="float: right">
+        <div class="row" style="background-color:lightgrey;padding:10px;">
+            <h3 dir="rtl" style="float: right;margin:0px;">
                 ${member.member_info.full_name}
             </h3>
         </div>
@@ -14,7 +14,7 @@
         </div>
         <div>
             <!-- if.bind="! user.editing"-->
-            <div class="row" dir="rtl">
+            <div class="row content-area" style="min-height:600px;" dir="rtl">
                 <div class="col-md-6">
                     <div class="row" if.bind="member.family_connections.hasFamilyConnections">
                         <h3>${'members.family-connections' & t}</h3>
@@ -101,6 +101,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class=navbar-fixed-bottom navbar navbar-default" style="min-height:100px;">
+            <div class="footer-area"></div>
         </div>
     </div>
 </template>

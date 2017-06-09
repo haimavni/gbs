@@ -51,7 +51,6 @@ export class MemberList {
     }
 
     update_member_details(member_id: number, member_info: any) {
-        //work in progress
         this.get_member_by_id(member_id)
             .then(member => { 
                 member.name = member_info.name; 
