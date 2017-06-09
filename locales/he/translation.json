@@ -26,7 +26,8 @@
     "delete-member": "הסר מרשימת החברים",
     "father": "אבא",
     "mother": "אמא",
-    "make-profile-photo": "קבע כתמונת הפרופיל"
+    "make-profile-photo": "קבע כתמונת הפרופיל",
+    "new-member": "חבר חדש"
   },
   "user": {
     "login": "התחבר",
