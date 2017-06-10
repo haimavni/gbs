@@ -1,6 +1,6 @@
 <template>
 
-    <section class="container">
+    <section class="container content-area">
         <div class="row top-head" style="margin-top:50px">
             <h1 dir="rtl"> ${"members.members" | t}</h1>
 
@@ -13,8 +13,8 @@
                 </a>
                 </div>
                 <div class="col-md-5">
-                    <div class="input-group" style="width:100%">
-                        <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce">
+                    <div class="input-group" style="width:100%;">
+                        <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
                         <span class="input-group-btn" if.bind="filter">
                         <button class="btn btn-default cl-clear-filter-btn" type="button" click.delegate="filter = ''">
                             <i class="fa fa-times"></i>
@@ -25,10 +25,10 @@
                 </div>
             </div>
 
-            <div class="member-list content-area" style="margin-left:60px;">
+            <div class="member-list content-area" >
                 <ul class="list-group">
                     <li repeat.for="member of members | filter : filter : 24 :'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
-                        style="width:130px;float:right;min-height:166px;font-size:9px;vertical-align: text-bottom;">
+                        style="width:110px;float:right;min-height:166px;font-size:9px;vertical-align: text-bottom;background-color:rgba(0,0,0,0);">
 
                         <a route-href="route: member-details; params.bind: {id:member.id}" style="vertical-align: text-bottom;align-content: center;border:none;">
                             <img style="width:100px;height:100px;border-radius:50%;" src.bind="member.facePhotoURL" />
@@ -37,6 +37,9 @@
                     </li>
                 </ul>
             </div>
+        </div>
+        <div class="navbar-fixed-bottom navbar navbar-default" style="border:none;background-color:rgba(0,0,0,0);">
+            <div class="footer-area "></div>
         </div>
     </section>
 

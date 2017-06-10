@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-top:50px">
+    <div style="margin-top:50px" class="content-area">
         <div class="row" style="background-color:lightgrey;padding:10px;">
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${member.member_info.full_name & t}
@@ -110,9 +110,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div if.bind="! user.editing" class=navbar-fixed-bottom navbar navbar-default " style="min-height:100px; ">
-            <div class="footer-area "></div>
+            <div if.bind="! user.editing" class="navbar-fixed-bottom navbar navbar-default" style="border:none;background-color:rgba(0,0,0,0); ">
+                <div class="footer-area "></div>
+            </div>
         </div>
     </div>
 </template>

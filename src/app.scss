@@ -1,5 +1,5 @@
 $slide-height: 220px;
-$list-group-border: white; 
+$list-group-border:none; 
 $list-group-bg: #eeeeee;
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 .navbar-centered {
@@ -35,7 +35,7 @@ body{
     min-height:117px;
     margin-left:auto;
     margin-right:auto;
-    width:1200px;
+    width:1170px;
 }
 
 .slide-list {
@@ -164,4 +164,14 @@ ux-dialog-container.active {
     margin-left: auto;
     margin-right: auto;
     opacity: 1.0;
+}
+
+div.member-list {
+    min-height:1000px;
+    width:900px;
+    margin-left:auto;
+    margin-right:auto;
+}
+div.member-list li {
+    background-color: rgba(0,0,0,0);
 }
