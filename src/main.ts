@@ -27,6 +27,7 @@ export function configure(aurelia: Aurelia) {
       });
     })
     .plugin('aurelia-dialog')
+    .plugin('aurelia-interactjs')
     .feature('resources');
 
   aurelia.use.globalResources('./services/user');

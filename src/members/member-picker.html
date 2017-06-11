@@ -29,16 +29,18 @@
     </div>
 
     <div class="member-list" style="max-width: 600px;max-height:400px;">
-        <ul class="list-group">
-            <li repeat.for="member of members | filter : filter : 8 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
-                style="width:130px;float:right;min-height:166px;font-size:9px;vertical-align: text-bottom;">
+        <div style="padding-right:75px;">
+            <ul class="list-group">
+                <li repeat.for="member of members | filter : filter : 8 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
+                    style="width:130px;float:right;min-height:166px;font-size:9px;vertical-align: text-bottom;">
 
-                <a click.trigger="select(member)" style="vertical-align: text-bottom;align-content: center;">
+                    <a click.trigger="select(member)" style="vertical-align: text-bottom;align-content: center;">
                     <img style="width:100px;height:100px;border-radius:50%;" src.bind="member.facePhotoURL" />
                         <h6 dir="rtl" class="list-group-item-heading" style="text-align: center;">${member.name}</h6>
                     </a>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <style>

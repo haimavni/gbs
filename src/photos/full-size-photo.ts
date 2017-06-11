@@ -101,7 +101,7 @@ export class FullSizePhoto {
             this.api.call_server_post('stories/resize_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
                 .then(response => {
                     face.name = response.member_name;
-                    this.eventAggregator.publish('MemberGotProfilePhoto', {member_id: face.member_id});
+                    this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id });
                 });
         });
     }
@@ -124,8 +124,29 @@ export class FullSizePhoto {
         }
         let photo_id = this.slide.photo_id;
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 20, name: "unknown" };
+        console.log('page cords: ', event.pageX, event.pageY);
         this.faces.push(face);
         this.api.call_server_post('stories/add_face', { face: face });
+    }
+
+    public dragmove(face, customEvent: CustomEvent) {
+        let event = customEvent.detail;
+        face.x += event.dx;
+        face.y += event.dy;
+        //console.log("Move event", event);
+    }
+
+    public dragstart(face, customEvent: CustomEvent) {
+        let event = customEvent.detail;
+        console.log("Start event ", event);
+        console.log('face: ', face.x, face.y);
+    }
+
+    public dragend(face, customEvent: CustomEvent) {
+        let event = customEvent.detail;
+        face.x += event.dx;
+        face.y += event.dy;
+        console.log("End event dx/dy", event.dx, ' ', event.dy);
     }
 
 }
