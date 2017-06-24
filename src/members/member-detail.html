@@ -9,7 +9,7 @@
             <div class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
             <div class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
             <a repeat.for="slide of member.slides" click.trigger="photo_clicked(slide)">
-                 <img class="slide-photo" src="${baseURL}${slide.src}" style="float:right;" />
+                 <img class="slide-photo" src="${baseURL}/${slide.src}" style="float:right;" />
             </a>
         </div>
         <div>

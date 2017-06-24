@@ -52,7 +52,7 @@ export class MemberDetail {
             .then(member => {
                 this.member = member;
                 console.log(this.member.slides.length + " slides");
-                config.navModel.setTitle(this.member.fullName);
+                //config.navModel.setTitle(this.member.fullName);
             });
     }
 
@@ -107,7 +107,7 @@ export class MemberDetail {
     
     get_profile_photo(member) {
         if (member.has_profile_photo) {
-            return environment.baseURL + "/gbs/static/gb_photos/profile_photos/PP-" + member.id + '.jpg';
+            return environment.baseURL + "/gbs/static/gb_photos/gbs/photos/profile_photos/PP-" + member.id + '.jpg';
         } else {
            return environment.baseURL + "/gbs/static/images/dummy_face.png";
         }

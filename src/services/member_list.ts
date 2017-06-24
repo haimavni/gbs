@@ -60,7 +60,7 @@ export class MemberList {
 
     set_profile_photo(member_id) {
         this.get_member_by_id(member_id)
-            .then(member => { member.facePhotoURL = environment.baseURL + "/gbs/static/gb_photos/profile_photos/PP-" + member_id + '.jpg'; });
+            .then(member => { member.facePhotoURL = environment.baseURL + "/gbs/static/gb_photos/gbs/photos/profile_photos/PP-" + member_id + '.jpg'; });
     }
 
 }
