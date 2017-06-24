@@ -51,6 +51,7 @@ export class MemberDetail {
         return this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
                 this.member = member;
+                console.log(this.member.slides.length + " slides");
                 config.navModel.setTitle(this.member.fullName);
             });
     }
