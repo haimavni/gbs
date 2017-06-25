@@ -52,7 +52,6 @@ export class MemberDetail {
             .then(member => {
                 this.member = member;
                 console.log(this.member.slides.length + " slides");
-                //config.navModel.setTitle(this.member.fullName);
             });
     }
 
@@ -68,7 +67,6 @@ export class MemberDetail {
         }
         this.member.family_connections.hasFamilyConnections = true;
     }
-
 
     tryDelete() {
         if (confirm(this.i18n.tr('members.confirmDelete'))) {
@@ -103,7 +101,6 @@ export class MemberDetail {
     photo_clicked(slide) {
         this.openDialog(slide);
     }
-
     
     get_profile_photo(member) {
         if (member.has_profile_photo) {

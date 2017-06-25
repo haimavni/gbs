@@ -46,7 +46,7 @@ export class FullSizePhoto {
 
     get_faces(photo_id) {
         this.faces = [];
-        this.api.call_server('stories/get_faces', { photo_id: photo_id })
+        this.api.call_server('members/get_faces', { photo_id: photo_id })
             .then((data) => {
                 this.faces = data.faces;
                 this.candidates = data.candidates;
@@ -61,6 +61,8 @@ export class FullSizePhoto {
             top: (face.y - face.r) + 'px',
             width: d + 'px',
             height: d + 'px',
+            'background-color': face.action ? "rgba(100, 100,0, 0.8)" : "rgba(0, 0, 0, 0)",
+            cursor: face.moving ? "move" : "hand",
             position: 'absolute'
         };
     }
@@ -91,14 +93,17 @@ export class FullSizePhoto {
         }
         if (resizing) {
             this.faces = this.faces.splice(0);
-            this.api.call_server_post('stories/resize_face', { face: face, resizing: true });
             return;
         }
         this.dialogService.open({ viewModel: MemberPicker, model: { face_identifier: true, member_id: face.member_id }, lock: false }).whenClosed(response => {
+            if (response.wasCancelled) {
+                this.remove_face(face);
+                return;
+            }
             face.member_id = response.output.member_id;
             let make_profile_photo = response.output.make_profile_photo;
             console.log("member id: " + face.member_id);
-            this.api.call_server_post('stories/resize_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
+            this.api.call_server_post('members/save_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
                 .then(response => {
                     face.name = response.member_name;
                     this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id });
@@ -107,11 +112,10 @@ export class FullSizePhoto {
     }
 
     remove_face(face) {
-        this.api.call_server_post('stories/remove_face', { face: face })
+        this.api.call_server_post('members/remove_face', { face: face })
         let i = this.faces.indexOf(face);
         this.faces.splice(i, 1);
     }
-
 
     private jump_to_member(member_id) {
         this.dialogController.ok();
@@ -123,30 +127,48 @@ export class FullSizePhoto {
             return;
         }
         let photo_id = this.slide.photo_id;
-        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 20, name: "unknown" };
-        console.log('page cords: ', event.pageX, event.pageY);
+        //todo: left and top below should be found directly. Unlike the click event, drag events do not give coords relative to the img, so we need to know the NW coords of the img.
+        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 20, name: "unknown", left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
         this.faces.push(face);
-        this.api.call_server_post('stories/add_face', { face: face });
     }
 
-    public dragmove(face, customEvent: CustomEvent) {
-        let event = customEvent.detail;
-        face.x += event.dx;
-        face.y += event.dy;
-        //console.log("Move event", event);
+    private distance(face, event) {
+        let point = { x: event.pageX - face.left, y: event.pageY - face.top };
+        let dist = Math.sqrt(Math.pow(point.x - face.x, 2) + Math.pow(point.y - face.y, 2));
+        return Math.round(dist);
     }
 
     public dragstart(face, customEvent: CustomEvent) {
+        face.x0 = face.x;
+        face.y0 = face.y;
+        face.r0 = face.r;
         let event = customEvent.detail;
-        console.log("Start event ", event);
-        console.log('face: ', face.x, face.y);
+        face.distance = this.distance(face, event);
+        let point = { x: event.pageX - face.left, y: event.pageY - face.top };
+        let dist = Math.sqrt(Math.pow(point.x - face.x, 2) + Math.pow(point.y - face.y, 2));
+        face.action = (dist < face.r - 10) ? "moving" : "resizing";
+    }
+
+    public dragmove(face, customEvent: CustomEvent) {
+        //todo: how to show while moving?
     }
 
     public dragend(face, customEvent: CustomEvent) {
+        customEvent.stopPropagation();
         let event = customEvent.detail;
-        face.x += event.dx;
-        face.y += event.dy;
-        console.log("End event dx/dy", event.dx, ' ', event.dy);
+        if (face.action === "moving") {
+            face.x += event.dx;
+            face.y += event.dy;
+        } else {
+            let distance = this.distance(face, event);
+            face.r += distance - face.distance;
+            if (face.r < 15) {
+                this.remove_face(face);
+            }
+        }
+        this.faces = this.faces.splice(0);
+
+        face.action = null;
     }
 
 }

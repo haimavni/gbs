@@ -53,7 +53,6 @@ export class MemberEdit {
     get dirty_story() {
         let dirty = this.member.story_info.story_text != this.life_story_orig;
         this.eventAggregator.publish('DirtyStory', dirty);
-        console.log('dirty story? ' + dirty);
         return dirty;
     }
 
@@ -84,7 +83,7 @@ export class MemberEdit {
             let story_info = { story_id: this.member.member_info.story_id, story_text: this.member.story_info.story_text.replace(/\&/g, '~1').replace(/;/g, '~2') }
             data['story_info'] = story_info;
         }
-        this.api.call_server_post('stories/save_member_info', data)
+        this.api.call_server_post('members/save_member_info', data)
             .then(response => {
                 this.member_info_orig = deepClone(this.member.member_info);
 
