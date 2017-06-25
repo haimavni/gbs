@@ -8,7 +8,7 @@
             <div class="row" style="margin-bottom:20px">
                 <div class="col-md-1" if.bind="! user.editing"></div>
                 <div class="col-md-6"></div>
-                <div class="col-md-1" if.bind="user.editing">
+                <div class="col-md-1" if.bind="user.editing" style="padding-top:18px;">
                     <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
                         <i class="fa fa-plus-square-o"></i>
                         ${'members.new' & t}
