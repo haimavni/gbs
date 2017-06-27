@@ -41,7 +41,8 @@
     "first-name": "שם פרטי",
     "last-name": "שם משפחה",
     "manage-users": "ניהול משתמשים",
-    "can-edit": "אפשר לערוך"
+    "can-edit": "אפשר לערוך",
+    "upload-files": "העלאת תמונות"
   },
   "photos": "תמונות",
   "terms": "מונחים",

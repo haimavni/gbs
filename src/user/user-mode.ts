@@ -2,6 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { User } from '../services/user';
 import { Login } from '../user/login';
 import { DialogService } from 'aurelia-dialog';
+import { UploadPhotos } from '../photos/upload-photos';
 
 @autoinject()
 export class UserMode {
@@ -40,6 +41,11 @@ export class UserMode {
     }
 
     logout() {
-                this.user.logout();
-            }
+        this.user.logout();
+    }
+
+    upload_files() {
+        this.dialog.open({ viewModel: UploadPhotos, lock: false });
+
+    }
 }

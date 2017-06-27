@@ -10,6 +10,7 @@ export class User {
     public eventAggregator: EventAggregator;
     public editing: boolean;
     public privileges;
+    public id;
     private api;
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway) {
