@@ -1,3 +1,0 @@
-export class App {
-  message = ' הנה אני בא. חכו לי! Hello World! I am coming';
-}

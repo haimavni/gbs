@@ -39,7 +39,7 @@ export class MemberGateway {
         .useStandardConfiguration()
         .withBaseUrl(environment.baseURL + '/gbs/')
         .withInterceptor(new SimpleInterceptor())
-        .withDefaults({ mode: "o-cors", credentials: "same-origin"});
+        .withDefaults({ mode: "o-cors", credentials: "same-origin" });
     });
   }
 
