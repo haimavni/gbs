@@ -21,7 +21,7 @@ export class User {
         this.privileges = {
             EDITOR: true
         }
-        this.checkIfLoggedIn()
+        this.readPrivileges();
     }
 
     toggle_edit_mode() {
@@ -29,10 +29,18 @@ export class User {
         this.eventAggregator.publish('EditModeChange', this);
     }
 
+    readPrivileges() {
+        return this.api.call_server('default/read_privileges')
+            .then(result => {
+                this.isLoggedIn = result.user_id > 0;
+                this.privileges = result.privileges;
+            });
+    }
+
     checkIfLoggedIn() {
         return this.api.call_server('default/check_if_logged_in')
             .then(result => { this.isLoggedIn = result.is_logged_in });
-    }
+        }
 
     login(loginData) {
         return this.api.call_server('default/login', loginData)
@@ -49,7 +57,11 @@ export class User {
     }
 
     logout() {
-        this.isLoggedIn = false;
+        return this.api.call_server('default/logout')
+            .then(result => {
+                this.isLoggedIn = false;
+                this.privileges = {};
+            })
     }
 
     setPrivileges(privileges) {

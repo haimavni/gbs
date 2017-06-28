@@ -16,8 +16,9 @@ export class SimpleInterceptor implements Interceptor {
   }
 
   response(response: Response) {
-    console.log('response: ', response);
-    return response;
+    let r = response.json();
+    console.log('response: ', r);
+    return r;
   }
 
   responseError(response: Response) {
@@ -31,8 +32,6 @@ export class MemberGateway {
 
   httpClient;
 
-
-
   constructor(httpClient: HttpClient) {
     this.httpClient = httpClient;
     httpClient.configure(config => {
@@ -40,7 +39,7 @@ export class MemberGateway {
         .useStandardConfiguration()
         .withBaseUrl(environment.baseURL + '/gbs/')
         .withInterceptor(new SimpleInterceptor())
-        .withDefaults({ mode: "o-cors", credentials: "same-origin" });
+        .withDefaults({ mode: "o-cors", credentials: "same-origin"});
     });
   }
 
@@ -49,7 +48,6 @@ export class MemberGateway {
       url += '?' + params(data);
     }
     return this.httpClient.fetch(url) //, {method: "POST", body: json(data))
-      .then(response => response.json())
       .catch(error => alert("error: " + error))
   }
 
@@ -57,19 +55,16 @@ export class MemberGateway {
     data = data ? data : {};
     let x = JSON.stringify(data);
     return this.httpClient.fetch(url, { method: "POST", body: x })
-      .then(response => response.json())
       .catch(error => alert("error: " + error))
   }
 
   getMemberList() {
     return this.httpClient.fetch('members/member_list')
-      .then(response => response.json());
   }
 
   getMemberDetails(memberId) {
     let x = params(memberId);
     return this.httpClient.fetch(`members/get_member_details?${params(memberId)}`)
-      .then(response => response.json())
   }
 
   uploadPhotos(fileList) {
@@ -91,21 +86,19 @@ export class MemberGateway {
       }
       readers.push(fr);
       fr.readAsBinaryString(file);
-      //fr.readAsArrayBuffer(file);
     }
 
   }
 
   upload(payload) {
     payload = JSON.stringify(payload);
-    return this.httpClient.fetch(`members/upload_photos?cookies=abcdefghij`, {
+    return this.httpClient.fetch(`members/upload_photos`, {
       method: 'POST',
       body: payload
-    }).then(response => response.json())
-    .then(response => {
-      console.log('files uploaded');
-      console.log("cookies ", response);
     })
+      .then(response => {
+        console.log('files uploaded');
+      })
       .catch(e => console.log('error occured ', e));
   }
 

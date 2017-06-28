@@ -20,11 +20,15 @@ export class UploadPhotos {
   save() {
     let t = typeof this.photos;
     if (this.photos) {
-        this.api.uploadPhotos(
-          this.photos
-        ).then(() => {
+      let p = this.api.uploadPhotos(
+        this.photos
+      );
+      if (p) {
+        p.then(() => {
+          console.log("after saving");
           //splice photo out of the list
         });
+      }
     }
   }
 }
