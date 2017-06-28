@@ -102,4 +102,15 @@ export class MemberGateway {
       .catch(e => console.log('error occured ', e));
   }
 
+  /*listen(group) {
+    let x = window.location;
+    service.call_server('default/get_tornado_host', { group: group })
+      .then(data => {
+        let ws = data.ws;
+        if (!web2py_websocket(ws, service.handle_ws_message)) {
+          alert("html5 websocket not supported by your browser, try Google Chrome");
+        };
+      });
+  };*/
+
 }

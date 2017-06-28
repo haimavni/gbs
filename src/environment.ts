@@ -1,5 +1,6 @@
 export default {
-  debug: false,
-  testing: false,
-  baseURL: ''
+  debug: true,
+  testing: true,
+  baseURL: "http://gbstories:8000"
 };
+

@@ -138,6 +138,9 @@ export class MemberEdit {
         }
     }
 
+    try_delete(member_id) {
+        console.log('deleting ', member_id);
+    }
 
     setup(modalContainer: Element, modalOverlay: Element) {
         console.log("Hi, I am in setup!")
