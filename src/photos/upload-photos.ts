@@ -2,6 +2,8 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { DialogController } from 'aurelia-dialog';
 
 @autoinject()
 export class UploadPhotos {
@@ -10,25 +12,25 @@ export class UploadPhotos {
   router;
   photos: FileList;
   user: User;
+  ea: EventAggregator;
+  dc: DialogController;
 
-  constructor(api: MemberGateway, router: Router, user: User) {
+  constructor(api: MemberGateway, router: Router, user: User, ea: EventAggregator, dc: DialogController) {
     this.api = api;
     this.router = router;
     this.user = user;
+    this.ea = ea;
+    this.dc = dc;
   }
 
   save() {
-    let t = typeof this.photos;
+    this.ea.subscribe('FilesLoaded', response => {
+      this.dc.ok(response);
+    });
     if (this.photos) {
-      let p = this.api.uploadPhotos(
+      this.api.uploadPhotos(
         this.photos
       );
-      if (p) {
-        p.then(() => {
-          console.log("after saving");
-          //splice photo out of the list
-        });
-      }
     }
   }
 }

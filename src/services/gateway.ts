@@ -2,6 +2,7 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
 import environment from '../environment';
 import { Cookies } from './aurelia-plugins-cookies';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 function params(data) {
   return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
@@ -31,9 +32,11 @@ export class SimpleInterceptor implements Interceptor {
 export class MemberGateway {
 
   httpClient;
+  eventAggregator;
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, eventAggregator: EventAggregator) {
     this.httpClient = httpClient;
+    this.eventAggregator = eventAggregator;
     httpClient.configure(config => {
       config
         .useStandardConfiguration()
@@ -81,7 +84,7 @@ export class MemberGateway {
         m += 1;
         payload['file-' + i].BINvalue = this.result;
         if (m == n) {
-          return This.upload(payload);
+          This.upload(payload);
         }
       }
       readers.push(fr);
@@ -97,7 +100,8 @@ export class MemberGateway {
       body: payload
     })
       .then(response => {
-        console.log('files uploaded');
+        console.log('files uploaded ', response);
+        this.eventAggregator.publish('FilesLoaded', response);
       })
       .catch(e => console.log('error occured ', e));
   }

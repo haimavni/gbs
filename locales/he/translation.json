@@ -1,7 +1,10 @@
 {
   "home": "סִפּוּרֵי גִּבְעַת בְּרֶנֶר",
   "gbstories": "סִפּוּרֵי גִּבְעַת בְּרֶנֶר",
-  "stories": "ספורים",
+  "stories": {
+    "stories": "ספורים",
+    "place-stories": "ספורי המקום"
+  },
   "members": {
     "members": "חברים",
     "new": "הוסף חבר",
@@ -44,8 +47,14 @@
     "can-edit": "אפשר לערוך",
     "upload-files": "העלאת תמונות"
   },
-  "photos": "תמונות",
-  "terms": "מונחים",
+  "photos": {
+    "photos": "תמונות",
+    "photos-store": "מאגר התמונות"
+  },
+  "terms": {
+    "terms": "מונחים",
+    "terms-lexicon": "מילון מונחים"
+  },
   "parents": "הורים",
   "siblings": "אחים/אחיות",
   "wife": "בת זוג",

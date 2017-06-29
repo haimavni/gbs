@@ -3,6 +3,7 @@
         <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;">
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${member.member_info.full_name & t}
+                <span if.bind="user.privileges.DEVELOPER">${member.member_info.id}</span>
             </h3>
         </div>
         <div class="row slide-list" style="margin-left:0px;margin-right:0px;">
