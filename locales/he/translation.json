@@ -49,7 +49,8 @@
   },
   "photos": {
     "photos": "תמונות",
-    "photos-store": "מאגר התמונות"
+    "photos-store": "מאגר התמונות",
+    "filter": "חפש ברשימת התמונות"
   },
   "terms": {
     "terms": "מונחים",
@@ -61,5 +62,6 @@
   "wifes": "בנות זוג",
   "husband": "בן זוג",
   "husbands": "בני זוג",
-  "children": "ילדים"
+  "children": "ילדים",
+  "categories": "קטגוריות"
 }
