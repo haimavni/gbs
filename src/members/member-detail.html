@@ -10,12 +10,12 @@
             <div class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
             <div class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
             <a repeat.for="slide of member.slides" click.trigger="photo_clicked(slide)">
-                 <img class="slide-photo" src="${baseURL}/${slide.src}" style="float:right;" />
+                 <img class="slide-photo" src="${slide.src}" style="float:right;" />
             </a>
         </div>
         <div>
             <!-- if.bind="! user.editing"-->
-            <div class="row content-area" style="min-height:560px;width:1170px;" dir="rtl">
+            <div class="row content-area" style="min-height:${content_area_height}px;width:1170px;" dir="rtl">
                 <div class="col-md-6">
                     <div class="row" if.bind="member.family_connections.hasFamilyConnections">
                         <h3>${'members.family-connections' & t}</h3>

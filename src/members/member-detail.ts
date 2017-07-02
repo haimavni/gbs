@@ -22,6 +22,7 @@ export class MemberDetail {
     baseURL;
     dirty_info = false;
     dirty_story = false;
+    content_area_height = 600;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -53,6 +54,12 @@ export class MemberDetail {
                 this.member = member;
                 console.log(this.member.slides.length + " slides");
             });
+    }
+
+    attached() {
+        let body = document.getElementById("body");
+        console.log("body height: ", body.clientHeight);
+        this.content_area_height = body.clientHeight - 330;
     }
 
     detached() {
@@ -103,8 +110,8 @@ export class MemberDetail {
     }
     
     get_profile_photo(member) {
-        if (member.has_profile_photo) {
-            return environment.baseURL + "/gbs/static/gb_photos/gbs/photos/profile_photos/PP-" + member.id + '.jpg';
+        if (member.facePhotoURL) {
+            return member.facePhotoURL;
         } else {
            return environment.baseURL + "/gbs/static/images/dummy_face.png";
         }

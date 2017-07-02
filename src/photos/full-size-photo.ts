@@ -41,7 +41,11 @@ export class FullSizePhoto {
         this.slide = model.slide;
         this.baseURL = environment.baseURL;
         this.get_faces(this.slide.photo_id);
+    }
 
+    attached() {
+        let div = document.getElementById("full-size-photo");
+        console.log("full size div: ", div);
     }
 
     get_faces(photo_id) {

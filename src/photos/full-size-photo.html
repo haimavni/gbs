@@ -1,7 +1,7 @@
 <template>
-    <div class="slide" click.trigger="mark_face($event)">
+    <div class="slide" click.trigger="mark_face($event)"id="full-size-photo">
         <div class="slide" click="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
-            <img src="${baseURL}/${slide.src}" height="${slide.height}" width="${slide.width}" />
+            <img src="${slide.src}" height="${slide.height}" width="${slide.width}" />
             <button dir="rtl" class="face" repeat.for="face of faces"
                  click.trigger="handle_face(face, $event, $index)" 
                  interact-draggable 
