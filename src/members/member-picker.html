@@ -2,9 +2,14 @@
 
     <div class="row" style="margin-bottom:20px;max-width:600px;">
         <div class="col-md-3">
-            <a route-href="route: member-creation" class="btn btn-primary cl-create-btn">
-                    <i class="fa fa-plus-square-o"></i> ${'members.new' & t}
-                </a>
+            <!--a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+                <i class="fa fa-plus-square-o"></i>
+                ${'members.new' & t}
+            </a-->
+            <a click.trigger="create_new_member()" class="btn btn-success cl-create-btn">
+                <i class="fa fa-plus-square-o"></i>
+                ${'members.new' & t}
+            </a>
         </div>
         <div if.bind="face_identifier" class="col-md-1" style="padding-left:0px;">
             <div class="checkbox">

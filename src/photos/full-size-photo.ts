@@ -7,6 +7,7 @@ import { User } from "../services/user";
 import { MemberPicker } from "../members/member-picker";
 import environment from "../environment";
 import { EventAggregator } from 'aurelia-event-aggregator';
+import {getOffset} from "../services/dom_utils";
 
 @autoinject()
 export class FullSizePhoto {
@@ -77,29 +78,6 @@ export class FullSizePhoto {
             this.jump_to_member(face.member_id);
             return;
         }
-        /* obsolete
-        let resizing = true;
-        if (event.ctrlKey) {
-            face.r += 5;
-        }
-        else if (event.shiftKey) {
-            if (face.r > 15) {
-                face.r -= 5;
-            }
-            else {
-                face.r = 0;
-                this.remove_face(face);
-                return;
-            }
-        }
-        else {
-            resizing = false;
-        }
-        if (resizing) {
-            this.faces = this.faces.splice(0);
-            return;
-        }
-        */
         this.dialogService.open({ viewModel: MemberPicker, model: { face_identifier: true, member_id: face.member_id }, lock: false }).whenClosed(response => {
             if (response.wasCancelled) {
                 this.remove_face(face);
@@ -137,21 +115,19 @@ export class FullSizePhoto {
         this.faces.push(face);
     }
 
-    private distance(face, event) {
-        let point = { x: event.pageX - face.left, y: event.pageY - face.top };
-        let dist = Math.sqrt(Math.pow(point.x - face.x, 2) + Math.pow(point.y - face.y, 2));
+    private distance(face, pt) {
+        let dist = Math.sqrt(Math.pow(pt.x - face.x, 2) + Math.pow(pt.y - face.y, 2));
         return Math.round(dist);
     }
 
     public dragstart(face, customEvent: CustomEvent) {
-        face.x0 = face.x;
-        face.y0 = face.y;
-        face.r0 = face.r;
+        let el = document.getElementById('full-size-photo');
+        face.corner = getOffset(el);
         let event = customEvent.detail;
-        face.distance = this.distance(face, event);
-        let point = { x: event.pageX - face.left, y: event.pageY - face.top };
-        let dist = Math.sqrt(Math.pow(point.x - face.x, 2) + Math.pow(point.y - face.y, 2));
+        let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
+        let dist =  this.distance(face, pt);
         face.action = (dist < face.r - 10) ? "moving" : "resizing";
+        face.dist = dist;
     }
 
     public dragmove(face, customEvent: CustomEvent) {
@@ -165,8 +141,9 @@ export class FullSizePhoto {
             face.x += event.dx;
             face.y += event.dy;
         } else {
-            let distance = this.distance(face, event);
-            face.r += distance - face.distance;
+            let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
+            let dist = this.distance(face, pt);
+            face.r += dist - face.dist;
             if (face.r < 15) {
                 this.remove_face(face);
             }
@@ -175,5 +152,5 @@ export class FullSizePhoto {
 
         face.action = null;
     }
-
 }
+

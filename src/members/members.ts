@@ -20,6 +20,10 @@ export class Members {
         this.members = [];
         console.log("user " + " editing: " + this.user.editing);
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
+        this.eventAggregator.subscribe('NewMemberAdded', member_details => {
+            this.member_added(member_details);
+        });
+
     }
 
     created() {
@@ -31,6 +35,12 @@ export class Members {
     select(member) {
         this.selectedId = member.id;
         return true;
+    }
+
+    member_added(member_details) {
+        //todo: experiments
+        console.log("member added");
+        this.members = this.members.splice(0, 0, {name: member_details.name, gender: member_details.gender, id: member_details.id});
     }
 
 }

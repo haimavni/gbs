@@ -58,8 +58,11 @@ export class MemberDetail {
 
     attached() {
         let body = document.getElementById("body");
-        console.log("body height: ", body.clientHeight);
-        this.content_area_height = body.clientHeight - 330;
+        if (body) {
+            this.content_area_height = body.clientHeight - 330;
+        } else {
+            this.content_area_height = 576;
+        }
     }
 
     detached() {

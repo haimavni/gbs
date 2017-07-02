@@ -19,6 +19,11 @@ export class MemberList {
         this.eventAggregator.subscribe('MemberDetailsUpdated', member_details => {
             this.update_member_details(member_details.id, member_details);
         });
+        this.eventAggregator.subscribe('NewMemberAdded', member_details => {
+            this.member_added(member_details.id, member_details);
+        });
+
+        
         this.eventAggregator.subscribe('MemberGotProfilePhoto', payload => {
             this.set_profile_photo(payload.member_id);
         });
@@ -57,6 +62,12 @@ export class MemberList {
                 member.gender = member_info.gender;
             });
     }
+
+    member_added(member_id: number, member_info: any) {
+        console.log("adding member ", member_id, ': ", member_info');
+        this.members = this.members.splice(0, 0, {name: member_info.name, gender: member_info.gender, id: member_id});
+    }
+
 
     set_profile_photo(member_id) {
         this.get_member_by_id(member_id)

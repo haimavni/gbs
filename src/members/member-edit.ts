@@ -83,13 +83,16 @@ export class MemberEdit {
             let story_info = { story_id: this.member.member_info.story_id, story_text: this.member.story_info.story_text.replace(/\&/g, '~1').replace(/;/g, '~2') }
             data['story_info'] = story_info;
         }
+        let new_member = this.member.member_info.id == 'new';
+        console.log("new member? ", new_member, " member: ", this.member);
         this.api.call_server_post('members/save_member_info', data)
             .then(response => {
                 this.member_info_orig = deepClone(this.member.member_info);
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = deepClone(this.member);
-                this.eventAggregator.publish('MemberDetailsUpdated', this.member.member_info);
+                let msg = new_member ? 'NewMemberAdded' : 'MemberDetailsUpdated';
+                this.eventAggregator.publish(msg, this.member.member_info);
             });
     }
 

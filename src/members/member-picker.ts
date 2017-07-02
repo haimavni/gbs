@@ -3,6 +3,7 @@ import { User } from "../services/user";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
 import { DialogController } from 'aurelia-dialog';
+import { Router } from 'aurelia-router';
 
 @autoinject()
 export class MemberPicker {
@@ -17,8 +18,9 @@ export class MemberPicker {
     selectedId;
     dialogController;
     make_profile_photo = false;
+    router;
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController) {
+    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router) {
         this.user = user;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
@@ -27,6 +29,7 @@ export class MemberPicker {
         console.log("user " + " editing: " + this.user.editing);
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.dialogController = dialogController;
+        this.router = router;
     }
 
     created() {
@@ -50,6 +53,11 @@ export class MemberPicker {
     select(member) {
         console.log("selected member ${member.id}");
         this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
+    }
+
+    create_new_member() {
+        this.router.navigateToRoute('member-details', {id: 'new'});
+        this.dialogController.ok();
     }
 
 }

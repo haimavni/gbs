@@ -1,7 +1,6 @@
 import { autoinject } from 'aurelia-framework';
 import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
 import environment from '../environment';
-import { Cookies } from './aurelia-plugins-cookies';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 function params(data) {
