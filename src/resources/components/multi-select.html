@@ -1,0 +1,25 @@
+<template>
+    <div class="input-group" style="width:100%;margin-top:15px;">
+        <input dir="rtl" type="text" class="form-control" t="[placeholder]multi-select.filter" style="font-size:12px;height:38px;"
+            value.bind="filter & debounce">
+    </div>
+    <div class="row">
+        <ul class="list-group">
+            <li repeat.for="kw of selected_keywords" class="selected">
+                <a ref="#" click.trigger="toggle_selection(kw, true)">kw.name </a>
+            </li>
+        </ul>
+        <ul class="list-group">
+            <li repeat.for="kw of unselected_keywords | filter: filter : 9999 : 'name'">
+                <a ref="#" click.trigger="toggle_selection(kw, false)">kw.name </a>
+            </li>
+        </ul>
+    </div>
+
+    <style>
+        .selected {
+            color: orange;
+        }
+    </style>
+
+</template>

@@ -57,6 +57,7 @@ export class MemberDetail {
     }
 
     attached() {
+        //todo: experiment...
         let body = document.getElementById("body");
         if (body) {
             this.content_area_height = body.clientHeight - 330;

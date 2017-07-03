@@ -12,25 +12,31 @@ export class Photos {
     photos_margin=0;
     api;
     user;
+    params = {
+        selected_keywords: [];
+        unselected_keywords: [];
+    }
     
     constructor(api: MemberGateway, user: User) {
         this.api = api;
         this.user = user;
-        /*
-        for (let i = 0; i < 250; i++) {
-            let photo = { src: this.url };
-            this.photo_list.push(photo);
-        }*/
     }
 
     created(params, config) {
+        this.api.call_server('members/get_keyword_list', { })
+            .then(result => {
+                this.params.unselected_keywords = result.keyword_list;
+            });
+        this.update_list();
+    }
+
+    update_list() {
         return this.api.call_server('members/get_photo_list', { })
             .then(result => {
                 this.photo_list = result.photo_list;
                 console.log(this.photo_list.length + " photos");
             });
 
-        //this.slider_changed();
     }
 
     slider_changed() {

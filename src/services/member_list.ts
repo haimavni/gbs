@@ -64,6 +64,7 @@ export class MemberList {
     }
 
     member_added(member_id: number, member_info: any) {
+        //todo: experiments
         console.log("adding member ", member_id, ': ", member_info');
         this.members = this.members.splice(0, 0, {name: member_info.name, gender: member_info.gender, id: member_id});
     }
