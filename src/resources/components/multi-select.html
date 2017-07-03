@@ -5,13 +5,13 @@
     </div>
     <div class="row">
         <ul class="list-group">
-            <li repeat.for="kw of selected_keywords" class="selected">
-                <a ref="#" click.trigger="toggle_selection(kw, true)">kw.name </a>
+            <li repeat.for="topic of selected_topics" class="selected">
+                <a click.trigger="toggle_selection(topic, true)">topic.name </a>
             </li>
         </ul>
         <ul class="list-group">
-            <li repeat.for="kw of unselected_keywords | filter: filter : 9999 : 'name'">
-                <a ref="#" click.trigger="toggle_selection(kw, false)">kw.name </a>
+            <li repeat.for="topic of unselected_topics | filter: filter : 9999 : 'name'">
+                <a click.trigger="toggle_selection(topic, false)">topic.name </a>
             </li>
         </ul>
     </div>

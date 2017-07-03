@@ -1,6 +1,8 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { autoinject } from 'aurelia-framework';
+import { FullSizePhoto } from './full-size-photo';
+import { DialogService } from 'aurelia-dialog';
 
 @autoinject
 export class Photos {
@@ -12,25 +14,27 @@ export class Photos {
     photos_margin=0;
     api;
     user;
+    dialog;
     params = {
-        selected_keywords: [];
-        unselected_keywords: [];
-    }
+        selected_topics: [],
+        unselected_topics: []
+    };
     
-    constructor(api: MemberGateway, user: User) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService) {
         this.api = api;
         this.user = user;
+        this.dialog = dialog;
     }
 
     created(params, config) {
-        this.api.call_server('members/get_keyword_list', { })
+        this.api.call_server('members/get_topic_list', { })
             .then(result => {
-                this.params.unselected_keywords = result.keyword_list;
+                this.params.unselected_topics = result.topic_list;
             });
-        this.update_list();
+        this.update_photo_list();
     }
 
-    update_list() {
+    update_photo_list() {
         return this.api.call_server('members/get_photo_list', { })
             .then(result => {
                 this.photo_list = result.photo_list;
@@ -46,5 +50,16 @@ export class Photos {
         console.log("photo_size: ", this.photo_size );
         this.photo_list = this.photo_list.splice(0);
     }
+
+    private openDialog(slide) {
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
+            console.log(response.output);
+        });
+    }
+
+    photo_clicked(slide) {
+        this.openDialog(slide);
+    }
+    
 
 }
