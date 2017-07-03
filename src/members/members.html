@@ -16,13 +16,7 @@
                 </div>
                 <div class="col-md-5">
                     <div class="input-group" style="width:100%;margin-top:15px;">
-                        <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
-                        <span class="input-group-btn" if.bind="filter">
-                        <button class="btn btn-default cl-clear-filter-btn" type="button" click.delegate="filter = ''">
-                            <i class="fa fa-times"></i>
-                            <span class="sr-only" t="members.clear"></span>
-                        </button>
-                        </span>
+                        <input dir="rtl" type="search" class="form-control" t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
                     </div>
                 </div>
             </div>

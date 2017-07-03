@@ -14,14 +14,7 @@
                     <div class="row" style="margin-bottom:15px;">
                         <div class="col-md-5 col-md-offset-7">
                             <div class="input-group" style="width:100%;margin-top:15px;margin-right:-16px;">
-                                <input dir="rtl" type="text" class="form-control" t="[placeholder]photos.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"
-                                />
-                                <!--span class="input-group-btn" if.bind="filter">
-                            <button class="btn btn-default cl-clear-filter-btn" type="button" click.delegate="filter = ''">
-                                <i class="fa fa-times"></i>
-                                <span class="sr-only" t="members.clear"></span>
-                            </button>
-                            <!--/span-->
+                                <input dir="rtl" type="search" class="form-control" t="[placeholder]photos.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce" />
                             </div>
                         </div>
                     </div>
@@ -34,6 +27,7 @@
                 <div class="col-md-2" style="font-size:28px;">
                     ${'topics' | t}
                     <!--compose view-model="multi-select" model="{params: params, action: update_photo_list}"></compose-->
+                    <!--compose view-model="multi-selection" model.bind="params"></compose-->
                 </div>
             </div>
         </div>

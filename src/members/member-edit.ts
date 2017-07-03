@@ -7,7 +7,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { computedFrom } from 'aurelia-framework';
-import { MemberPicker } from "../members/member-picker";
+import { MemberPicker } from "./member-picker";
 import { MemberList } from '../services/member_list';
 
 @autoinject()

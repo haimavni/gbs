@@ -1,6 +1,5 @@
-export class MutiSelect {
+export class MultiSelection {
     params;
-    action;
     compare = (k1, k2) => k1.name < k2.name ? -1 : k1.name > k2.name ? 1 : 0;
 
     toggle_selection(topic) {
@@ -17,12 +16,11 @@ export class MutiSelect {
             this.params.selected_topics.sort(this.compare)
         }
 
-        this.action();
+        this.params.action();
     }
 
     activate(model) {
         this.params=model.params;
-        this.action=model.action;
     }
  
 }

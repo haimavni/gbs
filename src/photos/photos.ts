@@ -3,6 +3,7 @@ import { User } from "../services/user";
 import { autoinject } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
+import { MultiSelection } from "../resources/components/multi-selection";
 
 @autoinject
 export class Photos {
@@ -11,15 +12,16 @@ export class Photos {
     photo_size = 128;
     url = "http://gbstories:8000/gbs/static/gb_photos/gbs/photos/orig/micha2/Ppm0244.jpg";
     photo_list = [];
-    photos_margin=0;
+    photos_margin = 0;
     api;
     user;
     dialog;
     params = {
         selected_topics: [],
-        unselected_topics: []
+        unselected_topics: [],
+        action: this.update_photo_list
     };
-    
+
     constructor(api: MemberGateway, user: User, dialog: DialogService) {
         this.api = api;
         this.user = user;
@@ -27,7 +29,7 @@ export class Photos {
     }
 
     created(params, config) {
-        this.api.call_server('members/get_topic_list', { })
+        this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.params.unselected_topics = result.topic_list;
             });
@@ -35,7 +37,7 @@ export class Photos {
     }
 
     update_photo_list() {
-        return this.api.call_server('members/get_photo_list', { })
+        return this.api.call_server('members/get_photo_list', {})
             .then(result => {
                 this.photo_list = result.photo_list;
                 console.log(this.photo_list.length + " photos");
@@ -45,9 +47,9 @@ export class Photos {
 
     slider_changed() {
         let width = document.getElementById("photos-container").offsetWidth;
-        this.photo_size = Math.floor((width - 60) / this.photos_per_line); 
+        this.photo_size = Math.floor((width - 60) / this.photos_per_line);
         console.log("slider now at ", this.photos_per_line);
-        console.log("photo_size: ", this.photo_size );
+        console.log("photo_size: ", this.photo_size);
         this.photo_list = this.photo_list.splice(0);
     }
 
@@ -60,6 +62,6 @@ export class Photos {
     photo_clicked(slide) {
         this.openDialog(slide);
     }
-    
+
 
 }
