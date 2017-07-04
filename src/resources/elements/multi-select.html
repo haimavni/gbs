@@ -1,0 +1,25 @@
+<template>
+    <div class="input-group" style="width:100%;margin-top:15px;">
+        <input dir="rtl" type="text" class="form-control" t="[placeholder]multi-selection.filter" style="font-size:12px;height:38px;"
+            value.bind="filter & debounce">
+    </div>
+    <div class="row">
+        <ul class="list-group">
+            <li repeat.for="topic of selected_topics" class="selected">
+                <a click.trigger="toggle_selection(topic, true)">topic.name </a>
+            </li>
+        </ul>
+        <ul class="list-group">
+            <li repeat.for="topic of unselected_topics | filter: filter : 9999 : 'name'">
+                <a click.trigger="toggle_selection(topic, false)">topic.name </a>
+            </li>
+        </ul>
+    </div>
+
+    <style>
+        .selected {
+            color: orange;
+        }
+    </style>
+
+</template>

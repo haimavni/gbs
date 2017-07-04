@@ -86,6 +86,10 @@ export class MemberDetail {
         }
     }
 
+    dragend(event) {
+        this.next_slide();
+    }
+
     next_slide() //we are right to left...
     {
         let slides = this.member.slides;

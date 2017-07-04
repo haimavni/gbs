@@ -16,11 +16,8 @@ export class Photos {
     api;
     user;
     dialog;
-    params = {
-        selected_topics: [],
-        unselected_topics: [],
-        action: this.update_photo_list
-    };
+    topic_list = [];
+    recent = true;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService) {
         this.api = api;
@@ -31,16 +28,20 @@ export class Photos {
     created(params, config) {
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
-                this.params.unselected_topics = result.topic_list;
+                this.topic_list = result.topic_list;
             });
         this.update_photo_list();
     }
 
     update_photo_list() {
-        return this.api.call_server('members/get_photo_list', {})
+        return this.api.call_server('members/get_photo_list', { topic_list: this.topic_list })
             .then(result => {
                 this.photo_list = result.photo_list;
-                console.log(this.photo_list.length + " photos");
+                if (this.photo_list) {
+                    console.log(this.photo_list.length + " photos");
+                } else {
+                    console.log("no photos found");
+                }
             });
 
     }
@@ -62,6 +63,5 @@ export class Photos {
     photo_clicked(slide) {
         this.openDialog(slide);
     }
-
 
 }

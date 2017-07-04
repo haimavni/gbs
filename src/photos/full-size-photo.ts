@@ -110,7 +110,6 @@ export class FullSizePhoto {
             return;
         }
         let photo_id = this.slide.photo_id;
-        //todo: left and top below should be found directly. Unlike the click event, drag events do not give coords relative to the img, so we need to know the NW coords of the img.
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
         this.faces.push(face);
     }
