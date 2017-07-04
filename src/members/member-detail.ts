@@ -86,8 +86,14 @@ export class MemberDetail {
         }
     }
 
-    dragend(event) {
-        this.next_slide();
+    dragend(customEvent: CustomEvent) {
+        customEvent.stopPropagation();
+        let event = customEvent.detail;
+        if (event.dx < 0) {
+            this.prev_slide();
+        } else {
+            this.next_slide();
+        }
     }
 
     next_slide() //we are right to left...
@@ -116,12 +122,12 @@ export class MemberDetail {
     photo_clicked(slide) {
         this.openDialog(slide);
     }
-    
+
     get_profile_photo(member) {
         if (member.facePhotoURL) {
             return member.facePhotoURL;
         } else {
-           return environment.baseURL + "/gbs/static/images/dummy_face.png";
+            return environment.baseURL + "/gbs/static/images/dummy_face.png";
         }
     }
 

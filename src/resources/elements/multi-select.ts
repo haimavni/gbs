@@ -7,27 +7,11 @@ export class MultiSelectCustomElement {
     selected = new Set();
     element;
     selected_options = [];
-    unselected_options = [{ name: "drek", id: 999 }];
+    saved_options;
     filter = "";
 
     constructor(element) {
         this.element = element;
-    }
-
-    attached() {
-        console.log("multi select bound ", this.options);
-        this.unselected_options = this.options;
-    }
-
-    created() {
-        console.log("multi select bound ", this.options);
-        this.unselected_options = this.options;
-    }
-
-    activate() {
-        alert('tinofet');
-        console.log("multi select activated ", this.options);
-        this.unselected_options = this.options;
     }
 
     toggle_selection(option) {
@@ -36,9 +20,12 @@ export class MultiSelectCustomElement {
         } else {
             this.selected.add(option.id);
         }
+        if (! this.saved_options) {
+            this.saved_options = this.options.splice(0);
+        }
         this.dispatch_event();
-        this.selected_options = this.options.filter(option => this.selected.has(option.id));
-        this.unselected_options = this.options.filter(option => !this.selected.has(option.id));
+        this.selected_options = this.saved_options.filter(option => this.selected.has(option.id));
+        this.options = this.saved_options.filter(option => ! this.selected.has(option.id));
         console.log("selected: ", this.selected);
     }
 

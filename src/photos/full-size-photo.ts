@@ -7,7 +7,7 @@ import { User } from "../services/user";
 import { MemberPicker } from "../members/member-picker";
 import environment from "../environment";
 import { EventAggregator } from 'aurelia-event-aggregator';
-import {getOffset} from "../services/dom_utils";
+import { getOffset } from "../services/dom_utils";
 
 @autoinject()
 export class FullSizePhoto {
@@ -123,8 +123,8 @@ export class FullSizePhoto {
         let el = document.getElementById('full-size-photo');
         face.corner = getOffset(el);
         let event = customEvent.detail;
-        let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
-        let dist =  this.distance(face, pt);
+        let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
+        let dist = this.distance(face, pt);
         face.action = (dist < face.r - 10) ? "moving" : "resizing";
         face.dist = dist;
     }
@@ -140,7 +140,7 @@ export class FullSizePhoto {
             face.x += event.dx;
             face.y += event.dy;
         } else {
-            let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
+            let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
             let dist = this.distance(face, pt);
             face.r += dist - face.dist;
             if (face.r < 15) {
