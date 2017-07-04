@@ -23,9 +23,10 @@ export class MultiSelectCustomElement {
         if (! this.saved_options) {
             this.saved_options = this.options.splice(0);
         }
-        this.dispatch_event();
         this.selected_options = this.saved_options.filter(option => this.selected.has(option.id));
         this.options = this.saved_options.filter(option => ! this.selected.has(option.id));
+        this.dispatch_event();
+        this.filter = ""
         console.log("selected: ", this.selected);
     }
 
