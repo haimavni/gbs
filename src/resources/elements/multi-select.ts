@@ -7,7 +7,7 @@ export class MultiSelectCustomElement {
     selected = new Set();
     element;
     selected_options = [];
-    unselected_options = [{name: "drek", id: 999}];
+    unselected_options = [{ name: "drek", id: 999 }];
     filter = "";
 
     constructor(element) {
@@ -16,12 +16,12 @@ export class MultiSelectCustomElement {
 
     attached() {
         console.log("multi select bound ", this.options);
-        this.unselected_options = this.options; 
+        this.unselected_options = this.options;
     }
 
     created() {
         console.log("multi select bound ", this.options);
-        this.unselected_options = this.options; 
+        this.unselected_options = this.options;
     }
 
     activate() {
@@ -49,11 +49,15 @@ export class MultiSelectCustomElement {
             },
             bubbles: true
         });
+        console.log("about to dispath ", this.selected_options);
         this.element.dispatchEvent(changeEvent);
     }
 
     is_selected(option) {
+        if (this.selected.has(option.id)) {
+            console.log("is selected? ", option.id, " ", option.name, " ", this.selected.has(option.id));
+        }
         return this.selected.has(option.id);
     }
-    
+
 }

@@ -63,4 +63,8 @@ export class Photos {
         this.openDialog(slide);
     }
 
+    handle_change(event) {
+        console.log("selection is now ", event.detail);
+    }
+
 }

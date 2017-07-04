@@ -30,7 +30,7 @@
                         ${'topics' | t}
                     </div>
                     <div class="row" style="max-height: 300px;overflow:auto;">
-                        <multi-select options.bind="topic_list"></multi-select>
+                        <multi-select options.bind="topic_list" change.delegate="handle_change($event)" ></multi-select>
                     </div>
                 </div>
             </div>
