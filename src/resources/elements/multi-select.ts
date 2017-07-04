@@ -45,7 +45,7 @@ export class MultiSelectCustomElement {
     dispatch_event() {
         let changeEvent = new CustomEvent('change', {
             detail: {
-                value: this.selected_options
+                selected_options: this.selected_options
             },
             bubbles: true
         });

@@ -3,20 +3,17 @@
         <input dir="rtl" type="text" class="form-control" t="[placeholder]multi-selection.filter" style="font-size:12px;height:38px;"
             value.bind="filter & debounce">
     </div>
-    <div class="row" style="max-height:300px;">
+    <div class="row" style="max-height: 100px;overflow:auto;">
         <ul class="list-group" style="list-style-type:none">
             <li repeat.for="option of selected_options" class="selected"> <!-- if.bind="is_selected(option)" -->
                 <a click.trigger="toggle_selection(option)">${option.name} </a>
             </li>
         </ul>
+    </div>
+    <div class="row" style="max-height: 200px;overflow:auto;">
         <ul class="list-group" style="list-style-type:none" if.bind="true || unselected_options===[]">
             <li repeat.for="option of options | filter: filter : 9999 : 'name'" if.bind="! is_selected(option)">
                 <a click.trigger="toggle_selection(option)">${option.name} </a>
-            </li>
-        </ul>
-        <ul class="list-group" style="list-style-type:none">
-            <li repeat.for="option of unselected_options | filter: filter : 9999 : 'name'" if.bind="! is_selected(option)">
-                <a click.trigger="toggle_selection(option)" style="background:yellow;" >${option.name} </a>
             </li>
         </ul>
     </div>
