@@ -3,22 +3,22 @@
         <input dir="rtl" type="text" class="form-control" t="[placeholder]multi-selection.filter" style="font-size:12px;height:38px;"
             value.bind="filter & debounce">
     </div>
-    <div class="row">
-        <ul class="list-group">
-            <li repeat.for="topic of selected_topics" class="selected">
-                <a click.trigger="toggle_selection(topic, true)">topic.name </a>
+    <div class="row" style="max-height:300px;">
+        <ul class="list-group" style="list-style-type:none">
+            <li repeat.for="option of selected_options" class="selected" if.bind="is_selected(option)" >
+                <a click.trigger="toggle_selection(option)">${option.name} </a>
             </li>
         </ul>
-        <ul class="list-group">
-            <li repeat.for="topic of unselected_topics | filter: filter : 9999 : 'name'">
-                <a click.trigger="toggle_selection(topic, false)">topic.name </a>
+        <ul class="list-group" style="list-style-type:none">
+            <li repeat.for="option of options | filter: filter : 9999 : 'name'" if.bind="! is_selected(option)">
+                <a click.trigger="toggle_selection(option)">${option.name} </a>
             </li>
         </ul>
     </div>
 
     <style>
         .selected {
-            color: orange;
+            font-weight: bolder;
         }
     </style>
 

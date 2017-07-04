@@ -14,21 +14,24 @@
                     <div class="row" style="margin-bottom:15px;">
                         <div class="col-md-5 col-md-offset-7">
                             <div class="input-group" style="width:100%;margin-top:15px;margin-right:-16px;">
-                                <input dir="rtl" type="search" class="form-control" t="[placeholder]photos.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce" />
+                                <input dir="rtl" type="search" class="form-control" t="[placeholder]photos.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"
+                                />
                             </div>
                         </div>
                     </div>
                     <div class="row" id="photos-container" style="height:660px;overflow:auto;">
-                        <a repeat.for="photo of photo_list" click.trigger="photo_clicked(photo)" title.bind="photo.keywords" >
+                        <a repeat.for="photo of photo_list" click.trigger="photo_clicked(photo)" title.bind="photo.keywords">
                             <img src="${photo.square_src}" width="${photo_size}" height="${photo_size}" style="margin:0;" />
                         </a>
                     </div>
                 </div>
-                <div class="col-md-2" style="font-size:28px;">
-                    ${'topics' | t}
-                    <!--compose view-model="multi-select" model="{params: params, action: update_photo_list}"></compose-->
-                    <!--compose view-model="multi-selection" model.bind="params"></compose-->
-                    <!--multi-select options="topic_list"></multi-select-->
+                <div class="col-md-2">
+                    <div class="row" style="font-size:28px;">
+                        ${'topics' | t}
+                    </div>
+                    <div class="row" style="max-height: 300px;overflow:auto;">
+                        <multi-select options.bind="topic_list"></multi-select>
+                    </div>
                 </div>
             </div>
         </div>

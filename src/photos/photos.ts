@@ -3,14 +3,12 @@ import { User } from "../services/user";
 import { autoinject } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
-import { MultiSelection } from "../resources/components/multi-selection";
 
 @autoinject
 export class Photos {
     filter = "";
     photos_per_line = 8;
     photo_size = 128;
-    url = "http://gbstories:8000/gbs/static/gb_photos/gbs/photos/orig/micha2/Ppm0244.jpg";
     photo_list = [];
     photos_margin = 0;
     api;
@@ -29,6 +27,7 @@ export class Photos {
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
+                console.log("topic list ", this.topic_list)
             });
         this.update_photo_list();
     }

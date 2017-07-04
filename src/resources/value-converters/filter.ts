@@ -1,5 +1,8 @@
 export class FilterValueConverter {
   toView(array, value, max=24, ...properties) {
+    if (!array) {
+      return [];
+    }
     value = (value || '').trim().toLowerCase();
     
     if (!value) {
