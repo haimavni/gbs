@@ -6,8 +6,8 @@
             <span if.bind="user.privileges.DEVELOPER">${member.member_info.id}</span>
             </h3>
         </div>
-        <div class="row slide-list" style="margin-left:0px;margin-right:0px;" interact-draggable interact-dragmove.delegate="dragmove($event)"
-            interact-dragstart.delegate="dragstart($event)" interact-dragend.delegate="dragend($event)">
+        <div class="row slide-list" style="margin-left:0px;margin-right:0px;" interact-draggable 
+            interact-dragend.delegate="dragend($event)">
 
             <div class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
             <div class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
