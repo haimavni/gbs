@@ -18,27 +18,31 @@ export class Photos {
     params = {
         selected_topics: [],
         selected_photographers: [],
-        uploaded_since: 0,
-        only_mine: false,
-        photographer: "",
-        taken_before: "",
-        taken_after: ""
+        selected_days_since_upload: 0,
+        selected_uploader: "anyone",
+        from_date: "1928",
+        to_date: "2017",
     };
     topic_list = [];
     photographer_list = [];
-    days_since_upload;
+    days_since_upload_options;
+    uploader_options;
     i18n;
-    selected_days_since_upload = 0;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N) {
         this.api = api;
         this.user = user;
         this.dialog = dialog;
         this.i18n = i18n;
-        this.days_since_upload = [
+        this.days_since_upload_options = [
             { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('photos.uploaded-today') },
             { value: 7, name: this.i18n.tr('photos.uploaded-this-week') }
+        ];
+        this.uploader_options = [
+            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me') },
+            { value: "users", name: this.i18n.tr('photos.uploaded-by-users') },
+            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone') }
         ];
     }
 
@@ -91,6 +95,11 @@ export class Photos {
     handle_photographer_change(event) {
         console.log("selection is now ", event.detail);
         this.params.selected_photographers = event.detail.selected_options;
+        this.update_photo_list();
+    }
+
+    handle_change(event) {
+        console.log("handle change");
         this.update_photo_list();
     }
 }

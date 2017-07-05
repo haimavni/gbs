@@ -55,8 +55,13 @@
     "uploaded-any-time": "תמונות שהועלו בזמן כלשהו",
     "uploaded-today": "תמונות שהועלו היום",
     "uploaded-this-week": "תמונות שהועלו השבוע",
-    "click-topic": "הקש נושא והקלק כשיופיע",
-    "click-photographer": "הקש צלם והקלק כשיופיע"
+    "click-topic": "הקלד נושא והקלק כשיופיע",
+    "click-photographer": "הקלד צלם והקלק כשיופיע",
+    "from-date": "צולם אחרי",
+    "to-date": "צולם לפני",
+    "uploaded-by-me": "הועלו על ידי",
+    "uploaded-by-users": "הועלו על ידי משתמשים",
+    "uploaded-by-anyone": "כל התמונות"
   },
   "terms": {
     "terms": "מונחים",

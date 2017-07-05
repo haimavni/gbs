@@ -30,21 +30,44 @@
                         ${'topics' | t}
                     </div>
                     <div class="row">
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"" change.delegate="handle_topic_change($event)"></multi-select>
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" change.delegate="handle_topic_change($event) "></multi-select>
                     </div>
-                    <div class="row" style="font-size:28px;">
+                    <div class="row " style="font-size:28px; ">
                         ${'photos.photographers' | t}
                     </div>
-                    <div class="row">
-                        <multi-select options.bind="photographer_list" place_holder_text="photos.click-photographer"" change.delegate="handle_photographer_change($event)"></multi-select>
+                    <div class="row ">
+                        <multi-select options.bind="photographer_list" place_holder_text="photos.click-photographer"
+                            change.delegate="handle_photographer_change($event)"></multi-select>
                     </div>
                     <div class="row" style="width:90%;margin-top: 20px;">
                         <form role="form">
-                            <select value.bind="selected_days_since_upload" style="height:32px;">
-                                <option repeat.for="option of days_since_upload" model.bind="option">${option.name}</option>
+                            <select value.bind="params.selected_days_since_upload" style="height:32px;" change.delegate="handle_change($event)">
+                                <option repeat.for="option of days_since_upload_options" model.bind="option">${option.name}</option>
                             </select>
                         </form>
                     </div>
+                    <div class="row" style="width:90%;margin-top: 20px;" if.bind="user.is_logged_in" >
+                        <form role="form">
+                            <select value.bind="params.selected_uploader" style="height:32px;" change.delegate="handle_change($event)">
+                                <option repeat.for="option of uploader_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="row" style="width:90%;margin-top: 20px;">
+                        <form class="form-horizontal" submit.delegate="handle_from_date($event)">
+                            <div class="form-group">
+                                <div class="col-sm-5">
+                                    <input type="text" id="from-date" value.bind="params.from_date"style="width:72px" change.delegate="handle_change($event)" >
+                                </div>
+                                <label class="col-sm-7 control-label" for="params.from-date & debounce">${'photos.from-date' & t}</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="to-date" value.bind="params.to_date & debounce" style="width:72px;" change.delegate="handle_change($event)" >
+                                </div>
+                                <label class="col-sm-7 control-label" for="to-date">${'photos.to-date' & t}</label>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>

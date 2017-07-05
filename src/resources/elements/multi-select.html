@@ -10,7 +10,7 @@
             </li>
         </ul>
     </div>
-    <div class="row" style="max-height: 100px;overflow:auto;margin-left:18px;margin-right:-36px;">
+    <div class="row" style="max-height: 130px;overflow:auto;margin-left:18px;margin-right:-36px;">
         <ul class="list-group" style="list-style-type:none" if.bind="true || unselected_options===[]">
             <li repeat.for="option of options | filter: filter : 9999 : 'name'" if.bind="! is_selected(option)">
                 <a click.trigger="toggle_selection(option)">${option.name} </a>
