@@ -29,8 +29,21 @@
                     <div class="row" style="font-size:28px;">
                         ${'topics' | t}
                     </div>
-                    <div class="row" >
-                        <multi-select options.bind="topic_list" change.delegate="handle_change($event)" ></multi-select>
+                    <div class="row">
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"" change.delegate="handle_topic_change($event)"></multi-select>
+                    </div>
+                    <div class="row" style="font-size:28px;">
+                        ${'photos.photographers' | t}
+                    </div>
+                    <div class="row">
+                        <multi-select options.bind="photographer_list" place_holder_text="photos.click-photographer"" change.delegate="handle_photographer_change($event)"></multi-select>
+                    </div>
+                    <div class="row" style="width:90%;margin-top: 20px;">
+                        <form role="form">
+                            <select value.bind="selected_days_since_upload" style="height:32px;">
+                                <option repeat.for="option of days_since_upload" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>

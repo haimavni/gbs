@@ -9,6 +9,7 @@ export class MultiSelectCustomElement {
     selected_options = [];
     saved_options;
     filter = "";
+    @bindable place_holder_text = "";
 
     constructor(element) {
         this.element = element;

@@ -1,6 +1,6 @@
 <template>
     <div class="input-group" style="width:100%;margin-top:15px;">
-        <input dir="rtl" type="search" class="form-control" t="[placeholder]multi-selection.filter" style="font-size:12px;height:28px;width:90%;float:right"
+        <input dir="rtl" type="search" class="form-control" t="[placeholder]${place_holder_text}" style="font-size:14px;height:32px;width:90%;float:right"
             value.bind="filter & debounce">
     </div>
     <div class="row" style="max-height: 100px;overflow:auto;margin-left:18px;margin-right:-36px;">
@@ -10,7 +10,7 @@
             </li>
         </ul>
     </div>
-    <div class="row" style="max-height: 150px;overflow:auto;margin-left:18px;margin-right:-36px;">
+    <div class="row" style="max-height: 100px;overflow:auto;margin-left:18px;margin-right:-36px;">
         <ul class="list-group" style="list-style-type:none" if.bind="true || unselected_options===[]">
             <li repeat.for="option of options | filter: filter : 9999 : 'name'" if.bind="! is_selected(option)">
                 <a click.trigger="toggle_selection(option)">${option.name} </a>

@@ -49,15 +49,18 @@
   },
   "photos": {
     "photos": "תמונות",
+    "photographers": "צלמים",
     "photos-store": "מאגר התמונות",
-    "filter": "חפש ברשימת התמונות"
+    "filter": "חפש בכותרות התמונות",
+    "uploaded-any-time": "תמונות שהועלו בזמן כלשהו",
+    "uploaded-today": "תמונות שהועלו היום",
+    "uploaded-this-week": "תמונות שהועלו השבוע",
+    "click-topic": "הקש נושא והקלק כשיופיע",
+    "click-photographer": "הקש צלם והקלק כשיופיע"
   },
   "terms": {
     "terms": "מונחים",
     "terms-lexicon": "מילון מונחים"
-  },
-  "multi-selection": {
-    "filter": "הקש שם נושא"
   },
   "parents": "הורים",
   "siblings": "אחים/אחיות",
