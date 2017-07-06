@@ -17,11 +17,11 @@ export class Photos {
     dialog;
     params = {
         selected_topics: [],
-        selected_photographers: [],
+        //selected_photographers: [],
         selected_days_since_upload: 0,
-        selected_uploader: "anyone",
-        from_date: "1928",
-        to_date: "2017",
+        selected_uploader: "",
+        from_date: "",
+        to_date: "",
     };
     topic_list = [];
     photographer_list = [];
@@ -94,7 +94,7 @@ export class Photos {
 
     handle_photographer_change(event) {
         console.log("selection is now ", event.detail);
-        this.params.selected_photographers = event.detail.selected_options;
+        //this.params.selected_photographers = event.detail.selected_options;
         this.update_photo_list();
     }
 

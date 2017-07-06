@@ -23,9 +23,9 @@ export class MemberList {
             this.member_added(member_details.id, member_details);
         });
 
-        
+
         this.eventAggregator.subscribe('MemberGotProfilePhoto', payload => {
-            this.set_profile_photo(payload.member_id);
+            this.set_profile_photo(payload.member_id, payload.face_photo_url);
         });
     }
 
@@ -57,8 +57,8 @@ export class MemberList {
 
     update_member_details(member_id: number, member_info: any) {
         this.get_member_by_id(member_id)
-            .then(member => { 
-                member.name = member_info.name; 
+            .then(member => {
+                member.name = member_info.name;
                 member.gender = member_info.gender;
             });
     }
@@ -66,13 +66,17 @@ export class MemberList {
     member_added(member_id: number, member_info: any) {
         //todo: experiments
         console.log("adding member ", member_id, ': ", member_info');
-        this.members = this.members.splice(0, 0, {name: member_info.name, gender: member_info.gender, id: member_id});
+        this.members = this.members.splice(0, 0, { name: member_info.name, gender: member_info.gender, id: member_id });
     }
 
 
-    set_profile_photo(member_id) {
+    set_profile_photo(member_id, face_photo_url) {
         this.get_member_by_id(member_id)
-            .then(member => { member.facePhotoURL = environment.baseURL + "/gbs/static/gb_photos/gbs/photos/profile_photos/PP-" + member_id + '.jpg'; });
+            .then(member => {
+                if (face_photo_url) {
+                    member.facePhotoURL = face_photo_url;
+                }
+            });
     }
 
 }

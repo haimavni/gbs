@@ -89,7 +89,7 @@ export class FullSizePhoto {
             this.api.call_server_post('members/save_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
                 .then(response => {
                     face.name = response.member_name;
-                    this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id });
+                    this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
                 });
         });
     }

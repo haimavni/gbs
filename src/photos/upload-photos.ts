@@ -14,6 +14,9 @@ export class UploadPhotos {
   user: User;
   ea: EventAggregator;
   dc: DialogController;
+  upload_finished = false;
+  number_uploaded;
+  number_duplicates;
 
   constructor(api: MemberGateway, router: Router, user: User, ea: EventAggregator, dc: DialogController) {
     this.api = api;
@@ -24,8 +27,13 @@ export class UploadPhotos {
   }
 
   save() {
-    this.ea.subscribe('FilesLoaded', response => {
-      this.dc.ok(response);
+    this.ea.subscribe('FilesUploaded', response => {
+      this.upload_finished = true;
+      this.number_uploaded = response.number_uploaded;
+      this.number_duplicates = response.number_duplicates;
+      window.setTimeout(() => {
+        this.dc.ok(response);
+      }, 15000);
     });
     if (this.photos) {
       this.api.uploadPhotos(

@@ -100,7 +100,7 @@ export class MemberGateway {
     })
       .then(response => {
         console.log('files uploaded ', response);
-        this.eventAggregator.publish('FilesLoaded', response);
+        this.eventAggregator.publish('FilesUploaded', response);
       })
       .catch(e => console.log('error occured ', e));
   }
