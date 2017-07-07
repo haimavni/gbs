@@ -44,8 +44,7 @@
     "first-name": "שם פרטי",
     "last-name": "שם משפחה",
     "manage-users": "ניהול משתמשים",
-    "can-edit": "אפשר לערוך",
-    "upload-files": "העלאת תמונות"
+    "can-edit": "אפשר לערוך"
   },
   "photos": {
     "photos": "תמונות",
@@ -62,7 +61,14 @@
     "uploaded-by-me": "הועלו על ידי",
     "uploaded-by-users": "הועלו על ידי משתמשים",
     "uploaded-by-anyone": "כל התמונות",
-    "enter-date": "תאריך או שנה"
+    "enter-date": "תאריך או שנה",
+    "upload-in-progress": "...התמונות נשלחות לשרת",
+    "photos-uploaded": " - תמונות שהועלו בהצלחה",
+    "photos-duplicate": " - תמונות שכבר הועלו בעבר",
+    "upload-files": "העלאת תמונות",
+    "select-photos": "בחר תמונות",
+    "save": "שלח",
+    "photos-were-selected": " - תמונות שנבחרו"
   },
   "terms": {
     "terms": "מונחים",

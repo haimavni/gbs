@@ -17,6 +17,7 @@ export class UploadPhotos {
   upload_finished = false;
   number_uploaded;
   number_duplicates;
+  working = false;
 
   constructor(api: MemberGateway, router: Router, user: User, ea: EventAggregator, dc: DialogController) {
     this.api = api;
@@ -27,7 +28,9 @@ export class UploadPhotos {
   }
 
   save() {
+    this.working = true;
     this.ea.subscribe('FilesUploaded', response => {
+      this.working = false;
       this.upload_finished = true;
       this.number_uploaded = response.number_uploaded;
       this.number_duplicates = response.number_duplicates;
