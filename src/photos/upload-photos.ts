@@ -17,7 +17,7 @@ export class UploadPhotos {
   upload_finished = false;
   number_uploaded;
   number_duplicates;
-  failed: [];
+  failed = [];
   working = false;
 
   constructor(api: MemberGateway, router: Router, user: User, ea: EventAggregator, dc: DialogController) {
