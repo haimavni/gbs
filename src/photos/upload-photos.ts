@@ -17,6 +17,7 @@ export class UploadPhotos {
   upload_finished = false;
   number_uploaded;
   number_duplicates;
+  failed: [];
   working = false;
 
   constructor(api: MemberGateway, router: Router, user: User, ea: EventAggregator, dc: DialogController) {
@@ -34,6 +35,7 @@ export class UploadPhotos {
       this.upload_finished = true;
       this.number_uploaded = response.number_uploaded;
       this.number_duplicates = response.number_duplicates;
+      this.failed = response.failed;
       window.setTimeout(() => {
         this.dc.ok(response);
       }, 15000);

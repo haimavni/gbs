@@ -1,9 +1,10 @@
 <template>
-    <div class="row centered-form" style="width:720px;min-height:560px;"dir="ltr">
+    <div class="row centered-form" style="width:720px;min-height:560px;" dir="ltr">
         <div class="col-md-10 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1 class="panel-title text-center"<strong>${"photos.upload-files" & t}</strong></h1>
+                    <h1 class="panel-title text-center" <strong>${"photos.upload-files" & t}</strong>
+                    </h1>
                 </div>
                 <div>
                     <p style="align-content: right;padding:20px;font-size:120%;" dir="rtl">
@@ -36,11 +37,26 @@
                         <h3 style="margin-left:140px;width:250px;">${'photos.upload-in-progress' | t}</h3>
                     </div>
                     <div if.bind="upload_finished" style="margin-left:130px;width:350px;">
-                        <h3 style="color:green;">${number_uploaded} ${'photos.photos-uploaded' | t}</h3>
+                        <h3 if.bind="number_uploaded" style="color:green;">${number_uploaded} ${'photos.photos-uploaded' | t}</h3>
                         <h3 if.bind="number_duplicates>0">${number_duplicates} ${'photos.photos-duplicate' | t} </h3>
+                        <h3 if.bind="failed.length>0" style="color:red;">${failed.length} ${'photos.photos-failed' | t} </h3>
+                        <ul class="errors">
+                            <li repeat.for="f of failed">
+                                ${f}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <style>
+        ul.errors {
+            list-style-type: none;
+            color: red;
+        }
+        ul.errors li {
+            float: right;
+        }
+    </style>
 </template>

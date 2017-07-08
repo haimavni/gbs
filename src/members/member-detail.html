@@ -11,7 +11,7 @@
 
             <div class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
             <div class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
-            <a repeat.for="slide of member.slides" click.trigger="photo_clicked(slide)">
+            <a repeat.for="slide of member.slides" click.trigger="photo_clicked(slide)" dblclick.trigger="photo_clicked(slide)" >
                  <img class="slide-photo" src="${slide.src}" style="float:right;" />
             </a>
         </div>
@@ -27,23 +27,23 @@
                             <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
                                 <td class="relation-kind">${'parents' & t}</td>
                                 <td>
-                                    <ul>
-                                        <li style="margin-left:0px;">
+                                    <ul class="family">
+                                        <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.pa.id}">
-                                                <span style="width:32px;margin:0;padding:0;">
-                                                <img src.bind="get_profile_photo(member.family_connections.parents.pa)" style="height:32px;border-radius:50%;" />
-                                                </span>
-                                                <span style="margin:0;padding:0">
-                                                ${member.family_connections.parents.pa.name}
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.pa)" />
+                                                <span>
+                                                    ${member.family_connections.parents.pa.name}
                                                 </span>
                                             </a>
                                         </li>
-                                        <li style="margin-right:0px;">
+                                        <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.ma.id}">
-                                                <img src.bind="get_profile_photo(member.family_connections.parents.ma)" style="height:32px;border-radius:50%;" />
-                                                ${member.family_connections.parents.ma.name}
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.ma)" />
+                                                <span>
+                                                    ${member.family_connections.parents.ma.name}
+                                                </span>
                                             </a>
                                         </li>
                                     </ul>
@@ -52,11 +52,13 @@
                             <tr if.bind="member.family_connections.siblings.length > 0">
                                 <td class="relation-kind">${'siblings' & t}</td>
                                 <td>
-                                    <ul>
+                                    <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="sibling of member.family_connections.siblings" route-href="route: member-details; params.bind: {id:sibling.id}">
-                                                <img src.bind="get_profile_photo(sibling)" style="height:32px;border-radius:50%;" />
+                                                <img src.bind="get_profile_photo(sibling)" />
+                                                <span>
                                                     ${sibling.name}
+                                                </span>
                                             </a>
                                         </li>
                                     </ul>
@@ -65,11 +67,13 @@
                             <tr if.bind="member.family_connections.spouses.length > 0">
                                 <td class="relation-kind">${member.spouses & t}</td>
                                 <td>
-                                    <ul>
+                                    <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" route-href="route: member-details; params.bind: {id:spouse.id}">
-                                                <img src.bind="get_profile_photo(spouse)" style="height:32px;border-radius:50%;" />
+                                                <img src.bind="get_profile_photo(spouse)" />
+                                                <span>
                                                     ${spouse.name}
+                                                </span>
                                             </a>
                                         </li>
                                     </ul>
@@ -78,11 +82,13 @@
                             <tr if.bind="member.family_connections.children.length> 0">
                                 <td class="relation-kind">${'children' & t}</td>
                                 <td>
-                                    <ul>
+                                    <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" route-href="route: member-details; params.bind: {id:child.id}">
-                                                <img src.bind="get_profile_photo(child)" style="height:32px;border-radius:50%;" />
-                                                ${child.name}
+                                                <img src.bind="get_profile_photo(child)" />
+                                                <span>
+                                                    ${child.name}
+                                                </span>
                                             </a>
                                         </li>
                                     </ul>
@@ -118,4 +124,18 @@
             </div>
         </div>
     </div>
+
+    <style>
+        ul.family li {
+            margin-left:0px;
+        }
+        ul.family img {
+            height:32px;
+            border-radius:50%;
+        }
+        ul.family span {
+            margin:0;
+            padding:0
+        }
+    </style>
 </template>
