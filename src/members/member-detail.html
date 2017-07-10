@@ -6,12 +6,11 @@
             <span if.bind="user.privileges.DEVELOPER">${member.member_info.id}</span>
             </h3>
         </div>
-        <div class="row slide-list" style="margin-left:0px;margin-right:0px;" interact-draggable 
-            interact-dragend.delegate="dragend($event)">
+        <div class="row slide-list" style="margin-left:0px;margin-right:0px;" interact-draggable interact-dragend.delegate="dragend($event)">
 
             <div class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
             <div class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
-            <a repeat.for="slide of member.slides" click.trigger="photo_clicked(slide)" dblclick.trigger="photo_clicked(slide)" >
+            <a repeat.for="slide of member.slides" click.trigger="photo_clicked(slide)" dblclick.trigger="photo_clicked(slide)">
                  <img class="slide-photo" src="${slide.src}" style="float:right;" />
             </a>
         </div>
@@ -118,24 +117,64 @@
                         </froala-editor>
                     </div>
                 </div>
-            </div>
-            <div if.bind="! user.editing" class="navbar-fixed-bottom navbar navbar-default" style="border:none;background-color:rgba(0,0,0,0); ">
-                <div class="footer-area "></div>
+                <div class="row">
+                    <h3 style="color:gray; float:right">${'members.more-stories' | t}</h3>
+                </div>
+                <div class="row" if.bind="! user.editing" interact-draggable interact-dragend.delegate="move_stories($event)">
+                    <div class="col-md-3">
+                        <h4>${story_0.name}</h4>
+                        <div class="story-panel">
+                            <p dir="rtl" innerhtml.bind="story_0.story_text ">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>${story_1.name}</h4>
+                        <div class="story-panel">
+                            <p dir="rtl" innerhtml.bind="story_1.story_text ">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>${story_2.name}</h4>
+                        <div class="story-panel">
+                            <p dir="rtl" innerhtml.bind="story_2.story_text ">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>${story_3.name}</h4>
+                        <div class="story-panel">
+                            <p dir="rtl" innerhtml.bind="story_3.story_text ">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div if.bind="! user.editing " class="navbar-fixed-bottom navbar navbar-default " style="border:none;background-color:rgba(0,0,0,0); ">
+                    <div class="footer-area "></div>
+                </div>
             </div>
         </div>
     </div>
 
     <style>
         ul.family li {
-            margin-left:0px;
+            margin-left: 0px;
         }
+
         ul.family img {
-            height:32px;
-            border-radius:50%;
+            height: 32px;
+            border-radius: 50%;
         }
+
         ul.family span {
-            margin:0;
-            padding:0
+            margin: 0;
+            padding: 0
+        }
+
+        div.story-panel {
+            max-height: 150px;
+            overflow: auto;
         }
     </style>
 </template>

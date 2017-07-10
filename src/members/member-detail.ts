@@ -23,6 +23,8 @@ export class MemberDetail {
     dirty_info = false;
     dirty_story = false;
     content_area_height = 600;
+    stories_base = 0;
+    story_0; story_1; story_2; story_3;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -36,7 +38,6 @@ export class MemberDetail {
         this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
-        console.log("member details constructed");
     }
 
     @computedFrom('dirty_info', 'dirty_story')
@@ -44,15 +45,18 @@ export class MemberDetail {
         return this.dirty_story || this.dirty_info ? "disabled" : "";
     }
 
-    created(view) {
-        console.log("member details created " + view);
+    set_displayed_stories() {
+        this.story_0 = this.story(0);
+        this.story_1 = this.story(1);
+        this.story_2 = this.story(2);
+        this.story_3 = this.story(3);
     }
 
     activate(params, config) {
         return this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
                 this.member = member;
-                console.log(this.member.slides.length + " slides");
+                this.set_displayed_stories();
             });
     }
 
@@ -96,6 +100,18 @@ export class MemberDetail {
         }
     }
 
+    move_stories(customEvent: CustomEvent) {
+        customEvent.stopPropagation();
+        let event = customEvent.detail;
+        if (event.dx > 0) {
+            this.stories_base -= 1;
+        } else {
+            this.stories_base += 1;
+        }
+        this.stories_base = (this.stories_base + this.member.member_stories.length) % this.member.member_stories.length;
+        this.set_displayed_stories();
+    }
+
     next_slide() //we are right to left...
     {
         let slides = this.member.slides;
@@ -129,6 +145,13 @@ export class MemberDetail {
         } else {
             return environment.baseURL + "/gbs/static/images/dummy_face.png";
         }
+    }
+
+    story(idx) {
+        let i = (this.member.member_stories.length + this.stories_base + idx) % this.member.member_stories.length;
+        console.log("idx=" + idx + " i= " + i);
+        let rec = this.member.member_stories[i];
+        return rec
     }
 
 }
