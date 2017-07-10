@@ -102,7 +102,9 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-
+                    <div class="row" if.bind="user.editing">
+                        <h3>${'members.life-summary' & t}</h3>
+                    </div>
                     <div class="row" if.bind="!user.editing && member.story_info.story_text && member.story_info.story_text.length > 0" style="padding-right: 0;">
                         <h3>${'members.life-summary' & t}</h3>
                         <p dir="rtl" style="overflow:auto;max-height: 200px;" innerhtml.bind="member.story_info.story_text">
