@@ -22,7 +22,7 @@ export class MemberDetail {
     baseURL;
     dirty_info = false;
     dirty_story = false;
-    content_area_height = 600;
+    content_area_height = 300;
     stories_base = 0;
     story_0; story_1; story_2; story_3;
 
@@ -66,7 +66,7 @@ export class MemberDetail {
         if (body) {
             this.content_area_height = body.clientHeight - 330;
         } else {
-            this.content_area_height = 576;
+            this.content_area_height = 280;
         }
     }
 
@@ -104,9 +104,9 @@ export class MemberDetail {
         customEvent.stopPropagation();
         let event = customEvent.detail;
         if (event.dx > 0) {
-            this.stories_base -= 1;
-        } else {
             this.stories_base += 1;
+        } else {
+            this.stories_base -= 1;
         }
         this.stories_base = (this.stories_base + this.member.member_stories.length) % this.member.member_stories.length;
         this.set_displayed_stories();

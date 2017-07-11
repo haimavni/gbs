@@ -16,7 +16,7 @@
         </div>
         <div>
             <!-- if.bind="! user.editing"-->
-            <div class="row content-area" style="min-height:${content_area_height}px;width:1170px;" dir="rtl">
+            <div class="row content-area" style="min-height:280px;width:1170px;border-bottom: solid 3px gray;margin: 0" dir="rtl">
                 <div class="col-md-6">
                     <div class="row" if.bind="member.family_connections.hasFamilyConnections">
                         <h3>${'members.family-connections' & t}</h3>
@@ -119,10 +119,8 @@
                         </froala-editor>
                     </div>
                 </div>
-                <div class="row">
-                    <h3 style="color:gray; float:right">${'members.more-stories' | t}</h3>
-                </div>
-                <div class="row" if.bind="! user.editing" interact-draggable interact-dragend.delegate="move_stories($event)">
+            </div>
+                <div class="row" if.bind="! user.editing" interact-draggable interact-dragend.delegate="move_stories($event)" dir="auto">
                     <div class="col-md-3">
                         <h4>${story_3.name}</h4>
                         <div class="story-panel">
@@ -144,7 +142,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="padding-left:10px;">
                         <h4>${story_0.name}</h4>
                         <div class="story-panel">
                             <p dir="rtl" innerhtml.bind="story_0.story_text ">
@@ -177,6 +175,8 @@
         div.story-panel {
             max-height: 150px;
             overflow: auto;
+            border-left:1px solid gray;
+            min-height: 200px;
         }
     </style>
 </template>
