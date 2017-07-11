@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="row" id="photos-container" style="height:660px;overflow:auto;">
-                        <a repeat.for="photo of photo_list" click.trigger="photo_clicked(photo)" title.bind="photo.keywords">
+                        <a repeat.for="photo of photo_list | filter : filter : 9999 : 'title'" click.trigger="photo_clicked(photo)" title.bind="photo.title">
                             <img src="${photo.square_src}" width="${photo_size}" height="${photo_size}" style="margin:0;" />
                         </a>
                     </div>
