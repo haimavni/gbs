@@ -15,20 +15,14 @@
             <div class="checkbox">
                 <label t="[title]members.make-profile-photo" for="set-as-profile-photo">
                     <input id="set-as-profile-photo" type="checkbox" value.bind="make_profile_photo" checked.bind="make_profile_photo">
-                    ${'members.set-as-profile-photo' & t}
+                    ${'members.set-as-profile-photo' | t}
                  </label>
             </div>
         </div>
         <!--div if.bind="!face_identifier" class="col-md-1"></div-->
         <div class="col-md-6">
             <div class="input-group">
-                <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float:right;width:240px;">
-                <span class="input-group-btn" if.bind="filter">
-                        <button class="btn btn-default cl-clear-filter-btn" type="button" click.delegate="filter = ''">
-                            <i class="fa fa-times"></i>
-                            <span class="sr-only" t="members.clear"></span>
-                </button>
-                </span>
+                <input dir="rtl" type="search" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float:right;width:240px;">
             </div>
         </div>
     </div>
