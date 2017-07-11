@@ -9,20 +9,20 @@
             <a click.trigger="create_new_member()" class="btn btn-success cl-create-btn">
                 <i class="fa fa-plus-square-o"></i>
                 ${'members.new' & t}
-            </a>
+            </a>`
         </div>
-        <div if.bind="face_identifier" class="col-md-1" style="padding-left:0px;">
+        <div if.bind="face_identifier" class="col-md-3" style="padding-left:0px;">
             <div class="checkbox">
-                <label t="[title]members.make-profile-photo">
-                    <input type="checkbox" value.bind="make_profile_photo" checked.bind="make_profile_photo">
-                    <i class="fa fa-user-circle"></i>
+                <label t="[title]members.make-profile-photo" for="set-as-profile-photo">
+                    <input id="set-as-profile-photo" type="checkbox" value.bind="make_profile_photo" checked.bind="make_profile_photo">
+                    ${'members.set-as-profile-photo' & t}
                  </label>
             </div>
         </div>
-        <div if.bind="!face_identifier" class="col-md-1"></div>
-        <div class="col-md-7">
+        <!--div if.bind="!face_identifier" class="col-md-1"></div-->
+        <div class="col-md-6">
             <div class="input-group">
-                <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float: right;width:300px;">
+                <input dir="rtl" type="text" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float:right;width:240px;">
                 <span class="input-group-btn" if.bind="filter">
                         <button class="btn btn-default cl-clear-filter-btn" type="button" click.delegate="filter = ''">
                             <i class="fa fa-times"></i>
@@ -36,11 +36,11 @@
     <div class="member-list" style="max-width: 600px;max-height:400px;">
         <div style="padding-right:75px;">
             <ul class="list-group">
-                <li repeat.for="member of members | filter : filter : 8 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
-                    style="width:130px;float:right;min-height:166px;font-size:9px;vertical-align: text-bottom;">
+                <li repeat.for="member of members | filter : filter : 32 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
+                    style="width:65px;float:right;min-height:88px;font-size:9px;vertical-align: text-bottom;">
 
                     <a click.trigger="select(member)" style="vertical-align: text-bottom;align-content: center;">
-                    <img style="width:100px;height:100px;border-radius:50%;" src.bind="member.facePhotoURL" />
+                    <img style="width:50px;height:50px;border-radius:50%;" src.bind="member.facePhotoURL" />
                         <h6 dir="rtl" class="list-group-item-heading" style="text-align: center;">${member.name}</h6>
                     </a>
                 </li>
@@ -49,6 +49,16 @@
     </div>
 
     <style>
+        div.member-list li {
+            width: 65px;
+            float: right;
+            min-height: 88px;
+            max-height: 8px;
+            overflow: hidden;
+            font-size: 9px;
+            vertical-align: text-bottom;
+        }
+
         ux-dialog-container.active>div {
             background-color: lightgray;
             margin-left: auto;

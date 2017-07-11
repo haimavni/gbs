@@ -19,6 +19,7 @@ export class MemberPicker {
     dialogController;
     make_profile_photo = false;
     router;
+    candidates = [];
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router) {
         this.user = user;
@@ -39,15 +40,26 @@ export class MemberPicker {
                 parents = parents.filter(member => member.gender == this.gender);
             }
             this.members = parents;
+            this.reorder_members_candidates_first();
         })
     }
 
     activate(model) {
         this.gender = model.gender;
         this.face_identifier = model.face_identifier;
+        this.candidates = model.candidates;
         /*this.filter = this.memberList.member_name(model.member_id)*/
         this.memberList.get_member_by_id(model.member_id)
             .then(result => this.filter = result.name)
+    }
+
+    reorder_members_candidates_first() {
+        let cand_ids = this.candidates.map(cand => cand.member_id);
+        let cand_set = new Set(cand_ids);
+        for (let m of this.members) {
+            m.score = cand_set.has(m.id) ? 0 : 1;
+        }
+        this.members.sort((a, b) => a.score - b.score);
     }
 
     select(member) {
@@ -56,7 +68,8 @@ export class MemberPicker {
     }
 
     create_new_member() {
-        this.router.navigateToRoute('member-details', {id: 'new'});
+        //wrong! just create on the server and append to member list.
+        this.router.navigateToRoute('member-details', { id: 'new' });
         this.dialogController.ok();
     }
 
