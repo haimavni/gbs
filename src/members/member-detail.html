@@ -124,16 +124,9 @@
                 </div>
                 <div class="row" if.bind="! user.editing" interact-draggable interact-dragend.delegate="move_stories($event)">
                     <div class="col-md-3">
-                        <h4>${story_0.name}</h4>
+                        <h4>${story_3.name}</h4>
                         <div class="story-panel">
-                            <p dir="rtl" innerhtml.bind="story_0.story_text ">
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <h4>${story_1.name}</h4>
-                        <div class="story-panel">
-                            <p dir="rtl" innerhtml.bind="story_1.story_text ">
+                            <p dir="rtl" innerhtml.bind="story_3.story_text ">
                             </p>
                         </div>
                     </div>
@@ -145,9 +138,16 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <h4>${story_3.name}</h4>
+                        <h4>${story_1.name}</h4>
                         <div class="story-panel">
-                            <p dir="rtl" innerhtml.bind="story_3.story_text ">
+                            <p dir="rtl" innerhtml.bind="story_1.story_text ">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>${story_0.name}</h4>
+                        <div class="story-panel">
+                            <p dir="rtl" innerhtml.bind="story_0.story_text ">
                             </p>
                         </div>
                     </div>

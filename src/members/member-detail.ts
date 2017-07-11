@@ -148,9 +148,13 @@ export class MemberDetail {
     }
 
     story(idx) {
+        if (idx >= this.member.member_stories.length) {
+            return { name: "", story_text: "" }
+        }
         let i = (this.member.member_stories.length + this.stories_base + idx) % this.member.member_stories.length;
         console.log("idx=" + idx + " i= " + i);
         let rec = this.member.member_stories[i];
+        rec.name = rec.name ? rec.name : ""
         return rec
     }
 
