@@ -20,6 +20,7 @@ export class FullSizePhoto {
     user;
     slide;
     router;
+    highlighting = false;
     eventAggregator;
 
     constructor(dialogController: DialogController,
@@ -150,6 +151,13 @@ export class FullSizePhoto {
         this.faces = this.faces.splice(0);
 
         face.action = null;
+    }
+
+    public toggle_highlighting(event) {
+        this.highlighting = ! this.highlighting;
+        event.stopPropagation();
+        let el = document.getElementById("full-size-photo");
+        el.classList.toggle("highlight-faces");
     }
 }
 
