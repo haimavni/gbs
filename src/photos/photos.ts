@@ -28,6 +28,7 @@ export class Photos {
     days_since_upload_options;
     uploader_options;
     i18n;
+    selected_photos = new Set([]);
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N) {
         this.api = api;
@@ -82,8 +83,13 @@ export class Photos {
         });
     }
 
-    photo_clicked(slide) {
-        this.openDialog(slide);
+    photo_clicked(slide, event) {
+        console.log("photo clicked. event: ", event);
+        if (event.ctrlKey) {
+            this.toggle_selection(slide);
+        } else {
+            this.openDialog(slide);
+        }
     }
 
     handle_topic_change(event) {
@@ -101,5 +107,16 @@ export class Photos {
     handle_change(event) {
         console.log("handle change");
         this.update_photo_list();
+    }
+
+    toggle_selection(photo) {
+        if (this.selected_photos.has(photo.photo_id)) {
+            this.selected_photos.delete(photo.photo_id);
+            photo.selected = "";
+        } else {
+            this.selected_photos.add(photo.photo_id);
+            photo.selected = "photo-selected";
+        }
+        console.log("check/uncheck photo ", this.selected_photos);
     }
 }

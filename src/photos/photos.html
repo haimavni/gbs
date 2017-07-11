@@ -20,7 +20,8 @@
                         </div>
                     </div>
                     <div class="row" id="photos-container" style="height:660px;overflow:auto;">
-                        <a repeat.for="photo of photo_list | filter : filter : 9999 : 'title'" click.trigger="photo_clicked(photo)" title.bind="photo.title">
+                        <a repeat.for="photo of photo_list | filter : filter : 9999 : 'title'" click.trigger="photo_clicked(photo, $event)" 
+                            title.bind="photo.title" class.bind="photo.selected">
                             <img src="${photo.square_src}" width="${photo_size}" height="${photo_size}" style="margin:0;" />
                         </a>
                     </div>
@@ -46,7 +47,7 @@
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="width:90%;margin-top: 20px;" if.bind="user.is_logged_in" >
+                    <div class="row" style="width:90%;margin-top: 20px;" if.bind="user.is_logged_in">
                         <form role="form">
                             <select value.bind="params.selected_uploader" style="height:32px;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of uploader_options" model.bind="option">${option.name}</option>
@@ -57,11 +58,13 @@
                         <form class="form-horizontal" submit.delegate="handle_from_date($event)">
                             <div class="form-group">
                                 <div class="col-sm-5">
-                                    <input type="text" id="from-date" value.bind="params.from_date & debounce" style="width:106px;margin-right:-32px;padding-right:6px;" t="[placeholder]photos.enter-date" change.delegate="handle_change($event)" >
+                                    <input type="text" id="from-date" value.bind="params.from_date & debounce" style="width:106px;margin-right:-32px;padding-right:6px;"
+                                        t="[placeholder]photos.enter-date" change.delegate="handle_change($event)">
                                 </div>
                                 <label class="col-sm-7 control-label" for="params.from-date & debounce">${'photos.from-date' & t}</label>
                                 <div class="col-sm-5">
-                                    <input type="text" id="to-date" value.bind="params.to_date & debounce" style="width:106px;margin-right:-32px;padding-right:6px;" t="[placeholder]photos.enter-date" change.delegate="handle_change($event)" >
+                                    <input type="text" id="to-date" value.bind="params.to_date & debounce" style="width:106px;margin-right:-32px;padding-right:6px;"
+                                        t="[placeholder]photos.enter-date" change.delegate="handle_change($event)">
                                 </div>
                                 <label class="col-sm-7 control-label" for="to-date">${'photos.to-date' & t}</label>
                             </div>
@@ -78,5 +81,9 @@
             width: 20px;
             height: 128px;
         }
+        a.photo-selected img{
+            border: 8px solid lightblue;
+        }
+
     </style>
 </template>
