@@ -42,7 +42,7 @@ export class MemberEdit {
     }
 
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name', 'member.member_info.PlaceOfBirth',
-        'member.member_info.birth_date', 'member.member_info.date_of_death', 'member.member_info.NickName', 'member.member_info.gender', 'member.story_info.life_story')
+        'member.member_info.date_of_birth_str', 'member.member_info.date_of_death_str', 'member.member_info.NickName', 'member.member_info.gender', 'member.story_info.life_story')
     get dirty_info() {
         let dirty = JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
         this.eventAggregator.publish('DirtyInfo', dirty);
