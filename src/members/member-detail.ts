@@ -90,10 +90,10 @@ export class MemberDetail {
         }
     }
 
-    shift_photos(customEvent: CustomEvent) {
+    shift_photos(slide, customEvent: CustomEvent) {
         let event = customEvent.detail;
         if (event.dx*event.dx <= event.dy*event.dy) {
-            return true; //attempt to enable zoom on tablets.
+            this.photo_clicked(slide); //attempt to enable zoom on tablets.
         }
         customEvent.stopPropagation();
         if (event.dx < 0) {
