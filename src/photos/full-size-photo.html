@@ -1,11 +1,11 @@
 <template>
     <div class="slide" click.trigger="mark_face($event)" id="full-size-photo">
-        <div class="slide" click="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
+        <div class="slide" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
             <img src="${slide.src}" height="${slide.height}" width="${slide.width}" />
-            <button class="highlighter" click.trigger="toggle_highlighting($event)"></button>
+            <button class="highlighter" click.delegate="toggle_highlighting($event)"></button>
             <button dir="rtl" class="face" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable
                 interact-dragmove.delegate="dragmove(face, $event)" interact-dragstart.delegate="dragstart(face, $event)" interact-dragend.delegate="dragend(face, $event)"
-                style.bind="face_location(face)" title.bind="face.name"><span if.bind="highlighting" style="color: white;">${face.name}</span>
+                style.bind="face_location(face)" title.bind="face.name"><span class="highlighted" if.bind="highlighting">${face.name}</span>
             </button>
         </div>
     </div>
@@ -26,6 +26,8 @@
         .slide.highlight-faces button.face {
             border-color: rgba(255, 255, 0, 0.9);
             opacity: 0.5;
+            color: orange;
+            font-weight: bolder;
         }
 
         button.face:hover {
@@ -37,10 +39,20 @@
             left: 0px;
             top: 0px;
             width: 32px;
-            height: 32x;
+            height: 32px;
             position: absolute;
-            background-color: rgba(0,0,0,0);
+            background-color: rgba(0, 0, 0, 0);
             border: none;
+        }
+
+        span.highlighted {
+            color: yellow;
+            font-weight: bolder;
+        }
+
+        ux-dialog-overlay.active {
+            background-color: white;
+            opacity: 0.9;
         }
     </style>
 

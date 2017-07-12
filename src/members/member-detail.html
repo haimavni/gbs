@@ -6,7 +6,7 @@
             <span if.bind="user.privileges.DEVELOPER">${member.member_info.id}</span>
             </h3>
         </div>
-        <div class="row slide-list" style="margin-left:0px;margin-right:0px;" interact-draggable interact-dragend.delegate="dragend($event)">
+        <div class="row slide-list" interact-draggable interact-dragend.delegate="shift_photos($event)">
 
             <div class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
             <div class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
@@ -120,44 +120,49 @@
                     </div>
                 </div>
             </div>
-                <div class="row" if.bind="! user.editing" interact-draggable interact-dragend.delegate="move_stories($event)" dir="auto">
-                    <div class="col-md-3">
-                        <h4>${story_3.name}</h4>
-                        <div class="story-panel">
-                            <p dir="rtl" innerhtml.bind="story_3.story_text ">
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <h4>${story_2.name}</h4>
-                        <div class="story-panel">
-                            <p dir="rtl" innerhtml.bind="story_2.story_text ">
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <h4>${story_1.name}</h4>
-                        <div class="story-panel">
-                            <p dir="rtl" innerhtml.bind="story_1.story_text ">
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3" style="padding-left:10px;">
-                        <h4>${story_0.name}</h4>
-                        <div class="story-panel">
-                            <p dir="rtl" innerhtml.bind="story_0.story_text ">
-                            </p>
-                        </div>
+            <div class="row" if.bind="! user.editing" interact-draggable interact-dragend.delegate="shift_stories($event)" dir="auto">
+                <div class="col-md-3">
+                    <h4>${story_3.name}</h4>
+                    <div class="story-panel">
+                        <p dir="rtl" innerhtml.bind="story_3.story_text ">
+                        </p>
                     </div>
                 </div>
-                <div if.bind="! user.editing " class="navbar-fixed-bottom navbar navbar-default " style="border:none;background-color:rgba(0,0,0,0); ">
-                    <div class="footer-area "></div>
+                <div class="col-md-3">
+                    <h4>${story_2.name}</h4>
+                    <div class="story-panel">
+                        <p dir="rtl" innerhtml.bind="story_2.story_text ">
+                        </p>
+                    </div>
                 </div>
+                <div class="col-md-3">
+                    <h4>${story_1.name}</h4>
+                    <div class="story-panel">
+                        <p dir="rtl" innerhtml.bind="story_1.story_text ">
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3" style="padding-left:10px;">
+                    <h4>${story_0.name}</h4>
+                    <div class="story-panel">
+                        <p dir="rtl" innerhtml.bind="story_0.story_text ">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div if.bind="! user.editing " class="navbar-fixed-bottom navbar navbar-default " style="border:none;background-color:rgba(0,0,0,0); ">
+                <div class="footer-area "></div>
             </div>
         </div>
     </div>
+    </div>
 
     <style>
+        div.slide-list {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
         ul.family li {
             margin-left: 0px;
         }
@@ -175,7 +180,7 @@
         div.story-panel {
             max-height: 150px;
             overflow: auto;
-            border-left:1px solid gray;
+            border-left: 1px solid gray;
             min-height: 200px;
         }
     </style>

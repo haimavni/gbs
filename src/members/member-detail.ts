@@ -90,9 +90,12 @@ export class MemberDetail {
         }
     }
 
-    dragend(customEvent: CustomEvent) {
-        customEvent.stopPropagation();
+    shift_photos(customEvent: CustomEvent) {
         let event = customEvent.detail;
+        if (event.dx*event.dx <= event.dy*event.dy) {
+            return true; //attempt to enable zoom on tablets.
+        }
+        customEvent.stopPropagation();
         if (event.dx < 0) {
             this.prev_slide();
         } else {
@@ -100,7 +103,7 @@ export class MemberDetail {
         }
     }
 
-    move_stories(customEvent: CustomEvent) {
+    shift_stories(customEvent: CustomEvent) {
         customEvent.stopPropagation();
         let event = customEvent.detail;
         if (event.dx > 0) {

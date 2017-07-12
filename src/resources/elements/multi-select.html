@@ -1,11 +1,11 @@
 <template>
-    <div class="input-group" style="width:100%;margin-top:15px;">
-        <input dir="rtl" type="search" class="form-control" t="[placeholder]${place_holder_text}" style="font-size:14px;height:32px;width:90%;float:right"
-            value.bind="filter & debounce">
+    <div class="input-group search-filter" style="width:100%;margin-top:15px;">
+        <input dir="rtl" type="search" class="form-control" t="[placeholder]${place_holder_text}" value.bind="filter & debounce">
     </div>
     <div class="row" style="max-height: 100px;overflow:auto;margin-left:18px;margin-right:-36px;">
         <ul class="list-group" style="list-style-type:none">
-            <li repeat.for="option of selected_options" class="selected"> <!-- if.bind="is_selected(option)" -->
+            <li repeat.for="option of selected_options" class="selected">
+                <!-- if.bind="is_selected(option)" -->
                 <a click.trigger="toggle_selection(option)">${option.name} </a>
             </li>
         </ul>
@@ -22,6 +22,15 @@
         .selected {
             font-weight: bolder;
         }
+
+        div.search-filter input {
+            font-size: 14px;
+            height: 32px;
+            width: 90%;
+            float: right;
+            padding: 5px;
+        }
     </style>
+
 
 </template>

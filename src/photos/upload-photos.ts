@@ -19,6 +19,7 @@ export class UploadPhotos {
   number_duplicates;
   failed = [];
   working = false;
+  host_name;
 
   constructor(api: MemberGateway, router: Router, user: User, ea: EventAggregator, dc: DialogController) {
     this.api = api;
@@ -26,6 +27,10 @@ export class UploadPhotos {
     this.user = user;
     this.ea = ea;
     this.dc = dc;
+  }
+
+  attached() {
+    this.host_name = window.location.hostname;
   }
 
   save() {
