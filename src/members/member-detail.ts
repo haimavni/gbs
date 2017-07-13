@@ -7,6 +7,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { computedFrom } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
+import { StoryWindow } from '../stories/story_window';
 import { MemberEdit } from './member-edit';
 import environment from '../environment';
 
@@ -159,6 +160,13 @@ export class MemberDetail {
         let rec = this.member.member_stories[i];
         rec.name = rec.name ? rec.name : ""
         return rec
+    }
+
+    zoom_out(story, edit) {
+        this.dialog.open({ viewModel: StoryWindow, model: { story: story,  edit: edit}, lock: false }).whenClosed(response => {
+            console.log(response.output);
+        });
+        
     }
 
 }

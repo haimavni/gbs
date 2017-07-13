@@ -1,0 +1,39 @@
+<template>
+
+    <div class="row" if.bind="!edit">
+        <h2 dir="rtl">${story.name}</h2>
+        <div class="big-story-panel">
+            <p dir="rtl" innerhtml.bind="story.story_text ">
+            </p>
+        </div>
+    </div>
+
+    <div class="row" if.bind="edit" >
+        <h2 dir="rtl">${story.name}</h2>
+        <div class="big-story-panel">
+            <froala-editor value.two-way="story.story_text" config.bind="{
+                            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
+                                 'emoticons', 'color', 'fontSize', 'html'],
+                                 language: 'he'}">
+            </froala-editor>
+        </div>
+    </div>
+
+    <style>
+        ux-dialog-overlay.active {
+            background-color: white;
+            opacity: 0.95;
+        }
+
+        div.big-story-panel {
+            padding: 10px;
+            max-width: 600px;
+            min-width: 600px;
+            max-height: 800px;
+            min-height: 800px;
+            border: sold 1px darkgray;
+            background-color: white;
+        }
+    </style>
+
+</template>

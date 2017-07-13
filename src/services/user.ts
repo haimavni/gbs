@@ -61,6 +61,7 @@ export class User {
             .then(result => {
                 this.isLoggedIn = false;
                 this.privileges = {};
+                this.editing = false;
             })
     }
 
