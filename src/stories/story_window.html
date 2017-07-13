@@ -1,5 +1,9 @@
 <template>
 
+    <require from="font-awesome.css"></require>
+    <require from="froala-editor/css/froala_editor.pkgd.min.css"></require>
+    <require from="froala-editor/css/froala_style.min.css"></require>
+
     <div class="row" if.bind="!edit">
         <h2 dir="rtl">${story.name}</h2>
         <div class="big-story-panel">
@@ -8,15 +12,21 @@
         </div>
     </div>
 
-    <div class="row" if.bind="edit" >
-        <h2 dir="rtl">${story.name}</h2>
-        <div class="big-story-panel">
-            <froala-editor value.two-way="story.story_text" config.bind="{
+    <div class="row" if.bind="edit">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name">
+            </div>
+    </div>
+
+    <h2 dir="rtl">${story.name}</h2>
+    <div class="big-story-panel">
+        <froala-editor value.two-way="story.story_text" config.bind="{
                             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
                                  'emoticons', 'color', 'fontSize', 'html'],
-                                 language: 'he'}">
-            </froala-editor>
-        </div>
+                                 language: 'he', heightMin: 400, heightMax: 700}">
+        </froala-editor>
+    </div>
     </div>
 
     <style>

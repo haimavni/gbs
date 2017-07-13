@@ -4,7 +4,9 @@
   "stories": {
     "stories": "ספורים",
     "place-stories": "ספורי המקום",
-    "zoom": "לקריאה בחלון גדול"
+    "zoom": "לקריאה בחלון גדול",
+    "edit": "לעריכת הסיפור",
+    "enter-story-name": "תן כותרת לסיפור"
   },
   "members": {
     "members": "חברים",
