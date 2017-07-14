@@ -1,0 +1,34 @@
+div.slide-list {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+ul.family li {
+    margin-left: 0px;
+}
+
+ul.family img {
+    height: 32px;
+    border-radius: 50%;
+}
+
+ul.family a {
+    position: relative;
+}
+
+ul.family span {
+    position: absolute;
+    top: 7px;
+    right: 34px;
+}
+
+div.story-panel {
+    max-height: 150px;
+    overflow: auto;
+    border-left: 1px solid gray;
+    min-height: 200px;
+}
+
+i.is-link {
+    cursor: pointer;
+}
