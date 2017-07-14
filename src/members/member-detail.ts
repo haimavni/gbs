@@ -164,8 +164,8 @@ export class MemberDetail {
 
     zoom_out(story, what) {
         console.log("zoom out what ", what);
-        this.dialog.open({ viewModel: StoryWindow, model: { story: story,  edit: what=='edit'}, lock: false }).whenClosed(response => {
-            console.log(response.output);
+        this.dialog.open({ viewModel: StoryWindow, model: { story: story,  edit: what=='edit'}, lock: what=='edit' }).whenClosed(response => {
+            console.log("response after edit dialog: ", response.output);
         });
         
     }

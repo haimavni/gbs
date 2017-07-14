@@ -4,10 +4,15 @@ ux-dialog-overlay.active {
 }
 
 div.big-story-panel {
+    p {
+        max-height: 400px;
+    }
+    min-width: 560px;
+    overflow: auto;
+    /*
     padding: 10px;
     max-width: 600px;
     min-width: 600px;
-    max-height: 800px;
     min-height: 800px;
     border: sold 1px darkgray;
     background-color: white;
@@ -15,6 +20,7 @@ div.big-story-panel {
     p {
         padding-right: 20px;
     }
+    */
 }
 
 div.story-title input {
@@ -30,6 +36,7 @@ h2.story-title {
     text-align: center;
     margin: 0;
 }
-.ux-dialog-container.active div {
+.ux-dialog-container div {
     background-color: rgba(0,0,0,0);
+    margin-top: 200px;
 }

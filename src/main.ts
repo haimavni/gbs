@@ -25,8 +25,12 @@ export function configure(aurelia: Aurelia) {
         router.transformTitle = title => i18n.tr(title);
         events.subscribe('i18n:locale:changed', () => { router.updateTitle(); });
       });
+    }).plugin('aurelia-dialog', config => {
+      config.useDefaults();
+      config.settings.lock = true;
+      config.settings.centerHorizontalOnly = true;
+      config.settings.startingZIndex = 5;
     })
-    .plugin('aurelia-dialog')
     .plugin('aurelia-interactjs')
     .feature('resources');
 

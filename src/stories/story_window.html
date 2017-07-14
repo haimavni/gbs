@@ -1,32 +1,39 @@
-<template>
+<template id="bla">
     <require from="./stories.css"></require>
-    <div class="fr-view" dir="rtl" if.bind="show">
-        <div class="row" style="height:50px;">
-            <h2 dir="rtl" class="story-title" style="margin:0;">${story.name}</h2>
-        </div>
-        <div class="big-story-panel">
-            <p dir="rtl" innerhtml.bind="story.story_text ">
-            </p>
-        </div>
-    </div>
-
-    <div class="row story-title" if.bind="edit" dir="rtl">
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name" dir="rtl">
+    <ux-dialog>
+        <ux-dialog-header if.bind="show">
+            <div dir="rtl">
+                <h2 dir="rtl" class="story-title" style="margin:0;">${story.name}</h2>
             </div>
-        </form>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="fr-view" dir="rtl" if.bind="show">
+                <div class="big-story-panel">
+                    <p dir="rtl" innerhtml.bind="story.story_text ">
+                    </p>
+                </div>
+            </div>
 
-        <div class="big-story-panel fr-view" if.bind="edit">
-            <froala-editor value.two-way="story.story_text" config.bind="{
+            <div class="row story-title" if.bind="edit" dir="rtl">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name" dir="rtl">
+                    </div>
+                </form>
+
+                <div class="big-story-panel fr-view" if.bind="edit">
+                    <froala-editor value.two-way="story.story_text" config.bind="{
                             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
                                  'emoticons', 'color', 'fontSize', 'html'],
-                                 language: 'he', heightMin: 400, heightMax: 700}">
-            </froala-editor>
-        </div>
-    </div>
-    <footer>
-        <h1>Tinofet Mezurgeget</h1>
-    </footer>
+                                 language: 'he', heightMin: 400, heightMax: 400}">
+                    </froala-editor>
+                </div>
+            </div>
+        </ux-dialog-body>
+        <ux-dialog-footer if.bind="edit">
+            <button class="btn btn-danger" click.trigger="cancel()">${'stories.cancel' | t}</button>
+            <button class="btn btn-success" click.trigger="save()">${'stories.save' | t}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
 
 </template>
