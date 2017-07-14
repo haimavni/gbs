@@ -32,17 +32,16 @@
                             title="Visibility">
                                 <i class="fa ${member.member_info.visible ? 'fa-eye' : 'fa-eye-slash'}" ></i>
                             </button>
-                        <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button" type="button" class="btn btn-default" click.trigger="save_edited_data()"
-                            t="[title]members.save">
+                        <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button" type="button" class="btn btn-default"
+                            click.trigger="save_edited_data()" t="[title]members.save">
                                 <i class="fa  fa-large fa-save"></i>
                             </button>
                         <button type="button" type="button" class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" click.trigger="cancel_edit_mode()"
-                            t="[title]members.cancel" >
+                            t="[title]members.cancel">
                                 <i class="fa  fa-large fa-rotate-left"></i>
                             </button>
-                        <button if.bind="user.privileges.ADMIN" type="button" type="button" class="btn btn-warning ${dirty_story || dirty_info ? 'disabled' : btn-warning'}" 
-                            click.trigger="try_delete(member.member_info.id)"
-                            t="[title]members.delete-member">
+                        <button if.bind="user.privileges.ADMIN" type="button" type="button" class="btn btn-warning ${dirty_story || dirty_info ? 'disabled' : btn-warning'}"
+                            click.trigger="try_delete(member.member_info.id)" t="[title]members.delete-member">
                                 <i class="fa fa-large fa-trash"></i>
                             </button>
                     </div>
@@ -94,6 +93,5 @@
                 </div>
             </div>
         </form>
-    </div>
     </div>
 </template>

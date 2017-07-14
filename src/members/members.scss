@@ -1,3 +1,6 @@
+
+//member detail
+
 div.slide-list {
     margin-left: 0px;
     margin-right: 0px;
@@ -31,4 +34,26 @@ div.story-panel {
 
 i.is-link {
     cursor: pointer;
+}
+
+//member picker
+
+div.member-list li {
+    width: 65px;
+    float: right;
+    min-height: 88px;
+    max-height: 8px;
+    overflow: hidden;
+    font-size: 9px;
+    vertical-align: text-bottom;
+}
+
+ux-dialog-container.active>div {
+    background-color: lightgray;
+    margin-left: auto;
+    margin-right: auto;
+    width: 580px;
+    height: 500px;
+    margin-top: 200px;
+    margin-bottom: 200px;
 }
