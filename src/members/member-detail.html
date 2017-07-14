@@ -110,7 +110,7 @@
                     </div>
                     <div class="row fr-view" if.bind="!user.editing && member.story_info.story_text && member.story_info.story_text.length > 0" style="padding-right: 0;">
                         <h3>
-                            <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(member.story_info)">&nbsp;</i>
+                            <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(member.story_info, 'show')">&nbsp;</i>
                             ${'members.life-summary' & t}
                         </h3>
                         <p dir="rtl" style="overflow:auto;max-height: 200px;" innerhtml.bind="member.story_info.story_text">
@@ -126,11 +126,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row fr-view" if.bind="! user.editing" interact-draggable interact-dragend.delegate="shift_stories($event)" dir="auto">
+            <div class="row fr-view" if.bind="! user.editing" interact-draggable interact-dragend.delegate="shift_stories($event)" dir="rtl">
                 <div class="col-md-3">
-                    <h4 show.bind="story_3.name">
-                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_3)">&nbsp;</i>
-                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_3, true)">&nbsp;</i>                        
+                    <h4 show.bind="story_3.name" dir="rtl">
+                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_3, 'show')">&nbsp;</i>
+                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_3, 'edit')">&nbsp;</i>                        
                         ${story_3.name}
                     </h4>
                     <div class="story-panel">
@@ -139,9 +139,9 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <h4 show.bind="story_2.name">
-                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_2)">&nbsp;&nbsp;</i>
-                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_2, true)">&nbsp;</i>                        
+                    <h4 show.bind="story_2.name" dir="rtl">
+                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_2, 'show')">&nbsp;&nbsp;</i>
+                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_2, 'edit')">&nbsp;</i>                        
                         ${story_2.name}
                     </h4>
                     <div class="story-panel">
@@ -150,9 +150,9 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <h4 show.bind="story_1.name">
-                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_1)">&nbsp;&nbsp;</i>
-                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_1, true)">&nbsp;</i>                        
+                    <h4 show.bind="story_1.name" dir="rtl">
+                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_1, 'show')">&nbsp;&nbsp;</i>
+                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_1, 'edit')">&nbsp;</i>                        
                         ${story_1.name}
                     </h4>
                     <div class="story-panel">
@@ -161,9 +161,9 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="padding-left:10px;">
-                    <h4 show.bind="story_0.name">
-                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_0)">&nbsp;&nbsp;</i>
-                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, true)">&nbsp;</i>                        
+                    <h4 show.bind="story_0.name" dir="rtl">
+                        <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_0, 'show')">&nbsp;&nbsp;</i>
+                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit')">&nbsp;</i>                        
                         ${story_0.name}
                     </h4>
                     <div class="story-panel">

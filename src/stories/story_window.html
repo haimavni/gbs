@@ -1,49 +1,32 @@
 <template>
-
-    <!--<require from="font-awesome.css"></require>
-    <require from="froala-editor/css/froala_editor.pkgd.min.css"></require>
-    <require from="froala-editor/css/froala_style.min.css"></require>-->
-
-    <div class="row fr-view" if.bind="!edit">
-        <h2 dir="rtl">${story.name}</h2>
+    <require from="./stories.css"></require>
+    <div class="fr-view" dir="rtl" if.bind="show">
+        <div class="row" style="height:50px;">
+            <h2 dir="rtl" class="story-title" style="margin:0;">${story.name}</h2>
+        </div>
         <div class="big-story-panel">
             <p dir="rtl" innerhtml.bind="story.story_text ">
             </p>
         </div>
     </div>
 
-    <div class="row" if.bind="edit">
+    <div class="row story-title" if.bind="edit" dir="rtl">
         <form class="form-horizontal" role="form">
             <div class="form-group">
-                <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name">
+                <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name" dir="rtl">
             </div>
-    </div>
+        </form>
 
-    <h2 dir="rtl">${story.name}</h2>
-    <div class="big-story-panel fr-view">
-        <froala-editor value.two-way="story.story_text" config.bind="{
+        <div class="big-story-panel fr-view" if.bind="edit">
+            <froala-editor value.two-way="story.story_text" config.bind="{
                             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
                                  'emoticons', 'color', 'fontSize', 'html'],
                                  language: 'he', heightMin: 400, heightMax: 700}">
-        </froala-editor>
+            </froala-editor>
+        </div>
     </div>
-    </div>
-
-    <style>
-        ux-dialog-overlay.active {
-            background-color: white;
-            opacity: 0.95;
-        }
-
-        div.big-story-panel {
-            padding: 10px;
-            max-width: 600px;
-            min-width: 600px;
-            max-height: 800px;
-            min-height: 800px;
-            border: sold 1px darkgray;
-            background-color: white;
-        }
-    </style>
+    <footer>
+        <h1>Tinofet Mezurgeget</h1>
+    </footer>
 
 </template>

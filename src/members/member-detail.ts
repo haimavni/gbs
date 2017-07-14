@@ -162,8 +162,9 @@ export class MemberDetail {
         return rec
     }
 
-    zoom_out(story, edit) {
-        this.dialog.open({ viewModel: StoryWindow, model: { story: story,  edit: edit}, lock: false }).whenClosed(response => {
+    zoom_out(story, what) {
+        console.log("zoom out what ", what);
+        this.dialog.open({ viewModel: StoryWindow, model: { story: story,  edit: what=='edit'}, lock: false }).whenClosed(response => {
             console.log(response.output);
         });
         
