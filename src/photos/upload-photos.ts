@@ -47,6 +47,7 @@ export class UploadPhotos {
     });
     if (this.photos) {
       this.api.uploadPhotos(
+        this.user.id,
         this.photos
       );
     }

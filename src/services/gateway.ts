@@ -69,8 +69,8 @@ export class MemberGateway {
     return this.httpClient.fetch(`members/get_member_details?${params(memberId)}`)
   }
 
-  uploadPhotos(fileList) {
-    let payload = {};
+  uploadPhotos(user_id, fileList) {
+    let payload = {user_id};
     let readers = [];
     let m = 0;
     let n = fileList.length;

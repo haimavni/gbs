@@ -73,7 +73,7 @@ export class MemberEdit {
     }
 
     save_edited_data() {
-        let data = {};
+        let data = {user_id: this.user.id};
         if (this.dirty_info) {
             data['member_info'] = this.member.member_info;
         } else {
