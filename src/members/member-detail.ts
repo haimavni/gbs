@@ -41,9 +41,9 @@ export class MemberDetail {
         this.baseURL = environment.baseURL;
     }
 
-    @computedFrom('dirty_info', 'dirty_story')
+    @computedFrom('dirty_info')
     get disabled_if() {
-        return this.dirty_story || this.dirty_info ? "disabled" : "";
+        return this.dirty_info ? "disabled" : "";
     }
 
     set_displayed_stories() {

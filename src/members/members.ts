@@ -3,7 +3,7 @@ import { User } from "../services/user";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
 
-@autoinject() 
+@autoinject()
 export class Members {
 
     filter = "";
@@ -29,18 +29,20 @@ export class Members {
     created() {
         return this.memberList.getMemberList().then(members => {
             this.members = members.member_list;
+            console.log("members created. length: ", this.members.length);
         })
-      }
-        
+    }
+
     select(member) {
+
         this.selectedId = member.id;
         return true;
     }
 
     member_added(member_details) {
         //todo: experiments
-        console.log("member added");
-        this.members = this.members.splice(0, 0, {name: member_details.name, gender: member_details.gender, id: member_details.id});
+        console.log("member added ", member_details);
+        this.members = this.members.splice(0, 0, { name: member_details.name, gender: member_details.gender, id: member_details.id });
     }
 
 }

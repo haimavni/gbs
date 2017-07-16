@@ -79,19 +79,16 @@ export class MemberEdit {
         } else {
             data['member_id'] = this.member.member_info.id;
         }
-        if (this.dirty_story) {
-            let story_info = { story_id: this.member.member_info.story_id, story_text: this.member.story_info.story_text.replace(/\&/g, '~1').replace(/;/g, '~2') }
-            data['story_info'] = story_info;
-        }
-        let new_member = this.member.member_info.id == 'new';
-        console.log("new member? ", new_member, " member: ", this.member);
+        let id = this.member.member_info.id;
+        console.log("id. new member? ", id, " member: ", this.member);
         this.api.call_server_post('members/save_member_info', data)
             .then(response => {
                 this.member_info_orig = deepClone(this.member.member_info);
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = deepClone(this.member);
-                let msg = new_member ? 'NewMemberAdded' : 'MemberDetailsUpdated';
+                let msg = id ? 'NewMemberAdded' : 'MemberDetailsUpdated';
+                console.log("msg: ", msg, " member: ", this.member)
                 this.eventAggregator.publish(msg, this.member.member_info);
             });
     }
@@ -120,7 +117,7 @@ export class MemberEdit {
             console.log("found father. response: ", response, " member id: ", response.output.member_id);
             this.member.member_info.father_id = response.output.member_id;
             if (response.output.new_member) {
-                this.memberList.member_added(response.output.member_id, response.output.new_member);
+                this.memberList.member_added(response.output.new_member);
             }
             this.member.member_info = deepClone(this.member.member_info);
             let father = this.get_member_data(this.member.member_info.father_id);
@@ -136,7 +133,7 @@ export class MemberEdit {
             console.log("found mother. response: ", response, " member id: ", response.output.member_id);
             this.member.member_info.mother_id = response.output.member_id;
             if (response.output.new_member) {
-                this.memberList.member_added(response.output.member_id, response.output.new_member);
+                this.memberList.member_added(response.output.new_member);
             }
             this.member.member_info = deepClone(this.member.member_info);
             let mother = this.get_member_data(this.member.member_info.mother_id);
@@ -145,6 +142,7 @@ export class MemberEdit {
     }
 
     get_member_data(member_id) {
+        console.log(" before candidates. this.memberList: ", this.memberList);
         let candidates = this.memberList.members.member_list.filter(member => member.id == member_id);
         if (candidates) {
             return candidates[0]
@@ -155,7 +153,7 @@ export class MemberEdit {
     }
 
     try_delete(member_id) {
-        console.log('deleting ', member_id);
+        console.log('deleting not ready', member_id);
     }
 
     setup(modalContainer: Element, modalOverlay: Element) {

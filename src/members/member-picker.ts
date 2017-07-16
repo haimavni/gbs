@@ -74,9 +74,8 @@ export class MemberPicker {
 
     create_new_member() {
         if (this.gender) {
-            let parent_id;
             this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name }).then(response => {
-                this.dialogController.ok({ member_id: response.member_id, new_member: response.member })
+                this.dialogController.ok({member_id: response.member_id, new_member: response.member});
             })
         } else {
             this.router.navigateToRoute('member-details', { id: 'new' });

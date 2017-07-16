@@ -9,18 +9,17 @@ import environment from '../environment';
 export class MemberList {
 
     eventAggregator;
-    members = [];
+    members = { member_list: null };
     api;
 
     constructor(eventAggregator, api) {
         this.eventAggregator = eventAggregator;
         this.api = api;
-        this.members = null;
         this.eventAggregator.subscribe('MemberDetailsUpdated', member_details => {
             this.update_member_details(member_details.id, member_details);
         });
-        this.eventAggregator.subscribe('NewMemberAdded', member_details => {
-            this.member_added(member_details.id, member_details);
+        this.eventAggregator.subscribe('NewMemberAdded', member => {
+            this.member_added(member);
         });
 
 
@@ -30,14 +29,14 @@ export class MemberList {
     }
 
     getMemberList(refresh: boolean = false) {
-        if (this.members && !refresh) {
+        if (this.members.member_list && !refresh) {
             return new Promise(resolve => {
                 resolve(this.members)
             })
         } else {
             return this.api.getMemberList().then(members => {
-                this.members = members;
-                return members;
+                this.members.member_list = members.member_list;
+                return this.members;
             })
         }
     }
@@ -63,12 +62,12 @@ export class MemberList {
             });
     }
 
-    member_added(member_id: number, member_info: any) {
-        //todo: experiments
-        console.log("adding member ", member_id, ': ", member_info');
-        this.members = this.members.splice(0, 0, { name: member_info.name, gender: member_info.gender, id: member_id });
+    member_added(new_member: any) {
+        console.log("adding member ", new_member, " this.members.length: ", this.members.member_list.length);
+        let new_list_item = { name: new_member.name, facePhotoURL: new_member.facePhotoURL, gender: new_member.member_info.gender, id: new_member.member_info.id };
+        this.members.member_list.splice(0, 0, new_list_item);
+        console.log("after splicing, length of mem list: ", this.members.member_list.length);
     }
-
 
     set_profile_photo(member_id, face_photo_url) {
         this.get_member_by_id(member_id)
