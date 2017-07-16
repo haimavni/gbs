@@ -73,7 +73,7 @@ export class MemberEdit {
     }
 
     save_edited_data() {
-        let data = {user_id: this.user.id};
+        let data = { user_id: this.user.id };
         if (this.dirty_info) {
             data['member_info'] = this.member.member_info;
         } else {
@@ -113,9 +113,15 @@ export class MemberEdit {
     }
 
     find_father() {
-        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'M' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
-
+        this.dialog.open({
+            viewModel: MemberPicker, model: { gender: 'M', child_name: this.member.member_info.full_name }, lock: false,
+            position: this.setup, rejectOnCancel: true
+        }).whenClosed(response => {
+            console.log("found father. response: ", response, " member id: ", response.output.member_id);
             this.member.member_info.father_id = response.output.member_id;
+            if (response.output.new_member) {
+                this.memberList.member_added(response.output.member_id, response.output.new_member);
+            }
             this.member.member_info = deepClone(this.member.member_info);
             let father = this.get_member_data(this.member.member_info.father_id);
             this.eventAggregator.publish('ParentFound', father);
@@ -123,8 +129,15 @@ export class MemberEdit {
     }
 
     find_mother() {
-        this.dialog.open({ viewModel: MemberPicker, model: { gender: 'F' }, lock: false, position: this.setup, rejectOnCancel: true }).whenClosed(response => {
+        this.dialog.open({
+            viewModel: MemberPicker, model: { gender: 'F', child_name: this.member.member_info.full_name }, lock: false,
+            position: this.setup, rejectOnCancel: true
+        }).whenClosed(response => {
+            console.log("found mother. response: ", response, " member id: ", response.output.member_id);
             this.member.member_info.mother_id = response.output.member_id;
+            if (response.output.new_member) {
+                this.memberList.member_added(response.output.member_id, response.output.new_member);
+            }
             this.member.member_info = deepClone(this.member.member_info);
             let mother = this.get_member_data(this.member.member_info.mother_id);
             this.eventAggregator.publish('ParentFound', mother);

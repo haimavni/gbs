@@ -4,6 +4,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
 import { DialogController } from 'aurelia-dialog';
 import { Router } from 'aurelia-router';
+import { MemberGateway } from '../services/gateway';
 
 @autoinject()
 export class MemberPicker {
@@ -20,8 +21,10 @@ export class MemberPicker {
     make_profile_photo = false;
     router;
     candidates = [];
+    api;
+    child_name;
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router) {
+    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway) {
         this.user = user;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
@@ -31,6 +34,7 @@ export class MemberPicker {
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.dialogController = dialogController;
         this.router = router;
+        this.api = api;
     }
 
     created() {
@@ -46,8 +50,9 @@ export class MemberPicker {
 
     activate(model) {
         this.gender = model.gender;
+        this.child_name = model.child_name;
         this.face_identifier = model.face_identifier;
-        this.candidates = model.candidates;
+        this.candidates = model.candidates ? model.candidates : [];
         /*this.filter = this.memberList.member_name(model.member_id)*/
         this.memberList.get_member_by_id(model.member_id)
             .then(result => this.filter = result.name)
@@ -63,14 +68,20 @@ export class MemberPicker {
     }
 
     select(member) {
-        console.log("selected member ${member.id}");
+        console.log("selected member ",  member.id);
         this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
     }
 
     create_new_member() {
-        //wrong! just create on the server and append to member list.
-        this.router.navigateToRoute('member-details', { id: 'new' });
-        this.dialogController.ok();
+        if (this.gender) {
+            let parent_id;
+            this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name }).then(response => {
+                this.dialogController.ok({ member_id: response.member_id, new_member: response.member })
+            })
+        } else {
+            this.router.navigateToRoute('member-details', { id: 'new' });
+            this.dialogController.ok();
+        }
     }
 
 }
