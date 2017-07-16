@@ -1,11 +1,11 @@
 <template>
-    <section class="container content-area">
+    <section class="container content-area" style="height: ${win_height-600}px;">
         <div class="row" style="margin-top:30px">
             <div style="background-color:rgba(120, 120, 120, 0.3);height:75px;padding-top:5px;padding-right:15px;">
                 <h1 dir="rtl"> ${"photos.photos-store" | t}</h1>
             </div>
         </div>
-        <div class="row content-area" style="min-height:760px;width:100%;margin-top:20px;" dir="rtl">
+        <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
             <div class="row">
                 <div class="col-md-1">
                     <input type="range" id="range" min="4" max="32" step="1" change.trigger="slider_changed()" value.bind="photos_per_line" />

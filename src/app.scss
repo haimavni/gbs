@@ -21,7 +21,7 @@ body{
 .top-head {
     background-image: url("/gbs/static/images/top-background.png"),url("./src/images/top-background.png") ;
     background-repeat: no-repeat;
-    min-height:500px;
+    //height: 400px;
 }
 
 .content-area {
@@ -160,17 +160,35 @@ ux-dialog-overlay.active {
     margin-left:0px;
 }
 
+ux-dialog {
+    background-color: beige;
+    ux-dialog-header {
+        background-color: bisque;
+    }
+}
+
 ux-dialog-container.active {
     margin-left: auto;
     margin-right: auto;
     opacity: 1.0;
+    > div {
+        background-color:rgba(0,0,0,0) !important;
+        margin-top: 60px !important;
+        height: initial !important;
+        width: 600px !important;
+        margin-bottom: auto !important;
+    }
+}
+
+ux-dialog>ux-dialog-header>button {
+    display: none !important;
 }
 
 div.member-list {
-    min-height:1000px;
+    //min-height:1000px;
     width:900px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 div.member-list li {
     background-color: rgba(0,0,0,0);

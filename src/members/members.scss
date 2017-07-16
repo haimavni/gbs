@@ -1,4 +1,27 @@
 
+//members
+div.member-list.content-area li.list-group-item {
+    width: 110px;
+    float: right;
+    min-height: 120px;
+    font-size: 9px;
+    vertical-align: text-bottom;
+    background-color:rgba(0,0,0,0);
+    a {
+         vertical-align: text-bottom;
+         align-content: center;
+         border: none;
+         img {
+             width: 70px;
+             height: 70px;
+             border-radius: 50%;
+         }
+         h6 {
+             text-align: center;
+         }
+    }
+}
+
 //member detail
 
 div.slide-list {

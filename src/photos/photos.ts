@@ -15,6 +15,8 @@ export class Photos {
     api;
     user;
     dialog;
+    win_width;
+    win_height;
     params = {
         selected_topics: [],
         //selected_photographers: [],
@@ -55,6 +57,12 @@ export class Photos {
                 console.log("topic list ", this.topic_list)
             });
         this.update_photo_list();
+    }
+
+    attached() {
+        this.win_height = window.outerHeight;
+        this.win_width = window.outerWidth;
+        console.log("width, height: ", this.win_width, this.win_height);
     }
 
     update_photo_list() {
