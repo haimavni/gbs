@@ -2,8 +2,8 @@
     <require from='./photo-strip.css'></require>
     <require from='./chunk'></require>
     <div class="row slides-list" style="height: ${height}px;width: ${width};margin-left:auto;margin-right:auto;">
-        <a repeat.for="slide of slides" click.trigger="photo_clicked(slide)" interact-draggable interact-dragend.delegate="shift_photos(slide, $event)" style="float:right;">
-                 <img src="${slide.src}" height="${height}" />
+        <a repeat.for="slide of slides" interact-draggable interact-dragend.delegate="shift_photos(slide, $event)" style="float:right;">
+                 <img src="${slide.src}" height="${height}" /> <!--width="${slide.wid}" /-->
             </a>
     </div>
 
