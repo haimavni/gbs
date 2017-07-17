@@ -40,6 +40,9 @@ export class StoryWindow {
     }
 
     save() {
+        if (! this.dirty_story) {
+            return;
+        }
         let data = { user_id: this.user.id };
         console.log("saving this story: ", this.story);
         data['story_info'] = this.story;

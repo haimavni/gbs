@@ -62,7 +62,6 @@ export class Photos {
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
-        console.log("width, height: ", this.win_width, this.win_height);
     }
 
     update_photo_list() {

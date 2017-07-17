@@ -24,7 +24,7 @@ body{
     //height: 400px;
 }
 
-.content-area {
+#router-view {
     background-image: url("/gbs/static/images/content-background.png"),url("./src/images/content-background.png") ;
     background-repeat: no-repeat;
 }
@@ -33,8 +33,10 @@ body{
     background-image: url("/gbs/static/images/footer-background.png"),url("./src/images/footer-background.png") ;
     background-repeat: no-repeat;
     min-height:117px;
-    margin-left:auto;
-    margin-right:auto;
+    //margin-left:auto;
+    //margin-right:auto;
+    margin:0;
+    margin-left: -16px;
     width:1170px;
 }
 
@@ -137,6 +139,10 @@ body {
 ux-dialog-overlay.active {
     background-color: black;
     opacity: .5;
+}
+
+ux-dialog-footer>button {
+    min-width: 90px;
 }
 
 .full {
