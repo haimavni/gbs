@@ -4,7 +4,7 @@ import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
 export class PhotoStripCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable ({ defaultBindingMode: bindingMode.twoWay }) displayed_slides = [];
-    @bindable height = 600;
+    @bindable height = 300;
     first_slide = 0;
     element;
     width;
@@ -25,19 +25,12 @@ export class PhotoStripCustomElement {
     }
 
     next_slide() { //we are right to left...
+        this.first_slide += 1;
+        this.slides = this.slides.slice(0);
         let slides = this.slides;
         let slide = slides.shift();
         slides.push(slide);
-        this.slides = slides;
-    }
-
-    created() {
-        console.log("created photo strip");
-      /*  window.setTimeout(
-            () => {
-                this.displayed_slides = this.slides.slice(0, 8);
-            }, 5000);*/
-        console.log("lst ", this.displayed_slides);
+        this.slides = slides; 
     }
 
     attached() {
@@ -45,11 +38,15 @@ export class PhotoStripCustomElement {
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
+        this.width = elementRect.Width;
         console.log("elementRect: ", elementRect)
         this.displayed_slides = this.slides.slice(0, 8);
     }
 
     prev_slide() {
+        if (this.first_slide > 0) {
+            this.first_slide -= 1;
+        }
         let slides = this.slides;
         slides.reverse();
         let slide = slides.shift();
@@ -60,12 +57,3 @@ export class PhotoStripCustomElement {
 
 }
 
-export class PhotoChunksValueConverter {
-  toView(array, base=0, max=4, ...properties) {
-    if (!array) {
-      return [];
-    }
-    let arr = array.slice(base, base + max);
-    return arr;
-  }
-}
