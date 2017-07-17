@@ -1,0 +1,9 @@
+<template>
+    <require from='./photo-strip.css'></require>
+    <div class="row slide-list" style="height: ${height}">
+        <a repeat.for="slide of slides" click.trigger="photo_clicked(slide)" interact-draggable interact-dragend.delegate="shift_photos(slide, $event)">
+                 <img class="slide-photoxxx" src="${slide.src}" height="${height}" />
+            </a>
+    </div>
+
+</template>
