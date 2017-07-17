@@ -26,6 +26,7 @@ export class MemberDetail {
     content_area_height = 300;
     stories_base = 0;
     story_0; story_1; story_2; story_3; story_4;
+    life_summary;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -39,6 +40,7 @@ export class MemberDetail {
         this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
+        this.life_summary = this.i18n.tr('members.life-summary');
     }
 
     @computedFrom('dirty_info')
@@ -58,18 +60,9 @@ export class MemberDetail {
         return this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
                 this.member = member;
+                this.member.member_stories[0].topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 this.set_displayed_stories();
             });
-    }
-
-    attached() {
-        //todo: experiment...
-        let body = document.getElementById("body");
-        if (body) {
-            this.content_area_height = body.clientHeight - 330;
-        } else {
-            this.content_area_height = 280;
-        }
     }
 
     detached() {
@@ -94,7 +87,7 @@ export class MemberDetail {
 
     shift_photos(slide, customEvent: CustomEvent) {
         let event = customEvent.detail;
-        if (event.dx*event.dx <= event.dy*event.dy) {
+        if (event.dx * event.dx <= event.dy * event.dy) {
             this.photo_clicked(slide); //attempt to enable zoom on tablets.
         }
         customEvent.stopPropagation();
@@ -153,22 +146,29 @@ export class MemberDetail {
     }
 
     story(idx) {
-        if (idx >= this.member.member_stories.length) {
-            return { name: "", story_text: "" }
+        let n = this.member.member_stories.length;
+        let i;
+        if (n <= 5) {
+            i = idx
+        } else {
+            i = (n + this.stories_base + idx) % n;
         }
-        let i = (this.member.member_stories.length + this.stories_base + idx) % this.member.member_stories.length;
-        console.log("idx=" + idx + " i= " + i);
-        let rec = this.member.member_stories[i];
-        rec.name = rec.name ? rec.name : ""
-        return rec
+        if (i < n) {
+            let rec = this.member.member_stories[i];
+            rec.name = rec.name ? rec.name : ""
+            return rec
+        } else {
+            return {name: "", story_text: ""}
+        }
+        
     }
 
     zoom_out(story, what) {
         console.log("zoom out what ", what);
-        this.dialog.open({ viewModel: StoryWindow, model: { story: story,  edit: what=='edit'}, lock: what=='edit' }).whenClosed(response => {
+        this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
             console.log("response after edit dialog: ", response.output);
         });
-        
+
     }
 
 }
