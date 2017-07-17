@@ -25,7 +25,7 @@ export class MemberDetail {
     dirty_story = false;
     content_area_height = 300;
     stories_base = 0;
-    story_0; story_1; story_2; story_3;
+    story_0; story_1; story_2; story_3; story_4;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -51,6 +51,7 @@ export class MemberDetail {
         this.story_1 = this.story(1);
         this.story_2 = this.story(2);
         this.story_3 = this.story(3);
+        this.story_4 = this.story(4);
     }
 
     activate(params, config) {
