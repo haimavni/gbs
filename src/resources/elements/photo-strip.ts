@@ -7,6 +7,7 @@ export class PhotoStripCustomElement {
     first_slide = 0;
     element;
     width;
+    modified_slide = null;
 
     constructor(element) {
         console.log("in photo-strip. construction");
@@ -16,34 +17,29 @@ export class PhotoStripCustomElement {
     shift_photos(slide, customEvent: CustomEvent) {
         let event = customEvent.detail;
         customEvent.stopPropagation();
-        if (event.dx < 0) {
+        if (event.dy * event.dy > event.dx * event.dx) {
+            this.height += event.dy;
+        } else if (event.dx < 0) {
             this.prev_slide();
         } else {
             this.next_slide();
         }
     }
 
-    attached() {
-        console.log('attached. element: ', this.element, ' width ', this.element.innerWidth);
-        const elementRect = this.element.getBoundingClientRect();
-        const left = elementRect.left + window.scrollX;
-        let top = elementRect.top + elementRect.height;
-        this.width = elementRect.width;
-        console.log("elementRect: ", elementRect);
-        //this.adjust_side_photos();
-    }
-
     next_slide() { //we are right to left...
+        window.setTimeout(() => this.restore_modified_slide(), 50);
         this.first_slide += 1;
         this.slides = this.slides.slice(0);
         let slides = this.slides;
         let slide = slides.shift();
         slides.push(slide);
         this.slides = slides;
-        this.adjust_side_photos()
+        window.setTimeout(() => this.adjust_side_photos(), 50);
     }
 
     prev_slide() {
+        window.setTimeout(
+            this.restore_modified_slide(), 50);
         if (this.first_slide > 0) {
             this.first_slide -= 1;
         }
@@ -53,29 +49,52 @@ export class PhotoStripCustomElement {
         slides.push(slide);
         slides.reverse();
         this.slides = slides;
-        this.adjust_side_photos();
+        window.setTimeout(this.adjust_side_photos(), 50);
+    }
+
+    attached() {
+        console.log('attached. element: ', this.element, ' width ', this.element.innerWidth);
+        const elementRect = this.element.getBoundingClientRect();
+        const left = elementRect.left + window.scrollX;
+        let top = elementRect.top + elementRect.height;
+        this.width = elementRect.width;
+        console.log("elementRect: ", elementRect);
+        window.setTimeout(() => this.next_slide(), 50);
+        //this.adjust_side_photos();
     }
 
     adjust_side_photos() {
-        let i = 0;
         let total_width = 0;
         for (let slide of this.slides) {
-            let w = slide.width;
-            let h = slide.height;
-            let r = this.height / h;
-            let w1 = Math.round(w * r);
-            slide.wid = w1;
-            console.log("w, h, r, w1, total_width, this.width: ", w, h, r, w1, total_width, this.width);
+            if (!slide) {
+                continue;
+            }
+            let img = document.getElementById('img-' + slide.photo_id);
+            let r = this.height / slide.height;
             let gap = this.width - total_width;
-            total_width += w1;
+            let w = Math.round(r * slide.width);
+            total_width += w;
             if (total_width > this.width) {
-                slide.wid = gap;
-                break;
+                //document.getElementById('img-' + slide.photo_id).style.width = gap + "px";
+                console.log("gap: ", gap);
+                window.setTimeout(() => document.getElementById('img-' + slide.photo_id).style.width = gap + "px", 50);
+                this.modified_slide = slide;
+                return;
+            } else {
+                console.log("calculated photo width: ", w, " total_width: ", total_width);
+                document.getElementById('img-' + slide.photo_id).style.width = "${w}px";
             }
-            if (i > 10) {
-                break;
-            }
-            i += 1;
+        }
+    }
+
+    restore_modified_slide() {
+        let slide = this.modified_slide;
+
+        if (slide) {
+            let r = this.height / slide.height;
+            let w = Math.round(r * slide.width);
+            document.getElementById('img-' + this.modified_slide.photo_id).style.width = "${w}px";
+            this.modified_slide = null;
         }
     }
 

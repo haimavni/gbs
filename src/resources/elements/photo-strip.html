@@ -3,7 +3,7 @@
     <require from='./chunk'></require>
     <div class="row slides-list" style="height: ${height}px;width: ${width};margin-left:auto;margin-right:auto;">
         <a repeat.for="slide of slides" interact-draggable interact-dragend.delegate="shift_photos(slide, $event)" style="float:right;">
-                 <img src="${slide.src}" height="${height}" /> <!--width="${slide.wid}" /-->
+                 <img id="img-${slide.photo_id}" src="${slide.src}" height="${height}" style="width:initial;" />
             </a>
     </div>
 
