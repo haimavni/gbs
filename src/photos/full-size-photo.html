@@ -5,7 +5,7 @@
             <button class="highlighter" click.delegate="toggle_highlighting($event)"></button>
             <button dir="rtl" class="face" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable
                 interact-dragmove.delegate="dragmove(face, $event)" interact-dragstart.delegate="dragstart(face, $event)" interact-dragend.delegate="dragend(face, $event)"
-                style.bind="face_location(face)" title.bind="face.name"><span class="highlighted" if.bind="highlighting">${face.name}</span>
+                style.bind="face_location(face)" aubs-tooltip="text.bind:face.name"><span class="highlighted" if.bind="highlighting">${face.name}</span>
             </button>
         </div>
     </div>

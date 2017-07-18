@@ -32,6 +32,7 @@ export function configure(aurelia: Aurelia) {
       config.settings.startingZIndex = 5;
     })
     .plugin('aurelia-interactjs')
+    .plugin('aurelia-bootstrap')
     .feature('resources');
 
   aurelia.use.globalResources('./services/user');

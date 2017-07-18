@@ -199,6 +199,16 @@
                         "name": "aurelia-interactjs",
                         "path": "../node_modules/aurelia-interactjs/dist/amd",
                         "main": "index"
+                    },
+                    "velocity-animate",
+                    "tether",
+                    {
+                        "name": "aurelia-bootstrap",
+                        "path": "../node_modules/aurelia-bootstrap/dist/amd",
+                        "main": "index",
+                        "resources": [
+                            "**/*.html"
+                        ]
                     }
                 ]
             }
