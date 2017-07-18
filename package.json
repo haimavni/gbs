@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "aurelia-animator-css": "^1.0.1",
+    "aurelia-bootstrap": "^0.1.20",
     "aurelia-bootstrapper": "^2.1.0",
     "aurelia-dialog": "^1.0.0-rc.1.0.3",
     "aurelia-fetch-client": "^1.1.2",
@@ -23,7 +24,9 @@
     "i18next-xhr-backend": "^1.4.1",
     "jquery": "^3.2.1",
     "requirejs": "^2.3.2",
-    "text": "github:requirejs/text#latest"
+    "tether": "^1.4.0",
+    "text": "github:requirejs/text#latest",
+    "velocity-animate": "^1.5.0"
   },
   "peerDependencies": {},
   "devDependencies": {
