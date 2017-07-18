@@ -5,6 +5,7 @@ export class PhotoStripCustomElement {
     @bindable source;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable height = 300;
+    @bindable action = null;
     first_slide = 0;
     element;
     width;
@@ -76,7 +77,6 @@ export class PhotoStripCustomElement {
             let r = this.height / slide.height;
             let gap = this.width - total_width;
             let w = Math.round(r * slide.width);
-            let w0 = img.style.width;
             img.style.width = w + "px";
 
             total_width += w;
@@ -101,6 +101,12 @@ export class PhotoStripCustomElement {
             let w = Math.round(r * slide.width);
             document.getElementById('img-' + this.modified_slide.photo_id).style.width = "${w}px";
             this.modified_slide = null;
+        }
+    }
+
+    on_click(slide, event) {
+        if (this.action) {
+            this.action(slide, event);
         }
     }
 

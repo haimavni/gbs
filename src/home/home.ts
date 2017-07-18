@@ -12,4 +12,8 @@ export class Home {
         this.photo_list = this.api.call_server_post('members/get_photo_list');
     }
 
+    action(slide, event) {
+        alert("slide #" + slide.photo_id);
+    }
+
 }
