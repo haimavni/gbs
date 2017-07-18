@@ -34,6 +34,7 @@ export class PhotoStripCustomElement {
         customEvent.stopPropagation();
         if (event.dy * event.dy > event.dx * event.dx) {
             this.height += event.dy;
+            this.calculate_widths();
         } else if (event.dx < 0) {
             this.prev_slide();
         } else {
@@ -64,7 +65,8 @@ export class PhotoStripCustomElement {
         slides.push(slide);
         slides.reverse();
         this.slides = slides;
-        window.setTimeout(this.adjust_side_photos(), 50);
+        this.calculate_widths();
+        this.adjust_side_photos();
     }
 
     adjust_side_photos() {
@@ -90,6 +92,17 @@ export class PhotoStripCustomElement {
                 console.log("calculated photo width: ", w, " total_width: ", total_width);
                 document.getElementById('img-' + slide.photo_id).style.width = "${w}px";
             }
+        }
+    }
+
+    calculate_widths() {
+        for (let slide of this.slides) {
+            if (!slide) {
+                continue;
+            }
+            let r = this.height / slide.height;
+            let w = Math.round(r * slide.width);
+            document.getElementById('img-' + slide.photo_id).style.width = w + "px";
         }
     }
 

@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="member-list" style="max-width: 600px;max-height:400px;">
+    <div class="member-list" style="max-width: 600px;height:400px;">
         <div style="padding-right:75px;">
             <ul class="list-group">
                 <li repeat.for="member of members | filter : filter : 32 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"

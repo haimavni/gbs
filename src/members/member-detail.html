@@ -118,7 +118,7 @@
                 </div>
             </div>
             <div class="row fr-view" if.bind="! user.editing" interact-draggable interact-dragend.delegate="shift_stories($event)" dir="rtl">
-                <div class="col-md-3" if.bind="story_4.story_text != ''">
+                <div class="col-md-3" show.bind="story_4.story_text != ''" style="float:right;">
                     <h4 show.bind="story_4.name" dir="rtl">
                         <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_4, 'show')">&nbsp;</i>
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_4, 'edit')">&nbsp;</i>                        
@@ -129,7 +129,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-3" if.bind="story_3.story_text != ''">
+                <div class="col-md-3" show.bind="story_3.story_text != ''" style="float:right;">
                     <h4 show.bind="story_3.name" dir="rtl">
                         <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_3, 'show')">&nbsp;</i>
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_3, 'edit')">&nbsp;</i>                        
@@ -140,7 +140,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-3" if.bind="story_2.story_text != ''">
+                <div class="col-md-3" show.bind="story_2.story_text != ''" style="float:right;">
                     <h4 show.bind="story_2.name" dir="rtl">
                         <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_2, 'show')">&nbsp;&nbsp;</i>
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_2, 'edit')">&nbsp;</i>                        
@@ -151,7 +151,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-3" if.bind="story_1.story_text != '' || user.privileges.EDITOR">
+                <div class="col-md-3" show.bind="story_1.story_text != '' || user.privileges.EDITOR" style="float:right;">
                     <h4 show.bind="story_1.name" dir="rtl">
                         <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_1, 'show')">&nbsp;&nbsp;</i>
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_1, 'edit')">&nbsp;</i>                        

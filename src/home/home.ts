@@ -13,7 +13,7 @@ export class Home {
     }
 
     action(slide, event) {
-        alert("slide #" + slide.photo_id);
+        console.log(" action on slide: ", slide, " event: ", event);
     }
 
 }

@@ -3,7 +3,7 @@ $list-group-border:none;
 $list-group-bg: #eeeeee;
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 .navbar-centered {
-    width: 1200px;
+    width: 1170px;
 }
 @import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 
@@ -137,7 +137,7 @@ body {
 }
 
 ux-dialog-overlay.active {
-    background-color: black;
+    background-color: lightgray;
     opacity: .5;
 }
 
@@ -177,12 +177,17 @@ ux-dialog-container.active {
     margin-left: auto;
     margin-right: auto;
     opacity: 1.0;
-    > div {
-        background-color:rgba(0,0,0,0) !important;
+    > divxxx {
+        background-color: lightgray;
+        //background-color:rgba(0,0,0,0) !important;
         margin-top: 60px !important;
         height: initial !important;
         width: 600px !important;
+        height:600px; !important;
         margin-bottom: auto !important;
+        > div {
+            height:600px; !important;
+        }
     }
 }
 
@@ -197,5 +202,5 @@ div.member-list {
     margin-right: auto;
 }
 div.member-list li {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(100,100,100,100);
 }
