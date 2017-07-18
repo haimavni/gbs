@@ -2,6 +2,7 @@ import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
 
 @inject(DOM.Element)
 export class PhotoStripCustomElement {
+    @bindable source;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable height = 300;
     first_slide = 0;
@@ -12,6 +13,19 @@ export class PhotoStripCustomElement {
     constructor(element) {
         console.log("in photo-strip. construction");
         this.element = element;
+    }
+
+    attached() {
+        console.log('attached. element: ', this.element, ' width ', this.element.innerWidth);
+        const elementRect = this.element.getBoundingClientRect();
+        const left = elementRect.left + window.scrollX;
+        let top = elementRect.top + elementRect.height;
+        this.width = elementRect.width;
+        console.log("elementRect: ", elementRect);
+        this.source.then(result => {
+            this.slides = result.photo_list;
+            this.next_slide();
+        });
     }
 
     shift_photos(slide, customEvent: CustomEvent) {
@@ -52,17 +66,6 @@ export class PhotoStripCustomElement {
         window.setTimeout(this.adjust_side_photos(), 50);
     }
 
-    attached() {
-        console.log('attached. element: ', this.element, ' width ', this.element.innerWidth);
-        const elementRect = this.element.getBoundingClientRect();
-        const left = elementRect.left + window.scrollX;
-        let top = elementRect.top + elementRect.height;
-        this.width = elementRect.width;
-        console.log("elementRect: ", elementRect);
-        window.setTimeout(() => this.next_slide(), 50);
-        //this.adjust_side_photos();
-    }
-
     adjust_side_photos() {
         let total_width = 0;
         for (let slide of this.slides) {
@@ -73,6 +76,9 @@ export class PhotoStripCustomElement {
             let r = this.height / slide.height;
             let gap = this.width - total_width;
             let w = Math.round(r * slide.width);
+            let w0 = img.style.width;
+            img.style.width = w + "px";
+
             total_width += w;
             if (total_width > this.width) {
                 //document.getElementById('img-' + slide.photo_id).style.width = gap + "px";
