@@ -19,7 +19,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" id="photos-container" style="height:560px;overflow:auto;">
+                    <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;">
                         <a repeat.for="photo of photo_list | filter : filter : 9999 : 'title'" click.trigger="photo_clicked(photo, $event)" 
                             aubs-tooltip="text.bind:photo.title" class.bind="photo.selected">
                             <img src="${photo.square_src}" width="${photo_size}" height="${photo_size}" style="margin:0;" />

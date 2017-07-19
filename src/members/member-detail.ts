@@ -27,6 +27,7 @@ export class MemberDetail {
     stories_base = 0;
     story_0; story_1; story_2; story_3; story_4;
     life_summary;
+    stories_scroll: boolean;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -49,6 +50,7 @@ export class MemberDetail {
     }
 
     set_displayed_stories() {
+        this.stories_scroll = true || (this.member.member_stories.length > 5);
         this.story_0 = this.story(0);
         this.story_1 = this.story(1);
         this.story_2 = this.story(2);
@@ -96,6 +98,13 @@ export class MemberDetail {
         } else {
             this.next_slide();
         }
+    }
+
+    next_story(event, dir = 1) {
+        event.stopPropagation();
+        this.stories_base += dir;
+        this.stories_base = (this.stories_base + this.member.member_stories.length) % this.member.member_stories.length;
+        this.set_displayed_stories();
     }
 
     shift_stories(customEvent: CustomEvent) {
@@ -158,9 +167,9 @@ export class MemberDetail {
             rec.name = rec.name ? rec.name : ""
             return rec
         } else {
-            return {name: "", story_text: ""}
+            return { name: "", story_text: "" }
         }
-        
+
     }
 
     zoom_out(story, what) {

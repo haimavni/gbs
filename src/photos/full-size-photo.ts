@@ -55,6 +55,9 @@ export class FullSizePhoto {
         this.api.call_server('members/get_faces', { photo_id: photo_id })
             .then((data) => {
                 this.faces = data.faces;
+                for (let face of this.faces) {
+                    face.name = '<span dir="rtl">' + face.name + '</i></span>'
+                }
                 this.candidates = data.candidates;
             });
     }
@@ -69,7 +72,7 @@ export class FullSizePhoto {
             height: d + 'px',
             'background-color': face.action ? "rgba(100, 100,0, 0.8)" : "rgba(0, 0, 0, 0)",
             cursor: face.moving ? "move" : "hand",
-            position: 'absolute'
+            position: 'absolute',
         };
     }
 

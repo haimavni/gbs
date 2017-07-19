@@ -49,10 +49,13 @@ ul.family span {
 }
 
 div.story-panel {
-    max-height: 150px;
+    max-height: 130px;
     overflow: auto;
-    border-left: 1px solid gray;
+    border-left: 3px solid darkgray;
     min-height: 200px;
+    p {
+        padding-bottom:12px;
+    }
 }
 
 i.is-link {
@@ -83,3 +86,25 @@ ux-dialog-container.active>div {
     margin-bottom: 200px;
 }
 
+.slide-list .slide-control
+{
+    position: absolute;
+    opacity: 0.31;
+    height: 20%;
+    width: 32px;
+    top: 40%;
+    cursor: pointer;
+}
+.slide-list .slide-control:hover {
+    opacity: 1.0;
+}
+.slide-list .slide-control.next
+{
+    right: 0%;
+    color: white;
+}
+.slide-list .slide-control.prev
+{
+    left: 0%;
+    color: white;
+}

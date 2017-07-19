@@ -6,6 +6,7 @@ export class PhotoStripCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable height = 300;
     @bindable action = null;
+    @bindable settings = {};
     first_slide = 0;
     element;
     width;

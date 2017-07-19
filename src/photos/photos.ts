@@ -5,6 +5,13 @@ import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 
+class Photo {
+    photo_id: number;
+    src: string;
+    title: string;
+    selected: string;
+}
+
 @autoinject
 export class Photos {
     filter = "";
@@ -68,6 +75,9 @@ export class Photos {
         return this.api.call_server_post('members/get_photo_list', this.params)
             .then(result => {
                 this.photo_list = result.photo_list;
+                for (let photo of this.photo_list) {
+                    photo.title = '<span dir="rtl">' + photo.title + '</span>';
+                }
                 if (this.photo_list) {
                     console.log(this.photo_list.length + " photos");
                 } else {
