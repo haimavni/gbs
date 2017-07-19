@@ -5,13 +5,6 @@ import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 
-class Photo {
-    photo_id: number;
-    src: string;
-    title: string;
-    selected: string;
-}
-
 @autoinject
 export class Photos {
     filter = "";
