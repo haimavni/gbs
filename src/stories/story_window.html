@@ -24,7 +24,10 @@
                 <div class="big-story-panel fr-view" if.bind="edit">
                     <froala-editor value.two-way="story.story_text" config.bind="{
                             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
-                                 'emoticons', 'color', 'fontSize', 'html'],
+                                 'color', 'fontSize', 'align', 'html'],
+                                 imageDefaultDisplay: 'inline',
+                                 imageDefaultAlign: 'right',
+                                 charCounterCount: false,
                                  language: 'he', heightMin: 400, heightMax: 400}">
                     </froala-editor>
                 </div>

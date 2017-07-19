@@ -7,10 +7,9 @@ export class PhotoStripCustomElement {
     @bindable source;
     @bindable height = 300;
     @bindable action_key = null;
-    @bindable settings = { height: 300 };
+    @bindable settings = { height: 300, arrows: false, slide_show: 0 };
     @bindable id = 0;
     prev_id;
-    first_slide = 0;
     element;
     width;
     modified_slide = null;
@@ -18,6 +17,7 @@ export class PhotoStripCustomElement {
     vertical = false;
     bindingEngine: BindingEngine;
     subscription;
+    slideShow;
 
     constructor(element, eventAggregator: EventAggregator, bindingEngine) {
         console.log("in photo-strip. construction");
@@ -36,9 +36,15 @@ export class PhotoStripCustomElement {
                 if (this.calculate_widths()) {
                     this.prev_id = this.id;
                 }
-                this.next_slide();
+                this.next_slide(null);
             });
 
+        }
+        if (!this.slideShow) {
+            let n = this.settings.slide_show;
+            if (n) {
+                this.slideShow = setInterval(() => this.prev_slide(null), n * 1000);
+            }
         }
     }
 
@@ -60,26 +66,33 @@ export class PhotoStripCustomElement {
         //this.subscription.dispose();
     }
 
-    shift_photos(slide, customEvent: CustomEvent) {
+    shift_photos(customEvent: CustomEvent) {
         let event = customEvent.detail;
         customEvent.stopPropagation();
+        let stop_slide_show = true;
         this.vertical = false;
         if (event.dy * event.dy > event.dx * event.dx) {
             this.vertical = true;
             this.height += event.dy;
             this.calculate_widths();
             console.log("vertical in shift photos");
+            stop_slide_show = false;
         } else if (event.dx < 0) {
-            this.prev_slide();
+            this.prev_slide(Event);
         } else {
-            this.next_slide();
+            this.next_slide(event);
+        }
+        if (stop_slide_show) {
+            clearInterval(this.slideShow);
         }
         return false;
     }
 
-    next_slide() { //we are right to left...
+    next_slide(event) { //we are right to left...
+        if (event) {
+            clearInterval(this.slideShow);
+        }
         window.setTimeout(() => this.restore_modified_slide(), 50);
-        this.first_slide += 1;
         this.slides = this.slides.slice(0);
         let slides = this.slides;
         let slide = slides.shift();
@@ -88,27 +101,18 @@ export class PhotoStripCustomElement {
         window.setTimeout(() => this.adjust_side_photos(), 50);
     }
 
-    prev_slide() {
+    prev_slide(event) {
         window.setTimeout(
             this.restore_modified_slide(), 50);
-        if (this.first_slide > 0) {
-            this.first_slide -= 1;
-        }
         let slides = this.slides;
-        slides.reverse();
-        let slide = slides.shift();
-        slides.push(slide);
-        slides.reverse();
+        let slide = slides.pop();
+        slides.splice(0, 0, slide);
         this.slides = slides;
         this.calculate_widths();
         this.adjust_side_photos();
     }
 
     adjust_side_photos() {
-        if (this.id != this.prev_id) {  //just to try. move the check elsewhere
-            this.prev_id = this.id;
-            this.ready();
-        }
         let total_width = 0;
         for (let slide of this.slides) {
             if (!slide) {
