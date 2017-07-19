@@ -28,6 +28,8 @@ export class MemberDetail {
     story_0; story_1; story_2; story_3; story_4;
     life_summary;
     stories_scroll: boolean;
+    slides;
+    source;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -39,6 +41,7 @@ export class MemberDetail {
         this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
         this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
+        this.eventAggregator.subscribe('Zoom', payload => {this.openDialog(payload.slide, payload.event)})
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
@@ -50,7 +53,7 @@ export class MemberDetail {
     }
 
     set_displayed_stories() {
-        this.stories_scroll = true || (this.member.member_stories.length > 5);
+        this.stories_scroll = (this.member.member_stories.length > 5);
         this.story_0 = this.story(0);
         this.story_1 = this.story(1);
         this.story_2 = this.story(2);
@@ -59,12 +62,23 @@ export class MemberDetail {
     }
 
     activate(params, config) {
-        return this.api.getMemberDetails({ member_id: params.id })
+        console.log("member details activate");
+        this.source = this.api.call_server_post('members/get_member_photo_list', {member_id: params.id});
+        this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
                 this.member = member;
+                //this.slides = member.slides;
                 this.member.member_stories[0].topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 this.set_displayed_stories();
             });
+    }
+
+    bind() {
+        console.log("member details bind");
+    }
+
+    attched() {
+        console.log("member details dattached");
     }
 
     detached() {
@@ -87,11 +101,8 @@ export class MemberDetail {
         }
     }
 
-    shift_photos(slide, customEvent: CustomEvent) {
+/*    shift_photos(slide, customEvent: CustomEvent) {
         let event = customEvent.detail;
-        if (event.dx * event.dx <= event.dy * event.dy) {
-            this.photo_clicked(slide); //attempt to enable zoom on tablets.
-        }
         customEvent.stopPropagation();
         if (event.dx < 0) {
             this.prev_slide();
@@ -100,7 +111,7 @@ export class MemberDetail {
         }
     }
 
-    next_story(event, dir = 1) {
+*/    next_story(event, dir = 1) {
         event.stopPropagation();
         this.stories_base += dir;
         this.stories_base = (this.stories_base + this.member.member_stories.length) % this.member.member_stories.length;
@@ -110,16 +121,11 @@ export class MemberDetail {
     shift_stories(customEvent: CustomEvent) {
         customEvent.stopPropagation();
         let event = customEvent.detail;
-        if (event.dx > 0) {
-            this.stories_base += 1;
-        } else {
-            this.stories_base -= 1;
-        }
-        this.stories_base = (this.stories_base + this.member.member_stories.length) % this.member.member_stories.length;
-        this.set_displayed_stories();
+        let dir = event.dx < 0 ? 1 : -1;
+        this.next_story(event, dir);
     }
 
-    next_slide() //we are right to left...
+/*    next_slide() //we are right to left...
     {
         let slides = this.member.slides;
         let slide = slides.shift();
@@ -135,15 +141,15 @@ export class MemberDetail {
         slides.reverse();
         this.member.slides = slides;
     }
-
-    private openDialog(slide) {
+*/
+    private openDialog(slide, event) {
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
             console.log(response.output);
         });
     }
 
     photo_clicked(slide) {
-        this.openDialog(slide);
+        this.openDialog(slide, null);
     }
 
     get_profile_photo(member) {

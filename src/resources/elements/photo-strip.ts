@@ -1,46 +1,80 @@
-import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
+import { bindable, inject, DOM, bindingMode, BindingEngine } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
-@inject(DOM.Element)
+@inject(DOM.Element, EventAggregator, BindingEngine)
 export class PhotoStripCustomElement {
-    @bindable source;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
+    @bindable source;
     @bindable height = 300;
-    @bindable action = null;
-    @bindable settings = {};
+    @bindable action_key = null;
+    @bindable settings = { height: 300 };
+    @bindable id = 0;
+    prev_id;
     first_slide = 0;
     element;
     width;
     modified_slide = null;
+    eventAggregator;
+    vertical = false;
+    bindingEngine: BindingEngine;
+    subscription;
 
-    constructor(element) {
+    constructor(element, eventAggregator: EventAggregator, bindingEngine) {
         console.log("in photo-strip. construction");
         this.element = element;
+        this.eventAggregator = eventAggregator;
+        this.bindingEngine = bindingEngine;
+    }
+
+    ready() {
+        if (!this) {
+            return;
+        }
+        if (this.id != this.prev_id) {
+            this.source.then(result => {
+                this.slides = result.photo_list;
+                if (this.calculate_widths()) {
+                    this.prev_id = this.id;
+                }
+                this.next_slide();
+            });
+
+        }
     }
 
     attached() {
-        console.log('attached. element: ', this.element, ' width ', this.element.innerWidth);
+        console.log('photo strip attached. element: ', this.element, ' width ', this.element.innerWidth);
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
         this.width = elementRect.width;
         console.log("elementRect: ", elementRect);
-        this.source.then(result => {
-            this.slides = result.photo_list;
-            this.next_slide();
-        });
+        this.subscription = this.bindingEngine.propertyObserver(this, 'id')
+            .subscribe(this.ready);
+        setInterval(() => this.ready(), 100);
+        this.ready();
+        //this.subscription = this.bindingEngine.collectionObserver(this.slides).subscribe(this.ready);
+    }
+
+    detached() {
+        //this.subscription.dispose();
     }
 
     shift_photos(slide, customEvent: CustomEvent) {
         let event = customEvent.detail;
         customEvent.stopPropagation();
+        this.vertical = false;
         if (event.dy * event.dy > event.dx * event.dx) {
+            this.vertical = true;
             this.height += event.dy;
             this.calculate_widths();
+            console.log("vertical in shift photos");
         } else if (event.dx < 0) {
             this.prev_slide();
         } else {
             this.next_slide();
         }
+        return false;
     }
 
     next_slide() { //we are right to left...
@@ -71,6 +105,10 @@ export class PhotoStripCustomElement {
     }
 
     adjust_side_photos() {
+        if (this.id != this.prev_id) {  //just to try. move the check elsewhere
+            this.prev_id = this.id;
+            this.ready();
+        }
         let total_width = 0;
         for (let slide of this.slides) {
             if (!slide) {
@@ -99,12 +137,18 @@ export class PhotoStripCustomElement {
     calculate_widths() {
         for (let slide of this.slides) {
             if (!slide) {
-                continue;
+                return false;
             }
             let r = this.height / slide.height;
             let w = Math.round(r * slide.width);
-            document.getElementById('img-' + slide.photo_id).style.width = w + "px";
+            let img = document.getElementById('img-' + slide.photo_id);
+            if (img) {
+                img.style.width = w + "px";
+            } else {
+                return false;
+            }
         }
+        return true;
     }
 
     restore_modified_slide() {
@@ -113,14 +157,21 @@ export class PhotoStripCustomElement {
         if (slide) {
             let r = this.height / slide.height;
             let w = Math.round(r * slide.width);
-            document.getElementById('img-' + this.modified_slide.photo_id).style.width = "${w}px";
+            let img = document.getElementById('img-' + this.modified_slide.photo_id);
+            if (img) {
+                img.style.width = "${w}px";
+            }
             this.modified_slide = null;
         }
     }
 
     on_click(slide, event) {
-        if (this.action) {
-            this.action(slide, event);
+        console.log("photo was clicked");
+        if (this.vertical) {
+            return;
+        }
+        if (this.action_key) {
+            this.eventAggregator.publish(this.action_key, { slide: slide, event: event });
         }
     }
 
