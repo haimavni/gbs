@@ -43,7 +43,7 @@ export class PhotoStripCustomElement {
         if (!this.slideShow) {
             let n = this.settings.slide_show;
             if (n) {
-                this.slideShow = setInterval(() => this.prev_slide(null), n * 1000);
+                this.slideShow = setInterval(() => this.next_slide(null), n * 1000);
             }
         }
     }
