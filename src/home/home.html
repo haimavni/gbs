@@ -37,7 +37,7 @@
     </div>
     <div style="height:20px"></div>
     <div class="row member-of-the-day" dir="rtl" style="padding:0;padding-right:16px;">
-        <span style="width:100px;text-align:right;margin-top:20px;" >${member_prefix | t}</span>
+        <span style="width:100px;text-align:right;margin-top:20px;">${member_prefix | t}</span>
         <span style="padding-left:20px;padding-top:6px;"><img src.bind="member_of_the_day.face_photo_url" width="60" style="border-radius:50%;" /></span>
         <span style="border-right:2px solid gray;margin-top:20px;margin-left:16px;padding-right:10px;">${member_of_the_day.name}</span>
         <span if.bind="member_of_the_day.place_of_birth" style="border-right:2px solid gray;margin-top:20px;padding-right:10px;">
@@ -49,7 +49,8 @@
         <span style="margin-top:20px;padding-right:10px;margin-left:16px;border-right:2px solid gray;" if.bind="member_of_the_day.year_of_death">  
             ${died_in | t} ${member_of_the_day.year_of_death}
         </span>
-        <span style="float:left;margin-top:20px;margin-left:16px;padding-right:16px;border-right:2px solid gray;">
+        <span style="float:left;margin-top:20px;margin-left:16px;padding-right:16px;border-right:2px solid gray;cursor:pointer;"
+            click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
             ${'home.to-the-page-of' | t} ${member_of_the_day.name}
         </span>
     </div>
