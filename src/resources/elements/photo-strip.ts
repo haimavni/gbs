@@ -1,6 +1,7 @@
 import { bindable, inject, DOM, bindingMode, BindingEngine } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
+const WAIT = 50;
 @inject(DOM.Element, EventAggregator, BindingEngine)
 export class PhotoStripCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
@@ -93,13 +94,13 @@ export class PhotoStripCustomElement {
         if (event) {
             clearInterval(this.slideShow);
         }
-        window.setTimeout(() => this.restore_modified_slide(), 10);
+        window.setTimeout(() => this.restore_modified_slide(), WAIT);
         this.slides = this.slides.slice(0);
         let slides = this.slides;
         let slide = slides.shift();
         slides.push(slide);
         this.slides = slides;
-        window.setTimeout(() => this.adjust_side_photos(), 10);
+        window.setTimeout(() => this.adjust_side_photos(), WAIT);
     }
 
     prev_slide(event) {
@@ -107,13 +108,13 @@ export class PhotoStripCustomElement {
         if (event) {
             clearInterval(this.slideShow);
         }
-        window.setTimeout(() => this.restore_modified_slide(), 10);
+        window.setTimeout(() => this.restore_modified_slide(), WAIT);
         let slides = this.slides;
         let slide = slides.pop();
         slides.splice(0, 0, slide);
         this.slides = slides;
         //this.calculate_widths();
-        window.setTimeout(() => this.adjust_side_photos(), 10);
+        window.setTimeout(() => this.adjust_side_photos(), WAIT);
         //this.adjust_side_photos();
     }
 
@@ -134,7 +135,7 @@ export class PhotoStripCustomElement {
             if (total_width > this.width) {
                 //document.getElementById('img-' + slide.photo_id).style.width = gap + "px";
                 console.log("gap: ", gap);
-                window.setTimeout(() => document.getElementById('img-' + slide.photo_id).style.width = gap + "px", 50);
+                window.setTimeout(() => document.getElementById('img-' + slide.photo_id).style.width = gap + "px", WAIT);
                 this.modified_slide = slide;
                 return;
             } else {

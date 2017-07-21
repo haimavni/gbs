@@ -32,7 +32,7 @@ export class Home {
             result => {
                 this.message_list = result.message_list;
                 //if (user.privileges.EDITOR && user.editing) {
-                if (true) {
+                if (user.privileges.EDITOR && user.editing) {
                     let name = i18n.tr('home.new-message');
                     this.message_list.splice(0, 0, { story_id: null, name: name });
                 }

@@ -24,7 +24,7 @@ export class App {
     router.title = 'gbstories';
     config.map([
       { route: '', redirect: 'home' },
-      { route: 'home',                                          moduleId: './home/home',          nav: false,  title: '' },
+      { route: 'home',                                          moduleId: './home/home',          nav: true,  title: '' },
       { route: 'terms',                                         moduleId: './terms/terms',        nav: true,   title: 'terms.terms' },
       { route: 'photos',                                        moduleId: './photos/photos',      nav: true,   title: 'photos.photos' },
       { route: 'stories',                                       moduleId: './stories/stories',    nav: true,   title: 'stories.stories' },
