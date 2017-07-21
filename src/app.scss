@@ -1,6 +1,8 @@
 $slide-height: 220px;
 $list-group-border:none; 
 $list-group-bg: #eeeeee;
+$navbar-default-link-active-color: blue;
+$navbar-default-link-active-bg: inherit;
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 .navbar-centered {
     width: 1170px;
@@ -191,8 +193,8 @@ ux-dialog-container.active {
     > div {
         margin-left: auto;
         margin-right: auto;
-        background-color: lightgray;
-        //background-color:rgba(0,0,0,0) !important;
+        //background-color: lightgray;
+        background-color:rgba(0,0,0,0) !important;
         margin-top: 60px !important;
         height: fit-content !important;
         width: fit-content !important;
