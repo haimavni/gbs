@@ -13,11 +13,13 @@ export class Home {
     was_born_in;
     died_in;
     router;
+    stories_sample
 
     constructor(api: MemberGateway, router: Router) {
         console.log("at home. constructor.")
         this.api = api;
         this.photo_list = this.api.call_server_post('members/get_photo_list');
+        this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample=result.stories_sample);
         this.router = router;
     }
 

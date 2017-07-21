@@ -141,8 +141,15 @@ body {
 }
 
 ux-dialog-overlay.active {
-    background-color: lightgray;
+    background-color: black;
     opacity: .5;
+}
+
+ux-dialaog-container {
+    >div {
+        width: fit-content;
+        height: fit-content;
+    }
 }
 
 ux-dialog-footer>button {
@@ -181,17 +188,15 @@ ux-dialog-container.active {
     margin-left: auto;
     margin-right: auto;
     opacity: 1.0;
-    > divxxx {
+    > div {
+        margin-left: auto;
+        margin-right: auto;
         background-color: lightgray;
         //background-color:rgba(0,0,0,0) !important;
         margin-top: 60px !important;
-        height: initial !important;
-        width: 600px !important;
-        height:600px !important;
+        height: fit-content !important;
+        width: fit-content !important;
         margin-bottom: auto !important;
-        > div {
-            height:600px !important;
-        }
     }
 }
 
