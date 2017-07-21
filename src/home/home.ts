@@ -1,6 +1,8 @@
 import { MemberGateway } from '../services/gateway';
 import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
+import { User } from '../services/user';
+import { I18N } from 'aurelia-i18n';
 
 @autoinject
 export class Home {
@@ -13,14 +15,28 @@ export class Home {
     was_born_in;
     died_in;
     router;
-    stories_sample
+    user;
+    stories_sample;
+    message_list;
+    i18n;
 
-    constructor(api: MemberGateway, router: Router) {
+    constructor(api: MemberGateway, router: Router, user: User, i18n: I18N) {
         console.log("at home. constructor.")
         this.api = api;
-        this.photo_list = this.api.call_server_post('members/get_photo_list');
-        this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample=result.stories_sample);
+        this.user = user;
         this.router = router;
+        this.i18n = i18n;
+        this.photo_list = this.api.call_server_post('members/get_photo_list');
+        this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample = result.stories_sample);
+        this.api.call_server_post('members/get_message_list').then(
+            result => {
+                this.message_list = result.message_list;
+                //if (user.privileges.EDITOR && user.editing) {
+                if (true) {
+                    let name = i18n.tr('home.new-message');
+                    this.message_list.splice(0, 0, { story_id: null, name: name });
+                }
+            });
     }
 
     action(slide, event) {

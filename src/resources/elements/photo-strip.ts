@@ -89,33 +89,39 @@ export class PhotoStripCustomElement {
     }
 
     next_slide(event) { //we are right to left...
+        console.log("next slide");
         if (event) {
             clearInterval(this.slideShow);
         }
-        window.setTimeout(() => this.restore_modified_slide(), 50);
+        window.setTimeout(() => this.restore_modified_slide(), 10);
         this.slides = this.slides.slice(0);
         let slides = this.slides;
         let slide = slides.shift();
         slides.push(slide);
         this.slides = slides;
-        window.setTimeout(() => this.adjust_side_photos(), 50);
+        window.setTimeout(() => this.adjust_side_photos(), 10);
     }
 
     prev_slide(event) {
-        window.setTimeout(
-            this.restore_modified_slide(), 50);
+        console.log("prev slide");
+        if (event) {
+            clearInterval(this.slideShow);
+        }
+        window.setTimeout(() => this.restore_modified_slide(), 10);
         let slides = this.slides;
         let slide = slides.pop();
         slides.splice(0, 0, slide);
         this.slides = slides;
-        this.calculate_widths();
-        this.adjust_side_photos();
+        //this.calculate_widths();
+        window.setTimeout(() => this.adjust_side_photos(), 10);
+        //this.adjust_side_photos();
     }
 
     adjust_side_photos() {
         let total_width = 0;
         for (let slide of this.slides) {
             if (!slide) {
+                console.log("null slide detected!");
                 continue;
             }
             let img = document.getElementById('img-' + slide.photo_id);

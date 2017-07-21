@@ -30,7 +30,7 @@
                 <li repeat.for="story of stories_sample" dir="rtl">
                     <div style="margin:0;padding:0;margin-top:12px;">
                         <h4 dir="rtl" style="float:right;margin:0;padding:0;">${story.name}</h4><br/>
-                        <p dir="rtl" innerhtml.bind="story.story" style="text-align:right;max-height:50px;overflow:auto;font-size:11px;width:100%;margin:0;padding:0;">
+                        <p dir="rtl" innerhtml.bind="story.story" style="text-align:right;max-height:50px;overflow:auto;font-size:12px;width:100%;margin:0;padding:0;">
                         </p>
                     </div>
                 </li>
@@ -39,6 +39,9 @@
         <div class="col-md-3 panel-messages">
             <h2>${'home.messages' | t}</h2>
             <ul>
+                <li repeat.for="msg of message_list" dir="rtl">
+                    <span style="text-align:right;float:right;">${msg.name}</span>
+                </li>
             </ul>
         </div>
     </div>
