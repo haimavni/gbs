@@ -1,9 +1,10 @@
 
 //members
+$profile_photo_size: 110px;
 div.member-list.content-area li.list-group-item {
-    width: 110px;
+    width: 130px;
     float: right;
-    min-height: 120px;
+    min-height: 130px;
     font-size: 9px;
     vertical-align: text-bottom;
     background-color:rgba(0,0,0,0);
@@ -12,8 +13,8 @@ div.member-list.content-area li.list-group-item {
          align-content: center;
          border: none;
          img {
-             width: 70px;
-             height: 70px;
+             width: $profile_photo_size;
+             height: $profile_photo_size;
              border-radius: 50%;
          }
          h6 {
@@ -64,28 +65,35 @@ i.is-link {
 
 //member picker
 
-div.member-list li {
-    width: 65px;
-    float: right;
-    min-height: 88px;
-    max-height: 8px;
-    overflow: hidden;
-    font-size: 9px;
-    vertical-align: text-bottom;
-    background-color: rgba(0,0,0,0);
-    color: black;
-}
-/*
-ux-dialog-container.active>div {
-    background-color: lightgray;
-    margin-left: auto;
-    margin-right: auto;
-    width: 580px;
+div.member-list {
+    &.popup {
+        width: 600px;
+    }
     height: 500px;
-    margin-top: 200px;
-    margin-bottom: 200px;
+    padding: 0;
+    li {
+        float:right;
+        min-height:88px;
+        font-size:9px;
+        vertical-align: text-bottom;
+        width: 65px;
+        height: 80px;
+        overflow: hidden;
+        font-size: 9px;
+        vertical-align: text-bottom;
+        background-color: lightgray;
+        color: black;
+        margin-bottom: 12px;
+    }
 }
-*/
+
+
+ux-dialog-containerxxx {
+    >div>div {
+        background-color:lightgray;
+    }
+}
+
 .slide-list .slide-control
 {
     position: absolute;

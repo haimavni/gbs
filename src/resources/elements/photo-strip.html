@@ -6,7 +6,7 @@
 
         <a repeat.for="slide of slides" interact-draggable interact-dragend.delegate="shift_photos($event)" style="float:right;"
             click.trigger="on_click(slide, $event)">
-                 <img id="img-${slide.photo_id}" src="${slide.src}" height="${height}" style="width:initial;" />
+                 <img id="img-${slide.photo_id}" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
             </a>
     </div>
 

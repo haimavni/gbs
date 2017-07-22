@@ -1,0 +1,15 @@
+<template>
+
+    <div class="fr-view" style="margin-bottom:16px;" if.bind="new_story || story.story_text != ''" )>
+        <h3 show.bind="story.name" dir="rtl" style="padding:0;margin:0;">
+            <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>
+            <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story, 'edit')">&nbsp;</i>
+            ${story.name}
+        </h3>
+        <div class="story-panel">
+            <p dir="rtl" innerhtml.bind="story.story_text ">
+            </p>
+        </div>
+    </div>
+
+</template>

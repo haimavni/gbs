@@ -1,6 +1,9 @@
 import { autoinject, singleton, noView } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
+import {I18N} from 'aurelia-i18n';
+
+const rtl_langs = new Set(['he', 'ar']);
 
 @autoinject()
 @singleton()
@@ -12,12 +15,16 @@ export class User {
     public privileges;
     public id;
     private api;
+    public rtltr;
 
-    constructor(eventAggregator: EventAggregator, api: MemberGateway) {
+    constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N) {
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.isLoggedIn = false;
         this.editing = false;
+        let lang = i18n.getLocale();
+        this.rtltr = rtl_langs.has(lang) ? "rtl" : "ltr";
+        console.log("rtltr: ", this.rtltr);
         this.privileges = {
             EDITOR: true
         }

@@ -1,0 +1,10 @@
+div.story-panel {
+    max-height: 160px;
+    overflow: auto;
+    border-left: 3px solid darkgray;
+    min-height: 200px;
+    p {
+        padding-bottom: 12px;
+    }
+}
+

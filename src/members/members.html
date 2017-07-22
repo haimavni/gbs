@@ -24,7 +24,7 @@
 
             <div class="member-list content-area">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 32 :'full_name':'name'" 
+                    <li repeat.for="member of members | filter : filter : 320 :'full_name':'name'" 
                     class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}">
                         <a route-href="route: member-details; params.bind: {id:member.id}">
                             <img src.bind="member.facePhotoURL" />

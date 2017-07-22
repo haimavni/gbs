@@ -1,44 +1,42 @@
 <template>
     <require from="./members.css"></require>
-    <div class="row" style="margin-bottom:20px;max-width:600px;">
-        <div class="col-md-3">
-            <!--a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+    <div style="padding: 15px;padding-top:0;background:lightgray;">
+        <div class="row" style="background-color:gray;height:60px;padding-top:13px;">
+            <div class="col-md-3">
+                <a click.trigger="create_new_member()" class="btn btn-success cl-create-btn">
                 <i class="fa fa-plus-square-o"></i>
                 ${'members.new' & t}
-            </a-->
-            <a click.trigger="create_new_member()" class="btn btn-success cl-create-btn">
-                <i class="fa fa-plus-square-o"></i>
-                ${'members.new' & t}
-            </a>`
-        </div>
-        <div if.bind="face_identifier" class="col-md-3" style="padding-left:0px;">
-            <div class="checkbox">
-                <label t="[title]members.make-profile-photo" for="set-as-profile-photo">
+            </a>
+            </div>
+            <div if.bind="face_identifier" class="col-md-3" style="padding-left:0px;">
+                <div class="checkbox">
+                    <label t="[title]members.make-profile-photo" for="set-as-profile-photo">
                     <input id="set-as-profile-photo" type="checkbox" value.bind="make_profile_photo" checked.bind="make_profile_photo">
                     ${'members.set-as-profile-photo' | t}
                  </label>
+                </div>
+            </div>
+            <!--div if.bind="!face_identifier" class="col-md-1"></div-->
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input dir="rtl" type="search" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float:right;width:240px;">
+                </div>
             </div>
         </div>
-        <!--div if.bind="!face_identifier" class="col-md-1"></div-->
-        <div class="col-md-6">
-            <div class="input-group">
-                <input dir="rtl" type="search" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float:right;width:240px;">
-            </div>
-        </div>
-    </div>
 
-    <div class="member-list" style="max-width: 600px;height:400px;">
-        <div style="padding-right:75px;">
-            <ul class="list-group">
-                <li repeat.for="member of members | filter : filter : 32 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
-                    style="width:65px;float:right;min-height:88px;font-size:9px;vertical-align: text-bottom;">
+        <div class="member-list popup">
+            <div style="padding-right:75px;">
+                <ul class="list-group">
+                    <li repeat.for="member of members | filter : filter : 3000 : gender : 'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
+                        style="width:65px;float:right;min-height:88px;font-size:9px;vertical-align: text-bottom;">
 
-                    <a click.trigger="select(member)" style="vertical-align: text-bottom;align-content: center;">
-                    <img style="width:50px;height:50px;border-radius:50%;" src.bind="member.facePhotoURL" />
-                        <h6 dir="rtl" class="list-group-item-heading" style="text-align: center;">${member.name}</h6>
+                        <a click.trigger="select(member)" style="vertical-align: text-bottom;align-content: center;" aubs-tooltip="text.bind:member.name">
+                            <img style="width:50px;height:50px;border-radius:50%;" src.bind="member.facePhotoURL" aubs-tooltip="text.bind:member.name" />
+                            <h6 dir="rtl" class="list-group-item-heading" style="text-align: center;">${member.name}</h6>
                     </a>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
