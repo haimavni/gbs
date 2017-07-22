@@ -199,6 +199,9 @@ ux-dialog-container.active {
         height: fit-content !important;
         width: fit-content !important;
         margin-bottom: auto !important;
+        >div {
+            background-color: rgba(0,0,0,0) !important;
+        }
     }
 }
 
