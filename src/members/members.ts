@@ -12,6 +12,9 @@ export class Members {
     members = [];
     memberList;
     selectedId;
+    faces_per_line = 8;
+    win_height;
+    win_width;
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList) {
         this.user = user;
@@ -35,6 +38,12 @@ export class Members {
             this.members.sort((m1, m2) => m2.has_profile_photo * 10000 + m2.rand - (m1.has_profile_photo * 1000 + m1.rand));
             console.log("members created. length: ", this.members.length);
         })
+    }
+
+    attached() {
+        this.win_height = window.outerHeight;
+        this.win_width = window.outerWidth;
+        console.log("win height: ", this.win_height, " win width: ", this.win_width);
     }
 
     select(member) {

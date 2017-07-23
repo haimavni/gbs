@@ -35,4 +35,9 @@ export class App {
     ]);
     this.router = router;
   }
+
+  contact_us() {
+    console.log("contact us clicked");
+  }
+  
 }

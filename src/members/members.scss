@@ -1,4 +1,3 @@
-
 //members
 $profile_photo_size: 110px;
 div.member-list.content-area li.list-group-item {
@@ -69,8 +68,13 @@ div.member-list {
     &.popup {
         width: 600px;
     }
-    height: 500px;
-    padding: 0;
+    overflow: auto;
+    padding: 24px;
+    padding-right: 36px;
+    margin-bottom: 24px;
+    margin-left: auto;
+    margin-right: auto;
+
     li {
         float:right;
         min-height:88px;
@@ -86,7 +90,6 @@ div.member-list {
         margin-bottom: 12px;
     }
 }
-
 
 ux-dialog-containerxxx {
     >div>div {

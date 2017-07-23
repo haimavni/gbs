@@ -7,8 +7,11 @@
                 <h1 dir="rtl"> ${"members.members" | t}</h1>
             </div>
             <div class="row" style="margin-bottom:20px">
+                <div class="col-md-1">
+                    <!--<input type="range" id="range" min="4" max="32" step="1" change.trigger="slider_changed()" value.bind="faces_per_line" />-->
+                </div>
                 <div class="col-md-1" if.bind="! user.editing"></div>
-                <div class="col-md-6"></div>
+                <div class="col-md-5"></div>
                 <div class="col-md-1" if.bind="user.editing" style="padding-top:18px;">
                     <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
                         <i class="fa fa-plus-square-o"></i>
@@ -22,10 +25,9 @@
                 </div>
             </div>
 
-            <div class="member-list content-area">
+            <div id="member-list" class="member-list content-area" style="height:${win_height-420}px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 320 :'full_name':'name'" 
-                    class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}">
+                    <li repeat.for="member of members | filter : filter : 3200 :'full_name':'name'" class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}">
                         <a route-href="route: member-details; params.bind: {id:member.id}">
                             <img src.bind="member.facePhotoURL" />
                             <h6 dir="rtl" class="list-group-item-heading" >${member.name}</h6>
