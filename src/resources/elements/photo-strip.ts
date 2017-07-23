@@ -69,10 +69,13 @@ export class PhotoStripCustomElement {
 
     shift_photos(customEvent: CustomEvent) {
         let event = customEvent.detail;
-        customEvent.stopPropagation();
         let stop_slide_show = true;
         this.vertical = false;
-        if (event.dy * event.dy > event.dx * event.dx) {
+        if (Math.abs(event.dx) < 3 && Math.abs(event.dy) < 3) { //attempt to identify click
+            return true;
+        }
+        customEvent.stopPropagation();
+        if (Math.abs(event.dy) > Math.abs(event.dx)) {
             this.vertical = true;
             this.height += event.dy;
             this.calculate_widths();

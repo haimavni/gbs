@@ -44,7 +44,9 @@ export class MemberPicker {
                 parents = parents.filter(member => member.gender == this.gender);
             }
             this.members = parents;
-            this.reorder_members_candidates_first();
+            if (this.candidates) {
+                this.reorder_members_candidates_first();
+            }
         })
     }
 
@@ -68,14 +70,14 @@ export class MemberPicker {
     }
 
     select(member) {
-        console.log("selected member ",  member.id);
+        console.log("selected member ", member.id);
         this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
     }
 
     create_new_member() {
         if (this.gender) {
             this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name }).then(response => {
-                this.dialogController.ok({member_id: response.member_id, new_member: response.member});
+                this.dialogController.ok({ member_id: response.member_id, new_member: response.member });
             })
         } else {
             this.router.navigateToRoute('member-details', { id: 'new' });

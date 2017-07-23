@@ -29,6 +29,10 @@ export class Members {
     created() {
         return this.memberList.getMemberList().then(members => {
             this.members = members.member_list;
+            for (let member of this.members) {
+                member.rand = Math.random() * 1000;
+            }
+            this.members.sort((m1, m2) => m2.has_profile_photo * 10000 + m2.rand - (m1.has_profile_photo * 1000 + m1.rand));
             console.log("members created. length: ", this.members.length);
         })
     }
