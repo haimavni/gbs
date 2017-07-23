@@ -1,13 +1,15 @@
 <template>
 
-    <div class="fr-view" style="margin-bottom:16px;" if.bind="new_story || story.story_text != ''" )>
-        <h3 show.bind="story.name" dir="rtl" style="padding:0;margin:0;">
-            <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>
+    <div class="fr-view" style="margin-top:10px;margin-right:0;margin-left:0;padding:0;">
+        <span show.bind="story.name" dir="rtl" style="padding:0;margin:0;float:right;">
+            <i class="fa fa-sm fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>
             <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story, 'edit')">&nbsp;</i>
-            ${story.name}
-        </h3>
+            ${story.timestamp} | ${story.author}
+        </span>
         <div class="story-panel">
-            <p dir="rtl" innerhtml.bind="story.story_text ">
+            <p style="float:right";>
+                <strong style="float:right">${story.name}:</strong>&nbsp;
+                <span style="float:right" dir="rtl" innerhtml.bind="story.story_text "></span>
             </p>
         </div>
     </div>

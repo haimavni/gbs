@@ -24,7 +24,10 @@ export class StoryWindow {
     activate(model) {
         console.debug("enter activate of story window");
         this.story = model.story;
-        console.log('this story: ', this.story)
+        console.log('this story: ', this.story);
+        if (! this.story.story_text) {
+             this.story.story_text = "";
+        }
         this.story_orig = this.story.story_text.slice();
         this.story_name_orig = this.story.name.slice();
         this.edit = model.edit;
@@ -49,7 +52,9 @@ export class StoryWindow {
         this.api.call_server_post('members/save_story_info', data)
             .then(response => {
                 this.story_orig = this.story.story_text;
-                this.dialogController.ok("saved");
+                this.story.timestamp = response.info.creation_date;
+                this.story.author = response.info.author;
+                this.dialogController.ok(response.info);
             });
     }
 

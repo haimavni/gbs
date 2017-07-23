@@ -21,7 +21,6 @@ export class PhotoStripCustomElement {
     slideShow;
 
     constructor(element, eventAggregator: EventAggregator, bindingEngine) {
-        console.log("in photo-strip. construction");
         this.element = element;
         this.eventAggregator = eventAggregator;
         this.bindingEngine = bindingEngine;
@@ -50,12 +49,10 @@ export class PhotoStripCustomElement {
     }
 
     attached() {
-        console.log('photo strip attached. element: ', this.element, ' width ', this.element.innerWidth);
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
         this.width = elementRect.width;
-        console.log("elementRect: ", elementRect);
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
         setInterval(() => this.ready(), 100);
@@ -79,7 +76,6 @@ export class PhotoStripCustomElement {
             this.vertical = true;
             this.height += event.dy;
             this.calculate_widths();
-            console.log("vertical in shift photos");
             stop_slide_show = false;
         } else if (event.dx < 0) {
             this.prev_slide(Event);
@@ -93,7 +89,6 @@ export class PhotoStripCustomElement {
     }
 
     next_slide(event) { //we are right to left...
-        console.log("next slide");
         if (event) {
             clearInterval(this.slideShow);
         }
@@ -107,7 +102,6 @@ export class PhotoStripCustomElement {
     }
 
     prev_slide(event) {
-        console.log("prev slide");
         if (event) {
             clearInterval(this.slideShow);
         }
@@ -137,12 +131,10 @@ export class PhotoStripCustomElement {
             total_width += w;
             if (total_width > this.width) {
                 //document.getElementById('img-' + slide.photo_id).style.width = gap + "px";
-                console.log("gap: ", gap);
                 window.setTimeout(() => document.getElementById('img-' + slide.photo_id).style.width = gap + "px", WAIT);
                 this.modified_slide = slide;
                 return;
             } else {
-                console.log("calculated photo width: ", w, " total_width: ", total_width);
                 document.getElementById('img-' + slide.photo_id).style.width = "${w}px";
             }
         }

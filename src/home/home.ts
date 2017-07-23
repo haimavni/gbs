@@ -19,6 +19,7 @@ export class Home {
     stories_sample;
     message_list;
     i18n;
+    constants;
 
     constructor(api: MemberGateway, router: Router, user: User, i18n: I18N) {
         console.log("at home. constructor.")
@@ -31,16 +32,16 @@ export class Home {
         this.api.call_server_post('members/get_message_list').then(
             result => {
                 this.message_list = result.message_list;
-                //if (user.privileges.EDITOR && user.editing) {
-                if (user.privileges.EDITOR && user.editing) {
-                    let name = i18n.tr('home.new-message');
-                    this.message_list.splice(0, 0, { story_id: null, name: name });
-                }
             });
     }
 
     action(slide, event) {
         console.log(" action on slide: ", slide, " event: ", event);
+    }
+
+    add_message() {
+        let name = this.i18n.tr('home.new-message');
+        this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.STORY4MESSAGE, story_text: "" });
     }
 
     attached() {

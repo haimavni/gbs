@@ -32,6 +32,7 @@ export class MemberGateway {
 
   httpClient;
   eventAggregator;
+  constants = null;
 
   constructor(httpClient: HttpClient, eventAggregator: EventAggregator) {
     this.httpClient = httpClient;
@@ -43,6 +44,7 @@ export class MemberGateway {
         .withInterceptor(new SimpleInterceptor())
         .withDefaults({ mode: "o-cors", credentials: "same-origin" });
     });
+    this.get_constants();
   }
 
   call_server(url: string, data?: any) {
@@ -70,7 +72,7 @@ export class MemberGateway {
   }
 
   uploadPhotos(user_id, fileList) {
-    let payload = {user_id};
+    let payload = { user_id };
     let readers = [];
     let m = 0;
     let n = fileList.length;
@@ -103,6 +105,11 @@ export class MemberGateway {
         this.eventAggregator.publish('FilesUploaded', response);
       })
       .catch(e => console.log('error occured ', e));
+  }
+
+  get_constants() {
+    this.call_server_post('members/get_constants')
+      .then(response => this.constants = response);
   }
 
   /*listen(group) {
