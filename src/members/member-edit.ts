@@ -87,7 +87,8 @@ export class MemberEdit {
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = deepClone(this.member);
-                let msg = id ? 'NewMemberAdded' : 'MemberDetailsUpdated';
+                console.log("just before decision if new member, id is ", id);
+                let msg = id ? 'MemberDetailsUpdated' : 'NewMemberAdded';
                 console.log("msg: ", msg, " member: ", this.member)
                 this.eventAggregator.publish(msg, this.member.member_info);
             });

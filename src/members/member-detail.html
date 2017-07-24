@@ -89,7 +89,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div if.bind="user.editing">
+                    <div if.bind="user.editing && member">
                         <div class="row" dir="rtl">
                             <compose view-model="./member-edit" model.bind="member"></compose>
                         </div>

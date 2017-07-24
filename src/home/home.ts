@@ -3,6 +3,7 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { User } from '../services/user';
 import { I18N } from 'aurelia-i18n';
+import { MemberList } from '../services/member_list';
 
 @autoinject
 export class Home {
@@ -21,7 +22,7 @@ export class Home {
     i18n;
     constants;
 
-    constructor(api: MemberGateway, router: Router, user: User, i18n: I18N) {
+    constructor(api: MemberGateway, router: Router, user: User, i18n: I18N, memberList: MemberList) {
         console.log("at home. constructor.")
         this.api = api;
         this.user = user;
@@ -29,6 +30,7 @@ export class Home {
         this.i18n = i18n;
         this.photo_list = this.api.call_server_post('members/get_photo_list');
         this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample = result.stories_sample);
+        memberList.getMemberList(); //to load in the background
         this.api.call_server_post('members/get_message_list').then(
             result => {
                 this.message_list = result.message_list;
