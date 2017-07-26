@@ -22,11 +22,6 @@ export class MemberEdit {
     member_info_orig;
     life_story_orig;
     dialog;
-    centuries = ["18", "19", "20"]; //for debugging. remove soon.
-    decades = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    years = ["?", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    months = ["??", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-    days = ["??", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "34", "25", "26", "27", "28", "29", "30", "31"];
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
         this.user = user;
