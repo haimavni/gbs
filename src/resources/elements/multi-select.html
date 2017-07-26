@@ -5,7 +5,6 @@
     <div class="row" style="max-height: 100px;overflow:auto;margin-left:18px;margin-right:-36px;">
         <ul class="list-group" style="list-style-type:none">
             <li repeat.for="option of selected_options" class="selected">
-                <!-- if.bind="is_selected(option)" -->
                 <a click.trigger="toggle_selection(option)">${option.name} </a>
             </li>
         </ul>

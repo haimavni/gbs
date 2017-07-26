@@ -1,0 +1,25 @@
+<template>
+    <form class="form-inline" dir="rtl">
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <roller option_list.bind="centuries" current="19" width="28"></roller>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <roller option_list.bind="decades" current="2" width="16"></roller>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <roller option_list.bind="years" current="8" width="16"></roller>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <label>-</label>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <roller option_list.bind="months" current="07" width="28"></roller>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <label>-</label>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <roller option_list.bind="days" current="17" width="28"></roller>
+        </div>
+    </form>
+</template>

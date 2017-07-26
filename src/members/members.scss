@@ -116,3 +116,41 @@ ux-dialog-containerxxx {
     left: 0%;
     color: white;
 }
+
+.family-chains button
+{
+    min-width: 130px;
+    border-radius:5px;
+}
+
+.family-chains a
+{
+    border-right: solid 2px gray;
+    border-bottom: solid 2px gray;
+    background-color: lightgray;
+    border-radius: 20px;
+    padding: 0;
+    font-size:12px;
+    & img {
+        float:right;
+    }
+    max-width:110px;
+    min-width:110px;
+    overflow:hidden;
+}
+.family-chains ul
+{
+    list-style-type: none;
+    /*margin: 10px;*/
+}
+.family-chains ul li
+{
+    float: right;
+    margin:5px;
+}
+
+.relation-kind
+{
+    padding-left: 15px;
+    padding-right: 15px;
+}

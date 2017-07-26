@@ -3,6 +3,8 @@ export function configure(config) {
     './value-converters/filter',
     './elements/multi-select',
     './elements/photo-strip',
-    './elements/editable'
+    './elements/editable',
+    './elements/roller',
+    './elements/partial-date'
   ]);
 }

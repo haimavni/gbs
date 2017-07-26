@@ -1,7 +1,6 @@
 import { MemberGateway } from '../services/gateway';
 import { Router } from 'aurelia-router';
-import { DialogController } from 'aurelia-dialog';
-import { DialogService } from 'aurelia-dialog';
+import { DialogController, DialogService } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
 import { User } from "../services/user";
 import { MemberPicker } from "../members/member-picker";

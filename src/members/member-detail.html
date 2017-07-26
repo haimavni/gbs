@@ -1,8 +1,8 @@
 <template>
     <require from="./members.css"></require>
     <div style="margin-top:50px" class="content-area">
-        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;" <h3
-            dir="rtl" style="float: right;margin:0px;">
+        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;"
+            <h3 dir="rtl" style="float: right;margin:0px;">
             ${member.member_info.full_name }
             <span if.bind="user.privileges.DEVELOPER">${member.member_info.id}</span>
             </h3>
@@ -89,13 +89,14 @@
                             </tr>
                         </table>
                     </div>
-                    <div if.bind="user.editing && member">
-                        <div class="row" dir="rtl">
-                            <compose view-model="./member-edit" model.bind="member"></compose>
-                        </div>
+                </div>
+                <div class="col-md-6" if.bind="user.editing && member" style="padding-right:32px;">
+                    <div class="row" dir="rtl">
+                        <compose view-model="./member-edit" model.bind="member"></compose>
                     </div>
                 </div>
-                <div class="col-md-6 fr-view" style="margin-bottom:16px;" if.bind="user.privileges.EDITOR || story_0.story_text != ''" )>
+                <div class="col-md-6 fr-view" style="margin-bottom:16px;" if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing"
+                    )>
                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
                         ${story_0.topic}
                     </h4>

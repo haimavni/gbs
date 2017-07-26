@@ -49,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-bottom:70px;">
         <form class="form-horizontal member-info" role="form">
             <!--The left wing of the form-->
             <div class="col-md-6 member-info-left">
@@ -68,6 +68,9 @@
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="date_of_death" t="[placeholder]members.date-of-death" value.bind="member.member_info.date_of_death_str">
+                </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <partial-date></partial-date>
                 </div>
             </div>
             <!--The right wing of the form-->
