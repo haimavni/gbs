@@ -49,4 +49,8 @@ export class MultiSelectCustomElement {
         return this.selected.has(option.id);
     }
 
+    onfocus(what) {
+        alert(what)
+    }
+
 }

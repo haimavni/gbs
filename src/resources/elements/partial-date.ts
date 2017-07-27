@@ -21,6 +21,10 @@ export class PartialDateCustomElement {
 
     bind() {
         console.log("in bind partial date, date str: ", this.date_str);
+        this.parse_date_str();
+    }
+
+    parse_date_str() {
         let date_str = this.date_str;
         if (!date_str) {
             date_str = "????-??-??"
@@ -40,10 +44,20 @@ export class PartialDateCustomElement {
     }
 
     centuryChanged(newValue, oldValue) {
+        if (newValue.includes("?")) {
+            this.date_str = "????-??-??";
+            return;
+        }
+        if (this.century.length == 2) {
+            this.focus("decade");
+        }
         this.update_date_str();
     }
 
     decadeChanged(newValue, oldValue) {
+        if (this.decade.length == 1) {
+            this.focus("year");
+        }
         this.update_date_str();
     }
 
@@ -52,15 +66,30 @@ export class PartialDateCustomElement {
     }
 
     monthChanged(newValue, oldValue) {
+        if (newValue.includes("?")) {
+            this.month = "??";
+        }
+        if (this.month.length == 2) {
+            this.focus("century");
+        }
         this.update_date_str();
     }
 
     dayChanged(newValue, oldValue) {
+        if (newValue.includes("?")) {
+            this.day = "??";
+        }
+        if (this.day.length == 2) {
+            this.focus("month");
+        }
         this.update_date_str();
     }
 
-    attached() {
-        console.log("in attached partial date, date str: ", this.date_str);
+    date_strChanged(newValue, oldValue) {
+        this.split_date_str();
+    }
+
+    split_date_str() {
         if (this.date_str) {
             let lst = this.date_str.split('-');
             this.century = lst[0].substring(0, 2);
@@ -69,6 +98,18 @@ export class PartialDateCustomElement {
             this.month = lst[1];
             this.day = lst[2];
         }
+    }
+
+    focus(fieldName) {
+        let el = this.element.querySelector('#' + fieldName);
+        let inputs = el.getElementsByTagName("INPUT");
+        console.log("inputs: ", inputs);
+        inputs[0].focus();
+    }
+
+    attached() {
+        console.log("in attached partial date, date str: ", this.date_str);
+        this.split_date_str();
     }
 
 }

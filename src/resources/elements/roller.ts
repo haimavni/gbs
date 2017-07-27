@@ -5,7 +5,8 @@ export class RollerCustomElement {
     @bindable option_list = [];
     @bindable current;
     @bindable width;
-    @bindable maxlen;
+    @bindable maxlen: number;
+    @bindable charWidth = 10;
     @bindable left;
 
     idx = 0;
@@ -26,12 +27,7 @@ export class RollerCustomElement {
     bind() {
         console.log("bind roller. current: ", this.current);
         this.idx = this.option_list.indexOf(this.current);
-        this.left = (this.width - 10) / 2;
-    }
-
-    attached() {
-        console.log("bind roller. current: ", this.current);
-        this.idx = this.option_list.indexOf(this.current);
+        this.width = this.maxlen * this.charWidth + 2; //2 for the boundaries
         this.left = (this.width - 10) / 2;
     }
 

@@ -4,6 +4,7 @@ div.roller {
     margin:0;
     position:relative;
     >div {
+        display:none;
         color: #eeeeee;
         :hover {
             color: gray;
