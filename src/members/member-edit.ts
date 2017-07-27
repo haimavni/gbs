@@ -49,13 +49,6 @@ export class MemberEdit {
         return dirty;
     }
 
-    @computedFrom('member.story_info.story_text')
-    get dirty_story() {
-        let dirty = this.member.story_info.story_text != this.life_story_orig;
-        this.eventAggregator.publish('DirtyStory', dirty);
-        return dirty;
-    }
-
     prev_member() {
         this.handle_member(this.member.member_info.id, 'prev');
     }

@@ -9,9 +9,21 @@ export function getOffset(el) {
     top: r.top + window.scrollY
   }
 }
-/*
-document.addEventListener('copy', function(e){
-    e.clipboardData.setData('text/plain', 'Hello, world!');
-    e.clipboardData.setData('text/html', '<b>Hello, world!</b>');
-    e.preventDefault(); // We want our data, not data from any selection, to be written to the clipboard
-});*/
+
+export function copyToClipboard(text) {
+    if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        let textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+}

@@ -5,21 +5,32 @@ export class RollerCustomElement {
     @bindable option_list = [];
     @bindable current;
     @bindable width;
+    @bindable maxlen;
     @bindable left;
 
     idx = 0;
-    element = "??";
+    element;
 
     constructor(element, user, dialog) {
         this.element = element;
     }
 
-    shift(dir) {
-        this.idx = (this.idx + dir + this.option_list.length) % this.option_list.length;
-        this.current = this.option_list[this.idx];
+    shift(dif) {
+        let i = this.idx + dif;
+        if (i >= 0 && i < this.option_list.length) {
+            this.idx = i;
+            this.current = this.option_list[i];
+        }
     }
 
     bind() {
+        console.log("bind roller. current: ", this.current);
+        this.idx = this.option_list.indexOf(this.current);
+        this.left = (this.width - 10) / 2;
+    }
+
+    attached() {
+        console.log("bind roller. current: ", this.current);
         this.idx = this.option_list.indexOf(this.current);
         this.left = (this.width - 10) / 2;
     }

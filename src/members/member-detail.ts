@@ -1,10 +1,9 @@
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { computedFrom } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { StoryWindow } from '../stories/story_window';
