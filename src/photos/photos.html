@@ -1,5 +1,6 @@
 <template>
-    <section class="container content-area" style="height: ${win_height-600}px;">
+    <require from='./photos.css'></require>
+    <section class="container content-area" css="height: ${win_height-600}px;">
         <div class="row" style="margin-top:30px">
             <div style="background-color:rgba(120, 120, 120, 0.3);height:75px;padding-top:5px;padding-right:15px;">
                 <h1 dir="rtl"> ${"photos.photos-store" | t}</h1>
@@ -20,8 +21,10 @@
                         </div>
                     </div>
                     <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;">
-                        <a repeat.for="photo of photo_list | filter : filter : 9999 : 'title'" click.trigger="photo_clicked(photo, $event)" 
-                            aubs-tooltip="text.bind:photo.title" class.bind="photo.selected">
+                        <a repeat.for="photo of photo_list | filter : filter : 9999 : 'title'" 
+                            click.trigger="photo_clicked(photo, $event)" 
+                            aubs-tooltip="text.bind:photo.title"
+                            class.bind="photo.selected">
                             <img src="${photo.square_src}" width="${photo_size}" height="${photo_size}" style="margin:0;" />
                         </a>
                     </div>
@@ -75,15 +78,4 @@
             </div>
         </div>
     </section>
-    <style>
-        #range {
-            -webkit-appearance: slider-vertical;
-            width: 20px;
-            height: 128px;
-        }
-        a.photo-selected img{
-            border: 8px solid lightblue;
-        }
-
-    </style>
 </template>

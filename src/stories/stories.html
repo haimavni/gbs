@@ -6,5 +6,38 @@
                 <h1 dir="rtl"> ${"stories.place-stories" | t}</h1>
             </div>
         </div>
+        <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row" style="margin-bottom:15px;">
+                        <div class="col-md-5 col-md-offset-7">
+                            <div class="input-group" style="width:100%;margin-top:15px;margin-right:-16px;">
+                                <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"
+                                    change.delegate="update_story_list()" />
+                            </div>
+                        </div>
+                    </div>
+                    <ul style="padding:0;float:right;height:450px;overflow:auto;list-style-type: none;">
+                        <li repeat.for="story of story_list" dir="rtl" style="float:right;">
+                            <div style="height:130px;overflow:hidden;padding:20px;">
+                                <div style="margin-bottom: 10px;border-bottom:2px solid lightgray;">
+                                    <editable story.bind="story"></editable>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                </div>
+                <div class="col-md-2">
+                    <div class="row" style="font-size:28px;">
+                        ${'topics' | t}
+                    </div>
+                    <div class="row">
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" change.delegate="handle_topic_change($event) "></multi-select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
