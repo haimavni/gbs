@@ -59,4 +59,8 @@ export class Home {
         this.router.navigateToRoute('member-details', { id: member_id });
     }
 
+    goto_full_collection() {
+        this.router.navigateToRoute('stories');
+    }
+
 }
