@@ -64,4 +64,8 @@ export class Stories {
             });
     }
 
+    jump_to_the_full_story(story) {
+        console.log("jump_to_the_full_story of ", story);
+    }
+
 }
