@@ -4,6 +4,7 @@ import { autoinject } from 'aurelia-framework';
 //import { StoryDetail } from './story-detail';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
+import { Router } from 'aurelia-router';
 
 @autoinject
 export class Stories {
@@ -11,6 +12,7 @@ export class Stories {
     story_list = [];
     api;
     user;
+    router;
     dialog;
     win_width;
     win_height;
@@ -27,11 +29,12 @@ export class Stories {
     i18n;
     selected_stories = new Set([]);
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
         this.api = api;
         this.user = user;
         this.dialog = dialog;
         this.i18n = i18n;
+        this.router = router;
     }
 
     created(params, config) {
@@ -66,6 +69,7 @@ export class Stories {
 
     jump_to_the_full_story(story) {
         console.log("jump_to_the_full_story of ", story);
+        this.router.navigateToRoute('story-detail', { id: story.story_id });
     }
 
 }

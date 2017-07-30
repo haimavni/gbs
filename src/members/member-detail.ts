@@ -27,7 +27,6 @@ export class MemberDetail {
     story_0; story_1; story_2; story_3; story_4;
     life_summary;
     stories_scroll: boolean;
-    slides;
     source;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
@@ -66,7 +65,6 @@ export class MemberDetail {
         this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
                 this.member = member;
-                //this.slides = member.slides;
                 this.member.member_stories[0].topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 this.set_displayed_stories();
             });
@@ -100,17 +98,7 @@ export class MemberDetail {
         }
     }
 
-/*    shift_photos(slide, customEvent: CustomEvent) {
-        let event = customEvent.detail;
-        customEvent.stopPropagation();
-        if (event.dx < 0) {
-            this.prev_slide();
-        } else {
-            this.next_slide();
-        }
-    }
-
-*/    next_story(event, dir = 1) {
+    next_story(event, dir = 1) {
         event.stopPropagation();
         this.stories_base += dir;
         this.stories_base = (this.stories_base + this.member.member_stories.length) % this.member.member_stories.length;
@@ -124,23 +112,6 @@ export class MemberDetail {
         this.next_story(event, dir);
     }
 
-/*    next_slide() //we are right to left...
-    {
-        let slides = this.member.slides;
-        let slide = slides.shift();
-        slides.push(slide);
-        this.member.slides = slides;
-    }
-
-    prev_slide() {
-        let slides = this.member.slides;
-        slides.reverse();
-        let slide = slides.shift();
-        slides.push(slide);
-        slides.reverse();
-        this.member.slides = slides;
-    }
-*/
     private openDialog(slide, event) {
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
             console.log(response.output);

@@ -71,6 +71,11 @@ export class MemberGateway {
     return this.httpClient.fetch(`members/get_member_details?${params(memberId)}`)
   }
 
+  getStoryDetail(story) {
+    console.log("get story detail ", story);
+    return this.call_server('members/get_story_detail', story);
+  }
+
   uploadPhotos(user_id, fileList) {
     let payload = { user_id };
     let readers = [];

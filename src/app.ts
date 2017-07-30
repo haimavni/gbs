@@ -29,6 +29,7 @@ export class App {
       { route: 'photos',                                        moduleId: './photos/photos',      nav: true,   title: 'photos.photos' },
       { route: 'stories',             name: 'stories',          moduleId: './stories/stories',    nav: true,   title: 'stories.stories' },
       { route: 'members',             name: 'members',          moduleId: './members/members',    nav: true,   title: 'members.members' },
+      { route: 'story-detail/:id',    name: 'story-detail',     moduleId: './stories/story-detail'},
       { route: 'member-details/:id',  name: 'member-details',   moduleId: './members/member-detail'},
       { route: 'memmbers/new',        name: 'member-creation',  moduleId: './members/member-edit',             title: 'members.newMember' },
       { route: 'members/:id/edit',    name: 'member-edit',      moduleId: './members/member-edit',             title: 'members.editMember' }

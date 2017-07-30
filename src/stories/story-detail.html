@@ -1,0 +1,52 @@
+<template>
+    <require from="./stories.css"></require>
+
+    <div style="margin-top:50px" class="content-area">
+        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;">
+            <h3 dir="rtl" style="float: right;margin:0px;">
+                ${story.name}
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-md-5" style="padding-left:40px;">
+                <div class="row" style="width:250px;" if.bind="curr_photo">
+                    <img src.bind="curr_photo" style="height:250px;" click.trigger="next_photo()" />
+                </div>
+                <!--photo-strip source.bind="source" height.bind="220" action_key="Zoom" settings.bind="{arrows:true, height:220}"></photo-strip>
+                <div-->
+
+                <div class="row" style="height:fit-content;font-size:150%;padding:12px;">
+                    <div class="col-md-12">
+                        <span style="float:right">${'stories.associated-members' | t}</span>
+                    </div>
+                </div>
+                <div id="member-list" class="row member-list content-area" style="height:300px;overflow:auto;overflow-x:hidden;">
+                    <ul class="list-group">
+                        <li class="list-group-item" repeat.for="member of members">
+                            <a route-href="route: member-details; params.bind: {id:member.id}">
+                                    <img src.bind="member.facePhotoURL" />
+                                    <h6 dir="rtl" class="list-group-item-heading" >${member.full_name}</h6>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-10">
+                        <span style="float:right">Source: ${story.source}</span>
+                    </div>
+                </div>
+                <div class="row" style="padding-right:15px;">
+                    <div class="fr-view" dir="rtl">
+                        <div class="big-story-panel">
+                            <p dir="rtl" innerhtml.bind="story.story_text">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
