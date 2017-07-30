@@ -43,10 +43,12 @@ li {
 }
 
 $profile_photo_size: 70px;
+$profile_photo_height: 100px;
+
 div.member-list li.list-group-item {
     width: $profile_photo_size;
     float: right;
-    min-height: $profile_photo_size;
+    height: $profile_photo_height;
     font-size: 9px;
     vertical-align: text-bottom;
     background-color:rgba(0,0,0,0);
