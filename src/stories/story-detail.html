@@ -9,18 +9,13 @@
         </div>
         <div class="row">
             <div class="col-md-5" style="padding-left:40px;">
-                <div class="row" style="width:250px;" if.bind="curr_photo">
-                    <img src.bind="curr_photo" style="height:250px;" click.trigger="next_photo()" />
-                </div>
-                <!--photo-strip source.bind="source" height.bind="220" action_key="Zoom" settings.bind="{arrows:true, height:220}"></photo-strip>
-                <div-->
-
-                <div class="row" style="height:fit-content;font-size:150%;padding:12px;">
+                <photo-strip source.bind="source" height.bind="220" action_key="Zoom" settings.bind="{arrows:true, height:220}"></photo-strip>
+                <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
                     <div class="col-md-12">
                         <span style="float:right">${'stories.associated-members' | t}</span>
                     </div>
                 </div>
-                <div id="member-list" class="row member-list content-area" style="height:300px;overflow:auto;overflow-x:hidden;">
+                <div id="member-list" class="row member-list content-area" style="height:400px;overflow:auto;overflow-x:hidden;">
                     <ul class="list-group">
                         <li class="list-group-item" repeat.for="member of members">
                             <a route-href="route: member-details; params.bind: {id:member.id}">
@@ -33,8 +28,8 @@
             </div>
             <div class="col-md-7">
                 <div class="row">
-                    <div class="col-md-2 col-md-offset-10">
-                        <span style="float:right">Source: ${story.source}</span>
+                    <div class="col-md-2 col-md-offset-10" if.bind="story.source">
+                        <span style="float:right;direction:rtl">${story.source}:</span>
                     </div>
                 </div>
                 <div class="row" style="padding-right:15px;">
