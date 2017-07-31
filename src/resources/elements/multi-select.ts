@@ -10,6 +10,7 @@ export class MultiSelectCustomElement {
     saved_options;
     filter = "";
     @bindable place_holder_text = "";
+    width;
 
     constructor(element) {
         this.element = element;
@@ -21,11 +22,11 @@ export class MultiSelectCustomElement {
         } else {
             this.selected.add(option.id);
         }
-        if (! this.saved_options) {
+        if (!this.saved_options) {
             this.saved_options = this.options.splice(0);
         }
         this.selected_options = this.saved_options.filter(option => this.selected.has(option.id));
-        this.options = this.saved_options.filter(option => ! this.selected.has(option.id));
+        this.options = this.saved_options.filter(option => !this.selected.has(option.id));
         this.dispatch_event();
         this.filter = ""
         console.log("selected: ", this.selected);
@@ -41,6 +42,12 @@ export class MultiSelectCustomElement {
         console.log("about to dispath ", this.selected_options);
         this.element.dispatchEvent(changeEvent);
     }
+
+    attached() {
+        const elementRect = this.element.getBoundingClientRect();
+        this.width = Math.round(elementRect.width) - 50;
+    }
+
 
     is_selected(option) {
         if (this.selected.has(option.id)) {

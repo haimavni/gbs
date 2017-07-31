@@ -16,12 +16,14 @@ export class Stories {
     dialog;
     win_width;
     win_height;
+    used_languages;
     params = {
         selected_topics: [],
         selected_days_since_upload: 0,
         selected_uploader: "",
         from_date: "",
         to_date: "",
+        selected_languages: []
     };
     topic_list = [];
     authors_list = [];
@@ -35,6 +37,7 @@ export class Stories {
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
+
     }
 
     created(params, config) {
@@ -44,6 +47,8 @@ export class Stories {
                 console.log("topic list ", this.topic_list)
             });
         this.update_story_list();
+        this.api.call_server('members/get_used_languages')
+            .then(response => this.used_languages = response.used_languages);
     }
 
     attached() {
@@ -52,7 +57,7 @@ export class Stories {
     }
 
     update_story_list() {
-        return this.api.call_server_post('members/get_story_list', {keywords: this.filter, params: this.params})
+        return this.api.call_server_post('members/get_story_list', { keywords: this.filter, params: this.params })
             .then(result => {
                 this.story_list = result.story_list;
                 this.filter = result.used_keywords;
@@ -71,5 +76,12 @@ export class Stories {
         console.log("jump_to_the_full_story of ", story);
         this.router.navigateToRoute('story-detail', { id: story.story_id });
     }
+
+    handle_languages_change(event) {
+        console.log("selection is now ", event.detail);
+        this.params.selected_languages = event.detail.selected_options;
+        this.update_story_list();
+    }
+
 
 }

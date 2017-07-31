@@ -8,7 +8,8 @@
         </div>
         <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
             <div class="row">
-                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                </div>
                 <div class="col-md-9">
                     <div class="row" style="margin-bottom:15px;">
                         <div class="col-md-5 col-md-offset-7">
@@ -21,7 +22,7 @@
                     <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;">
                         <li repeat.for="story of story_list" dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
                             <div style="height:130px;overflow:hidden;padding:20px;">
-                                <div style="margin-bottom: 10px;"> <!--border-bottom:2px solid lightgray;"-->
+                                <div style="margin-bottom: 10px;">
                                     <editable settings.bind="{show_date:false, class:'story-box'}" story.bind="story"></editable>
                                 </div>
                             </div> 
@@ -37,6 +38,9 @@
                     </div>
                     <div class="row">
                         <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" change.delegate="handle_topic_change($event) "></multi-select>
+                    </div>
+                    <div class="row">
+                        <multi-select options.bind="used_languages" place_holder_text="stories.languages" change.delegate="handle_languages_change($event) "></multi-select>
                     </div>
                 </div>
             </div>
