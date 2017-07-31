@@ -45,7 +45,7 @@ li {
 $profile_photo_size: 70px;
 $profile_photo_height: 100px;
 
-div.member-list li.list-group-item {
+div.stories-member-list li.list-group-item {
     width: $profile_photo_size;
     float: right;
     height: $profile_photo_height;
@@ -67,6 +67,15 @@ div.member-list li.list-group-item {
          h6 {
              text-align: center;
          }
+    }
+}
+
+div.story-box {
+    height: 180px;
+    overflow: hidden;
+    //border-left: 3px solid darkgray;
+    p {
+        padding-bottom: 12px;
     }
 }
 

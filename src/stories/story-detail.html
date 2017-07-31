@@ -15,7 +15,7 @@
                         <span style="float:right">${'stories.associated-members' | t}</span>
                     </div>
                 </div>
-                <div id="member-list" class="row member-list content-area" style="height:400px;overflow:auto;overflow-x:hidden;">
+                <div id="member-list" class="row stories-member-list content-area" style="height:400px;overflow:auto;overflow-x:hidden;">
                     <ul class="list-group">
                         <li class="list-group-item" repeat.for="member of members">
                             <a route-href="route: member-details; params.bind: {id:member.id}">

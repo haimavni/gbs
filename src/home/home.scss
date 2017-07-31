@@ -7,8 +7,9 @@ div.panel {
 }
 div.main-panel {
     padding: 16px;
-    div {
-        padding: 16px;
+    div.row {
+        padding: 0px;
+        margin: 0px;
     }
 }
 div.panel-vid {

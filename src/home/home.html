@@ -42,7 +42,7 @@
             </h2>
             <ul style="padding:0;float:right;height:250px;overflow:auto;">
                 <li repeat.for="msg of message_list" dir="rtl" >
-                    <editable story.bind="msg"></editable>
+                    <editable story.bind="msg" settings.bind="{show_date:true}"></editable>
                     <!--<span style="text-align:right;float:right;">${msg.name}</span>-->
                 </li>
             </ul>
@@ -64,7 +64,7 @@
         </span>
         <span style="float:left;margin-top:20px;margin-left:16px;padding-right:16px;border-right:2px solid gray;cursor:pointer;"
             click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
-            ${'home.to-the-page-of' | t} ${member_of_the_day.name}
+            ${'home.to-the-page-of' | t} ${member_of_the_day.first_name}
         </span>
     </div>
 

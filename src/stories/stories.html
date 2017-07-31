@@ -18,16 +18,12 @@
                             </div>
                         </div>
                     </div>
-                    <ul style="padding:0;float:right;height:560px;overflow:auto;list-style-type: none;">
-                        <li repeat.for="story of story_list" dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;">
+                    <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;">
+                        <li repeat.for="story of story_list" dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
                             <div style="height:130px;overflow:hidden;padding:20px;">
                                 <div style="margin-bottom: 10px;"> <!--border-bottom:2px solid lightgray;"-->
-                                    <editable story.bind="story"></editable>
-                                   
+                                    <editable settings.bind="{show_date:false, class:'story-box'}" story.bind="story"></editable>
                                 </div>
-                                <!--div style="border-bottom:2px solid lightgray;height:24px;margin-bottom:15px;">
-                                    <a style="float-left">For the whole story</a>
-                                    </div>-->
                             </div> 
                             <a click.delegate="jump_to_the_full_story(story)" style="position:absolute;top:132px;left:20px;cursor:pointer;">${'stories.to-the-full-story' | t }...</a>
                         </li>

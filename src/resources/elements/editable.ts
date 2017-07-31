@@ -6,9 +6,11 @@ import { DialogService } from 'aurelia-dialog';
 @inject(DOM.Element, User, DialogService)
 export class editableCustomElement {
     @bindable story;
+    @bindable settings = { show_date: false, class: 'story-panel' };
     element;
     user;
     dialog;
+    width;
 
     constructor(element, user, dialog) {
         this.element = element;
@@ -21,5 +23,10 @@ export class editableCustomElement {
             console.log("response after edit dialog: ", response.output);
         });
 
+    }
+
+    attached() {
+        const elementRect = this.element.getBoundingClientRect();
+        this.width = elementRect.width;
     }
 }
