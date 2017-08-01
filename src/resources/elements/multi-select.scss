@@ -1,0 +1,16 @@
+.multi-select {
+    .selected {
+        font-weight: bolder;
+    }
+    div.search-filter input {
+        font-size: 14px;
+        height: 32px;
+        width: 90%;
+        float: right;
+        padding: 5px;
+    }
+    div.option-item {
+        margin-left: 0;
+        padding: 0;
+    }
+}

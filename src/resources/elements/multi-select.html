@@ -1,4 +1,5 @@
 <template class="multi-select">
+    <require from="./multi-select.css"><</require>
     <div class="input-group search-filter" style="width:100%;margin-top:15px;">
         <input dir="rtl" type="search" class="form-control" t="[placeholder]${place_holder_text}" value.bind="filter & debounce">
     </div>
@@ -18,26 +19,5 @@
             </li>
         </ul>
     </div>
-
-    <style>
-        .multi-select .selected {
-            font-weight: bolder;
-        }
-
-        .multi-select div.search-filter input {
-            font-size: 14px;
-            height: 32px;
-            width: 90%;
-            float: right;
-            padding: 5px;
-        }
-        .multi-select div.option-item {
-            margin-left: 0;
-            padding: 0;
-        }
-        
-    </style>
-
-
 
 </template>

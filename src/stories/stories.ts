@@ -10,6 +10,8 @@ import { Router } from 'aurelia-router';
 export class Stories {
     filter = "";
     story_list = [];
+    stories_index;
+    story_previews;
     api;
     user;
     router;
@@ -41,14 +43,24 @@ export class Stories {
     }
 
     created(params, config) {
-        this.api.call_server('members/get_story_list', {})
+        this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
                 console.log("topic list ", this.topic_list)
             });
         this.update_story_list();
         this.api.call_server('members/get_used_languages')
-            .then(response => this.used_languages = response.used_languages);
+            .then(response => {
+                this.used_languages = response.used_languages;
+                for (let lang of this.used_languages) {
+                    lang.name = this.i18n.tr(lang.name);
+                    lang.name += ' (' + lang.count + ")"
+                }
+            });
+        this.api.call_server('members/get_stories_index')
+            .then(response => this.stories_index = response.stories_index);
+        this.api.call_server('members/get_story_previews')
+            .then(response => this.story_previews = response.story_previews);
     }
 
     attached() {
@@ -57,7 +69,13 @@ export class Stories {
     }
 
     update_story_list() {
-        return this.api.call_server_post('members/get_story_list', { keywords: this.filter, params: this.params })
+        let used_for = null;
+        if (this.api.constants) {
+            used_for = this.api.constants.STORY4EVENT;
+        } else {
+            used_for = 2;
+        }
+        return this.api.call_server_post('members/get_story_list', {  params: this.params, used_for: used_for })
             .then(result => {
                 this.story_list = result.story_list;
                 this.filter = result.used_keywords;
