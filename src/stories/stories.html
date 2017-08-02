@@ -25,7 +25,7 @@
                                 <div style="margin-bottom: 10px;">
                                     <editable settings.bind="{show_date:false, class:'story-box'}" story.bind="story"></editable>
                                 </div>
-                            </div> 
+                            </div>
                             <a click.delegate="jump_to_the_full_story(story)" style="position:absolute;top:132px;left:20px;cursor:pointer;">${'stories.to-the-full-story' | t }...</a>
                         </li>
                     </ul>
@@ -33,14 +33,14 @@
 
                 </div>
                 <div class="col-md-2">
-                    <div class="row" style="font-size:28px;">
-                        ${'topics' | t}
+                    <div class="row">
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" height="180" change.delegate="handle_topic_change($event) "></multi-select>
                     </div>
                     <div class="row">
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" change.delegate="handle_topic_change($event) "></multi-select>
+                        <multi-select options.bind="used_languages" place_holder_text="stories.languages" height="80" change.delegate="handle_languages_change($event) "></multi-select>
                     </div>
                     <div class="row">
-                        <multi-select options.bind="used_languages" place_holder_text="stories.languages" change.delegate="handle_languages_change($event) "></multi-select>
+                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201" change.delegate="handle_words_change($event) "></multi-select>
                     </div>
                 </div>
             </div>

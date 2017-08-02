@@ -58,9 +58,15 @@ export class Stories {
                 }
             });
         this.api.call_server('members/get_stories_index')
-            .then(response => this.stories_index = response.stories_index);
-        this.api.call_server('members/get_story_previews')
-            .then(response => this.story_previews = response.story_previews);
+            .then(response => {
+                this.stories_index = [];
+                let words = Object.keys(response.stories_index);
+                for (let w of words) {
+                    this.stories_index.push({name: w, id: w});
+                }
+            });
+        /*  this.api.call_server('members/get_story_previews')
+              .then(response => this.story_previews = response.story_previews);*/
     }
 
     attached() {
@@ -75,7 +81,7 @@ export class Stories {
         } else {
             used_for = 2;
         }
-        return this.api.call_server_post('members/get_story_list', {  params: this.params, used_for: used_for })
+        return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
                 this.story_list = result.story_list;
                 this.filter = result.used_keywords;
@@ -99,6 +105,14 @@ export class Stories {
         console.log("selection is now ", event.detail);
         this.params.selected_languages = event.detail.selected_options;
         this.update_story_list();
+    }
+
+    handle_words_change(event) {
+        console.log("selecting words")
+    }
+
+    handle_topic_change(event) {
+        console.log("handle topic change");
     }
 
 

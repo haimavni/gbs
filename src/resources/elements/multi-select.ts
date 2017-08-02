@@ -11,6 +11,9 @@ export class MultiSelectCustomElement {
     filter = "";
     @bindable place_holder_text = "";
     width;
+    @bindable height: 180;
+    @bindable height_selected = 60;
+    @bindable height_unselected = 120;
 
     constructor(element) {
         this.element = element;
@@ -46,6 +49,12 @@ export class MultiSelectCustomElement {
     attached() {
         const elementRect = this.element.getBoundingClientRect();
         this.width = Math.round(elementRect.width) - 50;
+        if (! this.height) {
+            this.height = 180;
+        }
+        this.height_selected = Math.max(Math.round(this.height / 3), 40);
+        this.height_unselected = this.height - this.height_selected;
+        console.log("height, height_selected, height_unselected: ", this.height, this.height_selected, this.height_unselected);
     }
 
 
