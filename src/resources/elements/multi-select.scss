@@ -27,7 +27,7 @@
     }
 
     /*div.ms-container {
-        height:180px;
+        height: 180px;
     }*/
 
     ul {
@@ -36,6 +36,22 @@
 
     li a {
         margin-right: -18px;
+    }
+
+    i.tool {
+        float: left;
+        margin-right: 4px;
+        cursor: pointer;
+    }
+
+    div.search-filter {
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+
+    a {
+        float: right;
     }
 
 }

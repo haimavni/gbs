@@ -1,10 +1,12 @@
 import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
+import { User } from '../../services/user';
 
-@inject(DOM.Element)
+@inject(DOM.Element, User)
 export class MultiSelectCustomElement {
     private compare = (k1, k2) => k1.name < k2.name ? -1 : k1.name > k2.name ? 1 : 0;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     selected = new Set();
+    @bindable user;
     element;
     selected_options = [];
     saved_options;
@@ -15,8 +17,9 @@ export class MultiSelectCustomElement {
     @bindable height_selected = 60;
     @bindable height_unselected = 120;
 
-    constructor(element) {
+    constructor(element, user) {
         this.element = element;
+        this.user = user;
     }
 
     toggle_selection(option) {
@@ -63,6 +66,14 @@ export class MultiSelectCustomElement {
             console.log("is selected? ", option.id, " ", option.name, " ", this.selected.has(option.id));
         }
         return this.selected.has(option.id);
+    }
+
+    merge_options(option, event) {
+        console.log("merge ", option);
+    }
+
+    edit_option(option, event) {
+        console.log("edit ", option);
     }
 
     onfocus(what) {
