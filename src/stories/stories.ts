@@ -5,6 +5,7 @@ import { autoinject } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
+import { set_intersection, set_union, set_diff } from '../services/set_utils';
 
 @autoinject
 export class Stories {
@@ -25,7 +26,8 @@ export class Stories {
         selected_uploader: "",
         from_date: "",
         to_date: "",
-        selected_languages: []
+        selected_languages: [],
+        selected_stories: []
     };
     topic_list = [];
     authors_list = [];
@@ -58,13 +60,7 @@ export class Stories {
                 }
             });
         this.api.call_server('members/get_stories_index')
-            .then(response => {
-                this.stories_index = [];
-                let words = Object.keys(response.stories_index);
-                for (let w of words) {
-                    this.stories_index.push({name: w, id: w});
-                }
-            });
+            .then(response => this.stories_index = response.stories_index);
         /*  this.api.call_server('members/get_story_previews')
               .then(response => this.story_previews = response.story_previews);*/
     }
@@ -103,16 +99,37 @@ export class Stories {
 
     handle_languages_change(event) {
         console.log("selection is now ", event.detail);
-        this.params.selected_languages = event.detail.selected_options;
+        this.params.selected_languages = event.detail.ungrouped_selected_options;
         this.update_story_list();
     }
 
     handle_words_change(event) {
-        console.log("selecting words")
+        console.log("selecting words ", event.detail);
+        let result = null;
+        event.detail.grouped_selected_options.forEach(element => {
+            if (result) {
+                console.log("grouped result, element: ", result, element);
+            } else {
+                console.log("grouped element: ", element);
+                result = element;
+            }
+        });
+        event.detail.ungrouped_selected_options.forEach(element => {
+            if (result) {
+                let temp = new Set(element.story_ids);
+                result = set_intersection(result, temp);
+                console.log("ungrouped result, element: ", result, element);
+            } else {
+                console.log("ungrouped element: ", element);
+                result = new Set(element.story_ids);
+            }
+            let arr = Array.from(result);
+            this.params.selected_stories = arr;
+        });
     }
 
     handle_topic_change(event) {
-        console.log("handle topic change");
+        console.log("handle topic change ", event.detail);
     }
 
 

@@ -48,7 +48,8 @@
                         <multi-select options.bind="used_languages" place_holder_text="stories.languages" height="80" change.delegate="handle_languages_change($event) "></multi-select>
                     </div>
                     <div class="row">
-                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201" change.delegate="handle_words_change($event) "></multi-select>
+                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201" settings.bind="{clear_filter_after_select: false}"
+                            change.delegate="handle_words_change($event) "></multi-select>
                     </div>
                 </div>
             </div>
