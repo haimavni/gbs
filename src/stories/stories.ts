@@ -33,7 +33,7 @@ export class Stories {
     authors_list = [];
     days_since_upload_options;
     i18n;
-    selected_stories = new Set([]);
+    num_of_stories = 0;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
         this.api = api;
@@ -41,7 +41,6 @@ export class Stories {
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
-
     }
 
     created(params, config) {
@@ -107,25 +106,37 @@ export class Stories {
         console.log("selecting words ", event.detail);
         let result = null;
         event.detail.grouped_selected_options.forEach(element => {
+            let uni = new Set<number>();
+            for (let x of element) {
+                uni = set_union(uni, new Set(x.story_ids));
+                console.log("x is: ", x);
+            }
             if (result) {
-                console.log("grouped result, element: ", result, element);
+                result = set_intersection(result, uni);
             } else {
-                console.log("grouped element: ", element);
-                result = element;
+                result = uni;
             }
         });
+        console.log("result after grouped is: ", result);
         event.detail.ungrouped_selected_options.forEach(element => {
-            if (result) {
-                let temp = new Set(element.story_ids);
-                result = set_intersection(result, temp);
-                console.log("ungrouped result, element: ", result, element);
-            } else {
-                console.log("ungrouped element: ", element);
-                result = new Set(element.story_ids);
+            console.log("ungrouped elment: ", element);
+            for (let x of element) {
+                if (result) {
+                    result = set_intersection(result, new Set(x.story_ids));
+                } else {
+                    result = new Set(x.story_ids)
+                }
             }
-            let arr = Array.from(result);
-            this.params.selected_stories = arr;
         });
+        console.log("result after ungrouped is: ", result);
+        if (result) {
+            let story_list = Array.from(result);
+            this.num_of_stories = story_list.length;
+            if (story_list.length == 0) return;
+            this.params.selected_stories = story_list;
+            console.log("story list: ", story_list);
+            this.update_story_list();
+        }
     }
 
     handle_topic_change(event) {

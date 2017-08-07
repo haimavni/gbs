@@ -10,7 +10,7 @@
     div.search-filter input {
         font-size: 14px;
         height: 32px;
-        width: 90%;
+        //width: 90%;
         float: right;
         padding: 5px;
     }
@@ -35,13 +35,22 @@
     }
 
     li a {
-        margin-right: -18px;
+       // margin-right: -18px;
     }
 
     i.tool {
         float: left;
         margin-right: 4px;
         cursor: pointer;
+        opacity: 0.4;
+        &:hover {
+            opacity: 1.0;
+        }
+    }
+
+    ul.grouped i.tool {
+        color: blue;
+        font-weight:bolder;
     }
 
     div.search-filter {

@@ -21,6 +21,7 @@ export class MultiSelectCustomElement {
     filter = "";
     @bindable place_holder_text = "";
     width;
+    inner_width;
     @bindable height: 180;
     @bindable height_selected = 60;
     @bindable height_unselected = 120;
@@ -62,11 +63,21 @@ export class MultiSelectCustomElement {
         }
     }
 
+    private option_set_to_option_list(option_set: Set<string>) {
+        let arr: Array<string> = Array.from(option_set);
+        let result = [];
+        for (let opt of arr) {
+            result.push(this.selected_options_storage.getValue(opt));
+        }
+        return result;
+    }
+
     dispatch_event() {
+        let grouped_options = this.grouped_selected_options.map(repr_opt => this.option_set_to_option_list(this.grouped_selected.getValue(repr_opt.name)));
         let changeEvent = new CustomEvent('change', {
             detail: {
                 ungrouped_selected_options: this.ungrouped_selected_options,
-                grouped_selected_options: this.grouped_selected_options
+                grouped_selected_options: grouped_options
             },
             bubbles: true
         });
@@ -74,16 +85,9 @@ export class MultiSelectCustomElement {
     }
 
     attached() {
-        /*let dict = new Collections.Dictionary();
-        dict.setValue('boo', 999);
-        let m = dict['boo'];
-        console.log("m is ", m, " - ", dict.getValue('boo'));
-        dict.setValue('koo', 888);
-        console.log('dict: ', dict);
-        dict.remove("boo");
-        console.log('dict after deletion: ', dict);*/
         const elementRect = this.element.getBoundingClientRect();
         this.width = Math.round(elementRect.width) - 50;
+        this.inner_width = this.width - 50;
         if (!this.height) {
             this.height = 180;
         }
@@ -94,22 +98,28 @@ export class MultiSelectCustomElement {
 
     merge_options(option, event) {
         console.log("merge ", option);
-        this.grouped_selected[option.name] = this.ungrouped_selected;
+        this.grouped_selected.setValue(option.name, this.ungrouped_selected);
         this.ungrouped_selected = new Set();
         this.calculate_selected_lists();
+        this.filter  = "";
     }
 
     unmerge_options(option, event) {
+        let opts: Set<string> = this.grouped_selected.getValue(option.name);
+        this.ungrouped_selected = set_union(this.ungrouped_selected, opts);
+        this.grouped_selected.remove(option.name);
         console.log("unmerge ", option);
         this.dispatch_event();
+        this.calculate_selected_lists();
     }
 
     calculate_selected_lists() {
         this.grouped_selected_options = [];
-        this.grouped_selected.forEach(function(name, set) {
-            let arr = Array.from(set);
-            let options = arr.map(name => this.selected_options_storage[name]);
-            this.grouped_selected_options = this.grouped_selected_options.concat(options);
+        let storage = this.selected_options_storage;
+        let gso = this.grouped_selected_options;
+        this.grouped_selected.forEach(function (name, set) {
+            let option = storage.getValue(name);
+            gso.push(option);
         });
 
 
