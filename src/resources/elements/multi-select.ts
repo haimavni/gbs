@@ -64,6 +64,9 @@ export class MultiSelectCustomElement {
     }
 
     private option_set_to_option_list(option_set: Set<string>) {
+        if (! option_set) {
+            return [];
+        }
         let arr: Array<string> = Array.from(option_set);
         let result = [];
         for (let opt of arr) {
@@ -97,7 +100,6 @@ export class MultiSelectCustomElement {
     }
 
     merge_options(option, event) {
-        console.log("merge ", option);
         this.grouped_selected.setValue(option.name, this.ungrouped_selected);
         this.ungrouped_selected = new Set();
         this.calculate_selected_lists();
@@ -105,8 +107,11 @@ export class MultiSelectCustomElement {
     }
 
     unmerge_options(option, event) {
+        console.log("started unmerge");
         let opts: Set<string> = this.grouped_selected.getValue(option.name);
+        console.log("unmerge 1");
         this.ungrouped_selected = set_union(this.ungrouped_selected, opts);
+        console.log("unmerge 2");
         this.grouped_selected.remove(option.name);
         console.log("unmerge ", option);
         this.dispatch_event();
