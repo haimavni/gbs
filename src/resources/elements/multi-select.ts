@@ -58,6 +58,7 @@ export class MultiSelectCustomElement {
         //this.ungrouped_selected_options = this.all_options.filter(option => this.selected.has(option.name));
         this.options = this.all_options.filter(option => !this.all_selected.has(option.name));  //options become unselected options
         this.calculate_selected_lists();
+        //this.dispatch_event();
         if (this.settings.clear_filter_after_select) {
             this.filter = ""
         }
@@ -99,8 +100,19 @@ export class MultiSelectCustomElement {
         console.log("height, height_selected, height_unselected: ", this.height, this.height_selected, this.height_unselected);
     }
 
+    private make_list(name_set) {
+        let names = Array.from(name_set);
+        let result = "<html dir='rtl'>";
+        for (let name of names) {
+            result += name + "<br>";
+        }
+        result += "</html>"
+        return result
+    }
+
     merge_options(option, event) {
         this.grouped_selected.setValue(option.name, this.ungrouped_selected);
+        option.names = this.make_list(this.ungrouped_selected);
         this.ungrouped_selected = new Set();
         this.calculate_selected_lists();
         this.filter  = "";
@@ -114,7 +126,7 @@ export class MultiSelectCustomElement {
         console.log("unmerge 2");
         this.grouped_selected.remove(option.name);
         console.log("unmerge ", option);
-        this.dispatch_event();
+        //this.dispatch_event();
         this.calculate_selected_lists();
     }
 

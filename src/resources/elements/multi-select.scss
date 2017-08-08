@@ -13,6 +13,7 @@
         //width: 90%;
         float: right;
         padding: 5px;
+        z-index: 0;  //otherwise tooltip might be overwritten
     }
     div.option-item {
         margin-left: 0;
@@ -21,7 +22,7 @@
 
     div.options {
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: scroll;
         width: 90%;
         margin-right: 0px;
     }
@@ -35,7 +36,14 @@
     }
 
     li a {
-       // margin-right: -18px;
+       width: 80%;
+    }
+
+    .ms-tooltip {
+        ul {
+            list-style-type: hebrew;
+            z-index: 9999;
+        }
     }
 
     i.tool {
@@ -54,7 +62,7 @@
     }
 
     div.search-filter {
-      width: 100%;
+      width: 90%;
       margin-top: 15px;
       margin-bottom: 8px;
     }

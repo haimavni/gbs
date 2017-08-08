@@ -79,7 +79,6 @@ export class Stories {
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
                 this.story_list = result.story_list;
-                this.filter = result.used_keywords;
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }

@@ -19,6 +19,7 @@ export class Photos {
     win_height;
     params = {
         selected_topics: [],
+        grouped_selected_topics: [],
         //selected_photographers: [],
         selected_days_since_upload: 0,
         selected_uploader: "",
@@ -50,7 +51,7 @@ export class Photos {
     }
 
     created(params, config) {
-        this.api.call_server('members/get_topic_list', {})
+        this.api.call_server('members/get_topic_list', {usage: 'P'})
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
@@ -104,7 +105,10 @@ export class Photos {
 
     handle_topic_change(event) {
         console.log("selection is now ", event.detail);
-        this.params.selected_topics = event.detail.selected_options;
+        if (! event.detail) return;
+        console.log("selected_topics: ", event.detail.ungrouped_selected_options);
+        this.params.selected_topics = event.detail.ungrouped_selected_options;
+        this.params.grouped_selected_topics = event.detail.grouped_selected_options;
         this.update_photo_list();
     }
 
