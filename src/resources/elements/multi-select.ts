@@ -25,7 +25,7 @@ export class MultiSelectCustomElement {
     @bindable height: 180;
     @bindable height_selected = 60;
     @bindable height_unselected = 120;
-    @bindable settings = { clear_filter_after_select: true };
+    @bindable settings = { clear_filter_after_select: false };
 
     constructor(element, user) {
         this.element = element;
@@ -48,6 +48,7 @@ export class MultiSelectCustomElement {
             this.all_selected = set_diff(this.all_selected, set);
             this.grouped_selected.remove(option.name);
         } else {
+            option.sign = 'plus';
             this.ungrouped_selected.add(option.name);
             this.selected_options_storage.setValue(option.name, option);
             this.all_selected.add(option.name);
@@ -65,7 +66,7 @@ export class MultiSelectCustomElement {
     }
 
     private option_set_to_option_list(option_set: Set<string>) {
-        if (! option_set) {
+        if (!option_set) {
             return [];
         }
         let arr: Array<string> = Array.from(option_set);
@@ -90,8 +91,8 @@ export class MultiSelectCustomElement {
 
     attached() {
         const elementRect = this.element.getBoundingClientRect();
-        this.width = Math.round(elementRect.width) - 50;
-        this.inner_width = this.width - 50;
+        this.width = Math.round(elementRect.width) - 20;
+        this.inner_width = this.width - 70;
         if (!this.height) {
             this.height = 180;
         }
@@ -115,7 +116,7 @@ export class MultiSelectCustomElement {
         option.names = this.make_list(this.ungrouped_selected);
         this.ungrouped_selected = new Set();
         this.calculate_selected_lists();
-        this.filter  = "";
+        this.filter = "";
     }
 
     unmerge_options(option, event) {
@@ -128,6 +129,19 @@ export class MultiSelectCustomElement {
         console.log("unmerge ", option);
         //this.dispatch_event();
         this.calculate_selected_lists();
+    }
+
+    toggle_sign(option, event) {
+        console.log("toggle sign ", option.sign);
+        option.sign = (option.sign == 'plus') ? 'minus' : 'plus';
+    }
+
+    remove_option(option, event) {
+        console.log("remove option ", option);
+    }
+
+    edit_option(option, event) {
+        console.log("edit option ", option);
     }
 
     calculate_selected_lists() {
@@ -143,10 +157,6 @@ export class MultiSelectCustomElement {
         let ungrouped = Array.from(this.ungrouped_selected);
         this.ungrouped_selected_options = ungrouped.map(u => this.selected_options_storage.getValue(u));
         this.dispatch_event();
-    }
-
-    edit_option(option, event) {
-        console.log("edit ", option);
     }
 
     onfocus(what) {

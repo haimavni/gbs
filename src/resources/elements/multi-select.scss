@@ -33,10 +33,15 @@
 
     ul {
         list-style-type: none;
+        padding: 0;
+    }
+
+    div.selected ul {
+        padding-right:16px;
     }
 
     li a {
-       width: 80%;
+       width: 51%;
     }
 
     .ms-tooltip {
@@ -50,7 +55,7 @@
         float: left;
         margin-right: 4px;
         cursor: pointer;
-        opacity: 0.4;
+        opacity: 0.5;
         &:hover {
             opacity: 1.0;
         }
@@ -67,8 +72,40 @@
       margin-bottom: 8px;
     }
 
-    a {
+    /*a {
         float: right;
+    }*/
+
+    span {
+        height: 20px;
+    }
+    span.span-a {
+        width: 51%;
+        float:right;
+        overflow: hidden;
+        cursor: pointer;
+        a {
+            margin: 0;
+            padding: 0;
+            //float: left;
+        }
+    }
+
+    span.span-i {
+        width: 80px;
+        float:left;
+        a {
+            margin: 0;
+            padding: 0;
+            float: left;
+            width:20px;
+        }
+    }
+
+    div.unselected {
+        a {
+            cursor: pointer;
+        }
     }
 
 }

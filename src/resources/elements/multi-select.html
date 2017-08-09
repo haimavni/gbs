@@ -10,8 +10,20 @@
             <ul if.bind="grouped_selected_options.length>0" class="grouped" css="width:${width}px;">
                 <li repeat.for="option of grouped_selected_options" class="selected" css="width:${inner_width}px;">
                     <div class="option-item" css="margin:0;padding:0;width:${inner_width}px">
-                        <a click.trigger="toggle_selection(option)" aubs-tooltip="text.bind:option.names; position:top;class:ms-tooltip;">${option.name}</a>
-                        <i class="fa fa-paperclip fa-rotate-90 tool" click.trigger="unmerge_options(option, $event)"></i>
+                        <span class="span-a">
+                            <a click.trigger="toggle_selection(option)" aubs-tooltip="text.bind:option.names; position:top;class:ms-tooltip;">
+                                ${option.name}
+                            </a>
+                        </span>
+                        <span class="span-i">
+                            <a if.bind="user.editing" click.trigger="toggle_sign(option, $event)">
+                                <!-- The rotatate-180 thing here and below is kind of voodoo. It is crazy without it-->
+                                <i class="fa fa-${option.sign}-squqare-o fa-rotate-180 tool"></i>
+                            </a>
+                            <a click.trigger="unmerge_options(option, $event)">
+                                <i class="fa fa-paperclip fa-rotate-90 tool"></i>
+                            </a>
+                        </span>
                     </div>
                 </li>
             </ul>
@@ -19,10 +31,25 @@
             <ul css="width:${width}px;">
                 <li repeat.for="option of ungrouped_selected_options" class="selected" css="width:${inner_width}px;">
                     <div class="option-item" css="margin:0;padding:0;width:${inner_width}px">
-                        <a click.trigger="toggle_selection(option)">${option.name}</a>
-                        <i class="fa fa-paperclip fa-rotate-90 tool" click.trigger="merge_options(option, $event)"></i>
-                        <i if.bind="user.editing" class="fa fa-pencil tool" click.trigger="edit_option(option, $event)"></i>
-                        <i if.bind="user.editing" class="fa fa-trash tool" click.trigger="remove_option(option, $event)"></i>
+                        <span class="span-a">
+                            <a click.trigger="toggle_selection(option)">
+                                ${option.name}
+                            </a>
+                        </span>
+                        <span class="span-i">
+                            <a click.trigger="merge_options(option, $event)">
+                                <i class="fa fa-paperclip fa-rotate-90 tool"></i>
+                            </a>
+                            <a if.bind="user.editing" click.trigger="toggle_sign(option, $event)">
+                                <i class="fa fa-${option.sign}-square-o fa-rotate-180 tool"></i>
+                            </a>
+                            <a if.bind="user.editing" click.trigger="edit_option(option, $event)">
+                                <i class="fa fa-pencil fa-rotate-180 fa-rotate-180 tool"></i>
+                            </a>
+                            <a if.bind="user.editing" click.trigger="remove_option(option, $event)">
+                                <i class="fa fa-trash fa-rotate-180 tool"></i>
+                            </a>
+                        </span>
                     </div>
                 </li>
             </ul>

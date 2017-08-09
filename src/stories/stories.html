@@ -44,7 +44,7 @@
                     <div class="row">
                         <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" height="180" change.delegate="handle_topic_change($event) "></multi-select>
                     </div>
-                    <div class="row">
+                    <div if.bind="false" class="row">
                         <multi-select options.bind="used_languages" place_holder_text="stories.languages" height="80" change.delegate="handle_languages_change($event) "></multi-select>
                     </div>
                     <div class="row">
