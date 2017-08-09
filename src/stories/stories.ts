@@ -119,28 +119,26 @@ export class Stories {
         console.log("result after grouped is: ", result);
         event.detail.ungrouped_selected_options.forEach(element => {
             console.log("ungrouped elment: ", element);
-            for (let x of element) {
-                if (result) {
-                    result = set_intersection(result, new Set(x.story_ids));
-                } else {
-                    result = new Set(x.story_ids)
-                }
+            if (result) {
+                result = set_intersection(result, new Set(element.story_ids));
+            } else {
+                result = new Set(element.story_ids)
             }
         });
-        console.log("result after ungrouped is: ", result);
-        if (result) {
-            let story_list = Array.from(result);
-            this.num_of_stories = story_list.length;
-            if (story_list.length == 0) return;
-            this.params.selected_stories = story_list;
-            console.log("story list: ", story_list);
-            this.update_story_list();
-        }
+    console.log("result after ungrouped is: ", result);
+    if(result) {
+        let story_list = Array.from(result);
+        this.num_of_stories = story_list.length;
+        if (story_list.length == 0) return;
+        this.params.selected_stories = story_list;
+        console.log("story list: ", story_list);
+        this.update_story_list();
     }
+}
 
-    handle_topic_change(event) {
-        console.log("handle topic change ", event.detail);
-    }
+handle_topic_change(event) {
+    console.log("handle topic change ", event.detail);
+}
 
 
 }

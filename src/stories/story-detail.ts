@@ -19,7 +19,6 @@ export class StoryDetail {
     }
 
     activate(params, config) {
-        console.log("story details activate");
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
                 this.story = response.story;

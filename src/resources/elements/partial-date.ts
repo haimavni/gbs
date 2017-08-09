@@ -14,7 +14,6 @@ export class PartialDateCustomElement {
     }
 
     bind() {
-        console.log("in bind partial date, date str: ", this.date_str);
         this.parse_date_str();
     }
 
@@ -84,12 +83,10 @@ export class PartialDateCustomElement {
     focus(fieldName) {
         let el = this.element.querySelector('#' + fieldName);
         let inputs = el.getElementsByTagName("INPUT");
-        console.log("inputs: ", inputs);
         inputs[0].focus();
     }
 
     attached() {
-        console.log("in attached partial date, date str: ", this.date_str);
         this.split_date_str();
     }
 

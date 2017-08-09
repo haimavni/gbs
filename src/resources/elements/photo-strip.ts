@@ -173,7 +173,6 @@ export class PhotoStripCustomElement {
 
     on_click(slide, event) {
         event.stopPropagation();
-        console.log("photo was clicked");
         if (this.vertical) {
             return;
         }

@@ -24,7 +24,6 @@ export class User {
         this.editing = false;
         let lang = i18n.getLocale();
         this.rtltr = rtl_langs.has(lang) ? "rtl" : "ltr";
-        console.log("rtltr: ", this.rtltr);
         this.privileges = {
             EDITOR: true
         }

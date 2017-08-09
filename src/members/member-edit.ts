@@ -73,16 +73,13 @@ export class MemberEdit {
             data['member_id'] = this.member.member_info.id;
         }
         let id = this.member.member_info.id;
-        console.log("id. new member? ", id, " member: ", this.member);
         this.api.call_server_post('members/save_member_info', data)
             .then(response => {
                 this.member_info_orig = deepClone(this.member.member_info);
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = deepClone(this.member);
-                console.log("just before decision if new member, id is ", id);
                 let msg = id ? 'MemberDetailsUpdated' : 'NewMemberAdded';
-                console.log("msg: ", msg, " member: ", this.member)
                 this.eventAggregator.publish(msg, this.member.member_info);
             });
     }
@@ -108,7 +105,6 @@ export class MemberEdit {
             viewModel: MemberPicker, model: { gender: 'M', child_name: this.member.member_info.full_name }, lock: false,
             position: this.setup, rejectOnCancel: true
         }).whenClosed(response => {
-            console.log("found father. response: ", response, " member id: ", response.output.member_id);
             this.member.member_info.father_id = response.output.member_id;
             if (response.output.new_member) {
                 this.memberList.member_added(response.output.new_member);
@@ -124,7 +120,6 @@ export class MemberEdit {
             viewModel: MemberPicker, model: { gender: 'F', child_name: this.member.member_info.full_name }, lock: false,
             position: this.setup, rejectOnCancel: true
         }).whenClosed(response => {
-            console.log("found mother. response: ", response, " member id: ", response.output.member_id);
             this.member.member_info.mother_id = response.output.member_id;
             if (response.output.new_member) {
                 this.memberList.member_added(response.output.new_member);
@@ -136,7 +131,6 @@ export class MemberEdit {
     }
 
     get_member_data(member_id) {
-        console.log(" before candidates. this.memberList: ", this.memberList);
         let candidates = this.memberList.members.member_list.filter(member => member.id == member_id);
         if (candidates) {
             return candidates[0]
@@ -151,7 +145,6 @@ export class MemberEdit {
     }
 
     setup(modalContainer: Element, modalOverlay: Element) {
-        console.log("Hi, I am in setup!")
     }
 
 }

@@ -16,12 +16,12 @@
                             </a>
                         </span>
                         <span class="span-i">
-                            <a if.bind="user.editing" click.trigger="toggle_sign(option, $event)">
-                                <!-- The rotatate-180 thing here and below is kind of voodoo. It is crazy without it-->
-                                <i class="fa fa-${option.sign}-squqare-o fa-rotate-180 tool"></i>
-                            </a>
                             <a click.trigger="unmerge_options(option, $event)">
                                 <i class="fa fa-paperclip fa-rotate-90 tool"></i>
+                            </a>
+                            <a if.bind="user.editing" click.trigger="toggle_sign(option, $event)">
+                                <!-- The rotatate-180 thing here and below is kind of voodoo. It is crazy without it-->
+                                <i class="fa fa-${option.sign}-square-o fa-rotate-180 tool"></i>
                             </a>
                         </span>
                     </div>

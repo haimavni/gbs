@@ -63,10 +63,8 @@ export class MemberList {
     }
 
     member_added(new_member: any) {
-        console.log("adding member ", new_member, " this.members.length: ", this.members.member_list.length);
         let new_list_item = { name: new_member.name, facePhotoURL: new_member.facePhotoURL, gender: new_member.member_info.gender, id: new_member.member_info.id };
         this.members.member_list.splice(0, 0, new_list_item);
-        console.log("after splicing, length of mem list: ", this.members.member_list.length);
     }
 
     set_profile_photo(member_id, face_photo_url) {

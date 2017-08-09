@@ -4,6 +4,8 @@ import { autoinject } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
+import { Router } from 'aurelia-router';
+
 
 @autoinject
 export class Photos {
@@ -32,12 +34,14 @@ export class Photos {
     uploader_options;
     i18n;
     selected_photos = new Set([]);
+    router;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
         this.api = api;
         this.user = user;
         this.dialog = dialog;
         this.i18n = i18n;
+        this.router = router;
         this.days_since_upload_options = [
             { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('photos.uploaded-today') },
@@ -51,7 +55,7 @@ export class Photos {
     }
 
     created(params, config) {
-        this.api.call_server('members/get_topic_list', {usage: 'P'})
+        this.api.call_server('members/get_topic_list', { usage: 'P' })
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
@@ -98,6 +102,8 @@ export class Photos {
         console.log("photo clicked. event: ", event);
         if (event.ctrlKey) {
             this.toggle_selection(slide);
+        } else if (event.shiftKey) {
+            this.jump_to_photo(slide)
         } else {
             this.openDialog(slide);
         }
@@ -105,7 +111,7 @@ export class Photos {
 
     handle_topic_change(event) {
         console.log("selection is now ", event.detail);
-        if (! event.detail) return;
+        if (!event.detail) return;
         console.log("selected_topics: ", event.detail.ungrouped_selected_options);
         this.params.selected_topics = event.detail.ungrouped_selected_options;
         this.params.grouped_selected_topics = event.detail.grouped_selected_options;
@@ -133,4 +139,11 @@ export class Photos {
         }
         console.log("check/uncheck photo ", this.selected_photos);
     }
+
+    private jump_to_photo(slide) {
+        console.log("slide in jump: ", slide);
+        let photo_id = slide.photo_id;
+        this.router.navigateToRoute('photo-detail', { id: photo_id });
+    }
+
 }

@@ -24,7 +24,6 @@ export class StoryWindow {
     activate(model) {
         console.debug("enter activate of story window");
         this.story = model.story;
-        console.log('this story: ', this.story);
         if (! this.story.story_text) {
              this.story.story_text = "";
         }
@@ -32,13 +31,11 @@ export class StoryWindow {
         this.story_name_orig = this.story.name.slice();
         this.edit = model.edit;
         this.show = !model.edit;
-        console.log("edit dr4ek? ", this.edit, " show? ", this.show);
     }
 
     @computedFrom('story.story_text', 'story.name')
     get dirty_story() {
         let dirty = (this.story.story_text != this.story_orig) || (this.story.name != this.story_name_orig);
-        console.log("dirty? ", dirty);
         return dirty;
     }
 
@@ -47,7 +44,6 @@ export class StoryWindow {
             return;
         }
         let data = { user_id: this.user.id };
-        console.log("saving this story: ", this.story);
         data['story_info'] = this.story;
         this.api.call_server_post('members/save_story_info', data)
             .then(response => {

@@ -11,7 +11,7 @@ export class App {
   attached() {
     let h = window.innerHeight;
     let ci = window.clientInformation;
-    console.log("height ", h, " clinet info: ", ci);
+    console.log("app attached. height ", h, " clinet info: ", ci);
     let el1 = document.getElementById("router-view");
     let el2 = document.getElementById("footer");
     console.log("router-view offsets: ", el1.offsetHeight, el1.offsetTop, el1.offsetParent);
@@ -32,7 +32,8 @@ export class App {
       { route: 'story-detail/:id',    name: 'story-detail',     moduleId: './stories/story-detail'},
       { route: 'member-details/:id',  name: 'member-details',   moduleId: './members/member-detail'},
       { route: 'memmbers/new',        name: 'member-creation',  moduleId: './members/member-edit',             title: 'members.newMember' },
-      { route: 'members/:id/edit',    name: 'member-edit',      moduleId: './members/member-edit',             title: 'members.editMember' }
+      { route: 'members/:id/edit',    name: 'member-edit',      moduleId: './members/member-edit',             title: 'members.editMember' },
+      { route: 'photos/:id',          name: 'photo-detail',     moduleId: './photos/photo-detail'}
     ]);
     this.router = router;
   }

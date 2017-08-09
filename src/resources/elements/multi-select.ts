@@ -56,10 +56,8 @@ export class MultiSelectCustomElement {
         if (!this.all_options) {
             this.all_options = this.options.splice(0);  //save the full list of options
         }
-        //this.ungrouped_selected_options = this.all_options.filter(option => this.selected.has(option.name));
-        this.options = this.all_options.filter(option => !this.all_selected.has(option.name));  //options become unselected options
+        this.options = this.all_options.filter(option => !this.all_selected.has(option.name));  //options becomes unselected options
         this.calculate_selected_lists();
-        //this.dispatch_event();
         if (this.settings.clear_filter_after_select) {
             this.filter = ""
         }
@@ -98,7 +96,6 @@ export class MultiSelectCustomElement {
         }
         this.height_selected = Math.max(Math.round(this.height / 3), 40);
         this.height_unselected = this.height - this.height_selected;
-        console.log("height, height_selected, height_unselected: ", this.height, this.height_selected, this.height_unselected);
     }
 
     private make_list(name_set) {
@@ -120,28 +117,22 @@ export class MultiSelectCustomElement {
     }
 
     unmerge_options(option, event) {
-        console.log("started unmerge");
         let opts: Set<string> = this.grouped_selected.getValue(option.name);
-        console.log("unmerge 1");
         this.ungrouped_selected = set_union(this.ungrouped_selected, opts);
-        console.log("unmerge 2");
         this.grouped_selected.remove(option.name);
-        console.log("unmerge ", option);
-        //this.dispatch_event();
         this.calculate_selected_lists();
     }
 
     toggle_sign(option, event) {
-        console.log("toggle sign ", option.sign);
         option.sign = (option.sign == 'plus') ? 'minus' : 'plus';
     }
 
     remove_option(option, event) {
-        console.log("remove option ", option);
+        console.log("remove option not ready", option);
     }
 
     edit_option(option, event) {
-        console.log("edit option ", option);
+        console.log("edit option not ready", option);
     }
 
     calculate_selected_lists() {

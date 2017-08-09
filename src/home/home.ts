@@ -23,7 +23,6 @@ export class Home {
     constants;
 
     constructor(api: MemberGateway, router: Router, user: User, i18n: I18N, memberList: MemberList) {
-        console.log("at home. constructor.")
         this.api = api;
         this.user = user;
         this.router = router;

@@ -46,7 +46,6 @@ export class FullSizePhoto {
 
     attached() {
         let div = document.getElementById("full-size-photo");
-        console.log("full size div: ", div);
     }
 
     get_faces(photo_id) {
@@ -88,7 +87,6 @@ export class FullSizePhoto {
             }
             face.member_id = response.output.member_id;
             let make_profile_photo = response.output.make_profile_photo;
-            console.log("member id: " + face.member_id);
             this.api.call_server_post('members/save_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
                 .then(response => {
                     face.name = response.member_name;

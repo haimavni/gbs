@@ -20,7 +20,7 @@ export class editableCustomElement {
 
     zoom_out(story, what) {
         this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
-            console.log("response after edit dialog: ", response.output);
+            //console.log("response after edit dialog: ", response.output);
         });
 
     }

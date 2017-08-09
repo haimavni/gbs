@@ -1,0 +1,21 @@
+<template>
+    <require from="./photos.css"></require>
+
+    <div style="margin-top:50px" class="content-area">
+        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;">
+            <h3 dir="rtl" style="float: right;margin:0px;">
+                ${photo_name}
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-md-7" style="padding-left:40px;">
+                <img src.bind="photo_src" width="600"/>
+            </div>
+            <div class="col-md-5">
+                <!--editable settings.bind="{show_date:false, class:'story-box'}" story.bind="photo_story"></editable-->
+                ${photo_story}
+            </div>
+        </div>
+    </div>
+
+</template>

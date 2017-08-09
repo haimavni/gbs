@@ -21,7 +21,6 @@ export class Members {
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
         this.members = [];
-        console.log("user " + " editing: " + this.user.editing);
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.eventAggregator.subscribe('NewMemberAdded', member_details => {
             this.member_added(member_details);
@@ -36,14 +35,12 @@ export class Members {
                 member.rand = Math.random() * 1000;
             }
             this.members.sort((m1, m2) => m2.has_profile_photo * 10000 + m2.rand - (m1.has_profile_photo * 1000 + m1.rand));
-            console.log("members created. length: ", this.members.length);
         })
     }
 
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
-        console.log("win height: ", this.win_height, " win width: ", this.win_width);
     }
 
     select(member) {
@@ -54,7 +51,6 @@ export class Members {
 
     member_added(member_details) {
         //todo: experiments
-        console.log("member added ", member_details);
         this.members = this.members.splice(0, 0, { name: member_details.name, gender: member_details.gender, id: member_details.id });
     }
 

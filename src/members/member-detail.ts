@@ -60,7 +60,6 @@ export class MemberDetail {
     }
 
     activate(params, config) {
-        console.log("member details activate");
         this.source = this.api.call_server_post('members/get_member_photo_list', {member_id: params.id});
         this.api.getMemberDetails({ member_id: params.id })
             .then(member => {
@@ -71,15 +70,12 @@ export class MemberDetail {
     }
 
     bind() {
-        console.log("member details bind");
     }
 
     attched() {
-        console.log("member details dattached");
     }
 
     detached() {
-        console.log("member details detached");
     }
 
     set_parent(member, parent) {
@@ -149,7 +145,6 @@ export class MemberDetail {
     }
 
     zoom_out(story, what) {
-        console.log("zoom out what ", what);
         this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
             console.log("response after edit dialog: ", response.output);
         });

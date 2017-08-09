@@ -30,7 +30,6 @@ export class MemberPicker {
         this.memberList = memberList;
         this.members = [];
         this.dialogController = dialogController;
-        console.log("user " + " editing: " + this.user.editing);
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.dialogController = dialogController;
         this.router = router;
@@ -70,7 +69,6 @@ export class MemberPicker {
     }
 
     select(member) {
-        console.log("selected member ", member.id);
         this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
     }
 
