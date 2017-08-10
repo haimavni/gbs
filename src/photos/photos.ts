@@ -109,6 +109,11 @@ export class Photos {
         }
     }
 
+    maximize_photo(slide, event) {
+        console.log("maximize photo clicked. event: ", event);
+        this.openDialog(slide);
+    }
+
     handle_topic_change(event) {
         console.log("selection is now ", event.detail);
         if (!event.detail) return;
