@@ -11,3 +11,14 @@ a.photo-selected img{
 .multi-select .search-filter {
     width: 90%;
 }
+
+a.photo-maximizer {
+    position:absolute;
+    right:0px;
+    cursor:sw-resize;
+    opacity:0.5;
+    &:hover {
+        opacity: 1.0;
+    }
+}
+

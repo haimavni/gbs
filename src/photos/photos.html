@@ -8,8 +8,10 @@
         </div>
         <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
             <div class="row">
-                <div class="col-md-1">
+                <div class="col-md-1" css="padding-top: 40px;position:relative">
+                    <span css="position:absolute">${'photos.more' | t}</span>
                     <input type="range" id="range" min="4" max="32" step="1" change.trigger="slider_changed()" value.bind="photos_per_line" />
+                    <span css="position:absolute">${'photos.less' | t}</span>
                 </div>
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;">
@@ -25,7 +27,10 @@
                             <a click.trigger="photo_clicked(photo, $event)" class.bind="photo.selected">
                                 <img src="${photo.square_src}" aubs-tooltip="text.bind:photo.title" width="${photo_size}" height="${photo_size}" style="margin:0;" />
                             </a>
-                            <a css="position:absolute;right:0px;top:${width/2}px;cursor:sw-resize;" click.trigger="maximize_photo(photo, $event)"><i class="fa fa-expand"></i></a>
+                            <a class="photo-maximizer" css="position:absolute;right:0px;top:${width/2}px;" 
+                                click.trigger="maximize_photo(photo, $event)">
+                                <i class="fa fa-expand"></i>
+                            </a>
                         </span>
                     </div>
                 </div>

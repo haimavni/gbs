@@ -102,10 +102,8 @@ export class Photos {
         console.log("photo clicked. event: ", event);
         if (event.ctrlKey) {
             this.toggle_selection(slide);
-        } else if (event.shiftKey) {
-            this.jump_to_photo(slide)
         } else {
-            this.openDialog(slide);
+            this.jump_to_photo(slide)
         }
     }
 
