@@ -2,8 +2,9 @@ import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
 import { User } from '../../services/user';
 import { set_intersection, set_union, set_diff } from '../../services/set_utils';
 import * as Collections from 'typescript-collections';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
-@inject(DOM.Element, User)
+@inject(DOM.Element, User, EventAggregator)
 export class MultiSelectCustomElement {
     private compare = (k1, k2) => k1.name < k2.name ? -1 : k1.name > k2.name ? 1 : 0;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
@@ -25,11 +26,22 @@ export class MultiSelectCustomElement {
     @bindable height: 180;
     @bindable height_selected = 60;
     @bindable height_unselected = 120;
-    @bindable settings = { clear_filter_after_select: false };
+    default_settings = { clear_filter_after_select: false, editable: true, mergeable: true, source_mergeable: false };
+    @bindable settings;
+    @bindable can_edit = true;
+    @bindable can_merge = true;
+    eventAggregator;
 
-    constructor(element, user) {
+    constructor(element, user: User, eventAggregator: EventAggregator) {
         this.element = element;
         this.user = user;
+        this.eventAggregator = eventAggregator;
+        this.eventAggregator.subscribe('EditModeChange', payload => {this.handle_user_mode_change(payload)});
+    }
+
+    handle_user_mode_change(user) {
+        this.user = user;
+        this.enable_disable();
     }
 
     toggle_selection(option) {
@@ -87,6 +99,17 @@ export class MultiSelectCustomElement {
         this.element.dispatchEvent(changeEvent);
     }
 
+    private enable_disable() {
+        this.can_edit = this.user.editing && this.settings.editable;
+        if (this.user.editing) {
+            this.can_merge = this.settings.source_mergeable 
+        } else {
+            this.can_merge = this.settings.mergeable; 
+        }
+        console.log("can edit, can merge ", this.can_edit, this.can_merge);
+
+    }
+
     attached() {
         const elementRect = this.element.getBoundingClientRect();
         this.width = Math.round(elementRect.width) - 20;
@@ -96,6 +119,11 @@ export class MultiSelectCustomElement {
         }
         this.height_selected = Math.max(Math.round(this.height / 3), 40);
         this.height_unselected = this.height - this.height_selected;
+
+        console.log("settings before ", this.settings);
+        this.settings = extend(this.default_settings, this.settings);
+        console.log("settings after: ", this.settings);
+        this.enable_disable();
     }
 
     private make_list(name_set) {
@@ -156,3 +184,9 @@ export class MultiSelectCustomElement {
 
 }
 
+function extend(obj, src) {
+    for (var key in src) {
+        if (src.hasOwnProperty(key)) obj[key] = src[key];
+    }
+    return obj;
+}

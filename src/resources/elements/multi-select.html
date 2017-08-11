@@ -37,16 +37,16 @@
                             </a>
                         </span>
                         <span class="span-i">
-                            <a click.trigger="merge_options(option, $event)">
+                            <a if.bind="can_merge" click.trigger="merge_options(option, $event)">
                                 <i class="fa fa-paperclip fa-rotate-90 tool"></i>
                             </a>
-                            <a if.bind="user.editing" click.trigger="toggle_sign(option, $event)">
+                            <a if.bind="user.can_edit || user.advanced" click.trigger="toggle_sign(option, $event)">
                                 <i class="fa fa-${option.sign}-square-o fa-rotate-180 tool"></i>
                             </a>
-                            <a if.bind="user.editing" click.trigger="edit_option(option, $event)">
+                            <a if.bind="can_edit" click.trigger="edit_option(option, $event)">
                                 <i class="fa fa-pencil fa-rotate-180 fa-rotate-180 tool"></i>
                             </a>
-                            <a if.bind="user.editing" click.trigger="remove_option(option, $event)">
+                            <a if.bind="can_edit" click.trigger="remove_option(option, $event)">
                                 <i class="fa fa-trash fa-rotate-180 tool"></i>
                             </a>
                         </span>

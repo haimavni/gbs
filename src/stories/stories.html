@@ -42,14 +42,15 @@
                 </div>
                 <div class="col-md-3">
                     <div class="row">
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" height="180" change.delegate="handle_topic_change($event) "></multi-select>
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" height="180" settings.bind="{source_mergeable: true}"
+                            change.delegate="handle_topic_change($event) "></multi-select>
                     </div>
                     <div if.bind="false" class="row">
                         <multi-select options.bind="used_languages" place_holder_text="stories.languages" height="80" change.delegate="handle_languages_change($event) "></multi-select>
                     </div>
                     <div class="row">
                         ${num_of_stories} ${'stories.matching-stories' | t}
-                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201" settings.bind="{clear_filter_after_select: false}"
+                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201" settings.bind="{editable: false}"
                             change.delegate="handle_words_change($event) "></multi-select>
                     </div>
                 </div>

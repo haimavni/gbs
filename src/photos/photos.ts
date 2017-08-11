@@ -22,7 +22,8 @@ export class Photos {
     params = {
         selected_topics: [],
         grouped_selected_topics: [],
-        //selected_photographers: [],
+        selected_photographers: [],
+        grouped_selected_photographers: [],
         selected_days_since_upload: 0,
         selected_uploader: "",
         from_date: "",
@@ -123,7 +124,8 @@ export class Photos {
 
     handle_photographer_change(event) {
         console.log("selection is now ", event.detail);
-        //this.params.selected_photographers = event.detail.selected_options;
+        this.params.selected_photographers = event.detail.ungrouped_selected_options;
+        this.params.grouped_selected_photographers = event.detail.grouped_selected_options;
         this.update_photo_list();
     }
 
