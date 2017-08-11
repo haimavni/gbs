@@ -27,13 +27,15 @@ export class Stories {
         from_date: "",
         to_date: "",
         selected_languages: [],
-        selected_stories: []
+        selected_stories: [],
+        selected_story_types: []
     };
     topic_list = [];
     authors_list = [];
     days_since_upload_options;
     i18n;
     num_of_stories = 0;
+    story_types;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
         this.api = api;
@@ -41,6 +43,12 @@ export class Stories {
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
+        this.story_types = [
+            {name: i18n.tr('stories.life-story'), id: 1},
+            {name: i18n.tr('stories.event'), id: 2},
+            {name: i18n.tr('stories.photo'), id: 3},
+            {name: i18n.tr('stories.term'), id: 4}
+        ]
     }
 
     created(params, config) {

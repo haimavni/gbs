@@ -1,7 +1,7 @@
 <template class="multi-select">
     <require from="./multi-select.css">
     </require>
-    <div class="input-group search-filter">
+    <div class="input-group search-filter" if.bind="options.length > 10">
         <input dir="rtl" type="search" class="form-control" t="[placeholder]${place_holder_text}" value.bind="filter & debounce">
     </div>
     <div class="ms-container" css="height:${height}px;">
