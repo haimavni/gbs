@@ -44,10 +44,11 @@ export class Stories {
         this.i18n = i18n;
         this.router = router;
         this.story_types = [
-            {name: i18n.tr('stories.life-story'), id: 1},
-            {name: i18n.tr('stories.event'), id: 2},
-            {name: i18n.tr('stories.photo'), id: 3},
-            {name: i18n.tr('stories.term'), id: 4}
+            //{name: i18n.tr('stories.all-types'), id: 0},
+            { name: i18n.tr('stories.life-stories'), id: 1 },
+            { name: i18n.tr('stories.events'), id: 2 },
+            { name: i18n.tr('stories.photos'), id: 3 },
+            { name: i18n.tr('stories.terms'), id: 4 }
         ]
     }
 
@@ -100,7 +101,22 @@ export class Stories {
 
     jump_to_the_full_story(story) {
         console.log("jump_to_the_full_story of ", story);
-        this.router.navigateToRoute('story-detail', { id: story.story_id });
+        switch (story.used_for) {
+            case this.api.constants.STORY4EVENT:
+                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
+                break;
+            case this.api.constants.STORY4MEMBER:
+                this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story' });
+                break;
+            case this.api.constants.STORY4PHOTO:
+                console.log("photo detail ", story.story_id);
+                this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story' });
+                break;
+            case this.api.constants.STORY4TERM:
+                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'story' });
+                break;
+        }
+
     }
 
     handle_languages_change(event) {
@@ -133,20 +149,27 @@ export class Stories {
                 result = new Set(element.story_ids)
             }
         });
-    console.log("result after ungrouped is: ", result);
-    if(result) {
-        let story_list = Array.from(result);
-        this.num_of_stories = story_list.length;
-        if (story_list.length == 0) return;
-        this.params.selected_stories = story_list;
-        console.log("story list: ", story_list);
+        console.log("result after ungrouped is: ", result);
+        if (result) {
+            let story_list = Array.from(result);
+            this.num_of_stories = story_list.length;
+            if (story_list.length == 0) return;
+            this.params.selected_stories = story_list;
+            console.log("story list: ", story_list);
+            this.update_story_list();
+        }
+    }
+
+    handle_topic_change(event) {
+        console.log("handle topic change ", event.detail);
+    }
+
+    handle_story_types_change(event) {
+        console.log("handle_story_types_change ", event.detail);
+        this.params.selected_story_types = event.detail.ungrouped_selected_options;
+        //modify visible categories according to selected story types
         this.update_story_list();
     }
-}
-
-handle_topic_change(event) {
-    console.log("handle topic change ", event.detail);
-}
 
 
 }

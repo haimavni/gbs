@@ -22,7 +22,8 @@ export class PhotoDetail {
     }
 
     activate(params, config) {
-        this.api.getPhotoDetail({ photo_id: params.id })
+        console.log("activate photo detail. params: ", params);
+        this.api.getPhotoDetail({ photo_id: params.id, what: params.what })
             .then(response => {
                 this.photo_src = response.photo_src;
                 this.photo_name = response.photo_name;

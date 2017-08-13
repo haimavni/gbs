@@ -60,8 +60,8 @@ export class MemberDetail {
     }
 
     activate(params, config) {
-        this.source = this.api.call_server_post('members/get_member_photo_list', {member_id: params.id});
-        this.api.getMemberDetails({ member_id: params.id })
+        this.source = this.api.call_server_post('members/get_member_photo_list', {member_id: params.id, what: params.what});
+        this.api.getMemberDetails({ member_id: params.id, what: params.what })
             .then(member => {
                 this.member = member;
                 this.member.member_stories[0].topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography

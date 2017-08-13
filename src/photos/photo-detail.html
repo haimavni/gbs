@@ -9,11 +9,9 @@
         </div>
         <div class="row">
             <div class="col-md-7" style="padding-left:40px;">
-                <img src.bind="photo_src" width="600"/>
+                <img src.bind="photo_src" width="600" />
             </div>
-            <div class="col-md-5">
-                <!--editable settings.bind="{show_date:false, class:'story-box'}" story.bind="photo_story"></editable-->
-                ${photo_story}
+            <div class="col-md-5" innerhtml.bind="photo_story" dir="rtl">
             </div>
         </div>
     </div>
