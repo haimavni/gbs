@@ -34,10 +34,16 @@ export class MemberGateway {
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator) {
         this.httpClient = httpClient;
         this.eventAggregator = eventAggregator;
+        let href = window.location.href;
+        let app = href.split('/')[3];
+        console.log("href is ", href, " app is: ", app);
+        if (app == '#') {
+            app = 'gbs';
+        }
         httpClient.configure(config => {
             config
                 .useStandardConfiguration()
-                .withBaseUrl(environment.baseURL + '/gbs/')
+                .withBaseUrl(environment.baseURL + '/' + app + '/')
                 .withInterceptor(new SimpleInterceptor())
                 .withDefaults({ mode: "o-cors", credentials: "same-origin" });
         });
