@@ -36,6 +36,7 @@ export function configure(aurelia: Aurelia) {
     .feature('resources');
 
   aurelia.use.globalResources('./services/user');
+  aurelia.use.globalResources('./services/cache');
   aurelia.use.globalResources('./services/member_list');
   aurelia.use.globalResources('./user/user-mode');
 
