@@ -1,5 +1,6 @@
 import { autoinject } from "aurelia-framework";
 import { User } from "../services/user";
+import { Cache } from "../services/cache";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
 
@@ -8,6 +9,7 @@ export class Members {
 
     filter = "";
     user;
+    cache;
     eventAggregator;
     members = [];
     memberList;
@@ -16,8 +18,9 @@ export class Members {
     win_height;
     win_width;
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList) {
+    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, cache: Cache) {
         this.user = user;
+        this.cache = cache;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
         this.members = [];
@@ -39,8 +42,13 @@ export class Members {
     }
 
     attached() {
+        this.filter = this.cache.getValue('MembersFilter');
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
+    }
+
+    detached() {
+        this.cache.setValue('MembersFilter', this.filter);
     }
 
     select(member) {

@@ -24,7 +24,11 @@ export class MemberDetail {
     dirty_story = false;
     content_area_height = 300;
     stories_base = 0;
-    story_0; story_1; story_2; story_3; story_4;
+    story_0 = {story_text: ""}; 
+    story_1 = {story_text: ""}; 
+    story_2 = {story_text: ""}; 
+    story_3 = {story_text: ""}; 
+    story_4 = {story_text: ""};
     life_summary;
     stories_scroll: boolean;
     source;
@@ -122,7 +126,7 @@ export class MemberDetail {
         if (member.facePhotoURL) {
             return member.facePhotoURL;
         } else {
-            return environment.baseURL + "/gbs/static/images/dummy_face.png";
+            return 'x' //environment.baseURL + "/gbs/static/images/dummy_face.png";
         }
     }
 

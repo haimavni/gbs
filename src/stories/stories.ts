@@ -1,5 +1,6 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Cache } from "../services/cache";
 import { autoinject } from 'aurelia-framework';
 //import { StoryDetail } from './story-detail';
 import { DialogService } from 'aurelia-dialog';
@@ -15,6 +16,7 @@ export class Stories {
     story_previews;
     api;
     user;
+    cache;
     router;
     dialog;
     win_width;
@@ -37,9 +39,10 @@ export class Stories {
     num_of_stories = 0;
     story_types;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache) {
         this.api = api;
         this.user = user;
+        this.cache = cache;
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
@@ -58,7 +61,7 @@ export class Stories {
                 this.topic_list = result.topic_list;
                 console.log("topic list ", this.topic_list)
             });
-        this.update_story_list();
+        this.update_story_list(true);
         this.api.call_server('members/get_used_languages')
             .then(response => {
                 this.used_languages = response.used_languages;
@@ -67,8 +70,16 @@ export class Stories {
                     lang.name += ' (' + lang.count + ")"
                 }
             });
-        this.api.call_server('members/get_stories_index')
-            .then(response => this.stories_index = response.stories_index);
+        let cached_index = this.cache.getValue('StoriesIndex');
+        if (cached_index) {
+            this.stories_index = cached_index;
+        } else {
+            this.api.call_server('members/get_stories_index')
+                .then(response => {
+                    this.stories_index = response.stories_index;
+                    this.cache.setValue('StoriesIndex', this.stories_index);
+                });
+        }
         /*  this.api.call_server('members/get_story_previews')
               .then(response => this.story_previews = response.story_previews);*/
     }
@@ -78,7 +89,18 @@ export class Stories {
         this.win_width = window.outerWidth;
     }
 
-    update_story_list() {
+    detached() {
+        this.cache.setValue('StoryList', this.story_list);
+    }
+
+    update_story_list(tryCache?: boolean) {
+        if (tryCache) {
+            let lst = this.cache.getValue('StoryList')
+            if (lst) {
+                this.story_list = lst;
+                return;
+            }
+        }
         let used_for = null;
         if (this.api.constants) {
             used_for = this.api.constants.STORY4EVENT;

@@ -5,7 +5,7 @@ import { DialogService } from 'aurelia-dialog';
 
 @inject(DOM.Element, User, DialogService)
 export class editableCustomElement {
-    @bindable story;
+    @bindable story = "";
     @bindable settings = { show_date: false, class: 'story-panel' };
     element;
     user;
