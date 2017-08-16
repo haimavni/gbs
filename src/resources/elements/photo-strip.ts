@@ -177,7 +177,7 @@ export class PhotoStripCustomElement {
             return;
         }
         if (this.action_key) {
-            this.eventAggregator.publish(this.action_key, { slide: slide, event: event });
+            this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides });
         }
     }
 

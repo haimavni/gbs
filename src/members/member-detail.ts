@@ -24,11 +24,11 @@ export class MemberDetail {
     dirty_story = false;
     content_area_height = 300;
     stories_base = 0;
-    story_0 = {story_text: ""}; 
-    story_1 = {story_text: ""}; 
-    story_2 = {story_text: ""}; 
-    story_3 = {story_text: ""}; 
-    story_4 = {story_text: ""};
+    story_0 = { story_text: "" };
+    story_1 = { story_text: "" };
+    story_2 = { story_text: "" };
+    story_3 = { story_text: "" };
+    story_4 = { story_text: "" };
     life_summary;
     stories_scroll: boolean;
     source;
@@ -43,7 +43,7 @@ export class MemberDetail {
         this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
         this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
-        this.eventAggregator.subscribe('Zoom', payload => {this.openDialog(payload.slide, payload.event)})
+        this.eventAggregator.subscribe('Zoom', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
@@ -64,7 +64,7 @@ export class MemberDetail {
     }
 
     activate(params, config) {
-        this.source = this.api.call_server_post('members/get_member_photo_list', {member_id: params.id, what: params.what});
+        this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
         this.api.getMemberDetails({ member_id: params.id, what: params.what })
             .then(member => {
                 this.member = member;
@@ -112,15 +112,19 @@ export class MemberDetail {
         this.next_story(event, dir);
     }
 
-    private openDialog(slide, event) {
+    private openDialog(slide, event, slide_list) {
+        if (event.altKey && event.shiftKey) {
+            this.detach_photo_from_member(this.member.member_info.id, slide.photo_id, slide_list);
+            return;
+        }
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
             console.log(response.output);
         });
     }
 
-    photo_clicked(slide) {
+    /*photo_clicked(slide) {
         this.openDialog(slide, null);
-    }
+    }*/
 
     get_profile_photo(member) {
         if (member.facePhotoURL) {
@@ -145,7 +149,27 @@ export class MemberDetail {
         } else {
             return { name: "", story_text: "" }
         }
+    }
 
+    detach_photo_from_member(member_id, photo_id, slide_list) {
+        this.api.call_server_post('members/detach_photo_from_member', { member_id: member_id, photo_id: photo_id })
+            .then(response => {
+                if (response.photo_detached) {
+                    // now delete slide #photo_id from slide_list:
+                    let idx = -1;
+                    for (let i=0; i < slide_list.length; i++) {
+                        if (slide_list[i].photo_id==photo_id) {
+                            idx = i;
+                            break;
+                        }
+                    }
+                    if (idx >= 0) {
+                        slide_list.splice(idx, 1);
+                    }
+                } else {
+                    alert("detaching photo failed!")
+                }
+            });
     }
 
     zoom_out(story, what) {

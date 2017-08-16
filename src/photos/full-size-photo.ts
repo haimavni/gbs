@@ -96,7 +96,6 @@ export class FullSizePhoto {
     }
 
     remove_face(face) {
-        this.api.call_server_post('members/remove_face', { face: face })
         let i = this.faces.indexOf(face);
         this.faces.splice(i, 1);
     }
@@ -154,7 +153,7 @@ export class FullSizePhoto {
     }
 
     public toggle_highlighting(event) {
-        this.highlighting = ! this.highlighting;
+        this.highlighting = !this.highlighting;
         event.stopPropagation();
         let el = document.getElementById("full-size-photo");
         el.classList.toggle("highlight-faces");
