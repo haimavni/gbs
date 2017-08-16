@@ -48,6 +48,7 @@ export class MemberGateway {
                 .withDefaults({ mode: "o-cors", credentials: "same-origin" });
         });
         this.get_constants();
+        this.listen('ALL');
     }
 
     call_server(url: string, data?: any) {
@@ -122,15 +123,34 @@ export class MemberGateway {
             .then(response => this.constants = response);
     }
 
-    /*listen(group) {
-      let x = window.location;
-      service.call_server('default/get_tornado_host', { group: group })
-        .then(data => {
-          let ws = data.ws;
-          if (!web2py_websocket(ws, service.handle_ws_message)) {
-            alert("html5 websocket not supported by your browser, try Google Chrome");
-          };
-        });
-    };*/
+    listen(group?) {
+        let x = window.location;
+        this.call_server('default/get_tornado_host', { group: group })
+            .then(data => {
+                console.log("listen data: ", data);
+                let ws = data.ws;
+                if (!web2py_websocket(ws, this.handle_ws_message)) {
+                    alert("html5 websocket not supported by your browser, try Google Chrome");
+                };
+            });
+    };
+
+    handle_ws_message(e) {
+        let obj = JSON.parse(e.data);
+        let key = obj.key;
+        let data = obj.data;
+        this.eventAggregator.publish(key, data);
+    }
 
 }
+
+function web2py_websocket(url, onmessage, onopen?, onclose?) {
+    if ("WebSocket" in window) {
+        var ws = new WebSocket(url);
+        ws.onopen = onopen ? onopen : (function () { });
+        ws.onmessage = onmessage;
+        ws.onclose = onclose ? onclose : (function () { });
+        return true; // supported
+    } else return false; // not supported
+}
+

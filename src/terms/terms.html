@@ -5,5 +5,42 @@
                 <h1 dir="rtl"> ${"terms.terms-lexicon" | t}</h1>
             </div>
         </div>
+
+        <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <div class="row" style="margin-bottom:15px;">
+
+                        <div class="col-md-1 col-md-offset-6" if.bind="user.editing" style="padding-top:18px;">
+                            <a route-href="route: story-detail; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+                                <i class="fa fa-plus-square-o"></i>
+                                ${'stories.new' & t}
+                            </a>
+                        </div>
+                        <div class="col-md-1 col-md-offset-6" if.bind="!user.editing"></div>
+                        <div class="col-md-5">
+                            <div class="input-group" style="width:90%;margin-top:15px;margin-right:35px;">
+                                <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"
+                                    change.delegate="update_story_list()" />
+                            </div>
+                        </div>
+                    </div>
+                    <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;">
+                        <li repeat.for="term of term_list | filter: filter : 9999 : 'name' : 'author'" dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
+                            <div style="height:130px;overflow:hidden;padding:20px;">
+                                <div style="margin-bottom: 10px;">
+                                    <editable settings.bind="{show_date:false, class:'story-box'}" story.bind="term"></editable>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
     </section>
 </template>
