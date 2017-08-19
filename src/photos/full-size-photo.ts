@@ -87,7 +87,7 @@ export class FullSizePhoto {
             }
             face.member_id = response.output.member_id;
             let make_profile_photo = response.output.make_profile_photo;
-            this.api.call_server_post('members/save_face', { face: face, resizing: false, make_profile_photo: make_profile_photo })
+            this.api.call_server_post('members/save_face', { face: face, make_profile_photo: make_profile_photo })
                 .then(response => {
                     face.name = response.member_name;
                     this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
@@ -134,6 +134,7 @@ export class FullSizePhoto {
     }
 
     public dragend(face, customEvent: CustomEvent) {
+        console.log("dragend customEvent: ", customEvent);
         customEvent.stopPropagation();
         let event = customEvent.detail;
         if (face.action === "moving") {

@@ -32,6 +32,7 @@ export class MemberDetail {
     life_summary;
     stories_scroll: boolean;
     source;
+    zoom_depth = 0;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
         this.user = user;
@@ -113,18 +114,18 @@ export class MemberDetail {
     }
 
     private openDialog(slide, event, slide_list) {
+        console.log("zoom depth: ", this.zoom_depth, " event: ", event)
+        this.zoom_depth = this.zoom_depth + 1;
+        event.stopPropagation();
         if (event.altKey && event.shiftKey) {
             this.detach_photo_from_member(this.member.member_info.id, slide.photo_id, slide_list);
             return;
         }
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
-            console.log(response.output);
+            this.zoom_depth = this.zoom_depth - 1;
+            console.log("dialog closed: ", this.zoom_depth, " ", response.output);
         });
     }
-
-    /*photo_clicked(slide) {
-        this.openDialog(slide, null);
-    }*/
 
     get_profile_photo(member) {
         if (member.facePhotoURL) {

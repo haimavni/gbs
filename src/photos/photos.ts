@@ -25,7 +25,7 @@ export class Photos {
         selected_photographers: [],
         grouped_selected_photographers: [],
         selected_days_since_upload: 0,
-        selected_uploader: "",
+        selected_uploader: "anyone",
         from_date: "",
         to_date: "",
     };
@@ -46,12 +46,15 @@ export class Photos {
         this.days_since_upload_options = [
             { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('photos.uploaded-today') },
-            { value: 7, name: this.i18n.tr('photos.uploaded-this-week') }
+            { value: 7, name: this.i18n.tr('photos.uploaded-this-week') },
+            { value: 30, name: this.i18n.tr('photos.uploaded-this-month') },
+            { value: 91, name: this.i18n.tr('photos.uploaded-this-quarter') },
+            { value: 365, name: this.i18n.tr('photos.uploaded-this-year') }
         ];
         this.uploader_options = [
-            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me') },
+            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone') },
             { value: "users", name: this.i18n.tr('photos.uploaded-by-users') },
-            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone') }
+            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me') }
         ];
     }
 

@@ -8,7 +8,7 @@
             <span if.bind="settings.show_date &&story.timestamp">${story.timestamp} | </span>
             <span if.bind="story.author">${story.author}: </span>
         </div>
-        <div class="row" stylex="padding:0;"><strong style="float:right">${story.name}</strong></div>
+        <div class="row" stylex="padding:0;"><strong style="float:right" innerhtml.bind="story.name" ></strong></div>
 
         <div class="fr-view row ${settings.class}">
             <p innerhtml.bind="story.story_text" css="float:right;direction:rtl;" >

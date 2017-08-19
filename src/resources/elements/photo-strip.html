@@ -4,10 +4,9 @@
         <div if.bind="settings.arrows" class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
         <div if.bind="settings.arrows"class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
 
-        <a repeat.for="slide of slides" interact-draggable interact-dragend.delegate="shift_photos($event)" style="float:right;"
-            click.trigger="on_click(slide, $event)">
-                 <img id="img-${slide.photo_id}" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
-            </a>
+        <a repeat.for="slide of slides" interact-draggable interact-dragend.delegate="shift_photos($event)" style="float:right;" >
+            <img id="img-${slide.photo_id}" click.trigger="on_click(slide, $event)" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
+        </a>
     </div>
 
 </template>

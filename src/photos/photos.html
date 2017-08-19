@@ -49,7 +49,7 @@
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="width:90%;margin-top: 20px;" if.bind="user.is_logged_in">
+                    <div class="row" style="width:90%;margin-top: 20px;" if.bind="user.isLoggedIn">
                         <form role="form">
                             <select value.bind="params.selected_uploader" style="height:32px;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of uploader_options" model.bind="option">${option.name}</option>
@@ -59,16 +59,18 @@
                     <div class="row" style="width:90%;margin-top: 20px;">
                         <form class="form-horizontal" submit.delegate="handle_from_date($event)">
                             <div class="form-group">
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
                                     <input type="text" id="from-date" value.bind="params.from_date & debounce" style="width:106px;margin-right:-32px;padding-right:6px;"
                                         t="[placeholder]photos.enter-date" change.delegate="handle_change($event)">
                                 </div>
-                                <label class="col-sm-7 control-label" for="params.from-date & debounce">${'photos.from-date' & t}</label>
-                                <div class="col-sm-5">
+                                <label class="col-sm-6 control-label" for="params.from-date & debounce">${'photos.from-date' & t}</label>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6">
                                     <input type="text" id="to-date" value.bind="params.to_date & debounce" style="width:106px;margin-right:-32px;padding-right:6px;"
                                         t="[placeholder]photos.enter-date" change.delegate="handle_change($event)">
                                 </div>
-                                <label class="col-sm-7 control-label" for="to-date">${'photos.to-date' & t}</label>
+                                <label class="col-sm-6 control-label" for="to-date">${'photos.to-date' & t}</label>
                             </div>
                         </form>
                     </div>
