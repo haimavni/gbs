@@ -24,6 +24,7 @@ export class Stories {
     used_languages;
     params = {
         selected_topics: [],
+        grouped_selected_topics: [],
         selected_days_since_upload: 0,
         selected_uploader: "",
         from_date: "",
@@ -184,6 +185,9 @@ export class Stories {
 
     handle_topic_change(event) {
         console.log("handle topic change ", event.detail);
+        this.params.selected_topics = event.detail.ungrouped_selected_options;
+        this.params.grouped_selected_topics = event.detail.grouped_selected_options;
+        this.update_story_list();
     }
 
     handle_story_types_change(event) {
