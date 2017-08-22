@@ -1,6 +1,8 @@
 export function configure(config) {
   config.globalResources([
     './value-converters/filter',
+    './value-converters/filter-by-set',
+    './value-converters/take',
     './elements/multi-select',
     './elements/photo-strip',
     './elements/editable',

@@ -36,7 +36,12 @@
                 </div>
                 <div class="col-md-3">
                     <div class="row">
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" change.delegate="handle_topic_change($event) "></multi-select>
+                        <multi-select options.bind="topic_list"
+                            grouped_selected_options.bind="params.grouped_selected_topics" 
+                            ungroupd_selected_options.bind="params.selected_topics"
+                            name="topics"
+                            place_holder_text="photos.click-topic" change.delegate="handle_topic_change($event) ">
+                        </multi-select>
                     </div>
                     <div class="row ">
                         <multi-select options.bind="photographer_list" place_holder_text="photos.click-photographer"

@@ -14,9 +14,10 @@ export class MultiSelectCustomElement {
     grouped_selected = new Collections.Dictionary<string, Set<string>>(); //for each leading term it will have a set of itself and its peers
     ungrouped_selected: Set<string> = new Set([]);
     selected_options_storage = new Collections.Dictionary();  //stores option record by option name, used to map the name sets to lists of options
-    grouped_selected_options = [];  //this and the next are computed from the sets above
-    ungrouped_selected_options = [];
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) grouped_selected_options = [];  //this and the next are computed from the sets above
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) ungrouped_selected_options = [];
 
+    @bindable name;
     @bindable user;
     element;
     filter = "";
@@ -31,7 +32,8 @@ export class MultiSelectCustomElement {
     @bindable can_edit = true;
     @bindable can_merge = true;
     eventAggregator;
-
+    lineHeight = 20;
+    
     constructor(element, user: User, eventAggregator: EventAggregator) {
         this.element = element;
         this.user = user;
@@ -65,13 +67,16 @@ export class MultiSelectCustomElement {
             this.selected_options_storage.setValue(option.name, option);
             this.all_selected.add(option.name);
         }
-        if (!this.all_options) {
+        /*if (!this.all_options) {
             this.all_options = this.options.splice(0);  //save the full list of options
         }
-        this.options = this.all_options.filter(option => !this.all_selected.has(option.name));  //options becomes unselected options
+        this.options = this.all_options.filter(option => !this.all_selected.has(option.name));*/  //options becomes unselected options
         this.calculate_selected_lists();
         if (this.settings.clear_filter_after_select) {
             this.filter = ""
+        } else {
+            this.filter = this.filter + " " //desperate attempt to force the set filter to be invoked
+            this.filter = this.filter.slice(0, -1);
         }
     }
 
@@ -111,13 +116,15 @@ export class MultiSelectCustomElement {
     }
 
     attached() {
+        console.log(this.name, " multi select attached. grouped_selected_options ", this.grouped_selected_options, " ungrouped: ", this.ungrouped_selected_options)
         const elementRect = this.element.getBoundingClientRect();
         this.width = Math.round(elementRect.width) - 20;
         this.inner_width = this.width - 70;
         if (!this.height) {
             this.height = 180;
         }
-        this.height_selected = Math.max(Math.round(this.height / 3), 40);
+
+        this.height_selected = this.lineHeight;
         this.height_unselected = this.height - this.height_selected;
 
         console.log("settings before ", this.settings);
@@ -172,9 +179,13 @@ export class MultiSelectCustomElement {
             gso.push(option);
         });
 
-
         let ungrouped = Array.from(this.ungrouped_selected);
         this.ungrouped_selected_options = ungrouped.map(u => this.selected_options_storage.getValue(u));
+        let selected_lines = Math.max(1, this.grouped_selected_options.length + this.ungrouped_selected_options.length);
+
+        this.height_selected = Math.min(selected_lines * this.lineHeight, this.height - 3 * this.lineHeight) + 16;
+        this.height_unselected = this.height - this.height_selected;
+
         this.dispatch_event();
     }
 

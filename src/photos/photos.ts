@@ -1,13 +1,14 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
-import { autoinject } from 'aurelia-framework';
+import { autoinject, singleton } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 
 
-@autoinject
+@autoinject()
+@singleton()
 export class Photos {
     filter = "";
     photos_per_line = 8;
@@ -59,12 +60,17 @@ export class Photos {
     }
 
     created(params, config) {
+        if (this.topic_list.length > 0) {
+            console.log("photos already created")
+            return;
+        }
         this.api.call_server('members/get_topic_list', { usage: 'P' })
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
                 console.log("topic list ", this.topic_list)
             });
+        console.log(" created. updating photo list.")
         this.update_photo_list();
     }
 

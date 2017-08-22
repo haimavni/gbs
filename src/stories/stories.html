@@ -52,6 +52,7 @@
                         </multi-select>
                     </div>
                     <div class="row">
+                        <div style="margin-top: 16px;margin-bottom:2px;font-size:120%">${'stories.story-types' | t}</div>
                         <multi-select options.bind="story_types" place_holder_text="stories.story-types" height="150"
                         settings.bind="{mergeable:false,source_mergeable:false,editable:false}" 
                             change.delegate="handle_story_types_change($event) ">
