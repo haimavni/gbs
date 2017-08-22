@@ -23,7 +23,8 @@
                         </div>
                     </div>
                     <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;">
-                        <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;" repeat.for="photo of photo_list | filter : filter : 9999 : 'title'">
+                        <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;" 
+                            repeat.for="photo of photo_list | filter : filter : 'title' | take : 9999">
                             <a click.trigger="photo_clicked(photo, $event)" class.bind="photo.selected">
                                 <img src="${photo.square_src}" aubs-tooltip="text.bind:photo.title" width="${photo_size}" height="${photo_size}" style="margin:0;" />
                             </a>
@@ -37,6 +38,7 @@
                 <div class="col-md-3">
                     <div class="row">
                         <multi-select options.bind="topic_list"
+                            settings.bind="{mergeable:true, source_mergeable:true}"
                             grouped_selected_options.bind="params.grouped_selected_topics" 
                             ungroupd_selected_options.bind="params.selected_topics"
                             name="topics"
@@ -45,6 +47,7 @@
                     </div>
                     <div class="row ">
                         <multi-select options.bind="photographer_list" place_holder_text="photos.click-photographer"
+                            settings.bind="{mergeable:false, source_mergeable:true}"
                             change.delegate="handle_photographer_change($event)"></multi-select>
                     </div>
                     <div class="row" style="width:90%;margin-top: 20px;">
