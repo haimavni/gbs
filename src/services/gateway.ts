@@ -3,6 +3,8 @@ import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
 import environment from '../environment';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
+var THIS;
+
 function params(data) {
     return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
 }
@@ -49,6 +51,7 @@ export class MemberGateway {
         });
         this.get_constants();
         this.listen('ALL');
+        THIS = this;
     }
 
     call_server(url: string, data?: any) {
@@ -129,7 +132,7 @@ export class MemberGateway {
             .then(data => {
                 console.log("listen data: ", data);
                 let ws = data.ws;
-                if (!web2py_websocket(ws, this.handle_ws_message)) {
+                if (!this.web2py_websocket(ws, this.handle_ws_message)) {
                     alert("html5 websocket not supported by your browser, try Google Chrome");
                 };
             });
@@ -139,18 +142,20 @@ export class MemberGateway {
         let obj = JSON.parse(e.data);
         let key = obj.key;
         let data = obj.data;
-        this.eventAggregator.publish(key, data);
+        console.log("publishing key/data ", key, '/', data);
+        THIS.eventAggregator.publish(key, data);
+    }
+
+    web2py_websocket(url, onmessage, onopen?, onclose?) {
+        if ("WebSocket" in window) {
+            var ws = new WebSocket(url);
+            ws.onopen = onopen ? onopen : (function () { });
+            ws.onmessage = onmessage;
+            ws.onclose = onclose ? onclose : (function () { });
+            return true; // supported
+        } else return false; // not supported
     }
 
 }
 
-function web2py_websocket(url, onmessage, onopen?, onclose?) {
-    if ("WebSocket" in window) {
-        var ws = new WebSocket(url);
-        ws.onopen = onopen ? onopen : (function () { });
-        ws.onmessage = onmessage;
-        ws.onclose = onclose ? onclose : (function () { });
-        return true; // supported
-    } else return false; // not supported
-}
 

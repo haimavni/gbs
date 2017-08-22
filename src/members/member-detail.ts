@@ -9,6 +9,7 @@ import { FullSizePhoto } from '../photos/full-size-photo';
 import { StoryWindow } from '../stories/story_window';
 import { MemberEdit } from './member-edit';
 import environment from '../environment';
+import { MemberList } from '../services/member_list';
 
 @autoinject()
 @singleton()
@@ -19,6 +20,7 @@ export class MemberDetail {
     router;
     i18n;
     member;
+    memberList;
     dialog;
     baseURL;
     dirty_info = false;
@@ -35,11 +37,12 @@ export class MemberDetail {
     source;
  
 
-    constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService) {
+    constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
         console.log("construct member detail")
         this.user = user;
         this.eventAggregator = eventAggregator;
         this.api = api;
+        this.memberList = memberList;
         this.router = router;
         this.i18n = i18n;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
@@ -99,8 +102,8 @@ export class MemberDetail {
     }
 
     tryDelete() {
-        if (confirm(this.i18n.tr('members.confirmDelete'))) {
-            this.api.delete(this.member.id)
+        if (confirm(this.i18n.tr('members.confirm-delete'))) {
+            this.memberList.remove_member(this.member.member_info.id)
                 .then(() => { this.router.navigateToRoute('members'); });
         }
     }

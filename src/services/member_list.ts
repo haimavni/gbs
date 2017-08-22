@@ -22,6 +22,9 @@ export class MemberList {
             this.member_added(member);
         });
 
+        this.eventAggregator.subscribe('MEMBER_LISTS_CHANGED', payload => {
+            console.log("ws tells change ", payload);
+        });
 
         this.eventAggregator.subscribe('MemberGotProfilePhoto', payload => {
             this.set_profile_photo(payload.member_id, payload.face_photo_url);
@@ -74,6 +77,17 @@ export class MemberList {
                     member.facePhotoURL = face_photo_url;
                 }
             });
+    }
+
+    remove_member(member_id) {
+       return this.api.call_server('members/remove_member', { member_id: member_id })
+            .then(response => {
+                if (response.deleted) {
+                    let mem_ids = this.members.member_list.map(member => member.id)
+                    let idx = mem_ids.indexOf(member_id);
+                    this.members.member_list.splice(idx, 1);
+                }
+            })
     }
 
 }
