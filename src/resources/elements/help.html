@@ -1,0 +1,14 @@
+<template>
+    <button style="border-radius:50%;" class="btn btn-info btn-sm" aubs-popover="custom-popover.bind: customPopover;position.bind: position;" >
+        <i class="fa fa-question"></i>
+    </button>
+
+    <div ref="customPopover">
+        <h3 class="popover-title">
+            Help for ${topic}
+        </h3>
+
+        <div class="popover-content" innerhtml.bind="content" >
+        </div>
+    </div>
+</template>

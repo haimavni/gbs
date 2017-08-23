@@ -7,6 +7,7 @@ export function configure(config) {
     './elements/photo-strip',
     './elements/editable',
     './elements/roller',
-    './elements/partial-date'
+    './elements/partial-date',
+    './elements/help'
   ]);
 }
