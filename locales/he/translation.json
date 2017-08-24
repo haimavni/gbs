@@ -93,7 +93,8 @@
     "first-name": "שם פרטי",
     "last-name": "שם משפחה",
     "manage-users": "ניהול משתמשים",
-    "can-edit": "אפשר לערוך"
+    "can-edit": "אפשר לערוך",
+    "upload-files": "העלאת תמונות"
   },
   "photos": {
     "photos": "תמונות",
@@ -106,7 +107,7 @@
     "uploaded-this-month": "תמונות שהועלו החודש",
     "uploaded-this-quarter": "תמונות שהועלו ברבעון זה",
     "uploaded-this-year": "תמונות שהועלו השנה",
-    "click-topic": "הקלד נושא והקלק כשיופיע",
+    "click-topic": "הקלד תג והקלק עליו כשיופיע",
     "click-photographer": "הקלד צלם והקלק כשיופיע",
     "from-date": "צולם אחרי",
     "to-date": "צולם לפני",
