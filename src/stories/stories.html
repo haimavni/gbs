@@ -41,7 +41,8 @@
 
                 </div>
                 <div class="col-md-3">
-                    <div class="row">
+                    <div class="row" style="position:relative;" dir="rtl">
+                        <help topic="tags" position="bottom" style="position:absolute;left:10px;top:20px;"></help>
                         <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" height="180" 
                             settings.bind="{source_mergeable: true}"
                             change.delegate="handle_topic_change($event) ">
