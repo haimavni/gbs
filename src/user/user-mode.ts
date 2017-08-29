@@ -3,16 +3,19 @@ import { User } from '../services/user';
 import { Login } from '../user/login';
 import { DialogService } from 'aurelia-dialog';
 import { UploadPhotos } from '../photos/upload-photos';
+import { MemberGateway } from '../services/gateway';
 
 @autoinject()
 export class UserMode {
 
     user;
+    api;
     dialog;
     loginData = { email: '', password: '' };
 
-    constructor(user: User, dialog: DialogService) {
+    constructor(user: User, dialog: DialogService, api: MemberGateway) {
         this.user = user;
+        this.api = api;
         this.dialog = dialog;
     }
 
@@ -47,5 +50,17 @@ export class UserMode {
     upload_files() {
         this.dialog.open({ viewModel: UploadPhotos, lock: false });
 
+    }
+
+    toggled(state) {
+        console.log("state: ", state);
+    }
+
+    save_help_messages() {
+        this.api.call_server('help/save_help_messages_to_csv');
+    }
+
+    load_help_messages() {
+        this.api.call_server('help/load_help_messages_from_csv');
     }
 }

@@ -33,6 +33,9 @@ export class Stories {
         selected_stories: [],
         selected_story_types: []
     };
+    help_data = {
+        num_words: 65056
+    }
     topic_list = [];
     authors_list = [];
     days_since_upload_options;
@@ -60,7 +63,6 @@ export class Stories {
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
-                console.log("topic list ", this.topic_list)
             });
         this.update_story_list(true);
         this.api.call_server('members/get_used_languages')
@@ -74,15 +76,18 @@ export class Stories {
         let cached_index = this.cache.getValue('StoriesIndex');
         if (cached_index) {
             this.stories_index = cached_index;
+            this.help_data.num_words = this.stories_index.length;
         } else {
             this.api.call_server('members/get_stories_index')
                 .then(response => {
                     this.stories_index = response.stories_index;
+                    this.help_data.num_words = this.stories_index.length;
                     this.cache.setValue('StoriesIndex', this.stories_index);
                 });
         }
+            
         /*  this.api.call_server('members/get_story_previews')
-              .then(response => this.story_previews = response.story_previews);*/
+                      .then(response => this.story_previews = response.story_previews);*/
     }
 
     attached() {
@@ -114,16 +119,10 @@ export class Stories {
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
-                if (this.story_list) {
-                    console.log(this.story_list.length + " storys");
-                } else {
-                    console.log("no storys found");
-                }
             });
     }
 
     jump_to_the_full_story(story) {
-        console.log("jump_to_the_full_story of ", story);
         switch (story.used_for) {
             case this.api.constants.STORY4EVENT:
                 this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
@@ -132,7 +131,6 @@ export class Stories {
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story' });
                 break;
             case this.api.constants.STORY4PHOTO:
-                console.log("photo detail ", story.story_id);
                 this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story' });
                 break;
             case this.api.constants.STORY4TERM:
@@ -143,19 +141,16 @@ export class Stories {
     }
 
     handle_languages_change(event) {
-        console.log("selection is now ", event.detail);
         this.params.selected_languages = event.detail.ungrouped_selected_options;
         this.update_story_list();
     }
 
     handle_words_change(event) {
-        console.log("selecting words ", event.detail);
         let result = null;
         event.detail.grouped_selected_options.forEach(element => {
             let uni = new Set<number>();
             for (let x of element) {
                 uni = set_union(uni, new Set(x.story_ids));
-                console.log("x is: ", x);
             }
             if (result) {
                 result = set_intersection(result, uni);
@@ -163,35 +158,29 @@ export class Stories {
                 result = uni;
             }
         });
-        console.log("result after grouped is: ", result);
         event.detail.ungrouped_selected_options.forEach(element => {
-            console.log("ungrouped elment: ", element);
             if (result) {
                 result = set_intersection(result, new Set(element.story_ids));
             } else {
                 result = new Set(element.story_ids)
             }
         });
-        console.log("result after ungrouped is: ", result);
         if (result) {
             let story_list = Array.from(result);
             this.num_of_stories = story_list.length;
             if (story_list.length == 0) return;
             this.params.selected_stories = story_list;
-            console.log("story list: ", story_list);
             this.update_story_list();
         }
     }
 
     handle_topic_change(event) {
-        console.log("handle topic change ", event.detail);
         this.params.selected_topics = event.detail.ungrouped_selected_options;
         this.params.grouped_selected_topics = event.detail.grouped_selected_options;
         this.update_story_list();
     }
 
     handle_story_types_change(event) {
-        console.log("handle_story_types_change ", event.detail);
         this.params.selected_story_types = event.detail.ungrouped_selected_options;
         //modify visible categories according to selected story types
         this.update_story_list();

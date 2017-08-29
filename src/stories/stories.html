@@ -41,7 +41,7 @@
 
                 </div>
                 <div class="col-md-3">
-                    <div class="row" style="position:relative;" dir="rtl">
+                    <div class="row" style="position:relative;">
                         <help topic="tags" position="bottom" style="position:absolute;left:10px;top:20px;"></help>
                         <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" height="180" 
                             settings.bind="{source_mergeable: true}"
@@ -56,13 +56,15 @@
                     <div class="row">
                         <div style="margin-top: 16px;margin-bottom:2px;font-size:120%">${'stories.story-types' | t}</div>
                         <multi-select options.bind="story_types" place_holder_text="stories.story-types" height="150"
-                        settings.bind="{mergeable:false,source_mergeable:false,editable:false}" 
+                            settings.bind="{mergeable:false,source_mergeable:false,editable:false}" 
                             change.delegate="handle_story_types_change($event) ">
                         </multi-select>
                     </div>
-                    <div class="row">
+                    <div class="row" style="position:relative;">
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' | t}</span>
-                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201" 
+                        <span if.bind="! num_of_stories">&nbsp;</span>
+                        <help topic="words" position="top" style="position:absolute;left:10px;top:39px;" params.bind="help_data"></help>
+                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201"
                             settings.bind="{editable: false}"
                             change.delegate="handle_words_change($event) "
                         </multi-select>

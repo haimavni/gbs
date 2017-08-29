@@ -40,7 +40,7 @@ export class MemberGateway {
         let app = href.split('/')[3];
         console.log("href is ", href, " app is: ", app);
         if (app == '#') {
-            app = 'gbs__test';
+            app = 'gbs';
         }
         httpClient.configure(config => {
             config
