@@ -103,6 +103,12 @@
                 <div class="form-group">
                     <input type="text" class="form-control" id="nick_name" t="[placeholder]members.nick-name" value.bind="member.member_info.NickName">
                 </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <div class="col-md-6" style="padding-left:0;">
+                        <selector dict.bind="api.constants.visibility" selectedval.two-way="member.member_info.visibility"></selector>
+                    </div>
+                    <label class="control-label col-md-6" style="padding-right:0;" for="date-of-birth">${'members.visibility' | t}:</label>
+                </div>
             </div>
         </form>
     </div>

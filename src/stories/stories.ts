@@ -109,7 +109,7 @@ export class Stories {
         }
         let used_for = null;
         if (this.api.constants) {
-            used_for = this.api.constants.STORY4EVENT;
+            used_for = this.api.constants.story_type.STORY4EVENT;
         } else {
             used_for = 2;
         }
@@ -124,16 +124,16 @@ export class Stories {
 
     jump_to_the_full_story(story) {
         switch (story.used_for) {
-            case this.api.constants.STORY4EVENT:
+            case this.api.constants.story_type.STORY4EVENT:
                 this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
                 break;
-            case this.api.constants.STORY4MEMBER:
+            case this.api.constants.story_type.STORY4MEMBER:
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story' });
                 break;
-            case this.api.constants.STORY4PHOTO:
+            case this.api.constants.story_type.STORY4PHOTO:
                 this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story' });
                 break;
-            case this.api.constants.STORY4TERM:
+            case this.api.constants.story_type.STORY4TERM:
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'story' });
                 break;
         }

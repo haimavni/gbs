@@ -20,7 +20,6 @@ export class Home {
     stories_sample;
     message_list;
     i18n;
-    constants;
 
     constructor(api: MemberGateway, router: Router, user: User, i18n: I18N, memberList: MemberList) {
         this.api = api;
@@ -42,7 +41,7 @@ export class Home {
 
     add_message() {
         let name = this.i18n.tr('home.new-message');
-        this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.STORY4MESSAGE, story_text: "" });
+        this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.story_type.STORY4MESSAGE, story_text: "" });
     }
 
     attached() {

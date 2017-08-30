@@ -79,6 +79,7 @@
     "new-member": "חבר חדש",
     "more-stories": "ספורים קשורים",
     "set-as-profile-photo": "קבע כתמונת פרופיל",
+    "visibility": "נִרְאוּת",
     "strange-bug": "בג מוזר"
   },
   "user": {
@@ -130,6 +131,12 @@
   "terms": {
     "terms": "מונחים",
     "terms-lexicon": "מילון מונחים"
+  },
+  "consts": {
+    "vis-never": "לא ניתן לתצוגה!",
+    "vis-not-ready": "לא מוכן עדיין",
+    "vis-visible": "לתצוגה",
+    "vis-high": "מועדף לתצוגה"
   },
   "parents": "הורים",
   "siblings": "אחים/אחיות",

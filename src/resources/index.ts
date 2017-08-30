@@ -4,6 +4,7 @@ export function configure(config) {
     './value-converters/filter-by-set',
     './value-converters/take',
     './elements/multi-select',
+    './elements/selector',
     './elements/photo-strip',
     './elements/editable',
     './elements/roller',
