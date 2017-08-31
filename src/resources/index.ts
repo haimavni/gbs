@@ -3,6 +3,8 @@ export function configure(config) {
     './value-converters/filter',
     './value-converters/filter-by-set',
     './value-converters/take',
+    './value-converters/filter-visibility',
+    './value-converters/filter-gender',
     './elements/multi-select',
     './elements/selector',
     './elements/photo-strip',

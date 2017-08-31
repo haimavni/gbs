@@ -26,9 +26,9 @@
 
             <div id="member-list" class="member-list content-area" css="height:${win_height-420}px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200" 
-                        class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}">
-                        <a route-href="route: member-details; params.bind: {id:member.id}">
+                    <li repeat.for="member of members | filter : filter : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200 | filtervisibility : 0"
+                        class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''}" >
+                        <a route-href="route: member-details; params.bind: {id:member.id}" disabled.bind="not_ready(member)">
                             <img src.bind="member.facePhotoURL" />
                             <h6 dir="rtl" class="list-group-item-heading" >${member.name}</h6>
                         </a>

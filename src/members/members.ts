@@ -58,4 +58,8 @@ export class Members {
         this.members = this.members.splice(0, 0, { name: member_details.name, gender: member_details.gender, id: member_details.id });
     }
 
+    not_ready(member) {
+       return  member.visibility<2 && ! this.user.editing;
+    }
+
 }

@@ -3,7 +3,8 @@
     <div style="margin-top:50px" class="content-area">
         <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;"
             <h3 dir="rtl" style="float: right;margin:0px;">
-            ${member.member_info.full_name }
+            <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
+            <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>
             <span if.bind="user.privileges.DEVELOPER">${member.member_info.id}</span>
             </h3>
         </div>
@@ -98,6 +99,7 @@
                 <div class="col-md-6 fr-view" style="margin-bottom:16px;" if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing"
                     )>
                     <h4 innherhtml.bind="story_0.topic" style="margin-top:16px;margin-bottom:0px;color:gray;">
+                        ${'members.life-summary' | t} ${member.member_info.first_name}
                     </h4>
                     <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;">
                         <i class="fa fa-square-o is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_0, 'show')">&nbsp;&nbsp;</i>

@@ -31,7 +31,22 @@ export class MemberGateway {
 
     httpClient;
     eventAggregator;
-    constants = null;
+    constants = {
+        visibility: {
+            VIS_NEVER: 0,
+            VIS_NOT_READY: 1,
+            VIS_VISIBLE: 2,
+            VIS_HIGH: 3
+        },
+        story_type: {
+            STORY4MEMBER: 1,
+            STORY4EVENT: 2,
+            STORY4PHOTO: 3,
+            STORY4TERM: 4,
+            STORY4MESSAGE: 5,
+            STORY4HELP: 6
+        }
+    };
 
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator) {
         this.httpClient = httpClient;
