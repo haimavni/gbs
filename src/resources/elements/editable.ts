@@ -6,11 +6,12 @@ import { DialogService } from 'aurelia-dialog';
 @inject(DOM.Element, User, DialogService)
 export class editableCustomElement {
     @bindable story = "";
-    @bindable settings = { show_date: false, class: 'story-panel' };
+    @bindable settings = { show_date: false, class: 'story-panel', checkable: false };
     element;
     user;
     dialog;
     width;
+    checked = false;
 
     constructor(element, user, dialog) {
         this.element = element;
@@ -29,4 +30,20 @@ export class editableCustomElement {
         const elementRect = this.element.getBoundingClientRect();
         this.width = elementRect.width;
     }
+
+    toggle_checked() {
+        this.checked = !this.checked;
+        this.dispatch_event();
+    }
+
+    dispatch_event() {
+        let changeEvent = new CustomEvent('change', {
+            detail: {
+                checked: this.checked,
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(changeEvent);
+    }
+
 }

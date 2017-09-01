@@ -42,6 +42,7 @@ export class Stories {
     i18n;
     num_of_stories = 0;
     story_types;
+    selected_stories = new Set();
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache) {
         this.api = api;
@@ -184,6 +185,11 @@ export class Stories {
         this.params.selected_story_types = event.detail.ungrouped_selected_options;
         //modify visible categories according to selected story types
         this.update_story_list();
+    }
+
+    toggle_story_selection(story, event) {
+        let checked = event.detail.checked;
+        console.log("story checked? ", checked);
     }
 
 

@@ -32,7 +32,7 @@
                             dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
                             <div style="height:130px;overflow:hidden;padding:20px;">
                                 <div style="margin-bottom: 10px;">
-                                    <editable settings.bind="{show_date:false, class:'story-box'}" story.bind="story"></editable>
+                                    <editable settings.bind="{show_date:false, class:'story-box', checkable: true}" story.bind="story" change.delegate="toggle_story_selection(story, $event)"></editable>
                                 </div>
                             </div>
                             <a click.delegate="jump_to_the_full_story(story)" style="position:absolute;top:132px;left:20px;cursor:pointer;">${'stories.to-the-full-story' | t }...</a>
