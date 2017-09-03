@@ -23,7 +23,10 @@
                                 <button if.bind="user.editing && params.grouped_selected_topics.length>0" class="btn btn-basic btn-md">${'photos.save-merges' | t}</button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && selected_photos.size > 0" class="btn btn-basic btn-md">${'photos.apply-to-selected' | t}</button>
+                                <button if.bind="user.editing && selected_photos.size > 0 && params.grouped_selected_topics.length==0" class="btn btn-basic btn-md">${'photos.apply-to-selected' | t}</button>
+                            </div>
+                            <div class="form-group">
+                                <button if.bind="selected_photos.size > 0" t="[title]photos.download" class="btn btn-basic btn-md"><i class="fa fa-upload fa-rotate-180 -fa-xs"></i></button>
                             </div>
                         </form>
                     </div>

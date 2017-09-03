@@ -86,7 +86,7 @@ export class Stories {
                     this.cache.setValue('StoriesIndex', this.stories_index);
                 });
         }
-            
+
         /*  this.api.call_server('members/get_story_previews')
                       .then(response => this.story_previews = response.story_previews);*/
     }
@@ -191,6 +191,5 @@ export class Stories {
         let checked = event.detail.checked;
         console.log("story checked? ", checked);
     }
-
 
 }
