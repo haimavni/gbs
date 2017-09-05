@@ -1,6 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
+import { User } from '../services/user';
 
 @autoinject()
 export class StoryDetail {
@@ -12,10 +13,12 @@ export class StoryDetail {
     curr_photo;
     photo_idx = 0;
     source;
+    user;
 
-    constructor(api: MemberGateway, i18n: I18N) {
+    constructor(api: MemberGateway, i18n: I18N, user: User) {
         this.api = api;
         this.i18n = i18n;
+        this.user = user;
     }
 
     activate(params, config) {
