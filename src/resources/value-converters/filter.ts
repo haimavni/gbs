@@ -8,7 +8,9 @@ export class FilterValueConverter {
     if (!value) {
       return array.slice(0);
     }
+    value = value.replace(/[-().,]/g, '')
     let parts = value.toLowerCase().split(" ");
+    //parts = parts.filter(s => s != '-' && s != '(' && s != ')');
     let arr = array.filter(item =>
       parts.every(part => properties.some(function (this, property, index, properties) {
         let p = (item[property] || "").toLowerCase();

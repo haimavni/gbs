@@ -54,7 +54,7 @@ export class FullSizePhoto {
             .then((data) => {
                 this.faces = data.faces;
                 for (let face of this.faces) {
-                    face.name = '<span dir="rtl">' + face.name + '</i></span>'
+                    face.name = '<span dir="rtl">' + face.name + '</span>'
                 }
                 this.candidates = data.candidates;
             });
