@@ -189,6 +189,11 @@ export class Stories {
 
     toggle_story_selection(story, event) {
         let checked = event.detail.checked;
+        if (checked) {
+            this.selected_stories.add(story.id)
+        } else {
+            this.selected_stories.delete(story.id)
+        }
         console.log("story checked? ", checked);
     }
 
