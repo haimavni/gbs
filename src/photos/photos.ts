@@ -29,13 +29,14 @@ export class Photos {
         selected_uploader: "anyone",
         from_date: "",
         to_date: "",
+        checked_photo_list: []
     };
     topic_list = [];
     photographer_list = [];
     days_since_upload_options;
     uploader_options;
     i18n;
-    selected_photos = new Set([]);
+    checked_photos = new Set([])
     router;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
@@ -80,6 +81,7 @@ export class Photos {
     }
 
     update_photo_list() {
+        console.log("update photo list checked_photos: ", this.checked_photos);
         return this.api.call_server_post('members/get_photo_list', this.params)
             .then(result => {
                 this.photo_list = result.photo_list;
@@ -144,14 +146,23 @@ export class Photos {
     }
 
     toggle_selection(photo) {
-        if (this.selected_photos.has(photo.photo_id)) {
-            this.selected_photos.delete(photo.photo_id);
+        if (this.checked_photos.has(photo.photo_id)) {
+            this.checked_photos.delete(photo.photo_id);
             photo.selected = "";
         } else {
-            this.selected_photos.add(photo.photo_id);
+            this.checked_photos.add(photo.photo_id);
             photo.selected = "photo-selected";
         }
-        console.log("check/uncheck photo ", this.selected_photos);
+        this.params.checked_photo_list = Array.from(this.checked_photos);
+    }
+
+    save_merges(event: Event) {
+        //if event.ctrl
+        this.api.call_server_post('members/save_merges', this.params)
+    }
+
+    apply_to_selected() {
+
     }
 
     private jump_to_photo(slide) {

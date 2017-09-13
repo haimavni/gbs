@@ -23,11 +23,11 @@
                                     ${'stories.new' & t}
                                 </a>
                             </div>
-                            <div class="form-group" if.bind="user.editing && selected_stories.size>0" >
+                            <div class="form-group" if.bind="user.editing && checked_stories.size>0" >
                                 <button class="btn btn-basic btn-md"><i class="fa fa-trash fa-xs"></i></button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && selected_stories.size > 0 && params.grouped_selected_topics.length==0 && params.selected_topics.length>0" 
+                                <button if.bind="user.editing && checked_stories.size > 0 && params.grouped_selected_topics.length==0 && params.selected_topics.length>0" 
                                     class="btn btn-basic btn-md">
                                     ${'stories.apply-to-selected' | t}
                                 </button>

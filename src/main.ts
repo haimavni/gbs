@@ -51,6 +51,12 @@ export function configure(aurelia: Aurelia) {
             config.options.tooltipClass = 'tooltip';
             config.options.tooltipPosition = 'top';
             config.options.tooltipTrigger = 'mouseover';
+            config.options.videoDefaultDisplay = 'inline';
+            config.options.videoDefaultWidth = 160;
+            config.options.imageDefaultAlign = 'right';
+            config.options.imageDefaultDisplay = 'inline';
+            config.options.imageDefaultWidth = 100;
+            config.options.linkAlwaysBlank = true;
         })
         .feature('resources');
 

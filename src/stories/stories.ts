@@ -31,18 +31,19 @@ export class Stories {
         to_date: "",
         selected_languages: [],
         selected_stories: [],
-        selected_story_types: []
+        selected_story_types: [],
+        checked_story_list: []
     };
     help_data = {
         num_words: 65056
     }
     topic_list = [];
     authors_list = [];
+    checked_stories = new Set();
     days_since_upload_options;
     i18n;
     num_of_stories = 0;
     story_types;
-    selected_stories = new Set();
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache) {
         this.api = api;
@@ -190,10 +191,11 @@ export class Stories {
     toggle_story_selection(story, event) {
         let checked = event.detail.checked;
         if (checked) {
-            this.selected_stories.add(story.id)
+            this.checked_stories.add(story.id)
         } else {
-            this.selected_stories.delete(story.id)
+            this.checked_stories.delete(story.id)
         }
+        this.params.checked_story_list = Array.from(this.checked_stories);
         console.log("story checked? ", checked);
     }
 
