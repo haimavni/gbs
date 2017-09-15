@@ -191,12 +191,12 @@ export class Stories {
     toggle_story_selection(story, event) {
         let checked = event.detail.checked;
         if (checked) {
-            this.checked_stories.add(story.id)
+            this.checked_stories.add(story.story_id)
         } else {
-            this.checked_stories.delete(story.id)
+            this.checked_stories.delete(story.story_id)
         }
         this.params.checked_story_list = Array.from(this.checked_stories);
-        console.log("story checked? ", checked);
+        console.log("checked stories: ", this.checked_stories, " checked list: ", this.params.checked_story_list);
     }
 
 }

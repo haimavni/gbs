@@ -61,4 +61,9 @@ export class Home {
         this.router.navigateToRoute('stories');
     }
 
+    jump_to_the_full_story(story) {
+        this.router.navigateToRoute('story-detail', { id: story.id, what: 'story' });
+    }
+
+
 }

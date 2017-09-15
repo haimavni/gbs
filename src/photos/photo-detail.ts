@@ -15,6 +15,11 @@ export class PhotoDetail {
     photo_src;
     photo_name;
     photo_story;
+    orig_photo_width = 0;
+    orig_photo_height = 0;
+    photo_width = 600;
+    MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
+    MAX_HEIGHT = 750;
 
     constructor(api: MemberGateway, i18n: I18N) {
         this.api = api;
@@ -28,9 +33,19 @@ export class PhotoDetail {
                 this.photo_src = response.photo_src;
                 this.photo_name = response.photo_name;
                 this.photo_story = response.photo_story;
+                this.orig_photo_width = response.width;
+                this.orig_photo_height = response.height;
                 if (! this.photo_story) {
                     this.photo_story = this.i18n.tr('stories.no-story');
                 }
+                let pw = this.orig_photo_width / this.MAX_WIDTH;
+                let ph = this.orig_photo_height / this.MAX_HEIGHT;
+                if (pw >= ph) {
+                    this.photo_width = this.MAX_WIDTH;
+                } else {
+                    this.photo_width = this.orig_photo_width / ph;
+                }
+
                 console.log("photo_story: ", this.photo_story);
                 //also: associated members, name, photographer, time, story
             });
