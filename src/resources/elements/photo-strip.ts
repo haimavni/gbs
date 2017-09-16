@@ -33,6 +33,11 @@ export class PhotoStripCustomElement {
         if (this.id != this.prev_id) {
             this.source.then(result => {
                 this.slides = result.photo_list;
+                for (let slide of this.slides) {
+                    if (slide.title) {
+                        slide.title = '<span dir="rtl">' + slide.title + '</span>';
+                    }
+                }
                 if (this.calculate_widths()) {
                     this.prev_id = this.id;
                 }

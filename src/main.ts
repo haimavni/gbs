@@ -63,6 +63,7 @@ export function configure(aurelia: Aurelia) {
     aurelia.use.globalResources('./services/user');
     aurelia.use.globalResources('./services/cache');
     aurelia.use.globalResources('./services/member_list');
+    aurelia.use.globalResources('./services/theme');
     aurelia.use.globalResources('./user/user-mode');
 
     if (environment.debug) {
