@@ -2,6 +2,7 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
 import environment from '../environment';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import * as download from 'downloadjs';
 
 var THIS;
 

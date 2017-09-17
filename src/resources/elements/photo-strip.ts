@@ -34,7 +34,7 @@ export class PhotoStripCustomElement {
             this.source.then(result => {
                 this.slides = result.photo_list;
                 for (let slide of this.slides) {
-                    if (slide.title) {
+                    if (slide.title && slide.title[0] != '<') {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
