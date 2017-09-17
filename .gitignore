@@ -2,5 +2,5 @@ node_modules
 .idea
 .DS_STORE
 scripts
-src/envionment.ts
+src/environment.ts
 environments/tmp_env.ts
