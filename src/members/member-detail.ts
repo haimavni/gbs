@@ -38,7 +38,6 @@ export class MemberDetail {
  
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
-        console.log("construct member detail")
         this.user = user;
         this.eventAggregator = eventAggregator;
         this.api = api;

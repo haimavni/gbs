@@ -9,7 +9,7 @@
             <a class="navbar-brand" href="#">
               <span style="font-size:150%">
                 ${router.title & t}
-                <img src="${baseURL}/gbs/static/images/gb-logo.png" onerror="this.onerror=null;this.src='/images/gb-logo.png';" width="24" style="float:right;margin-left:15px;" />
+                <img src="${theme.files.gb_logo_png}" width="24" style="float:right;margin-left:15px;" />
               </span>
               <!--i class="fa fa-home"></i-->
             </a>
@@ -37,7 +37,7 @@
           </div>
         </nav>
 
-        <div id="router-view" class="page-host flexcontainer" css="min-height:${min_height}px;margin:0;padding:0;">
+        <div id="router-view" class="page-host flexcontainer" css="min-height:${min_height}px;margin:0;padding:0;background-image:url('${theme.files.content_background}');">
           <router-view></router-view>
         </div>
       </div>

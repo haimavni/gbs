@@ -55,7 +55,6 @@ export class MemberGateway {
         let href = window.location.href;
         let app = href.split('/')[3];
         let cors = false;
-        console.log("href is ", href, " app is: ", app);
         if (app == '#') {
             app = 'gbs';
             cors = true;
@@ -149,7 +148,6 @@ export class MemberGateway {
         let x = window.location;
         this.call_server('default/get_tornado_host', { group: group })
             .then(data => {
-                console.log("listen data: ", data);
                 let ws = data.ws;
                 if (!this.web2py_websocket(ws, this.handle_ws_message)) {
                     alert("html5 websocket not supported by your browser, try Google Chrome");

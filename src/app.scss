@@ -21,22 +21,17 @@ body{
     font-weight: bold;
 }
 .top-head {
-    background-image: url("/gbs/static/images/top-background.png"),url("./src/images/top-background.png") ;
     background-repeat: no-repeat;
     //height: 400px;
 }
 
 #router-view {
-    background-image: url("/gbs/static/images/content-background.png"),url("./src/images/content-background.png") ;
     background-repeat: no-repeat;
 }
 
 .footer-area {
-    //background-image: url("/gbs/static/images/footer-background.png"),url("./src/images/footer-background.png") ;
     background-repeat: no-repeat;
     min-height:117px;
-    //margin-left:auto;
-    //margin-right:auto;
     margin-top:0;
     margin-bottom:0;
     margin-left: auto;
@@ -45,9 +40,7 @@ body{
 }
 
 .slide-list {
-    //background-color: rgba(245,245,220,0.4);
     background-color: rgba(208,208,208,0.5);
-    //background-color: #cccccc;
     max-height: $slide-height;
     overflow: hidden;
     position: relative;

@@ -1,5 +1,6 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Theme } from "../services/theme";
 import { Cache } from "../services/cache";
 import { autoinject } from 'aurelia-framework';
 //import { StoryDetail } from './story-detail';
@@ -16,6 +17,7 @@ export class Stories {
     story_previews;
     api;
     user;
+    theme;
     cache;
     router;
     dialog;
@@ -45,9 +47,10 @@ export class Stories {
     num_of_stories = 0;
     story_types;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache, theme: Theme) {
         this.api = api;
         this.user = user;
+        this.theme = theme;
         this.cache = cache;
         this.dialog = dialog;
         this.i18n = i18n;

@@ -1,5 +1,6 @@
 import { autoinject, singleton } from "aurelia-framework";
 import { User } from "../services/user";
+import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
 
@@ -16,9 +17,11 @@ export class Members {
     faces_per_line = 8;
     win_height;
     win_width;
+    theme;
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList) {
+    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme) {
         this.user = user;
+        this.theme = theme;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
         this.members = [];
