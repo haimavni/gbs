@@ -3,3 +3,4 @@ node_modules
 .DS_STORE
 scripts
 src/envionment.ts
+environments/tmp_env.ts
