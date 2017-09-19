@@ -36,7 +36,7 @@ export class Stories {
         selected_story_types: [],
         checked_story_list: [],
         link_class: "basic",
-        delete_undelete: "delete"
+        deleted_stories: false
     };
     help_data = {
         num_words: 65056
@@ -211,6 +211,11 @@ export class Stories {
 
     delete_checked_stories() {
         this.api.call_server_post('members/delete_checked_stories', {params: this.params});
+    }
+
+    toggle_deleted_stories() {
+        this.params.deleted_stories = ! this.params.deleted_stories;
+        this.update_story_list();
     }
 
 }
