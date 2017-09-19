@@ -34,7 +34,9 @@ export class Stories {
         selected_languages: [],
         selected_stories: [],
         selected_story_types: [],
-        checked_story_list: []
+        checked_story_list: [],
+        link_class: "basic",
+        delete_undelete: "delete"
     };
     help_data = {
         num_words: 65056
@@ -200,6 +202,15 @@ export class Stories {
         }
         this.params.checked_story_list = Array.from(this.checked_stories);
         console.log("checked stories: ", this.checked_stories, " checked list: ", this.params.checked_story_list);
+    }
+
+    toggle_link_class() {
+        this.params.link_class = (this.params.link_class == "basic") ? "primary" : "basic";
+        this.update_story_list();
+    }
+
+    delete_checked_stories() {
+        this.api.call_server_post('members/delete_checked_stories', {params: this.params});
     }
 
 }

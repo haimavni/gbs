@@ -14,20 +14,22 @@
                     <div class="row" style="margin-bottom:15px;padding-right:32px;">
                         <form class="form-inline">
                             <div class="form-group">
-                                <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;width:260px;" value.bind="filter & debounce"
-                                    change.delegate="update_story_list()" />
+                                <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;width:260px;"
+                                    value.bind="filter & debounce" change.delegate="update_story_list()" />
                             </div>
-                            <div class="form-group" if.bind="user.editing">
+                            <div class="form-group" if.bind="user.editing &&  checked_stories.size == 0">
                                 <a route-href="route: story-detail; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
                                     <i class="fa fa-plus-square-o"></i>
                                     ${'stories.new' & t}
                                 </a>
                             </div>
-                            <div class="form-group" if.bind="user.editing && checked_stories.size>0" >
-                                <button class="btn btn-basic btn-md"><i class="fa fa-trash fa-xs"></i></button>
+                            <div class="form-group" if.bind="user.editing && checked_stories.size>0">
+                                <button class="btn btn-warning btn-md" click.trigger="delete_checked_stories()">
+                                    <i class="fa fa-trash fa-xs"></i>
+                                </button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && checked_stories.size > 0 && params.grouped_selected_topics.length==0 && params.selected_topics.length>0" 
+                                <button if.bind="user.editing && checked_stories.size > 0 && params.grouped_selected_topics.length==0 && params.selected_topics.length>0"
                                     class="btn btn-basic btn-md">
                                     ${'stories.apply-to-selected' | t}
                                 </button>
@@ -35,12 +37,10 @@
                         </form>
                     </div>
                     <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;">
-                        <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999" dir="rtl" 
-                            style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
+                        <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999" dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
                             <div style="height:130px;overflow:hidden;padding:20px;">
                                 <div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">
-                                    <editable settings.bind="{show_date:false, class:'story-section', checkable: true}" story.bind="story" 
-                                        change.delegate="toggle_story_selection(story, $event)">
+                                    <editable settings.bind="{show_date:false, class:'story-section', checkable: true}" story.bind="story" change.delegate="toggle_story_selection(story, $event)">
                                     </editable>
                                 </div>
                             </div>
@@ -65,6 +65,14 @@
                         <multi-select options.bind="story_types" place_holder_text="stories.story-types" height="150" settings.bind="{mergeable:false,source_mergeable:false,editable:false}"
                             change.delegate="handle_story_types_change($event) ">
                         </multi-select>
+                    </div>
+                    <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
+                        <button class="btn btn-${params.link_class} btn-xs" click.trigger="toggle_link_class()" t="[title]stories.older-links">
+                            <i class="fa fa-link fa-xs"></i>
+                        </button>
+                        <button class="btn btn-${params.link_class} btn-xs" click.trigger="toggle_undelte()" t="[title]stories.undelete">
+                            <i class="fa fa-trash fa-rotate-180 fa-xs"></i>
+                        </button>
                     </div>
                     <div class="row" style="position:relative;">
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' | t}</span>
