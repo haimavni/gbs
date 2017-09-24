@@ -81,7 +81,7 @@ export class Photos {
     }
 
     update_photo_list() {
-        console.log("update photo list checked_photos: ", this.checked_photos);
+        console.log("before update, params: ", this.params);
         return this.api.call_server_post('members/get_photo_list', this.params)
             .then(result => {
                 this.photo_list = result.photo_list;
@@ -93,6 +93,7 @@ export class Photos {
                 } else {
                     console.log("no photos found");
                 }
+                console.log("after update, params: ", this.params);
             });
     }
 
@@ -157,8 +158,9 @@ export class Photos {
     }
 
     save_merges(event: Event) {
-        //if event.ctrl
-        this.api.call_server_post('members/save_merges', this.params)
+        //todo: if event.ctrl create a super group rather than merge?
+        console.log("before save merges, grouped: ", this.params.grouped_selected_topics);
+        this.api.call_server_post('members/save_tag_merges', this.params)
     }
 
     apply_to_selected() {

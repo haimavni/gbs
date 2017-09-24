@@ -54,18 +54,14 @@ export class MemberGateway {
         this.eventAggregator = eventAggregator;
         let href = window.location.href;
         let app = href.split('/')[3];
-        let cors = false;
         if (app == '#') {
             app = 'gbs';
-            cors = true;
         }
         httpClient.configure(config => {
             config
                 .useStandardConfiguration()
                 .withBaseUrl(environment.baseURL + '/' + app + '/')
                 .withInterceptor(new SimpleInterceptor());
-            if (cors)
-                config.withDefaults({ mode: "o-cors", credentials: "same-origin" });
         });
         this.get_constants();
         this.listen('ALL');

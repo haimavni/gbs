@@ -29,9 +29,6 @@ export class HelpCustomElement {
 
     refresh() {
         let topic = this.topic;
-        if (this.user.editing) {
-            topic += '__edit';
-        }
         this.api.call_server('help/get_help', { topic: topic })
             .then(response => {
                 this.story_info = response.story_info;

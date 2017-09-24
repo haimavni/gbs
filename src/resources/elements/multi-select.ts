@@ -14,8 +14,8 @@ export class MultiSelectCustomElement {
     grouped_selected = new Collections.Dictionary<string, Set<string>>(); //for each leading term it will have a set of itself and its peers
     ungrouped_selected: Set<string> = new Set([]);
     selected_options_storage = new Collections.Dictionary();  //stores option record by option name, used to map the name sets to lists of options
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) grouped_selected_options = [];  //this and the next are computed from the sets above
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) ungrouped_selected_options = [];
+    grouped_selected_options = [];  //this and the next are computed from the sets above
+    ungrouped_selected_options = [];
 
     @bindable name;
     @bindable user;
@@ -174,11 +174,13 @@ export class MultiSelectCustomElement {
         this.grouped_selected_options = [];
         let storage = this.selected_options_storage;
         let gso = this.grouped_selected_options;
+        console.log("in multi, gs: ", this.grouped_selected);
         this.grouped_selected.forEach(function (name, set) {
             let option = storage.getValue(name);
+            console.log("in multi, name, set, option: ", name, set, option);
             gso.push(option);
         });
-
+        console.log("in multi, grouped options: ", this.grouped_selected_options);
         let ungrouped = Array.from(this.ungrouped_selected);
         this.ungrouped_selected_options = ungrouped.map(u => this.selected_options_storage.getValue(u));
         let selected_lines = Math.max(1, this.grouped_selected_options.length + this.ungrouped_selected_options.length);
