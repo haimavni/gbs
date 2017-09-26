@@ -107,11 +107,12 @@ ux-dialog-containerxxx {
 .slide-list .slide-control
 {
     position: absolute;
-    opacity: 0.31;
+    opacity: 0.51;
     height: 20%;
     width: 32px;
     top: 40%;
     cursor: pointer;
+    z-index: 1000;
 }
 .slide-list .slide-control:hover {
     opacity: 1.0;
