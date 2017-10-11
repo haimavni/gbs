@@ -63,4 +63,8 @@ export class UserMode {
     load_help_messages() {
         this.api.call_server('help/load_help_messages_from_csv');
     }
+
+    reindex_words() {
+        this.api.call_server('admin/reindex_words');
+    }
 }

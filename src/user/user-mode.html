@@ -5,7 +5,7 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left">
-            <li><a class="dropdown-item" href="javascript:void(0)">First Action</a></li>
+            <li><a class="dropdown-item" href="#" click.trigger="reindex_words()">Reindex Words</a></li>
             <li><a class="dropdown-item" href="javascript:void(0)">Second Action</a></li>
             <li><a class="dropdown-item" href="javascript:void(0)">Third Action</a></li>
             <li class="divider"></li>
@@ -33,7 +33,8 @@
     <a if.bind="user.isLoggedIn && user.privileges.PHOTO_UPLOADER" href click.trigger="upload_files()" t="[title]user.upload-files" class="border-right">
         <i class="fa fa-lg fa-upload"></i>
     </a>
-    <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="user.privileges.HELP_AUTHOR"  title="Manage help messages">
+    <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" 
+        if.bind="user.privileges.HELP_AUTHOR"  title="Manage help messages">
         <button class="btn btn-default dropdown-toggle" aubs-dropdown-toggle>
             <i class="fa fa-cog"></i><i class="fa fa-question"></i>
             <span class="caret"></span>

@@ -4,6 +4,9 @@ import { Router } from 'aurelia-router';
 import { User } from '../services/user';
 import { I18N } from 'aurelia-i18n';
 import { MemberList } from '../services/member_list';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { DialogService } from 'aurelia-dialog';
+import { FullSizePhoto } from '../photos/full-size-photo';
 
 @autoinject
 export class Home {
@@ -20,8 +23,10 @@ export class Home {
     stories_sample;
     message_list;
     i18n;
+    dialog;
+    eventAggregator;
 
-    constructor(api: MemberGateway, router: Router, user: User, i18n: I18N, memberList: MemberList) {
+    constructor(api: MemberGateway, router: Router, user: User, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator) {
         this.api = api;
         this.user = user;
         this.router = router;
@@ -33,6 +38,10 @@ export class Home {
             result => {
                 this.message_list = result.message_list;
             });
+        this.dialog = dialog;
+        this.eventAggregator = eventAggregator;
+        this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
+
     }
 
     action(slide, event) {
@@ -64,6 +73,13 @@ export class Home {
     jump_to_the_full_story(story) {
         this.router.navigateToRoute('story-detail', { id: story.id, what: 'story' });
     }
+
+    private openDialog(slide, event, slide_list) {
+        event.stopPropagation();
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
+        });
+    }
+
 
 
 }
