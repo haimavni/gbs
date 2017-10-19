@@ -65,7 +65,9 @@ div.story-box {
         padding-right: 0px;
     }
     padding-left: 0px;
-    border-left: solid 6px white;
+    &.notfirst {
+        border-left: solid 6px white;
+    }
 }
 
 //member picker

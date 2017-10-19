@@ -116,7 +116,7 @@
                 <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)"><i class="fa fa-chevron-right fa-3x"></i></div>
                 <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)"><i class="fa fa-chevron-left fa-3x"></i></div>
 
-                <div class="col-md-3 story-box last" show.bind="story_4.story_text != ''">
+                <div class="col-md-3 story-box last notfirst" show.bind="story_4.story_text != ''">
                     <h4 show.bind="story_4.name" dir="rtl">
                         <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_4, 'show')">&nbsp;</i>
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_4, 'edit')">&nbsp;</i>
@@ -127,7 +127,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-3 story-box" show.bind="story_3.story_text != ''">
+                <div class="col-md-3 story-box notfirst" show.bind="story_3.story_text != ''">
                     <h4 show.bind="story_3.name" dir="rtl">
                         <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_3, 'show')">&nbsp;</i>
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_3, 'edit')">&nbsp;</i>
@@ -138,7 +138,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-3 story-box" show.bind="story_2.story_text != ''" >
+                <div class="col-md-3 story-box notfirst" show.bind="story_2.story_text != ''" >
                     <h4 show.bind="story_2.name" dir="rtl" >
                         <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_2, 'show')">&nbsp;&nbsp;</i>
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_2, 'edit')">&nbsp;</i>
