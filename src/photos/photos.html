@@ -34,6 +34,22 @@
                             <div class="form-group">
                                 <button if.bind="checked_photos.size > 0" t="[title]photos.download" class="btn btn-basic btn-md"><i class="fa fa-upload fa-rotate-180 -fa-xs"></i></button>
                             </div>
+                            <div class="form-group">
+                                <button if.bind="checked_photos.size > 0  && ! done_checking && user.editing" 
+                                    t="[title]photos.done-checking" 
+                                    click.trigger="finish_checking()"
+                                    class="btn btn-basic btn-md">
+                                    <i class="fa fa-check-circle fa-xs"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button if.bind="checked_photos.size > 0  && done_checking && user.editing" 
+                                    t="[title]photos.apply-to-checked" 
+                                    click.trigger="apply_to_checked()"
+                                    class="btn btn-basic btn-md">
+                                    <i class="fa fa-check fa-xs"></i>
+                                </button>
+                            </div>
                         </form>
                     </div>
                     <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;">

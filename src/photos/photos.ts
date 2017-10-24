@@ -36,7 +36,8 @@ export class Photos {
     days_since_upload_options;
     uploader_options;
     i18n;
-    checked_photos = new Set([])
+    checked_photos = new Set([]);
+    done_checking = false;
     router;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
@@ -171,6 +172,14 @@ export class Photos {
         console.log("slide in jump: ", slide);
         let photo_id = slide.photo_id;
         this.router.navigateToRoute('photo-detail', { id: photo_id });
+    }
+
+    finish_checking() {
+        this.done_checking = true;
+    }
+
+    apply_to_checked() {
+        this.done_checking = false;
     }
 
 }
