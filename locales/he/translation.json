@@ -134,8 +134,7 @@
     "save-merges": "שמור את המיזוגים",
     "apply-to-selected": "תייג את התמונות שנבחרו",
     "download": "הורדת תמונות",
-    "done-checking": "סיים את שלב הבחירה",
-    "apply-to-checked": "תייג את התמונות שנבחרו"
+    "done-selecting": "סיים את שלב הבחירה"
   },
   "terms": {
     "terms": "מונחים",

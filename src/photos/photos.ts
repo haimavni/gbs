@@ -1,11 +1,10 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
-import { autoinject, singleton } from 'aurelia-framework';
+import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
-
 
 @autoinject()
 @singleton()
@@ -29,15 +28,15 @@ export class Photos {
         selected_uploader: "anyone",
         from_date: "",
         to_date: "",
-        checked_photo_list: []
+        selected_photo_list: []
     };
     topic_list = [];
     photographer_list = [];
     days_since_upload_options;
     uploader_options;
     i18n;
-    checked_photos = new Set([]);
-    done_checking = false;
+    selected_photos = new Set([]);
+    done_selecting = false;
     router;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
@@ -148,14 +147,14 @@ export class Photos {
     }
 
     toggle_selection(photo) {
-        if (this.checked_photos.has(photo.photo_id)) {
-            this.checked_photos.delete(photo.photo_id);
+        if (this.selected_photos.has(photo.photo_id)) {
+            this.selected_photos.delete(photo.photo_id);
             photo.selected = "";
         } else {
-            this.checked_photos.add(photo.photo_id);
+            this.selected_photos.add(photo.photo_id);
             photo.selected = "photo-selected";
         }
-        this.params.checked_photo_list = Array.from(this.checked_photos);
+        this.params.selected_photo_list = Array.from(this.selected_photos);
     }
 
     save_merges(event: Event) {
@@ -165,7 +164,7 @@ export class Photos {
     }
 
     apply_to_selected() {
-
+        this.done_selecting = false;
     }
 
     private jump_to_photo(slide) {
@@ -174,12 +173,29 @@ export class Photos {
         this.router.navigateToRoute('photo-detail', { id: photo_id });
     }
 
-    finish_checking() {
-        this.done_checking = true;
+    finish_selecting() {
+        this.done_selecting = true;
     }
 
-    apply_to_checked() {
-        this.done_checking = false;
+    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers', 'params.selected_topics', 'params.selected_photographers')
+    get phase() {
+        if (this.user.editing) {
+            if (this.selected_photos.size > 0) {
+                if (this.done_selecting) {
+                    return "applying-to-photos"
+                } else {
+                    return "selecting-photos";
+                }
+            } else if (this.params.grouped_selected_topics.length > 0 || this.params.grouped_selected_photographers.length > 0) {
+                this.done_selecting = false;
+                return "can_modify_tags"
+            } else {
+                return "ready"
+            }
+        } else {
+            return "none";
+        }
     }
+
 
 }

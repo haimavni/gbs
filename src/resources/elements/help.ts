@@ -53,8 +53,9 @@ export class HelpCustomElement {
         this.refresh();
     }
 
-    edit_help_message() {
+    edit_help_message(event) {
         if (!this.user.privileges.HELP_AUTHOR) return;
+        event.stopPropagation();
         this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: true }, lock: true }).whenClosed(response => {
             this.story_text = this.story_info.story_text;
             this.story_text = this.story_text.replace(/\$\{.+\}/g, x => this.evaluate(x.substr(2, x.length - 3))).slice(0);
