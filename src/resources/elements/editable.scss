@@ -2,7 +2,7 @@ div.story-panel {
     height: 180px;
     overflow: auto;
     //border-left: 3px solid darkgray;
-    p {
+    >p {
         padding-bottom: 12px;
     }
 }

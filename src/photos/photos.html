@@ -19,18 +19,22 @@
                             <div class="form-group">
                                 <input dir="rtl" type="search" class="form-control" t="[placeholder]photos.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"/>
                             </div>
-                            <div class="form-group">
-                                <button if.bind="user.editing && params.grouped_selected_topics.length>0" class="btn btn-basic btn-md" click.trigger="save_merges($event)">
+                            <div class="form-group" if.bind="phase=='can-modify-tags'">
+                                <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' | t}
                                 </button>
+                                <help topic="photos.can-modify-tags", position="bottom"></help>
                             </div>
                             <div class="form-group">
                                 <button if.bind="selected_photos.size > 0" t="[title]photos.download" class="btn btn-basic btn-md"><i class="fa fa-upload fa-rotate-180 -fa-xs"></i></button>
                             </div>
-                            <div class="form-group">
-                                <button if.bind="phase != 'none'" class="btn btn-basic btn-md">${phase}</i></button>
+                            <div class="form-group" if.bind="phase=='not-editing'">
+                                <help topic="photos-not-editing" position="bottom"></help>
                             </div>
-                            <div class="form-group" if.bind="user.editing && done_selecting && selected_photos.size > 0">
+                            <div class="form-group" if.bind="phase=='ready-to-edit'">
+                                <help topic="photos-ready-to-edit" position="bottom"></help>
+                            </div>
+                            <div class="form-group" if.bind="phase=='applying-to-photos'">
                                 <button
                                      disabled.bind="params.grouped_selected_topics.length>0 || (params.selected_topics.length==0 && params.selected_photographers.length != 1)"
                                      class="btn btn-basic btn-md"
@@ -39,7 +43,7 @@
                                 </button>
                                 <help topic="apply-to-selected-photos" position="bottom"></help>
                             </div>
-                            <div class="form-group" if.bind="selected_photos.size > 0  && ! done_selecting && user.editing">
+                            <div class="form-group" if.bind="phase=='selecting-photos'">
                                 <button 
                                     click.trigger="finish_selecting()"
                                     class="btn btn-basic btn-md">

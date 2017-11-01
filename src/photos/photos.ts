@@ -177,7 +177,8 @@ export class Photos {
         this.done_selecting = true;
     }
 
-    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers', 'params.selected_topics', 'params.selected_photographers')
+    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers', 
+                  'params.selected_topics', 'params.selected_photographers')
     get phase() {
         if (this.user.editing) {
             if (this.selected_photos.size > 0) {
@@ -186,14 +187,17 @@ export class Photos {
                 } else {
                     return "selecting-photos";
                 }
-            } else if (this.params.grouped_selected_topics.length > 0 || this.params.grouped_selected_photographers.length > 0) {
-                this.done_selecting = false;
-                return "can_modify_tags"
             } else {
-                return "ready"
+                this.done_selecting = false;
+                if (this.params.grouped_selected_topics.length > 0 || this.params.grouped_selected_photographers.length > 0) {
+                    return "can-modify-tags";
+                }  else {
+                    return "ready-to-edit"
+                }
             }
         } else {
-            return "none";
+            this.done_selecting = false;
+            return "not-editing";
         }
     }
 
