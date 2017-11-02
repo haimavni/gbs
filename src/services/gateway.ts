@@ -13,6 +13,7 @@ function params(data) {
 export class SimpleInterceptor implements Interceptor {
     request(request: Request) {
         //place code here
+        //alert('request mode: ' + request.mode);
         return request;
     }
 

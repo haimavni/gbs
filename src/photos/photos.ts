@@ -165,6 +165,7 @@ export class Photos {
 
     apply_to_selected() {
         this.done_selecting = false;
+        this.api.call_server_post('members/apply_to_selected_photos', this.params)
     }
 
     private jump_to_photo(slide) {
@@ -200,6 +201,5 @@ export class Photos {
             return "not-editing";
         }
     }
-
 
 }
