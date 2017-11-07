@@ -68,15 +68,18 @@
                 <div class="col-md-3">
                     <div class="row">
                         <multi-select options.bind="topic_list" 
-                            settings.bind="{mergeable:true, source_mergeable:true}" 
+                            settings.bind="options_settings" 
                             name="topics" 
                             place_holder_text="photos.click-topic"
                             change.delegate="handle_topic_change($event) ">
                         </multi-select>
                     </div>
                     <div class="row ">
-                        <multi-select options.bind="photographer_list" place_holder_text="photos.click-photographer" settings.bind="{mergeable:false, source_mergeable:true}"
-                            change.delegate="handle_photographer_change($event)"></multi-select>
+                        <multi-select options.bind="photographer_list" 
+                            place_holder_text="photos.click-photographer" 
+                            settings.bind="photographers_settings"
+                            change.delegate="handle_photographer_change($event)">
+                        </multi-select>
                     </div>
                     <div class="row" style="margin-top: 20px;">
                         <form role="form">

@@ -2,12 +2,13 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { Cache } from "../services/cache";
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 //import { StoryDetail } from './story-detail';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';
+import default_multi_select_options from '../resources/elements/multi-select';
 
 @autoinject
 export class Stories {
@@ -48,6 +49,10 @@ export class Stories {
     i18n;
     num_of_stories = 0;
     story_types;
+    done_selecting = false;
+    options_settings = default_multi_select_options;
+    story_types_settings = default_multi_select_options;
+    words_settings = default_multi_select_options;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache, theme: Theme) {
         this.api = api;
@@ -217,5 +222,48 @@ export class Stories {
         this.params.deleted_stories = ! this.params.deleted_stories;
         this.update_story_list();
     }
+
+    @computedFrom('user.editing', 'done_selecting', 'params.grouped_selected_topics', 'params.selected_topics')
+    get phase() {
+        let result = "not-editing";
+        if (this.user.editing) {
+            if (this.checked_stories.size > 0) {
+                if (this.done_selecting) {
+                    result = "applying-to-stories"
+                } else {
+                    result = "selecting-stories";
+                }
+            } else {
+                this.done_selecting = false;
+                if (this.params.grouped_selected_topics.length > 0) {
+                    result = "can-modify-tags";
+                }  else {
+                    result = "ready-to-edit"
+                }
+            }
+        }
+        this.options_settings = { clear_filter_after_select: false, 
+                                  mergeable: result != "applying-to-stories" && result != "selecting-stories", 
+                                  name_editable: result == "ready-to-edit", 
+                                  can_set_sign: result == "ready-to-edit", 
+                                  can_add: result == "ready-to-edit", 
+                                  can_delete: result == "ready-to-edit" };
+        this.words_settings = { clear_filter_after_select: false, 
+                                mergeable: result != "applying-to-stories" && result != "selecting-stories", 
+                                name_editable: false, 
+                                can_set_sign: result == "not-editing", 
+                                can_add: false, 
+                                can_delete: false };
+        return result; 
+    }
+
+    save_merges(event: Event) {
+        //todo: if event.ctrl create a super group rather than merge?
+        console.log("before save merges, grouped: ", this.params.grouped_selected_topics);
+        this.api.call_server_post('members/save_tag_merges', this.params)
+    }
+
+
+    
 
 }

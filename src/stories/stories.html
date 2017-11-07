@@ -17,7 +17,13 @@
                                 <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;width:260px;"
                                     value.bind="filter & debounce" change.delegate="update_story_list()" />
                             </div>
-                            <div class="form-group" if.bind="user.editing &&  checked_stories.size == 0">
+                            <div class="form-group" if.bind="phase=='can-modify-tags'">
+                                <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
+                                    ${'photos.save-merges' | t}
+                                </button>
+                                <help topic="photos.can-modify-tags", position="bottom"></help>
+                            </div>
+                            <div class="form-group" if.bind="user.editing && checked_stories.size == 0">
                                 <a route-href="route: story-detail; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
                                     <i class="fa fa-plus-square-o"></i>
                                     ${'stories.new' & t}
@@ -51,18 +57,28 @@
                 </div>
                 <div class="col-md-3">
                     <div class="row" style="position:relative;">
-                        <help topic="tags" position="bottom" style="position:absolute;left:10px;top:20px;"></help>
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" height="180" settings.bind="{source_mergeable: true}"
+                        <help topic="tags" position="bottom" 
+                            style="position:absolute;left:10px;top:20px;">
+                        </help>
+                        <multi-select options.bind="topic_list" 
+                            place_holder_text="photos.click-topic" 
+                            height="180" 
+                            settings.bind="options_settings" 
                             change.delegate="handle_topic_change($event) ">
                         </multi-select>
                     </div>
                     <div if.bind="false" class="row">
-                        <multi-select options.bind="used_languages" place_holder_text="stories.languages" height="80" change.delegate="handle_languages_change($event) ">
+                        <multi-select options.bind="used_languages" 
+                            place_holder_text="stories.languages" 
+                            height="80" 
+                            change.delegate="handle_languages_change($event) ">
                         </multi-select>
                     </div>
                     <div class="row">
                         <div style="margin-top: 16px;margin-bottom:2px;font-size:120%">${'stories.story-types' | t}</div>
-                        <multi-select options.bind="story_types" place_holder_text="stories.story-types" height="150" settings.bind="{mergeable:false,source_mergeable:false,editable:false}"
+                        <multi-select options.bind="story_types" 
+                            place_holder_text="stories.story-types" 
+                            height="150" settings.bind="story_types_settings"
                             change.delegate="handle_story_types_change($event) ">
                         </multi-select>
                     </div>
@@ -78,8 +94,12 @@
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' | t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <help topic="words" position="top" style="position:absolute;left:10px;top:39px;" params.bind="help_data"></help>
-                        <multi-select options.bind="stories_index" place_holder_text="stories.word-index" height="201" settings.bind="{editable: false}"
-                            change.delegate="handle_words_change($event) " </multi-select>
+                        <multi-select options.bind="stories_index" 
+                            place_holder_text="stories.word-index" 
+                            height="201" 
+                            change.delegate="handle_words_change($event)" 
+                            settings.bind="words_settings"
+                        </multi-select>
                     </div>
                 </div>
             </div>

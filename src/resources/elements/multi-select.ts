@@ -1,10 +1,11 @@
-import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
-import { User } from '../../services/user';
+import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
 import { set_intersection, set_union, set_diff } from '../../services/set_utils';
 import * as Collections from 'typescript-collections';
-import { EventAggregator } from 'aurelia-event-aggregator';
 
-@inject(DOM.Element, User, EventAggregator)
+let default_multi_select_options = { clear_filter_after_select: false, mergeable: false, name_editable: false, can_set_sign: false, can_add: false, can_delete: false };
+export default default_multi_select_options;
+
+@inject(DOM.Element)
 export class MultiSelectCustomElement {
     private compare = (k1, k2) => k1.name < k2.name ? -1 : k1.name > k2.name ? 1 : 0;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
@@ -18,7 +19,6 @@ export class MultiSelectCustomElement {
     ungrouped_selected_options = [];
 
     @bindable name;
-    @bindable user;
     element;
     filter = "";
     @bindable place_holder_text = "";
@@ -27,23 +27,12 @@ export class MultiSelectCustomElement {
     @bindable height: 180;
     @bindable height_selected = 60;
     @bindable height_unselected = 120;
-    default_settings = { clear_filter_after_select: false, editable: true, mergeable: true, source_mergeable: false };
-    @bindable settings;
+    @bindable settings = default_multi_select_options;
     @bindable can_edit = true;
-    @bindable can_merge = true;
-    eventAggregator;
     lineHeight = 20;
-    
-    constructor(element, user: User, eventAggregator: EventAggregator) {
-        this.element = element;
-        this.user = user;
-        this.eventAggregator = eventAggregator;
-        this.eventAggregator.subscribe('EditModeChange', payload => {this.handle_user_mode_change(payload)});
-    }
 
-    handle_user_mode_change(user) {
-        this.user = user;
-        this.enable_disable();
+    constructor(element) {
+        this.element = element;
     }
 
     toggle_selection(option) {
@@ -73,7 +62,8 @@ export class MultiSelectCustomElement {
         this.options = this.all_options.filter(option => !this.all_selected.has(option.name));*/  //options becomes unselected options
         this.calculate_selected_lists();
         if (this.settings.clear_filter_after_select) {
-            this.filter = ""
+            this.filter = "x"
+            this.filter = this.filter.slice(0, -1);
         } else {
             this.filter = this.filter + " " //desperate attempt to force the set filter to be invoked
             this.filter = this.filter.slice(0, -1);
@@ -104,15 +94,29 @@ export class MultiSelectCustomElement {
         this.element.dispatchEvent(changeEvent);
     }
 
-    private enable_disable() {
-        this.can_edit = this.user.editing && this.settings.editable;
-        if (this.user.editing) {
-            this.can_merge = this.settings.source_mergeable 
-        } else {
-            this.can_merge = this.settings.mergeable; 
-        }
-        console.log("can edit, can merge ", this.can_edit, this.can_merge);
+    @computedFrom('settings.mergeable')
+    get can_merge() {
+        return this.settings.mergeable;
+    }
 
+    @computedFrom('settings.name_editable')
+    get can_edit_name() {
+        return this.settings.name_editable;
+    }
+
+    @computedFrom('settings.can_set_sign')
+    get can_set_sign() {
+        return this.settings.can_set_sign;
+    }
+
+    @computedFrom('settings.can_add')
+    get can_add() {
+        return this.settings.can_add;
+    }
+
+    @computedFrom('settings.can_delete')
+    get can_delete() {
+        return this.settings.can_delete;
     }
 
     attached() {
@@ -128,9 +132,7 @@ export class MultiSelectCustomElement {
         this.height_unselected = this.height - this.height_selected;
 
         console.log("settings before ", this.settings);
-        this.settings = extend(this.default_settings, this.settings);
         console.log("settings after: ", this.settings);
-        this.enable_disable();
     }
 
     private make_list(name_set) {

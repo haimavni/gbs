@@ -4,7 +4,10 @@
     <div class="input-group search-filter" if.bind="options.length > 10">
         <input dir="rtl" type="search" class="form-control" t="[placeholder]${place_holder_text}" value.bind="filter & debounce">
     </div>
-    <div class="ms-container" css="height:${height}px;">
+    <div class="ms-container" css="height:${height}px;position:relative">
+        <button if.bind="can_add" style="position:absolute;top:60px;left:140px;" class="btn btn-success btn-xs cl-create-btn">
+            <i class="fa fa-lg fa-plus-square-o"></i>
+        </button>
         <div class="row options selected" css="max-height:${height_selected}px;">
             <!-- First  display grouped options. may be add a popover with names of all group members-->
             <ul if.bind="grouped_selected_options.length>0" class="grouped" css="width:${width}px;">
@@ -19,10 +22,10 @@
                             <a click.trigger="unmerge_options(option, $event)">
                                 <i class="fa fa-paperclip fa-rotate-90 tool"></i>
                             </a>
-                            <a if.bind="user.advanced && !user.editing" click.trigger="toggle_sign(option, $event)">
-                                <!-- The rotatate-180 thing here and below is kind of voodoo. It is crazy without it-->
+                            <!--<a if.bind="user.advanced && !user.editing" click.trigger="toggle_sign(option, $event)">
+                                <-- The rotatate-180 thing here and below is kind of voodoo. It is crazy without it >
                                 <i class="fa fa-${option.sign}-square-o fa-rotate-180 tool"></i>
-                            </a>
+                            </a>-->
                         </span>
                     </div>
                 </li>
@@ -40,13 +43,13 @@
                             <a if.bind="can_merge" click.trigger="merge_options(option, $event)">
                                 <i class="fa fa-paperclip fa-rotate-90 tool"></i>
                             </a>
-                            <a if.bind="can_edit || user.advanced" click.trigger="toggle_sign(option, $event)">
+                            <a if.bind="can_set_sign" click.trigger="toggle_sign(option, $event)">
                                 <i class="fa fa-${option.sign}-square-o fa-rotate-180 tool"></i>
                             </a>
-                            <a if.bind="can_edit" click.trigger="edit_option(option, $event)">
+                            <a if.bind="can_edit_name" click.trigger="edit_option(option, $event)">
                                 <i class="fa fa-pencil fa-rotate-180 fa-rotate-180 tool"></i>
                             </a>
-                            <a if.bind="can_edit" click.trigger="remove_option(option, $event)">
+                            <a if.bind="can_delete" click.trigger="remove_option(option, $event)">
                                 <i class="fa fa-trash fa-rotate-180 tool"></i>
                             </a>
                         </span>
@@ -57,7 +60,7 @@
         <!-- Under the line come all unselected options -->
         <div class="row options unselected" css="max-height:${height_unselected}px;" if.bind="options && options.length > 0">
             <ul css="width:${width}px;" if.bind="true || unselected_options===[]">
-                <li repeat.for="option of options | filter: filter : 'name' | filterBySet : all_selected | take : 199">
+                <li repeat.for="option of options | filter: filter : 'name' | filterBySet : all_selected : 'exclude' | take : 199">
                     <div class="option-item" css="margin:0;padding:0;width:${inner_width}px">
                         <a click.trigger="toggle_selection(option)">${option.name}</a>
                     </div>

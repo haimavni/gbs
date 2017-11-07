@@ -5,6 +5,7 @@ import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
+import default_multi_select_options from '../resources/elements/multi-select';
 
 @autoinject()
 @singleton()
@@ -38,6 +39,8 @@ export class Photos {
     selected_photos = new Set([]);
     done_selecting = false;
     router;
+    options_settings = default_multi_select_options;
+    photographers_settings = default_multi_select_options;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
         this.api = api;
@@ -181,25 +184,36 @@ export class Photos {
     @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers', 
                   'params.selected_topics', 'params.selected_photographers')
     get phase() {
+        let result = "not-editing";
         if (this.user.editing) {
             if (this.selected_photos.size > 0) {
                 if (this.done_selecting) {
-                    return "applying-to-photos"
+                    result = "applying-to-photos"
                 } else {
-                    return "selecting-photos";
+                    result = "selecting-photos";
                 }
             } else {
                 this.done_selecting = false;
                 if (this.params.grouped_selected_topics.length > 0 || this.params.grouped_selected_photographers.length > 0) {
-                    return "can-modify-tags";
+                    result = "can-modify-tags";
                 }  else {
-                    return "ready-to-edit"
+                    result = "ready-to-edit"
                 }
             }
-        } else {
-            this.done_selecting = false;
-            return "not-editing";
         }
+        this.options_settings = { clear_filter_after_select: false, 
+                                  mergeable: result != "applying-to-photos" && result != "selecting-photos", 
+                                  name_editable: result == "ready-to-edit", 
+                                  can_set_sign: result == "ready-to-edit", 
+                                  can_add: result == "ready-to-edit", 
+                                  can_delete: result == "ready-to-edit" };
+        this.photographers_settings = { clear_filter_after_select: true, 
+                                  mergeable: result == "can-modify-tags" || result == "ready-to-edit", 
+                                  name_editable: result == "ready-to-edit", 
+                                  can_set_sign: false, 
+                                  can_add: result == "ready-to-edit", 
+                                  can_delete: result == "ready-to-edit" };
+        return result; 
     }
 
 }
