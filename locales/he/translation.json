@@ -99,7 +99,8 @@
     "last-name": "שם משפחה",
     "manage-users": "ניהול משתמשים",
     "can-edit": "אפשר לערוך",
-    "upload-files": "העלאת תמונות"
+    "upload-files": "העלאת תמונות",
+    "login-failed": "טעות בכתובת האימייל או בסיסמה"
   },
   "photos": {
     "photos": "תמונות",

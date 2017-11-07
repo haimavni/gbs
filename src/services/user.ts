@@ -22,6 +22,7 @@ export class User {
         this.api = api;
         this.isLoggedIn = false;
         this.editing = false;
+        this.i18n = i18n;
         let lang = i18n.getLocale();
         this.rtltr = rtl_langs.has(lang) ? "rtl" : "ltr";
         this.privileges = {
@@ -51,8 +52,10 @@ export class User {
     login(loginData) {
         return this.api.call_server('default/login', loginData)
             .then((result) => {
-                if (result.error) {
-                    throw result.error
+                if (result.user_error) {
+                    let msg = this.i18n.tr('user.login-failed');
+                    alert(msg);
+                    throw result.user_error
                 }
                 this.isLoggedIn = true;
                 let keys = Object.keys(result.user);
