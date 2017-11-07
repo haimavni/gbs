@@ -16,6 +16,7 @@ export class User {
     public id;
     private api;
     public rtltr;
+    i18n;
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N) {
         this.eventAggregator = eventAggregator;
