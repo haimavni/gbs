@@ -210,12 +210,18 @@ export class Stories {
     }
 
     toggle_link_class() {
+        //todo: "primary" displays only stories with links to the old givat-brenner site. This button is temporary and should be removed after porting is finished.
         this.params.link_class = (this.params.link_class == "basic") ? "primary" : "basic";
         this.update_story_list();
     }
 
     delete_checked_stories() {
-        this.api.call_server_post('members/delete_checked_stories', {params: this.params});
+        this.api.call_server_post('members/delete_checked_stories', {params: this.params})
+        .then(response => {
+            this.params.checked_story_list = [];
+            this.checked_stories = new Set();
+            this.update_story_list();
+        });
     }
 
     toggle_deleted_stories() {

@@ -89,7 +89,6 @@ export class MemberGateway {
     }
 
     getMemberDetails(memberId) {
-        let x = params(memberId);
         return this.httpClient.fetch(`members/get_member_details?${params(memberId)}`)
     }
 
