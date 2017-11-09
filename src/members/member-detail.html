@@ -102,7 +102,7 @@
                     </h4>
                     <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
                         <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_0, 'show')">&nbsp;&nbsp;</i>
-                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit')">&nbsp;</i>
+                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                         ${story_0.name}
                     </h3>
                     <div class="story-panel">

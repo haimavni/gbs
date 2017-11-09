@@ -177,8 +177,12 @@ export class MemberDetail {
             });
     }
 
-    zoom_out(story, what) {
+    zoom_out(story, what, extra='') {
         this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
+            if (extra=='life' && what=='edit' && ! this.member.member_info.story_id ) {
+                this.member.member_info.story_id = response.output.story_id;
+                this.api.call_server_post('members/set_member_story_id', {member_id: this.member.member_info.id, story_id: response.output.story_id});
+            }
             console.log("response after edit dialog: ", response.output);
         });
 
