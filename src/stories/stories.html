@@ -50,7 +50,17 @@
                                     </editable>
                                 </div>
                             </div>
-                            <a click.delegate="jump_to_the_full_story(story)" style="position:absolute;top:132px;left:20px;cursor:pointer;">${'stories.to-the-full-story' | t }...</a>
+                            <a click.delegate="jump_to_the_full_story(story)" style="position:absolute;top:132px;left:20px;cursor:pointer;">
+                                <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
+                                    ${'stories.to-the-full-story' | t }...
+                                </span>
+                                <span if.bind="story.used_for==api.constants.story_type.STORY4MEMBER">
+                                    ${'stories.to-the-member-page' | t }...
+                                </span>
+                                <span if.bind="story.used_for==api.constants.story_type.STORY4PHOTO">
+                                    ${'stories.to-the-photo-page' | t }...
+                                </span>
+                            </a>
                         </li>
                     </ul>
 

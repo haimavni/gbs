@@ -52,7 +52,9 @@
     "apply-to-selected": "תייג את הספורים שנבחרו",
     "checking": "סימון הסיפור",
     "older-links": "קישורים לאתר הישן",
-    "undelete": "שחזור ספורים שנמחקו"
+    "undelete": "שחזור ספורים שנמחקו",
+    "to-the-member-page": "לדף החבר",
+    "to-the-photo-page": "לדף התמונה"
   },
   "members": {
     "members": "חברים",
