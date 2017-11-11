@@ -110,7 +110,8 @@ export class MemberDetail {
     next_story(event, dir = 1) {
         event.stopPropagation();
         this.stories_base += dir;
-        this.stories_base = (this.stories_base + this.member.member_stories.length) % this.member.member_stories.length;
+        let n =  this.member.member_stories.length - 1;
+        this.stories_base = (this.stories_base + n - 1) % n + 1;
         this.set_displayed_stories();
     }
 
@@ -144,8 +145,10 @@ export class MemberDetail {
         let i;
         if (n <= 5) {
             i = idx
+        } else if (idx == 0) {
+            i = 0
         } else {
-            i = (n + this.stories_base + idx) % n;
+            i = (n + this.stories_base + idx) % (n - 1) + 1;
         }
         if (i < n) {
             let rec = this.member.member_stories[i];
