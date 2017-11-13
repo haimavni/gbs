@@ -2,7 +2,7 @@ import { bindable, inject, DOM, bindingMode, BindingEngine } from 'aurelia-frame
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 @inject(DOM.Element, EventAggregator, BindingEngine)
-export class VideoCustomElement {
+export class VideoBoxCustomElement {
     @bindable width = 360;
     @bindable src: string;
     @bindable aspectRatio = [16,9];
