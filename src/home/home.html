@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="row panel main-panel">
-        <div class="col-md-3 panel-vid">
+        <div class="col-md-3 panel-vid" css="height:${panel_height}px;" style="overflow:auto;">
             <ul>
                 <li repeat.for="video of video_list" if.bind="video.type=='youtube'">
                     <p>
@@ -19,7 +19,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-6 panel-stories">
+        <div class="col-md-6 panel-stories" css="height:${panel_height}px;">
             <h2 style="margin-top:0;">
                 ${'home.sample-stories' | t}
                 <span style="float:left;font-size:80%;color:gray;direction:rtl;cursor:pointer;" click.delegate="goto_full_collection()">
@@ -27,7 +27,7 @@
                     <i class="fa fa-play fa-rotate-180"> </i>
                 </span>
             </h2>
-            <ul style="max-height:220px;overflow:auto;">
+            <ul style="overflow:auto;" class="panel-story-segments" css="height:${panel_height-30}px;">
                 <li repeat.for="story of stories_sample" dir="rtl">
                     <div style="margin-top:12px;max-height:100px;min-height:100px;padding-bottom:30px;border-bottom:solid 2px lightgray;position:relative;" >
                         <h4 dir="rtl" style="float:right;margin:0;padding:0;cursor:pointer;" click.delegate="jump_to_the_full_story(story)">
@@ -48,7 +48,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-3 panel-messages">
+        <div class="col-md-3 panel-messages" css="height:${panel_height}px;">
             <h2 style="margin:0;">${'home.messages' | t}
                 <span class="is-link" style="float:left" if.bind="user.editing" click.delegate="add_message()"><i class="fa fa-plus-square-o"></i></span>
             </h2>

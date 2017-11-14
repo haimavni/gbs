@@ -8,12 +8,33 @@ import { I18N } from 'aurelia-i18n';
 @noView()
 export class Theme {
     api;
+    eventAggregator: EventAggregator;
     files: {};
+    width = 0;
+    height = 0;
 
-    constructor(api: MemberGateway) {
+    constructor(api: MemberGateway, eventAggregator: EventAggregator) {
         this.api = api;
+        this.eventAggregator = eventAggregator;
         this.api.call_server('members/get_theme_data')
             .then(response => this.files = response.files);
+        window.addEventListener('resize', () => {
+            console.log('addEventListener - resize');
+            this.handle_content_resize();
+        }, true);
+        window.setTimeout(() => {this.handle_content_resize();}, 1000);
+        
+    }
+
+    handle_content_resize() {
+        let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        if (w != this.width || h != this.height) {
+            console.log("resize.  w, h: ", w, h);
+            this.height = h;
+            this.width = w;
+            this.eventAggregator.publish('WINDOW-RESIZED', { width: w, height: h });
+        }
     }
 }
 

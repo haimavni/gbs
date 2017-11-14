@@ -4,9 +4,6 @@ $list-group-bg: #eeeeee;
 $navbar-default-link-active-color: blue;
 $navbar-default-link-active-bg: inherit;
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
-.navbar-centered {
-    width: 1170px;
-}
 @import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 
 body{
@@ -93,7 +90,7 @@ body {
 .navbar-centered {
     margin-left: auto;
     margin-right: auto;
-    /*width:1170px;*/
+    width:1170px;
 }
 
 ux-dialog-overlay.active {

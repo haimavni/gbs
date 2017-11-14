@@ -5,9 +5,10 @@ import { Theme } from './services/theme';
 @autoinject
 export class App {
   baseURL;
-  min_height;
+  //min_height;
   theme;
-  
+  router_view_height;
+
   constructor(theme: Theme) {
     this.baseURL = environment.baseURL;
     this.theme = theme;
@@ -21,7 +22,16 @@ export class App {
     let el2 = document.getElementById("footer");
     console.log("router-view offsets: ", el1.offsetHeight, el1.offsetTop, el1.offsetParent);
     console.log("footer: ", el2.offsetHeight, el2.offsetTop, el2.offsetParent);
-    this.min_height = h - el2.offsetHeight;
+    this.router_view_height = this.theme.height - 60 - 117;
+    //this.min_height = h - el2.offsetHeight;
+  }
+
+  content_size_changed(x) {
+    let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    console.log("resize.  wid, hei: ", x.width, x.height);
+    this.theme.handle_content_resize();
+    this.router_view_height = this.theme.height - 60 - 117;
   }
 
   public router;

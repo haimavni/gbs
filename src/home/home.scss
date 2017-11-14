@@ -1,5 +1,3 @@
-$panel-height: 320px;
-
 div.panel {
     //height: $panel-height;
     background-color: rgba(0,0,0,0);
@@ -14,15 +12,13 @@ div.main-panel {
 }
 div.panel-vid {
     background-color: rgba(0,0,0,0);
-    height: $panel-height;
 }
 div.panel-stories {
     background-color: rgba(0,0,0,0);
-    height: $panel-height;
+    //height: $panel-height;
 }
 div.panel-messages {
     background-color: lightgray;
-    height: $panel-height;
 }
 
 div.panel h2 {
@@ -35,13 +31,11 @@ div.member-of-the-day {
     height: 74px;
     width:1170px;
     background-color: rgba(62,65,66,1.0);
-    //background-image: url(./member-today-bg.png);
     color: white;
     font-size: 150%;
     padding-right: 16px;
     padding-top:24px;
     margin: 0px;
-    //margin-top:20px;
     span {
         float: right;
     }

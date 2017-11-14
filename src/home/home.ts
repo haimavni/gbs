@@ -2,6 +2,7 @@ import { MemberGateway } from '../services/gateway';
 import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { User } from '../services/user';
+import { Theme } from '../services/theme';
 import { I18N } from 'aurelia-i18n';
 import { MemberList } from '../services/member_list';
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -13,22 +14,26 @@ export class Home {
     api;
     photo_list;
     video_list = [{ type: "youtube", src: "//www.youtube.com/embed/dfJIOa6eyfg?wmode=opaque" },
-    { type: "youtube", src: "https://www.youtube.com/embed/cscYO3epaIY?wmode=opaque" }];
+    { type: "youtube", src: "https://www.youtube.com/embed/1g_PlRE-YwI?mode=opaque" },
+    { type: "youtube", src: "https://www.youtube.com/embed/cscYO3epaIY?wmode=opaque" }]
     member_of_the_day = { gender: '', name: '' };
     member_prefix;
     was_born_in;
     died_in;
     router;
     user;
+    theme;
     stories_sample;
     message_list;
     i18n;
     dialog;
     eventAggregator;
+    panel_height = 400;
 
-    constructor(api: MemberGateway, router: Router, user: User, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator) {
+    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator) {
         this.api = api;
         this.user = user;
+        this.theme = theme;
         this.router = router;
         this.i18n = i18n;
         this.photo_list = this.api.call_server_post('members/get_photo_list');
@@ -40,8 +45,13 @@ export class Home {
             });
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
-        this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
+        this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_panel_height() });
 
+    }
+
+    set_panel_height() {
+        this.panel_height = this.theme.height - 606;
     }
 
     action(slide, event) {
@@ -59,6 +69,7 @@ export class Home {
             this.member_prefix = this.member_of_the_day.gender == 'F' ? 'home.female-member-of-the-day' : 'home.male-member-of-the-day';
             this.was_born_in = this.member_of_the_day.gender == 'F' ? 'home.female-was-born-in' : 'home.male-was-born-in';
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';
+            this.set_panel_height();
         });
     }
 
