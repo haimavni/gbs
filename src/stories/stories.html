@@ -14,7 +14,7 @@
                     <div class="row" style="margin-bottom:15px;padding-right:32px;">
                         <form class="form-inline">
                             <div class="form-group">
-                                <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;width:260px;"
+                                <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;width:300px;"
                                     value.bind="filter & debounce" change.delegate="update_story_list()" />
                             </div>
                             <div class="form-group" if.bind="phase=='can-modify-tags'">
@@ -51,31 +51,46 @@
                                     </editable>
                                 </div>
                             </div>
-                            <a click.delegate="jump_to_the_full_story(story)" style="position:absolute;top:132px;left:20px;cursor:pointer;">
-                                <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
-                                    ${'stories.to-the-full-story' | t }...
+                            <div style="position:absolute;top:132px;left:20px;">
+                                <a click.delegate="jump_to_the_full_story(story)" style="cursor:pointer;">
+                                    <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
+                                        ${'stories.to-the-full-story' | t }...
+                                    </span>
+                                    <span if.bind="story.used_for==api.constants.story_type.STORY4MEMBER">
+                                        ${'stories.to-the-member-page' | t }...
+                                    </span>
+                                    <span if.bind="story.used_for==api.constants.story_type.STORY4PHOTO">
+                                        ${'stories.to-the-photo-page' | t }...
+                                    </span>
+                                </a>
+                                <span if.bind="story.used_for==api.constants.story_type.STORY4TERM">
+                                    ${'stories.term-page' | t }
                                 </span>
-                                <span if.bind="story.used_for==api.constants.story_type.STORY4MEMBER">
-                                    ${'stories.to-the-member-page' | t }...
-                                </span>
-                                <span if.bind="story.used_for==api.constants.story_type.STORY4PHOTO">
-                                    ${'stories.to-the-photo-page' | t }...
-                                </span>
-                            </a>
+                            </div>
                         </li>
                     </ul>
 
                 </div>
                 <div class="col-md-3">
+                    <div class="row">
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.story-types' | t}</div>
+                        <multi-select options.bind="story_types" 
+                            place_holder_text="stories.story-types" 
+                            height="110" settings.bind="story_types_settings"
+                            change.delegate="handle_story_types_change($event) ">
+                        </multi-select>
+                    </div>
                     <div class="row" style="position:relative;">
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' | t}</div>
                         <help topic="tags" position="bottom" 
-                            style="position:absolute;left:10px;top:20px;">
+                            style="position:absolute;left:10px;top:42px;">
                         </help>
                         <multi-select options.bind="topic_list" 
                             place_holder_text="photos.click-topic" 
-                            height="180" 
+                            height="120" 
                             settings.bind="options_settings" 
-                            change.delegate="handle_topic_change($event) ">
+                            change.delegate="handle_topic_change($event)"
+                            style="margin-top:5px;">
                         </multi-select>
                     </div>
                     <div if.bind="false" class="row">
@@ -83,14 +98,6 @@
                             place_holder_text="stories.languages" 
                             height="80" 
                             change.delegate="handle_languages_change($event) ">
-                        </multi-select>
-                    </div>
-                    <div class="row">
-                        <div style="margin-top: 16px;margin-bottom:2px;font-size:120%">${'stories.story-types' | t}</div>
-                        <multi-select options.bind="story_types" 
-                            place_holder_text="stories.story-types" 
-                            height="150" settings.bind="story_types_settings"
-                            change.delegate="handle_story_types_change($event) ">
                         </multi-select>
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
@@ -106,13 +113,21 @@
                     <div class="row" style="position:relative;">
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' | t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
-                        <help topic="words" position="top" style="position:absolute;left:10px;top:39px;" params.bind="help_data"></help>
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' | t}</div>
+                        <help topic="words" position="top" style="position:absolute;left:10px;top:64px;" params.bind="help_data"></help>
                         <multi-select options.bind="stories_index" 
                             place_holder_text="stories.word-index" 
                             height="201" 
                             change.delegate="handle_words_change($event)" 
                             settings.bind="words_settings"
                         </multi-select>
+                    </div>
+                    <div class="row" style="margin-top: 20px;" if.bind="user.editing">
+                        <form role="form">
+                            <select value.bind="params.days_since_update" style="height:32px;width:90%;" change.delegate="handle_age_change($event)">
+                                <option repeat.for="option of days_since_update_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>

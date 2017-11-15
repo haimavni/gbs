@@ -37,7 +37,8 @@ export class Stories {
         selected_story_types: [],
         checked_story_list: [],
         link_class: "basic",
-        deleted_stories: false
+        deleted_stories: false,
+        days_since_update: 0
     };
     help_data = {
         num_words: 65056
@@ -45,7 +46,7 @@ export class Stories {
     topic_list = [];
     authors_list = [];
     checked_stories = new Set();
-    days_since_upload_options;
+    days_since_update_options;
     i18n;
     num_of_stories = 0;
     story_types;
@@ -62,6 +63,15 @@ export class Stories {
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
+        this.days_since_update_options = [
+            { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
+            { value: 1, name: this.i18n.tr('photos.uploaded-today') },
+            { value: 7, name: this.i18n.tr('photos.uploaded-this-week') },
+            { value: 30, name: this.i18n.tr('photos.uploaded-this-month') },
+            { value: 91, name: this.i18n.tr('photos.uploaded-this-quarter') },
+            { value: 365, name: this.i18n.tr('photos.uploaded-this-year') }
+        ];
+
         this.story_types = [
             //{name: i18n.tr('stories.all-types'), id: 0},
             { name: i18n.tr('stories.life-stories'), id: 1 },
@@ -182,8 +192,10 @@ export class Stories {
             this.num_of_stories = story_list.length;
             if (story_list.length == 0) return;
             this.params.selected_stories = story_list;
-            this.update_story_list();
+        } else {
+            this.num_of_stories = 0;
         }
+        this.update_story_list();
     }
 
     handle_topic_change(event) {
@@ -213,6 +225,10 @@ export class Stories {
         //todo: "primary" displays only stories with links to the old givat-brenner site. This button is temporary and should be removed after porting is finished.
         this.params.link_class = (this.params.link_class == "basic") ? "primary" : "basic";
         this.update_story_list();
+    }
+
+    handle_age_change() {
+        
     }
 
     delete_checked_stories() {

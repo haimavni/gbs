@@ -22,7 +22,7 @@
     "edit": "לעריכת הסיפור",
     "enter-story-name": "תן כותרת לסיפור",
     "cancel": "בטל",
-    "filter": "חפש בשמות הספורים והמחברים",
+    "filter": "חפוש מהיר בשמות הספורים והמחברים",
     "save": "שמור",
     "to-the-full-story": "לסיפור המלא",
     "associated-members": "חברים הקשורים לסיפור",
@@ -54,7 +54,10 @@
     "older-links": "קישורים לאתר הישן",
     "undelete": "שחזור ספורים שנמחקו",
     "to-the-member-page": "לדף החבר",
-    "to-the-photo-page": "לדף התמונה"
+    "to-the-photo-page": "לדף התמונה",
+    "term-page": "מתוך מילון המונחים",
+    "categories": "בחירת קטגוריות",
+    "words": "חיפוש לפי מילים"
   },
   "members": {
     "members": "חברים",

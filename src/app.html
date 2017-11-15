@@ -5,7 +5,7 @@
     <div class="row">
       <div class="center-block">
         <nav class="navbar navbar-default navbar-fixed-top navbar-centered sb-navbar" role="navigation">
-          <div class="navbar-header navbar-right" style="margin-left: 6px;padding-bottom:8px;">
+          <div class="navbar-header navbar-right" style="margin-left: 30px;padding-bottom:8px;">
             <a class="navbar-brand" href="#">
               <span style="font-size:200%;">
                 ${router.title & t}
@@ -16,7 +16,7 @@
           </div>
 
           <div class="collapse navbar-collapse" id="skeleton-navigation-navbar-collapse">
-            <ul class="nav navbar-nav navbar-right" style="font-size:180%;margin-top:4px;">
+            <ul class="nav navbar-nav navbar-right" style="font-size:150%;margin-top:4px;">
               <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
                 <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">${row.title & t}</a>
               </li>
