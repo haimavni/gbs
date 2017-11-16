@@ -12,13 +12,13 @@
             <li><a class="dropdown-item" href="javascript:void(0)">Separated Action</a></li>
         </ul>
     </div>
-    <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right">
-        <i class="fa fa-lg fa-sign-in"></i>
+    <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right" style="text-decoration:none;color:black">
+        <i class="fa fa-play"></i>
         ${'user.login' | t}
     </a>
 
-    <a href if.bind="user.isLoggedIn" click.trigger="logout()" class="border-right" >
-        <i class="fa fa-lg fa-sign-out"></i>
+    <a href if.bind="user.isLoggedIn" click.trigger="logout()" class="border-right" style="text-decoration:none;color:black">
+        <i class="fa fa-play fa-rotate-180"></i>
         ${'user.logout' | t}
     </a>
 

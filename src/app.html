@@ -2,6 +2,8 @@
   <require from="app.css"></require>
   <require from="scrollbox.css"></require>
   <div class="container">
+    <div class="full-width-div" style="background-color:rgba(80, 80, 80, 0.3);height:80px;top:59px;">
+    </div>
     <div class="row">
       <div class="center-block">
         <nav class="navbar navbar-default navbar-fixed-top navbar-centered sb-navbar" role="navigation">
@@ -18,7 +20,7 @@
           <div class="collapse navbar-collapse" id="skeleton-navigation-navbar-collapse">
             <ul class="nav navbar-nav navbar-right" style="font-size:150%;margin-top:4px;">
               <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-                <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">${row.title & t}</a>
+                <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">.${row.title & t}</a>
               </li>
             </ul>
 

@@ -1,9 +1,11 @@
 <template>
     <require from='./home.css'></require>
-    <div style="margin-top:60px;">
-        <div id="photo-strip">
-            <photo-strip source.bind="photo_list" slides.bind="slides" id="1" action.bind="action" 
-                action_key="Zoom1" settings.bind="{arrows:true, slide_show: 5}"></photo-strip>
+    <div style="margin-bottom:360px">
+        <div style="margin-top:60px;top: 0px;" class="full-width-div">
+            <div id="photo-strip">
+                <photo-strip source.bind="photo_list" slides.bind="slides" id="1" action.bind="action" 
+                    action_key="Zoom1" settings.bind="{arrows:true, slide_show: 5}"></photo-strip>
+            </div>
         </div>
     </div>
     <div class="row panel main-panel">

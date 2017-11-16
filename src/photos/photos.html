@@ -1,12 +1,12 @@
 <template>
     <require from='./photos.css'></require>
     <section class="container content-area" css="height: ${win_height-600}px;">
-        <div class="row" style="margin-top:30px;background-image:url('${theme.files.top_background}');background-repeat:no-repeat">
-            <div style="background-color:rgba(120, 120, 120, 0.3);height:95px;padding-top:20px;padding-right:15px;">
-                <h1 dir="rtl"> ${"photos.photos-store" | t}</h1>
+        <div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
+            <div style="padding-top:0px;padding-right:15px;">
+                <h1 dir="rtl">${"photos.photos-store" | t}</h1>
             </div>
         </div>
-        <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
+        <div class="row content-area" style="height:300px;width:100%;" dir="rtl">
             <div class="row">
                 <div class="col-md-1" css="padding-top: 40px;position:relative">
                     <span css="position:absolute">${'photos.more' | t}</span>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="row">
+                    <div class="row" style="margin-bottom:15px;">
                         <multi-select options.bind="topic_list" 
                             settings.bind="options_settings" 
                             name="topics" 
@@ -74,7 +74,7 @@
                             change.delegate="handle_topic_change($event) ">
                         </multi-select>
                     </div>
-                    <div class="row ">
+                    <div class="row">
                         <multi-select options.bind="photographer_list" 
                             place_holder_text="photos.click-photographer" 
                             settings.bind="photographers_settings"

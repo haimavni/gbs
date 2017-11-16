@@ -1,9 +1,9 @@
 <template>
     <require from="./stories.css"></require>
     <section class="container content-area">
-        <div class="row top-head" style="margin-top:30px;background-image:url('${theme.files.top_background}');">
-            <div style="background-color:rgba(120, 120, 120, 0.3);height:95px;padding-top:20px;padding-right:15px;">
-                <h1 dir="rtl"> ${"stories.place-stories" | t}</h1>
+        <div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
+            <div style="padding-top:0px;padding-right:15px;">
+                <h1 dir="rtl">${"stories.place-stories" | t}</h1>
             </div>
         </div>
         <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
@@ -45,7 +45,7 @@
                     <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;">
                         <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999" dir="rtl" 
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
-                            <div style="height:130px;overflow:hidden;padding:20px;">
+                            <div style="height:130px;overflow:hidden;padding-right:20px;padding-left:20px;padding-top:0px;">
                                 <div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">
                                     <editable settings.bind="{show_date:false, class:'story-section', checkable: true}" story.bind="story" change.delegate="toggle_story_selection(story, $event)">
                                     </editable>
