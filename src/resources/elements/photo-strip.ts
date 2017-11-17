@@ -101,7 +101,7 @@ export class PhotoStripCustomElement {
     dispatch_height_change() {
         let changeEvent = new CustomEvent('height_change', {
             detail: {
-                new_height: this.height;
+                new_height: this.height
             },
             bubbles: true
         });
