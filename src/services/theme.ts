@@ -12,6 +12,7 @@ export class Theme {
     files: {};
     width = 0;
     height = 0;
+    display_header_background = false;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator) {
         this.api = api;

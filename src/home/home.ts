@@ -29,7 +29,8 @@ export class Home {
     dialog;
     eventAggregator;
     panel_height = 400;
-
+    photo_strip_height = 360;
+    
     constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator) {
         this.api = api;
         this.user = user;
@@ -47,7 +48,7 @@ export class Home {
         this.eventAggregator = eventAggregator;
         this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
         this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_panel_height() });
-
+        
     }
 
     set_panel_height() {
@@ -91,6 +92,11 @@ export class Home {
         });
     }
 
-
+    on_height_change(event) {
+        event.stopPropagation();
+        let ph = this.photo_strip_height;
+        this.photo_strip_height = event.detail.new_height + 60;
+        console.log("new photo strip height: ", this.photo_strip_height, ph);
+    }
 
 }

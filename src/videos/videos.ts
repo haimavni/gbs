@@ -1,5 +1,6 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Theme } from '../services/theme'
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
@@ -16,6 +17,7 @@ export class Videos {
     videos_margin = 0;
     api;
     user;
+    theme;
     dialog;
     win_width;
     win_height;
@@ -41,9 +43,10 @@ export class Videos {
     options_settings = default_multi_select_options;
     videographers_settings = default_multi_select_options;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
+    constructor(api: MemberGateway, user: User, theme: Theme, dialog: DialogService, i18n: I18N, router: Router) {
         this.api = api;
         this.user = user;
+        this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
@@ -80,6 +83,11 @@ export class Videos {
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
+        this.theme.display_header_background = true;
+    }
+
+    detached() {
+        this.theme.display_header_background = false;
     }
 
     update_video_list() {

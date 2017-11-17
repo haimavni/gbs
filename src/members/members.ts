@@ -45,9 +45,11 @@ export class Members {
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
+        this.theme.display_header_background = true;
     }
 
     detached() {
+        this.theme.display_header_background = false;
     }
 
     select(member) {

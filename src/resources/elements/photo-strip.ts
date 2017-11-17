@@ -10,6 +10,7 @@ export class PhotoStripCustomElement {
     @bindable action_key = null;
     @bindable settings = { height: 300, arrows: false, slide_show: 0 };
     @bindable id = 0;
+    @bindable fullscreen = false;
     prev_id;
     element;
     width;
@@ -58,6 +59,9 @@ export class PhotoStripCustomElement {
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
         this.width = elementRect.width;
+        if (this.fullscreen) {  //black magic...
+            this.width =  this.width += 16;
+        }
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
         setInterval(() => this.ready(), 100);
@@ -80,6 +84,7 @@ export class PhotoStripCustomElement {
         if (Math.abs(event.dy) > Math.abs(event.dx)) {
             this.vertical = true;
             this.height += event.dy;
+            this.dispatch_height_change();
             this.calculate_widths();
             stop_slide_show = false;
         } else if (event.dx < 0) {
@@ -91,6 +96,16 @@ export class PhotoStripCustomElement {
             clearInterval(this.slideShow);
         }
         return false;
+    }
+
+    dispatch_height_change() {
+        let changeEvent = new CustomEvent('height_change', {
+            detail: {
+                new_height: this.height;
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(changeEvent);
     }
 
     next_slide(event) { //we are right to left...

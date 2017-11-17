@@ -27,4 +27,12 @@ export class Terms {
             });
     }
 
+    attached() {
+        this.theme.display_header_background = true;
+    }
+
+    detached() {
+        this.theme.display_header_background = false;
+    }
+
 }

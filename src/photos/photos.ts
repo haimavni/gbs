@@ -6,6 +6,7 @@ import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import default_multi_select_options from '../resources/elements/multi-select';
+import { Theme } from '../services/theme';
 
 @autoinject()
 @singleton()
@@ -17,6 +18,7 @@ export class Photos {
     photos_margin = 0;
     api;
     user;
+    theme;
     dialog;
     win_width;
     win_height;
@@ -42,9 +44,10 @@ export class Photos {
     options_settings = default_multi_select_options;
     photographers_settings = default_multi_select_options;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
         this.user = user;
+        this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
@@ -81,6 +84,11 @@ export class Photos {
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
+        this.theme.display_header_background = true;
+    }
+
+    detached() {
+        this.theme.display_header_background = false;
     }
 
     update_photo_list() {

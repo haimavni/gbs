@@ -115,10 +115,12 @@ export class Stories {
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
+        this.theme.display_header_background = true;
     }
 
     detached() {
         this.cache.setValue('StoryList', this.story_list);
+        this.theme.display_header_background = false;
     }
 
     update_story_list(tryCache?: boolean) {
