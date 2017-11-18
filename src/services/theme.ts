@@ -13,6 +13,8 @@ export class Theme {
     width = 0;
     height = 0;
     display_header_background = false;
+    min_height = 0;
+    footer_height = 67;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator) {
         this.api = api;
@@ -23,7 +25,7 @@ export class Theme {
             console.log('addEventListener - resize');
             this.handle_content_resize();
         }, true);
-        window.setTimeout(() => {this.handle_content_resize();}, 1000);
+        window.setTimeout(() => {this.handle_content_resize();}, 200);
         
     }
 
@@ -34,6 +36,7 @@ export class Theme {
             console.log("resize.  w, h: ", w, h);
             this.height = h;
             this.width = w;
+            this.min_height = this.height -  this.footer_height;
             this.eventAggregator.publish('WINDOW-RESIZED', { width: w, height: h });
         }
     }

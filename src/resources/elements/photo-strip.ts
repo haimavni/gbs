@@ -59,9 +59,6 @@ export class PhotoStripCustomElement {
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
         this.width = elementRect.width;
-        if (this.fullscreen) {  //black magic...
-            this.width =  this.width += 16;
-        }
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
         setInterval(() => this.ready(), 100);

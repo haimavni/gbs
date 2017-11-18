@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div id="member-list" class="member-list content-area" css="height:${win_height-420}px;">
+            <div id="member-list" class="member-list content-area" css="height:${win_height-460}px;">
                 <ul class="list-group">
                     <li repeat.for="member of members | filter : filter : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200 | filtervisibility : 0"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''}"

@@ -1,53 +1,56 @@
 <template>
-  <require from="app.css"></require>
-  <require from="scrollbox.css"></require>
-  <div class="container">
-    <div class="full-width-div" style="background-color:rgba(80, 80, 80, 0.3);height:80px;top:59px;" if.bind="theme.display_header_background">
-    </div>
-    <div class="row">
-      <div class="center-block">
-        <nav class="navbar navbar-default navbar-fixed-top navbar-centered sb-navbar" role="navigation">
-          <div class="navbar-header navbar-right" style="margin-left: 30px;padding-bottom:8px;">
-            <a class="navbar-brand" href="#">
-              <span style="font-size:200%;">
-                ${router.title & t}
-                <img src="${theme.files.gb_logo_png}" width="32" style="float:right;margin-left:15px;margin-right:15px;" />
-              </span>
-              <!--i class="fa fa-home"></i-->
-            </a>
-          </div>
+    <require from="app.css"></require>
+    <require from="scrollbox.css"></require>
+    <div css="background-image:url('${theme.files.content_background}');min-height:${theme.min_height}px;">
+        <div class="container">
+            <div class="full-width-div" style="background-color:rgba(80, 80, 80, 0.3);height:80px;top:59px;" if.bind="theme.display_header_background">
+            </div>
+            <div class="row">
+                <div class="center-block">
+                    <nav class="navbar navbar-default navbar-fixed-top navbar-centered sb-navbar" role="navigation" style="background-color:white">
+                        <div class="navbar-header navbar-right" style="margin-left: 30px;padding-bottom:8px;">
+                            <a class="navbar-brand" href="#">
+                                <span style="font-size:200%;">
+                                    ${router.title & t}
+                                    <img src="${theme.files.gb_logo_png}" width="32" style="float:right;margin-left:15px;margin-right:15px;" />
+                                </span>
+                            </a>
+                        </div>
 
-          <div class="collapse navbar-collapse" id="skeleton-navigation-navbar-collapse">
-            <ul class="nav navbar-nav navbar-right" style="font-size:150%;margin-top:4px;">
-              <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-                <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">.${row.title & t}</a>
-              </li>
-            </ul>
+                        <div class="collapse navbar-collapse" id="skeleton-navigation-navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right" style="font-size:150%;margin-top:4px;">
+                                <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+                                    <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">.${row.title & t}</a>
+                                </li>
+                            </ul>
 
-            <ul class="nav navbar-nav navbar-right">
-              <li class="loader" if.bind="router.isNavigating">
-                <i class="fa fa-spinner fa-spin fa-2x"></i>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-left">
-              <li class="menu-item" style="margin-top: 16px;margin-left:15px;">
-                <!-- if.bind="privileges.EDITOR"-->
-                <user-mode></user-mode>
-              </li>
-            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="loader" if.bind="router.isNavigating">
+                                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-left">
+                                <li class="menu-item" style="margin-top: 16px;margin-left:15px;">
+                                    <!-- if.bind="privileges.EDITOR"-->
+                                    <user-mode></user-mode>
+                                </li>
+                            </ul>
 
-          </div>
-        </nav>
+                        </div>
+                    </nav>
 
-        <div id="router-view" class="page-host flexcontainer" css="min-height:${router_view_height};margin:0;padding:0;background-image:url('${theme.files.content_background}');">
-          <router-view></router-view>
+                    <div id="router-view" class="page-host flexcontainer" css="min-height:${router_view_height};margin:0;padding:0;">
+                        <router-view></router-view>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div id="footer" class="navbar-fixed-bottom-xxx navbar navbar-default" style="border:none;background-color:rgba(0,0,0,0);margin:0;padding:0;margin-left:-16px;">
-      <div class="footer-area" style="padding-left:200px;padding-top:40px;" css="background-image:url('${theme.files.footer_background}')">
-        <a style="padding-top: 50px;cursor:pointer;color:gray;" click.delegate="contact_us()">Built by Lifestone</a>
-      </div>
-    </div>
-  </div>
+            <div id="footer" css="border:none;background-color:rgba(0,0,0,0);margin:0;padding:0;bottom:0px;width:100%;">
+                <div class="footer-area" style="padding-left:200px;padding-top:30px;background-color:rgba(80,80,80,0.3);">
+                    <div style="width:400px;margin-right:auto;margin-left:auto;"
+                    <a style="cursor:pointer;color:gray;" click.delegate="contact_us()">Built by Lifestone</a>
+                    </div>
+                </div>
+            </div>
 </template>
