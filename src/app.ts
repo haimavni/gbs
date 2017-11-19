@@ -26,14 +26,6 @@ export class App {
     //this.min_height = h - el2.offsetHeight;
   }
 
-  content_size_changed(x) {
-    let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    console.log("resize.  wid, hei: ", x.width, x.height);
-    this.theme.handle_content_resize();
-    this.router_view_height = this.theme.height - 60 - 117;
-  }
-
   public router;
   configureRouter(config, router) {
     router.title = 'gbstories';
