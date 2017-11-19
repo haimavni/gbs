@@ -1,7 +1,7 @@
 <template>
     <require from="./members.css"></require>
     <div style="margin-top:50px" class="content-area">
-        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;"
+        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:0px;margin-right:0px;margin-left:0px;font-size:150%;padding-top:18px;"
             <h3 dir="rtl" style="float: right;margin:0px;">
             <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
             <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>

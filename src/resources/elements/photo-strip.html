@@ -1,10 +1,10 @@
 <template>
     <require from='./photo-strip.css'></require>
-    <div class="row slides-list" css="height: ${height}px;width: ${width};margin-left:auto;margin-right:auto;">
+    <div class="row slides-list" css="height: ${height}px;width: ${width};margin-left:auto;margin-right:auto;z-index:0;">
         <div if.bind="settings.arrows" class="slide-control next" click.trigger="next_slide($event)"><i class="fa fa-chevron-right fa-3x"></i></div>
         <div if.bind="settings.arrows"class="slide-control prev" click.trigger="prev_slide($event)"><i class="fa fa-chevron-left fa-3x"></i></div>
 
-        <a repeat.for="slide of slides" interact-draggable interact-dragend.delegate="shift_photos($event)" style="float:right;" >
+        <a repeat.for="slide of slides" interact-draggable interact-dragend.delegate="shift_photos($event)" style="float:right;z-index:100;" >
             <img id="img-${slide.photo_id}" click.trigger="on_click(slide, $event)" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
         </a>
     </div>
