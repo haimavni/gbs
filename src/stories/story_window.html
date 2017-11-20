@@ -1,6 +1,6 @@
 <template id="bla">
     <require from="./stories.css"></require>
-    <ux-dialog>
+    <ux-dialog style="direction:rtl">
         <ux-dialog-header if.bind="show">
             <div dir="rtl">
                 <h2 dir="rtl" class="story-title" style="margin:0;">${story.name}</h2>
@@ -8,7 +8,7 @@
         </ux-dialog-header>
         <ux-dialog-body>
             <div class="fr-view" dir="rtl" if.bind="show">
-                <div class="big-story-panel">
+                <div class="bigxxx-story-panel">
                     <p dir="rtl" innerhtml.bind="story.story_text ">
                     </p>
                 </div>
@@ -25,6 +25,7 @@
                     <froala-editor value.two-way="story.story_text" config.bind="{
                             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
                                  'color', 'fontSize', 'align', 'html'],
+                                 fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '36', '48', '60', '72', '96'],
                                  imageDefaultDisplay: 'inline',
                                  imageDefaultAlign: 'right',
                                  imageDefaultWidth: 100,
