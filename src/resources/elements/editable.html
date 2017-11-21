@@ -2,7 +2,7 @@
     <require from="./editable.css"></require>
 
     <div css="margin-top:10px;margin-right:0;margin-left:0;padding:0;width:${width}">
-        <div class="row">
+        <div>
             <span show.bind="story.name" dir="rtl" style="padding:0;margin:0;float:right;">
                 <i class="fa fa-sm fa-expand is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>
                 <i if.bind="user.privileges.EDITOR" class="fa fa-sm fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story, 'edit')">&nbsp;</i>
@@ -12,7 +12,7 @@
         </div>
         <div class="row checkable ${story.checked ? 'selected' : ''}"><strong style="float:right" innerhtml.bind="story.name" ></strong></div>
 
-        <div class="fr-view row ${settings.class}">
+        <div class="fr-view ${settings.class}">
             <p innerhtml.bind="story.story_text" css="float:right;direction:rtl;" >
             </p>
         </div>

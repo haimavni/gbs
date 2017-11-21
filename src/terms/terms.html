@@ -13,15 +13,15 @@
                     <div class="row" style="margin-bottom:15px;">
 
                         <div class="col-md-1 col-md-offset-5" if.bind="user.editing" style="padding-top:18px;">
-                            <a route-href="route: story-detail; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+                            <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4TERM}" class="btn btn-success cl-create-btn">
                                 <i class="fa fa-plus-square-o"></i>
-                                ${'stories.new' & t}
+                                ${'terms.new' & t}
                             </a>
                         </div>
                         <div class="col-md-1 col-md-offset-5" if.bind="!user.editing"></div>
                         <div class="col-md-6">
                             <div class="input-group" style="width:90%;margin-top:15px;margin-right:35px;">
-                                <input dir="rtl" type="search" class="form-control" t="[placeholder]stories.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"
+                                <input dir="rtl" type="search" class="form-control" t="[placeholder]terms.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"
                                     change.delegate="update_story_list()" />
                             </div>
                         </div>

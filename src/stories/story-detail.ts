@@ -22,7 +22,7 @@ export class StoryDetail {
     }
 
     activate(params, config) {
-        this.api.getStoryDetail({ story_id: params.id })
+        this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
             .then(response => {
                 this.story = response.story;
                 this.members = response.members;

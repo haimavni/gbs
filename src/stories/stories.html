@@ -24,7 +24,7 @@
                                 <help topic="photos.can-modify-tags", position="bottom"></help>
                             </div>
                             <div class="form-group" if.bind="user.editing && checked_stories.size == 0">
-                                <a route-href="route: story-detail; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+                                <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4EVENT}" class="btn btn-success cl-create-btn">
                                     <i class="fa fa-plus-square-o"></i>
                                     ${'stories.new' & t}
                                 </a>
