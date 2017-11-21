@@ -95,7 +95,7 @@
                         <compose view-model="./member-edit" model.bind="member"></compose>
                     </div>
                 </div>
-                <div class="col-md-6 fr-view" style="margin-bottom:16px;padding-left:0px;" if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing"
+                <div class="col-md-6 fr-view" style="margin-bottom:16px;padding-left:20px;" if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing"
                     )>
                     <h4 innherhtml.bind="story_0.topic" style="margin-top:16px;margin-bottom:0px;color:gray;">
                         ${'members.life-summary' | t} ${member.member_info.first_name}
@@ -105,7 +105,7 @@
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                         ${story_0.name}
                     </h3>
-                    <div class="story-panel">
+                    <div class="story-panel" style="border-left:solid 2px darkgray;">
                         <p dir="rtl" innerhtml.bind="story_0.story_text ">
                         </p>
                     </div>
