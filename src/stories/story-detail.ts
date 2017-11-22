@@ -25,6 +25,10 @@ export class StoryDetail {
         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
             .then(response => {
                 this.story = response.story;
+                if (this.story.story_id=='new') {
+                    this.story.name = this.i18n.tr('stories.new-story');
+                    this.story.story_text = this.i18n.tr('stories.new-story-content');
+                }
                 this.members = response.members;
                 this.photos = response.photos;
                 if (this.photos.length > 0) {

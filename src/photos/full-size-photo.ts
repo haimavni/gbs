@@ -105,9 +105,14 @@ export class FullSizePhoto {
         this.router.navigateToRoute('member-details', { id: member_id });
     }
 
+    private jump_to_photo_page(photo_id) {
+        this.dialogController.ok();
+        this.router.navigateToRoute('photo-detail', { id: photo_id });
+    }
+
     mark_face(event) {
         if (!this.user.editing) {
-            return;
+            this.jump_to_photo_page(this.slide.photo_id);
         }
         let photo_id = this.slide.photo_id;
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };

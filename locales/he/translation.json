@@ -41,7 +41,8 @@
     "russian": "רוסית",
     "UNKNOWN": "לא מזוהה",
     "new": "הוסף סיפור חדש",
-    "new-story": "סיפור חדש",
+    "new-story-content": "סיפור חדש",
+    "new-story": "ללא כותרת",
     "matching-stories": "ספורים כוללים את המילים שנבחרו",
     "no-story": "לתמונה זו לא נמצא ספור",
     "life-stories": "ספורי חיים",
@@ -141,7 +142,10 @@
     "save-merges": "שמור את המיזוגים",
     "apply-to-selected": "תייג את התמונות שנבחרו",
     "download": "הורדת תמונות",
-    "done-selecting": "סיים את שלב הבחירה"
+    "done-selecting": "סיים את שלב הבחירה",
+    "new-story": "ללא כותרת",
+    "edit-new-story": "כתוב את סיפורה של התמונה",
+    "new-story-content": "לתמונה זו אין עדיין סיפור"
   },
   "videos": {
     "videos": "סרטונים"

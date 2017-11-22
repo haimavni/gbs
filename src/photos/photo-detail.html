@@ -11,7 +11,21 @@
             <div class="col-md-7" style="padding-left:40px;">
                 <img src.bind="photo_src" width="${photo_width}" />
             </div>
-            <div class="col-md-5 fr-view" innerhtml.bind="photo_story" dir="rtl">
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-8" if.bind="story.source">
+                        <span style="float:right;direction:rtl">${story.source}:</span>
+                    </div>
+                </div>
+                <div class="row" style="padding-right:15px;">
+                    <div class="fr-view" dir="rtl">
+                        <div class="big-story-panel">
+                            <p dir="rtl" if.bind="! user.editing" innerhtml.bind="photo_story.story_text">
+                            </p>
+                            <editable if.bind="user.editing" settings.bind="{show_date:false, class:'story-section', checkable: false}" story.bind="photo_story"></editable>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
