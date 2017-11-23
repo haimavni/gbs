@@ -115,7 +115,7 @@ export class FullSizePhoto {
             this.jump_to_photo_page(this.slide.photo_id);
         }
         let photo_id = this.slide.photo_id;
-        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
+        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
         this.faces.push(face);
     }
 
