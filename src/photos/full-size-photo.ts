@@ -14,6 +14,7 @@ export class FullSizePhoto {
     dialogService;
     baseURL;
     faces = [];
+    current_face;
     candidates = [];
     api;
     user;
@@ -54,14 +55,13 @@ export class FullSizePhoto {
             .then((data) => {
                 this.faces = data.faces;
                 for (let face of this.faces) {
-                    face.name = '<span dir="rtl">' + face.name + '</span>'
+                    face.name = '<span dir="rtl">' + face.name + '</span>';
                 }
                 this.candidates = data.candidates;
             });
     }
 
     face_location(face) {
-        console.debug("face location");
         let d = face.r * 2;
         return {
             left: (face.x - face.r) + 'px',
@@ -125,6 +125,10 @@ export class FullSizePhoto {
     }
 
     public dragstart(face, customEvent: CustomEvent) {
+        customEvent.stopPropagation();
+        if (!this.user.editing) {
+            return;
+        }
         let el = document.getElementById('full-size-photo');
         face.corner = getOffset(el);
         let event = customEvent.detail;
@@ -132,14 +136,38 @@ export class FullSizePhoto {
         let dist = this.distance(face, pt);
         face.action = (dist < face.r - 10) ? "moving" : "resizing";
         face.dist = dist;
+        this.current_face = {x: face.x, y: face.y, r: face.r, dist: face.dist};
     }
 
     public dragmove(face, customEvent: CustomEvent) {
-        //todo: how to show while moving?
+        customEvent.stopPropagation();
+        if (!this.user.editing) {
+            return;
+        }
+        //console.log("dragmove customEvent: ", customEvent);
+        let el = document.getElementById('face-'+ face.member_id);
+        let current_face = this.current_face;
+        let event = customEvent.detail;
+        if (face.action === "moving") {
+            current_face.x += event.dx;
+            current_face.y += event.dy;
+        } else {
+            let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
+            let dist = this.distance(current_face, pt);
+            current_face.r += dist - current_face.dist;
+            current_face.dist = dist;
+        }
+        let face_location = this.face_location(current_face);
+        el.style.left = face_location.left;
+        el.style.top = face_location.top;
+        el.style.width = face_location.width;
+        el.style.height = face_location.height;
     }
 
     public dragend(face, customEvent: CustomEvent) {
-        console.log("dragend customEvent: ", customEvent);
+        if (!this.user.editing) {
+            return;
+        }
         customEvent.stopPropagation();
         let event = customEvent.detail;
         if (face.action === "moving") {
@@ -154,7 +182,6 @@ export class FullSizePhoto {
             }
         }
         this.faces = this.faces.splice(0);
-
         face.action = null;
     }
 

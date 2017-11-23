@@ -3,9 +3,15 @@
         <div class="slide" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
             <img src="${slide.src}" height="${slide.height}" width="${slide.width}" />
             <button class="highlighter" click.delegate="toggle_highlighting($event)"></button>
-            <button dir="rtl" class="face" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable
-                interact-dragmove.delegate="dragmove(face, $event)" interact-dragstart.delegate="dragstart(face, $event)" interact-dragend.delegate="dragend(face, $event)"
-                style.bind="face_location(face)" aubs-tooltip="text.bind:face.name"><span class="highlighted" if.bind="highlighting">${face.name}</span>
+            <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable
+                class="face" 
+                id.bind="'face-' + face.member_id"
+                interact-dragmove.delegate="dragmove(face, $event)" 
+                interact-dragstart.delegate="dragstart(face, $event)" 
+                interact-dragend.delegate="dragend(face, $event)"
+                style.bind="face_location(face)" 
+                aubs-tooltip="text.bind:face.name">
+                <span class="highlighted" if.bind="highlighting">${face.name}</span>
             </button>
         </div>
     </div>
