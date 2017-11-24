@@ -130,7 +130,8 @@ export class FullSizePhoto {
             return;
         }
         let el = document.getElementById('full-size-photo');
-        face.corner = getOffset(el);
+        face.corner = getOffset(el);        
+        customEvent.stopPropagation();
         let event = customEvent.detail;
         let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
         let dist = this.distance(face, pt);

@@ -1,8 +1,8 @@
 <template>
-    <div class="slide" click.trigger="mark_face($event)" id="full-size-photo">
+    <div class="slide" click.trigger="mark_face($event)" id="full-size-photo" style="z-index:0;">
         <div class="slide" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
             <img src="${slide.src}" height="${slide.height}" width="${slide.width}" />
-            <button class="highlighter" click.delegate="toggle_highlighting($event)"></button>
+            <button class="highlighter" click.trigger="toggle_highlighting($event)"></button>
             <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable
                 class="face" 
                 id.bind="'face-' + face.member_id"
@@ -11,7 +11,11 @@
                 interact-dragend.delegate="dragend(face, $event)"
                 style.bind="face_location(face)" 
                 aubs-tooltip="text.bind:face.name">
-                <span class="highlighted" if.bind="highlighting">${face.name}</span>
+                <span style="position:relative">
+                    <span class="highlighted" if.bind="highlighting" innerhtml.bind="face.name" 
+                        css="background-color:white;color:black;opacity:1.0;position:absolute;top:${face.r}px;left:${-face.r}px;width:${2*face.r}px;font-size:70%;"
+                    </span>
+                </span>
             </button>
         </div>
     </div>
@@ -42,7 +46,7 @@
         }
 
         .highlighter {
-            left: 0px;
+            z-index:9999;
             top: 0px;
             width: 32px;
             height: 32px;

@@ -1,7 +1,7 @@
 import { autoinject, singleton, noView } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
-import {I18N} from 'aurelia-i18n';
+import { I18N } from 'aurelia-i18n';
 
 const rtl_langs = new Set(['he', 'ar']);
 
@@ -48,14 +48,13 @@ export class User {
     checkIfLoggedIn() {
         return this.api.call_server('default/check_if_logged_in')
             .then(result => { this.isLoggedIn = result.is_logged_in });
-        }
+    }
 
     login(loginData) {
         return this.api.call_server('default/login', loginData)
             .then((result) => {
                 if (result.user_error) {
-                    let msg = this.i18n.tr('user.login-failed');
-                    alert(msg);
+                    let msg = this.i18n.tr('user.' + result.user_error);
                     throw result.user_error
                 }
                 this.isLoggedIn = true;
@@ -84,7 +83,13 @@ export class User {
     }
 
     register(loginData) {
-        alert('register password not ready')
+        return this.api.call_server_post('default/register_user', { user_info: loginData })
+            .then((result) => {
+                if (result.user_error) {
+                    let msg = this.i18n.tr('user.' + result.user_error);
+                    throw result.user_error
+                }
+            });
     }
 
 }

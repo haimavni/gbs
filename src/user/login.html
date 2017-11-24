@@ -16,7 +16,9 @@
                         </div>
                         <div if.bind="registering">
                             <div class="form-group">
-                                <input type="password" name="confirm_password" id="password" class="form-control input-sm" value.bind="loginData.confirm_password"
+                                <input type="password" name="confirm_password" id="password" 
+                                    class="form-control input-sm ${loginData.password != loginData.confirm_password ? 'error' : ''}" 
+                                    value.bind="loginData.confirm_password"
                                     t="[placeholder]user.confirm-password">
                             </div>
                             <div class="form-group">
@@ -26,12 +28,21 @@
                                 <input type="text" name="last_name" id="last_name" class="form-control input-sm" value.bind="loginData.last_name" t="[placeholder]user.last-name">
                             </div>
                         </div>
-                        <!--div if.bind="login_failed">
+                        <div if.bind="message" class.bind="message_type" style="margin-top:8px;margin-bottom:12px;padding:8px;">
                             ${message & t}
-                        </div-->
-                        <button if.bind="! registering" id="login" name="login" class="btn btn-primary btn-block" click.trigger="do_login()">${"user.login" & t}</button>
-                        <button id="register" name="register" click.trigger="do_register()" class="btn btn-info btn-block">${"user.register" & t}</button>
-                        <button if.bind="login_failed" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">${"user.reset-password" & t}</button>
+                        </div>
+                        <button if.bind="! registering" id="login" name="login" class="btn btn-primary btn-block" click.trigger="do_login()">
+                            ${"user.login" & t}
+                        </button>
+                        <button id="register" if.bind="registering < REGISTERING_DONE" name="register" click.trigger="do_register()" class="btn btn-info btn-block">
+                            ${"user.register" & t}
+                        </button>
+                        <button id="gotit" if.bind="registering == REGISTERING_DONE" name="gotit" click.trigger="finish_registration()" class="btn btn-info btn-block">
+                            ${"user.register_done" & t}
+                        </button>
+                        <button if.bind="login_failed" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">
+                            ${"user.reset-password" & t}
+                        </button>
 
                     </form>
                 </div>
