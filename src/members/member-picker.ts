@@ -78,8 +78,7 @@ export class MemberPicker {
                 this.dialogController.ok({ member_id: response.member_id, new_member: response.member });
             })
         } else {
-            this.router.navigateToRoute('member-details', { id: 'new' });
-            this.dialogController.ok();
+            this.api.call_server('members/create_new_member', {})  //todo: not ready. when ready, remove if.bind in the html file
         }
     }
 

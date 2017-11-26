@@ -3,10 +3,10 @@
     <div style="padding: 15px;padding-top:0;background:lightgray;">
         <div class="row" style="background-color:gray;height:60px;padding-top:13px;">
             <div class="col-md-3">
-                <a click.trigger="create_new_member()" class="btn btn-success cl-create-btn">
-                <i class="fa fa-plus-square-o"></i>
-                ${'members.new' & t}
-            </a>
+                <a click.trigger="create_new_member()" class="btn btn-success cl-create-btn" if.bind="gender">
+                    <i class="fa fa-plus-square-o"></i>
+                    ${'members.new' & t}
+                </a>
             </div>
             <div if.bind="face_identifier" class="col-md-3" style="padding-left:0px;">
                 <div class="checkbox">

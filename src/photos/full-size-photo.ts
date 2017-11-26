@@ -22,6 +22,7 @@ export class FullSizePhoto {
     router;
     highlighting = false;
     eventAggregator;
+    marking_face_active = false;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -81,6 +82,7 @@ export class FullSizePhoto {
             return;
         }
         this.dialogService.open({ viewModel: MemberPicker, model: { face_identifier: true, member_id: face.member_id, candidates: this.candidates }, lock: false }).whenClosed(response => {
+            this.marking_face_active = false;
             if (response.wasCancelled) {
                 this.remove_face(face);
                 return;
@@ -114,9 +116,13 @@ export class FullSizePhoto {
         if (!this.user.editing) {
             this.jump_to_photo_page(this.slide.photo_id);
         }
+        if (this.marking_face_active) {
+            return;
+        }
         let photo_id = this.slide.photo_id;
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
         this.faces.push(face);
+        this.marking_face_active = true;
     }
 
     private distance(face, pt) {

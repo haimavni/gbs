@@ -2,6 +2,8 @@ import { autoinject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
+import { FullSizePhoto } from './full-size-photo';
+import { DialogService } from 'aurelia-dialog';
 
 @autoinject()
 export class PhotoDetail {
@@ -14,6 +16,7 @@ export class PhotoDetail {
     curr_photo;
     photo_idx = 0;
     source;
+    photo_id;
     photo_src;
     photo_name;
     photo_story;
@@ -33,6 +36,7 @@ export class PhotoDetail {
         console.log("activate photo detail. params: ", params);
         this.api.getPhotoDetail({ photo_id: params.id, what: params.what })
             .then(response => {
+                this.photo_id = params.id;
                 this.photo_src = response.photo_src;
                 this.photo_name = response.photo_name;
                 this.photo_story = response.photo_story;

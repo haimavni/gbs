@@ -73,7 +73,10 @@ export class MemberDetail {
         this.api.getMemberDetails({ member_id: params.id, what: params.what })
             .then(member => {
                 this.member = member;
-                this.member.member_stories[0].topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
+                let life_story = this.member.member_stories[0];
+                if (life_story) {
+                    life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
+                }
                 this.set_displayed_stories();
             });
     }

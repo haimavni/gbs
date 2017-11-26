@@ -42,7 +42,7 @@ export class Login {
             this.user.register(this.loginData)
                 .then(() => {
                     this.registering = this.REGISTERING_DONE;
-                    this.message = 'howto-finalize-registration';
+                    this.message = 'user.howto-finalize-registration';
                     this.message_type = 'success';
                 })
                 .catch((reason) => {

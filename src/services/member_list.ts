@@ -23,7 +23,25 @@ export class MemberList {
         });
 
         this.eventAggregator.subscribe('MEMBER_LISTS_CHANGED', payload => {
-            console.log("ws tells change ", payload);
+            console.log("ws tells change. payload: ", payload);
+            let mi = payload.member_rec;
+            if (payload.new_member) {
+                let new_member_list_item = {
+                    id: mi.id,
+                    name: mi.name,
+                    title: mi.title,
+                    first_name: mi.first_name,
+                    last_name: mi.last_name,
+                    former_first_name: mi.former_first_name,
+                    former_last_name: mi.former_last_name,
+                    nick_nam: mi.NickName,
+                    gender: mi.gender,
+                    visibility: mi.visibility,
+                    has_profile_photo: mi.has_profile_photo,
+                    facePhotoURL: mi.facePhotoURL
+                };
+                this.members.member_list.splice(0, 0, new_member_list_item);
+            }
         });
 
         this.eventAggregator.subscribe('MemberGotProfilePhoto', payload => {
@@ -66,8 +84,9 @@ export class MemberList {
     }
 
     member_added(new_member: any) {
-        let new_list_item = { name: new_member.name, facePhotoURL: new_member.facePhotoURL, gender: new_member.member_info.gender, id: new_member.member_info.id };
-        this.members.member_list.splice(0, 0, new_list_item);
+        return;
+        /*let new_list_item = { name: new_member.name, facePhotoURL: new_member.facePhotoURL, gender: new_member.member_info.gender, id: new_member.member_info.id };
+        this.members.member_list.splice(0, 0, new_list_item);*/
     }
 
     set_profile_photo(member_id, face_photo_url) {

@@ -143,16 +143,24 @@ export class PhotoStripCustomElement {
             let r = this.height / slide.height;
             let gap = this.width - total_width;
             let w = Math.round(r * slide.width);
-            img.style.width = w + "px";
+            if (!img) {
+                window.setTimeout(() => img = document.getElementById('img-' + slide.photo_id));
+            }
+            if (img)
+                img.style.width = w + "px";
 
             total_width += w;
             if (total_width > this.width) {
+                if (img) {
                 //document.getElementById('img-' + slide.photo_id).style.width = gap + "px";
-                window.setTimeout(() => document.getElementById('img-' + slide.photo_id).style.width = gap + "px", WAIT);
+                    window.setTimeout(() => img.style.width = gap + "px", WAIT);
+                }
                 this.modified_slide = slide;
                 return;
             } else {
-                document.getElementById('img-' + slide.photo_id).style.width = "${w}px";
+                if (img) {
+                    img.style.width = "${w}px";
+                }
             }
         }
     }

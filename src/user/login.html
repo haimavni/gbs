@@ -5,7 +5,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">${"user.please-login" & t}</h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style="max-width:300px;">
                     <form role="form">
                         <div class="form-group">
                             <input required type="email" name="email" id="email" class="form-control input-sm lowercase" value.bind="loginData.user_email"
@@ -17,7 +17,7 @@
                         <div if.bind="registering">
                             <div class="form-group">
                                 <input type="password" name="confirm_password" id="password" 
-                                    class="form-control input-sm ${loginData.password != loginData.confirm_password ? 'error' : ''}" 
+                                    class="form-control input-sm ${loginData.password != loginData.confirm_password ? 'warning' : ''}" 
                                     value.bind="loginData.confirm_password"
                                     t="[placeholder]user.confirm-password">
                             </div>
@@ -38,7 +38,7 @@
                             ${"user.register" & t}
                         </button>
                         <button id="gotit" if.bind="registering == REGISTERING_DONE" name="gotit" click.trigger="finish_registration()" class="btn btn-info btn-block">
-                            ${"user.register_done" & t}
+                            ${"user.register-done" & t}
                         </button>
                         <button if.bind="login_failed" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">
                             ${"user.reset-password" & t}
