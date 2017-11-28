@@ -93,6 +93,7 @@ export class Photos {
 
     update_photo_list() {
         console.log("before update, params: ", this.params);
+        console.time('get_photo_list');
         return this.api.call_server_post('members/get_photo_list', this.params)
             .then(result => {
                 this.photo_list = result.photo_list;
@@ -105,6 +106,7 @@ export class Photos {
                     console.log("no photos found");
                 }
                 console.log("after update, params: ", this.params);
+                console.timeEnd('get_photo_list');
             });
     }
 

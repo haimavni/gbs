@@ -55,8 +55,10 @@ export class MemberList {
                 resolve(this.members)
             })
         } else {
+            console.time('member_list');
             return this.api.getMemberList().then(members => {
                 this.members.member_list = members.member_list;
+                console.timeEnd('member_list');
                 return this.members;
             })
         }

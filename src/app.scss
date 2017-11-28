@@ -209,3 +209,13 @@ i.is-link {
     background-color: green;
     color: black;
 }
+
+a {
+    color: black;
+    text-decoration: none !important;
+}
+
+a:hover {
+    background-color:#f0f0f0;
+    //font-weight:bolder;
+}

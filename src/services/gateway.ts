@@ -66,6 +66,7 @@ export class MemberGateway {
         });
         this.get_constants();
         this.listen('ALL');
+        this.listen('TASK_MONITOR');
         THIS = this;
     }
 
@@ -141,7 +142,6 @@ export class MemberGateway {
     }
 
     listen(group?) {
-        let x = window.location;
         this.call_server('default/get_tornado_host', { group: group })
             .then(data => {
                 let ws = data.ws;

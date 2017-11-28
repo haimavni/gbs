@@ -100,11 +100,13 @@ export class Stories {
             this.stories_index = cached_index;
             this.help_data.num_words = this.stories_index.length;
         } else {
+            console.time('get_words_index');
             this.api.call_server('members/get_stories_index')
                 .then(response => {
                     this.stories_index = response.stories_index;
                     this.help_data.num_words = this.stories_index.length;
                     this.cache.setValue('StoriesIndex', this.stories_index);
+                    console.timeEnd('get_words_index');
                 });
         }
 
@@ -137,12 +139,14 @@ export class Stories {
         } else {
             used_for = 2;
         }
+        console.time('update-story-list');
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
                 this.story_list = result.story_list;
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
+                console.timeEnd('update-story-list');
             });
     }
 

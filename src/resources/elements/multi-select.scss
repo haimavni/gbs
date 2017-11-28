@@ -1,6 +1,7 @@
 .multi-select {
     div.selected {
         font-weight: bolder;
+        color: black;
         //max-height: 60px;
         border-bottom: solid 2px lightgray;
     }
@@ -62,7 +63,7 @@
     }
 
     ul.grouped i.tool {
-        color: blue;
+        color: black;
         font-weight:bolder;
     }
 
@@ -104,6 +105,10 @@
     div.unselected {
         a {
             cursor: pointer;
+            color:black;
+            :hover {
+                font-weight:bolder;
+            }
         }
     }
 
