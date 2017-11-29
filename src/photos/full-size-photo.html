@@ -1,8 +1,14 @@
 <template>
-    <div class="slide" click.trigger="mark_face($event)" id="full-size-photo" style="z-index:0;">
+    <require from="./full-size-photo.css"></require>
+    <div class="slide" click.delegate="mark_face($event)" id="full-size-photo" style="z-index:0;margin-left:32px;">
         <div class="slide" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
             <img src="${slide.src}" height="${slide.height}" width="${slide.width}" />
-            <button class="highlighter" click.trigger="toggle_highlighting($event)"></button>
+            <!--div class="side-tool help"-->
+                <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help"></help>
+                <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help"></help>
+            <!--/div-->
+            <button aubs-tooltip="text.bind:highlight_all" class="side-tool highlighter"click.trigger="toggle_highlighting($event)"><i class="fa fa-lg fa-circle-o"></i></button>
+            <button aubs-tooltip="text.bind:jump_to_story_page" class="side-tool story"click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
             <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable
                 class="face" 
                 id.bind="'face-' + face.member_id"
@@ -19,51 +25,5 @@
             </button>
         </div>
     </div>
-    <style>
-        div.slide {
-            position: relative;
-        }
-
-        button.face {
-            border-radius: 50%;
-            border-color: rgba(0, 0, 0, 0);
-            border-style: solid;
-            border-width: 10px;
-            opacity: 0;
-            position: absolute;
-        }
-
-        .slide.highlight-faces button.face {
-            border-color: rgba(255, 255, 0, 0.9);
-            opacity: 0.5;
-            color: orange;
-            font-weight: bolder;
-        }
-
-        button.face:hover {
-            border-color: rgba(255, 255, 0, 0.9);
-            opacity: 0.5;
-        }
-
-        .highlighter {
-            z-index:9999;
-            top: 0px;
-            width: 32px;
-            height: 32px;
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0);
-            border: none;
-        }
-
-        span.highlighted {
-            color: yellow;
-            font-weight: bolder;
-        }
-
-        ux-dialog-overlay.active {
-            background-color: black;
-            opacity: 0.9;
-        }
-    </style>
 
 </template>

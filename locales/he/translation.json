@@ -152,7 +152,9 @@
     "done-selecting": "סיים את שלב הבחירה",
     "new-story": "ללא כותרת",
     "edit-new-story": "כתוב את סיפורה של התמונה",
-    "new-story-content": "לתמונה זו אין עדיין סיפור"
+    "new-story-content": "לתמונה זו אין עדיין סיפור",
+    "highlight-all": "האר את כל הפרצופים המזוהים",
+    "jump-to-story-page": "עבור לדף התמונה"
   },
   "videos": {
     "videos": "סרטונים"

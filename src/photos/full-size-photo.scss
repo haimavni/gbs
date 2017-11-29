@@ -1,0 +1,66 @@
+div.slide {
+    position: relative;
+}
+
+button.face {
+    border-radius: 50%;
+    border-color: rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-width: 10px;
+    opacity: 0;
+    position: absolute;
+}
+
+.slide.highlight-faces button.face {
+    border-color: rgba(255, 255, 0, 0.9);
+    opacity: 0.5;
+    color: orange;
+    font-weight: bolder;
+}
+
+button.face:hover {
+    border-color: rgba(255, 255, 0, 0.9);
+    opacity: 0.5;
+}
+
+.side-tool {
+    z-index:9999;
+    left: -32px;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    background-color:rgba(0,0,0,0);
+    border: solid 1px gray;
+    &.help {
+        top: 0px;
+        padding:auto;
+    }
+    &.highlighter {
+        top: 32px;
+        color: yellow;
+    }
+    &.story {
+        top: 64px;
+        color: white;
+    }
+}
+
+/*.highlighter {
+    z-index:9999;
+    top: 0px;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+*/
+span.highlighted {
+    color: yellow;
+    font-weight: bolder;
+}
+
+ux-dialog-overlay.active {
+    background-color: black;
+    opacity: 0.9;
+}

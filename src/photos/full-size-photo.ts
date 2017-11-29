@@ -7,6 +7,7 @@ import { MemberPicker } from "../members/member-picker";
 import environment from "../environment";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { getOffset } from "../services/dom_utils";
+import { I18N } from 'aurelia-i18n';
 
 @autoinject()
 export class FullSizePhoto {
@@ -23,20 +24,27 @@ export class FullSizePhoto {
     highlighting = false;
     eventAggregator;
     marking_face_active = false;
+    i18n;
+    highlight_all;
+    jump_to_story_page;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
         api: MemberGateway,
         user: User,
         router: Router,
-        eventAggregator: EventAggregator) {
+        eventAggregator: EventAggregator,
+        i18n: I18N) {
         this.dialogController = dialogController;
         this.dialogService = dialogService;
         this.api = api;
         this.user = user;
         this.router = router;
         this.eventAggregator = eventAggregator;
+        this.i18n = i18n;
         console.debug("constructing dialog");
+        this.highlight_all = this.i18n.tr('photos.highlight-all');
+        this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
     }
 
     activate(model) {
@@ -107,14 +115,16 @@ export class FullSizePhoto {
         this.router.navigateToRoute('member-details', { id: member_id });
     }
 
-    private jump_to_photo_page(photo_id) {
+    jump_to_photo_page(event) {
+        event.stopPropagation();
         this.dialogController.ok();
-        this.router.navigateToRoute('photo-detail', { id: photo_id });
+        this.router.navigateToRoute('photo-detail', { id: this.slide.photo_id });
     }
 
     mark_face(event) {
+        event.stopPropagation();
         if (!this.user.editing) {
-            this.jump_to_photo_page(this.slide.photo_id);
+            return;
         }
         if (this.marking_face_active) {
             return;
