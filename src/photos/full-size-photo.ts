@@ -20,6 +20,7 @@ export class FullSizePhoto {
     api;
     user;
     slide;
+    photo_info;
     router;
     highlighting = false;
     eventAggregator;
@@ -42,16 +43,15 @@ export class FullSizePhoto {
         this.router = router;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
-        console.debug("constructing dialog");
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
     }
 
     activate(model) {
-        console.debug("enter activate");
         this.slide = model.slide;
         this.baseURL = environment.baseURL;
         this.get_faces(this.slide.photo_id);
+        this.get_photo_info(this.slide.photo_id);
     }
 
     attached() {
@@ -68,6 +68,18 @@ export class FullSizePhoto {
                 }
                 this.candidates = data.candidates;
             });
+    }
+
+    get_photo_info(photo_id) {
+        this.api.call_server('members/get_photo_info',  { photo_id: photo_id })
+            .then((data) => {
+                this.photo_info = data;
+                if (! this.photo_info.photographer) {
+                    this.photo_info.photographer = this.i18n.tr('photos.unknown');
+                }
+                console.log("photo info: ", this.photo_info);
+            });
+
     }
 
     face_location(face) {
@@ -161,7 +173,6 @@ export class FullSizePhoto {
         if (!this.user.editing) {
             return;
         }
-        //console.log("dragmove customEvent: ", customEvent);
         let el = document.getElementById('face-'+ face.member_id);
         let current_face = this.current_face;
         let event = customEvent.detail;
