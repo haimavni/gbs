@@ -4,7 +4,7 @@ import environment from '../environment';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import * as download from 'downloadjs';
 
-var THIS;
+let THIS;
 
 function params(data) {
     return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
@@ -14,16 +14,22 @@ export class SimpleInterceptor implements Interceptor {
     request(request: Request) {
         //place code here
         //alert('request mode: ' + request.mode);
+        THIS.pending += 1;
         return request;
     }
 
     response(response: Response) {
         let r = response.json();
+        THIS.pending -= 1;
         return r;
     }
 
     responseError(response: Response) {
-        console.log('Some error has occured! Run!')
+        console.log('responseError - Some error has occured! Run!');
+        THIS.pending -= 1;
+        if (! THIS.pending) {
+            alert("Server Error. Please try again later.")
+        }
         return response;
     }
 }
@@ -49,6 +55,7 @@ export class MemberGateway {
             STORY4HELP: 6
         }
     };
+    pending = 0;
 
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator) {
         this.httpClient = httpClient;
