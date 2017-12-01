@@ -35,10 +35,10 @@
                         <h4 dir="rtl" style="float:right;margin:0;padding:0;cursor:pointer;" click.delegate="jump_to_the_full_story(story)">
                             ${story.name}
                         </h4>
-                        <!--div style="margin:20px;"-->
+                        <div class="story-prefix">
                             <p dir="rtl" innerhtml.bind="story.story" style="text-align:right;max-height:50px;font-size:13px;width:100%;overflow:hidden;">
-                        </p>
-                        <!--/div-->
+                            </p>
+                        </div>
                         <div style="position:absolute;bottom:0px;left:12px;cursor:pointer;">
                             <a click.delegate="jump_to_the_full_story(story)">
                                 <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
