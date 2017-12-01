@@ -149,10 +149,18 @@ export class MemberGateway {
                     alert("html5 websocket not supported by your browser, try Google Chrome");
                 };
             });
-    };
+    }
 
-    handle_ws_message(e) {
-        let obj = JSON.parse(e.data);
+    handle_ws_message(msg) {
+        let obj;
+        try {
+            obj = JSON.parse(msg.data);
+        } 
+        catch(e) {
+            console.log("ERROR handling ws message ", msg, " Exception ", e);
+            return;
+        }
+
         let key = obj.key;
         let data = obj.data;
         console.log("publishing key/data ", key, '/', data);

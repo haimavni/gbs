@@ -45,3 +45,13 @@ li {
     list-style-type: none;
 }
 
+ul.message {
+    padding :0;
+    float: right;
+    height: 250px;
+    overflow: auto;
+    p {
+        text-align: justify;
+    }
+}
+

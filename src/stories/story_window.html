@@ -15,7 +15,7 @@
         </ux-dialog-header>
         <ux-dialog-body>
             <div class="fr-view" dir="rtl" if.bind="show">
-                <div>
+                <div class="justified-story">
                     <p dir="rtl" innerhtml.bind="story.story_text ">
                     </p>
                 </div>
@@ -24,17 +24,18 @@
 
             <div class="big-story-panel fr-view" if.bind="edit">
                 <froala-editor value.two-way="story.story_text" config.bind="{
-                            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
-                                 'color', 'fontSize', 'align', 'html'],
-                                 fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '36', '48', '60', '72', '96'],
-                                 imageDefaultDisplay: 'inline',
-                                 imageDefaultAlign: 'right',
-                                 imageDefaultWidth: 100,
-                                 videoDefaultDisplay: 'inline',
-                                 videoDefaultAlign: 'left',
-                                 VideoDefaultWidth: 160,
-                                 charCounterCount: false,
-                                 language: 'he', heightMin: 400, heightMax: 400}">
+                    toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
+                            'color', 'fontSize', 'align', 'html'],
+                    fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '36', '48', '60', '72', '96'],
+                    imageDefaultDisplay: 'inline',
+                    imageDefaultAlign: 'right',
+                    imageDefaultWidth: 100,
+                    videoDefaultDisplay: 'inline',
+                    videoDefaultAlign: 'left',
+                    VideoDefaultWidth: 160,
+                    charCounterCount: false,
+                    linkAlwaysBlank: true,
+                    language: 'he', heightMin: 400, heightMax: 400}">
                 </froala-editor>
             </div>
             </div>

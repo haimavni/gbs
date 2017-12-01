@@ -5,11 +5,19 @@ div.story-panel {
     //border-left: 3px solid darkgray;
     >p {
         padding-bottom: 12px;
+        text-align: justify;
+    }
+    &.larger {
+        p {
+            font-size:110%;
+        }
     }
 }
+
 div.checkable.selected {
     background-color: lightblue;
 }
+
 
 
 

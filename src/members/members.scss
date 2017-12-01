@@ -48,13 +48,19 @@ ul.family span {
     right: 34px;
 }
 
-div.story-panel {
-    //max-height: 160px;
+div.member-story-panel {
+    max-height: 160px;
     overflow: auto;
-    //border-left: 3px solid darkgray;
     min-height: 200px;
     >p {
         padding-bottom:12px;
+        padding-left:12px;
+        text-align: justify;
+    }
+    &.larger {
+        p {
+            font-size:110%;
+        }
     }
 }
 

@@ -15,6 +15,10 @@ ux-dialog>ux-dialog-body {
 div.big-story-panel {
     //width: 600px;
     overflow: auto;
+    p {
+        text-align: justify;
+        padding-bottom: 12px;
+    }
 }
 
 div.story-title input {
@@ -67,9 +71,19 @@ div.stories-member-list li.list-group-item {
 div.story-section {
     height: 180px;
     overflow: hidden;
+    font-size: 14px !important;
     //border-left: 3px solid darkgray;
     p {
         padding-bottom: 12px;
+        text-align: justify;
+    }
+}
+
+div.justified-story {
+    font-size: 14px ! important;
+    p {
+        padding-bottom: 12px;
+        text-align: justify;
     }
 }
 

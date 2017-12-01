@@ -5,7 +5,6 @@
             <h3 dir="rtl" style="float: right;margin:0px;">
             <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
             <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>
-            <span if.bind="user.privileges.DEVELOPER">${member.member_info.id}</span>
             </h3>
         </div>
         <photo-strip source.bind="source" height.bind="220" id.bind="member.member_info.id" action_key="Zoom"
@@ -105,7 +104,7 @@
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                         ${story_0.name}
                     </h3>
-                    <div class="story-panel" style="border-left:solid 2px darkgray;">
+                    <div class="member-story-panel" style="border-left:solid 2px darkgray;">
                         <p dir="rtl" innerhtml.bind="story_0.story_text ">
                         </p>
                     </div>
@@ -122,7 +121,7 @@
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_4, 'edit')">&nbsp;</i>
                         <span innerhtml.bind="story_4.name"></span>
                     </h4>
-                    <div class="story-panel">
+                    <div class="member-story-panel">
                         <p dir="rtl" innerhtml.bind="story_4.story_text ">
                         </p>
                     </div>
@@ -133,7 +132,7 @@
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_3, 'edit')">&nbsp;</i>
                         <span innerhtml.bind="story_3.name"></span>
                     </h4>
-                    <div class="story-panel">
+                    <div class="member-story-panel">
                         <p dir="rtl" innerhtml.bind="story_3.story_text ">
                         </p>
                     </div>
@@ -144,7 +143,7 @@
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_2, 'edit')">&nbsp;</i>
                         <span innerhtml.bind="story_2.name"></span>
                     </h4>
-                    <div class="story-panel">
+                    <div class="member-story-panel">
                         <p dir="rtl" innerhtml.bind="story_2.story_text ">
                         </p>
                     </div>
@@ -155,7 +154,7 @@
                         <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_1, 'edit')">&nbsp;</i>
                         <span innerhtml.bind="story_1.name"></span>
                     </h4>
-                    <div class="story-panel">
+                    <div class="member-story-panel">
                         <p dir="rtl" innerhtml.bind="story_1.story_text">
                         </p>
                     </div>
