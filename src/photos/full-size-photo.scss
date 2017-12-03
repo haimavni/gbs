@@ -43,6 +43,10 @@ button.face:hover {
         top: 64px;
         color: white;
     }
+    &.copy-to-clipboard {
+        top: 96px;
+        color: white;
+    }
 }
 
 /*.highlighter {

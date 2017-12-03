@@ -6,6 +6,7 @@
             <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
             <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>
             </h3>
+            <copy-to-clipboard if.bind="user.editing" content.bind="member_url" style="float:left;"></copy-to-clipboard>
         </div>
         <photo-strip source.bind="source" height.bind="220" id.bind="member.member_info.id" action_key="Zoom"
             settings.bind="{arrows:true, height:220}"></photo-strip>

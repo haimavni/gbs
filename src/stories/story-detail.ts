@@ -14,6 +14,7 @@ export class StoryDetail {
     photo_idx = 0;
     source;
     user;
+    story_url;
 
     constructor(api: MemberGateway, i18n: I18N, user: User) {
         this.api = api;
@@ -36,6 +37,13 @@ export class StoryDetail {
                 }
             });
         this.source = this.api.call_server_post('members/get_story_photo_list', {story_id: params.id});
+    }
+
+    bind() {
+        let url = document.URL;
+        let parse = new URL(url);
+        let path = parse.pathname + parse.hash;
+        this.story_url = path;
     }
 
     next_photo() {

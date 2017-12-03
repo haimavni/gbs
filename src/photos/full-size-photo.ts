@@ -28,6 +28,7 @@ export class FullSizePhoto {
     i18n;
     highlight_all;
     jump_to_story_page;
+    photo_url;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -49,6 +50,7 @@ export class FullSizePhoto {
 
     activate(model) {
         this.slide = model.slide;
+        this.photo_url = this.slide.src;
         this.baseURL = environment.baseURL;
         this.get_faces(this.slide.photo_id);
         this.get_photo_info(this.slide.photo_id);

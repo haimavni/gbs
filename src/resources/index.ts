@@ -11,6 +11,7 @@ export function configure(config) {
     './elements/editable',
     './elements/roller',
     './elements/partial-date',
-    './elements/help'
+    './elements/help',
+    './elements/copy-to-clipboard'
   ]);
 }

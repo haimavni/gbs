@@ -35,7 +35,7 @@ export class MemberDetail {
     life_summary;
     stories_scroll: boolean;
     source;
- 
+    member_url = "";
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
         this.user = user;
@@ -82,11 +82,15 @@ export class MemberDetail {
     }
 
     bind() {
-        console.log("bind member detail")
+        let url = document.URL;
+        let parse = new URL(url);
+        let path = parse.pathname + parse.hash;
+        this.member_url = path;
+        console.log("member url ", this.member_url);
     }
 
     attched() {
-        console.log("attached member detail")
+        console.log("attached member detail");
     }
 
     detached() {

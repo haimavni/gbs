@@ -2,10 +2,11 @@
     <require from="./stories.css"></require>
 
     <div style="margin-top:50px" class="content-area">
-        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;">
+        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:0px;margin-right:0px;margin-left:0px;font-size:150%;padding-top:18px;">
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${story.name}
             </h3>
+            <copy-to-clipboard if.bind="user.editing" content.bind="story_url" style="float:left;"></copy-to-clipboard>
         </div>
         <div class="row">
             <div class="col-md-5" style="padding-left:40px;">

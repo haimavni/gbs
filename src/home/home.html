@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="row panel main-panel">
-        <div class="col-md-3 panel-vid" css="height:${panel_height}px;" style="overflow:auto;">
+        <div class="col-md-3 panel-vid" css="height:${panel_height}px;" style="overflow:auto;direction:rtl;">
             <ul>
                 <li repeat.for="video of video_list" if.bind="video.type=='youtube'">
                     <p>
@@ -29,7 +29,7 @@
                     <i class="fa fa-play fa-rotate-180"> </i>
                 </span>
             </h2>
-            <ul style="overflow:auto;" class="panel-story-segments" css="height:${panel_height-30}px;">
+            <ul style="overflow:auto;direction:rtl;" class="panel-story-segments" css="height:${panel_height-30}px;">
                 <li repeat.for="story of stories_sample" dir="rtl">
                     <div style="margin-top:12px;max-height:100px;min-height:100px;padding-bottom:30px;border-bottom:solid 2px lightgray;position:relative;" >
                         <h4 dir="rtl" style="float:right;margin:0;padding:0;cursor:pointer;" click.delegate="jump_to_the_full_story(story)">
@@ -50,11 +50,11 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-3 panel-messages" css="height:${panel_height}px;">
-            <h2 style="margin:0;">${'home.messages' | t}
+        <div class="col-md-3 panel-messages" css="height:${panel_height}px;direction:rtl">
+            <h2 style="margin:0;margin-bottom:12px;">${'home.messages' | t}
                 <span class="is-link" style="float:left" if.bind="user.editing" click.delegate="add_message()"><i class="fa fa-plus-square-o"></i></span>
             </h2>
-            <ul class="message">
+            <ul class="message" style="margin:0;padding:0;">
                 <li repeat.for="msg of message_list" dir="rtl" >
                     <editable story.bind="msg" settings.bind="{show_date:true}"></editable>
                 </li>
