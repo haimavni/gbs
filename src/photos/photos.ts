@@ -31,7 +31,8 @@ export class Photos {
         selected_uploader: "anyone",
         from_date: "",
         to_date: "",
-        selected_photo_list: []
+        selected_photo_list: [],
+        user_id: null
     };
     topic_list = [];
     photographer_list = [];
@@ -90,6 +91,7 @@ export class Photos {
 
     update_photo_list() {
         console.time('get_photo_list');
+        this.params.user_id = this.user.id;
         return this.api.call_server_post('members/get_photo_list', this.params)
             .then(result => {
                 this.photo_list = result.photo_list;

@@ -29,6 +29,7 @@ export class FullSizePhoto {
     highlight_all;
     jump_to_story_page;
     photo_url;
+    navEvent;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -54,7 +55,14 @@ export class FullSizePhoto {
         this.baseURL = environment.baseURL;
         this.get_faces(this.slide.photo_id);
         this.get_photo_info(this.slide.photo_id);
+        this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
+            this.dialogController.ok();
+        });
     }
+
+    deactivate() {
+        this.navEvent.dispose();
+    }    
 
     attached() {
         let div = document.getElementById("full-size-photo");

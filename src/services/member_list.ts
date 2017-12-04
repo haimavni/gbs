@@ -15,32 +15,29 @@ export class MemberList {
     constructor(eventAggregator, api) {
         this.eventAggregator = eventAggregator;
         this.api = api;
-        this.eventAggregator.subscribe('MemberDetailsUpdated', member_details => {
-            this.update_member_details(member_details.id, member_details);
-        });
-        this.eventAggregator.subscribe('NewMemberAdded', member => {
-            this.member_added(member);
-        });
-
         this.eventAggregator.subscribe('MEMBER_LISTS_CHANGED', payload => {
             console.log("ws tells change. payload: ", payload);
+            let flds = ['id', 'name', 'title', 'first_name', 'last_name', 'former_first_name', 'former_last_name', 'nick_name', 'gender', 'visibility', 'has_profile'];
             let mi = payload.member_rec;
             if (payload.new_member) {
-                let new_member_list_item = {
-                    id: mi.id,
-                    name: mi.name,
-                    title: mi.title,
-                    first_name: mi.first_name,
-                    last_name: mi.last_name,
-                    former_first_name: mi.former_first_name,
-                    former_last_name: mi.former_last_name,
-                    nick_nam: mi.NickName,
-                    gender: mi.gender,
-                    visibility: mi.visibility,
-                    has_profile_photo: mi.has_profile_photo,
-                    facePhotoURL: mi.facePhotoURL
-                };
-                this.members.member_list.splice(0, 0, new_member_list_item);
+                let new_member = {};
+                for (let k of flds) {
+                    new_member[k] = mi[k];
+                }
+                new_member['facePhotoURL'] = mi.facePhotoURL;
+                this.members.member_list.splice(0, 0, new_member);
+            } else {
+                this.get_member_by_id(mi.id)
+                    .then((member) => {
+                        for (let k of flds) {
+                            console.log("k, member[k], mi[k] ", k, member[k], mi[k])
+                            member[k] = mi[k];
+                        }
+                        let lst = this.members.member_list.splice; 
+                        lst.splice(0);
+                        this.members.member_list = lst;
+                        console.log("after update, member list: ", this.members.member_list)
+                    });
             }
         });
 
@@ -77,20 +74,6 @@ export class MemberList {
             });
     }
 
-    update_member_details(member_id: number, member_info: any) {
-        this.get_member_by_id(member_id)
-            .then(member => {
-                member.name = member_info.name;
-                member.gender = member_info.gender;
-            });
-    }
-
-    member_added(new_member: any) {
-        return;
-        /*let new_list_item = { name: new_member.name, facePhotoURL: new_member.facePhotoURL, gender: new_member.member_info.gender, id: new_member.member_info.id };
-        this.members.member_list.splice(0, 0, new_list_item);*/
-    }
-
     set_profile_photo(member_id, face_photo_url) {
         this.get_member_by_id(member_id)
             .then(member => {
@@ -101,7 +84,7 @@ export class MemberList {
     }
 
     remove_member(member_id) {
-       return this.api.call_server('members/remove_member', { member_id: member_id })
+        return this.api.call_server('members/remove_member', { member_id: member_id })
             .then(response => {
                 if (response.deleted) {
                     let mem_ids = this.members.member_list.map(member => member.id)

@@ -152,8 +152,9 @@ export class PhotoStripCustomElement {
             total_width += w;
             if (total_width > this.width) {
                 if (img) {
-                //document.getElementById('img-' + slide.photo_id).style.width = gap + "px";
                     window.setTimeout(() => img.style.width = gap + "px", WAIT);
+                    //the line below should replace the line above, but so far no luck
+                    //window.setTimeout(() => img.style.clip = "rect(0px, ${w}px, ${this.height}px, ${gap}px)", WAIT);
                 }
                 this.modified_slide = slide;
                 return;

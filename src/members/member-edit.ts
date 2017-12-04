@@ -80,9 +80,7 @@ export class MemberEdit {
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = deepClone(this.member);
-                let msg = id ? 'MemberDetailsUpdated' : 'NewMemberAdded';
-                this.eventAggregator.publish(msg, this.member.member_info);
-            });
+           });
     }
 
     toggle_gender() {
@@ -139,10 +137,6 @@ export class MemberEdit {
         else {
             return {}
         }
-    }
-
-    try_delete(member_id) {
-        console.log('deleting not ready', member_id);
     }
 
     setup(modalContainer: Element, modalOverlay: Element) {
