@@ -8,6 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import default_multi_select_options from '../resources/elements/multi-select';
 
 @autoinject
@@ -54,8 +55,9 @@ export class Stories {
     options_settings = default_multi_select_options;
     story_types_settings = default_multi_select_options;
     words_settings = default_multi_select_options;
+    ea: EventAggregator;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache, theme: Theme) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache, theme: Theme, ea: EventAggregator) {
         this.api = api;
         this.user = user;
         this.theme = theme;
@@ -63,6 +65,7 @@ export class Stories {
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
+        this.ea = ea;
         this.days_since_update_options = [
             { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('photos.uploaded-today') },
@@ -109,9 +112,9 @@ export class Stories {
                     console.timeEnd('get_words_index');
                 });
         }
-
-        /*  this.api.call_server('members/get_story_previews')
-                      .then(response => this.story_previews = response.story_previews);*/
+        this.ea.subscribe('WORD_INDEX_CHANGED', (response) => {
+            console.log("word index changed: ", response);
+        })
     }
 
     attached() {
@@ -234,20 +237,20 @@ export class Stories {
     }
 
     handle_age_change() {
-        
+
     }
 
     delete_checked_stories() {
-        this.api.call_server_post('members/delete_checked_stories', {params: this.params})
-        .then(response => {
-            this.params.checked_story_list = [];
-            this.checked_stories = new Set();
-            this.update_story_list();
-        });
+        this.api.call_server_post('members/delete_checked_stories', { params: this.params })
+            .then(response => {
+                this.params.checked_story_list = [];
+                this.checked_stories = new Set();
+                this.update_story_list();
+            });
     }
 
     toggle_deleted_stories() {
-        this.params.deleted_stories = ! this.params.deleted_stories;
+        this.params.deleted_stories = !this.params.deleted_stories;
         this.update_story_list();
     }
 
@@ -265,24 +268,28 @@ export class Stories {
                 this.done_selecting = false;
                 if (this.params.grouped_selected_topics.length > 0) {
                     result = "can-modify-tags";
-                }  else {
+                } else {
                     result = "ready-to-edit"
                 }
             }
         }
-        this.options_settings = { clear_filter_after_select: false, 
-                                  mergeable: result != "applying-to-stories" && result != "selecting-stories", 
-                                  name_editable: result == "ready-to-edit", 
-                                  can_set_sign: result == "ready-to-edit", 
-                                  can_add: result == "ready-to-edit", 
-                                  can_delete: result == "ready-to-edit" };
-        this.words_settings = { clear_filter_after_select: false, 
-                                mergeable: result != "applying-to-stories" && result != "selecting-stories", 
-                                name_editable: false, 
-                                can_set_sign: result == "not-editing", 
-                                can_add: false, 
-                                can_delete: false };
-        return result; 
+        this.options_settings = {
+            clear_filter_after_select: false,
+            mergeable: result != "applying-to-stories" && result != "selecting-stories",
+            name_editable: result == "ready-to-edit",
+            can_set_sign: result == "ready-to-edit",
+            can_add: result == "ready-to-edit",
+            can_delete: result == "ready-to-edit"
+        };
+        this.words_settings = {
+            clear_filter_after_select: false,
+            mergeable: result != "applying-to-stories" && result != "selecting-stories",
+            name_editable: false,
+            can_set_sign: result == "not-editing",
+            can_add: false,
+            can_delete: false
+        };
+        return result;
     }
 
     save_merges(event: Event) {
@@ -292,6 +299,6 @@ export class Stories {
     }
 
 
-    
+
 
 }

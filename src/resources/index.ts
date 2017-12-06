@@ -12,6 +12,7 @@ export function configure(config) {
     './elements/roller',
     './elements/partial-date',
     './elements/help',
-    './elements/copy-to-clipboard'
+    './elements/copy-to-clipboard',
+    './elements/timeline'
   ]);
 }

@@ -1,0 +1,32 @@
+li.timeline-item {
+     float: left;
+     border-right:solid 1px white;
+     height:100%;
+     width:12px;
+}
+
+ul.timeline-box {
+    list-style-type:none;
+    background-color: #eeeeee;
+    height:30px;
+    padding:0px;
+    margin-top:12px;
+    border-top:solid 1px white;
+    border-bottom:solid 1px white;
+    border-left:solid 1px white;
+}
+
+ul.timeline-stoppers-box {
+    list-style-type:none;
+    width:100%;
+    padding: 0;
+    margin: 0;
+    >li {
+        background-color: gray;
+        color: white;
+        width:48px;
+        height: 32px;
+        padding-top: 6px;
+        text-align: center;
+    }
+}

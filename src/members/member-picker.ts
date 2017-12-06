@@ -31,7 +31,6 @@ export class MemberPicker {
         this.members = [];
         this.dialogController = dialogController;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.dialogController = dialogController;
         this.router = router;
         this.api = api;
     }
@@ -51,7 +50,7 @@ export class MemberPicker {
 
     activate(model) {
         this.gender = model.gender;
-        this.child_name = model.child_name;
+        this.child_name = model.child_name;  //the child for whom we select paent
         this.face_identifier = model.face_identifier;
         this.candidates = model.candidates ? model.candidates : [];
         /*this.filter = this.memberList.member_name(model.member_id)*/
@@ -74,8 +73,10 @@ export class MemberPicker {
 
     create_new_member() {
         if (this.gender) {
-            this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name }).then(response => {
-                this.dialogController.ok({ member_id: response.member_id, new_member: response.member });
+            this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name })
+                .then(response => {
+                    this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
+                });
             })
         } else {
             this.api.call_server('members/create_new_member', {})  //todo: not ready. when ready, remove if.bind in the html file

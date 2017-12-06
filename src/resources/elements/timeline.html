@@ -1,0 +1,19 @@
+<template>
+    <require from="./timeline.css"></require>
+    <div css="width: ${timeline_width}px;">
+        <ul class="timeline-stoppers-box">
+            <li style="float:left">
+                ${first_year}
+            </li>
+            <li style="float:right">
+                ${last_year}
+            </li>
+        </ul>
+        <br>
+        <ul class="timeline-box">
+            <li aubs-tooltip="text.bind:item.title;position:bottom;" class="timeline-item item.cls" repeat.for="item of items">
+            </li>
+        </ul>
+    </div>
+
+</template>
