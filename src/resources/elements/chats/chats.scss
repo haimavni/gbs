@@ -1,0 +1,11 @@
+div.box {
+    overflow-y: auto;
+    max-height: 780px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+a:disabled {
+    color: lightgray;
+    background: yellow;
+}
