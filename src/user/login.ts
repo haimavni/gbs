@@ -11,7 +11,7 @@ export class Login {
     api;
     user;
     ea;
-    loginData = { user_email: '', password: '', first_name: '', last_name: "", confirm_password: "" };
+    loginData = { email: '', password: '', first_name: '', last_name: "", confirm_password: "" };
     login_failed: boolean = false;
     message: string = "";
     message_type: string = "";
@@ -62,5 +62,3 @@ export class Login {
         this.user.reset_password()
             .then(() => this.controller.ok('good'));
     }
-}
-
