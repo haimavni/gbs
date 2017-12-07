@@ -11,6 +11,7 @@ export class Chatroom {
     ea: EventAggregator;
     room_number;
     messages = [];
+    room_index;
 
     constructor(user: User, api: MemberGateway, ea: EventAggregator) {
         this.user = user;
@@ -24,7 +25,7 @@ export class Chatroom {
     }
 
     read_chatroom() {
-        this.api.call_server('stories/read_chatroom', { room_number: room_number })  //room number was injected onload in the html
+        this.api.call_server('stories/read_chatroom', { room_number: this.room_number })  //room number was injected onload in the html
             .then((data) => {
                 let chatroom_name = data.chatroom_name;
                 let messages = data.messages;
@@ -33,10 +34,10 @@ export class Chatroom {
         this.api.listen('CHATROOM' + this.room_number);
         this.ea.subscribe('INCOMING_MESSAGE' + this.room_number, () => {
             this.api.call_server('stories/send_message', { user_message: info.user_message, room_number: this.room_number, room_index: this.room_index })
-                .then(function (data) {
+                .then((data) => {
                     info.user_message = "";
                 });
-        }
+        })
     }
 
     handle_incoming_message(msg) {
@@ -44,7 +45,7 @@ export class Chatroom {
     };
 
     handle_selected() {
-        window.setTimeout(() => () {
+        window.setTimeout(() =>  {
             this.scroll_to_bottom();
         });
     }

@@ -16,7 +16,7 @@ export class Login {
     message: string = "";
     message_type: string = "";
     NOT_REGISTERING = 0;
-    REGISTERING  = 1;
+    REGISTERING = 1;
     REGISTERING_DONE = 2;
     registering = this.NOT_REGISTERING;
 
@@ -33,7 +33,7 @@ export class Login {
             .catch((reason) => {
                 this.login_failed = true;
                 this.message = 'user.' + reason;
-                this.message_type="error";
+                this.message_type = "error";
             });
     }
 
@@ -60,5 +60,6 @@ export class Login {
 
     do_reset_password() {
         this.user.reset_password()
-            .then(() => this.controller.ok('good'));
+            .then(() => { this.controller.ok('good') });
     }
+}
