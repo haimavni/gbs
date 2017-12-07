@@ -5,7 +5,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject()
 @singleton()
-export class Chatroom {
+export class ChatroomGroup {
     user: User;
     api: MemberGateway;
     ea: EventAggregator;

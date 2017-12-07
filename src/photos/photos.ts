@@ -32,7 +32,9 @@ export class Photos {
         from_date: "",
         to_date: "",
         selected_photo_list: [],
-        user_id: null
+        user_id: null,
+        first_year: 1928,
+        last_year: 2018
     };
     topic_list = [];
     photographer_list = [];
@@ -142,6 +144,12 @@ export class Photos {
     }
 
     handle_change(event) {
+        this.update_photo_list();
+    }
+
+    time_range_changed(event) {
+        this.params.first_year = event.detail.first_year;
+        this.params.last_year = event.detail.last_year;
         this.update_photo_list();
     }
 

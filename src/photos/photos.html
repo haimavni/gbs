@@ -6,7 +6,7 @@
                 <h1 dir="rtl">${"photos.photos-store" | t}</h1>
             </div>
         </div>
-        <div class="row content-area" style="height:300px;width:100%;" dir="rtl">
+        <div class="row content-area" style="height:300px;width:100%;margin-bottom:24px;" dir="rtl">
             <div class="row">
                 <div class="col-md-1" css="padding-top: 40px;position:relative">
                     <span css="position:absolute">${'photos.more' | t}</span>
@@ -53,7 +53,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;">
+                    <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;margin-bottom:16px;">
                         <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;" repeat.for="photo of photo_list | filter : filter : 'title' | take : 9999">
                             <a click.trigger="maximize_photo(photo, $event)" class.bind="photo.selected">
                                 <img src="${photo.square_src}" aubs-tooltip="text.bind:photo.title" width="${photo_size}" height="${photo_size}" style="margin:0;" />
@@ -96,29 +96,10 @@
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="width:90%;margin-top: 20px;">
-                        <form class="form-horizontal" submit.delegate="handle_from_date($event)">
-                            <div class="form-group">
-                                <div class="col-sm-6">
-                                    <input type="text" id="from-date" value.bind="params.from_date & debounce" style="width:158%;margin-right:-32px;padding-right:6px;"
-                                        t="[placeholder]photos.enter-date" change.delegate="handle_change($event)">
-                                </div>
-                                <label class="col-sm-6 control-label" for="params.from-date & debounce">${'photos.from-date' & t}</label>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-6">
-                                    <input type="text" id="to-date" value.bind="params.to_date & debounce" style="width:158%;margin-right:-32px;padding-right:6px;"
-                                        t="[placeholder]photos.enter-date" change.delegate="handle_change($event)">
-                                </div>
-                                <label class="col-sm-6 control-label" for="to-date">${'photos.to-date' & t}</label>
-                            </div>
-                        </form>
-                    </div>
-
                 </div>
             </div>
-            <div if.bind="user.privileges.DEVELOPER" class="row">
-                <timeline></timeline>
+            <div class="row" style="width:100%;" >
+                <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.delegate="time_range_changed($event)"></timeline>
             </div>
         </div>
     </section>

@@ -127,12 +127,8 @@ export class MultiSelectCustomElement {
         if (!this.height) {
             this.height = 180;
         }
-
         this.height_selected = this.lineHeight;
         this.height_unselected = this.height - this.height_selected;
-
-        console.log("settings before ", this.settings);
-        console.log("settings after: ", this.settings);
     }
 
     private make_list(name_set) {

@@ -1,8 +1,11 @@
 li.timeline-item {
-     float: left;
-     border-right:solid 1px white;
-     height:100%;
-     width:12px;
+    float: left;
+    border-right:solid 1px white;
+    height:100%;
+    width:12px;
+    &.in-range {
+        background-color: gray;
+    }
 }
 
 ul.timeline-box {
@@ -21,12 +24,16 @@ ul.timeline-stoppers-box {
     width:100%;
     padding: 0;
     margin: 0;
+    position: relative;
     >li {
         background-color: gray;
         color: white;
         width:48px;
         height: 32px;
-        padding-top: 6px;
+        padding-top: 3px;
         text-align: center;
+        font-size: 125%;
+        font-weight: bold;
+        position: absolute;
     }
 }
