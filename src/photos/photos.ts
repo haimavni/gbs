@@ -34,7 +34,9 @@ export class Photos {
         selected_photo_list: [],
         user_id: null,
         first_year: 1928,
-        last_year: 2018
+        last_year: 2021,
+        base_year: 1925,
+        num_years: 100
     };
     topic_list = [];
     photographer_list = [];
