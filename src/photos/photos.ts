@@ -29,6 +29,7 @@ export class Photos {
         grouped_selected_photographers: [],
         selected_days_since_upload: 0,
         selected_uploader: "anyone",
+        selected_dates_option: "dated-or-not",
         from_date: "",
         to_date: "",
         selected_photo_list: [],
@@ -42,6 +43,7 @@ export class Photos {
     photographer_list = [];
     days_since_upload_options;
     uploader_options;
+    dates_options;
     i18n;
     selected_photos = new Set([]);
     done_selecting = false;
@@ -68,6 +70,11 @@ export class Photos {
             { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone') },
             { value: "users", name: this.i18n.tr('photos.uploaded-by-users') },
             { value: "mine", name: this.i18n.tr('photos.uploaded-by-me') }
+        ];
+        this.dates_options = [
+            { value: "dated-or-not", name: this.i18n.tr('photos.dated-or-not') },
+            { value: "dated", name: this.i18n.tr('photos.dated') },
+            { value: "undated", name: this.i18n.tr('photos.undated') }
         ];
     }
 

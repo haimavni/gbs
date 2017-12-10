@@ -82,17 +82,24 @@
                             change.delegate="handle_photographer_change($event)">
                         </multi-select>
                     </div>
-                    <div class="row" style="margin-top: 20px;">
+                    <div class="row" style="margin-top: 10px;">
                         <form role="form">
                             <select value.bind="params.selected_days_since_upload" style="height:32px;width:90%;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of days_since_upload_options" model.bind="option">${option.name}</option>
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 20px;" if.bind="user.isLoggedIn">
+                    <div class="row" style="margin-top: 10px;" if.bind="user.isLoggedIn">
                         <form role="form">
                             <select value.bind="params.selected_uploader" style="height:32px;width:90%;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of uploader_options" model.bind="option.value">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="row" style="margin-top: 10px;" if.bind="user.isLoggedIn">
+                        <form role="form">
+                            <select value.bind="params.selected_dates_option" style="height:32px;width:90%;" change.delegate="handle_change($event)">
+                                <option repeat.for="option of dates_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
                     </div>

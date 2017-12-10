@@ -17,10 +17,12 @@ export class TimelineCustomElement {
     items = [];
     first_year_position = 0;
     last_year_position = 1000;
+    drag_me;
 
     constructor(element, i18n) {
         //this.timeline_width = elementRect.width;
         this.i18n = i18n;
+        this.drag_me = this.i18n.tr('photos.drag-me');
         this.items = [];
         this.element = element;
         for (let i = 0; i < this.num_years; i++) {
