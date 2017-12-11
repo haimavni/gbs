@@ -211,11 +211,17 @@ i.is-link {
 }
 
 a {
-    color: black;
+    color: blue;
     text-decoration: none !important;
 }
 
 a:hover {
     background-color:#f0f0f0;
     //font-weight:bolder;
+}
+
+ul.nav {
+    a {
+        color: black;
+    }
 }

@@ -4,9 +4,9 @@
     <div style="margin-top:50px" class="content-area">
         <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:0px;margin-right:0px;margin-left:0px;font-size:150%;padding-top:18px;">
             <h3 dir="rtl" style="float: right;margin:0px;">
-                ${story.name}
+                ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
-            <copy-to-clipboard if.bind="user.editing" content.bind="story_url" style="float:left;"></copy-to-clipboard>
+                <copy-to-clipboard if.bind="user.editing" content.bind="story_url" style="float:left;"></copy-to-clipboard>
         </div>
         <div class="row">
             <div class="col-md-5" style="padding-left:40px;">
@@ -27,7 +27,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-7" style="padding-right:30px">
+            <div class="col-md-7 justified-story full-story">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-8" if.bind="story.source">
                         <span style="float:right;direction:rtl">${story.source}:</span>

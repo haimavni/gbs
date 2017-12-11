@@ -2,10 +2,11 @@
     <require from="./photos.css"></require>
 
     <div style="margin-top:50px" class="content-area">
-        <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;">
-            <h3 dir="rtl" style="float: right;margin:0px;">
+        <div class="row" style="background-color:lightgrey;padding:10px;padding-top:14px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;">
+            <h3 if.bind="! user.editing" dir="rtl" style="float: right;margin:0px;">
                 ${photo_name}
             </h3>
+            <input type="search" if.bind="user.editing" value.bind="photo_name & debounce:200" change.trigger="update_photo_caption()" style="float:right;direction:rtl;padding-top:3px;padding-right:10px;" />
         </div>
         <div class="row">
             <div class="col-md-7" style="padding-left:40px;">

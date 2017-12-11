@@ -62,4 +62,8 @@ export class PhotoDetail {
             });
     }
 
+    update_photo_caption() {
+        this.api.call_server('members/update_photo_caption', {caption: this.photo_name, photo_id: this.photo_id});
+    }
+
 }

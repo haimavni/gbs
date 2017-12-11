@@ -20,6 +20,9 @@ div.big-story-panel {
         padding-bottom: 2px;
         padding-left: 12px;
     }
+    a {
+        color: blue;
+    }
 }
 
 div.story-title input {
@@ -93,6 +96,11 @@ div.justified-story {
 
 button.active {
     background-color: orange;
+}
+
+div.full-story {
+    max-height: 600px;
+    overflow: auto;
 }
 
 
