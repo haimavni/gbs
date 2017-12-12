@@ -2,6 +2,7 @@ import { autoinject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
+import { this_page_url } from '../services/dom_utils';
 
 @autoinject()
 export class StoryDetail {
@@ -23,6 +24,7 @@ export class StoryDetail {
     }
 
     activate(params, config) {
+        this.story_url = this_page_url();
         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
             .then(response => {
                 this.story = response.story;
@@ -37,13 +39,6 @@ export class StoryDetail {
                 }
             });
         this.source = this.api.call_server_post('members/get_story_photo_list', {story_id: params.id});
-    }
-
-    bind() {
-        let url = document.URL;
-        let parse = new URL(url);
-        let path = parse.pathname + parse.hash;
-        this.story_url = path;
     }
 
     next_photo() {

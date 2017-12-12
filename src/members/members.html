@@ -36,7 +36,7 @@
                     <li repeat.for="member of members | filter : filter : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200 | filtervisibility : 0"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''}"
                         dir="rtl">
-                        <a route-href="route: member-details; params.bind: {id:member.id}" disabled.bind="not_ready(member)">
+                        <a route-href="route: member-details; params.bind: {id:member.id}" disabled.bind="not_ready(member)" style="color:black;">
                             <img src.bind="member.facePhotoURL" aubs-tooltip="text.bind:member.title" />
                             <h6 dir="rtl" class="list-group-item-heading" >${member.name}</h6>
                         </a>

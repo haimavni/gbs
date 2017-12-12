@@ -4,6 +4,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
+import { this_page_url } from '../services/dom_utils';
 
 @autoinject()
 export class PhotoDetail {
@@ -25,6 +26,7 @@ export class PhotoDetail {
     photo_width = 600;
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
     MAX_HEIGHT = 750;
+    photo_page_url;
 
     constructor(api: MemberGateway, i18n: I18N, user: User) {
         this.api = api;
@@ -33,6 +35,7 @@ export class PhotoDetail {
     }
 
     activate(params, config) {
+        this.photo_page_url = this_page_url();
         console.log("activate photo detail. params: ", params);
         this.api.getPhotoDetail({ photo_id: params.id, what: params.what })
             .then(response => {

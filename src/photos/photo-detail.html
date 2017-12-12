@@ -2,11 +2,16 @@
     <require from="./photos.css"></require>
 
     <div style="margin-top:50px" class="content-area">
-        <div class="row" style="background-color:lightgrey;padding:10px;padding-top:14px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;">
+        <div class="row" 
+            style="background-color:lightgrey;padding:10px;padding-top:14px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;height:64px;padding-top:20px;">
             <h3 if.bind="! user.editing" dir="rtl" style="float: right;margin:0px;">
                 ${photo_name}
             </h3>
-            <input type="search" if.bind="user.editing" value.bind="photo_name & debounce:200" change.trigger="update_photo_caption()" style="float:right;direction:rtl;padding-top:3px;padding-right:10px;" />
+            <form class="form-inline" if.bind="user.editing">
+                <copy-to-clipboard if.bind="user.editing" class="side-tool copy-to-clipboard" content.bind="photo_page_url"></copy-to-clipboard>
+                <input type="search" value.bind="photo_name" change.trigger="update_photo_caption()" 
+                    style="float:right;direction:rtl;padding-top:3px;padding-right:10px;width:800px;" />
+            </form>
         </div>
         <div class="row">
             <div class="col-md-7" style="padding-left:40px;">
