@@ -16,7 +16,6 @@ export class MemberList {
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.eventAggregator.subscribe('MEMBER_LISTS_CHANGED', payload => {
-            console.log("ws tells change. payload: ", payload);
             let flds = ['id', 'name', 'title', 'first_name', 'last_name', 'former_first_name', 'former_last_name', 'nick_name', 'gender', 'visibility', 'has_profile'];
             let mi = payload.member_rec;
             if (payload.new_member) {
@@ -30,13 +29,11 @@ export class MemberList {
                 this.get_member_by_id(mi.id)
                     .then((member) => {
                         for (let k of flds) {
-                            console.log("k, member[k], mi[k] ", k, member[k], mi[k])
                             member[k] = mi[k];
                         }
                         let lst = this.members.member_list.splice; 
                         lst.splice(0);
                         this.members.member_list = lst;
-                        console.log("after update, member list: ", this.members.member_list)
                     });
             }
         });
