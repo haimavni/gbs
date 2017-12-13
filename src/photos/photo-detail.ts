@@ -15,9 +15,9 @@ export class PhotoDetail {
     members;
     photos;
     curr_photo;
-    photo_idx = 0;
     source;
     photo_id;
+    true_photo_id;
     photo_src;
     photo_name;
     photo_story;
@@ -27,11 +27,13 @@ export class PhotoDetail {
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
     MAX_HEIGHT = 750;
     photo_page_url;
+    dialog;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
+        this.dialog = dialog;
     }
 
     activate(params, config) {
@@ -43,6 +45,7 @@ export class PhotoDetail {
                 this.photo_src = response.photo_src;
                 this.photo_name = response.photo_name;
                 this.photo_story = response.photo_story;
+                this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
                 if (this.photo_story.story_id=='new') {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
                     this.photo_story.story_text = this.i18n.tr('photos.new-story-content');
@@ -60,7 +63,6 @@ export class PhotoDetail {
                     this.photo_width = this.orig_photo_width / ph;
                 }
 
-                console.log("photo_story: ", this.photo_story);
                 //also: associated members, name, photographer, time, story
             });
     }
@@ -68,5 +70,23 @@ export class PhotoDetail {
     update_photo_caption() {
         this.api.call_server('members/update_photo_caption', {caption: this.photo_name, photo_id: this.photo_id});
     }
+    
+    private openDialog(slide) {
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
+            .whenClosed(response => {
+                console.log(response.output);
+            });
+    }
 
+
+    open_full_size_photo() {
+        let slide = {
+            src: this.photo_src, 
+            width: this.orig_photo_width, 
+            height: this.orig_photo_height,
+            name: this.photo_name,
+            photo_id: this.true_photo_id
+        };
+        this.openDialog(slide)
+    }
 }

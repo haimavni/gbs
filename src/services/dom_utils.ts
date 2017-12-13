@@ -25,7 +25,6 @@ export function popup(key, url, params) {
   }
   let w = popupWindows[key] = window.open(url, '_blank', params);
   let d = w.document;
-  //d.bind('onloadeddata', onload);
   return w
 }
 
