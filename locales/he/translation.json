@@ -114,7 +114,8 @@
     "incomplete-registration": "ההרשמה טרם הושלמה",
     "email-already-exists": "אימייל זה כבר רשום במערכת",
     "howto-finalize-registration": "כדי להשלים את ההרשמה, בדוק את תיבת הדואל שלך. אם לא קיבלת הודעה מאיתנו, בדוק את דואר הזבל שלך",
-    "register-done": "הבנתי"
+    "register-done": "הבנתי",
+    "passwords-dont-match": "הסיסמה לאישור שונה מהסיסמה"
   },
   "photos": {
     "photos": "תמונות",
