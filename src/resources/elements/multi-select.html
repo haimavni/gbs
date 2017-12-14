@@ -20,7 +20,7 @@
                         </span>
                         <span class="span-i">
                             <a click.trigger="unmerge_options(option, $event)">
-                                <i class="fa fa-paperclip fa-rotate-90 tool"></i>
+                                <i class="fa fa-paperclip fa-rotate-90 tool" aubs-tooltip="text.bind:why_unclip;position: top;class:ms-tooltip;"></i>
                             </a>
                             <!--<a if.bind="user.advanced && !user.editing" click.trigger="toggle_sign(option, $event)">
                                 <-- The rotatate-180 thing here and below is kind of voodoo. It is crazy without it >
@@ -41,7 +41,7 @@
                         </span>
                         <span class="span-i">
                             <a if.bind="can_merge" click.trigger="merge_options(option, $event)">
-                                <i class="fa fa-paperclip fa-rotate-90 tool"></i>
+                                <i class="fa fa-paperclip fa-rotate-90 tool" aubs-tooltip="text.bind:why_clip;position: top;class:ms-tooltip;"></i>
                             </a>
                             <a if.bind="can_set_sign" click.trigger="toggle_sign(option, $event)">
                                 <i class="fa fa-${option.sign}-square-o fa-rotate-180 tool"></i>

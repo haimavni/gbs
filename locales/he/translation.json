@@ -179,6 +179,10 @@
     "vis-visible": "לתצוגה",
     "vis-high": "גבוהה"
   },
+  "multi-select": {
+    "why-clip": "קבץ את כל התגים שאינם מקובצים",
+    "why-unclip": "פרק מחדש את קבוצת התגים"
+  },
   "parents": "הורים",
   "siblings": "אחים/אחיות",
   "wife": "בת זוג",
@@ -188,5 +192,6 @@
   "children": "ילדים",
   "topics": "נושאים",
   "copy-to-clipboard": "העתק",
-  "select-years-range": "בחר טווח שנים להצגה  "
+  "timeline": "ציר הזמן",
+  "select-years-range": "סמן את התקופה הרצויה"
 }

@@ -3,6 +3,7 @@ import { User } from "../services/user";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import default_multi_select_options from '../resources/elements/multi-select';
@@ -17,6 +18,7 @@ export class Photos {
     photo_list = [];
     photos_margin = 0;
     api;
+    ea: EventAggregator;
     user;
     theme;
     dialog;
@@ -37,7 +39,8 @@ export class Photos {
         first_year: 1928,
         last_year: 2021,
         base_year: 1925,
-        num_years: 100
+        num_years: 100,
+        max_photos_per_line: 8
     };
     topic_list = [];
     photographer_list = [];
@@ -51,13 +54,14 @@ export class Photos {
     options_settings = default_multi_select_options;
     photographers_settings = default_multi_select_options;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, theme: Theme) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
         this.user = user;
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
+        this.ea = ea;
         this.days_since_upload_options = [
             { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('photos.uploaded-today') },
@@ -82,12 +86,17 @@ export class Photos {
         if (this.topic_list.length > 0) {
             return;
         }
+        this.update_topic_list();
+        this.update_photo_list();
+        this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
+    }
+
+    update_topic_list() {
         this.api.call_server('members/get_topic_list', { usage: 'P' })
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
             });
-        this.update_photo_list();
     }
 
     attached() {
@@ -121,6 +130,10 @@ export class Photos {
     slider_changed() {
         let width = document.getElementById("photos-container").offsetWidth;
         this.photo_size = Math.floor((width - 60) / this.photos_per_line);
+        if (this.photos_per_line > this.params.max_photos_per_line) {
+            this.params.max_photos_per_line = this.photos_per_line;
+            console.log("mprl: ", this.params.max_photos_per_line)
+        }
         this.photo_list = this.photo_list.splice(0);
     }
 
@@ -176,6 +189,10 @@ export class Photos {
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
         this.api.call_server_post('members/save_tag_merges', this.params)
+            .then(response => {
+                this.params.grouped_selected_topics = [];
+                //this.options_settings.clear_selections_now = true;
+            });
     }
 
     apply_to_selected() {
@@ -192,8 +209,8 @@ export class Photos {
         this.done_selecting = true;
     }
 
-    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers', 
-                  'params.selected_topics', 'params.selected_photographers')
+    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers',
+        'params.selected_topics', 'params.selected_photographers')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -207,24 +224,30 @@ export class Photos {
                 this.done_selecting = false;
                 if (this.params.grouped_selected_topics.length > 0 || this.params.grouped_selected_photographers.length > 0) {
                     result = "can-modify-tags";
-                }  else {
+                } else {
                     result = "ready-to-edit"
                 }
             }
         }
-        this.options_settings = { clear_filter_after_select: false, 
-                                  mergeable: result != "applying-to-photos" && result != "selecting-photos", 
-                                  name_editable: result == "ready-to-edit", 
-                                  can_set_sign: result == "ready-to-edit", 
-                                  can_add: result == "ready-to-edit", 
-                                  can_delete: result == "ready-to-edit" };
-        this.photographers_settings = { clear_filter_after_select: true, 
-                                  mergeable: result == "can-modify-tags" || result == "ready-to-edit", 
-                                  name_editable: result == "ready-to-edit", 
-                                  can_set_sign: false, 
-                                  can_add: result == "ready-to-edit", 
-                                  can_delete: result == "ready-to-edit" };
-        return result; 
+        this.options_settings = {
+            clear_filter_after_select: false,
+            mergeable: result != "applying-to-photos" && result != "selecting-photos",
+            name_editable: result == "ready-to-edit",
+            can_set_sign: result == "ready-to-edit",
+            can_add: result == "ready-to-edit",
+            can_delete: result == "ready-to-edit",
+            clear_selections_now: false
+        };
+        this.photographers_settings = {
+            clear_filter_after_select: true,
+            mergeable: result == "can-modify-tags" || result == "ready-to-edit",
+            name_editable: result == "ready-to-edit",
+            can_set_sign: false,
+            can_add: result == "ready-to-edit",
+            can_delete: result == "ready-to-edit",
+            clear_selections_now: false
+        };
+        return result;
     }
 
 }

@@ -1,11 +1,19 @@
 import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
 import { set_intersection, set_union, set_diff } from '../../services/set_utils';
 import * as Collections from 'typescript-collections';
+import { I18N } from 'aurelia-i18n';
 
-let default_multi_select_options = { clear_filter_after_select: false, mergeable: false, name_editable: false, can_set_sign: false, can_add: false, can_delete: false };
+let default_multi_select_options = {
+    clear_filter_after_select: false, 
+    mergeable: false, 
+    name_editable: false, 
+    can_set_sign: false, 
+    can_add: false, 
+    can_delete: false
+ };
 export default default_multi_select_options;
 
-@inject(DOM.Element)
+@inject(DOM.Element, I18N)
 export class MultiSelectCustomElement {
     private compare = (k1, k2) => k1.name < k2.name ? -1 : k1.name > k2.name ? 1 : 0;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
@@ -15,8 +23,9 @@ export class MultiSelectCustomElement {
     grouped_selected = new Collections.Dictionary<string, Set<string>>(); //for each leading term it will have a set of itself and its peers
     ungrouped_selected: Set<string> = new Set([]);
     selected_options_storage = new Collections.Dictionary();  //stores option record by option name, used to map the name sets to lists of options
+    //@bindable grouped_selected_options = [];  //this and the next are computed from the sets above
     grouped_selected_options = [];  //this and the next are computed from the sets above
-    ungrouped_selected_options = [];
+    @bindable ungrouped_selected_options = [];
 
     @bindable name;
     element;
@@ -30,9 +39,13 @@ export class MultiSelectCustomElement {
     @bindable settings = default_multi_select_options;
     @bindable can_edit = true;
     lineHeight = 20;
+    why_clip = "Merge all unmerged tags";
+    why_unclip = "Unmerge this tag group"
 
-    constructor(element) {
+    constructor(element, i18n: I18N) {
         this.element = element;
+        this.why_clip = i18n.tr('multi-select.why-clip');
+        this.why_unclip = i18n.tr('multi-select.why-unclip');
     }
 
     toggle_selection(option) {

@@ -70,6 +70,8 @@
                         <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list" 
                             settings.bind="options_settings" 
+                            ungrouped_selected_options.bind="params.selected_topics"
+                            grouped_selected_options.bind="params.grouped_selected_topics"
                             name="topics" 
                             place_holder_text="photos.click-topic"
                             change.delegate="handle_topic_change($event) ">
@@ -77,7 +79,8 @@
                     </div>
                     <div class="row">
                         <multi-select options.bind="photographer_list" 
-                            place_holder_text="photos.click-photographer" 
+                            place_holder_text="photos.click-photographer"
+                             ungrouped_selected_options.bind="params.selected_photographers" 
                             settings.bind="photographers_settings"
                             change.delegate="handle_photographer_change($event)">
                         </multi-select>

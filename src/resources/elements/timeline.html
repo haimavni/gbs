@@ -1,7 +1,7 @@
 <template>
     <require from="./timeline.css"></require>
     <div css="width: ${timeline_width}px;position:relative;">
-        <span style="float:right;position:absolute;top:-30px;font-size:130%;">${'select-years-range' | t}&nbsp;<help topic='select-years-range'></help></span>
+        <span style="float:right;position:absolute;top:-30px;font-size:130%;"><b>${'timeline' | t}:</b> ${'select-years-range' | t}&nbsp;<help topic='select-years-range'></help></span>
         <ul class="timeline-stoppers-box">
             <li repeat.for="side of sides" css="left:${side=='left' ? first_year_position : last_year_position}px;"
                 aubs-tooltip="text.bind:drag_me;position:top;"
@@ -10,7 +10,7 @@
                 interact-dragmove.delegate="dragmove(side, $event)" 
                 interact-dragstart.delegate="dragstart(side, $event)" 
                 interact-dragend.delegate="dragend(side, $event)">
-                ${side=='left' ? first_year : last_year}
+                ${side=='left' ? first_year : last_year - 1}
             </li>
         </ul>
         <br>
