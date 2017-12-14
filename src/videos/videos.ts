@@ -197,18 +197,20 @@ export class Videos {
                 }
             }
         }
-        this.options_settings = { clear_filter_after_select: false, 
+        this.options_settings = Object.assign({}, default_multi_select_options, { 
+                                  clear_filter_after_select: false, 
                                   mergeable: result != "applying-to-videos" && result != "selecting-videos", 
                                   name_editable: result == "ready-to-edit", 
                                   can_set_sign: result == "ready-to-edit", 
                                   can_add: result == "ready-to-edit", 
-                                  can_delete: result == "ready-to-edit" };
-        this.videographers_settings = { clear_filter_after_select: true, 
+                                  can_delete: result == "ready-to-edit" });
+        this.videographers_settings = Object.assign({}, default_multi_select_options, { 
+                                  clear_filter_after_select: true, 
                                   mergeable: result == "can-modify-tags" || result == "ready-to-edit", 
                                   name_editable: result == "ready-to-edit", 
                                   can_set_sign: false, 
                                   can_add: result == "ready-to-edit", 
-                                  can_delete: result == "ready-to-edit" };
+                                  can_delete: result == "ready-to-edit" });
         return result; 
     }
 
