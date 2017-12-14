@@ -229,7 +229,7 @@ export class Photos {
                 }
             }
         }
-        this.options_settings = {
+        this.options_settings = Object.assign({}, default_multi_select_options, {
             clear_filter_after_select: false,
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
             name_editable: result == "ready-to-edit",
@@ -237,8 +237,8 @@ export class Photos {
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
             clear_selections_now: false
-        };
-        this.photographers_settings = {
+        });
+        this.photographers_settings = Object.assign({}, default_multi_select_options, {
             clear_filter_after_select: true,
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
             name_editable: result == "ready-to-edit",
@@ -246,7 +246,7 @@ export class Photos {
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
             clear_selections_now: false
-        };
+        });
         return result;
     }
 

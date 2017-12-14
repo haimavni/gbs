@@ -82,6 +82,7 @@ export class Stories {
             { name: i18n.tr('stories.photos'), id: 3 },
             { name: i18n.tr('stories.terms'), id: 4 }
         ]
+        
     }
 
     created(params, config) {
@@ -281,22 +282,23 @@ export class Stories {
                 }
             }
         }
-        this.options_settings = {
+        this.options_settings = Object.assign({}, default_multi_select_options, {
             clear_filter_after_select: false,
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: result == "ready-to-edit",
             can_set_sign: result == "ready-to-edit",
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit"
-        };
-        this.words_settings = {
+        });
+        this.words_settings = Object.assign({}, default_multi_select_options, {
             clear_filter_after_select: false,
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: false,
             can_set_sign: result == "not-editing",
             can_add: false,
-            can_delete: false
-        };
+            can_delete: false,
+            show_only_if_filter: true
+        });
         return result;
     }
 

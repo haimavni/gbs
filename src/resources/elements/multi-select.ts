@@ -9,7 +9,8 @@ let default_multi_select_options = {
     name_editable: false, 
     can_set_sign: false, 
     can_add: false, 
-    can_delete: false
+    can_delete: false,
+    show_only_if_filter: false
  };
 export default default_multi_select_options;
 
