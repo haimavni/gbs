@@ -74,6 +74,6 @@ export class UserMode {
     }
 
     chat_rooms() {
-        popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1200,left=150,top=150");
+        popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
     }
 }
