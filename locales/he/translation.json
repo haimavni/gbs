@@ -59,7 +59,13 @@
     "to-the-photo-page": "לדף התמונה",
     "term-page": "מתוך מילון המונחים",
     "categories": "בחירת קטגוריות",
-    "words": "חיפוש לפי מילים"
+    "words": "חיפוש לפי מילים",
+    "uploaded-any-time": "ספורים שהועלו בזמן כלשהו",
+    "uploaded-today": "ספורים שהועלו היום",
+    "uploaded-this-week": "ספורים שהועלו השבוע",
+    "uploaded-this-month": "ספורים שהועלו החודש",
+    "uploaded-this-quarter": "ספורים שהועלו ברבעון זה",
+    "uploaded-this-year": "ספורים שהועלו השנה"
   },
   "members": {
     "members": "חברים",

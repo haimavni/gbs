@@ -2,6 +2,7 @@ import environment from './environment';
 import { autoinject } from 'aurelia-framework';
 import { Theme } from './services/theme';
 import { MemberGateway } from './services/gateway';
+import { User } from './services/user';
 
 @autoinject
 export class App {
@@ -10,11 +11,13 @@ export class App {
   theme;
   router_view_height;
   api;
+  user;
 
-  constructor(theme: Theme, api: MemberGateway) {
+  constructor(theme: Theme, api: MemberGateway, user: User) {
     this.baseURL = environment.baseURL;
     this.theme = theme;
     this.api = api;
+    this.user = user;
   }
 
   attached() {
