@@ -29,7 +29,6 @@ export class Stories {
     params = {
         selected_topics: [],
         grouped_selected_topics: [],
-        selected_days_since_upload: 0,
         selected_uploader: "",
         from_date: "",
         to_date: "",

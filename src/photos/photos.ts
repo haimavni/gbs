@@ -13,7 +13,7 @@ import { Theme } from '../services/theme';
 @singleton()
 export class Photos {
     filter = "";
-    photos_per_line = 8;
+    photos_per_line: number = 8;
     photo_size = 128;
     photo_list = [];
     photos_margin = 0;
@@ -130,8 +130,9 @@ export class Photos {
     slider_changed() {
         let width = document.getElementById("photos-container").offsetWidth;
         this.photo_size = Math.floor((width - 60) / this.photos_per_line);
-        if (this.photos_per_line > this.params.max_photos_per_line) {
-            this.params.max_photos_per_line = this.photos_per_line;
+        if (Number(this.photos_per_line) > this.params.max_photos_per_line) {
+            this.params.max_photos_per_line = Number(this.photos_per_line);
+            this.update_photo_list();
             console.log("mprl: ", this.params.max_photos_per_line)
         }
         this.photo_list = this.photo_list.splice(0);

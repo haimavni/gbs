@@ -5,6 +5,7 @@ export function configure(config) {
     './value-converters/take',
     './value-converters/filter-visibility',
     './value-converters/filter-gender',
+    './value-converters/sort',
     './elements/multi-select',
     './elements/selector',
     './elements/photo-strip',

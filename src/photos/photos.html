@@ -54,7 +54,8 @@
                         </form>
                     </div>
                     <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;margin-bottom:16px;">
-                        <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;" repeat.for="photo of photo_list | filter : filter : 'title' | take : 9999">
+                        <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;" 
+                            repeat.for="photo of photo_list | filter : filter : 'title' | take : 9999">
                             <a click.trigger="maximize_photo(photo, $event)" class.bind="photo.selected">
                                 <img src="${photo.square_src}" aubs-tooltip="text.bind:photo.title" width="${photo_size}" height="${photo_size}" style="margin:0;" />
                             </a>
