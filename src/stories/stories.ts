@@ -66,12 +66,12 @@ export class Stories {
         this.router = router;
         this.ea = ea;
         this.days_since_update_options = [
-            { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
-            { value: 1, name: this.i18n.tr('photos.uploaded-today') },
-            { value: 7, name: this.i18n.tr('photos.uploaded-this-week') },
-            { value: 30, name: this.i18n.tr('photos.uploaded-this-month') },
-            { value: 91, name: this.i18n.tr('photos.uploaded-this-quarter') },
-            { value: 365, name: this.i18n.tr('photos.uploaded-this-year') }
+            { value: 0, name: this.i18n.tr('stories.uploaded-any-time') },
+            { value: 1, name: this.i18n.tr('stories.uploaded-today') },
+            { value: 7, name: this.i18n.tr('stories.uploaded-this-week') },
+            { value: 30, name: this.i18n.tr('stories.uploaded-this-month') },
+            { value: 91, name: this.i18n.tr('stories.uploaded-this-quarter') },
+            { value: 365, name: this.i18n.tr('stories.uploaded-this-year') }
         ];
 
         this.story_types = [
