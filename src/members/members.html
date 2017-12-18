@@ -9,17 +9,15 @@
         </div>
         <div>
             <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <form class="form-inline" style="padding-top:16px;">
-                        <div if.bind="user.editing" class="input-group" style="padding-top:16px;">
-                            <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
-                                <i class="fa fa-plus-square-o"></i>
-                                ${'members.new' & t}
-                            </a>
+                <div class="col-md-8 col-md-offset-4">
+                    <form class="form-inline" style="padding-top:16px;direction:rtl;">
+                        <div class="input-group" style="padding-top:16px;width:50%;font-size:18px;">
+                            <search-input value.bind="filter" placeholder="members.filter"></search-input>
                         </div>
+                        <!--div class="input-group" style="margin-top:15px;width:50%;">
+                            <input dir="rtl" type="search" class="form-control" 
+                                t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
+                        </div-->
                         <div class="input-group" style="padding-top:16px;">
                             <select value.bind="order"style="height:36px;" dir="rtl" change.trigger="order_changed($event)">
                                 <option dir="rtl" repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
@@ -28,9 +26,11 @@
                         <div class="input-group" style="padding-top:16px;">
                             <help topic="members" position="bottom"></help>
                         </div>
-                        <div class="input-group" style="margin-top:15px;width:60%;">
-                            <input dir="rtl" type="search" class="form-control" 
-                                t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
+                        <div if.bind="user.editing" class="input-group" style="padding-top:16px;">
+                            <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+                                <i class="fa fa-plus-square-o"></i>
+                                ${'members.new' & t}
+                            </a>
                         </div>
                     </form>
                 </div>

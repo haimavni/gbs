@@ -1,0 +1,10 @@
+<template>
+    <require from="./search-input.css"></require>
+    <div class="search-input input-group" dir="rtl">
+        <div class="spyglass-div">
+            <i class="fa fa-search search"></i>
+        </div>
+        <input type="search" value.bind="value" t="[placeholder]${placeholder}">
+        <i class="fa fa-remove remove" if.bind="value" click.trigger="clear_text()"></i>
+    </div>
+</template>

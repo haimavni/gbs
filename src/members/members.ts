@@ -37,8 +37,8 @@ export class Members {
         this.sorting_options = [
             { value: "-has_profile_photo", name: this.i18n.tr('members.random-order')},
             { value: "last_name;first_name", name: this.i18n.tr('members.by-name') },
-            { value: "birth_date", name: this.i18n.tr('members.by-age-young-first') },
-            { value: "-birth_date", name: this.i18n.tr('members.by-age-old-first') }
+            { value: "-birth_date", name: this.i18n.tr('members.by-age-young-first') },
+            { value: "birth_date", name: this.i18n.tr('members.by-age-old-first') }
         ];
 
     }
