@@ -11,21 +11,26 @@
             <div class="row">
                 <div class="col-md-1">
                 </div>
-                <div class="col-md-1" if.bind="! user.editing"></div>
-                <div class="col-md-5"></div>
-                <div class="col-md-1" if.bind="user.editing" style="padding-top:18px;">
-                    <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
-                        <i class="fa fa-plus-square-o"></i>
-                        ${'members.new' & t}
-                    </a>
-                </div>
-                <div class="col-md-5">
-                    <form class="form-inline">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form class="form-inline" style="padding-top:16px;">
+                        <div if.bind="user.editing" class="input-group" style="padding-top:16px;">
+                            <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+                                <i class="fa fa-plus-square-o"></i>
+                                ${'members.new' & t}
+                            </a>
+                        </div>
+                        <div class="input-group" style="padding-top:16px;">
+                            <select value.bind="order"style="height:36px;" dir="rtl" change.trigger="order_changed($event)">
+                                <option dir="rtl" repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
+                            </select>
+                        </div>
                         <div class="input-group" style="padding-top:16px;">
                             <help topic="members" position="bottom"></help>
                         </div>
-                        <div class="input-group" style="margin-top:15px;width:80%;">
-                            <input dir="rtl" type="search" class="form-control" t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
+                        <div class="input-group" style="margin-top:15px;width:60%;">
+                            <input dir="rtl" type="search" class="form-control" 
+                                t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
                         </div>
                     </form>
                 </div>
@@ -33,7 +38,7 @@
 
             <div id="member-list" class="member-list content-area" css="height:${win_height-452}px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200 | filtervisibility : 0"
+                    <li repeat.for="member of members | filter : filter : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200 | filtervisibility : 0 "
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''}"
                         dir="rtl">
                         <a route-href="route: member-details; params.bind: {id:member.id}" disabled.bind="not_ready(member)" style="color:black;">

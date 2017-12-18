@@ -1,6 +1,7 @@
 import { inject, noView, singleton } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
+import { sort_array } from '../services/sort_array';
 import environment from '../environment';
 
 @inject(EventAggregator, MemberGateway)
@@ -31,9 +32,6 @@ export class MemberList {
                         for (let k of flds) {
                             member[k] = mi[k];
                         }
-                        let lst = this.members.member_list.splice; 
-                        lst.splice(0);
-                        this.members.member_list = lst;
                     });
             }
         });
@@ -51,11 +49,16 @@ export class MemberList {
         } else {
             console.time('member_list');
             return this.api.getMemberList().then(members => {
-                this.members.member_list = members.member_list;
+                this.members.member_list = sort_array(members.member_list, '-has_profile_photo');
                 console.timeEnd('member_list');
                 return this.members;
             })
         }
+    }
+
+    sort_member_list(sortby) {
+        this.members.member_list = sort_array(this.members.member_list, sortby);
+        //this.members.member_list.splice(0);
     }
 
     get_member_by_id(member_id) {

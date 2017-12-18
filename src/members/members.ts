@@ -3,13 +3,15 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
+import { sort_array } from '../services/sort_array';
+import { I18N } from 'aurelia-i18n';
 
 @autoinject()
 @singleton()
 export class Members {
-
     filter = "";
     user;
+    i18n;
     eventAggregator;
     members = [];
     memberList;
@@ -18,10 +20,13 @@ export class Members {
     win_height;
     win_width;
     theme;
+    sorting_options;
+    order = '';
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme) {
+    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N) {
         this.user = user;
         this.theme = theme;
+        this.i18n = i18n;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
         this.members = [];
@@ -29,6 +34,12 @@ export class Members {
         this.eventAggregator.subscribe('NewMemberAdded', member_details => {
             this.member_added(member_details);
         });
+        this.sorting_options = [
+            { value: "-has_profile_photo", name: this.i18n.tr('members.random-order')},
+            { value: "last_name;first_name", name: this.i18n.tr('members.by-name') },
+            { value: "birth_date", name: this.i18n.tr('members.by-age-young-first') },
+            { value: "-birth_date", name: this.i18n.tr('members.by-age-old-first') }
+        ];
 
     }
 
@@ -38,7 +49,7 @@ export class Members {
             for (let member of this.members) {
                 member.rand = Math.random() * 1000;
             }
-            this.members.sort((m1, m2) => m2.has_profile_photo * 10000 + m2.rand - (m1.has_profile_photo * 1000 + m1.rand));
+            //this.members.sort((m1, m2) => m2.has_profile_photo * 10000 + m2.rand - (m1.has_profile_photo * 10000 + m1.rand));
         })
     }
 
@@ -65,6 +76,12 @@ export class Members {
 
     not_ready(member) {
        return  member.visibility<2 && ! this.user.editing;
+    }
+
+    order_changed(event) {
+        this.memberList.sort_member_list(this.order);
+        //this.members = sort_array(this.members, this.order);
+        //this.members = this.members.splice(0);
     }
 
 }
