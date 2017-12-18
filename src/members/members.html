@@ -14,10 +14,6 @@
                         <div class="input-group" style="padding-top:16px;width:50%;font-size:18px;">
                             <search-input value.bind="filter" placeholder="members.filter"></search-input>
                         </div>
-                        <!--div class="input-group" style="margin-top:15px;width:50%;">
-                            <input dir="rtl" type="search" class="form-control" 
-                                t="[placeholder]members.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce">
-                        </div-->
                         <div class="input-group" style="padding-top:16px;">
                             <select value.bind="order"style="height:36px;" dir="rtl" change.trigger="order_changed($event)">
                                 <option dir="rtl" repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
