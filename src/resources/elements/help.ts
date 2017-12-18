@@ -13,6 +13,7 @@ export class HelpCustomElement {
     api;
     @bindable position = 'top';
     @bindable({ defaultBindingMode: bindingMode.twoWay }) params;
+    @bindable icon = 'question';
     story_info;
     story_text;
     dialog;

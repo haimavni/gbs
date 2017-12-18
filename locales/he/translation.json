@@ -97,7 +97,11 @@
     "more-stories": "ספורים קשורים",
     "set-as-profile-photo": "קבע כתמונת פרופיל",
     "visibility": "נִרְאוּת",
-    "strange-bug": "בג מוזר"
+    "strange-bug": "בג מוזר",
+    "random-order": "ללא סדר מיוחד",
+    "by-name": "לפי השם",
+    "by-age-young-first":  "צעירים תחילה",
+    "by-age-old-first": "מבוגרים תחילה"
   },
   "user": {
     "login": "התחבר",

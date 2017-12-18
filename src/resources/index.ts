@@ -14,6 +14,7 @@ export function configure(config) {
     './elements/partial-date',
     './elements/help',
     './elements/copy-to-clipboard',
-    './elements/timeline'
+    './elements/timeline',
+    './elements/search-input'
   ]);
 }
