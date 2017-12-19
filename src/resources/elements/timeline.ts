@@ -5,7 +5,7 @@ const time_element_width = 12;
 
 @inject(DOM.Element, I18N)
 export class TimelineCustomElement {
-    @bindable base_year = 1925;
+    @bindable base_year = 1924;
     @bindable first_year = 1928;
     @bindable num_years = 100;
     last_year;

@@ -5,6 +5,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
 import { sort_array } from '../services/sort_array';
 import { I18N } from 'aurelia-i18n';
+import { Router } from 'aurelia-router';
 
 @autoinject()
 @singleton()
@@ -12,6 +13,7 @@ export class Members {
     filter = "";
     user;
     i18n;
+    router;
     eventAggregator;
     members = [];
     memberList;
@@ -21,12 +23,14 @@ export class Members {
     win_width;
     theme;
     sorting_options;
+    selected_members = new Set([]);
     order = '';
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N) {
+    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
         this.theme = theme;
         this.i18n = i18n;
+        this.router = router;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
         this.members = [];
@@ -80,8 +84,37 @@ export class Members {
 
     order_changed(event) {
         this.memberList.sort_member_list(this.order);
-        //this.members = sort_array(this.members, this.order);
-        //this.members = this.members.splice(0);
     }
+
+    toggle_selection(member) {
+        if (member.selected) {
+            member.selected = null;
+            this.selected_members.delete(member.id)
+        } else {
+            this.selected_members.add(member.id)
+            member.selected = 'selected';
+        }
+    }
+    
+    member_clicked(member, event) {
+        if (event.ctrlKey) {
+            this.toggle_selection(member);
+        } else {
+            this.router.navigateToRoute('member-details', { id: member.id });
+        }
+    }
+
+    save_member_group() {
+    }
+
+    load_member_group() {
+        
+    }
+
+    clear_member_group() {
+        
+    }
+
+
 
 }

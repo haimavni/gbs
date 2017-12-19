@@ -101,7 +101,11 @@
     "random-order": "ללא סדר מיוחד",
     "by-name": "לפי השם",
     "by-age-young-first":  "צעירים תחילה",
-    "by-age-old-first": "מבוגרים תחילה"
+    "by-age-old-first": "מבוגרים תחילה",
+    "member-groups": "קבוצות חברים",
+    "save-member-group": "שמור קבוצת חברים",
+    "load-member-group": "טען קבוצת חברים",
+    "clear-member-group": "נקה את הקבוצה שנבחרה"
   },
   "user": {
     "login": "התחבר",

@@ -20,6 +20,16 @@ div.member-list.content-area li.list-group-item {
              text-align: center;
          }
     }
+    .selected {
+        background-color: lightgreen;
+        a img {
+            border-radius: 10%;
+        } 
+    }
+}
+
+.rtl a {
+    direction: rtl;
 }
 
 //member detail
@@ -109,6 +119,13 @@ div.member-list {
         background-color: lightgray;
         color: black;
         margin-bottom: 12px;
+        .selected {
+            opacity: 0.3;
+            background-color: lightgreen;
+            a img {
+                border-radius: 5%;
+            }
+        }
     }
 }
 
