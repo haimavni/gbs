@@ -6,12 +6,14 @@ import { MemberList } from '../services/member_list';
 import { sort_array } from '../services/sort_array';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
+import { MemberGateway } from '../services/gateway';
 
 @autoinject()
 @singleton()
 export class Members {
     filter = "";
     user;
+    api;
     i18n;
     router;
     eventAggregator;
@@ -25,9 +27,11 @@ export class Members {
     sorting_options;
     selected_members = new Set([]);
     order = '';
+    member_group_list;
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
+    constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
+        this.api = api;
         this.theme = theme;
         this.i18n = i18n;
         this.router = router;
@@ -39,7 +43,7 @@ export class Members {
             this.member_added(member_details);
         });
         this.sorting_options = [
-            { value: "-has_profile_photo", name: this.i18n.tr('members.random-order')},
+            { value: "-has_profile_photo", name: this.i18n.tr('members.random-order') },
             { value: "last_name;first_name", name: this.i18n.tr('members.by-name') },
             { value: "-birth_date", name: this.i18n.tr('members.by-age-young-first') },
             { value: "birth_date", name: this.i18n.tr('members.by-age-old-first') }
@@ -79,7 +83,7 @@ export class Members {
     }
 
     not_ready(member) {
-       return  member.visibility<2 && ! this.user.editing;
+        return member.visibility < 2 && !this.user.editing;
     }
 
     order_changed(event) {
@@ -95,7 +99,7 @@ export class Members {
             member.selected = 'selected';
         }
     }
-    
+
     member_clicked(member, event) {
         if (event.ctrlKey) {
             this.toggle_selection(member);
@@ -104,15 +108,23 @@ export class Members {
         }
     }
 
-    save_member_group() {
+    save_member_group(group_id) {
+        let member_ids = Array.from(this.selected_members);
+        this.api.call_server('object_groups/save_group_members', {user_id: this.user.id, group_id: group_id, member_ids: member_ids});
     }
 
     load_member_group() {
-        
+        this.api.call_server('object_groups/get_member_group_list', { user_id: this.user.id })
+            .then(result => {
+                this.selected_members = new Set(result.member_group_list);
+                for (let member of this.memberList) {
+                    member.selected = (this.selected_members.has(member.id)) ? 'selected' : '';
+                }
+            });
     }
 
     clear_member_group() {
-        
+
     }
 
 

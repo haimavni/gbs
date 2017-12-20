@@ -208,6 +208,7 @@ export class Stories {
         } else {
             this.params.selected_stories = [];
             this.update_story_list();
+            this.num_of_stories = 0;
         }
     }
 

@@ -39,17 +39,17 @@
                             <ul class="dropdown-menu dropdown-menu-left">
                                 <li if.bind="selected_members.size > 0" >
                                     <a class="dropdown-item" href="#" click.trigger="save_member_group()">
-                                        ${'members.save-member-group' | t}
+                                        <span style="float:right">${'members.save-member-group' | t}</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="#" click.trigger="load_member_group()">
-                                        ${'members.load-member-group' | t}
+                                        <span style="float:right">${'members.load-member-group' | t}</span>
                                     </a>
                                 </li>
                                 <li if.bind="selected_members.size > 0" >
                                     <a class="dropdown-item" href="#" click.trigger="clear_member_group()">
-                                        ${'members.clear-member-group' | t}
+                                        <span style="float:right">${'members.clear-member-group' | t}</span>
                                     </a>
                                 </li>
                             </ul>
@@ -66,7 +66,7 @@
                         <a click.trigger = "member_clicked(member, $event)"
                             disabled.bind="not_ready(member)" style="color:black;">
                             <img src.bind="member.facePhotoURL" aubs-tooltip="text.bind:member.title" 
-                                css="border: ${member.selected ? '6px solid green' : 'none'}" />
+                                css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" />
                             <h6 dir="rtl" class="list-group-item-heading" >${member.name}</h6>
                         </a>
                     </li>
