@@ -81,7 +81,7 @@ export class Stories {
             { name: i18n.tr('stories.photos'), id: 3 },
             { name: i18n.tr('stories.terms'), id: 4 }
         ]
-        
+
     }
 
     created(params, config) {
@@ -196,15 +196,19 @@ export class Stories {
                 result = new Set(element.story_ids)
             }
         });
-        if (result) {
+        if (result && result.size > 0) {
             let story_list = Array.from(result);
             this.num_of_stories = story_list.length;
             if (story_list.length == 0) return;
             this.params.selected_stories = story_list;
-        } else {
+            this.update_story_list();
+        } else if (result) {
             this.num_of_stories = 0;
+            this.story_list = [];
+        } else {
+            this.params.selected_stories = [];
+            this.update_story_list();
         }
-        this.update_story_list();
     }
 
     handle_topic_change(event) {
