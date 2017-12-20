@@ -4,6 +4,7 @@ import { bindable, bindingMode, inject, DOM } from 'aurelia-framework';
 export class SearchInputCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay}) value;
     @bindable placeholder = 'type someting';
+    @bindable height;
     element;
 
     constructor(element) {

@@ -9,12 +9,7 @@
         //max-height: 120px;
     }*/
     div.search-filter input {
-        font-size: 14px;
-        height: 32px;
-        //width: 90%;
-        float: right;
-        padding: 5px;
-        z-index: 0;  //otherwise tooltip might be overwritten
+        font-size: inherit;
     }
     div.option-item {
         margin-left: 0;

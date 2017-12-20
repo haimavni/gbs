@@ -16,8 +16,8 @@
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;">
                         <form class="form-inline">
-                            <div class="form-group">
-                                <input dir="rtl" type="search" class="form-control" t="[placeholder]photos.filter" style="font-size:18px;height:38px;" value.bind="filter & debounce"/>
+                            <div class="input-group">
+                                <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
                             <div class="form-group" if.bind="phase=='can-modify-tags'">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">

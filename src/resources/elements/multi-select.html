@@ -2,7 +2,7 @@
     <require from="./multi-select.css">
     </require>
     <div class="input-group search-filter" if.bind="options.length > 10">
-        <input dir="rtl" type="search" class="form-control" t="[placeholder]${place_holder_text}" value.bind="filter & debounce">
+        <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"></search-input>
     </div>
     <div class="ms-container" css="height:${height}px;position:relative">
         <button if.bind="can_add" style="position:absolute;top:60px;left:140px;" class="btn btn-success btn-xs cl-create-btn">
@@ -60,7 +60,7 @@
         <!-- Under the line come all unselected options -->
         <div class="row options unselected" 
             css="max-height:${height_unselected}px;" 
-            if.bind="options && options.length > 0 && (filter.length > 1 || ! settings.show_only_if_filter)">
+            if.bind="options && options.length > 0 && (filter.length > 0 || ! settings.show_only_if_filter)">
             <ul css="width:${width}px;" if.bind="true || unselected_options===[]">
                 <li repeat.for="option of options | filter: filter : 'name' | filterBySet : all_selected : 'exclude' | take : 199">
                     <div class="option-item" css="margin:0;padding:0;width:${inner_width}px">
