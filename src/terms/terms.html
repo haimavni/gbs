@@ -20,11 +20,6 @@
                         </div>
                         <div class="col-md-1 col-md-offset-5" if.bind="!user.editing"></div>
                         <div class="col-md-6">
-                            <!--<div class="input-group" style="width:90%;margin-top:15px;margin-right:35px;">
-                                <input dir="rtl" type="search" class="form-control" t="[placeholder]terms.filter" style="font-size:18px;height:38px;" 
-                                value.bind="filter & debounce"
-                                    change.delegate="update_story_list()" />
-                            </div>-->
                             <div class="input-group" style="width:90%;margin-top:15px;margin-right:35px;">
                                 <search-input value.bind="filter" change.delegate="update_story_list()" placeholder="terms.filter" height="38"></search-input>
                             </div>
