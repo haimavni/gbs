@@ -3,6 +3,7 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { this_page_url } from '../services/dom_utils';
+import { Router } from 'aurelia-router';
 
 @autoinject()
 export class StoryDetail {
@@ -16,9 +17,11 @@ export class StoryDetail {
     source;
     user;
     story_url;
+    router: Router;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router) {
         this.api = api;
+        this.router = router;
         this.i18n = i18n;
         this.user = user;
     }
@@ -44,6 +47,11 @@ export class StoryDetail {
     next_photo() {
         this.photo_idx = (this.photo_idx + 1) % this.photos.length;
         this.curr_photo = this.photos[this.photo_idx].photo_path;
+    }
+
+    update_associated_members() {
+        let member_ids = this.members.map(member => Number(member.id));
+        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids }); 
     }
 
 }

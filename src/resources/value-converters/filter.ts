@@ -5,17 +5,19 @@ export class FilterValueConverter {
         }
         value = (value || '').trim().toLowerCase();
 
-        if (!value) {
-            return array.slice(0);
-        }
         let array0 = [];
         if (properties[0].charAt(0) == '*') {
             let p0 = properties[0].slice(1);
             properties.splice(0, 1);
             array0 = array.filter(item => item[p0]);
             array = array.filter(item => ! item[p0]);
+            if (!value) {
+                return array0.concat(array);
+            }
         }
-
+        if (!value) {
+            return array;
+        }
         value = value.replace(/[-().,]/g, '')
         let parts = value.toLowerCase().split(" ");
         //parts = parts.filter(s => s != '-' && s != '(' && s != ')');

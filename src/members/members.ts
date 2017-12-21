@@ -28,6 +28,8 @@ export class Members {
     selected_members = new Set([]);
     order = '';
     member_group_list;
+    caller_id;
+    caller_type;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -43,28 +45,39 @@ export class Members {
             this.member_added(member_details);
         });
         this.sorting_options = [
-            { value: "-has_profile_photo", name: this.i18n.tr('members.random-order') },
-            { value: "last_name;first_name", name: this.i18n.tr('members.by-name') },
-            { value: "-birth_date", name: this.i18n.tr('members.by-age-young-first') },
-            { value: "birth_date", name: this.i18n.tr('members.by-age-old-first') }
+            { value: "selected;-has_profile_photo", name: this.i18n.tr('members.random-order') },
+            { value: "selected;last_name;first_name", name: this.i18n.tr('members.by-name') },
+            { value: "selected;-birth_date", name: this.i18n.tr('members.by-age-young-first') },
+            { value: "selected;birth_date", name: this.i18n.tr('members.by-age-old-first') }
         ];
 
     }
 
-    created() {
+    activate(params, routeConfig) {
+        console.log("activate members: params ", params, ' router config ', routeConfig);
         return this.memberList.getMemberList().then(members => {
             this.members = members.member_list;
             for (let member of this.members) {
                 member.rand = Math.random() * 1000;
             }
-            //this.members.sort((m1, m2) => m2.has_profile_photo * 10000 + m2.rand - (m1.has_profile_photo * 10000 + m1.rand));
-        })
-    }
+            if (routeConfig.name == 'associate-members') {
+                this.caller_id = params.caller_id;
+                this.caller_type = params.caller_type;
+                let arr = params.associated_members.map(i => Number(i));
+                this.selected_members = new Set(arr);
+                for (let member of this.members) {
+                    if (this.selected_members.has(member.id)) {
+                        member.selected = 1;
+                    } else {
+                        member.selected = 0;
+                    }
+                }
 
-    attached() {
-        this.win_height = window.outerHeight;
-        this.win_width = window.outerWidth;
-        this.theme.display_header_background = true;
+            }
+            this.win_height = window.outerHeight;
+            this.win_width = window.outerWidth;
+            this.theme.display_header_background = true;
+        });
     }
 
     detached() {
@@ -92,11 +105,11 @@ export class Members {
 
     toggle_selection(member) {
         if (member.selected) {
-            member.selected = null;
+            member.selected = 0;
             this.selected_members.delete(member.id)
         } else {
             this.selected_members.add(member.id)
-            member.selected = 'selected';
+            member.selected = 1;
         }
     }
 
@@ -110,23 +123,20 @@ export class Members {
 
     save_member_group(group_id) {
         let member_ids = Array.from(this.selected_members);
-        this.api.call_server('object_groups/save_group_members', {user_id: this.user.id, group_id: group_id, member_ids: member_ids});
-    }
-
-    load_member_group() {
-        this.api.call_server('object_groups/get_member_group_list', { user_id: this.user.id })
-            .then(result => {
-                this.selected_members = new Set(result.member_group_list);
-                for (let member of this.memberList) {
-                    member.selected = (this.selected_members.has(member.id)) ? 'selected' : '';
-                }
+        //member_ids = member_ids.map(m => Number(m));
+        this.api.call_server_post('members/save_group_members',
+            { user_id: this.user.id, caller_id: this.caller_id, caller_type: this.caller_type, member_ids: member_ids })
+            .then(response => {
+                this.clear_member_group();
+                history.back();
             });
     }
 
     clear_member_group() {
-
+        for (let member of this.members) {
+            member.selected = 0;
+        }
+        this.selected_members = new Set();
     }
-
-
 
 }

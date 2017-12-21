@@ -31,23 +31,18 @@
                         </div>
                         <div class="btn-group dropdown rtl" aubs-dropdown="auto-close.bind: autoClose;" 
                             style="border:solid 1px lightgray;border-top:solid 2px gray;border-left:solid 2px gray;height:38px;margin-top:16px;padding:6px;padding-top:8px;"
-                            if.bind="user.editing"
+                            if.bind="selected_members.size > 0"
                             <button class="btn btn-default dropdown-toggle" aubs-dropdown-toggle>
                                 <span >${'members.member-groups' | t}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-left">
-                                <li if.bind="selected_members.size > 0" >
+                                <li if.bind="caller_id" >
                                     <a class="dropdown-item" href="#" click.trigger="save_member_group()">
                                         <span style="float:right">${'members.save-member-group' | t}</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#" click.trigger="load_member_group()">
-                                        <span style="float:right">${'members.load-member-group' | t}</span>
-                                    </a>
-                                </li>
-                                <li if.bind="selected_members.size > 0" >
                                     <a class="dropdown-item" href="#" click.trigger="clear_member_group()">
                                         <span style="float:right">${'members.clear-member-group' | t}</span>
                                     </a>

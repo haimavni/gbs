@@ -12,7 +12,14 @@
             <div class="col-md-5" style="padding-left:40px;">
                 <photo-strip source.bind="source" height.bind="220" action_key="Zoom" settings.bind="{arrows:true, height:220}"></photo-strip>
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
-                    <div class="col-md-12">
+                    <div if.bind="user.editing" class="col-md-1 col-md-offset-1" >
+                        <button class="btn btn-success" click.trigger="update_associated_members()">
+                            ${'stories.update-associated-members' | t}
+                        </button>
+                    </div>
+                    <div if.bind="! user.editing" class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
                         <span style="float:right">${'stories.associated-members' | t}</span>
                     </div>
                 </div>
