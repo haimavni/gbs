@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="center-block">
                     <nav class="navbar navbar-default navbar-fixed-top navbar-centered sb-navbar" role="navigation" style="background-color:white">
-                        <div class="navbar-header navbar-right" style="margin-left: 30px;padding-bottom:8px;">
+                        <div class="navbar-header navbar-right" style="margin-left: 20px;padding-bottom:8px;">
                             <a class="navbar-brand" href="#">
                                 <span style="font-size:200%;">
                                     ${router.title & t}
@@ -30,12 +30,11 @@
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-left">
-                                <li class="menu-item" style="margin-top: 16px;margin-left:15px;">
+                                <li class="menu-item" style="margin-top: 10px;margin-left:15px;">
                                     <!-- if.bind="privileges.EDITOR"-->
                                     <user-mode></user-mode>
                                 </li>
                             </ul>
-                            <help if.bind="user.privileges.HELP_AUTHOR || ! user.isLoggedIn" topic="introduction" position="bottom" style="position:absolute;top:12px;"></help>
                         </div>
                     </nav>
 
