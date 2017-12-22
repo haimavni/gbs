@@ -42,7 +42,7 @@
                 </div>
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
-                        <div class="big-story-panel">
+                        <div class="big-story-panel ${theme.font_size}">
                             <p dir="rtl" if.bind="! user.editing" innerhtml.bind="story.story_text">
                             </p>
                             <editable if.bind="user.editing" settings.bind="{show_date:false, class:'story-section', checkable: false}" story.bind="story"></editable>

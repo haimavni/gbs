@@ -2,6 +2,7 @@ import { autoinject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
+import { Theme } from '../services/theme';
 import { this_page_url } from '../services/dom_utils';
 import { Router } from 'aurelia-router';
 
@@ -10,20 +11,22 @@ export class StoryDetail {
     api;
     i18n;
     story;
-    members;
+    members = [];
     photos;
     curr_photo;
     photo_idx = 0;
     source;
     user;
+    theme;
     story_url;
     router: Router;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme) {
         this.api = api;
         this.router = router;
         this.i18n = i18n;
         this.user = user;
+        this.theme = theme;
     }
 
     activate(params, config) {

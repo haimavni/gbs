@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
@@ -15,6 +16,7 @@ import { MemberList } from '../services/member_list';
 @singleton()
 export class MemberDetail {
     user;
+    theme;
     eventAggregator;
     api;
     router;
@@ -37,8 +39,10 @@ export class MemberDetail {
     source;
     member_url = "";
 
-    constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
+    constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway, 
+                router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
         this.user = user;
+        this.theme = theme;
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.memberList = memberList;

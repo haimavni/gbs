@@ -1,5 +1,6 @@
 import { autoinject } from "aurelia-framework";
 import { User } from '../services/user';
+import { Theme } from '../services/theme';
 import { Login } from '../user/login';
 import { DialogService } from 'aurelia-dialog';
 import { UploadPhotos } from '../photos/upload-photos';
@@ -10,12 +11,14 @@ import { popup } from '../services/dom_utils';
 export class UserMode {
 
     user;
+    theme;
     api;
     dialog;
     loginData = { email: '', password: '' };
 
-    constructor(user: User, dialog: DialogService, api: MemberGateway) {
+    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway) {
         this.user = user;
+        this.theme = theme;
         this.api = api;
         this.dialog = dialog;
     }
@@ -75,5 +78,9 @@ export class UserMode {
 
     chat_rooms() {
         popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
+    }
+
+    set_font_size(size) {
+        this.theme.font_size = "font-size-" + size;
     }
 }

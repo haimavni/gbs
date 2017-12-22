@@ -16,12 +16,10 @@
         <ux-dialog-body>
             <div class="fr-view" dir="rtl" if.bind="show">
                 <div class="justified-story">
-                    <p dir="rtl" innerhtml.bind="story.story_text ">
+                    <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story.story_text ">
                     </p>
                 </div>
             </div>
-
-
             <div class="big-story-panel fr-view" if.bind="edit">
                 <froala-editor value.two-way="story.story_text" config.bind="{
                     toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',

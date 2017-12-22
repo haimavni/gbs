@@ -63,7 +63,12 @@ export class Members {
             if (routeConfig.name == 'associate-members') {
                 this.caller_id = params.caller_id;
                 this.caller_type = params.caller_type;
-                let arr = params.associated_members.map(i => Number(i));
+                let arr;
+                if (params.associated_members) {
+                    arr = params.associated_members.map(i => Number(i));
+                } else {
+                    arr = [];
+                }
                 this.selected_members = new Set(arr);
                 for (let member of this.members) {
                     if (this.selected_members.has(member.id)) {
