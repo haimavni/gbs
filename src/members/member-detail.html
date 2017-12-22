@@ -95,7 +95,8 @@
                         <compose view-model="./member-edit" model.bind="member"></compose>
                     </div>
                 </div>
-                <div class="col-md-6 fr-view" style="margin-bottom:16px;padding-left:20px;" if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing"
+                <div class="col-md-6 fr-view style="margin-bottom:16px;padding-left:20px;" 
+                        if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing"
                     )>
                     <h4 innherhtml.bind="story_0.topic" style="margin-top:16px;margin-bottom:0px;color:gray;">
                         ${'members.life-summary' | t} ${member.member_info.first_name}
@@ -106,12 +107,12 @@
                         ${story_0.name}
                     </h3>
                     <div class="member-story-panel" style="border-left:solid 2px darkgray;">
-                        <p dir="rtl" innerhtml.bind="story_0.story_text ">
+                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_0.story_text ">
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="row fr-view slide-list" if.bind="! user.editing" interact-draggable interact-dragend.delegate="shift_stories($event)"
+            <div class="row fr-view slide-list ${theme.font-size}" if.bind="! user.editing" interact-draggable interact-dragend.delegate="shift_stories($event)"
                 dir="rtl" style="padding-right:15px;border: solid 6px white;">
                 <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)"><i class="fa fa-chevron-right fa-3x"></i></div>
                 <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)"><i class="fa fa-chevron-left fa-3x"></i></div>
@@ -123,7 +124,7 @@
                         <span innerhtml.bind="story_4.name"></span>
                     </h4>
                     <div class="member-story-panel">
-                        <p dir="rtl" innerhtml.bind="story_4.story_text ">
+                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_4.story_text ">
                         </p>
                     </div>
                 </div>
@@ -134,7 +135,7 @@
                         <span innerhtml.bind="story_3.name"></span>
                     </h4>
                     <div class="member-story-panel">
-                        <p dir="rtl" innerhtml.bind="story_3.story_text ">
+                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_3.story_text ">
                         </p>
                     </div>
                 </div>
@@ -145,7 +146,7 @@
                         <span innerhtml.bind="story_2.name"></span>
                     </h4>
                     <div class="member-story-panel">
-                        <p dir="rtl" innerhtml.bind="story_2.story_text ">
+                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_2.story_text ">
                         </p>
                     </div>
                 </div>
@@ -156,7 +157,7 @@
                         <span innerhtml.bind="story_1.name"></span>
                     </h4>
                     <div class="member-story-panel">
-                        <p dir="rtl" innerhtml.bind="story_1.story_text">
+                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_1.story_text">
                         </p>
                     </div>
                 </div>

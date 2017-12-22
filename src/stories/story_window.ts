@@ -2,6 +2,7 @@ import { DialogController } from 'aurelia-dialog';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Theme } from "../services/theme";
 
 @autoinject
 export class StoryWindow {
@@ -12,13 +13,15 @@ export class StoryWindow {
     dialogController: DialogController;
     api: MemberGateway;
     user: User;
+    theme;
     story_name_orig;
 
 
-    constructor(dialogController: DialogController, api: MemberGateway, user: User) {
+    constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme) {
         this.dialogController = dialogController;
         this.api = api;
         this.user = user;
+        this.theme = theme;
     }
 
     activate(model) {

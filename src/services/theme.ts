@@ -15,7 +15,7 @@ export class Theme {
     display_header_background = false;
     min_height = 0;
     footer_height = 67;
-    font_size = "font-size-100";
+    _font_size = "font-size-110";
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator) {
         this.api = api;
@@ -40,6 +40,14 @@ export class Theme {
             this.min_height = this.height -  this.footer_height;
             this.eventAggregator.publish('WINDOW-RESIZED', { width: w, height: h });
         }
+    }
+
+    get font_size() {
+        return this._font_size;
+    }
+
+    set font_size(size) {
+        this._font_size = size;
     }
 }
 
