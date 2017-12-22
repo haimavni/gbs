@@ -106,7 +106,9 @@
     "member-groups": "קבוצות חברים",
     "save-member-group": "שמור קבוצת חברים",
     "load-member-group": "טען קבוצת חברים",
-    "clear-member-group": "נקה את הקבוצה שנבחרה"
+    "clear-member-group": "נקה את הקבוצה שנבחרה",
+    "story": "בחירת חברים הקשורים לסיפור",
+    "back-to-story": "חזרה לדף הספור"
   },
   "user": {
     "login": "התחבר",

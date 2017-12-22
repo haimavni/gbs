@@ -15,6 +15,7 @@ export class Theme {
     display_header_background = false;
     min_height = 0;
     footer_height = 67;
+    font_size = "font-size-100";
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator) {
         this.api = api;

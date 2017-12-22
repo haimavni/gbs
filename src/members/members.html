@@ -4,7 +4,8 @@
     <section class="container content-area">
         <div class="row top-head" css="margin-top:60px;background-image:url('${theme.files.top_background}');height:96px;">
             <div style="padding-top:0px;padding-right:15px;">
-                <h1 dir="rtl">${"members.members" | t}</h1>
+                <h1 if.bind="caller_type" dir="rtl">${'members.' + caller_type | t}</h1>
+                <h1 if.bind="!caller_type" dir="rtl">${"members.members" | t}</h1>
             </div>
         </div>
         <div>
@@ -28,6 +29,11 @@
                                 <i class="fa fa-plus-square-o"></i>
                                 ${'members.new' & t}
                             </a>
+                        </div>
+                        <div class="input-group"  style="padding-top:16px;">
+                            <button if.bind="caller_type" class="btn btn-success" click.trigger="save_member_group()">
+                                ${'members.back-to-' + caller_type | t}
+                            </button>
                         </div>
                         <div class="btn-group dropdown rtl" aubs-dropdown="auto-close.bind: autoClose;" 
                             style="border:solid 1px lightgray;border-top:solid 2px gray;border-left:solid 2px gray;height:38px;margin-top:16px;padding:6px;padding-top:8px;"
