@@ -89,4 +89,9 @@ export class PhotoDetail {
         };
         this.openDialog(slide)
     }
+
+    go_back() {
+        history.back();
+    }
+    
 }

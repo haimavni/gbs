@@ -202,4 +202,8 @@ export class MemberDetail {
 
     }
 
+    go_back() {
+        history.back();
+    }
+
 }

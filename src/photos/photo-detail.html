@@ -4,6 +4,9 @@
     <div style="margin-top:50px" class="content-area">
         <div class="row" 
             style="background-color:lightgrey;padding:10px;padding-top:14px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;height:64px;padding-top:20px;">
+            <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
+                <i class="fa fa-rotate-left"  t="[title]go-back" click.trigger="go_back()"></i>
+            </h3>
             <h3 if.bind="! user.editing" dir="rtl" style="float: right;margin:0px;">
                 ${photo_name}
             </h3>

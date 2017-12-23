@@ -57,4 +57,8 @@ export class StoryDetail {
         this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids }); 
     }
 
+    go_back() {
+        history.back();
+    }
+    
 }
