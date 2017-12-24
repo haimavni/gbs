@@ -4,7 +4,7 @@
         <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:0px;margin-right:0px;margin-left:0px;font-size:150%;padding-top:18px;"
             <h3 dir="rtl" style="float: right;margin:0px;">
                 <i class="fa fa-rotate-left" style="float:left;cursor:pointer;" t="[title]go-back" click.trigger="go_back()"></i>
-                <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
+                <h3 style="padding:0;margin:0;" if.bind="member.member_info.id">${member.member_info.full_name }</h3>
                 <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>
             </h3>
             <copy-to-clipboard if.bind="user.editing" content.bind="member_url" style="float:left;"></copy-to-clipboard>

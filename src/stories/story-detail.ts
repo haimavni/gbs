@@ -34,7 +34,7 @@ export class StoryDetail {
         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
             .then(response => {
                 this.story = response.story;
-                if (this.story.story_id=='new') {
+                if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
                 }
@@ -44,7 +44,7 @@ export class StoryDetail {
                     this.curr_photo = this.photos[0].photo_path;
                 }
             });
-        this.source = this.api.call_server_post('members/get_story_photo_list', {story_id: params.id});
+        this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id });
     }
 
     next_photo() {
@@ -54,11 +54,11 @@ export class StoryDetail {
 
     update_associated_members() {
         let member_ids = this.members.map(member => Number(member.id));
-        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids }); 
+        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids });
     }
 
     go_back() {
         history.back();
     }
-    
+
 }

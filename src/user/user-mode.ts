@@ -5,7 +5,7 @@ import { Login } from '../user/login';
 import { DialogService } from 'aurelia-dialog';
 import { UploadPhotos } from '../photos/upload-photos';
 import { MemberGateway } from '../services/gateway';
-import { popup } from '../services/dom_utils';
+import { Popup } from '../services/popups';
 
 @autoinject()
 export class UserMode {
@@ -14,13 +14,15 @@ export class UserMode {
     theme;
     api;
     dialog;
+    popup: Popup;
     loginData = { email: '', password: '' };
 
-    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway) {
+    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway, popup: Popup) {
         this.user = user;
         this.theme = theme;
         this.api = api;
         this.dialog = dialog;
+        this.popup = popup;
     }
 
     toggle_edit_mode() {
@@ -73,11 +75,11 @@ export class UserMode {
     }
 
     manage_users() {
-        popup('OLD_SITE', 'http://gbs.gbstories.org/gbs__www/stories', "height=600,width=800,left=100,top=100");
+        this.popup.popup('OLD_SITE', 'http://gbs.gbstories.org/gbs__www/stories', "height=600,width=800,left=100,top=100");
     }
 
     chat_rooms() {
-        popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
+        this.popup.popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
     }
 
     set_font_size(size) {

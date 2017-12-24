@@ -49,7 +49,7 @@ export class Theme {
         if (!this._font_size) {
             this._font_size = this.cookies.get('FONT-SIZE')
             if (!this._font_size) {
-                this._font_size = 'font-size-110';
+                this._font_size = 'font-size-120';
                 this.cookies.put('FONT-SIZE', this._font_size);
             }
         }
@@ -60,5 +60,6 @@ export class Theme {
         this._font_size = size;
         this.cookies.put('FONT-SIZE', this._font_size);
     }
+    
 }
 

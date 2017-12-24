@@ -17,15 +17,4 @@ export function this_page_url() {
   return path;
 }
 
-let popupWindows = {};
-export function popup(key, url, params) {
-  let hnd = popupWindows[key];
-  if (hnd) {
-    hnd.close();
-  }
-  let w = popupWindows[key] = window.open(url, '_blank', params);
-  let d = w.document;
-  return w
-}
-
 
