@@ -37,10 +37,10 @@
                     <div if.bind="working">
                         <h3 style="margin-left:140px;width:250px;">${'photos.upload-in-progress' | t}</h3>
                     </div>
-                    <div if.bind="upload_finished" style="margin-left:130px;width:350px;">
-                        <h3 if.bind="number_uploaded" class="success">${number_uploaded} ${'photos.photos-uploaded' | t}</h3>
-                        <h3 if.bind="number_duplicates>0">${number_duplicates} ${'photos.photos-duplicate' | t} </h3>
-                        <h3 if.bind="failed.length>0" class="errors">${failed.length} ${'photos.photos-failed' | t} </h3>
+                    <div if.bind="upload_finished" style="margin-left:auto;margin-right:auto;width:350px;">
+                        <h3 if.bind="number_uploaded" class="text-center success">${number_uploaded} ${'photos.photos-uploaded' | t}</h3>
+                        <h3 if.bind="number_duplicates>0" class="text-center" >${number_duplicates} ${'photos.photos-duplicate' | t} </h3>
+                        <h3 if.bind="failed.length>0" class="text-center errors">${failed.length} ${'photos.photos-failed' | t} </h3>
                         <ul class="errors">
                             <li repeat.for="f of failed">
                                 ${f}

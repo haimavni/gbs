@@ -86,6 +86,7 @@ export class Photos {
 
     created(params, config) {
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
+        this.ea.subscribe('PHOTOS_WERE_UPLOADED', () => {this.update_photo_list()});
         if (this.topic_list.length > 0) {
             return;
         }
