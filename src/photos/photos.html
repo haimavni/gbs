@@ -3,7 +3,8 @@
     <section class="container content-area" css="height: ${win_height-600}px;">
         <div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
             <div style="padding-top:0px;padding-right:15px;">
-                <h1 dir="rtl">${"photos.photos-store" | t}</h1>
+                <h1 if.bind="caller_type" dir="rtl">${'members.' + caller_type | t}</h1>
+                <h1 if.bind="!caller_type" dir="rtl">${"photos.photos-store" | t}</h1>
             </div>
         </div>
         <div class="row content-area" style="height:300px;width:100%;margin-bottom:24px;" dir="rtl">
@@ -50,6 +51,11 @@
                                     ${'photos.done-selecting' | t}
                                 </button>
                                 <help topic="done-selecting-photos" position="bottom"></help>
+                            </div>
+                            <div if.bind="caller_type" class="input-group" style="padding-top:16px;">
+                                <button class="btn btn-success" click.trigger="save_photo_group()">
+                                    ${'members.back-to-' + caller_type | t}
+                                </button>
                             </div>
                         </form>
                     </div>

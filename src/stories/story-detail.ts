@@ -5,6 +5,9 @@ import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { this_page_url } from '../services/dom_utils';
 import { Router } from 'aurelia-router';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { DialogService } from 'aurelia-dialog';
+import { FullSizePhoto } from '../photos/full-size-photo';
 
 @autoinject()
 export class StoryDetail {
@@ -20,13 +23,18 @@ export class StoryDetail {
     theme;
     story_url;
     router: Router;
+    eventAggregator;
+    dialog;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
         this.router = router;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
+        this.dialog = dialog;
+        this.eventAggregator = eventAggregator;
+        this.eventAggregator.subscribe('Zoom2', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
     }
 
     activate(params, config) {
@@ -57,8 +65,44 @@ export class StoryDetail {
         this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids });
     }
 
+    update_associated_photos() {
+        let photo_ids = this.photos.map(photo => Number(photo.id));
+        this.router.navigateToRoute('associate-photos', { caller_id: this.story.story_id, caller_type: 'story', associated_photos: photo_ids });
+    }
+
     go_back() {
         history.back();
+    }
+
+    private openDialog(slide, event, slide_list) {
+        event.stopPropagation();
+        if (event.altKey && event.shiftKey) {
+            this.detach_photo_from_story(this.story.id, slide.photo_id, slide_list);
+            return;
+        }
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
+        });
+    }
+    
+    detach_photo_from_story(story_id, photo_id, slide_list) {
+        this.api.call_server_post('members/detach_photo_from_event', { story_id: story_id, photo_id: photo_id })
+            .then(response => {
+                if (response.photo_detached) {
+                    // now delete slide #photo_id from slide_list:
+                    let idx = -1;
+                    for (let i=0; i < slide_list.length; i++) {
+                        if (slide_list[i].photo_id==photo_id) {
+                            idx = i;
+                            break;
+                        }
+                    }
+                    if (idx >= 0) {
+                        slide_list.splice(idx, 1);
+                    }
+                } else {
+                    alert("detaching photo failed!")
+                }
+            });
     }
 
 }

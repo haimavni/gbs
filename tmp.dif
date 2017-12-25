@@ -1,0 +1,165 @@
+diff --git a/src/members/member-detail.html b/src/members/member-detail.html
+index ba05cf9..a747abf 100644
+--- a/src/members/member-detail.html
++++ b/src/members/member-detail.html
+@@ -4,7 +4,7 @@
+         <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:0px;margin-right:0px;margin-left:0px;font-size:150%;padding-top:18px;"
+             <h3 dir="rtl" style="float: right;margin:0px;">
+                 <i class="fa fa-rotate-left" style="float:left;cursor:pointer;" t="[title]go-back" click.trigger="go_back()"></i>
+-                <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
++                <h3 style="padding:0;margin:0;" if.bind="member.member_info.id">${member.member_info.full_name }</h3>
+                 <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>
+             </h3>
+             <copy-to-clipboard if.bind="user.editing" content.bind="member_url" style="float:left;"></copy-to-clipboard>
+diff --git a/src/photos/photo-detail.html b/src/photos/photo-detail.html
+index 274e1a4..b4b2ff8 100644
+--- a/src/photos/photo-detail.html
++++ b/src/photos/photo-detail.html
+@@ -5,7 +5,7 @@
+         <div class="row" 
+             style="background-color:lightgrey;padding:10px;padding-top:14px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;height:64px;padding-top:20px;">
+             <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
+-                <i class="fa fa-rotate-left"  t="[title]go-back" click.trigger="go_back()"></i>
++                <i class="fa fa-rotate-left" t="[title]go-back" click.trigger="go_back()"></i>
+             </h3>
+             <h3 if.bind="! user.editing" dir="rtl" style="float: right;margin:0px;">
+                 ${photo_name}
+diff --git a/src/services/dom_utils.ts b/src/services/dom_utils.ts
+index 8540b32..6bab057 100644
+--- a/src/services/dom_utils.ts
++++ b/src/services/dom_utils.ts
+@@ -17,15 +17,4 @@ export function this_page_url() {
+   return path;
+ }
+ 
+-let popupWindows = {};
+-export function popup(key, url, params) {
+-  let hnd = popupWindows[key];
+-  if (hnd) {
+-    hnd.close();
+-  }
+-  let w = popupWindows[key] = window.open(url, '_blank', params);
+-  let d = w.document;
+-  return w
+-}
+-
+ 
+diff --git a/src/services/popups.ts b/src/services/popups.ts
+new file mode 100644
+index 0000000..b106e68
+--- /dev/null
++++ b/src/services/popups.ts
+@@ -0,0 +1,13 @@
++export class Popup {
++    popupWindows = {};
++
++    popup(key, url, params) {
++        let hnd = this.popupWindows[key];
++        if (hnd) {
++            hnd.close();
++        }
++        let w = this.popupWindows[key] = window.open(url, '_blank', params);
++        let d = w.document;
++        return w;
++    }
++}
+diff --git a/src/services/theme.ts b/src/services/theme.ts
+index 112837c..b31cf5e 100644
+--- a/src/services/theme.ts
++++ b/src/services/theme.ts
+@@ -49,7 +49,7 @@ export class Theme {
+         if (!this._font_size) {
+             this._font_size = this.cookies.get('FONT-SIZE')
+             if (!this._font_size) {
+-                this._font_size = 'font-size-110';
++                this._font_size = 'font-size-120';
+                 this.cookies.put('FONT-SIZE', this._font_size);
+             }
+         }
+@@ -60,5 +60,6 @@ export class Theme {
+         this._font_size = size;
+         this.cookies.put('FONT-SIZE', this._font_size);
+     }
++    
+ }
+ 
+diff --git a/src/stories/story-detail.ts b/src/stories/story-detail.ts
+index 4073474..f766105 100644
+--- a/src/stories/story-detail.ts
++++ b/src/stories/story-detail.ts
+@@ -34,7 +34,7 @@ export class StoryDetail {
+         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
+             .then(response => {
+                 this.story = response.story;
+-                if (this.story.story_id=='new') {
++                if (this.story.story_id == 'new') {
+                     this.story.name = this.i18n.tr('stories.new-story');
+                     this.story.story_text = this.i18n.tr('stories.new-story-content');
+                 }
+@@ -44,7 +44,7 @@ export class StoryDetail {
+                     this.curr_photo = this.photos[0].photo_path;
+                 }
+             });
+-        this.source = this.api.call_server_post('members/get_story_photo_list', {story_id: params.id});
++        this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id });
+     }
+ 
+     next_photo() {
+@@ -54,11 +54,11 @@ export class StoryDetail {
+ 
+     update_associated_members() {
+         let member_ids = this.members.map(member => Number(member.id));
+-        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids }); 
++        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids });
+     }
+ 
+     go_back() {
+         history.back();
+     }
+-    
++
+ }
+diff --git a/src/user/user-mode.ts b/src/user/user-mode.ts
+index 8e2e70d..e360557 100644
+--- a/src/user/user-mode.ts
++++ b/src/user/user-mode.ts
+@@ -5,7 +5,7 @@ import { Login } from '../user/login';
+ import { DialogService } from 'aurelia-dialog';
+ import { UploadPhotos } from '../photos/upload-photos';
+ import { MemberGateway } from '../services/gateway';
+-import { popup } from '../services/dom_utils';
++import { Popup } from '../services/popups';
+ 
+ @autoinject()
+ export class UserMode {
+@@ -14,13 +14,15 @@ export class UserMode {
+     theme;
+     api;
+     dialog;
++    popup: Popup;
+     loginData = { email: '', password: '' };
+ 
+-    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway) {
++    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway, popup: Popup) {
+         this.user = user;
+         this.theme = theme;
+         this.api = api;
+         this.dialog = dialog;
++        this.popup = popup;
+     }
+ 
+     toggle_edit_mode() {
+@@ -73,11 +75,11 @@ export class UserMode {
+     }
+ 
+     manage_users() {
+-        popup('OLD_SITE', 'http://gbs.gbstories.org/gbs__www/stories', "height=600,width=800,left=100,top=100");
++        this.popup.popup('OLD_SITE', 'http://gbs.gbstories.org/gbs__www/stories', "height=600,width=800,left=100,top=100");
+     }
+ 
+     chat_rooms() {
+-        popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
++        this.popup.popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
+     }
+ 
+     set_font_size(size) {

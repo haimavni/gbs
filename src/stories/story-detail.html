@@ -13,16 +13,22 @@
         </div>
         <div class="row" style="direction:rtl;">
             <div class="col-md-5" style="padding-left:40px;">
-                <photo-strip source.bind="source" height.bind="220" action_key="Zoom" settings.bind="{arrows:true, height:220}"></photo-strip>
+                <photo-strip source.bind="source" height.bind="220" action_key="Zoom2" settings.bind="{arrows:true, height:220}"></photo-strip>
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
-                    <div if.bind="user.editing" class="col-md-1 col-md-offset-1" >
-                        <button class="btn btn-success" click.trigger="update_associated_members()">
-                            ${'stories.update-associated-members' | t}
-                        </button>
+                    <div if.bind="user.editing" class="col-md-5" >
+                        <form class="form-inline">
+                            <button class="btn btn-success btn-sm" click.trigger="update_associated_photos()" style="float:left;margin-right:5px;">
+                                ${'photos.photos' | t}
+                            </button>
+                            <button class="btn btn-success btn-sm" click.trigger="update_associated_members()" style="float:left;">
+                                ${'members.members' | t}
+                            </button>
+                            <label style="float:right;font-weight:normal;font-size:18px;margin-top:2px;">${'update' | t}:</label>
+                        </form>
                     </div>
-                    <div if.bind="! user.editing" class="col-md-2">
+                    <div if.bind="! user.editing" class="col-md-5">
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-7">
                         <span style="float:right">${'stories.associated-members' | t}</span>
                     </div>
                 </div>

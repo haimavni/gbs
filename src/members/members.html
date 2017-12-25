@@ -30,8 +30,8 @@
                                 ${'members.new' & t}
                             </a>
                         </div>
-                        <div class="input-group"  style="padding-top:16px;">
-                            <button if.bind="caller_type" class="btn btn-success" click.trigger="save_member_group()">
+                        <div if.bind="caller_type" class="input-group" style="padding-top:16px;">
+                            <button class="btn btn-success" click.trigger="save_member_group()">
                                 ${'members.back-to-' + caller_type | t}
                             </button>
                         </div>

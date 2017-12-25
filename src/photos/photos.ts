@@ -53,6 +53,8 @@ export class Photos {
     router;
     options_settings = default_multi_select_options;
     photographers_settings = default_multi_select_options;
+    caller_type;
+    caller_id;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -83,12 +85,39 @@ export class Photos {
     }
 
     created(params, config) {
+        this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
         if (this.topic_list.length > 0) {
             return;
         }
         this.update_topic_list();
-        this.update_photo_list();
-        this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
+        this.win_height = window.outerHeight;
+        this.win_width = window.outerWidth;
+        this.theme.display_header_background = true;
+    }
+
+    activate(params, routeConfig) {
+        console.log("activate photos: params ", params, ' router config ', routeConfig);
+        this.update_photo_list()
+            .then(result => {
+                if (routeConfig.name == 'associate-photos') {
+                    this.caller_id = params.caller_id;
+                    this.caller_type = params.caller_type;
+                    let arr;
+                    if (params.associated_photos) {
+                        arr = params.associated_photos.map(i => Number(i));
+                    } else {
+                        arr = [];
+                    }
+                    this.selected_photos = new Set(arr);
+                    for (let photo of this.photo_list) {
+                        if (this.selected_photos.has(photo.id)) {
+                            photo.selected = 1;
+                        } else {
+                            photo.selected = 0;
+                        }
+                    }
+                }
+            });
     }
 
     update_topic_list() {
