@@ -44,7 +44,7 @@ export class App {
       { route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories' },
       { route: 'members', name: 'members', moduleId: './members/members', nav: true, title: 'members.members' },
       { route: 'members/:caller_id/*', name: 'associate-members', moduleId: './members/members', nav: false, title: 'members.update-story-members'},
-      { route: 'photos/:caller_id/*', name: 'associate-photos', moduleId: './photos/photos', nav: false, title: 'photos.update-story-photos'},
+      { route: 'photos-group/:caller_id/*', name: 'associate-photos', moduleId: './photos/photos', nav: false, title: 'photos.update-story-photos'},
       { route: 'story-detail/:id/*', name: 'story-detail', moduleId: './stories/story-detail' },
       { route: 'member-details/:id/*', name: 'member-details', moduleId: './members/member-detail' },
       { route: 'memmbers/new', name: 'member-creation', moduleId: './members/member-edit', title: 'members.newMember' },

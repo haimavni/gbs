@@ -97,27 +97,19 @@ export class Photos {
 
     activate(params, routeConfig) {
         console.log("activate photos: params ", params, ' router config ', routeConfig);
-        this.update_photo_list()
-            .then(result => {
-                if (routeConfig.name == 'associate-photos') {
-                    this.caller_id = params.caller_id;
-                    this.caller_type = params.caller_type;
-                    let arr;
-                    if (params.associated_photos) {
-                        arr = params.associated_photos.map(i => Number(i));
-                    } else {
-                        arr = [];
-                    }
-                    this.selected_photos = new Set(arr);
-                    for (let photo of this.photo_list) {
-                        if (this.selected_photos.has(photo.id)) {
-                            photo.selected = 1;
-                        } else {
-                            photo.selected = 0;
-                        }
-                    }
-                }
-            });
+        if (routeConfig.name == 'associate-photos') {
+            this.caller_id = params.caller_id;
+            this.caller_type = params.caller_type;
+            let arr;
+            if (params.associated_photos) {
+                arr = params.associated_photos.map(i => Number(i));
+            } else {
+                arr = [];
+            }
+            this.selected_photos = new Set(arr);
+            this.params.selected_photo_list = Array.from(this.selected_photos);
+        }
+        this.update_photo_list();
     }
 
     update_topic_list() {
@@ -279,5 +271,24 @@ export class Photos {
         });
         return result;
     }
+
+    save_photo_group() {
+        let photo_ids = Array.from(this.selected_photos);
+        //member_ids = member_ids.map(m => Number(m));
+        this.api.call_server_post('members/save_photo_group',
+            { user_id: this.user.id, caller_id: this.caller_id, caller_type: this.caller_type, photo_ids: photo_ids })
+            .then(response => {
+                this.clear_photo_group();
+                history.back();
+            });
+    }
+
+    clear_photo_group() {
+        for (let photo of this.photo_list) {
+            photo.selected = 0;
+        }
+        this.selected_photos = new Set();
+    }
+
 
 }
