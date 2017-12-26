@@ -46,7 +46,8 @@ export class Members {
         });
         this.sorting_options = [
             { value: "selected;-has_profile_photo", name: this.i18n.tr('members.random-order') },
-            { value: "selected;last_name;first_name", name: this.i18n.tr('members.by-name') },
+            { value: "selected;last_name;first_name", name: this.i18n.tr('members.by-last-name') },
+            { value: "selected;first_name;last_name;first_name", name: this.i18n.tr('members.by-first-name') },
             { value: "selected;-birth_date", name: this.i18n.tr('members.by-age-young-first') },
             { value: "selected;birth_date", name: this.i18n.tr('members.by-age-old-first') }
         ];
