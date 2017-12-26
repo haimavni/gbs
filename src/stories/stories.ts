@@ -306,7 +306,9 @@ export class Stories {
         this.api.call_server_post('members/save_tag_merges', this.params)
     }
 
-
-
+    consolidate_stories() {
+        this.api.call_server_post('members/consolidate_stories', {stories_to_merge: this.params.checked_story_list})
+        .then(() => this.checked_stories = new Set());
+    }
 
 }

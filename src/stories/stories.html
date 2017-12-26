@@ -42,14 +42,22 @@
                                     ${'stories.apply-to-selected' | t}
                                 </button>
                             </div>
+                            <div class="form-group">
+                                <button if.bind="user.editing && checked_stories.size > 1"
+                                    class="btn btn-basic btn-md"
+                                    click.trigger="consolidate_stories()">
+                                    ${'stories.consolidate-selected-story' | t}
+                                </button>
+                            </div>
                         </form>
                     </div>
                     <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;">
-                        <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999" dir="rtl" 
+                        <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999 | sort : 'name'" dir="rtl" 
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
                             <div style="height:130px;overflow:hidden;padding-right:20px;padding-left:20px;padding-top:0px;">
                                 <div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">
-                                    <editable settings.bind="{show_date:false, class:'story-section', checkable: true}" story.bind="story" change.delegate="toggle_story_selection(story, $event)">
+                                    <editable settings.bind="{show_date:false, class:'story-section', checkable: true}" 
+                                        story.bind="story" change.delegate="toggle_story_selection(story, $event)">
                                     </editable>
                                 </div>
                             </div>
