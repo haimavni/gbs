@@ -2,6 +2,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { Cache } from "../services/cache";
+import { WordIndex } from "../services/word_index";
 import { autoinject, computedFrom } from 'aurelia-framework';
 //import { StoryDetail } from './story-detail';
 import { DialogService } from 'aurelia-dialog';
@@ -21,6 +22,7 @@ export class Stories {
     user;
     theme;
     cache;
+    word_index;
     router;
     dialog;
     win_width;
@@ -56,11 +58,13 @@ export class Stories {
     words_settings = default_multi_select_options;
     ea: EventAggregator;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, cache: Cache, theme: Theme, ea: EventAggregator) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
+        cache: Cache, word_index: WordIndex, theme: Theme, ea: EventAggregator) {
         this.api = api;
         this.user = user;
         this.theme = theme;
         this.cache = cache;
+        this.word_index = word_index;
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
@@ -98,23 +102,10 @@ export class Stories {
                     lang.name += ' (' + lang.count + ")"
                 }
             });
-        let cached_index = this.cache.getValue('StoriesIndex');
-        if (cached_index) {
-            this.stories_index = cached_index;
-            this.help_data.num_words = this.stories_index.length;
-        } else {
-            console.time('get_words_index');
-            this.api.call_server('members/get_stories_index')
-                .then(response => {
-                    this.stories_index = response.stories_index;
-                    this.help_data.num_words = this.stories_index.length;
-                    this.cache.setValue('StoriesIndex', this.stories_index);
-                    console.timeEnd('get_words_index');
-                });
-        }
-        this.ea.subscribe('WORD_INDEX_CHANGED', (response) => {
-            console.log("word index changed: ", response);
-        })
+        this.word_index.get_word_index()
+            .then(response => {
+                this.stories_index = response;
+            });
     }
 
     attached() {
@@ -178,6 +169,9 @@ export class Stories {
 
     handle_words_change(event) {
         let result = null;
+        if (! event.detail) {
+            return;
+        }
         event.detail.grouped_selected_options.forEach(element => {
             let uni = new Set<number>();
             for (let x of element) {
