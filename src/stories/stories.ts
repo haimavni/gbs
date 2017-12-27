@@ -169,7 +169,7 @@ export class Stories {
 
     handle_words_change(event) {
         let result = null;
-        if (! event.detail) {
+        if (!event.detail) {
             return;
         }
         event.detail.grouped_selected_options.forEach(element => {
@@ -252,7 +252,7 @@ export class Stories {
             .then(response => {
                 this.params.checked_story_list = [];
                 this.checked_stories = new Set();
-                this.update_story_list();
+                this.story_list = [];
             });
     }
 
@@ -303,12 +303,15 @@ export class Stories {
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
         console.log("before save merges, grouped: ", this.params.grouped_selected_topics);
-        this.api.call_server_post('members/save_tag_merges', this.params)
+        this.api.call_server_post('members/save_tag_merges', this.params);
     }
 
     consolidate_stories() {
-        this.api.call_server_post('members/consolidate_stories', {stories_to_merge: this.params.checked_story_list})
-        .then(() => this.checked_stories = new Set());
+        this.api.call_server_post('members/consolidate_stories', { stories_to_merge: this.params.checked_story_list })
+            .then(() => {
+                this.checked_stories = new Set();
+                this.update_story_list();
+            });
     }
 
 }

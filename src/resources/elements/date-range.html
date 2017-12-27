@@ -1,0 +1,22 @@
+<template>
+    <form class="form-inline" dir="ltr">
+        <div if.bind="user.editing && partial" class="form-group" style="float:left;margin-right:0px; ">
+            <select value.bind="span_size">
+                <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
+            </select>
+        </div>
+        <div class="form-group" if.bind="(partial && span_size > 1) && (! user.editing)" style="float:left;margin-right:0px;">
+            <label>${end_date_str}</label>
+        </div>
+        
+        <div class="form-group" if.bind="partial && (user.editing || span_size > 1)" style="float:left;margin-right:0px;">
+            <label>-</label>
+        </div>
+        <div if.bind="user.editing" class="form-group" change.trigger="base_date_changed($event)" style="float:left;margin-right:0px;">
+            <input type="text" value.bind="base_date_str" maxlength="12" keyup.trigger="on_keyup($event)" keypress.trigger="keep_only_good_chars($event)" />
+        </div>
+        <div class="form-group" if.bind="! user.editing" style="float:left;margin-right:0px;">
+            <label>${base_date_str}</label>
+        </div>
+    </form>
+</template>

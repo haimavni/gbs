@@ -12,6 +12,7 @@ export function configure(config) {
     './elements/editable',
     './elements/roller',
     './elements/partial-date',
+    './elements/date-range',
     './elements/help',
     './elements/copy-to-clipboard',
     './elements/timeline',

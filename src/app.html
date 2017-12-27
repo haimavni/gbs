@@ -12,7 +12,7 @@
                             <a class="navbar-brand" href="#">
                                 <span style="font-size:200%;">
                                     ${router.title & t}
-                                    <img src="${theme.files.gb_logo_png}" width="32" style="float:right;margin-left:15px;margin-right:15px;" />
+                                    <img src="${theme.files.gb_logo_png}" width="32" style="float:right;margin-left:15px;" />
                                 </span>
                             </a>
                         </div>
@@ -29,9 +29,8 @@
                                     <i class="fa fa-spinner fa-spin fa-2x"></i>
                                 </li>
                             </ul>
-                            <ul class="nav navbar-nav navbar-left">
-                                <li class="menu-item" style="margin-top: 10px;margin-left:15px;">
-                                    <!-- if.bind="privileges.EDITOR"-->
+                            <ul class="nav navbar-nav navbar-left" style="margin-top:6px;">
+                                <li class="menu-item" style="margin-top: 10px;">
                                     <user-mode></user-mode>
                                 </li>
                             </ul>
