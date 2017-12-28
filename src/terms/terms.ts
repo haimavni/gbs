@@ -12,6 +12,9 @@ export class Terms {
     user;
     theme;
     i18n;
+    //for development. remove soon.
+    test_date = "";
+    test_span = 3;
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme) {
         this.api = api;

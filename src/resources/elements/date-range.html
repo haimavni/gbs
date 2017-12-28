@@ -1,22 +1,24 @@
 <template>
     <form class="form-inline" dir="ltr">
-        <div if.bind="user.editing && partial" class="form-group" style="float:left;margin-right:0px; ">
-            <select value.bind="span_size">
+        <div if.bind="show_edit_end_date" class="form-group" style="float:left;margin-right:0px; ">
+            <select value.bind="span_size" style="height:2em;">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
             </select>
         </div>
-        <div class="form-group" if.bind="(partial && span_size > 1) && (! user.editing)" style="float:left;margin-right:0px;">
-            <label>${end_date_str}</label>
+        <div class="form-group" if.bind="show_end_date" style="float:left;margin-right:0px;">
+            <label style="height:2em;">${end_date_str}</label>
         </div>
-        
-        <div class="form-group" if.bind="partial && (user.editing || span_size > 1)" style="float:left;margin-right:0px;">
-            <label>-</label>
+        <div class="form-group" if.bind="show_labels" style="float:left;margin-right:0px;">
+            <label style="height:2em;">-</label>
         </div>
         <div if.bind="user.editing" class="form-group" change.trigger="base_date_changed($event)" style="float:left;margin-right:0px;">
-            <input type="text" value.bind="base_date_str" maxlength="12" keyup.trigger="on_keyup($event)" keypress.trigger="keep_only_good_chars($event)" />
+            <input type="text" value.bind="base_date_str" 
+                maxlength="10" style="height:2em;width:6.2em;padding-left:0.2em;" 
+                keyup.trigger="on_keyup($event)" 
+                keypress.trigger="keep_only_good_chars($event)" />
         </div>
-        <div class="form-group" if.bind="! user.editing" style="float:left;margin-right:0px;">
-            <label>${base_date_str}</label>
+        <div class="form-group" if.bind="show_date" style="float:left;margin-right:0px;">
+            <label style="height:2em;" >${base_date_str}</label>
         </div>
     </form>
 </template>

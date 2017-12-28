@@ -1,57 +1,28 @@
 import { bindable, autoinject, bindingMode, computedFrom } from 'aurelia-framework';
 import { User } from '../../services/user';
 
-function getDaysInMonth(month, year) {
-    return new Date(year, month, 0).getDate();
-}
-
 export class MyDate {
     _day;
     _month;
     _year;
 
     constructor(date_str) {
-        //replace "." by "/"
         let parts = date_str.split('/');
         let n = parts.length;
         switch(n) {
             case 1:
-                this._year = parseInt(parts[0]);
+                this._year = parseInt(parts[0] || '0');
                 break;
             case 2:
-                this._year = parseInt(parts[1]);
+                this._year = parseInt(parts[1] || '0');
                 this._month = parseInt(parts[0]) - 1
                 break;
             case 3:
-                this._year = parseInt(parts[2]);
+                this._year = parseInt(parts[2] || '0');
                 this._month = parseInt(parts[1]) - 1;
                 this._day = parseInt(parts[0]);
                 break;
         }
-    }
-
-    get day() {
-        return this._day;
-    }
-
-    set day(d) {
-        this._day = d;
-    }
-
-    get month() {
-        return this._month + 1;
-    }
-
-    set month(m) {
-        this._month = m - 1;
-    }
-
-    get year() {
-        return this._year;
-    }
-
-    set year(y) {
-        this._year = y;
     }
 
     incr(n) {
@@ -69,7 +40,7 @@ export class MyDate {
     detail_level() {
         if (this._day) {
             return 'D'
-        } else if (this._month) {
+        } else if (this._month != undefined) {
             return 'M'
         }
         return 'Y'
@@ -83,17 +54,31 @@ export class MyDate {
     }
 
     is_valid() {
-        let d = new Date(this._year, this._month - 1, this._day);
-        return d && (d.getMonth() + 1) == this._month;
+        let mon = this._month || 1;
+        let day = this._day || 1;
+        if (this._year < 1000) {
+            return false;
+        }
+        return true;
+        /*let d = new Date(this._year, mon - 1, day);
+        return d && (d.getMonth() + 1) == this._month;*/
     }
 
     toString() {
         let s = '';
         if (this._day) {
-            s += this._day + '/'
+            let day = this._day
+            if (day < 10) {
+                day = '0' + day;
+            }
+            s += day + '/'
         }
-        if (this._month != undefined) {
-            s += (this._month+1) + '/'
+        if (this._month != undefined) { //months are 0-based...
+            let m = this._month + 1;
+            if (m < 10) {
+                m = '0' + m;
+            }
+            s += m + '/'
         }
         s += this._year;
         return s;
@@ -108,6 +93,7 @@ export class DateRangeCustomElement {
     end_date_str;
     end_date_options = [];
     partial;
+    is_valid;
 
     constructor(user: User) {
         this.user = user;
@@ -118,18 +104,20 @@ export class DateRangeCustomElement {
     }
 
     build_end_date_options() {
-        this.end_date_options = [];
-        let parts = this.base_date_str.split('/');
-        if (parts.length == 3) {
-            this.partial = false;
+        let date = new MyDate(this.base_date_str);
+        this.is_valid = date.is_valid();
+        if (!this.is_valid) {
             return;
         }
-        this.partial = true;
-        let date = new MyDate(this.base_date_str);
+        this.partial = date.detail_level() != 'D';
+        if (! this.partial) {
+            return;
+        }
+        this.end_date_options = [];
         for (let i=0; i < 10; i++) {
-            date.incr(1);
             let option = {name: date.toString(), value: i};
             this.end_date_options.push(option)
+            date.incr(1);
         }
         date = new MyDate(this.base_date_str);
         date.incr(this.span_size);
@@ -153,6 +141,26 @@ export class DateRangeCustomElement {
         let m = key.match(/[0-9/]/);
         console.log("key ", key, " str ", this.base_date_str);
         return m != null;
+    }
+
+    @computedFrom("user.editing", "partial", "is_valid")
+    get show_edit_end_date() {
+        return this.is_valid && this.user.editing && this.partial;
+    }
+
+    @computedFrom("user.editing", "partial", "span_size", "is_valid")
+    get show_end_date() {
+       return this.is_valid && this.partial && this.span_size > 0 && (! this.user.editing) 
+    }
+    
+    @computedFrom("user.editing", "partial", "span_size", "is_valid")
+    get show_labels() {
+        return this.is_valid && this.partial && (this.user.editing || this.span_size > 0)
+    }
+
+    @computedFrom("user.editing")
+    get show_date() {
+        return this.base_date_str && ! this.user.editing;
     }
 
 }
