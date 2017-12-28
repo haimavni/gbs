@@ -3,7 +3,7 @@
         <div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
             <div style="padding-top:0px;padding-right:15px;">
                 <h1 dir="rtl"> ${"terms.terms-lexicon" | t}</h1>
-                <date-range if.bind="user.privileges.DEVELOPER" base_date_str.bind="test_date" span_size.bind="test_span"></date-range>
+                <date-range style="font-size:120%" if.bind="user.privileges.DEVELOPER" base_date_str.bind="test_date" span_size.bind="test_span"></date-range>
             </div>
         </div>
         <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">

@@ -25,12 +25,12 @@
             <li class="font-size-150"><a class="dropdown-item" href="#" click.trigger="set_font_size(150)">${'abcde' | t}</a></li>
         </ul>
     </div>
-
-    <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" t="[title]user.can-edit" class="border-right"
+    <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" 
+        title="${user.editing ? 'user.no-edit' : 'user.can-edit' | t}" 
+        class="border-right ${user.editing ? 'highlight' : ''}"
         style="border-left:1px solid gray;padding-left:10px;">
-        <i class="fa fa-lg ${user.editing ? 'fa-eye' : 'fa-pencil' }"></i>
+        <i class="fa fa-lg ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>
     </a>
-
     <a if.bind="user.privileges.PHOTO_UPLOADER" href click.trigger="upload_files()" t="[title]user.upload-files"
         class="border-right">
         <i class="fa fa-lg fa-upload"></i>

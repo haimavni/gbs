@@ -107,6 +107,7 @@ export class DateRangeCustomElement {
         let date = new MyDate(this.base_date_str);
         this.is_valid = date.is_valid();
         if (!this.is_valid) {
+            this.partial = true;
             return;
         }
         this.partial = date.detail_level() != 'D';
@@ -146,6 +147,11 @@ export class DateRangeCustomElement {
     @computedFrom("user.editing", "partial", "is_valid")
     get show_edit_end_date() {
         return this.is_valid && this.user.editing && this.partial;
+    }
+
+    @computedFrom("user.editing", "partial", "is_valid")
+    get dont_show_edit_end_date() {
+        return ! (this.is_valid && this.user.editing && this.partial);
     }
 
     @computedFrom("user.editing", "partial", "span_size", "is_valid")
