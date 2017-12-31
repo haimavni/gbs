@@ -31,10 +31,6 @@
         style="border-left:1px solid gray;padding-left:10px;">
         <i class="fa fa-lg ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>
     </a>
-    <a if.bind="user.privileges.PHOTO_UPLOADER" href click.trigger="upload_files()" t="[title]user.upload-files"
-        class="border-right">
-        <i class="fa fa-lg fa-upload"></i>
-    </a>
 
     <a if.bind="user.privileges.CHATTER" href click.trigger="chat_rooms()" t="[title]user.chat-rooms"
         class="border-right">

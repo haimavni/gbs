@@ -3,7 +3,6 @@ import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { Login } from '../user/login';
 import { DialogService } from 'aurelia-dialog';
-import { UploadPhotos } from '../photos/upload-photos';
 import { MemberGateway } from '../services/gateway';
 import { Popup } from '../services/popups';
 
@@ -51,11 +50,6 @@ export class UserMode {
 
     logout() {
         this.user.logout();
-    }
-
-    upload_files() {
-        this.dialog.open({ viewModel: UploadPhotos, lock: false });
-
     }
 
     toggled(state) {

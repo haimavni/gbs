@@ -2,6 +2,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
+import { UploadPhotos } from './upload-photos';
 import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
@@ -289,6 +290,10 @@ export class Photos {
             photo.selected = 0;
         }
         this.selected_photos = new Set();
+    }
+
+    upload_files() {
+        this.dialog.open({ viewModel: UploadPhotos, lock: false });
     }
 
 

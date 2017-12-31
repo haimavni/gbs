@@ -57,6 +57,12 @@
                                     ${'members.back-to-' + caller_type | t}
                                 </button>
                             </div>
+                            <div if.bind="user.privileges.PHOTO_UPLOADER" t="[title]user.upload-files" class="input-group">
+                                <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
+                                    <i class="fa fa-plus-square-o"></i>
+                                    ${'photos.upload' & t}
+                                </a>
+                            </div>
                         </form>
                     </div>
                     <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;margin-bottom:16px;">
