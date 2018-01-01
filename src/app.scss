@@ -155,9 +155,7 @@ ux-dialog>ux-dialog-header>button {
 // ------right to left or left to right matters
 
 .rtl {
-    &.dir {
-        direction: rtl;
-    }
+    direction: rtl;
     &.float {
         float: right;
         &.anti {
@@ -167,9 +165,7 @@ ux-dialog>ux-dialog-header>button {
 }
 
 .ltr {
-    &.dir {
-        direction: ltr;
-    }
+    direction: ltr;
     &.float {
         float: left;
         &.anti {

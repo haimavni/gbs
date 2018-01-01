@@ -1,4 +1,3 @@
-
 export function getOffset(el) {
   if (!el) {
     return { left: 0, right: 0 };
@@ -15,6 +14,40 @@ export function this_page_url() {
   let parse = new URL(url);
   let path = parse.pathname + parse.hash;
   return path;
+}
+
+export function highlight_doesntwork(html: String, keywords: Array<String>) {
+  if (!keywords) {
+    return html;
+  }
+  html = toUnicode(html);
+  let pat_str = '\\b(' + keywords.join('|') + '\\b';
+  pat_str = toUnicode(pat_str);
+  ///let pat_str = '([^א-ת]*)(' + keywords.join('|') + ')([^א-ת]*)';
+  let pat = new RegExp(pat_str, 'gi');
+  return html.replace(pat, "$1<span class='highlight'>$2</span>$3");
+}
+
+export function highlight(html: String, keywords: Array<String>) {
+  if (!keywords) {
+    return html;
+  }
+  let pat_str = '([\\s,-]+)(' + keywords.join('|') + ')([\\s,;.-]+|$)';
+  let pat = new RegExp(pat_str, 'gi');
+  return html.replace(pat, "$1<span class='highlighted'>$2</span>$3");
+}
+
+function toUnicode(theString) {
+  let unicodeString = '';
+  for (let i = 0; i < theString.length; i++) {
+    let theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
+    while (theUnicode.length < 4) {
+      theUnicode = '0' + theUnicode;
+    }
+    theUnicode = '\\u' + theUnicode;
+    unicodeString += theUnicode;
+  }
+  return unicodeString;
 }
 
 

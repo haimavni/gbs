@@ -3,7 +3,7 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
-import { this_page_url } from '../services/dom_utils';
+import { this_page_url, highlight } from '../services/dom_utils';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
@@ -14,6 +14,7 @@ export class StoryDetail {
     api;
     i18n;
     story;
+    highlighted_html;
     members = [];
     photos;
     curr_photo;
@@ -22,6 +23,8 @@ export class StoryDetail {
     user;
     theme;
     story_url;
+    keywords;
+    highlight_on="highlight-on";
     router: Router;
     eventAggregator;
     dialog;
@@ -39,9 +42,12 @@ export class StoryDetail {
 
     activate(params, config) {
         this.story_url = this_page_url();
+        this.keywords = params.keywords;
         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
             .then(response => {
                 this.story = response.story;
+                let html = this.story.story_text;
+                this.highlighted_html = highlight(html, this.keywords);
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
@@ -103,6 +109,14 @@ export class StoryDetail {
                     alert("detaching photo failed!")
                 }
             });
+    }
+
+    toggle_highlight_on() {
+        if (this.highlight_on) {
+            this.highlight_on = ""
+        } else {
+            this.highlight_on = "highlight-on"
+        }
     }
 
 }

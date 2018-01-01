@@ -123,7 +123,9 @@
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' | t}</div>
                         <help topic="words" position="top" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
-                        <multi-select options.bind="stories_index" 
+                        <multi-select 
+                            options.bind="stories_index" 
+                            keywords.two-way="keywords"
                             place_holder_text="stories.word-index" 
                             height="201" 
                             change.delegate="handle_words_change($event)" 

@@ -39,6 +39,7 @@ export class MultiSelectCustomElement {
     @bindable height_unselected = 120;
     @bindable settings = default_multi_select_options;
     @bindable can_edit = true;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) keywords = [];
     lineHeight = 20;
     why_clip = "Merge all unmerged tags";
     why_unclip = "Unmerge this tag group"
@@ -82,6 +83,11 @@ export class MultiSelectCustomElement {
             this.filter = this.filter + " " //desperate attempt to force the set filter to be invoked
             this.filter = this.filter.slice(0, -1);
         }
+        this.calc_keywords();
+    }
+
+    calc_keywords() {
+        this.keywords = this.selected_options_storage.keys();
     }
 
     private option_set_to_option_list(option_set: Set<string>) {

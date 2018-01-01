@@ -28,6 +28,7 @@ export class Stories {
     win_width;
     win_height;
     used_languages;
+    keywords = [];
     params = {
         selected_topics: [],
         grouped_selected_topics: [],
@@ -147,7 +148,7 @@ export class Stories {
     jump_to_the_full_story(story) {
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
-                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
+                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: this.keywords });
                 break;
             case this.api.constants.story_type.STORY4MEMBER:
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story' });

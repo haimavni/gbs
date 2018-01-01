@@ -9,6 +9,8 @@
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
+            <button if.bind="! user.editing" class="highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
+            </button>
             <copy-to-clipboard if.bind="user.editing" content.bind="story_url" style="float:left;"></copy-to-clipboard>
         </div>
         <div class="row" style="direction:rtl;">
@@ -52,7 +54,7 @@
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
                         <div class="big-story-panel ${theme.font_size}">
-                            <p dir="rtl" if.bind="! user.editing" innerhtml.bind="story.story_text">
+                            <p class="${story.language=='he' ? 'rtl' : 'ltr'} ${highlight_on}" if.bind="! user.editing" innerhtml.bind="highlighted_html">
                             </p>
                             <editable if.bind="user.editing" settings.bind="{show_date:false, class:'story-section', checkable: false}" story.bind="story"></editable>
                         </div>

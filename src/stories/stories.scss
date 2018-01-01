@@ -103,4 +103,28 @@ div.full-story {
     overflow: auto;
 }
 
+p {
+    span.highlighted {
+        background-color: inherit;
+    }
+}
+
+p.highlight-on {
+    span.highlighted {
+        background-color: yellow;
+    }
+}
+
+button.highlighter {
+    margin-left:8px;
+    border: 4px solid yellow;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    &.highlight-on {
+        background-color: yellow;
+    }
+}
+
+
 
