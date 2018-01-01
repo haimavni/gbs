@@ -3,4 +3,4 @@ node_modules
 .DS_STORE
 scripts
 src/environment.ts
-environments/tmp_env.ts
+aurelia_project/environments/tmp_env.ts
