@@ -88,6 +88,9 @@ export class User {
                 if (result.user_error) {
                     let msg = this.i18n.tr('user.' + result.user_error);
                     throw result.user_error
+                } else if (result.error) {
+                    let msg = result.error;
+                    throw result.error
                 }
             });
     }
