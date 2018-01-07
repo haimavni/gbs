@@ -62,4 +62,9 @@ export class StoryWindow {
         this.dialogController.cancel();
     }
 
+    clean() {
+        this.api.call_server_post('members/clean_html_format', {html: this.story.story_text})
+            .then(response => this.story.story_text = response.html);
+    }
+
 }

@@ -69,7 +69,8 @@
     "update-associated-members": "עדכן חברים",
     "update-associated-photos": "עדכן תמונות",
     "consolidate-selected-story": "מזג לסיפור אחד",
-    "highlight-on": "הפעל/הפסק הדגשת מילות החיפוש"
+    "highlight-on": "הפעל/הפסק הדגשת מילות החיפוש",
+    "clean": "נקה"
   },
   "members": {
     "members": "חברים",

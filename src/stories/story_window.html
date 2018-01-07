@@ -41,6 +41,7 @@
         <ux-dialog-footer if.bind="edit" style="padding-right:16px;">
             <button class="btn btn-danger btn-warning" click.trigger="cancel()">${'stories.cancel' | t}</button>
             <button class="btn btn-success btn-primary ${dirty_story ? 'btn-warning' : 'disabled'}" click.trigger="save()">${'stories.save' | t}</button>
+            <button class="btn btn-basic btn-primary" click.trigger="clean()">${'stories.clean' | t}</button>
         </ux-dialog-footer>
     </ux-dialog>
 
