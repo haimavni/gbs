@@ -206,4 +206,8 @@ export class MemberDetail {
         history.back();
     }
 
+    goto_story_page(story) {
+        this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story'});
+    }
+
 }

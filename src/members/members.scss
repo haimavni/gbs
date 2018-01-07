@@ -88,6 +88,12 @@ div.story-box {
     &.notfirst {
         border-left: solid 6px white;
     }
+    a {
+        color: black;
+        float: left;
+        cursor: pointer;
+        margin-left:30px;
+    }
 }
 
 //member picker
