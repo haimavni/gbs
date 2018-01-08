@@ -54,6 +54,7 @@ export class StoryWindow {
                 this.story.timestamp = response.info.creation_date;
                 this.story.author = response.info.author;
                 this.dialogController.ok(response.info);
+                this.story.story_id = response.info.story_id;
             });
     }
 
