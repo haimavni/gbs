@@ -1,4 +1,4 @@
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
@@ -14,7 +14,6 @@ export class StoryDetail {
     api;
     i18n;
     story;
-    highlighted_html;
     members = [];
     photos;
     curr_photo;
@@ -47,7 +46,6 @@ export class StoryDetail {
             .then(response => {
                 this.story = response.story;
                 let html = this.story.story_text;
-                this.highlighted_html = highlight(html, this.keywords);
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
@@ -119,4 +117,13 @@ export class StoryDetail {
         }
     }
 
+    @computedFrom('story.story_text')
+    get highlightedHtml() {
+        if (! this.story) {
+            return "";
+        }
+        let highlighted_html = highlight(this.story.story_text, this.keywords);
+        return highlighted_html; 
+    }
+    
 }

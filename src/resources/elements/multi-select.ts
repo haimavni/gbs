@@ -26,7 +26,7 @@ export class MultiSelectCustomElement {
     selected_options_storage = new Collections.Dictionary();  //stores option record by option name, used to map the name sets to lists of options
     //@bindable grouped_selected_options = [];  //this and the next are computed from the sets above
     grouped_selected_options = [];  //this and the next are computed from the sets above
-    @bindable ungrouped_selected_options = [];
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) ungrouped_selected_options = [];
 
     @bindable name;
     element;
