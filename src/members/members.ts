@@ -1,4 +1,4 @@
-import { autoinject, singleton } from "aurelia-framework";
+import { autoinject, singleton, computedFrom } from "aurelia-framework";
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -17,7 +17,7 @@ export class Members {
     i18n;
     router;
     eventAggregator;
-    members = [];
+    _members = [];
     memberList;
     selectedId;
     faces_per_line = 8;
@@ -39,7 +39,7 @@ export class Members {
         this.router = router;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
-        this.members = [];
+        this._members = [];
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.eventAggregator.subscribe('NewMemberAdded', member_details => {
             this.member_added(member_details);
@@ -57,8 +57,8 @@ export class Members {
     activate(params, routeConfig) {
         console.log("activate members: params ", params, ' router config ', routeConfig);
         return this.memberList.getMemberList().then(members => {
-            this.members = members.member_list;
-            for (let member of this.members) {
+            this._members = members.member_list;
+            for (let member of this._members) {
                 member.rand = Math.random() * 1000;
             }
             if (routeConfig.name == 'associate-members') {
@@ -71,7 +71,7 @@ export class Members {
                     arr = [];
                 }
                 this.selected_members = new Set(arr);
-                for (let member of this.members) {
+                for (let member of this._members) {
                     if (this.selected_members.has(member.id)) {
                         member.selected = 1;
                     } else {
@@ -98,7 +98,7 @@ export class Members {
 
     member_added(member_details) {
         //todo: experiments
-        this.members = this.members.splice(0, 0, { name: member_details.name, gender: member_details.gender, id: member_details.id });
+        this._members = this._members.splice(0, 0, { name: member_details.name, gender: member_details.gender, id: member_details.id });
     }
 
     not_ready(member) {
@@ -139,10 +139,15 @@ export class Members {
     }
 
     clear_member_group() {
-        for (let member of this.members) {
+        for (let member of this._members) {
             member.selected = 0;
         }
         this.selected_members = new Set();
+    }
+
+    @computedFrom('_members')
+    get members() {
+        return this._members;
     }
 
 }
