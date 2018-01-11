@@ -30,6 +30,8 @@ export class Members {
     member_group_list;
     caller_id;
     caller_type;
+    relatives_mode = false;
+    relative_list;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -119,6 +121,40 @@ export class Members {
         }
     }
 
+    toggle_relatives_mode() {
+        if (this.relatives_mode) {
+            this.relative_list = null;
+            this.relatives_mode = false;
+        } else {
+            let lst = Array.from(this.selected_members);
+            let member_id = lst[0];
+            this.api.call_server_post('members/get_all_relatives', { member_id: member_id })
+                .then(response => {
+                    this.build_relative_list(response.relative_list);
+                    this.relatives_mode = true;
+                });
+        }
+    }
+
+    private build_relative_list(lst) {
+        let member_index = this.build_member_index();
+        let relatives = [];
+        for (let level of lst) {
+            for (let member_id of level) {
+                relatives.push(member_index[member_id])
+            }
+        }
+        this.relative_list = relatives;;
+    }
+
+    private build_member_index() {
+        let result = {};
+        for (let member of this._members) {
+            result[member.id] = member;
+        }
+        return result;
+    }
+
     member_clicked(member, event) {
         if (event.ctrlKey) {
             this.toggle_selection(member);
@@ -145,9 +181,13 @@ export class Members {
         this.selected_members = new Set();
     }
 
-    @computedFrom('_members')
+    @computedFrom('_members', 'relative_list')
     get members() {
-        return this._members;
+        if (this.relative_list) {
+            return this.relative_list
+        } else {
+            return this._members;
+        }
     }
 
 }
