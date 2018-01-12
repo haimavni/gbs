@@ -32,6 +32,9 @@ export class Members {
     caller_type;
     relatives_mode = false;
     relative_list;
+    relatives_path;
+    origin_member_id;
+    other_member_id;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -119,6 +122,20 @@ export class Members {
             this.selected_members.add(member.id)
             member.selected = 1;
         }
+        if (this.relatives_mode) {
+            let n = this.selected_members.size;
+            if (n == 2) {
+                this.other_member_id = member.id;
+                this.get_relatives_path();
+            } else {
+                this.relatives_mode = false;
+            }
+        }
+    }
+
+    get_relatives_path() {
+        this.api.call_server_post('members/get_relatives_path', { origin_member_id: this.origin_member_id, other_member_id: this.other_member_id })
+            .then(response => this.relatives_path = response.relatives_path);
     }
 
     toggle_relatives_mode() {
@@ -128,6 +145,7 @@ export class Members {
         } else {
             let lst = Array.from(this.selected_members);
             let member_id = lst[0];
+            this.origin_member_id = member_id;
             this.api.call_server_post('members/get_all_relatives', { member_id: member_id })
                 .then(response => {
                     this.build_relative_list(response.relative_list);
