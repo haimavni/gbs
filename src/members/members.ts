@@ -127,22 +127,30 @@ export class Members {
             if (n == 2) {
                 this.other_member_id = member.id;
                 this.get_relatives_path();
+            } else if (n == 1 && member.selected == 0) { //we just unselected the other member
+                this.relatives_path = null; // only one member is selected now
+                if (member.id == this.origin_member_id) { //other member becomes origin,
+                    this.origin_member_id = member.id;
+                    this.calc_relative_list();
+                } 
+                this.other_member_id = null;
             } else {
                 this.relatives_mode = false;
+                this.relatives_path = null;
+                this.relative_list = null;
             }
         }
     }
 
     get_relatives_path() {
         this.api.call_server_post('members/get_relatives_path', { origin_member_id: this.origin_member_id, other_member_id: this.other_member_id })
-            .then(response => this.relatives_path = response.relatives_path);
+            .then(response => {
+                console.log("relative path: ", this.relatives_path);
+                this.build_relatives_path(response.relatives_path);
+            });
     }
 
-    toggle_relatives_mode() {
-        if (this.relatives_mode) {
-            this.relative_list = null;
-            this.relatives_mode = false;
-        } else {
+    calc_relative_list() {
             let lst = Array.from(this.selected_members);
             let member_id = lst[0];
             this.origin_member_id = member_id;
@@ -151,6 +159,15 @@ export class Members {
                     this.build_relative_list(response.relative_list);
                     this.relatives_mode = true;
                 });
+    }
+
+    toggle_relatives_mode() {
+        if (this.relatives_mode) {
+            this.relative_list = null;
+            this.relatives_path = null;
+            this.relatives_mode = false;
+        } else {
+            this.calc_relative_list();
         }
     }
 
@@ -163,6 +180,15 @@ export class Members {
             }
         }
         this.relative_list = relatives;;
+    }
+    
+    build_relatives_path(lst) {
+        let member_index = this.build_member_index();
+        let relatives_path = [];
+        for (let mid of lst) {
+            relatives_path.push(member_index[mid])
+        }
+        this.relatives_path = relatives_path;
     }
 
     private build_member_index() {
@@ -199,13 +225,15 @@ export class Members {
         this.selected_members = new Set();
     }
 
-    @computedFrom('_members', 'relative_list')
+    @computedFrom('_members', 'relative_list', 'relatives_path')
     get members() {
+        if (this.relatives_path) {
+            return this.relatives_path
+        }
         if (this.relative_list) {
             return this.relative_list
-        } else {
-            return this._members;
         }
+        return this._members;
     }
 
 }
