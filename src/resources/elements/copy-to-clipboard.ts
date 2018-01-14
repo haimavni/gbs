@@ -5,6 +5,7 @@ import { User } from '../../services/user';
 @singleton()
 export class CopyToClipboardCustomElement {
     @bindable content;
+    @bindable prefix;
     user;
 
     constructor(user: User) {
@@ -15,7 +16,11 @@ export class CopyToClipboardCustomElement {
         console.log("content: ", this.content);
         const hiddenElement: HTMLTextAreaElement = document.createElement('textarea');
         hiddenElement.style.display = 'none !important;';
-        hiddenElement.innerText = this.content;
+        let content = this.content;
+        if (event.ctrlKey && this.prefix) {
+            content = this.prefix + content;
+        }
+        hiddenElement.innerText = content;
 
         document.body.appendChild(hiddenElement);
         hiddenElement.select();

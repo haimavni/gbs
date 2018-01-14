@@ -3,6 +3,9 @@ export class FilterValueConverter {
         if (!array) {
             return [];
         }
+        if (array.ignore) {
+            return array.arr;
+        }
         value = (value || '').trim().toLowerCase();
 
         let array0 = [];
@@ -10,7 +13,7 @@ export class FilterValueConverter {
             let p0 = properties[0].slice(1);
             properties.splice(0, 1);
             array0 = array.filter(item => item[p0]);
-            array = array.filter(item => ! item[p0]);
+            array = array.filter(item => !item[p0]);
             if (!value) {
                 return array0.concat(array);
             }
@@ -21,7 +24,7 @@ export class FilterValueConverter {
         value = value.replace(/[-().,]/g, '')
         let parts = value.toLowerCase().split(" ");
         //parts = parts.filter(s => s != '-' && s != '(' && s != ')');
-        let arr = array.filter(item => 
+        let arr = array.filter(item =>
             parts.every(part => properties.some(function (this, property, index, properties) {
                 let p = (item[property] || "").toLowerCase();
                 if (part.startsWith("[") || part.startsWith("]")) {

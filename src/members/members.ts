@@ -132,7 +132,7 @@ export class Members {
                 if (member.id == this.origin_member_id) { //other member becomes origin,
                     this.origin_member_id = member.id;
                     this.calc_relative_list();
-                } 
+                }
                 this.other_member_id = null;
             } else {
                 this.relatives_mode = false;
@@ -151,14 +151,14 @@ export class Members {
     }
 
     calc_relative_list() {
-            let lst = Array.from(this.selected_members);
-            let member_id = lst[0];
-            this.origin_member_id = member_id;
-            this.api.call_server_post('members/get_all_relatives', { member_id: member_id })
-                .then(response => {
-                    this.build_relative_list(response.relative_list);
-                    this.relatives_mode = true;
-                });
+        let lst = Array.from(this.selected_members);
+        let member_id = lst[0];
+        this.origin_member_id = member_id;
+        this.api.call_server_post('members/get_all_relatives', { member_id: member_id })
+            .then(response => {
+                this.build_relative_list(response.relative_list);
+                this.relatives_mode = true;
+            });
     }
 
     toggle_relatives_mode() {
@@ -167,6 +167,7 @@ export class Members {
             this.relatives_path = null;
             this.relatives_mode = false;
         } else {
+            this.filter = "";
             this.calc_relative_list();
         }
     }
@@ -181,7 +182,7 @@ export class Members {
         }
         this.relative_list = relatives;;
     }
-    
+
     build_relatives_path(lst) {
         let member_index = this.build_member_index();
         let relatives_path = [];
@@ -228,7 +229,7 @@ export class Members {
     @computedFrom('_members', 'relative_list', 'relatives_path')
     get members() {
         if (this.relatives_path) {
-            return this.relatives_path
+            return { ignore: true, arr: this.relatives_path }
         }
         if (this.relative_list) {
             return this.relative_list

@@ -22,6 +22,7 @@ export class StoryDetail {
     user;
     theme;
     story_url;
+    host;
     keywords;
     highlight_on="highlight-on";
     router: Router;
@@ -41,6 +42,7 @@ export class StoryDetail {
 
     activate(params, config) {
         this.story_url = this_page_url();
+        this.host = window.location.host;
         this.keywords = params.keywords;
         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
             .then(response => {
