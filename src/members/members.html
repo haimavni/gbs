@@ -35,22 +35,22 @@
                             </button>
                         </div>
                         <div if.bind="selected_members.size == 1 && !caller_type" class="input-group" style="padding-top:16px;" >
-                            <button class="btn btn-succes" click.trigger="toggle_relatives_mode()">
+                            <button class="btn btn-primary" click.trigger="toggle_relatives_mode()">
                                 ${ (relatives_mode ? 'members.all-members' : 'members.family-only') | t}
                             </button>
                         </div>
                         <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
                             <help topic="family-connections" position="bottom"></help>
                         </div>
-                        <div class="btn-group dropdown rtl" aubs-dropdown="auto-close.bind: autoClose;" 
+                        <div class="btn-group dropdown rtl" aubs-dropdown="auto-close.bind: autoClose;"  if.bind="caller_id"
                             style="border:solid 1px lightgray;border-top:solid 2px gray;border-left:solid 2px gray;height:38px;margin-top:16px;padding:6px;padding-top:8px;"
-                            if.bind="selected_members.size > 0  && ! relatives_mode"
+                            if.bind="selected_members.size > 0  && ! relatives_mode">
                             <button class="btn btn-default dropdown-toggle" aubs-dropdown-toggle>
                                 <span>${'members.member-groups' | t}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-left">
-                                <li if.bind="caller_id">
+                                <li>
                                     <a class="dropdown-item" href="#" click.trigger="save_member_group()">
                                         <span style="float:right">${'members.save-member-group' | t}</span>
                                     </a>
