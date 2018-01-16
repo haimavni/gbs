@@ -41,27 +41,7 @@
                         </div>
                         <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
                             <help topic="family-connections" position="bottom"></help>
-                        </div>
-                        <div class="btn-group dropdown rtl" aubs-dropdown="auto-close.bind: autoClose;"  if.bind="caller_id"
-                            style="border:solid 1px lightgray;border-top:solid 2px gray;border-left:solid 2px gray;height:38px;margin-top:16px;padding:6px;padding-top:8px;"
-                            if.bind="selected_members.size > 0  && ! relatives_mode">
-                            <button class="btn btn-default dropdown-toggle" aubs-dropdown-toggle>
-                                <span>${'members.member-groups' | t}</span>
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-left">
-                                <li>
-                                    <a class="dropdown-item" href="#" click.trigger="save_member_group()">
-                                        <span style="float:right">${'members.save-member-group' | t}</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" click.trigger="clear_member_group()">
-                                        <span style="float:right">${'members.clear-member-group' | t}</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+`                        </div>
                     </form>
                 </div>
             </div>
