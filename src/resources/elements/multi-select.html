@@ -5,8 +5,15 @@
         <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"></search-input>
     </div>
     <div class="ms-container" css="height:${height}px;position:relative">
-        <button if.bind="can_add" style="position:absolute;top:60px;left:140px;" class="btn btn-success btn-xs cl-create-btn">
-            <i class="fa fa-lg fa-plus-square-o"></i>
+        <button if.bind="can_add" 
+            style="position:absolute;top:60px;left:140px;padding:0;"
+            click_trigger="add_item()" 
+            class="btn btn-success btn-xs cl-create-btn">
+            <dlg-string str.bind="new_item_name" 
+                placeholder.bind="new_item_placeholder" 
+                anchor.bind="anchor"
+                title.bind="new_item_title">
+            </dlg-string>
         </button>
         <div class="row options selected" css="max-height:${height_selected}px;">
             <!-- First  display grouped options. may be add a popover with names of all group members-->

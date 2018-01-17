@@ -209,7 +209,9 @@
   },
   "multi-select": {
     "why-clip": "קבץ את כל התגים שאינם מקובצים",
-    "why-unclip": "פרק מחדש את קבוצת התגים"
+    "why-unclip": "פרק מחדש את קבוצת התגים",
+    "new-item-placeholder": "הכנס שם חדש",
+    "new-item-title": "הוספת שם"
   },
   "go-back": "חזור",
   "parents": "הורים",

@@ -16,6 +16,7 @@ export function configure(config) {
     './elements/help',
     './elements/copy-to-clipboard',
     './elements/timeline',
-    './elements/search-input'
+    './elements/search-input',
+    './elements/dlg-string'
   ]);
 }

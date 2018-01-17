@@ -88,6 +88,7 @@ export class Photos {
     created(params, config) {
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
         this.ea.subscribe('PHOTOS_WERE_UPLOADED', () => {this.update_photo_list()});
+        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => {this.update_topic_list()});  //for now they are linked...
         if (this.topic_list.length > 0) {
             return;
         }
@@ -184,9 +185,17 @@ export class Photos {
     }
 
     handle_photographer_change(event) {
-        this.params.selected_photographers = event.detail.ungrouped_selected_options;
-        this.params.grouped_selected_photographers = event.detail.grouped_selected_options;
-        this.update_photo_list();
+        if (event.detail.string_value) {
+            this.add_photographer(event.detail.string_value)
+        } else {
+            this.params.selected_photographers = event.detail.ungrouped_selected_options;
+            this.params.grouped_selected_photographers = event.detail.grouped_selected_options;
+            this.update_photo_list();
+        }
+    }
+
+    add_photographer(new_photographer_name) {
+        this.api.call_server_post('members/add_photographer', {photographer_name: new_photographer_name});
     }
 
     handle_change(event) {
