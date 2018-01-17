@@ -35,6 +35,7 @@ export class Stories {
         grouped_selected_topics: [],
         grouped_selected_words: [],
         ungrouped_selected_words: [],
+        selected_words: [],
         selected_uploader: "",
         from_date: "",
         to_date: "",
