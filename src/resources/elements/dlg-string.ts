@@ -50,6 +50,7 @@ export class DlgStringCustomElement {
             bubbles: true
         });
         this.element.dispatchEvent(changeEvent);
+        this.str = "";
     }
 
 

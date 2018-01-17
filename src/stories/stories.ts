@@ -3,7 +3,7 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { Cache } from "../services/cache";
 import { WordIndex } from "../services/word_index";
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { autoinject, computedFrom, singleton } from 'aurelia-framework';
 //import { StoryDetail } from './story-detail';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
@@ -13,6 +13,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import default_multi_select_options from '../resources/elements/multi-select';
 
 @autoinject
+@singleton()
 export class Stories {
     filter = "";
     story_list = [];
@@ -32,6 +33,8 @@ export class Stories {
     params = {
         selected_topics: [],
         grouped_selected_topics: [],
+        grouped_selected_words: [],
+        ungrouped_selected_words: [],
         selected_uploader: "",
         from_date: "",
         to_date: "",
@@ -173,6 +176,8 @@ export class Stories {
         if (!event.detail) {
             return;
         }
+        this.params.grouped_selected_words = event.detail.grouped_selected_options;
+        this.params.ungrouped_selected_words = event.detail.ungrouped_selected_options;
         event.detail.grouped_selected_options.forEach(element => {
             let uni = new Set<number>();
             for (let x of element) {

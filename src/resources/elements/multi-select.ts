@@ -27,10 +27,10 @@ export class MultiSelectCustomElement {
     ungrouped_selected: Set<string> = new Set([]);
     selected_options_storage = new Collections.Dictionary();  //stores option record by option name, used to map the name sets to lists of options
     //@bindable grouped_selected_options = [];  //this and the next are computed from the sets above
-    grouped_selected_options = [];  //this and the next are computed from the sets above
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) grouped_selected_options = [];  //this and the next are computed from the sets above
     @bindable ({ defaultBindingMode: bindingMode.twoWay }) ungrouped_selected_options = [];
 
-    @bindable name;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) name;
     element;
     filter = "";
     @bindable place_holder_text = "";
@@ -150,6 +150,7 @@ export class MultiSelectCustomElement {
     }
 
     attached() {
+        //todo: verify state is synced with the bound variales
         console.log(this.name, " multi select attached. grouped_selected_options ", this.grouped_selected_options, " ungrouped: ", this.ungrouped_selected_options)
         const elementRect = this.element.getBoundingClientRect();
         this.width = Math.round(elementRect.width) - 20;
@@ -157,8 +158,13 @@ export class MultiSelectCustomElement {
         if (!this.height) {
             this.height = 180;
         }
+        //use the code in calc_lists to set the correct heights
         this.height_selected = this.lineHeight;
         this.height_unselected = this.height - this.height_selected;
+        //sync option sets from option arrays which are bound
+        this.ungrouped_selected = new Set(this.ungrouped_selected_options);
+        this.grouped_selected = new Collections.Dictionary<string, Set<string>>();
+        //now build it from this.grouped_selected_options
     }
 
     private make_list(name_set) {

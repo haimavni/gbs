@@ -86,6 +86,7 @@
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.story-types' | t}</div>
                         <multi-select options.bind="story_types" 
                             place_holder_text="stories.story-types" 
+                            ungrouped_selected_options.bind="params.selected_story_types"
                             height="110" settings.bind="story_types_settings"
                             change.delegate="handle_story_types_change($event) ">
                         </multi-select>
@@ -95,6 +96,8 @@
                         <help topic="tags" position="left" style="position:absolute;left:0px;top:26px;"></help>
                         <multi-select options.bind="topic_list" 
                             place_holder_text="photos.click-topic" 
+                            ungrouped_selected_options.bind="params.selected_topics"
+                            grouped_selected_options.bind="params.grouped_selected_topics"
                             height="120" 
                             settings.bind="options_settings" 
                             change.delegate="handle_topic_change($event)"
@@ -125,6 +128,8 @@
                         <help topic="words" position="top" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
                         <multi-select 
                             options.bind="stories_index" 
+                            ungrouped_selected_options.bind="params.selected_words"
+                            grouped_selected_options.bind="params.grouped_selected_words"
                             keywords.two-way="keywords"
                             place_holder_text="stories.word-index" 
                             height="201" 

@@ -53,7 +53,7 @@
         <form class="form-horizontal member-info" role="form">
             <!--The left wing of the form-->
             <div class="col-md-6 member-info-left">
-                <div class="form-group">
+                <div class="form-group" if.bind="member.member_info.Name">
                     <input type="text" class="form-control" id="former_name" t="[placeholder]members.former-name" value.bind="member.member_info.FormerName"
                         disabled.bind="true">
                 </div>
@@ -78,7 +78,7 @@
             </div>
             <!--The right wing of the form-->
             <div class="col-md-6 member-info-right">
-                <div class="form-group">
+                <div class="form-group" if.bind="member.member_info.Name">
                     <input type="text" class="form-control" id="member_name" t="[placeholder]members.member-name" value.bind="member.member_info.Name"
                         disabled.bind="true">
                 </div>
