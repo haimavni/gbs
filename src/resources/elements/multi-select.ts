@@ -22,9 +22,10 @@ export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     all_options;
     //selections
-    all_selected = new Set([]);
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) all_selected = new Set([]);
     grouped_selected = new Collections.Dictionary<string, Set<string>>(); //for each leading term it will have a set of itself and its peers
     ungrouped_selected: Set<string> = new Set([]);
+    all_options_storage = new Collections.Dictionary();
     selected_options_storage = new Collections.Dictionary();  //stores option record by option name, used to map the name sets to lists of options
     //@bindable grouped_selected_options = [];  //this and the next are computed from the sets above
     @bindable ({ defaultBindingMode: bindingMode.twoWay }) grouped_selected_options = [];  //this and the next are computed from the sets above
@@ -58,6 +59,17 @@ export class MultiSelectCustomElement {
         this.why_unclip = i18n.tr('multi-select.why-unclip');
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title')
+    }
+
+    build_all_options_storage() {
+        if (! this.options) {
+            return false;
+        }
+        this.all_options_storage = new Collections.Dictionary<string, Set<string>>()
+        for (let option of this.options) {
+            this.all_options_storage.setValue(option.name, option)
+        }
+        return true;
     }
 
     toggle_selection(option) {
@@ -151,7 +163,7 @@ export class MultiSelectCustomElement {
 
     attached() {
         //todo: verify state is synced with the bound variales
-        console.log(this.name, " multi select attached. grouped_selected_options ", this.grouped_selected_options, " ungrouped: ", this.ungrouped_selected_options)
+        console.log(" multi select attached. grouped_selected_options ", this.grouped_selected_options, " ungrouped: ", this.ungrouped_selected_options)
         const elementRect = this.element.getBoundingClientRect();
         this.width = Math.round(elementRect.width) - 20;
         this.inner_width = this.width - 70;
@@ -162,9 +174,27 @@ export class MultiSelectCustomElement {
         this.height_selected = this.lineHeight;
         this.height_unselected = this.height - this.height_selected;
         //sync option sets from option arrays which are bound
-        this.ungrouped_selected = new Set(this.ungrouped_selected_options);
+        console.log("ms attached. options: ", this.options);
+        let all_storage_ready = this.build_all_options_storage();
+        let uso = this.ungrouped_selected_options.map(opt => opt.name)
+        this.ungrouped_selected = new Set(uso);
+        this.selected_options_storage = new Collections.Dictionary<string, Set<string>>();
+        if (all_storage_ready) {
+            for (let opt_name of uso) {
+                let x = this.all_options_storage.getValue(opt_name);
+                this.selected_options_storage.setValue(opt_name, this.all_options_storage[opt_name]);
+            }
+            console.log("selected_options_storage: ", this.selected_options_storage)
+        }
         this.grouped_selected = new Collections.Dictionary<string, Set<string>>();
         //now build it from this.grouped_selected_options
+        this.all_selected = new Set(uso);
+        console.log("attached. all_selected: ", this.all_selected);
+        this.calculate_heights();
+    }
+
+    detached() {
+        console.log("multi select detached. storage: ", this.selected_options_storage);
     }
 
     private make_list(name_set) {
@@ -217,12 +247,19 @@ export class MultiSelectCustomElement {
         console.log("in multi, grouped options: ", this.grouped_selected_options);
         let ungrouped = Array.from(this.ungrouped_selected);
         this.ungrouped_selected_options = ungrouped.map(u => this.selected_options_storage.getValue(u));
-        let selected_lines = Math.max(1, this.grouped_selected_options.length + this.ungrouped_selected_options.length);
+        this.calculate_heights();
+        /*let selected_lines = Math.max(1, this.grouped_selected_options.length + this.ungrouped_selected_options.length);
 
         this.height_selected = Math.min(selected_lines * this.lineHeight, this.height - 3 * this.lineHeight) + 16;
-        this.height_unselected = this.height - this.height_selected;
+        this.height_unselected = this.height - this.height_selected;*/
 
         this.dispatch_event();
+    }
+
+    calculate_heights() {
+        let selected_lines = Math.max(1, this.grouped_selected_options.length + this.ungrouped_selected_options.length);
+        this.height_selected = Math.min(selected_lines * this.lineHeight, this.height - 3 * this.lineHeight) + 16;
+        this.height_unselected = this.height - this.height_selected;
     }
 
     onfocus(what) {
