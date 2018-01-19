@@ -1,7 +1,6 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
-import { Cache } from "../services/cache";
 import { WordIndex } from "../services/word_index";
 import { autoinject, computedFrom, singleton } from 'aurelia-framework';
 //import { StoryDetail } from './story-detail';
@@ -22,7 +21,6 @@ export class Stories {
     api;
     user;
     theme;
-    cache;
     word_index;
     router;
     dialog;
@@ -64,11 +62,10 @@ export class Stories {
     ea: EventAggregator;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
-        cache: Cache, word_index: WordIndex, theme: Theme, ea: EventAggregator) {
+        word_index: WordIndex, theme: Theme, ea: EventAggregator) {
         this.api = api;
         this.user = user;
         this.theme = theme;
-        this.cache = cache;
         this.word_index = word_index;
         this.dialog = dialog;
         this.i18n = i18n;
@@ -94,11 +91,14 @@ export class Stories {
     }
 
     created(params, config) {
+        if (this.story_list.length > 0) {
+            return;
+        }
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
             });
-        this.update_story_list(true);
+        this.update_story_list();
         this.api.call_server('members/get_used_languages')
             .then(response => {
                 this.used_languages = response.used_languages;
@@ -120,18 +120,10 @@ export class Stories {
     }
 
     detached() {
-        this.cache.setValue('StoryList', this.story_list);
         this.theme.display_header_background = false;
     }
 
-    update_story_list(tryCache?: boolean) {
-        if (tryCache) {
-            let lst = this.cache.getValue('StoryList')
-            if (lst) {
-                this.story_list = lst;
-                return;
-            }
-        }
+    update_story_list() {
         let used_for = null;
         if (this.api.constants) {
             used_for = this.api.constants.story_type.STORY4EVENT;
