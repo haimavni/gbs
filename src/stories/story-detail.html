@@ -55,8 +55,11 @@
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
                         <div class="big-story-panel ${theme.font_size}">
-                            <p class="${story.language=='he' ? 'rtl' : 'ltr'} ${highlight_on}" if.bind="! user.editing" 
+                            <!--<p class="${story.language=='he' ? 'rtl' : 'ltr'} ${highlight_on}" if.bind="! user.editing" 
                                 innerhtml.bind="highlightedHtml">
+                            </p>-->
+                            <p class="${story.language=='he' ? 'rtl' : 'ltr'} ${highlight_on}" if.bind="! user.editing"> 
+                                <compose if.bind="story.story_text" view-model='./render-story' model.bind="highlightedHtml"></compose>
                             </p>
                             <editable if.bind="user.editing" 
                                 settings.bind="{show_date:false, class:'story-section', checkable: false}" 
