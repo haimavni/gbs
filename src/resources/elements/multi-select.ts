@@ -182,7 +182,7 @@ export class MultiSelectCustomElement {
         if (all_storage_ready) {
             for (let opt_name of uso) {
                 let x = this.all_options_storage.getValue(opt_name);
-                this.selected_options_storage.setValue(opt_name, this.all_options_storage[opt_name]);
+                this.selected_options_storage.setValue(opt_name, x);
             }
             console.log("selected_options_storage: ", this.selected_options_storage)
         }
