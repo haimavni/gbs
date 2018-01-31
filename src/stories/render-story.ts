@@ -16,12 +16,10 @@ export class RenderStory {
         let pat = new RegExp(pat_str, 'gi');
         html = html.replace(/\n/g, '');
         html = html.replace(pat, function(m, m1, m2, m3, m4){
-            console.log("m4=[" + m4 + "]")
             if (m4 == "המשך") return m;
             return m1 + " click.trigger=\"popup_window('POPUP', '"  + m2 + "')\""  + m3 + '>' + m4 + "</a>"
         });
         //apply modifications here
-        console.log("html after ", html);
         this.html = '<template>' + html + '</template>';
     }
 
