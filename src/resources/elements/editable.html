@@ -3,7 +3,7 @@
 
     <div css="margin-top:0px;margin-right:0;margin-left:0;padding:0;width:${width}">
         <div>
-            <span show.bind="story.name" dir="rtl" style="padding:0;margin:0;float:right;">
+            <span show.bind="story.name || user.privileges.EDITOR" dir="rtl" style="padding:0;margin:0;float:right;">
                 <i class="fa fa-sm fa-expand is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>
                 <i if.bind="user.privileges.EDITOR" class="fa fa-sm fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story, 'edit')">&nbsp;</i>
                 <i if.bind="settings.checkable && user.editing" class="fa fa-sm fa-circle${story.checked ? '' : '-o'} is-link" t="[title]stories.checking" click.trigger="toggle_checked()">&nbsp;</i>
