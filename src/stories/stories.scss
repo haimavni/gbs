@@ -114,10 +114,11 @@ p {
 p.highlight-on {
     span.highlighted {
         background-color: yellow;
+        color: black;
     }
 }
 
-button.highlighter {
+button.word-highlighter {
     margin-left:8px;
     border: 4px solid yellow;
     border-radius: 50%;

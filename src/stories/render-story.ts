@@ -24,7 +24,10 @@ export class RenderStory {
     }
 
     popup_window(name, url) {
-        this.popup.popup(name, url, "height=800,width=1100,left=100,top=100");
+        let w = window.outerWidth - 200;
+        let h = window.outerHeight - 200;
+        let params =  "height=" + h + ",width=" + w + ",left=100,top=100";
+        this.popup.popup(name, url, params);
     }
 
     getViewStrategy() {

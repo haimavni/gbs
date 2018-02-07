@@ -15,6 +15,7 @@ export class StoryDetail {
     i18n;
     story;
     members = [];
+    has_associated_photos = false;
     photos;
     curr_photo;
     photo_idx = 0;
@@ -59,6 +60,7 @@ export class StoryDetail {
                 }
             });
         this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id });
+        this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
     }
 
     next_photo() {

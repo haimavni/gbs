@@ -10,13 +10,13 @@
                 ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
             <button if.bind="keywords && keywords.length > 0 && ! user.editing" 
-                class="highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
+                class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
             </button>
             <copy-to-clipboard if.bind="user.editing" content.bind="story_url" prefix.bind="host" style="float:left;"></copy-to-clipboard>
         </div>
         <div class="row" style="direction:rtl;">
             <div class="col-md-5" style="padding-left:40px;">
-                <photo-strip source.bind="source" height.bind="220" action_key="Zoom2" settings.bind="{arrows:true, height:220}"></photo-strip>
+                <photo-strip if.bind="has_associated_photos" source.bind="source" height.bind="220" action_key="Zoom2" settings.bind="{arrows:true, height:220}"></photo-strip>
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
                     <div if.bind="user.editing" class="col-md-5" >
                         <form class="form-inline">
@@ -31,11 +31,11 @@
                     </div>
                     <div if.bind="! user.editing" class="col-md-5">
                     </div>
-                    <div class="col-md-7">
+                    <div show.bind="members.length>0" class="col-md-7">
                         <span style="float:right">${'stories.associated-members' | t}</span>
                     </div>
                 </div>
-                <div id="member-list" class="row stories-member-list content-area" style="height:400px;overflow:auto;overflow-x:hidden;">
+                <div if.bind="members.length>0" id="member-list" class="row stories-member-list content-area" style="height:400px;overflow:auto;overflow-x:hidden;">
                     <ul class="list-group">
                         <li class="list-group-item" repeat.for="member of members">
                             <a route-href="route: member-details; params.bind: {id:member.id}">
