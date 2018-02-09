@@ -243,7 +243,7 @@ export class Stories {
     }
 
     handle_age_change() {
-
+        this.update_story_list();
     }
 
     delete_checked_stories() {

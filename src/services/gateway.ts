@@ -1,3 +1,4 @@
+import { fetch } from 'whatwg-fetch';
 import { autoinject } from 'aurelia-framework';
 import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
 import environment from '../environment';
@@ -27,7 +28,7 @@ export class SimpleInterceptor implements Interceptor {
     responseError(response: Response) {
         console.log('responseError - Some error has occured! Run!');
         THIS.pending -= 1;
-        if (! THIS.pending) {
+        if (!THIS.pending) {
             alert("Server Error. Please try again later.")
         }
         return response;
@@ -162,8 +163,8 @@ export class MemberGateway {
         let obj;
         try {
             obj = JSON.parse(msg.data);
-        } 
-        catch(e) {
+        }
+        catch (e) {
             console.log("ERROR handling ws message ", msg, " Exception ", e);
             return;
         }
