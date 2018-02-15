@@ -1,6 +1,6 @@
 <template>
     <require from='./home.css'></require>
-    <div style="margin-bottom:${photo_strip_height}px">
+    <div css="margin-bottom:${photo_strip_height}px">
         <div style="margin-top:60px;top: 0px;" class="full-width-div">
             <div id="photo-strip">
                 <photo-strip source.bind="photo_list" slides.bind="slides" id="1" action.bind="action" fullscreen.bind="true" height_change.trigger="on_height_change($event)"
@@ -36,7 +36,8 @@
                             ${story.name}
                         </h4>
                         <div class="story-prefix">
-                            <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story.story" style="text-align:right;max-height:50px;width:100%;overflow:hidden;">
+                            <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story.story" 
+                                style="text-align:right;max-height:50px;width:100%;overflow:hidden;">
                             </p>
                         </div>
                         <div style="position:absolute;bottom:0px;left:12px;cursor:pointer;">
