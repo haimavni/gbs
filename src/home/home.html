@@ -11,7 +11,7 @@
     <div class="row panel main-panel">
         <div class="col-md-3 panel-vid" css="height:${panel_height}px;" style="overflow:auto;direction:rtl;">
             <ul>
-                <li repeat.for="video of video_list" if.bind="video.type=='youtube'">
+                <li repeat.for="video of video_list | filter:'youtube':'type'">
                     <p>
                         <span class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
                             <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">

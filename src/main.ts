@@ -58,6 +58,7 @@ export function configure(aurelia: Aurelia) {
             config.options.imageDefaultWidth = 100;
             config.options.linkAlwaysBlank = true;
         })
+        .feature('polyfills')
         .feature('resources');
 
     aurelia.use.globalResources('./services/user');
