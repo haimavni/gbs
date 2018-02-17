@@ -11,6 +11,7 @@ import { StoryWindow } from '../stories/story_window';
 import { MemberEdit } from './member-edit';
 import environment from '../environment';
 import { MemberList } from '../services/member_list';
+import { this_page_url } from '../services/dom_utils';
 
 @autoinject()
 @singleton()
@@ -83,13 +84,10 @@ export class MemberDetail {
                 }
                 this.set_displayed_stories();
             });
+        this.member_url = this_page_url();
     }
 
     bind() {
-        let url = document.URL;
-        let parse = new URL(url);
-        let path = parse.pathname + parse.hash;
-        this.member_url = path;
         console.log("member url ", this.member_url);
     }
 
