@@ -12,6 +12,7 @@ export class User {
     public isLoggedIn: boolean;
     public eventAggregator: EventAggregator;
     public editing: boolean;
+    public user_name;
     public privileges;
     public id;
     private api;
@@ -42,6 +43,7 @@ export class User {
             .then(result => {
                 this.isLoggedIn = result.user_id > 0;
                 this.privileges = result.privileges;
+                this.user_name = result.user_name;
             });
     }
 

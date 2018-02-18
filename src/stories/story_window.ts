@@ -15,7 +15,7 @@ export class StoryWindow {
     user: User;
     theme;
     story_name_orig;
-
+    story_source_orig;
 
     constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme) {
         this.dialogController = dialogController;
@@ -30,15 +30,19 @@ export class StoryWindow {
         if (! this.story.story_text) {
              this.story.story_text = "";
         }
+        if (! this.story.source) {
+            this.story.source = this.user.user_name;
+        }
         this.story_orig = this.story.story_text.slice();
         this.story_name_orig = this.story.name.slice();
+        this.story_source_orig = this.story.source.slice();
         this.edit = model.edit;
         this.show = !model.edit;
     }
 
-    @computedFrom('story.story_text', 'story.name')
+    @computedFrom('story.story_text', 'story.name', 'story.source')
     get dirty_story() {
-        let dirty = (this.story.story_text != this.story_orig) || (this.story.name != this.story_name_orig);
+        let dirty = (this.story.story_text != this.story_orig) || (this.story.name != this.story_name_orig) || (this.story.source != this.story_source_orig);
         return dirty;
     }
 

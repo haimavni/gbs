@@ -119,6 +119,7 @@ export class StoryDetail {
         } else {
             this.highlight_on = "highlight-on"
         }
+        document.getElementById("word-highlighter").blur();
     }
 
     @computedFrom('story.story_text')
