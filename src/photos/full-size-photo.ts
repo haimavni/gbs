@@ -228,6 +228,8 @@ export class FullSizePhoto {
         event.stopPropagation();
         let el = document.getElementById("full-size-photo");
         el.classList.toggle("highlight-faces");
+        el = document.getElementById("side-tool highlighter");
+        el.blur();
     }
 }
 
