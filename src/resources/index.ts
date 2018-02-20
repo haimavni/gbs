@@ -17,6 +17,7 @@ export function configure(config) {
     './elements/copy-to-clipboard',
     './elements/timeline',
     './elements/search-input',
-    './elements/dlg-string'
+    './elements/dlg-string',
+    './elements/locale-picker'
   ]);
 }
