@@ -1,6 +1,6 @@
 {
   "home": {
-    "home": "סִפּוּרֵי גִּבְעַת בְּרֶנֶר",
+    "home": "Givat-Brenner Stories",
     "videos": "קטעי וידאו",
     "sample-stories": "מבחר ספורים",
     "messages": "לוח מודעות",
@@ -74,7 +74,7 @@
     "clean": "נקה"
   },
   "members": {
-    "members": "חברים",
+    "members": "Members",
     "new": "הוסף חבר",
     "filter": "הקלד שם פרטי, שם משפחה או כינוי",
     "clear": "נקה",
@@ -215,7 +215,7 @@
     "new-item-title": "הוספת שם"
   },
   "locales": {
-    "he": "עברית",
+    "he": "Hebrew",
     "en": "English"
   },
   "go-back": "חזור",

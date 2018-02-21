@@ -14,8 +14,6 @@ export class LocalePickerCustomElement {
 
     this.selectedLocale = this.i18n.getLocale();
     this.isChangingLocale = false;
-    let x = this.i18n.locales;
-    alert('locales: ' + x);
   }
 
   selectedLocaleChanged() {

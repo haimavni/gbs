@@ -10,7 +10,8 @@
     <help topic="introduction" position="bottom"
         style="margin:0;padding:0;border-right:1px solid gray;">
     </help>
-    <div class="btn-group dropdown border-right" style="padding:0;margin-right:26px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+    <div class="btn-group dropdown border-right" style="padding:0;margin-right:26px;" 
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
         <button class="btn btn-link btn-md dropdown-toggle" t="[title]user.font-size" style="text-decoration:none;position:relative" aubs-dropdown-toggle>
             <span style="position:absolute;left:20px;top:-8px;" class="font-size-150">${'a' | t}</span>
             <span style="position:absolute;left:13px;top:0px" class="font-size-100">${'a' | t}</span>
@@ -23,8 +24,12 @@
             <li class="font-size-130"><a class="dropdown-item" href="#" click.trigger="set_font_size(130)">${'abcde' | t}</a></li>
             <li class="font-size-140"><a class="dropdown-item" href="#" click.trigger="set_font_size(140)">${'abcde' | t}</a></li>
             <li class="font-size-150"><a class="dropdown-item" href="#" click.trigger="set_font_size(150)">${'abcde' | t}</a></li>
+            <li style="padding-left:10px;padding-right:10px;">
+                <locale-picker></locale-picker>
+            </li>
         </ul>
     </div>
+    
     <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" 
         title="${user.editing ? 'user.no-edit' : 'user.can-edit' | t}" 
         class="border-right ${user.editing ? 'highlight' : ''}"
