@@ -18,6 +18,7 @@ export class Theme {
     footer_height = 67;
     cookies;
     _font_size;// = "font-size-110";
+    askLanguage = false;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies) {
         this.api = api;
@@ -30,7 +31,13 @@ export class Theme {
             this.handle_content_resize();
         }, true);
         window.setTimeout(() => { this.handle_content_resize(); }, 200);
-
+        try {
+            let userLangs = navigator.languages;
+            let hasHebrew = userLangs.find(lang => lang.startsWith('he'));
+            this.askLanguage = ! hasHebrew;
+        } catch(e) {
+            console.log('error occured in theme: ', e);
+        }
     }
 
     handle_content_resize() {

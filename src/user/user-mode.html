@@ -24,7 +24,7 @@
             <li class="font-size-130"><a class="dropdown-item" href="#" click.trigger="set_font_size(130)">${'abcde' | t}</a></li>
             <li class="font-size-140"><a class="dropdown-item" href="#" click.trigger="set_font_size(140)">${'abcde' | t}</a></li>
             <li class="font-size-150"><a class="dropdown-item" href="#" click.trigger="set_font_size(150)">${'abcde' | t}</a></li>
-            <li style="padding-left:10px;padding-right:10px;">
+            <li style="padding-left:10px;padding-right:10px;" if.bind="theme.askLanguage || user.privileges.DEVELOPER" >
                 <locale-picker></locale-picker>
             </li>
         </ul>

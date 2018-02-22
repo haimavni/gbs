@@ -1,165 +1,378 @@
-diff --git a/src/members/member-detail.html b/src/members/member-detail.html
-index ba05cf9..a747abf 100644
---- a/src/members/member-detail.html
-+++ b/src/members/member-detail.html
-@@ -4,7 +4,7 @@
-         <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:0px;margin-right:0px;margin-left:0px;font-size:150%;padding-top:18px;"
-             <h3 dir="rtl" style="float: right;margin:0px;">
-                 <i class="fa fa-rotate-left" style="float:left;cursor:pointer;" t="[title]go-back" click.trigger="go_back()"></i>
--                <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
-+                <h3 style="padding:0;margin:0;" if.bind="member.member_info.id">${member.member_info.full_name }</h3>
-                 <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>
-             </h3>
-             <copy-to-clipboard if.bind="user.editing" content.bind="member_url" style="float:left;"></copy-to-clipboard>
-diff --git a/src/photos/photo-detail.html b/src/photos/photo-detail.html
-index 274e1a4..b4b2ff8 100644
---- a/src/photos/photo-detail.html
-+++ b/src/photos/photo-detail.html
-@@ -5,7 +5,7 @@
-         <div class="row" 
-             style="background-color:lightgrey;padding:10px;padding-top:14px;margin-bottom:15px;margin-right:0px;margin-left:0px;font-size:150%;height:64px;padding-top:20px;">
-             <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
--                <i class="fa fa-rotate-left"  t="[title]go-back" click.trigger="go_back()"></i>
-+                <i class="fa fa-rotate-left" t="[title]go-back" click.trigger="go_back()"></i>
-             </h3>
-             <h3 if.bind="! user.editing" dir="rtl" style="float: right;margin:0px;">
-                 ${photo_name}
-diff --git a/src/services/dom_utils.ts b/src/services/dom_utils.ts
-index 8540b32..6bab057 100644
---- a/src/services/dom_utils.ts
-+++ b/src/services/dom_utils.ts
-@@ -17,15 +17,4 @@ export function this_page_url() {
-   return path;
- }
- 
--let popupWindows = {};
--export function popup(key, url, params) {
--  let hnd = popupWindows[key];
--  if (hnd) {
--    hnd.close();
--  }
--  let w = popupWindows[key] = window.open(url, '_blank', params);
--  let d = w.document;
--  return w
+diff --git a/locales/en/translation.json b/locales/en/translation.json
+deleted file mode 100644
+index dc7cbff..0000000
+--- a/locales/en/translation.json
++++ /dev/null
+@@ -1,236 +0,0 @@
+-{
+-  "home": {
+-    "home": "Givat-Brenner Stories",
+-    "videos": "קטעי וידאו",
+-    "sample-stories": "מבחר ספורים",
+-    "messages": "לוח מודעות",
+-    "full-collection": "לאוסף המלא",
+-    "male-member-of-the-day": "חבר היום",
+-    "female-member-of-the-day": "חברת היום",
+-    "male-was-born-in": "נולד ב",
+-    "female-was-born-in": "נולדה ב",
+-    "male-died-in": "נפטר ב-",
+-    "female-died-in": "נפטרה ב-",
+-    "to-the-page-of": "לדף החבר של ",
+-    "new-message": "הודעה חדשה"
+-  },
+-  "gbstories": "סִפּוּרֵי גִּבְעַת בְּרֶנֶר",
+-  "stories": {
+-    "stories": "ספורים",
+-    "place-stories": "ספורי המקום",
+-    "zoom": "לקריאה בחלון גדול",
+-    "edit": "לעריכת הסיפור",
+-    "enter-story-name": "תן כותרת לסיפור",
+-    "enter-story-source": "מקור הסיפור",
+-    "cancel": "בטל",
+-    "filter": "חפוש מהיר בשמות הספורים והמחברים",
+-    "save": "שמור",
+-    "to-the-full-story": "לסיפור המלא",
+-    "associated-members": "חברים הקשורים לסיפור",
+-    "word-index": "חפש מילים בתוכן הספורים",
+-    "languages": "בחר שפה",
+-    "arabic": "ערבית",
+-    "german": "גרמנית",
+-    "greek": "יוונית",
+-    "english": "אנגלית",
+-    "spanish": "ספרדית",
+-    "hungarian": "הונגרית",
+-    "italian": "איטלקית",
+-    "hebrew": "עברית",
+-    "dutch": "הולנדית",
+-    "romanian": "רומנית",
+-    "russian": "רוסית",
+-    "UNKNOWN": "לא מזוהה",
+-    "new": "הוסף סיפור חדש",
+-    "new-story-content": "סיפור חדש",
+-    "new-story": "ללא כותרת",
+-    "matching-stories": "ספורים כוללים את המילים שנבחרו",
+-    "no-story": "לתמונה זו לא נמצא ספור",
+-    "life-stories": "ספורי חיים",
+-    "events": "ארועים",
+-    "photos": "תמונות",
+-    "terms": "מונחים",
+-    "all-types": "כל סוגי הספורים",
+-    "story-types": "סוג הספורים",
+-    "apply-to-selected": "תייג את הספורים שנבחרו",
+-    "checking": "סימון הסיפור",
+-    "older-links": "קישורים לאתר הישן",
+-    "undelete": "שחזור ספורים שנמחקו",
+-    "to-the-member-page": "לדף החבר",
+-    "to-the-photo-page": "לדף התמונה",
+-    "term-page": "מתוך מילון המונחים",
+-    "categories": "בחירת קטגוריות",
+-    "words": "חיפוש לפי מילים",
+-    "uploaded-any-time": "ספורים שהועלו בזמן כלשהו",
+-    "uploaded-today": "ספורים שהועלו היום",
+-    "uploaded-this-week": "ספורים שהועלו השבוע",
+-    "uploaded-this-month": "ספורים שהועלו החודש",
+-    "uploaded-this-quarter": "ספורים שהועלו ברבעון זה",
+-    "uploaded-this-year": "ספורים שהועלו השנה",
+-    "update-associated-members": "עדכן חברים",
+-    "update-associated-photos": "עדכן תמונות",
+-    "consolidate-selected-story": "מזג לסיפור אחד",
+-    "highlight-on": "הפעל/הפסק הדגשת מילות החיפוש",
+-    "clean": "נקה"
+-  },
+-  "members": {
+-    "members": "Members",
+-    "new": "הוסף חבר",
+-    "filter": "הקלד שם פרטי, שם משפחה או כינוי",
+-    "clear": "נקה",
+-    "family-connections": "קשרי משפחה",
+-    "life-summary": " קיצור תולדות החיים של",
+-    "editing-member": "עריכת פרטי החבר",
+-    "first-name": "שם פרטי",
+-    "last-name": "שם משפחה",
+-    "former-first-name": "שם פרטי קודם",
+-    "former-last-name": "שם משפחה קודם",
+-    "former-name": "שם קודם",
+-    "nick-name": "כינוי",
+-    "member-name": "שם החבר",
+-    "date-of-birth": "תאריך לידה",
+-    "date-of-death": "תאריך פטירה",
+-    "birth-place": "מקום לידה",
+-    "save": "שמור",
+-    "cancel": "בטל את השינויים",
+-    "gender": "מין",
+-    "delete-member": "הסר מרשימת החברים",
+-    "confirm-delete": "בטוח שרוצה למחוק את החבר?",
+-    "father": "אבא",
+-    "mother": "אמא",
+-    "make-profile-photo": "קבע כתמונת הפרופיל",
+-    "new-member": "חבר חדש",
+-    "more-stories": "ספורים קשורים",
+-    "set-as-profile-photo": "קבע כתמונת פרופיל",
+-    "visibility": "נִרְאוּת",
+-    "strange-bug": "בג מוזר",
+-    "random-order": "ללא סדר מיוחד",
+-    "by-last-name": "לפי שם המשפחה",
+-    "by-first-name": "לפי השם הפרטי",
+-    "by-age-young-first":  "צעירים תחילה",
+-    "by-age-old-first": "מבוגרים תחילה",
+-    "member-groups": "קבוצות חברים",
+-    "save-member-group": "שמור קבוצת חברים",
+-    "load-member-group": "טען קבוצת חברים",
+-    "clear-member-group": "נקה את הקבוצה שנבחרה",
+-    "story": "בחירת חברים הקשורים לסיפור",
+-    "back-to-story": "חזרה לדף הספור",
+-    "to-story-page": "לדף הספור",
+-    "family-only": "קשרי משפחה",
+-    "all-members": "כל החברים"
+-  },
+-  "user": {
+-    "login": "התחבר",
+-    "logout": "התנתק",
+-    "please-login": "התחבר בבקשה",
+-    "email-address": "כתובת דואר אלקטרוני",
+-    "password": "סיסמה",
+-    "register": "הרשם",
+-    "reset-password": "שכחתי את הסיסמה",
+-    "confirm-password": "אישור סיסמה",
+-    "first-name": "שם פרטי",
+-    "last-name": "שם משפחה",
+-    "manage-users": "ניהול משתמשים",
+-    "can-edit": "הכנס למצב עריכה",
+-    "no-edit": "חזור לצפייה בלבד",
+-    "upload-files": "העלאת תמונות",
+-    "cant-send-email": "כתובת דואל לא תקינה",
+-    "wrong-password": "טעות בסיסמה",
+-    "user-not-registered": "אינך רשום עדיין",
+-    "cant-send-mail": "כתובת דואל לא תקינה",
+-    "incomplete-registration": "ההרשמה טרם הושלמה",
+-    "email-already-exists": "אימייל זה כבר רשום במערכת",
+-    "howto-finalize-registration": "כדי להשלים את ההרשמה, בדוק את תיבת הדואל שלך. אם לא קיבלת הודעה מאיתנו, בדוק את דואר הזבל שלך",
+-    "register-done": "הבנתי",
+-    "passwords-dont-match": "הסיסמה לאישור שונה מהסיסמה",
+-    "chat-rooms": "קבוצות דיון",
+-    "font-size": "בחרו את גודל האותיות"
+-  },
+-  "photos": {
+-    "photos": "תמונות",
+-    "photographers": "צלמים",
+-    "photographer": "הצלם",
+-    "photos-store": "מאגר התמונות",
+-    "filter": "חפש בכותרות התמונות",
+-    "uploaded-any-time": "תמונות שהועלו בזמן כלשהו",
+-    "uploaded-today": "תמונות שהועלו היום",
+-    "uploaded-this-week": "תמונות שהועלו השבוע",
+-    "uploaded-this-month": "תמונות שהועלו החודש",
+-    "uploaded-this-quarter": "תמונות שהועלו ברבעון זה",
+-    "uploaded-this-year": "תמונות שהועלו השנה",
+-    "click-topic": "חפש תג והקלק עליו",
+-    "click-photographer": "חפש צלם והקלק עליו",
+-    "from-date": "צולם אחרי",
+-    "to-date": "צולם לפני",
+-    "uploaded-by-me": "הועלו על ידי",
+-    "uploaded-by-users": "הועלו על ידי משתמשים",
+-    "uploaded-by-anyone": "תמונות ממקור כלשהו",
+-    "enter-date": "תאריך או שנה",
+-    "upload-in-progress": "...התמונות נשלחות לשרת",
+-    "photos-uploaded": " - תמונות שהועלו בהצלחה",
+-    "photos-duplicate": " - תמונות שכבר הועלו בעבר",
+-    "failed": " - לא נקלטו במערכת",
+-    "upload-files": "העלאת תמונות",
+-    "select-photos": "בחר תמונות",
+-    "save": "שלח",
+-    "photos-were-selected": " - תמונות שנבחרו",
+-    "sharing": " בנוסף להעלאה מהמחשב האישי, ניתן לשתף תמונות מסמרטפונים, שרותי ענן כדוגמת גוגל פוטוס וכדומה בכתובת ",
+-    "more": "יותר",
+-    "less": "פחות",
+-    "save-merges": "שמור את המיזוגים",
+-    "apply-to-selected": "תייג את התמונות שנבחרו",
+-    "download": "הורדת תמונות",
+-    "done-selecting": "סיים את שלב הבחירה",
+-    "new-story": "ללא כותרת",
+-    "edit-new-story": "כתוב את סיפורה של התמונה",
+-    "new-story-content": "לתמונה זו אין עדיין סיפור",
+-    "highlight-all": "האר את כל הפרצופים המזוהים",
+-    "jump-to-story-page": "עבור לדף התמונה",
+-    "dated-or-not": "תמונות מתוארכות ובלתי מתוארכות",
+-    "dated": "תמונות מתוארכות בלבד",
+-    "undated": "תמונות בלתי מתוארכות בלבד",
+-    "drag-me": "גרור אותי ימינה ושמאלה",
+-    "unknown": "בלתי ידוע",
+-    "upload": "הוסף תמונות"
+-  },
+-  "videos": {
+-    "videos": "סרטונים"
+-  },
+-  "terms": {
+-    "terms": "מונחים",
+-    "terms-lexicon": "מילון מונחים",
+-    "new": "מונח חדש",
+-    "filter": "חפוש מהיר בשמות המונחים"
+-  },
+-  "consts": {
+-    "vis-never": "לא ניתן לתצוגה!",
+-    "vis-not-ready": "לא מוכן עדיין",
+-    "vis-visible": "לתצוגה",
+-    "vis-high": "גבוהה"
+-  },
+-  "multi-select": {
+-    "why-clip": "קבץ את כל התגים שאינם מקובצים",
+-    "why-unclip": "פרק מחדש את קבוצת התגים",
+-    "new-item-placeholder": "הכנס שם חדש",
+-    "new-item-title": "הוספת שם"
+-  },
+-  "locales": {
+-    "he": "Hebrew",
+-    "en": "English"
+-  },
+-  "go-back": "חזור",
+-  "parents": "הורים",
+-  "siblings": "אחים/אחיות",
+-  "wife": "בת זוג",
+-  "wifes": "בנות זוג",
+-  "husband": "בן זוג",
+-  "husbands": "בני זוג",
+-  "children": "ילדים",
+-  "topics": "נושאים",
+-  "copy-to-clipboard": "העתק",
+-  "timeline": "ציר הזמן",
+-  "select-years-range": "סמן את התקופה הרצויה",
+-  "abcde": "אבגדה",
+-  "a": "א",
+-  "update": "עדכן"
 -}
+\ No newline at end of file
+diff --git a/locales/he/translation.json b/locales/he/translation.json
+index 4c3a503..92b75d5 100644
+--- a/locales/he/translation.json
++++ b/locales/he/translation.json
+@@ -158,8 +158,8 @@
+     "uploaded-this-month": "תמונות שהועלו החודש",
+     "uploaded-this-quarter": "תמונות שהועלו ברבעון זה",
+     "uploaded-this-year": "תמונות שהועלו השנה",
+-    "click-topic": "חפש תג והקלק עליו",
+-    "click-photographer": "חפש צלם והקלק עליו",
++    "click-topic": "הקלד תג והקלק עליו כשיופיע",
++    "click-photographer": "הקלד שם צלם והקלק עליו כשיופיע",
+     "from-date": "צולם אחרי",
+     "to-date": "צולם לפני",
+     "uploaded-by-me": "הועלו על ידי",
+@@ -214,10 +214,6 @@
+     "new-item-placeholder": "הכנס שם חדש",
+     "new-item-title": "הוספת שם"
+   },
+-  "locales": {
+-    "he": "עברית",
+-    "en": "English"
+-  },
+   "go-back": "חזור",
+   "parents": "הורים",
+   "siblings": "אחים/אחיות",
+diff --git a/src/photos/full-size-photo.html b/src/photos/full-size-photo.html
+index 75c79b1..97a6639 100644
+--- a/src/photos/full-size-photo.html
++++ b/src/photos/full-size-photo.html
+@@ -5,8 +5,7 @@
+             <img src="${slide.src}" height="${slide.height}" width="${slide.width}" />
+             <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help"></help>
+             <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help"></help>
+-            <button aubs-tooltip="text.bind:highlight_all" class="side-tool highlighter" id="side-tool highlighter" 
+-                click.trigger="toggle_highlighting($event)">
++            <button aubs-tooltip="text.bind:highlight_all" class="side-tool highlighter" click.trigger="toggle_highlighting($event)">
+                 <i class="fa fa-lg fa-circle${highlighting ? '' :'-o'}"></i>
+             </button>
+             <button aubs-tooltip="text.bind:jump_to_story_page" class="side-tool story" click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
+diff --git a/src/photos/full-size-photo.ts b/src/photos/full-size-photo.ts
+index 847033b..5ebaea3 100644
+--- a/src/photos/full-size-photo.ts
++++ b/src/photos/full-size-photo.ts
+@@ -228,8 +228,6 @@ export class FullSizePhoto {
+         event.stopPropagation();
+         let el = document.getElementById("full-size-photo");
+         el.classList.toggle("highlight-faces");
+-        el = document.getElementById("side-tool highlighter");
+-        el.blur();
+     }
+ }
+ 
+diff --git a/src/resources/elements/locale-picker.html b/src/resources/elements/locale-picker.html
+deleted file mode 100644
+index 680f268..0000000
+--- a/src/resources/elements/locale-picker.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<template>
+-  <select class="navbar-btn form-control" value.bind="selectedLocale" disabled.bind="isChangingLocale">
+-    <option repeat.for="locale of locales" value.bind="locale">${'locales.' + locale & t}</option>
+-  </select>
+-</template>
+diff --git a/src/resources/elements/locale-picker.ts b/src/resources/elements/locale-picker.ts
+deleted file mode 100644
+index 6a41714..0000000
+--- a/src/resources/elements/locale-picker.ts
++++ /dev/null
+@@ -1,25 +0,0 @@
+-import {autoinject, bindable} from 'aurelia-framework';
+-import {I18N} from 'aurelia-i18n';
 -
- 
-diff --git a/src/services/popups.ts b/src/services/popups.ts
-new file mode 100644
-index 0000000..b106e68
---- /dev/null
-+++ b/src/services/popups.ts
-@@ -0,0 +1,13 @@
-+export class Popup {
-+    popupWindows = {};
-+
-+    popup(key, url, params) {
-+        let hnd = this.popupWindows[key];
-+        if (hnd) {
-+            hnd.close();
-+        }
-+        let w = this.popupWindows[key] = window.open(url, '_blank', params);
-+        let d = w.document;
-+        return w;
-+    }
-+}
-diff --git a/src/services/theme.ts b/src/services/theme.ts
-index 112837c..b31cf5e 100644
---- a/src/services/theme.ts
-+++ b/src/services/theme.ts
-@@ -49,7 +49,7 @@ export class Theme {
-         if (!this._font_size) {
-             this._font_size = this.cookies.get('FONT-SIZE')
-             if (!this._font_size) {
--                this._font_size = 'font-size-110';
-+                this._font_size = 'font-size-120';
-                 this.cookies.put('FONT-SIZE', this._font_size);
-             }
-         }
-@@ -60,5 +60,6 @@ export class Theme {
-         this._font_size = size;
-         this.cookies.put('FONT-SIZE', this._font_size);
-     }
-+    
+-@autoinject
+-export class LocalePickerCustomElement {
+- 
+-  @bindable selectedLocale;
+-  @bindable locales = ['en', 'he'];
+-  i18n;
+-  isChangingLocale = false;
+-
+-  constructor(i18n: I18N) {
+-    this.i18n = i18n;
+-
+-    this.selectedLocale = this.i18n.getLocale();
+-    this.isChangingLocale = false;
+-  }
+-
+-  selectedLocaleChanged() {
+-    this.isChangingLocale = true;
+-    this.i18n.setLocale(this.selectedLocale).then(() => {
+-      this.isChangingLocale = false;
+-    });
+-  }
+-}
+diff --git a/src/resources/index.ts b/src/resources/index.ts
+index e728b15..b5a1bf3 100644
+--- a/src/resources/index.ts
++++ b/src/resources/index.ts
+@@ -17,7 +17,6 @@ export function configure(config) {
+     './elements/copy-to-clipboard',
+     './elements/timeline',
+     './elements/search-input',
+-    './elements/dlg-string',
+-    './elements/locale-picker'
++    './elements/dlg-string'
+   ]);
  }
- 
-diff --git a/src/stories/story-detail.ts b/src/stories/story-detail.ts
-index 4073474..f766105 100644
---- a/src/stories/story-detail.ts
-+++ b/src/stories/story-detail.ts
-@@ -34,7 +34,7 @@ export class StoryDetail {
-         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
-             .then(response => {
-                 this.story = response.story;
--                if (this.story.story_id=='new') {
-+                if (this.story.story_id == 'new') {
-                     this.story.name = this.i18n.tr('stories.new-story');
-                     this.story.story_text = this.i18n.tr('stories.new-story-content');
-                 }
-@@ -44,7 +44,7 @@ export class StoryDetail {
-                     this.curr_photo = this.photos[0].photo_path;
-                 }
-             });
--        this.source = this.api.call_server_post('members/get_story_photo_list', {story_id: params.id});
-+        this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id });
-     }
- 
-     next_photo() {
-@@ -54,11 +54,11 @@ export class StoryDetail {
- 
-     update_associated_members() {
-         let member_ids = this.members.map(member => Number(member.id));
--        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids }); 
-+        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids });
-     }
- 
-     go_back() {
-         history.back();
-     }
+diff --git a/src/user/user-mode.html b/src/user/user-mode.html
+index 0d87688..43524b3 100644
+--- a/src/user/user-mode.html
++++ b/src/user/user-mode.html
+@@ -10,8 +10,7 @@
+     <help topic="introduction" position="bottom"
+         style="margin:0;padding:0;border-right:1px solid gray;">
+     </help>
+-    <div class="btn-group dropdown border-right" style="padding:0;margin-right:26px;" 
+-        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
++    <div class="btn-group dropdown border-right" style="padding:0;margin-right:26px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+         <button class="btn btn-link btn-md dropdown-toggle" t="[title]user.font-size" style="text-decoration:none;position:relative" aubs-dropdown-toggle>
+             <span style="position:absolute;left:20px;top:-8px;" class="font-size-150">${'a' | t}</span>
+             <span style="position:absolute;left:13px;top:0px" class="font-size-100">${'a' | t}</span>
+@@ -24,12 +23,8 @@
+             <li class="font-size-130"><a class="dropdown-item" href="#" click.trigger="set_font_size(130)">${'abcde' | t}</a></li>
+             <li class="font-size-140"><a class="dropdown-item" href="#" click.trigger="set_font_size(140)">${'abcde' | t}</a></li>
+             <li class="font-size-150"><a class="dropdown-item" href="#" click.trigger="set_font_size(150)">${'abcde' | t}</a></li>
+-            <li style="padding-left:10px;padding-right:10px;">
+-                <locale-picker></locale-picker>
+-            </li>
+         </ul>
+     </div>
 -    
-+
- }
-diff --git a/src/user/user-mode.ts b/src/user/user-mode.ts
-index 8e2e70d..e360557 100644
---- a/src/user/user-mode.ts
-+++ b/src/user/user-mode.ts
-@@ -5,7 +5,7 @@ import { Login } from '../user/login';
- import { DialogService } from 'aurelia-dialog';
- import { UploadPhotos } from '../photos/upload-photos';
- import { MemberGateway } from '../services/gateway';
--import { popup } from '../services/dom_utils';
-+import { Popup } from '../services/popups';
- 
- @autoinject()
- export class UserMode {
-@@ -14,13 +14,15 @@ export class UserMode {
-     theme;
-     api;
-     dialog;
-+    popup: Popup;
-     loginData = { email: '', password: '' };
- 
--    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway) {
-+    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway, popup: Popup) {
-         this.user = user;
-         this.theme = theme;
-         this.api = api;
-         this.dialog = dialog;
-+        this.popup = popup;
-     }
- 
-     toggle_edit_mode() {
-@@ -73,11 +75,11 @@ export class UserMode {
-     }
- 
-     manage_users() {
--        popup('OLD_SITE', 'http://gbs.gbstories.org/gbs__www/stories', "height=600,width=800,left=100,top=100");
-+        this.popup.popup('OLD_SITE', 'http://gbs.gbstories.org/gbs__www/stories', "height=600,width=800,left=100,top=100");
-     }
- 
-     chat_rooms() {
--        popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
-+        this.popup.popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
-     }
- 
-     set_font_size(size) {
+     <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" 
+         title="${user.editing ? 'user.no-edit' : 'user.can-edit' | t}" 
+         class="border-right ${user.editing ? 'highlight' : ''}"
