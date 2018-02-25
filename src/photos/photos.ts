@@ -56,6 +56,8 @@ export class Photos {
     photographers_settings = default_multi_select_options;
     caller_type;
     caller_id;
+    photo_date_str = "01/01/2018";
+    photo_date_span_size = 3;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;

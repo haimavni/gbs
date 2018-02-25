@@ -15,6 +15,9 @@ export class UserMode {
     dialog;
     popup: Popup;
     loginData = { email: '', password: '' };
+    selectedLocale;
+    locales = ['en', 'he'];
+    isChangingLocale = false;
 
     constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway, popup: Popup) {
         this.user = user;
@@ -78,5 +81,9 @@ export class UserMode {
 
     set_font_size(size) {
         this.theme.font_size = "font-size-" + size;
+    }
+
+    change_locale(locale) {
+        this.theme.changeLocale(locale);
     }
 }

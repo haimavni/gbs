@@ -3,7 +3,7 @@
     <section class="container content-area">
         <div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
             <div style="padding-top:0px;padding-right:15px;">
-                <h1 dir="rtl">${"stories.place-stories" | t}</h1>
+                <h1 dir="rtl">${"stories.place-stories" & t}</h1>
             </div>
         </div>
         <div class="row content-area" style="height:300px;width:100%;margin-top:20px;" dir="rtl">
@@ -21,7 +21,7 @@
                             </div>
                             <div class="form-group" if.bind="phase=='can-modify-tags'">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
-                                    ${'photos.save-merges' | t}
+                                    ${'photos.save-merges' & t}
                                 </button>
                                 <help topic="photos.can-modify-tags", position="bottom"></help>
                             </div>
@@ -39,14 +39,14 @@
                             <div class="form-group">
                                 <button if.bind="user.editing && checked_stories.size > 0 && params.grouped_selected_topics.length==0 && params.selected_topics.length>0"
                                     class="btn btn-basic btn-md">
-                                    ${'stories.apply-to-selected' | t}
+                                    ${'stories.apply-to-selected' & t}
                                 </button>
                             </div>
                             <div class="form-group">
                                 <button if.bind="user.editing && checked_stories.size > 1"
                                     class="btn btn-basic btn-md"
                                     click.trigger="consolidate_stories()">
-                                    ${'stories.consolidate-selected-story' | t}
+                                    ${'stories.consolidate-selected-story' & t}
                                 </button>
                             </div>
                         </form>
@@ -64,17 +64,17 @@
                             <div style="position:absolute;top:132px;left:20px;">
                                 <a click.delegate="jump_to_the_full_story(story)" style="cursor:pointer;">
                                     <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
-                                        ${'stories.to-the-full-story' | t }...
+                                        ${'stories.to-the-full-story' & t }...
                                     </span>
                                     <span if.bind="story.used_for==api.constants.story_type.STORY4MEMBER">
-                                        ${'stories.to-the-member-page' | t }...
+                                        ${'stories.to-the-member-page' & t }...
                                     </span>
                                     <span if.bind="story.used_for==api.constants.story_type.STORY4PHOTO">
-                                        ${'stories.to-the-photo-page' | t }...
+                                        ${'stories.to-the-photo-page' & t }...
                                     </span>
                                 </a>
                                 <span if.bind="story.used_for==api.constants.story_type.STORY4TERM">
-                                    ${'stories.term-page' | t }
+                                    ${'stories.term-page' & t }
                                 </span>
                             </div>
                         </li>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="row">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.story-types' | t}</div>
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.story-types' & t}</div>
                         <multi-select options.bind="story_types" 
                             place_holder_text="stories.story-types" 
                             ungrouped_selected_options.bind="params.selected_story_types"
@@ -92,7 +92,7 @@
                         </multi-select>
                     </div>
                     <div class="row" style="position:relative;">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' | t}</div>
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help topic="tags" position="left" style="position:absolute;left:0px;top:26px;"></help>
                         <multi-select options.bind="topic_list" 
                             place_holder_text="photos.click-topic" 
@@ -122,9 +122,9 @@
                         </button>
                     </div>
                     <div class="row" style="position:relative;">
-                        <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' | t}</span>
+                        <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' & t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' | t}</div>
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="top" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
                         <multi-select 
                             options.bind="stories_index" 

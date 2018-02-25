@@ -14,7 +14,7 @@
     "to-the-page-of": "To Member's Page",
     "new-message": "New Message"
   },
-  "gbstories": "Givat-Brenner Stories",
+  "gbstories": "GB Stories",
   "stories": {
     "stories": "Stories",
     "place-stories": "Place Stories",
@@ -125,7 +125,7 @@
     "please-login": "Please sign in",
     "email-address": "Email address",
     "password": "Password",
-    "register": "Sign on",
+    "register": "Sign up",
     "reset-password": "I forgot the password",
     "confirm-password": "Confirm password",
     "first-name": "First Name",
@@ -191,7 +191,8 @@
     "undated": "Undated photos only",
     "drag-me": "Drag me to the right or to the left",
     "unknown": "Unknown",
-    "upload": "Add photos"
+    "upload": "Add photos",
+    "photo-date": "Photo date"
   },
   "videos": {
     "videos": "Video"

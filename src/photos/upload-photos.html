@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <p style="align-content: right;padding:20px;font-size:120%;" dir="rtl">
-                        ${'photos.sharing' | t}
+                        ${'photos.sharing' & t}
                         <strong>photos@${host_name}<strong>
                     </p>
                 </div>
@@ -20,27 +20,27 @@
                             <div class="form-group">
                                 <label style="margin-left:191px;width:150px;background-color:lightgray;border:solid 1px darkgray;border-radius:5px;text-align:center;padding:6px;"
                                     class="control-label" for="photos">
-                                    ${'photos.select-photos' | t}
+                                    ${'photos.select-photos' & t}
                                     </label>
                                 <div>
                                     <input style="display:none" type="file" multiple id="photos" accept="image/*" files.bind="photos">
                                 </div>
                             </div>
                             <div class="form-group" if.bind="photos && photos.length > 0">
-                                <h4 style="margin-left:191px;width:150px;text-align:center"> ${photos.length} ${'photos.photos-were-selected' | t}</h4>
+                                <h4 style="margin-left:191px;width:150px;text-align:center"> ${photos.length} ${'photos.photos-were-selected' & t}</h4>
                                 <div style="padding-left:191px">
-                                    <button style="margin-left:auto; margin-right:auto;width:150px;" type="submit" class="btn btn-success">${'photos.save' | t}</button>
+                                    <button style="margin-left:auto; margin-right:auto;width:150px;" type="submit" class="btn btn-success">${'photos.save' & t}</button>
                                 </div>
                             </div>
                         </form>
                     </section>
                     <div if.bind="working">
-                        <h3 style="margin-left:140px;width:250px;">${'photos.upload-in-progress' | t}</h3>
+                        <h3 style="margin-left:140px;width:250px;">${'photos.upload-in-progress' & t}</h3>
                     </div>
                     <div if.bind="upload_finished" style="margin-left:auto;margin-right:auto;width:350px;">
-                        <h3 if.bind="number_uploaded" class="text-center success">${number_uploaded} ${'photos.photos-uploaded' | t}</h3>
-                        <h3 if.bind="number_duplicates>0" class="text-center" >${number_duplicates} ${'photos.photos-duplicate' | t} </h3>
-                        <h3 if.bind="failed.length>0" class="text-center errors">${failed.length} ${'photos.photos-failed' | t} </h3>
+                        <h3 if.bind="number_uploaded" class="text-center success">${number_uploaded} ${'photos.photos-uploaded' & t}</h3>
+                        <h3 if.bind="number_duplicates>0" class="text-center" >${number_duplicates} ${'photos.photos-duplicate' & t} </h3>
+                        <h3 if.bind="failed.length>0" class="text-center errors">${failed.length} ${'photos.photos-failed' & t} </h3>
                         <ul class="errors">
                             <li repeat.for="f of failed">
                                 ${f}

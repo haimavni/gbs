@@ -18,9 +18,9 @@
                         </div>
 
                         <div class="collapse navbar-collapse" id="skeleton-navigation-navbar-collapse">
-                            <ul class="nav navbar-nav navbar-right" style="font-size:150%;margin-top:4px;">
+                            <ul class="nav navbar-nav navbar-right" css="font-size:150%;margin-top:4px;direction:${theme.rtltr};">
                                 <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-                                    <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">.${row.title & t}</a>
+                                    <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">${row.title & t}.</a>
                                 </li>
                             </ul>
 

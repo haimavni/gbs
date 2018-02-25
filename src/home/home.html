@@ -23,9 +23,9 @@
         </div>
         <div class="col-md-6 panel-stories" css="height:${panel_height}px;">
             <h2 style="margin-top:0;">
-                ${'home.sample-stories' | t}
+                ${'home.sample-stories' & t}
                 <span style="float:left;font-size:80%;color:gray;direction:rtl;cursor:pointer;" click.delegate="goto_full_collection()">
-                    ${'home.full-collection' | t} 
+                    ${'home.full-collection' & t} 
                     <i class="fa fa-play fa-rotate-180"> </i>
                 </span>
             </h2>
@@ -43,7 +43,7 @@
                         <div style="position:absolute;bottom:0px;left:12px;cursor:pointer;">
                             <a click.delegate="jump_to_the_full_story(story)">
                                 <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
-                                    ${'stories.to-the-full-story' | t }...
+                                    ${'stories.to-the-full-story' & t }...
                                 </span>
                             </a>
                         </div>
@@ -52,7 +52,7 @@
             </ul>
         </div>
         <div class="col-md-3 panel-messages" css="height:${panel_height}px;direction:rtl">
-            <h2 style="margin:0;margin-bottom:12px;">${'home.messages' | t}
+            <h2 style="margin:0;margin-bottom:12px;">${'home.messages' & t}
                 <span class="is-link" style="float:left" if.bind="user.editing" click.delegate="add_message()"><i class="fa fa-plus-square-o"></i></span>
             </h2>
             <ul class="message" style="margin:0;padding:0;">
@@ -65,21 +65,21 @@
     <div style="height:20px"></div>
     <div class="member-of-the-day full-width-div" dir="rtl" style="padding:0;padding-right:16px;">
         <div style="width:1170px;margin-left:auto;margin-right:auto;margin-bottom:67px;">
-            <span style="width:100px;text-align:right;margin-top:20px;">${member_prefix | t}</span>
+            <span style="width:100px;text-align:right;margin-top:20px;">${member_prefix & t}</span>
             <span style="padding-left:20px;padding-top:6px;"><img src.bind="member_of_the_day.face_photo_url" width="60" style="border-radius:50%;" /></span>
             <span style="border-right:2px solid gray;margin-top:20px;margin-left:16px;padding-right:10px;">${member_of_the_day.name}</span>
             <span if.bind="member_of_the_day.place_of_birth" style="border-right:2px solid gray;margin-top:20px;padding-right:10px;">
-                ${was_born_in | t}${member_of_the_day.place_of_birth}
+                ${was_born_in & t}${member_of_the_day.place_of_birth}
             </span>
             <span style="margin-top:20px;padding-right:10px;margin-left:16px;" if.bind="member_of_the_day.year_of_birth">  
                 ${member_of_the_day.year_of_birth}
             </span>
             <span style="margin-top:20px;padding-right:10px;margin-left:16px;border-right:2px solid gray;" if.bind="member_of_the_day.year_of_death">  
-                ${died_in | t} ${member_of_the_day.year_of_death}
+                ${died_in & t} ${member_of_the_day.year_of_death}
             </span>
             <span style="float:left;margin-top:20px;margin-left:16px;padding-right:16px;border-right:2px solid gray;cursor:pointer;"
                 click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
-                ${'home.to-the-page-of' | t} ${member_of_the_day.first_name}
+                ${'home.to-the-page-of' & t} ${member_of_the_day.first_name}
             </span>
         </div>
     </div>

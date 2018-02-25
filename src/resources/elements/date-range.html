@@ -1,5 +1,6 @@
 <template>
-    <form class="form-inline" dir="ltr">
+    <form class="form-inline" dir="${theme.rtltr}">
+        <label>${label & t}</label>
         <div show.bind="show_edit_end_date" class="form-group" style="margin-right:0px;width:5em; ">
             <select value.bind="span_size" style="height:2em;">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>

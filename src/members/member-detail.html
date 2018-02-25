@@ -5,7 +5,7 @@
             <h3 dir="rtl" style="float: right;margin:0px;">
                 <i class="fa fa-rotate-left" style="float:left;cursor:pointer;margin-top:6px;" t="[title]go-back" click.trigger="go_back()"></i>
                 <span style="padding:0;margin:0;" if.bind="member.member_info.id">${member.member_info.full_name }</span>
-                <span if.bind="! member.member_info.id">${'members.new-member' | t }</span>
+                <span if.bind="! member.member_info.id">${'members.new-member' & t }</span>
                 <copy-to-clipboard if.bind="user.editing" content.bind="member_url" style="float:left;"></copy-to-clipboard>
             </h3>
         </div>
@@ -99,7 +99,7 @@
                 <div class="col-md-6 fr-view style="margin-bottom:16px;padding-left:20px;" 
                         if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
                         <h4 innherhtml.bind="story_0.topic" style="margin-top:16px;margin-bottom:0px;color:gray;">
-                            ${'members.life-summary' | t} ${member.member_info.first_name}
+                            ${'members.life-summary' & t} ${member.member_info.first_name}
                         </h4>
                         <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
                             <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_0, 'show')">&nbsp;&nbsp;</i>

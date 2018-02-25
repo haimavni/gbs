@@ -4,6 +4,8 @@ import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
 import { Cookies } from './cookies';
 
+const rtl_langs = new Set(['he', 'ar']);
+
 @autoinject()
 @singleton()
 @noView()
@@ -18,9 +20,12 @@ export class Theme {
     footer_height = 67;
     cookies;
     _font_size;// = "font-size-110";
+    _locale;
     askLanguage = false;
+    public rtltr;
+    i18n;
 
-    constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies) {
+    constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
         this.cookies = cookies;
         this.eventAggregator = eventAggregator;
@@ -31,6 +36,13 @@ export class Theme {
             this.handle_content_resize();
         }, true);
         window.setTimeout(() => { this.handle_content_resize(); }, 200);
+        this.i18n = i18n;
+        //force locale from cookies if exists
+        let locale = this.i18n.getLocale();
+        if (this.locale != locale) {
+            this.i18n.setLocale(this.locale)
+        }
+        this.rtltr = rtl_langs.has(this.locale) ? "rtl" : "ltr";
         try {
             let userLangs = navigator.languages;
             let hasHebrew = userLangs.find(lang => lang.startsWith('he'));
@@ -66,6 +78,24 @@ export class Theme {
     set font_size(size) {
         this._font_size = size;
         this.cookies.put('FONT-SIZE', this._font_size);
+    }
+
+    get locale() {
+        if (! this._locale) {
+            this._locale = this.cookies.get('locale')
+            if (!this._locale) {
+                this._locale = this.i18n.getLocale();
+            }
+        }
+        return this._locale;
+    }
+
+    changeLocale(locale) {
+        this._locale = locale;
+        //todo: merge with locale picker
+        this.cookies.put('locale', this._locale);
+        this.rtltr = rtl_langs.has(this.locale) ? "rtl" : "ltr";
+        return this.i18n.setLocale(locale);
     }
     
 }

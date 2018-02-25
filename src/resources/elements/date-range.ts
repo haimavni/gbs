@@ -1,5 +1,6 @@
 import { bindable, autoinject, bindingMode, computedFrom } from 'aurelia-framework';
 import { User } from '../../services/user';
+import { Theme } from '../../services/theme';
 
 export class MyDate {
     _day;
@@ -88,15 +89,18 @@ export class MyDate {
 @autoinject
 export class DateRangeCustomElement {
     user;
-    @bindable base_date_str = "01/01/0001";
+    theme;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) base_date_str = "01/01/0001";
     @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 5;
+    @bindable label;
     end_date_str;
     end_date_options = [];
     partial;
     is_valid;
 
-    constructor(user: User) {
+    constructor(user: User, theme: Theme) {
         this.user = user;
+        this.theme = theme;
     }
 
     attached() {

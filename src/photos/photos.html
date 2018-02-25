@@ -3,16 +3,16 @@
     <section class="container content-area" css="height: ${win_height-600}px;">
         <div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
             <div style="padding-top:0px;padding-right:15px;">
-                <h1 if.bind="caller_type" dir="rtl">${'members.' + caller_type | t}</h1>
-                <h1 if.bind="!caller_type" dir="rtl">${"photos.photos-store" | t}</h1>
+                <h1 if.bind="caller_type" dir="rtl">${'members.' + caller_type & t}</h1>
+                <h1 if.bind="!caller_type" dir="rtl">${"photos.photos-store" & t}</h1>
             </div>
         </div>
         <div class="row content-area" style="height:300px;width:100%;margin-bottom:24px;" dir="rtl">
             <div class="row">
                 <div class="col-md-1" css="padding-top: 40px;position:relative">
-                    <span css="position:absolute"></help>${'photos.more' | t}<help topic="photos.slider" position="right"></span>
+                    <span css="position:absolute"></help>${'photos.more' & t}<help topic="photos.slider" position="right"></span>
                     <input type="range" id="range" min="4" max="32" step="1" change.trigger="slider_changed()" value.bind="photos_per_line" />
-                    <span css="position:absolute">${'photos.less' | t}</span>
+                    <span css="position:absolute">${'photos.less' & t}</span>
                 </div>
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;">
@@ -22,7 +22,7 @@
                             </div>
                             <div class="form-group" if.bind="phase=='can-modify-tags'">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
-                                    ${'photos.save-merges' | t}
+                                    ${'photos.save-merges' & t}
                                 </button>
                                 <help topic="photos.can-modify-tags", position="bottom"></help>
                             </div>
@@ -36,11 +36,11 @@
                                 <help topic="photos-ready-to-edit" position="bottom"></help>
                             </div>
                             <div class="form-group" if.bind="phase=='applying-to-photos'">
-                                <button
-                                     disabled.bind="params.grouped_selected_topics.length>0 || (params.selected_topics.length==0 && params.selected_photographers.length != 1)"
-                                     class="btn btn-basic btn-md"
-                                     click.trigger="apply_to_selected()">
-                                     ${'photos.apply-to-selected' | t}
+                                <button 
+                                    disabled.bind="params.grouped_selected_topics.length>0 || (params.selected_topics.length==0 && params.selected_photographers.length != 1)"
+                                    class="btn btn-basic btn-md" 
+                                    click.trigger="apply_to_selected()">
+                                    ${'photos.apply-to-selected' & t}
                                 </button>
                                 <help topic="apply-to-selected-photos" position="bottom"></help>
                             </div>
@@ -48,13 +48,13 @@
                                 <button 
                                     click.trigger="finish_selecting()"
                                     class="btn btn-basic btn-md">
-                                    ${'photos.done-selecting' | t}
+                                    ${'photos.done-selecting' & t}
                                 </button>
                                 <help topic="done-selecting-photos" position="bottom"></help>
                             </div>
                             <div if.bind="caller_type" class="form-group">
                                 <button class="btn btn-success" click.trigger="save_photo_group()">
-                                    ${'members.back-to-' + caller_type | t}
+                                    ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
                             <div if.bind="user.privileges.PHOTO_UPLOADER" t="[title]user.upload-files" class="input-group">
@@ -66,7 +66,7 @@
                         </form>
                     </div>
                     <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;margin-bottom:16px;">
-                        <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;" 
+                        <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;"
                             repeat.for="photo of photo_list | filter : filter : '*selected' : 'title' | take : 9999">
                             <a click.trigger="maximize_photo(photo, $event)" class.bind="photo.selected">
                                 <img src="${photo.square_src}" aubs-tooltip="text.bind:photo.title" width="${photo_size}" 
@@ -82,19 +82,19 @@
                 <div class="col-md-3">
                     <div class="row" style="margin-bottom:15px;position:relative;">
                         <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                        <multi-select options.bind="topic_list" 
-                            settings.bind="options_settings" 
+                        <multi-select options.bind="topic_list"
+                            settings.bind="options_settings"
                             ungrouped_selected_options.bind="params.selected_topics"
                             grouped_selected_options.bind="params.grouped_selected_topics"
-                            name="topics" 
+                            name="topics"
                             place_holder_text="photos.click-topic"
                             change.delegate="handle_topic_change($event) ">
                         </multi-select>
                     </div>
                     <div class="row">
-                        <multi-select options.bind="photographer_list" 
+                        <multi-select options.bind="photographer_list"
                             place_holder_text="photos.click-photographer"
-                             ungrouped_selected_options.bind="params.selected_photographers" 
+                            ungrouped_selected_options.bind="params.selected_photographers"
                             settings.bind="photographers_settings"
                             change.delegate="handle_photographer_change($event)">
                         </multi-select>
@@ -120,9 +120,14 @@
                             </select>
                         </form>
                     </div>
+                    <div class="row" style="margin-top: 10px;float:right;margin-right:18px;" if.bind="user.editing">
+                        <form role="form" class="form-inline">
+                            <date-range label.bind="'photos.photo-date'" base_date_str.bind="photo_date_str" date_span_size.bind="photo_date_span_size"></date-range>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="row" style="width:100%;" >
+            <div class="row" style="width:100%;" if.bind="!user.editing">
                 <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.delegate="time_range_changed($event)"></timeline>
             </div>
         </div>

@@ -21,18 +21,18 @@
                     <div if.bind="user.editing" class="col-md-5" >
                         <form class="form-inline">
                             <button class="btn btn-success btn-sm" click.trigger="update_associated_photos()" style="float:left;margin-right:5px;">
-                                ${'photos.photos' | t}
+                                ${'photos.photos' & t}
                             </button>
                             <button class="btn btn-success btn-sm" click.trigger="update_associated_members()" style="float:left;">
-                                ${'members.members' | t}
+                                ${'members.members' & t}
                             </button>
-                            <label style="float:right;font-weight:normal;font-size:18px;margin-top:2px;">${'update' | t}:</label>
+                            <label style="float:right;font-weight:normal;font-size:18px;margin-top:2px;">${'update' & t}:</label>
                         </form>
                     </div>
                     <div if.bind="! user.editing" class="col-md-5">
                     </div>
                     <div show.bind="members.length>0" class="col-md-7">
-                        <span style="float:right">${'stories.associated-members' | t}</span>
+                        <span style="float:right">${'stories.associated-members' & t}</span>
                     </div>
                 </div>
                 <div if.bind="members.length>0" id="member-list" class="row stories-member-list content-area" style="height:400px;overflow:auto;overflow-x:hidden;">
