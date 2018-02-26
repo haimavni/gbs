@@ -13,7 +13,7 @@
         </div>
 
         <div class="form-group" show.bind="show_labels" style="margin-right:0px;width:1em">
-            <span style="margin-left:0.4em;">-</span>
+            <span style="padding:6px;">-</span>
         </div>
 
         <div class="form-group" show.bind="! show_labels" style="margin-right:0px;width:1em;">
@@ -21,7 +21,7 @@
         </div>
 
         <div show.bind="user.editing" class="form-group" change.trigger="base_date_changed($event)" style="margin-right:0px;width:5em;">
-            <input type="text" value.bind="base_date_str" maxlength="10" style="height:2em;width:6.2em;padding-left:0.2em;" keyup.trigger="on_keyup($event)"
+            <input type="text" value.bind="base_date_str" maxlength="10" style="height:2em;width:5.8em;padding-left:0.2em;padding-right:0.2em;" keyup.trigger="on_keyup($event)"
                 keypress.trigger="keep_only_good_chars($event)" />
         </div>
 

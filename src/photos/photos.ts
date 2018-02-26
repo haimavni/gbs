@@ -33,6 +33,8 @@ export class Photos {
         selected_days_since_upload: 0,
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
+        photos_date_str: "",
+        photos_date_span_size: 3,
         from_date: "",
         to_date: "",
         selected_photo_list: [],
@@ -56,9 +58,7 @@ export class Photos {
     photographers_settings = default_multi_select_options;
     caller_type;
     caller_id;
-    photo_date_str = "01/01/2018";
-    photo_date_span_size = 3;
-
+    
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
         this.user = user;
@@ -283,6 +283,11 @@ export class Photos {
             clear_selections_now: false
         });
         return result;
+    }
+
+    @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_dates_option')
+    get can_set_dates() {
+        return this.user.editing && this.selected_photos.size > 0 && this.params.selected_dates_option == 'undated'
     }
 
     save_photo_group() {
