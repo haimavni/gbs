@@ -13,9 +13,13 @@ import { FullSizePhoto } from '../photos/full-size-photo';
 export class Home {
     api;
     photo_list;
-    video_list = [{ type: "youtube", src: "//www.youtube.com/embed/dfJIOa6eyfg?wmode=opaque" },
-    { type: "youtube", src: "https://www.youtube.com/embed/1g_PlRE-YwI?mode=opaque" },
-    { type: "youtube", src: "https://www.youtube.com/embed/cscYO3epaIY?wmode=opaque" }]
+    video_list = [
+        { type: "youtube", src: "//www.youtube.com/embed/-5F0x79j2K4?wmode=opaque" },
+        { type: "youtube", src: "//www.youtube.com/embed/uwACSZ890a0?wmode=opaque" },
+        { type: "youtube", src: "//www.youtube.com/embed/dfJIOa6eyfg?wmode=opaque" },
+        { type: "youtube", src: "https://www.youtube.com/embed/1g_PlRE-YwI?mode=opaque" },
+        { type: "youtube", src: "https://www.youtube.com/embed/cscYO3epaIY?wmode=opaque" }
+    ]
     member_of_the_day = { gender: '', name: '' };
     member_prefix;
     was_born_in;
