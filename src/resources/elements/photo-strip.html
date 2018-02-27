@@ -8,14 +8,14 @@
                 <i class="fa fa-chevron-right fa-2x" style="color:black;top:6px;left:0px;position:absolute;"></i>
             </div>
         </div>
-        <div if.bind="settings.arrows"class="slide-control prev" click.trigger="prev_slide($event)">
+        <div if.bind="settings.arrows" class="slide-control prev" click.trigger="prev_slide($event)">
             <div style="position:relative">
                 <i class="fa fa-chevron-left fa-3x"></i>
                 <i class="fa fa-chevron-left fa-2x" style="color:black;top:6px;left:10px;position:absolute;"></i>
             </div>
         </div>
 
-        <a repeat.for="slide of slides" interact-draggable.bind="interactable: { preventDefault: 'never' }" interact-dragend.delegate="shift_photos($event)" style="float:right;z-index:100;" >
+        <a repeat.for="slide of slides" interact-draggable.bind="{ interactable: { preventDefault: 'never' } }" interact-dragend.delegate="shift_photos($event)" style="float:right;z-index:100;" >
             <img id="img-${slide.photo_id}" click.trigger="on_click(slide, $event)" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
         </a>
     </div>
