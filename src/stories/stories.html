@@ -49,6 +49,13 @@
                                     ${'stories.consolidate-selected-story' & t}
                                 </button>
                             </div>
+                            <div class="form-group">
+                                <button if.bind="user.editing && checked_stories.size > 0 && user.privileges.ADMIN"
+                                    class="btn btn-basic btn-md"
+                                    click.trigger="promote_stories()">
+                                    ${'stories.promote-selected-stories' & t}
+                                </button>
+                            </div>
                         </form>
                     </div>
                     <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;">
