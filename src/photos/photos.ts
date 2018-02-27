@@ -233,6 +233,9 @@ export class Photos {
     apply_to_selected() {
         this.done_selecting = false;
         this.api.call_server_post('members/apply_to_selected_photos', this.params)
+            .then(response => {
+                this.clear_photo_group();
+            });
     }
 
     private jump_to_photo(slide) {
@@ -245,7 +248,7 @@ export class Photos {
     }
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers',
-        'params.selected_topics', 'params.selected_photographers')
+        'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 'selected_photos')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -257,7 +260,8 @@ export class Photos {
                 }
             } else {
                 this.done_selecting = false;
-                if (this.params.grouped_selected_topics.length > 0 || this.params.grouped_selected_photographers.length > 0) {
+                if (this.params.grouped_selected_topics.length > 0 || 
+                    this.params.grouped_selected_photographers.length > 0) {
                     result = "can-modify-tags";
                 } else {
                     result = "ready-to-edit"
