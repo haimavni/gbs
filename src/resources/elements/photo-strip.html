@@ -17,7 +17,7 @@
 
         <div interact-draggable interact-dragend.delegate="shift_photos($event)"
             <a repeat.for="slide of slides" style="float:right;z-index:100;" >
-                <img id="img-${slide.photo_id}" click.trigger="on_click(slide, $event)" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
+                <img id="img-${slide.photo_id}" click.delegate="on_click(slide, $event)" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
             </a>
         </div>
     </div>

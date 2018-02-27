@@ -42,7 +42,7 @@
                         </div>
                         <div style="position:absolute;bottom:0px;left:12px;cursor:pointer;">
                             <a click.delegate="jump_to_the_full_story(story)">
-                                <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
+                                <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT" dir="${theme.rtltr}">
                                     ${'stories.to-the-full-story' & t }...
                                 </span>
                             </a>
