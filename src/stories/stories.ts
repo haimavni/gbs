@@ -255,6 +255,14 @@ export class Stories {
             });
     }
 
+    promote_stories() {
+        this.api.call_server_post('members/promote_stories', { params: this.params })
+            .then(response => {
+                this.params.checked_story_list = [];
+                this.checked_stories = new Set();
+            });
+    }
+
     toggle_deleted_stories() {
         this.params.deleted_stories = !this.params.deleted_stories;
         this.update_story_list();

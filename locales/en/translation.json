@@ -71,7 +71,8 @@
     "update-associated-photos": "Update associated photos",
     "consolidate-selected-story": "Merge into one story",
     "highlight-on": "Highlighting search words on/off",
-    "clean": "Clean"
+    "clean": "Clean",
+    "promote-selected-stories": "Promote selected stories"
   },
   "members": {
     "members": "Members",

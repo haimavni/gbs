@@ -2,6 +2,7 @@ import { DialogController } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 
@@ -10,6 +11,7 @@ export class Login {
     controller;
     api;
     user;
+    theme;
     ea;
     loginData = { email: '', password: '', first_name: '', last_name: "", confirm_password: "" };
     login_failed: boolean = false;
@@ -20,10 +22,11 @@ export class Login {
     REGISTERING_DONE = 2;
     registering = this.NOT_REGISTERING;
 
-    constructor(controller: DialogController, api: MemberGateway, user: User, ea: EventAggregator) {
+    constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, ea: EventAggregator) {
         this.controller = controller;
         this.api = api;
         this.user = user;
+        this.theme = theme;
         this.ea = ea;
     }
 

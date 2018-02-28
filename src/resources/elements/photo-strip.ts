@@ -74,8 +74,10 @@ export class PhotoStripCustomElement {
         let event = customEvent.detail;
         let stop_slide_show = true;
         this.vertical = false;
-        if (Math.abs(event.dx) < 3 && Math.abs(event.dy) < 3) { //attempt to identify click
-            return true;
+        if (Math.abs(event.dx) < 5 && Math.abs(event.dy) < 5) { //attempt to identify click on touch screens
+            let img = event.target.childNodes[1];
+            let slide = this.slides.find(slide => "img-" + slide.photo_id==img.id);
+            return this.on_click(slide, event);
         }
         customEvent.stopPropagation();
         if (Math.abs(event.dy) > Math.abs(event.dx)) {

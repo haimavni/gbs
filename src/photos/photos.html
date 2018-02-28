@@ -37,7 +37,7 @@
                             </div>
                             <div class="form-group" if.bind="phase=='applying-to-photos'">
                                 <button 
-                                    disabled.bind="params.grouped_selected_topics.length>0 || (params.selected_topics.length==0 && params.selected_photographers.length != 1)"
+                                    disabled.bind="params.grouped_selected_topics.length>0 || (params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.photos_date_str == '')"
                                     class="btn btn-basic btn-md" 
                                     click.trigger="apply_to_selected()">
                                     ${'photos.apply-to-selected' & t}
@@ -120,14 +120,12 @@
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 10px;float:right;margin-right:18px;" if.bind="user.editing">
-                        <form role="form" class="form-inline">
-                            <date-range label.bind="'photos.photo-date'" base_date_str.bind="photo_date_str" date_span_size.bind="photo_date_span_size"></date-range>
-                        </form>
+                    <div class="row" style="margin-top: 10px;float:right;" if.bind="can_set_dates">
+                        <date-range label.bind="'photos.photo-date'" base_date_str.bind="params.photos_date_str" date_span_size.bind="params.photos_date_span_size"></date-range>
                     </div>
                 </div>
             </div>
-            <div class="row" style="width:100%;" if.bind="!user.editing">
+            <div class="row" style="width:100%;" if.bind="!can_set_dates">
                 <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.delegate="time_range_changed($event)"></timeline>
             </div>
         </div>

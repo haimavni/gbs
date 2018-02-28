@@ -42,7 +42,7 @@
                         </div>
                         <div style="position:absolute;bottom:0px;left:12px;cursor:pointer;">
                             <a click.delegate="jump_to_the_full_story(story)">
-                                <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
+                                <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT" dir="${theme.rtltr}">
                                     ${'stories.to-the-full-story' & t }...
                                 </span>
                             </a>
@@ -57,7 +57,8 @@
             </h2>
             <ul class="message" style="margin:0;padding:0;">
                 <li repeat.for="msg of message_list" dir="rtl" style="border-bottom: solid 2px gray;margin-bottom:10px;" >
-                    <editable story.bind="msg" settings.bind="{show_date:true}"></editable>
+                    <editable story.bind="msg" settings.bind="{show_date:true, deletable: true}"
+                        change.delegate="hande_story_change(msg, $event)"></editable>
                 </li>
             </ul>
         </div>
