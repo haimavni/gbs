@@ -59,7 +59,6 @@ export class Theme {
     detectTouchScreen() {
         window.addEventListener('touchstart', function onFirstTouch() {
             THEME.touchScreen = true;
-            alert("Touch screen detected");
             window.removeEventListener('touchstart', onFirstTouch, false);
         }, false);
     }
