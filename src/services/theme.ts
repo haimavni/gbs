@@ -5,6 +5,7 @@ import { I18N } from 'aurelia-i18n';
 import { Cookies } from './cookies';
 
 const rtl_langs = new Set(['he', 'ar']);
+let THEME;
 
 @autoinject()
 @singleton()
@@ -24,6 +25,7 @@ export class Theme {
     askLanguage = false;
     public rtltr;
     i18n;
+    touchScreen = false;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -46,10 +48,19 @@ export class Theme {
         try {
             let userLangs = navigator.languages;
             let hasHebrew = userLangs.find(lang => lang.startsWith('he'));
-            this.askLanguage = ! hasHebrew;
-        } catch(e) {
+            this.askLanguage = !hasHebrew;
+        } catch (e) {
             console.log('error occured in theme: ', e);
         }
+        THEME = this;
+        this.detectTouchScreen();
+    }
+
+    detectTouchScreen() {
+        window.addEventListener('touchstart', function onFirstTouch() {
+            THEME.touchScreen = true;
+            window.removeEventListener('touchstart', onFirstTouch, false);
+        }, false);
     }
 
     handle_content_resize() {
@@ -81,7 +92,7 @@ export class Theme {
     }
 
     get locale() {
-        if (! this._locale) {
+        if (!this._locale) {
             this._locale = this.cookies.get('locale')
             if (!this._locale) {
                 this._locale = this.i18n.getLocale();
@@ -97,6 +108,6 @@ export class Theme {
         this.rtltr = rtl_langs.has(this.locale) ? "rtl" : "ltr";
         return this.i18n.setLocale(locale);
     }
-    
+
 }
 

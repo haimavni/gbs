@@ -1,8 +1,9 @@
 import { bindable, inject, DOM, bindingMode, BindingEngine } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Theme } from '../../services/theme';
 
 const WAIT = 50;
-@inject(DOM.Element, EventAggregator, BindingEngine)
+@inject(DOM.Element, EventAggregator, BindingEngine, Theme)
 export class PhotoStripCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable source;
@@ -20,11 +21,13 @@ export class PhotoStripCustomElement {
     bindingEngine: BindingEngine;
     subscription;
     slideShow;
+    theme;
 
-    constructor(element, eventAggregator: EventAggregator, bindingEngine) {
+    constructor(element, eventAggregator: EventAggregator, bindingEngine, theme: Theme) {
         this.element = element;
         this.eventAggregator = eventAggregator;
         this.bindingEngine = bindingEngine;
+        this.theme = theme;
     }
 
     ready() {
@@ -54,7 +57,12 @@ export class PhotoStripCustomElement {
         }
     }
 
+    get interact_setting() {
+        return this.theme.touchScreen ? "{ interactable: { preventDefault: 'never' } }" : {};
+    }
+
     attached() {
+        
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
@@ -74,11 +82,11 @@ export class PhotoStripCustomElement {
         let event = customEvent.detail;
         let stop_slide_show = true;
         this.vertical = false;
-        if (Math.abs(event.dx) < 5 && Math.abs(event.dy) < 5) { //attempt to identify click on touch screens
+        /*if (Math.abs(event.dx) < 5 && Math.abs(event.dy) < 5) { //attempt to identify click on touch screens
             let img = event.target.childNodes[1];
             let slide = this.slides.find(slide => "img-" + slide.photo_id==img.id);
             return this.on_click(slide, event);
-        }
+        }*/
         customEvent.stopPropagation();
         if (Math.abs(event.dy) > Math.abs(event.dx)) {
             this.vertical = true;

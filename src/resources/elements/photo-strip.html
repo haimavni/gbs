@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div interact-draggable.bind="{ interactable: { preventDefault: 'never' } }" interact-dragend.delegate="shift_photos($event)"
+        <div interact-draggable.bind="interact_setting" interact-dragend.delegate="shift_photos($event)"
             <a repeat.for="slide of slides" style="float:right;z-index:100;" >
                 <img id="img-${slide.photo_id}" click.delegate="on_click(slide, $event)" src="${slide.src}" height="${height}" style="width:initial;" aubs-tooltip="text.bind:slide.title" />
             </a>
