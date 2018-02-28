@@ -13,13 +13,7 @@ import { FullSizePhoto } from '../photos/full-size-photo';
 export class Home {
     api;
     photo_list;
-    video_list = [
-        { type: "youtube", src: "//www.youtube.com/embed/-5F0x79j2K4?wmode=opaque" },
-        { type: "youtube", src: "//www.youtube.com/embed/uwACSZ890a0?wmode=opaque" },
-        { type: "youtube", src: "//www.youtube.com/embed/dfJIOa6eyfg?wmode=opaque" },
-        { type: "youtube", src: "https://www.youtube.com/embed/1g_PlRE-YwI?mode=opaque" },
-        { type: "youtube", src: "https://www.youtube.com/embed/cscYO3epaIY?wmode=opaque" }
-    ]
+    video_list = [];
     member_of_the_day = { gender: '', name: '' };
     member_prefix;
     was_born_in;
@@ -48,11 +42,21 @@ export class Home {
             result => {
                 this.message_list = result.message_list;
             });
+        this.api.call_server_post('members/get_video_sample')
+            .then(response => this.set_video_list(response.video_list));
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
         this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
         this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_panel_height() });
         
+    }
+
+    set_video_list(video_list) {
+        this.video_list = video_list.map(v =>  this.youtube_data(v));
+    }
+
+    youtube_data(video_code) {
+        return { type: "youtube", src: "//www.youtube.com/embed/" + video_code + "?wmode=opaque" }
     }
 
     set_panel_height() {
@@ -66,6 +70,18 @@ export class Home {
     add_message() {
         let name = this.i18n.tr('home.new-message');
         this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.story_type.STORY4MESSAGE, story_text: "" });
+    }
+
+    hande_story_change(story, customEvent) {
+        event = customEvent.detail;
+        console.log("story: ", story, " event: ", event, " deleted: ", story.deleted);
+        if (story.deleted) {
+            this.api.call_server_post('members/delete_story', {story_id: story.story_id})
+                .then(response => {
+                    let idx = this.message_list.findIndex(item => item.story_id==story.story_id);
+                    this.message_list.splice(idx, 1);
+                })
+        }
     }
 
     attached() {
