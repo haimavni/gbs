@@ -11,7 +11,7 @@
             </button>
             <button aubs-tooltip="text.bind:jump_to_story_page" class="side-tool story" click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
             <copy-to-clipboard if.bind="user.editing" class="side-tool copy-to-clipboard" content.bind="photo_url"></copy-to-clipboard>
-            <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable
+            <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable.bind="{ interactable: { preventDefault: 'never' } }"
                 class="face" 
                 id.bind="'face-' + face.member_id"
                 interact-dragmove.delegate="dragmove(face, $event)" 
