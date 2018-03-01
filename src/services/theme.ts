@@ -25,7 +25,8 @@ export class Theme {
     askLanguage = false;
     public rtltr;
     i18n;
-    touchScreen = false;
+    touchScreen = null;
+    interact_setting = {};
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -57,10 +58,21 @@ export class Theme {
     }
 
     detectTouchScreen() {
-        window.addEventListener('touchstart', function onFirstTouch() {
-            THEME.touchScreen = true;
-            window.removeEventListener('touchstart', onFirstTouch, false);
-        }, false);
+        let touchScreen = this.cookies.get('TOUCH-SCREEN');
+        if (touchScreen == null) {
+            this.cookies.put('TOUCH-SCREEN', false);
+            window.addEventListener('touchstart', function onFirstTouch() {
+                THEME.touchScreen = true;
+                THEME.interact_setting = { interactable: { preventDefault: 'never' } };
+                THEME.cookies.put('TOUCH-SCREEN', true);
+                window.removeEventListener('touchstart', onFirstTouch, false);
+            }, false);
+        } else {
+            this.touchScreen = touchScreen == 'true';
+            if (this.touchScreen) {
+                this.interact_setting = { interactable: { preventDefault: 'never' } };
+            }
+        }
     }
 
     handle_content_resize() {

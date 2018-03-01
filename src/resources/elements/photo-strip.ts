@@ -57,10 +57,6 @@ export class PhotoStripCustomElement {
         }
     }
 
-    get interact_setting() {
-        return this.theme.touchScreen ? { interactable: { preventDefault: 'never' } } : {};
-    }
-
     attached() {
         
         const elementRect = this.element.getBoundingClientRect();

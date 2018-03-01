@@ -1,15 +1,17 @@
 import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
+import { Theme } from '../../services/theme';
 
 const time_element_width = 12;
 
-@inject(DOM.Element, I18N)
+@inject(DOM.Element, I18N, Theme)
 export class TimelineCustomElement {
     @bindable base_year = 1924;
     @bindable first_year = 1928;
     @bindable num_years = 100;
     last_year;
     i18n;
+    theme;
     element;
 
     timeline_width = 1202;
@@ -19,9 +21,10 @@ export class TimelineCustomElement {
     last_year_position = 1000;
     drag_me;
 
-    constructor(element, i18n) {
+    constructor(element, i18n, theme: Theme) {
         //this.timeline_width = elementRect.width;
         this.i18n = i18n;
+        this.theme = theme;
         this.drag_me = this.i18n.tr('photos.drag-me');
         this.items = [];
         this.element = element;

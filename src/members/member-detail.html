@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row fr-view slide-list ${theme.font-size}" if.bind="! user.editing" interact-draggable interact-dragend.delegate="shift_stories($event)"
+            <div class="row fr-view slide-list ${theme.font-size}" if.bind="! user.editing" interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)"
                 dir="rtl" style="padding-right:15px;border: solid 6px white;">
                 <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)"><i class="fa fa-chevron-right fa-3x"></i></div>
                 <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)"><i class="fa fa-chevron-left fa-3x"></i></div>

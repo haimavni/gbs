@@ -6,7 +6,7 @@
             <li repeat.for="side of sides" css="left:${side=='left' ? first_year_position : last_year_position}px;"
                 aubs-tooltip="text.bind:drag_me;position:top;"
                 id="stopper-${side}"
-                interact-draggable
+                interact-draggable.bind="theme.interact_setting"
                 interact-dragmove.delegate="dragmove(side, $event)" 
                 interact-dragstart.delegate="dragstart(side, $event)" 
                 interact-dragend.delegate="dragend(side, $event)">

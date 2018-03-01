@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { DialogController, DialogService } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
 import { User } from "../services/user";
+import { Theme } from "../services/theme";
 import { MemberPicker } from "../members/member-picker";
 import environment from "../environment";
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -19,6 +20,7 @@ export class FullSizePhoto {
     candidates = [];
     api;
     user;
+    theme;
     slide;
     photo_info;
     router;
@@ -35,6 +37,7 @@ export class FullSizePhoto {
         dialogService: DialogService,
         api: MemberGateway,
         user: User,
+        theme: Theme,
         router: Router,
         eventAggregator: EventAggregator,
         i18n: I18N) {
@@ -42,6 +45,7 @@ export class FullSizePhoto {
         this.dialogService = dialogService;
         this.api = api;
         this.user = user;
+        this.theme = theme;
         this.router = router;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
