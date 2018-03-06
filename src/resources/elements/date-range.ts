@@ -108,6 +108,9 @@ export class DateRangeCustomElement {
     }
 
     build_end_date_options() {
+        if (this.base_date_str == undefined) {
+            this.base_date_str = "";
+        }
         let date = new MyDate(this.base_date_str);
         this.is_valid = date.is_valid();
         if (!this.is_valid) {
@@ -171,6 +174,12 @@ export class DateRangeCustomElement {
     @computedFrom("user.editing")
     get show_date() {
         return this.base_date_str && ! this.user.editing;
+    }
+
+    @computedFrom("base_date_str", "user.editing")
+    get build_now() {
+        this.build_end_date_options();
+        return true;
     }
 
 }

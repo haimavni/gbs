@@ -2,7 +2,7 @@
     <form class="form-inline" dir="${theme.rtltr}">
         <label>${label & t}</label>
         <div show.bind="show_edit_end_date" class="form-group" style="margin-right:0px;width:5em; ">
-            <select value.bind="span_size" style="height:2em;">
+            <select value.bind="span_size" style="height:2em;color:black;">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
             </select>
         </div>
@@ -21,13 +21,15 @@
         </div>
 
         <div show.bind="user.editing" class="form-group" change.trigger="base_date_changed($event)" style="margin-right:0px;width:5em;">
-            <input type="text" value.bind="base_date_str" maxlength="10" style="height:2em;width:5.8em;padding-left:0.2em;padding-right:0.2em;" keyup.trigger="on_keyup($event)"
+            <input type="text" value.bind="base_date_str" maxlength="10" 
+                style="height:2em;width:5.8em;padding-left:0.2em;padding-right:0.2em;color:black;" keyup.trigger="on_keyup($event)"
                 keypress.trigger="keep_only_good_chars($event)" />
         </div>
 
         <div class="form-group" show.bind="show_date" style="width:5em;">
             <span style="padding-top:0.6em;">${base_date_str}</span>
         </div>
+        <div if.bind="build_now()"></div>
         
     </form>
 </template>

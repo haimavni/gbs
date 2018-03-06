@@ -25,8 +25,9 @@
                     </span>
                 </span>
             </button>
-            <span css="position:absolute;color:white;direction:rtl;width:${slide.width}px;float:right;">
+            <span css="position:absolute;color:white;direction:rtl;width:${slide.width}px;diretion:rtl;">
                 ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
+                <date-range label="${'photos.photo-date' & t}" base_date_str.bind="photo_info.photo_date_str" span_size.bind="photo_info.photo_date_span"></date-range>
             </span>
         </div>
     </div>

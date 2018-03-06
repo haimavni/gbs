@@ -22,7 +22,7 @@ export class FullSizePhoto {
     user;
     theme;
     slide;
-    photo_info;
+    photo_info = {name: "", photo_date_str: "12/12/1928", photo_dat_span: 1, photographer: ""};
     router;
     highlighting = false;
     eventAggregator;
