@@ -1,3 +1,5 @@
+@import 'resources/elements/photo-strip';
+
 $slide-height: 220px;
 $list-group-border:none; 
 $list-group-bg: #eeeeee;
@@ -23,6 +25,7 @@ body{
 }
 
 #router-view {
+    padding-top: 60px; // Account for the nav bar by offsetting the first 60px.
     background-repeat: no-repeat;
 }
 
@@ -34,45 +37,6 @@ body{
     margin-left: auto;
     margin-right: auto;
     //width:1170px;
-}
-
-.slide-list {
-    background-color: rgba(208,208,208,0.5);
-   // max-height: $slide-height;
-    overflow: hidden;
-    position: relative;
-}
-
-.slide-photo {
-    height: $slide-height;
-}
-.slide-list .slide-control
-{
-    position: absolute;
-    opacity: 0.31;
-    height: 20%;
-    width: 32px;
-    top: 40%;
-    cursor: pointer;
-}
-.slide-list .slide-control:hover {
-    opacity: 1.0;
-}
-.slide-list .slide-control.next
-{
-    right: 0%;
-    color: white;
-}
-.slide-list .slide-control.prev
-{
-    left: 0%;
-    color: white;
-}
-.slide-list .slide-control.expand
-{
-    right: 45%;
-    height: 45%;
-    color: white;
 }
 
 a.border-right
@@ -180,11 +144,15 @@ i.is-link {
     cursor: pointer;
 }
 
-.full-width-div {
-    position: fixed;
-    width: 100%;
-    left: 0;
-}
+/* INFO [Matt] Definitely don't want a position: fixed on this, as it will
+force ethe element to remain at the same position of the screen irrespective
+of scrolling. */
+
+// .full-width-div {
+//     position: fixed;
+//     width: 100%;
+//     left: 0;
+// }
 
 .error {
     background-color: red;

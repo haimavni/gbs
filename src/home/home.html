@@ -1,13 +1,12 @@
 <template>
     <require from='./home.css'></require>
-    <div css="margin-bottom:${photo_strip_height}px">
-        <div style="margin-top:60px;top: 0px;" class="full-width-div">
-            <div id="photo-strip">
-                <photo-strip source.bind="photo_list" slides.bind="slides" id="1" action.bind="action" fullscreen.bind="true" height_change.trigger="on_height_change($event)"
-                    action_key="Zoom1" settings.bind="{arrows:true, slide_show: 8}"></photo-strip>
-            </div>
-        </div>
+
+    <!-- Photo strip -->
+    <div id="photo-strip" css="margin-bottom:${photo_strip_height}px">
+        <photo-strip source.bind="photo_list" slides.bind="slides" id="1" action.bind="action" fullscreen.bind="true" height_change.trigger="on_height_change($event)"
+            action_key="Zoom1" settings.bind="{arrows:true, slide_show: 8}"></photo-strip>
     </div>
+
     <div class="row panel main-panel">
         <div class="col-md-3 panel-vid" css="height:${panel_height}px;" style="overflow:auto;direction:rtl;">
             <ul>
