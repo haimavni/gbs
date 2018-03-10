@@ -21,6 +21,8 @@ export class PhotoDetail {
     photo_src;
     photo_name;
     photo_story;
+    photo_date_str;
+    photo_date_span;
     orig_photo_width = 0;
     orig_photo_height = 0;
     photo_width = 600;
@@ -38,7 +40,6 @@ export class PhotoDetail {
 
     activate(params, config) {
         this.photo_page_url = this_page_url();
-        console.log("activate photo detail. params: ", params);
         this.api.getPhotoDetail({ photo_id: params.id, what: params.what })
             .then(response => {
                 this.photo_id = params.id;
@@ -50,6 +51,8 @@ export class PhotoDetail {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
                     this.photo_story.story_text = this.i18n.tr('photos.new-story-content');
                 }
+                this.photo_date_str = response.photo_date_str;
+                this.photo_date_span = response.photo_date_span;
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 /*if (! this.photo_story) {
@@ -67,8 +70,15 @@ export class PhotoDetail {
             });
     }
 
-    update_photo_caption() {
+    update_photo_caption(event) {
         this.api.call_server('members/update_photo_caption', {caption: this.photo_name, photo_id: this.photo_id});
+    }
+
+    update_photo_date(customEvent) {
+        customEvent.stopPropagation();
+        let event = customEvent.detail;
+        let s = typeof event;
+        this.api.call_server('members/update_photo_date', {photo_date_str: event.date_str, photo_date_span: event.date_span, photo_id: this.photo_id});
     }
     
     private openDialog(slide) {

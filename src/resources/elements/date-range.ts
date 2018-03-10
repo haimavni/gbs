@@ -1,4 +1,4 @@
-import { bindable, autoinject, bindingMode, computedFrom } from 'aurelia-framework';
+import { bindable, inject, bindingMode, computedFrom, DOM } from 'aurelia-framework';
 import { User } from '../../services/user';
 import { Theme } from '../../services/theme';
 
@@ -55,6 +55,7 @@ export class MyDate {
     }
 
     is_valid() {
+        this.validate();
         let mon = this._month || 1;
         let day = this._day || 1;
         if (this._year < 1000) {
@@ -86,21 +87,23 @@ export class MyDate {
     }
 }
 
-@autoinject
+@inject(User, Theme, DOM.Element)
 export class DateRangeCustomElement {
     user;
     theme;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) base_date_str = "01/01/0001";
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 5;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) base_date_str = "";
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 0;
     @bindable label;
-    end_date_str;
+    _end_date_str="";
     end_date_options = [];
     partial;
-    is_valid;
+    is_valid = true;
+    element;
 
-    constructor(user: User, theme: Theme) {
+    constructor(user: User, theme: Theme, element) {
         this.user = user;
         this.theme = theme;
+        this.element = element;
     }
 
     attached() {
@@ -129,16 +132,32 @@ export class DateRangeCustomElement {
         }
         date = new MyDate(this.base_date_str);
         date.incr(this.span_size);
-        this.end_date_str = date.toString();
+        this._end_date_str = date.toString();
     }
 
     base_date_changed(event) {
+        event.stopPropagation();
         this.build_end_date_options();
+        this.dispatch_event();
     }
 
-    on_keyup(event) {
+    span_size_changed(event) {
+        event.stopPropagation();
         this.build_end_date_options();
-        console.log("keyup ", this.base_date_str, " key ", event.key)
+        this.dispatch_event();
+    }
+
+    calc_end_date() {
+        let date = new MyDate(this.base_date_str);
+        date.incr(this.span_size);
+        this._end_date_str = date.toString();
+    }
+
+    @computedFrom('base_date_str', 'span_size')
+    get end_date_str() {
+        this.calc_end_date();
+        this.build_end_date_options();
+        return this._end_date_str;
     }
 
     keep_only_good_chars(event) {
@@ -146,8 +165,7 @@ export class DateRangeCustomElement {
         if (key == "Enter") {
             return true;
         }
-        let m = key.match(/[0-9/]/);
-        console.log("key ", key, " str ", this.base_date_str);
+        let m = key.match(/[0-9/]/) || key == 'Backspace' || key == 'Delete';
         return m != null;
     }
 
@@ -171,15 +189,27 @@ export class DateRangeCustomElement {
         return this.is_valid && this.partial && (this.user.editing || this.span_size > 0)
     }
 
-    @computedFrom("user.editing")
+    @computedFrom("user.editing","base_date_str")
     get show_date() {
         return this.base_date_str && ! this.user.editing;
     }
 
     @computedFrom("base_date_str", "user.editing")
     get build_now() {
-        this.build_end_date_options();
-        return true;
+        if (this.user.editing) {
+            this.build_end_date_options();
+            return true;
+        }
     }
 
+    dispatch_event() {
+        let changeEvent = new CustomEvent('change', {
+            detail: {
+                date_str: this.base_date_str,
+                date_span: this.span_size
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(changeEvent);
+    }
 }
