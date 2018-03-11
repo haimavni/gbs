@@ -193,7 +193,8 @@
     "drag-me": "Drag me to the right or to the left",
     "unknown": "Unknown",
     "upload": "Add photos",
-    "photo-date": "Photo date"
+    "photo-date": "Photo date",
+    "photos-date": "Photos date"
   },
   "videos": {
     "videos": "Video"

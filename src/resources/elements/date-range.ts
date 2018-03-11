@@ -97,7 +97,7 @@ export class DateRangeCustomElement {
     _end_date_str="";
     end_date_options = [];
     partial;
-    is_valid = true;
+    is_valid = false;
     element;
 
     constructor(user: User, theme: Theme, element) {
@@ -171,7 +171,7 @@ export class DateRangeCustomElement {
 
     @computedFrom("user.editing", "partial", "is_valid")
     get show_edit_end_date() {
-        return this.is_valid && this.user.editing && this.partial;
+        return this.base_date_str && this.is_valid && this.user.editing && this.partial;
     }
 
     @computedFrom("user.editing", "partial", "is_valid")
@@ -185,13 +185,18 @@ export class DateRangeCustomElement {
     }
     
     @computedFrom("user.editing", "partial", "span_size", "is_valid")
-    get show_labels() {
-        return this.is_valid && this.partial && (this.user.editing || this.span_size > 0)
+    get show_range_labels() {
+        return this.base_date_str && this.is_valid && this.partial && (this.user.editing || this.span_size > 0)
     }
 
     @computedFrom("user.editing","base_date_str")
     get show_date() {
         return this.base_date_str && ! this.user.editing;
+    }
+
+    @computedFrom("user.editing","base_date_str")
+    get show_label() {
+        return this.base_date_str || this.user.editing;
     }
 
     @computedFrom("base_date_str", "user.editing")

@@ -35,8 +35,6 @@ export class Photos {
         selected_dates_option: "dated-or-not",
         photos_date_str: "",
         photos_date_span_size: 3,
-        from_date: "",
-        to_date: "",
         selected_photo_list: [],
         user_id: null,
         first_year: 1928,

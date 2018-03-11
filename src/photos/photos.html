@@ -121,7 +121,7 @@
                         </form>
                     </div>
                     <div class="row" style="margin-top: 10px;float:right;" if.bind="can_set_dates">
-                        <date-range label.bind="'photos.photo-date'" base_date_str.bind="params.photos_date_str" date_span_size.bind="params.photos_date_span_size"></date-range>
+                        <date-range label="${'photos.photos-date' & t}" base_date_str.bind="params.photos_date_str" date_span_size.bind="params.photos_date_span_size"></date-range>
                     </div>
                 </div>
             </div>

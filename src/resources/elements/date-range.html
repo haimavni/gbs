@@ -1,6 +1,6 @@
 <template>
     <form class="form-inline" dir="${theme.rtltr}">
-        <label>${label & t}</label>
+        <label if.bind="show_label">${label & t}</label>
         <div if.bind="show_edit_end_date" class="form-group" style="margin-right:0px;width:5em; ">
             <select value.bind="span_size" style="height:2em;color:black;" change.delegate="span_size_changed($event)">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
@@ -12,11 +12,11 @@
             <span style="padding-top:0.6em;">${end_date_str}</span>
         </div>
 
-        <div class="form-group" if.bind="show_labels" style="margin-right:0px;width:1em">
+        <div class="form-group" if.bind="show_range_labels" style="margin-right:0px;width:1em">
             <span style="padding:6px;">-</span>
         </div>
 
-        <div class="form-group" if.bind="! show_labels" style="margin-right:0px;width:1em;">
+        <div class="form-group" if.bind="! show_range_labels" style="margin-right:0px;width:1em;">
             <span></span>
         </div>
 

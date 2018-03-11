@@ -1,5 +1,5 @@
 import { MemberGateway } from '../services/gateway';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, singleton } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
@@ -10,6 +10,7 @@ import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 
 @autoinject
+@singleton()
 export class Home {
     api;
     photo_list;
