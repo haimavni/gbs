@@ -1,5 +1,5 @@
 import { MemberGateway } from '../services/gateway';
-import { autoinject, singleton } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
@@ -10,7 +10,6 @@ import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 
 @autoinject
-@singleton()
 export class Home {
     api;
     photo_list;
@@ -29,6 +28,8 @@ export class Home {
     eventAggregator;
     panel_height = 400;
     photo_strip_height = 360;
+    subscriber1;
+    subscriber2;
     
     constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator) {
         this.api = api;
@@ -46,10 +47,7 @@ export class Home {
         this.api.call_server_post('members/get_video_sample')
             .then(response => this.set_video_list(response.video_list));
         this.dialog = dialog;
-        this.eventAggregator = eventAggregator;
-        this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
-        this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_panel_height() });
-        
+        this.eventAggregator = eventAggregator;   
     }
 
     set_video_list(video_list) {
@@ -93,6 +91,13 @@ export class Home {
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';
             this.set_panel_height();
         });
+        this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.subscriber2 = this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_panel_height() });
+    }
+
+    detached() {
+        this.subscriber1.dispose();
+        this.subscriber2.dispose();
     }
 
     jump_to_member_of_the_day_page(member_id) {
