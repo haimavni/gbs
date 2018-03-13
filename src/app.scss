@@ -8,13 +8,27 @@ $navbar-default-link-active-bg: inherit;
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 
+html, body {
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+div, footer, main {
+    margin: 0;
+    padding: 0;
+}
+
 body{
   font-family: "Alef Hebrew",
                “Helvetica Neue”,
                Helvetica,
                Arial,
                sans-serif;
-  /*width: 1170px;*/
+   max-width: 100vw;
+}
+
+.navbar-default {
+    background: white !important;
 }
 .navbar-brand{
     font-weight: bold;
@@ -29,14 +43,15 @@ body{
     background-repeat: no-repeat;
 }
 
-.footer-area {
-    background-repeat: no-repeat;
-    min-height:67px;
-    margin-top:0;
-    margin-bottom:0;
-    margin-left: auto;
-    margin-right: auto;
-    //width:1170px;
+#footer {
+    margin-top: 5vh;
+    height: 67px;
+
+    .footer-area {
+        background: rgba(80,80,80,0.3) no-repeat;
+        line-height: 67px;    
+        text-align: center;
+    }
 }
 
 a.border-right
@@ -49,12 +64,6 @@ a.border-right
 body {
     margin-left: auto;
     margin-right: auto;
-}
-
-.navbar-centered {
-    margin-left: auto;
-    margin-right: auto;
-    width:1170px;
 }
 
 ux-dialog-overlay.active {
