@@ -22,7 +22,7 @@ export class FullSizePhoto {
     user;
     theme;
     slide;
-    photo_info = {name: "", photo_date_str: "12/12/1928", photo_dat_span: 1, photographer: ""};
+    photo_info = {name: "", photo_date_str: "", photo_date_span: 0, photographer: ""};
     router;
     highlighting = false;
     eventAggregator;
@@ -87,11 +87,13 @@ export class FullSizePhoto {
     get_photo_info(photo_id) {
         this.api.call_server('members/get_photo_info',  { photo_id: photo_id })
             .then((data) => {
-                this.photo_info = data;
+                this.photo_info.name = data.name;
+                this.photo_info.photographer = data.photographer;
                 if (! this.photo_info.photographer) {
                     this.photo_info.photographer = this.i18n.tr('photos.unknown');
                 }
-                console.log("photo info: ", this.photo_info);
+                this.photo_info.photo_date_span = data.photo_date_span;
+                this.photo_info.photo_date_str = data.photo_date_str;
             });
 
     }

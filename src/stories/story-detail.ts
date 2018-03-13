@@ -29,6 +29,7 @@ export class StoryDetail {
     router: Router;
     eventAggregator;
     dialog;
+    subscriber;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -38,7 +39,15 @@ export class StoryDetail {
         this.theme = theme;
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
-        this.eventAggregator.subscribe('Zoom2', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
+        
+    }
+
+    attached() {
+        this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+    }
+
+    detached() {
+        this.subscriber.dispose();
     }
 
     activate(params, config) {

@@ -26,7 +26,14 @@
                 </span>
             </button>
             <span css="position:absolute;color:white;direction:rtl;width:${slide.width}px;diretion:rtl;">
-                ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
+                <span if.bind="!user.editing">
+                    ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
+                </span>
+                <span if.bind="user.editing">
+                    <form class="form-inline">
+                        <input type="text" value.bind="photo_info.name" style="color:black;">
+                    </form>
+                </span>
                 <date-range label="${'photos.photo-date' & t}" base_date_str.bind="photo_info.photo_date_str" span_size.bind="photo_info.photo_date_span"></date-range>
             </span>
         </div>
