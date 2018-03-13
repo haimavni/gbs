@@ -2,15 +2,15 @@
     <require from="./members.css"></require>
 
     <section class="container content-area">
-        <div class="row top-head" css="margin-top:60px;background-image:url('${theme.files.top_background}');height:96px;">
+        <!--<div class="row top-head" css="margin-top:60px;background-image:url('${theme.files.top_background}');height:96px;">
             <div style="padding-top:0px;padding-right:15px;">
                 <h1 if.bind="caller_type" dir="rtl">${'members.' + caller_type & t}</h1>
                 <h1 if.bind="!caller_type" dir="rtl">${"members.members" & t}</h1>
             </div>
-        </div>
-        <div>
+        </div>-->
+        <div style="margin-top:140px;">
             <div class="row">
-                <div class="col-md-10 col-md-offset-2">
+                <div class="col-md-10 col-md-offset-2" style="padding-right:50px;">
                     <form class="form-inline" style="padding-top:16px;direction:rtl;">
                         <div class="input-group" style="padding-top:16px;width:50%;font-size:18px;">
                             <search-input value.bind="filter" placeholder="members.filter" height="38"></search-input>

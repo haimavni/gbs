@@ -7,8 +7,8 @@ div.main-panel {
     > div {
 
         /* See the note in home.ts L62 */
-        max-height: calc(100vh - 606px);
-        min-height: 200px;
+        height: calc(100vh - 606px);
+        //min-height: 200px;
 
         margin-top: 15px;
         overflow-y: auto;

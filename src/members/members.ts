@@ -91,8 +91,14 @@ export class Members {
         });
     }
 
+    attached() {
+        this.theme.display_header_background = true;
+        this.theme.page_title = (this.caller_type) ?  'members.' + this.caller_type : "members.members";
+    }
+
     detached() {
         this.theme.display_header_background = false;
+        this.theme.page_title = "";
     }
 
     select(member) {

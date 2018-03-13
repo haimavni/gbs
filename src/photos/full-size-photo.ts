@@ -62,10 +62,12 @@ export class FullSizePhoto {
         this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
             this.dialogController.ok();
         });
+        this.theme.hide_title = true;
     }
 
     deactivate() {
         this.navEvent.dispose();
+        this.theme.hide_title = false;
     }    
 
     attached() {

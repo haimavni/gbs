@@ -36,10 +36,21 @@ body{
 .top-head {
     background-repeat: no-repeat;
     //height: 400px;
+    div.page-title {
+        padding-top:0px;
+        padding-right:15px;
+        width:1170px;
+        margin-left:auto;
+        margin-right:auto;
+        height:96px;
+        margin-top:0px;
+        background-repeat:no-repeat;
+        margin-top:-20px;
+    }
 }
 
 #router-view {
-    padding-top: 60px; // Account for the nav bar by offsetting the first 60px.
+    //padding-top: 160px; // Account for the nav bar by offsetting the first 60px.
     background-repeat: no-repeat;
 }
 
@@ -57,8 +68,8 @@ body{
 a.border-right
 {
     border-right:solid gray 1px;
-    margin-right:10px;
-    padding-right:10px;
+    margin-right:4px;
+    padding-right:4px;
 }
 
 body {

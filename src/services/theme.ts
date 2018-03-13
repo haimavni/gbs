@@ -27,6 +27,8 @@ export class Theme {
     i18n;
     touchScreen = null;
     interact_setting = {};
+    page_title = "";
+    hide_title = false;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;

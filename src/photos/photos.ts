@@ -127,10 +127,12 @@ export class Photos {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
+        this.theme.page_title = (this.caller_type) ? 'members.' + this.caller_type : "photos.photos-store";        
     }
 
     detached() {
         this.theme.display_header_background = false;
+        this.theme.page_title = "";
     }
 
     update_photo_list() {
@@ -163,8 +165,11 @@ export class Photos {
     }
 
     private openDialog(slide) {
+        //let title = this.theme.page_title;
+        //this.theme.page_title = "";
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
             .whenClosed(response => {
+                //this.theme.page_title = title;
                 console.log(response.output);
             });
     }

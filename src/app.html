@@ -33,6 +33,11 @@
                     </ul>
                 </div>
             </div>
+        <div class="row top-head" style="height:80px;background-color:rgba(80,80,80,0.3);" if.bind="theme.page_title != '' && ! theme.hide_title">
+            <div class="page-title" css="background-image:url('${theme.files.top_background}');">
+                <div style="margin-top:20px;padding-top:2px;padding-right:16px;"><h1 dir="rtl"> ${theme.page_title & t}</h1></div>
+            </div>
+        </div>
         </nav>
         <div id="router-view" class="container" css="min-height:${router_view_height};">
             <router-view></router-view>

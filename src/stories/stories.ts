@@ -117,10 +117,12 @@ export class Stories {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
+        this.theme.page_title = "stories.place-stories";
     }
 
     detached() {
         this.theme.display_header_background = false;
+        this.theme.page_title = "";
     }
 
     update_story_list() {

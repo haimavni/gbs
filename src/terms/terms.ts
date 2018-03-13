@@ -32,10 +32,12 @@ export class Terms {
 
     attached() {
         this.theme.display_header_background = true;
+        this.theme.page_title = "terms.terms-lexicon";
     }
 
     detached() {
         this.theme.display_header_background = false;
+        this.theme.page_title = "";
     }
 
 }
