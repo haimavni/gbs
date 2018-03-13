@@ -39,6 +39,7 @@ export class MemberDetail {
     stories_scroll: boolean;
     source;
     member_url = "";
+    sub1; sub2; sub3; sub4; sub5;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway, 
                 router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
@@ -49,11 +50,6 @@ export class MemberDetail {
         this.memberList = memberList;
         this.router = router;
         this.i18n = i18n;
-        this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
-        this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
-        this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
-        this.eventAggregator.subscribe('Zoom', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
@@ -91,13 +87,22 @@ export class MemberDetail {
         console.log("member url ", this.member_url);
     }
 
-    attched() {
+    attached() {
         console.log("attached member detail");
+        this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
+        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
+        this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
+        this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
+        this.sub5 = this.eventAggregator.subscribe('Zoom', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
     }
 
     detached() {
         console.log("detached member detail");
-        delete this.eventAggregator;
+        this.sub1.dispose();
+        this.sub2.dispose();
+        this.sub3.dispose();
+        this.sub4.dispose();
+        this.sub5.dispose();
     }
 
     set_parent(member, parent) {

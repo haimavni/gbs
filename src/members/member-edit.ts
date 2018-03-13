@@ -19,6 +19,7 @@ export class MemberEdit {
     i18n;
     member;
     memberList;
+    members;
     member_info_orig;
     life_story_orig;
     dialog;
@@ -33,6 +34,9 @@ export class MemberEdit {
         this.eventAggregator.subscribe('EditorContentChanged', () => { this.handle_editor_changed() });
         this.dialog = dialog;
         this.memberList = memberList;
+        this.memberList.getMemberList().then(members => {
+            this.members = members;
+        });
     }
 
     activate(member) {
@@ -59,7 +63,13 @@ export class MemberEdit {
     }
 
     handle_member(member_id, direction) {
-
+        if (this.dirty_info) return;
+        let dif = direction == "next" ? +1 : -1;
+        let member_idx = this.members.member_list.findIndex(mem => mem.id == member_id);
+        let n = this.members.member_list.length;
+        member_idx = (member_idx + n + dif) % n;
+        member_id = this.members.member_list[member_idx].id;
+        this.router.navigateToRoute('member-details', { id: member_id });
     }
 
     cancel_edit_mode() {
