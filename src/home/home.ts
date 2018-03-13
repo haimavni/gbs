@@ -58,8 +58,11 @@ export class Home {
         return { type: "youtube", src: "//www.youtube.com/embed/" + video_code + "?wmode=opaque" }
     }
 
+    // INFO [Matt] I don't understand where these numbers are coming from
+    // so I'm not going to touch it. This probably isn't a good strategy, 
+    // however. It would be better to use calc() or set min-heights or both.
     set_panel_height() {
-        this.panel_height = this.theme.height - 606;
+        this.panel_height = Math.max(this.theme.height - 606, 200);
     }
 
     action(slide, event) {

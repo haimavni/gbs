@@ -22,6 +22,10 @@ export class PhotoStripCustomElement {
     subscription;
     slideShow;
     theme;
+    dragging = false;
+
+    // refs 
+    slideList; // defined by element.ref in the html
 
     constructor(element, eventAggregator: EventAggregator, bindingEngine, theme: Theme) {
         this.element = element;
@@ -45,14 +49,14 @@ export class PhotoStripCustomElement {
                 if (this.calculate_widths()) {
                     this.prev_id = this.id;
                 }
-                this.next_slide(null);
+                this.next_slide();
             });
 
         }
         let n = this.settings.slide_show;
         if (n && !this.slideShow) {
             if (n) {
-                this.slideShow = setInterval(() => this.next_slide(null), n * 1000);
+                this.slideShow = setInterval(() => this.next_slide(), n * 1000);
             }
         }
     }
@@ -74,31 +78,27 @@ export class PhotoStripCustomElement {
         //this.subscription.dispose();
     }
 
-    shift_photos(customEvent: CustomEvent) {
-        let event = customEvent.detail;
-        let stop_slide_show = true;
-        this.vertical = false;
-        /*if (Math.abs(event.dx) < 5 && Math.abs(event.dy) < 5) { //attempt to identify click on touch screens
-            let img = event.target.childNodes[1];
-            let slide = this.slides.find(slide => "img-" + slide.photo_id==img.id);
-            return this.on_click(slide, event);
-        }*/
-        customEvent.stopPropagation();
-        if (Math.abs(event.dy) > Math.abs(event.dx)) {
-            this.vertical = true;
-            this.height += event.dy;
-            this.dispatch_height_change();
-            this.calculate_widths();
-            stop_slide_show = false;
-        } else if (event.dx < 0) {
-            this.prev_slide(Event);
-        } else {
-            this.next_slide(event);
+    shift_photos(dx) {
+        let target = this.slideList,
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + dx,
+            breakpoint = target.clientWidth / 4;
+
+        if (x < -breakpoint) {
+            x += 2 * breakpoint;
+        } else if (x > breakpoint) {
+            x -= 2 * breakpoint;
         }
-        if (stop_slide_show) {
-            clearInterval(this.slideShow);
+
+        // translate the element
+        target.style.left = `${x}px`;
+
+        // update the posiion attributes
+        target.setAttribute('data-x', x);
+
+        if (Math.abs(dx) > 0) {
+            this.dragging = true;
         }
-        return false;
     }
 
     dispatch_height_change() {
@@ -111,31 +111,16 @@ export class PhotoStripCustomElement {
         this.element.dispatchEvent(changeEvent);
     }
 
-    next_slide(event) { //we are right to left...
-        if (event) {
-            clearInterval(this.slideShow);
+    next_slide() { //we are right to left...
+        if (!this.dragging) {
+            this.shift_photos(-250)
         }
-        window.setTimeout(() => this.restore_modified_slide(), WAIT);
-        this.slides = this.slides.slice(0);
-        let slides = this.slides;
-        let slide = slides.shift();
-        slides.push(slide);
-        this.slides = slides;
-        window.setTimeout(() => this.adjust_side_photos(), WAIT);
     }
 
-    prev_slide(event) {
-        if (event) {
-            clearInterval(this.slideShow);
+    prev_slide() {
+        if (!this.dragging) {
+            this.shift_photos(250);
         }
-        window.setTimeout(() => this.restore_modified_slide(), WAIT);
-        let slides = this.slides;
-        let slide = slides.pop();
-        slides.splice(0, 0, slide);
-        this.slides = slides;
-        //this.calculate_widths();
-        window.setTimeout(() => this.adjust_side_photos(), WAIT);
-        //this.adjust_side_photos();
     }
 
     adjust_side_photos() {
@@ -203,7 +188,11 @@ export class PhotoStripCustomElement {
         }
     }
 
-    on_click(slide, event) {
+    on_click(event, slide) {
+        if (this.dragging) {
+            this.dragging = false;
+            return;
+        }
         event.stopPropagation();
         if (this.vertical) {
             return;
@@ -212,6 +201,4 @@ export class PhotoStripCustomElement {
             this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides });
         }
     }
-
 }
-

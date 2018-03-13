@@ -1,15 +1,14 @@
 <template>
     <require from='./home.css'></require>
-    <div css="margin-bottom:${photo_strip_height}px">
-        <div style="margin-top:60px;top: 0px;" class="full-width-div">
-            <div id="photo-strip">
-                <photo-strip source.bind="photo_list" slides.bind="slides" id="1" action.bind="action" fullscreen.bind="true" height_change.trigger="on_height_change($event)"
-                    action_key="Zoom1" settings.bind="{arrows:true, slide_show: 8}"></photo-strip>
-            </div>
-        </div>
+
+    <!-- Photo strip -->
+    <div id="photo-strip" class="row">
+        <photo-strip source.bind="photo_list" slides.bind="slides" id="1" action.bind="action" fullscreen.bind="true" height_change.trigger="on_height_change($event)"
+            action_key="Zoom1" settings.bind="{arrows:true, slide_show: 8}"></photo-strip>
     </div>
+
     <div class="row panel main-panel">
-        <div class="col-md-3 panel-vid" css="height:${panel_height}px;" style="overflow:auto;direction:rtl;">
+        <div class="col-md-3 panel-vid" style="direction:rtl;">
             <ul>
                 <li repeat.for="video of video_list | filter:'youtube':'type'">
                     <p>
@@ -21,7 +20,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-6 panel-stories" css="height:${panel_height}px;">
+        <div class="col-md-6 panel-stories" style="direction:rtl;">
             <h2 style="margin-top:0;">
                 ${'home.sample-stories' & t}
                 <span style="float:left;font-size:80%;color:gray;direction:rtl;cursor:pointer;" click.delegate="goto_full_collection()">
@@ -29,7 +28,7 @@
                     <i class="fa fa-play fa-rotate-180"> </i>
                 </span>
             </h2>
-            <ul style="overflow:auto;direction:rtl;" class="panel-story-segments" css="height:${panel_height-30}px;">
+            <ul class="panel-story-segments">
                 <li repeat.for="story of stories_sample" dir="rtl">
                     <div style="margin-top:12px;max-height:100px;min-height:100px;padding-bottom:30px;border-bottom:solid 2px lightgray;position:relative;" >
                         <h4 dir="rtl" style="float:right;margin:0;padding:0;cursor:pointer;font-weight:bold;" click.delegate="jump_to_the_full_story(story)">
@@ -51,11 +50,11 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-3 panel-messages" css="height:${panel_height}px;direction:rtl">
+        <div class="col-md-3 panel-messages" style="direction: rtl">
             <h2 style="margin:0;margin-bottom:12px;">${'home.messages' & t}
-                <span class="is-link" style="float:left" if.bind="user.editing" click.delegate="add_message()"><i class="fa fa-plus-square-o"></i></span>
+                <span class="is-link" if.bind="user.editing" click.delegate="add_message()"><i class="fa fa-plus-square-o"></i></span>
             </h2>
-            <ul class="message" style="margin:0;padding:0;">
+            <ul class="message">
                 <li repeat.for="msg of message_list" dir="rtl" style="border-bottom: solid 2px gray;margin-bottom:10px;" >
                     <editable story.bind="msg" settings.bind="{show_date:true, deletable: true}"
                         change.delegate="hande_story_change(msg, $event)"></editable>
@@ -63,22 +62,21 @@
             </ul>
         </div>
     </div>
-    <div style="height:20px"></div>
-    <div class="member-of-the-day full-width-div" dir="rtl" style="padding:0;padding-right:16px;">
-        <div style="width:1170px;margin-left:auto;margin-right:auto;margin-bottom:67px;">
-            <span style="width:100px;text-align:right;margin-top:20px;">${member_prefix & t}</span>
+    <div class="member-of-the-day row" dir="rtl">
+        <div class="col-xs-12">
+            <span class="hidden-xs" style="width:100px;text-align:right;margin-top:20px;">${member_prefix & t}</span>
             <span style="padding-left:20px;padding-top:6px;"><img src.bind="member_of_the_day.face_photo_url" width="60" style="border-radius:50%;" /></span>
             <span style="border-right:2px solid gray;margin-top:20px;margin-left:16px;padding-right:10px;">${member_of_the_day.name}</span>
-            <span if.bind="member_of_the_day.place_of_birth" style="border-right:2px solid gray;margin-top:20px;padding-right:10px;">
+            <span class="hidden-xs hidden-sm" if.bind="member_of_the_day.place_of_birth" style="border-right:2px solid gray;margin-top:20px;padding-right:10px;">
                 ${was_born_in & t}${member_of_the_day.place_of_birth}
             </span>
-            <span style="margin-top:20px;padding-right:10px;margin-left:16px;" if.bind="member_of_the_day.year_of_birth">  
+            <span class="hidden-xs hidden-sm" style="margin-top:20px;padding-right:10px;margin-left:16px;" if.bind="member_of_the_day.year_of_birth">  
                 ${member_of_the_day.year_of_birth}
             </span>
-            <span style="margin-top:20px;padding-right:10px;margin-left:16px;border-right:2px solid gray;" if.bind="member_of_the_day.year_of_death">  
+            <span class="hidden-xs hidden-sm" style="margin-top:20px;padding-right:10px;margin-left:16px;border-right:2px solid gray;" if.bind="member_of_the_day.year_of_death">  
                 ${died_in & t} ${member_of_the_day.year_of_death}
             </span>
-            <span style="float:left;margin-top:20px;margin-left:16px;padding-right:16px;border-right:2px solid gray;cursor:pointer;"
+            <span class="hidden-xs" style="float:left;margin-top:20px;margin-left:16px;padding-right:16px;border-right:2px solid gray;cursor:pointer;"
                 click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
                 ${'home.to-the-page-of' & t} ${member_of_the_day.first_name}
             </span>

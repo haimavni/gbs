@@ -1,43 +1,45 @@
-div.slide-list {
-    margin-left: 0px;
-    margin-right: 0px;
-    a {
-        float: right;
+photo-strip {
+    position: relative; // Makes all sub-content relative to this element.
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    background-color: #ccc;
+}
+
+.slide-list {
+    position: relative;
+    transform: translateX(-50%);
+    display: inline-block;
+    white-space: nowrap;
+
+    img { 
+        display: inline-block;
     }
 }
 
-.slides-list {
-    background-color: #cccccc;
-    overflow: hidden;
-    position: relative;
-}
-
-.slides-list .slide-control
+.slide-control
 {
     position: absolute;
+
+    // INFO [Matt] These top & margin-top styles are the quintessential "vertical center" pattern.
+    top: 50%;
+    margin-top: -21px; 
+
+    color: white;
     opacity: 0.6;
-    height: 20%;
-    width: 32px;
-    top: 40%;
     cursor: pointer;
+
+    &:hover {
+        opacity: 1.0;
+    }
 }
 
-.slides-list .slide-control:hover {
-    opacity: 1.0;
-}
-
-.slides-list .slide-control.next
+.slide-control.next
 {
     right: 0%;
-    color: white;
 }
 
-.slides-list .slide-control.prev
+.slide-control.prev
 {
     left: 0%;
-    color: white;
 }
-
-
-
-
