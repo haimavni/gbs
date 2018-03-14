@@ -78,27 +78,30 @@ export class PhotoStripCustomElement {
         //this.subscription.dispose();
     }
 
+    drag_photos(event) {
+        let { dx } = event.detail;
+
+        if (Math.abs(dx) > 0) {
+            this.dragging = true;
+        }
+        this.shift_photos(dx);
+        event.preventDefault();
+    }
+
     shift_photos(dx) {
         let target = this.slideList,
+            parent = target.parentElement,
             // keep the dragged position in the data-x/data-y attributes
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + dx,
-            breakpoint = target.clientWidth / 4;
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
 
-        if (x < -breakpoint) {
-            x += 2 * breakpoint;
-        } else if (x > breakpoint) {
-            x -= 2 * breakpoint;
-        }
+        // we keep sliding between the left and right side of the strip
+        x = Math.min(Math.max(x, parent.clientWidth - target.clientWidth),0); 
 
         // translate the element
         target.style.left = `${x}px`;
 
         // update the posiion attributes
         target.setAttribute('data-x', x);
-
-        if (Math.abs(dx) > 0) {
-            this.dragging = true;
-        }
     }
 
     dispatch_height_change() {
@@ -186,6 +189,10 @@ export class PhotoStripCustomElement {
             }
             this.modified_slide = null;
         }
+    }
+
+    get show_arrows() {
+        return this.element.clientWidth < this.slideList.clientWidth;
     }
 
     on_click(event, slide) {
