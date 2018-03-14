@@ -5,10 +5,9 @@ div.main-panel {
     margin-bottom: 20px;
 
     > div {
-
-        /* See the note in home.ts L62 */
-        height: calc(100vh - 606px);
-        //min-height: 200px;
+        // height: calc(100vh - 606px); /* See the note in home.ts L62 */
+        height: calc(100vh - 619px);
+        min-height: 25vh;
 
         margin-top: 15px;
         overflow-y: auto;
