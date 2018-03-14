@@ -1,7 +1,7 @@
 <template>
     <div class="row slide-list" css="height: ${height}px;" element.ref="slideList"
-        interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="shift_photos($event.detail.dx)">
-        <img repeat.for="slide of slides.concat(slides)" id="img-${slide.photo_id}" src="${slide.src}" height="${height}" aubs-tooltip="text.bind:slide.title" mouseup.delegate="on_click($event, slide)" />
+        interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="drag_photos($event.detail.dx)">
+        <img repeat.for="slide of slides" id="img-${slide.photo_id}" src="${slide.src}" aubs-tooltip="text.bind:slide.title" mouseup.delegate="on_click($event, slide)" />
     </div>
     <help style="position:absolute;bottom:0px;" topic.bind="photo-strip" position="right"></help>
     <template if.bind="settings.arrows">

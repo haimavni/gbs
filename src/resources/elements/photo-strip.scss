@@ -8,12 +8,12 @@ photo-strip {
 
 .slide-list {
     position: relative;
-    transform: translateX(-50%);
     display: inline-block;
     white-space: nowrap;
 
     img { 
         display: inline-block;
+        max-height: 100%;
     }
 }
 

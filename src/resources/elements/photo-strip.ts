@@ -78,27 +78,27 @@ export class PhotoStripCustomElement {
         //this.subscription.dispose();
     }
 
+    drag_photos(dx) {
+        if (Math.abs(dx) > 0) {
+            this.dragging = true;
+        }
+        this.shift_photos(dx);
+    }
+
     shift_photos(dx) {
         let target = this.slideList,
+            parent = target.parentElement,
             // keep the dragged position in the data-x/data-y attributes
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + dx,
-            breakpoint = target.clientWidth / 4;
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
 
-        if (x < -breakpoint) {
-            x += 2 * breakpoint;
-        } else if (x > breakpoint) {
-            x -= 2 * breakpoint;
-        }
+        // we keep sliding between the left and right side of the strip
+        x = Math.max(Math.min(x, 0), parent.clientWidth - target.clientWidth); 
 
         // translate the element
         target.style.left = `${x}px`;
 
         // update the posiion attributes
         target.setAttribute('data-x', x);
-
-        if (Math.abs(dx) > 0) {
-            this.dragging = true;
-        }
     }
 
     dispatch_height_change() {
