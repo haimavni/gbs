@@ -42,7 +42,7 @@ export class PhotoStripCustomElement {
             this.source.then(result => {
                 this.slides = result.photo_list;
                 for (let slide of this.slides) {
-                    if (slide.title && slide.title[0] != '<') {
+                    if (this.theme.rtltr=="rtl" && slide.title && slide.title[0] != '<') {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
@@ -79,13 +79,19 @@ export class PhotoStripCustomElement {
     }
 
     drag_photos(event) {
-        let { dx } = event.detail;
+        event.preventDefault();
+        let { dx, dy } = event.detail;
+        if (Math.abs(dy) > Math.abs(dx)) {
+            this.height += dy;
+            this.dispatch_height_change();
+            this.calculate_widths();
+            return;
+        }
 
         if (Math.abs(dx) > 0) {
             this.dragging = true;
         }
         this.shift_photos(dx);
-        event.preventDefault();
     }
 
     shift_photos(dx) {
