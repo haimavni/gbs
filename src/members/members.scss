@@ -190,9 +190,12 @@ ux-dialog-containerxxx {
     height: calc(100vh - 713px);
     min-height: 271px;
 
-    .member-story-panel {
+    .member-story-panel-moved {
         overflow-y: auto;
         height: calc(100% - 53px);
+        >p {
+            text-align: justify;
+        }
     }
 }
 
@@ -222,7 +225,7 @@ ux-dialog-containerxxx {
             height: 45px;
         }
 
-        .member-story-panel {
+        /*.member-story-panel {
             height: 185px;
             overflow-y: auto;
 
@@ -241,7 +244,9 @@ ux-dialog-containerxxx {
             a {
                 color: blue;
             }
-        }
+        }*/
+
+
 
         a.goto-story-page {
             position:absolute;
@@ -261,3 +266,17 @@ ux-dialog-containerxxx {
         }
     }
 }
+
+div.member-story-panel {
+    height: 185px;
+    overflow: auto;
+    >p {
+        padding-bottom: 2px;
+        padding-left:12px;
+        text-align: justify;
+    }
+    a {
+        color: blue;
+    }
+}
+

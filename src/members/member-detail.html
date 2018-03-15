@@ -95,7 +95,7 @@
                     <compose view-model="./member-edit" model.bind="member"></compose>
                 </div>
             </div>
-            <div class="col-md-6 fr-view" style="margin-bottom:20px;padding-left:20px;padding-right:30px;" 
+            <div class="col-md-6 fr-view" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" 
                     if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
                         ${'members.life-summary' & t} ${member.member_info.first_name}
