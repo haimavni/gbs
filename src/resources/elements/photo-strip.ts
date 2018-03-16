@@ -17,7 +17,6 @@ export class PhotoStripCustomElement {
     width;
     modified_slide = null;
     eventAggregator;
-    vertical = false;
     bindingEngine: BindingEngine;
     subscription;
     slideShow;
@@ -83,6 +82,9 @@ export class PhotoStripCustomElement {
         let { dx, dy } = event.detail;
         if (Math.abs(dy) > Math.abs(dx)) {
             this.height += dy;
+            if (this.height < 10) {
+                this.height = 10;
+            }
             this.dispatch_height_change();
             this.calculate_widths();
             return;
@@ -132,40 +134,6 @@ export class PhotoStripCustomElement {
         }
     }
 
-    adjust_side_photos() {
-        let total_width = 0;
-        for (let slide of this.slides) {
-            if (!slide) {
-                console.log("null slide detected!");
-                continue;
-            }
-            let img = document.getElementById('img-' + slide.photo_id);
-            let r = this.height / slide.height;
-            let gap = this.width - total_width;
-            let w = Math.round(r * slide.width);
-            if (!img) {
-                window.setTimeout(() => img = document.getElementById('img-' + slide.photo_id));
-            }
-            if (img)
-                img.style.width = w + "px";
-
-            total_width += w;
-            if (total_width > this.width) {
-                if (img) {
-                    window.setTimeout(() => img.style.width = gap + "px", WAIT);
-                    //the line below should replace the line above, but so far no luck
-                    //window.setTimeout(() => img.style.clip = "rect(0px, ${w}px, ${this.height}px, ${gap}px)", WAIT);
-                }
-                this.modified_slide = slide;
-                return;
-            } else {
-                if (img) {
-                    img.style.width = "${w}px";
-                }
-            }
-        }
-    }
-
     calculate_widths() {
         for (let slide of this.slides) {
             if (!slide) {
@@ -207,9 +175,6 @@ export class PhotoStripCustomElement {
             return;
         }
         event.stopPropagation();
-        if (this.vertical) {
-            return;
-        }
         if (this.action_key) {
             this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides });
         }
