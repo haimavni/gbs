@@ -101,9 +101,22 @@ export class PhotoStripCustomElement {
             parent = target.parentElement,
             // keep the dragged position in the data-x/data-y attributes
             x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
+            
+        let min, max;
+
+        // in left to right, you want to negative
+        if (getComputedStyle(target).direction === 'ltr') {
+            min = parent.clientWidth - target.clientWidth;
+            max = 0;
+        
+        // in right to left, you want to go positive
+        } else {
+            min = 0; 
+            max = target.clientWidth - parent.clientWidth);
+        }
 
         // we keep sliding between the left and right side of the strip
-        x = Math.min(Math.max(x, parent.clientWidth - target.clientWidth),0); 
+        x = Math.min(Math.max(x, min), max);
 
         // translate the element
         target.style.left = `${x}px`;

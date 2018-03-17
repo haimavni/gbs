@@ -103,27 +103,13 @@ ux-dialog-containerxxx {
     }
 }
 
-.slide-list .slide-control
+#stories .slide-control.next
 {
-    position: absolute;
-    opacity: 0.51;
-    height: 20%;
-    width: 32px;
-    top: 40%;
-    cursor: pointer;
-    z-index: 1000;
+    right: 6px;
 }
-.slide-list .slide-control:hover {
-    opacity: 1.0;
-}
-.slide-list .slide-control.next
+#stories .slide-control.prev
 {
-    right: 0%;
-    color: white;
-}
-.slide-list .slide-control.prev
-{
-    left: 0%;
+    left: 6px;
     color: white;
 }
 
@@ -201,7 +187,6 @@ ux-dialog-containerxxx {
 
 #member-detail #stories {
     position: relative;
-    //padding-right:15px;
     padding: 0;
     border: solid 6px white;
 
