@@ -112,7 +112,7 @@ export class PhotoStripCustomElement {
         // in right to left, you want to go positive
         } else {
             min = 0; 
-            max = target.clientWidth - parent.clientWidth);
+            max = target.clientWidth - parent.clientWidth;
         }
 
         // we keep sliding between the left and right side of the strip
