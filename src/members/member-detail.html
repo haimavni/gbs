@@ -112,9 +112,6 @@
             </div>
         </div>
         <div id="stories" class="fr-view row ${theme.font-size}" if.bind="! user.editing" interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
-            <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)"><i class="fa fa-chevron-right fa-3x"></i></div>
-            <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)"><i class="fa fa-chevron-left fa-3x"></i></div>
-
             <div class="col-md-3 col-sm-6 col-xs-12 story-box last notfirst" show.bind="story_4.story_text != ''">
                 <div class="member-story-header" show.bind="story_4.name">
                     <a class="goto-story-page" click.trigger="goto_story_page(story_4)" t="[title]members.to-story-page"><i class="fa fa-play fa-rotate-180"></i></a>
@@ -171,6 +168,8 @@
                     </p>
                 </div>
             </div>
+            <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)"><i class="fa fa-chevron-right fa-3x"></i></div>
+            <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)"><i class="fa fa-chevron-left fa-3x"></i></div>
         </div>
     </div>
 </template>
