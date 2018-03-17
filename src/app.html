@@ -2,7 +2,7 @@
     <require from="app.css"></require>
     <require from="scrollbox.css"></require>
 
-    <div css="background-image:url('${theme.files.content_background}') min-height:${theme.min_height}px;">
+    <div css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color:white">
             <div class="container">
                 <div class="navbar-header navbar-right" style="padding-bottom:8px;">
@@ -35,7 +35,9 @@
             </div>
             <div class="row top-head" style="height:80px;background-color:rgba(80,80,80,0.3);" if.bind="theme.page_title != '' && ! theme.hide_title">
                 <div class="page-title" css="background-image:url('${theme.files.top_background}');">
-                    <div style="margin-top:20px;padding-top:2px;padding-right:16px;"><h1 dir="rtl"> ${theme.page_title & t}</h1></div>
+                    <div style="margin-top:20px;padding-top:2px;margin-right:36px;">
+                        <h1 dir="rtl"> ${theme.page_title & t}</h1>
+                    </div>
                 </div>
             </div>
         </nav>

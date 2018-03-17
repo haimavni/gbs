@@ -26,6 +26,7 @@ photo-strip {
 .slide-control
 {
     position: absolute;
+    z-index: 1;
 
     // INFO [Matt] These top & margin-top styles are the quintessential "vertical center" pattern.
     top: 50%;

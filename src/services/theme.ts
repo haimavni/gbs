@@ -29,6 +29,8 @@ export class Theme {
     interact_setting = {};
     page_title = "";
     hide_title = false;
+    same_dir;
+    other_dir;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -48,6 +50,8 @@ export class Theme {
             this.i18n.setLocale(this.locale)
         }
         this.rtltr = rtl_langs.has(this.locale) ? "rtl" : "ltr";
+        this.same_dir = this.rtltr == "rtl" ? "right" : "left";
+        this.other_dir = this.rtltr == "rtl" ? "left" : "right";
         try {
             let userLangs = navigator.languages;
             let hasHebrew = userLangs.find(lang => lang.startsWith('he'));

@@ -176,33 +176,41 @@ ux-dialog-containerxxx {
     height: calc(100vh - 713px);
     min-height: 271px;
 
-    .member-story-panel {
+    .member-story-panel-moved {
         overflow-y: auto;
         height: calc(100% - 53px);
+        >p {
+            text-align: justify;
+        }
     }
 }
 
 #member-detail #stories {
     position: relative;
+    padding: 0;
+    border: solid 6px white;
 
     .story-box {
         height: 260px;
         overflow-y: auto;
         overflow-x: hidden;
-        border-top: 6px solid white;
-        border-bottom: 6px solid white;
+        //border-top: 6px solid white;
+        //border-bottom: 6px solid white;
         border-left: 6px solid white;
         background-color: rgba(208, 208, 208, 0.5);
 
         &:last-child {
-            border-top: 6px solid white;    
+            border-left: none;    
+        }
+        &:first-child {
+            border: none;
         }
 
         .member-story-header {
             height: 45px;
         }
 
-        .member-story-panel {
+        /*.member-story-panel {
             height: 185px;
             overflow-y: auto;
 
@@ -221,7 +229,9 @@ ux-dialog-containerxxx {
             a {
                 color: blue;
             }
-        }
+        }*/
+
+
 
         a.goto-story-page {
             position:absolute;
@@ -241,3 +251,17 @@ ux-dialog-containerxxx {
         }
     }
 }
+
+div.member-story-panel {
+    height: 185px;
+    overflow: auto;
+    >p {
+        padding-bottom: 2px;
+        padding-left:12px;
+        text-align: justify;
+    }
+    a {
+        color: blue;
+    }
+}
+

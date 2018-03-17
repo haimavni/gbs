@@ -26,10 +26,9 @@ export class Home {
     i18n;
     dialog;
     eventAggregator;
-    panel_height = 400;
+    panel_height = 380;
     photo_strip_height = 360;
     subscriber1;
-    //subscriber2;
     
     constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator) {
         this.api = api;
@@ -58,14 +57,6 @@ export class Home {
         return { type: "youtube", src: "//www.youtube.com/embed/" + video_code + "?wmode=opaque" }
     }
 
-    // INFO [Matt] I don't understand where these numbers are coming from
-    // so I'm not going to touch it. This probably isn't a good strategy, 
-    // however. It would be better to use calc() or set min-heights or both.
-    /*set_panel_height() {
-        return;
-        this.panel_height = Math.max(this.theme.height - 557, 200);
-    }*/
-
     action(slide, event) {
         console.log(" action on slide: ", slide, " event: ", event);
     }
@@ -93,15 +84,12 @@ export class Home {
             this.member_prefix = this.member_of_the_day.gender == 'F' ? 'home.female-member-of-the-day' : 'home.male-member-of-the-day';
             this.was_born_in = this.member_of_the_day.gender == 'F' ? 'home.female-was-born-in' : 'home.male-was-born-in';
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';
-            //this.set_panel_height();
         });
         this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
-        //this.subscriber2 = this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_panel_height() });
     }
 
     detached() {
         this.subscriber1.dispose();
-        //this.subscriber2.dispose();
     }
 
     jump_to_member_of_the_day_page(member_id) {
@@ -124,9 +112,8 @@ export class Home {
 
     on_height_change(event) {
         event.stopPropagation();
-        let ph = this.photo_strip_height;
-        this.photo_strip_height = event.detail.new_height + 60;
-        console.log("new photo strip height: ", this.photo_strip_height, ph);
+        let { new_height } = event.detail;
+        this.panel_height = 680 - new_height;
     }
 
 }
