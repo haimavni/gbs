@@ -123,6 +123,7 @@ export class PhotoStripCustomElement {
 
         // update the posiion attributes
         target.setAttribute('data-x', x);
+        this.slideShow.dispose();
     }
 
     dispatch_height_change() {
@@ -162,20 +163,6 @@ export class PhotoStripCustomElement {
             }
         }
         return true;
-    }
-
-    restore_modified_slide() {
-        let slide = this.modified_slide;
-
-        if (slide) {
-            let r = this.height / slide.height;
-            let w = Math.round(r * slide.width);
-            let img = document.getElementById('img-' + this.modified_slide.photo_id);
-            if (img) {
-                img.style.width = "${w}px";
-            }
-            this.modified_slide = null;
-        }
     }
 
     get show_arrows() {

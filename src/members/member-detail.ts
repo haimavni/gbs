@@ -28,7 +28,9 @@ export class MemberDetail {
     baseURL;
     dirty_info = false;
     dirty_story = false;
-    content_area_height = 300;
+    photo_strip_height = 220;
+    bottom_height = 271;
+    top_height = 271;
     stories_base = 0;
     story_0 = { story_text: "" };
     story_1 = { story_text: "" };
@@ -40,6 +42,7 @@ export class MemberDetail {
     source;
     member_url = "";
     sub1; sub2; sub3; sub4; sub5;
+    panel_height = 566;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway, 
                 router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
@@ -158,7 +161,10 @@ export class MemberDetail {
         let n = this.member.member_stories.length;
         let i;
         if (n <= 5) {
-            i = idx
+            i = idx;
+            if ( idx > 0  && this.theme.rtltr === "rtl") {
+                i = 5 - i;
+            }
         } else if (idx == 0) {
             i = 0
         } else {
@@ -211,6 +217,12 @@ export class MemberDetail {
 
     goto_story_page(story) {
         this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story'});
+    }
+
+    on_height_change(event) {
+        event.stopPropagation();
+        let { new_height } = event.detail;
+        this.panel_height = 680 - new_height;
     }
 
 }

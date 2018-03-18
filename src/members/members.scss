@@ -196,14 +196,9 @@ ux-dialog-containerxxx {
         overflow-x: hidden;
         //border-top: 6px solid white;
         //border-bottom: 6px solid white;
-        border-left: 6px solid white;
         background-color: rgba(208, 208, 208, 0.5);
-
-        &:last-child {
-            border-left: none;    
-        }
-        &:first-child {
-            border: none;
+        &.notfirst {
+            border-left: 6px solid white;
         }
 
         .member-story-header {
