@@ -79,21 +79,33 @@ export class PhotoStripCustomElement {
 
     drag_photos(event) {
         event.preventDefault();
-        let { dx, dy } = event.detail;
-        if (Math.abs(dy) > Math.abs(dx)) {
+        let { dx, dy, target } = event.detail;
+        if (Math.abs(dy) > 7 * Math.abs(dx)) { // must be significantly larger, to prevent inadvertant height change
+            let h = this.height;
             this.height += dy;
             if (this.height < 10) {
                 this.height = 10;
             }
+            // keep current photo on screen
+            let x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
+            let r = this.height / h;
+            let parent = target.parentElement;
+            let m = parent.clientWidth / 2;
+            x = Math.round((x - m) * r + m);
+            target.setAttribute('data-x', x);
+            target.style.left = `${x}px`;
+            
             this.dispatch_height_change();
             this.calculate_widths();
-            return;
+            return false;
         }
-
-        if (Math.abs(dx) > 0) {
-            this.dragging = true;
+        if (Math.abs(dx) > 7 * Math.abs(dy)) {
             this.slideShowStopped = true;
         }
+        if (event.detail.ctrlKey) {
+            this.slideShowStopped = false;
+        }
+        this.dragging = true;
         this.shift_photos(dx);
     }
 
