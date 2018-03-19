@@ -31,6 +31,7 @@ export class MemberDetail {
     photo_strip_height = 220;
     bottom_height = 271;
     top_height = 271;
+    story_box_height = 260;
     stories_base = 0;
     story_0 = { story_text: "" };
     story_1 = { story_text: "" };
@@ -90,13 +91,21 @@ export class MemberDetail {
         console.log("member url ", this.member_url);
     }
 
+    set_heights() {
+        this.panel_height = this.theme.height - this.photo_strip_height - 188;
+        this.top_height = Math.round(this.panel_height / 2);
+        this.bottom_height = this.panel_height - this.top_height;
+        console.log("heights: ", this.panel_height, this.top_height, this.bottom_height);
+    }
+
     attached() {
         console.log("attached member detail");
         this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
-        this.sub5 = this.eventAggregator.subscribe('Zoom', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) })
+        this.sub5 = this.eventAggregator.subscribe('Zoom', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.set_heights();
     }
 
     detached() {

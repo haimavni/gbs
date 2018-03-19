@@ -61,6 +61,7 @@ export class Theme {
         }
         THEME = this;
         this.detectTouchScreen();
+        this.set_heights();
     }
 
     detectTouchScreen() {
@@ -81,15 +82,20 @@ export class Theme {
         }
     }
 
-    handle_content_resize() {
+    set_heights() {
         let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        if (w != this.width || h != this.height) {
-            console.log("resize.  w, h: ", w, h);
-            this.height = h;
-            this.width = w;
-            this.min_height = this.height - this.footer_height;
-            this.eventAggregator.publish('WINDOW-RESIZED', { width: w, height: h });
+        let result = (w != this.width || h != this.height);
+        this.width = w;
+        this.height = h;
+        this.min_height = this.height - this.footer_height;
+        return result;
+    }
+
+    handle_content_resize() {
+        let changed = this.set_heights();
+        if (changed) {
+            this.eventAggregator.publish('WINDOW-RESIZED', { width: this.width, height: this.height });
         }
     }
 

@@ -173,7 +173,7 @@ ux-dialog-containerxxx {
 }
 
 #member-detail #member-detail-content > div {
-    height: calc(100vh - 713px);
+    //height: calc(100vh - 713px);
     min-height: 271px;
 
     .member-story-panel-moved {
@@ -191,7 +191,7 @@ ux-dialog-containerxxx {
     border: solid 6px white;
 
     .story-box {
-        height: 260px;
+        //height: 260px;
         overflow-y: auto;
         overflow-x: hidden;
         //border-top: 6px solid white;

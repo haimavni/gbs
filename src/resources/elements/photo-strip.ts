@@ -22,6 +22,7 @@ export class PhotoStripCustomElement {
     slideShow;
     theme;
     dragging = false;
+    slideShowStopped = false;
 
     // refs 
     slideList; // defined by element.ref in the html
@@ -41,27 +42,26 @@ export class PhotoStripCustomElement {
             this.source.then(result => {
                 this.slides = result.photo_list;
                 for (let slide of this.slides) {
-                    if (this.theme.rtltr=="rtl" && slide.title && slide.title[0] != '<') {
+                    if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
                 if (this.calculate_widths()) {
                     this.prev_id = this.id;
                 }
-                this.next_slide();
+                this.shift_photos(0);
             });
 
-        }
-        let n = this.settings.slide_show;
-        if (n && !this.slideShow) {
-            if (n) {
-                this.slideShow = setInterval(() => this.next_slide(), n * 1000);
+            let n = this.settings.slide_show;
+            if (n && !this.slideShow) {
+                this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
+                this.shift_photos(0);  //for the case of half empty carousel
             }
         }
     }
 
     attached() {
-        
+
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
@@ -92,26 +92,31 @@ export class PhotoStripCustomElement {
 
         if (Math.abs(dx) > 0) {
             this.dragging = true;
+            this.slideShowStopped = true;
         }
         this.shift_photos(dx);
     }
 
     shift_photos(dx) {
-        let target = this.slideList,
-            parent = target.parentElement,
-            // keep the dragged position in the data-x/data-y attributes
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
-            
+        let target = this.slideList;
+        let parent = target.parentElement;
+        // keep the dragged position in the data-x/data-y attributes
+        let x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
+
         let min, max;
 
         // in left to right, you want to negative
         if (getComputedStyle(target).direction === 'ltr') {
             min = parent.clientWidth - target.clientWidth;
             max = 0;
-        
-        // in right to left, you want to go positive
+            if (min > 0) {
+                target.style.left = `${min}px`;
+                return;
+            }
+
+            // in right to left, you want to go positive
         } else {
-            min = 0; 
+            min = 0;
             max = target.clientWidth - parent.clientWidth;
         }
 
@@ -123,7 +128,6 @@ export class PhotoStripCustomElement {
 
         // update the posiion attributes
         target.setAttribute('data-x', x);
-        this.slideShow.dispose();
     }
 
     dispatch_height_change() {
@@ -138,13 +142,21 @@ export class PhotoStripCustomElement {
 
     next_slide() { //we are right to left...
         if (!this.dragging) {
-            this.shift_photos(-250)
+            this.shift_photos(250)
         }
+        this.slideShowStopped = true;
     }
 
     prev_slide() {
         if (!this.dragging) {
-            this.shift_photos(250);
+            this.shift_photos(-250);
+        }
+        this.slideShowStopped = true;
+    }
+
+    auto_next_slide() {
+        if (!this.slideShowStopped) {
+            this.shift_photos(-1);
         }
     }
 
