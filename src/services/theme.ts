@@ -1,4 +1,4 @@
-import { autoinject, singleton, noView } from "aurelia-framework";
+import { autoinject, singleton, noView, computedFrom } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
@@ -26,7 +26,7 @@ export class Theme {
     public rtltr;
     i18n;
     touchScreen = null;
-    interact_setting = {};
+    _interact_setting = {};
     page_title = "";
     hide_title = false;
     same_dir;
@@ -68,11 +68,16 @@ export class Theme {
         if (this.touchScreen == null) {
             window.addEventListener('touchstart', function onFirstTouch() {
                 THEME.touchScreen = true;
-                alert("touch started");
-                THEME.interact_setting = { interactable: { preventDefault: 'never' } };
+                THEME._interact_setting = { interactable: { preventDefault: 'never' } };
                 window.removeEventListener('touchstart', onFirstTouch, false);
             }, false);
         }
+    }
+
+    @computedFrom('touchScreen')
+    get interact_setting()
+     {
+        return this._interact_setting;
     }
 
     set_heights() {
