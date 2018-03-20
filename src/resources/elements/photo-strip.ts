@@ -198,7 +198,7 @@ export class PhotoStripCustomElement {
     on_click(event, slide) {
         if (this.dragging) {
             this.dragging = false;
-            //return;
+            return;
         }
         event.stopPropagation();
         if (this.action_key) {

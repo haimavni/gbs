@@ -65,22 +65,14 @@ export class Theme {
     }
 
     detectTouchScreen() {
-        let touchScreen = this.cookies.get('TOUCH-SCREEN');
-        if (touchScreen == null) {
-            this.cookies.put('TOUCH-SCREEN', false);
+        if (this.touchScreen == null) {
             window.addEventListener('touchstart', function onFirstTouch() {
                 THEME.touchScreen = true;
+                alert("touch started");
                 THEME.interact_setting = { interactable: { preventDefault: 'never' } };
-                THEME.cookies.put('TOUCH-SCREEN', true);
                 window.removeEventListener('touchstart', onFirstTouch, false);
             }, false);
-        } else {
-            this.touchScreen = touchScreen == 'true';
-            if (this.touchScreen) {
-                this.interact_setting = { interactable: { preventDefault: 'never' } };
-            }
         }
-        alert("touch screen? " + (this.touchScreen ? "Yes" : "No"));
     }
 
     set_heights() {
