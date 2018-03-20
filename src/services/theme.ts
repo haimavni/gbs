@@ -80,6 +80,7 @@ export class Theme {
                 this.interact_setting = { interactable: { preventDefault: 'never' } };
             }
         }
+        alert("touch screen? " + (this.touchScreen ? "Yes" : "No"));
     }
 
     set_heights() {
