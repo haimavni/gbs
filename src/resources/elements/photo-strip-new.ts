@@ -17,12 +17,12 @@ export class PhotoStripCustomElement {
     width;
     modified_slide = null;
     eventAggregator;
-    vertical = false;
     bindingEngine: BindingEngine;
     subscription;
     slideShow;
     theme;
     dragging = false;
+    slideShowStopped = false;
 
     // refs 
     slideList; // defined by element.ref in the html
@@ -42,27 +42,26 @@ export class PhotoStripCustomElement {
             this.source.then(result => {
                 this.slides = result.photo_list;
                 for (let slide of this.slides) {
-                    if (slide.title && slide.title[0] != '<') {
+                    if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
                 if (this.calculate_widths()) {
                     this.prev_id = this.id;
                 }
-                this.next_slide();
+                this.shift_photos(0);
             });
 
-        }
-        let n = this.settings.slide_show;
-        if (n && !this.slideShow) {
-            if (n) {
-                this.slideShow = setInterval(() => this.next_slide(), n * 1000);
+            let n = this.settings.slide_show;
+            if (n && !this.slideShow) {
+                this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
+                this.shift_photos(0);  //for the case of half empty carousel
             }
         }
     }
 
     attached() {
-        
+
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
         let top = elementRect.top + elementRect.height;
@@ -79,32 +78,60 @@ export class PhotoStripCustomElement {
     }
 
     drag_photos(event) {
-        let { dx } = event.detail;
-
-        if (Math.abs(dx) > 0) {
-            this.dragging = true;
-        }
-        this.shift_photos(dx);
         event.preventDefault();
+        let { dx, dy, target } = event.detail;
+        if (Math.abs(dy) > 7 * Math.abs(dx)) { // must be significantly larger, to prevent inadvertant height change
+            let h = this.height;
+            this.height += dy;
+            if (this.height < 10) {
+                this.height = 10;
+            }
+            // keep current photo on screen
+            let x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
+            let r = this.height / h;
+            let parent = target.parentElement;
+            let m = parent.clientWidth / 2;
+            x = Math.round((x - m) * r + m);
+            target.setAttribute('data-x', x);
+            target.style.left = `${x}px`;
+
+            this.dispatch_height_change();
+            this.calculate_widths();
+            return false;
+        }
+        if (Math.abs(dx) > 7 * Math.abs(dy)) {
+            this.slideShowStopped = true;
+        }
+        if (event.detail.ctrlKey) {
+            this.slideShowStopped = false;
+        }
+        if (Math.abs(dx) > 2) {
+            this.dragging = true;
+            this.shift_photos(dx);
+        }
     }
 
     shift_photos(dx) {
-        let target = this.slideList,
-            parent = target.parentElement,
-            // keep the dragged position in the data-x/data-y attributes
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
-            
+        let target = this.slideList;
+        let parent = target.parentElement;
+        // keep the dragged position in the data-x/data-y attributes
+        let x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
+
         let min, max;
 
         // in left to right, you want to negative
         if (getComputedStyle(target).direction === 'ltr') {
             min = parent.clientWidth - target.clientWidth;
             max = 0;
-        
-        // in right to left, you want to go positive
+            if (min > 0) {
+                target.style.left = `${min}px`;
+                return;
+            }
+
+            // in right to left, you want to go positive
         } else {
-            min = 0; 
-            max = target.clientWidth - parent.clientWidth);
+            min = 0;
+            max = target.clientWidth - parent.clientWidth;
         }
 
         // we keep sliding between the left and right side of the strip
@@ -129,47 +156,21 @@ export class PhotoStripCustomElement {
 
     next_slide() { //we are right to left...
         if (!this.dragging) {
-            this.shift_photos(-250)
+            this.shift_photos(250)
         }
+        this.slideShowStopped = true;
     }
 
     prev_slide() {
         if (!this.dragging) {
-            this.shift_photos(250);
+            this.shift_photos(-250);
         }
+        this.slideShowStopped = true;
     }
 
-    adjust_side_photos() {
-        let total_width = 0;
-        for (let slide of this.slides) {
-            if (!slide) {
-                console.log("null slide detected!");
-                continue;
-            }
-            let img = document.getElementById('img-' + slide.photo_id);
-            let r = this.height / slide.height;
-            let gap = this.width - total_width;
-            let w = Math.round(r * slide.width);
-            if (!img) {
-                window.setTimeout(() => img = document.getElementById('img-' + slide.photo_id));
-            }
-            if (img)
-                img.style.width = w + "px";
-
-            total_width += w;
-            if (total_width > this.width) {
-                if (img) {
-                    window.setTimeout(() => img.style.width = gap + "px", WAIT);
-                    //the line below should replace the line above, but so far no luck
-                    //window.setTimeout(() => img.style.clip = "rect(0px, ${w}px, ${this.height}px, ${gap}px)", WAIT);
-                }
-                this.modified_slide = slide;
-                return;
-            } else {
-                if (img) {
-                    img.style.width = "${w}px";
-                }
-            }
+    auto_next_slide() {
+        if (!this.slideShowStopped) {
+            this.shift_photos(-1);
         }
     }
 
@@ -190,20 +191,6 @@ export class PhotoStripCustomElement {
         return true;
     }
 
-    restore_modified_slide() {
-        let slide = this.modified_slide;
-
-        if (slide) {
-            let r = this.height / slide.height;
-            let w = Math.round(r * slide.width);
-            let img = document.getElementById('img-' + this.modified_slide.photo_id);
-            if (img) {
-                img.style.width = "${w}px";
-            }
-            this.modified_slide = null;
-        }
-    }
-
     get show_arrows() {
         return this.element.clientWidth < this.slideList.clientWidth;
     }
@@ -214,9 +201,6 @@ export class PhotoStripCustomElement {
             return;
         }
         event.stopPropagation();
-        if (this.vertical) {
-            return;
-        }
         if (this.action_key) {
             this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides });
         }
