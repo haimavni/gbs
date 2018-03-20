@@ -44,9 +44,10 @@ export class MemberDetail {
     member_url = "";
     sub1; sub2; sub3; sub4; sub5;
     panel_height = 566;
+    life_cycle_text = "";
 
-    constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway, 
-                router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
+    constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
+        router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
         this.user = user;
         this.theme = theme;
         this.eventAggregator = eventAggregator;
@@ -83,12 +84,38 @@ export class MemberDetail {
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
                 this.set_displayed_stories();
+                this.life_cycle_text = this.calc_life_cycle_text(this.member.member_info);
             });
         this.member_url = this_page_url();
     }
 
     bind() {
         console.log("member url ", this.member_url);
+    }
+
+    calc_life_cycle_text(member_info) {
+        let s = "";
+        let birth_place = member_info.PlaceOfBirth;
+        let birth_date = member_info.date_of_birth.date;
+        let death_place = member_info.place_of_death;
+        let death_date = member_info.date_of_death.date;
+        if (birth_date) {
+            s += this.i18n.tr('members.born-' + member_info.gender) + " ";
+            if (birth_place) {
+                s += this.i18n.tr('members.in-place') + birth_place + " ";
+            }
+            s += this.i18n.tr('members.in-date') + birth_date;
+        }
+        if (death_date) {
+            s += ' ' + this.i18n.tr('members.died-' + member_info.gender) + " ";
+            if (death_place) {
+                s += this.i18n.tr('members.in-place') + death_place + " ";
+            }
+            s += this.i18n.tr('members.in-date') + death_date;
+        }
+
+        return s;
+
     }
 
     set_heights() {
@@ -136,7 +163,7 @@ export class MemberDetail {
     next_story(event, dir = 1) {
         event.stopPropagation();
         this.stories_base += dir;
-        let n =  this.member.member_stories.length - 1;
+        let n = this.member.member_stories.length - 1;
         this.stories_base = (this.stories_base + n - 1) % n + 1;
         this.set_displayed_stories();
     }
@@ -171,7 +198,7 @@ export class MemberDetail {
         let i;
         if (n <= 5) {
             i = idx;
-            if ( idx > 0  && this.theme.rtltr === "rtl") {
+            if (idx > 0 && this.theme.rtltr === "rtl") {
                 i = 5 - i;
             }
         } else if (idx == 0) {
@@ -194,8 +221,8 @@ export class MemberDetail {
                 if (response.photo_detached) {
                     // now delete slide #photo_id from slide_list:
                     let idx = -1;
-                    for (let i=0; i < slide_list.length; i++) {
-                        if (slide_list[i].photo_id==photo_id) {
+                    for (let i = 0; i < slide_list.length; i++) {
+                        if (slide_list[i].photo_id == photo_id) {
                             idx = i;
                             break;
                         }
@@ -209,11 +236,11 @@ export class MemberDetail {
             });
     }
 
-    zoom_out(story, what, extra='') {
+    zoom_out(story, what, extra = '') {
         this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
-            if (extra=='life' && what=='edit' && ! this.member.member_info.story_id ) {
+            if (extra == 'life' && what == 'edit' && !this.member.member_info.story_id) {
                 this.member.member_info.story_id = response.output.story_id;
-                this.api.call_server_post('members/set_member_story_id', {member_id: this.member.member_info.id, story_id: response.output.story_id});
+                this.api.call_server_post('members/set_member_story_id', { member_id: this.member.member_info.id, story_id: response.output.story_id });
             }
             console.log("response after edit dialog: ", response.output);
         });
@@ -225,7 +252,7 @@ export class MemberDetail {
     }
 
     goto_story_page(story) {
-        this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story'});
+        this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
     }
 
     on_height_change(event) {

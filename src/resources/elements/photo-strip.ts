@@ -94,7 +94,7 @@ export class PhotoStripCustomElement {
             x = Math.round((x - m) * r + m);
             target.setAttribute('data-x', x);
             target.style.left = `${x}px`;
-            
+
             this.dispatch_height_change();
             this.calculate_widths();
             return false;
@@ -105,8 +105,10 @@ export class PhotoStripCustomElement {
         if (event.detail.ctrlKey) {
             this.slideShowStopped = false;
         }
-        this.dragging = true;
-        this.shift_photos(dx);
+        if (Math.abs(dx) > 2) {
+            this.dragging = true;
+            this.shift_photos(dx);
+        }
     }
 
     shift_photos(dx) {
