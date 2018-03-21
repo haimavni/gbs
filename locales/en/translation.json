@@ -242,5 +242,6 @@
   "select-years-range": "Mark years-range",
   "abcde": "Abcde",
   "a": "A",
-  "update": "update"
+  "update": "update",
+  "date-hint": "Enter year, month/year or full date"
 }

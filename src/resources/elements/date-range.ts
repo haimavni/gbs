@@ -1,6 +1,7 @@
 import { bindable, inject, bindingMode, computedFrom, DOM } from 'aurelia-framework';
 import { User } from '../../services/user';
 import { Theme } from '../../services/theme';
+import { I18N } from 'aurelia-i18n';
 
 export class MyDate {
     _day;
@@ -87,23 +88,28 @@ export class MyDate {
     }
 }
 
-@inject(User, Theme, DOM.Element)
+@inject(User, Theme, DOM.Element, I18N)
 export class DateRangeCustomElement {
     user;
     theme;
+    i18n;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) base_date_str = "";
     @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 0;
     @bindable label;
+    @bindable range_options: any = [];
     _end_date_str="";
     end_date_options = [];
     partial;
     is_valid = false;
     element;
+    hint;
 
-    constructor(user: User, theme: Theme, element) {
+    constructor(user: User, theme: Theme, element, i18n) {
         this.user = user;
         this.theme = theme;
         this.element = element;
+        this.i18n = i18n;
+        this.hint = this.i18n.tr('date-hint')
     }
 
     attached() {
@@ -111,6 +117,18 @@ export class DateRangeCustomElement {
     }
 
     build_end_date_options() {
+        let arr;
+        let today = new Date();
+        let cur_year = today.getFullYear();
+        console.log("range options: ", this.range_options, typeof this.range_options);
+        if (typeof this.range_options === 'number') {
+            let N = this.range_options;
+            arr = Array.apply(null, {length: N}).map(Number.call, Number);
+        } else if (typeof this.range_options == 'object') {
+            arr = this.range_options
+        } else {
+            return;
+        }
         if (this.base_date_str == undefined) {
             this.base_date_str = "";
         }
@@ -125,10 +143,18 @@ export class DateRangeCustomElement {
             return;
         }
         this.end_date_options = [];
-        for (let i=0; i < 10; i++) {
-            let option = {name: date.toString(), value: i};
-            this.end_date_options.push(option)
-            date.incr(1);
+        let i0 = 0;
+        for (let i of arr) {
+            let dif = date._year - cur_year;
+            if (dif >= 0) {
+                i0 -= dif;
+                date.incr(-dif);
+            }
+            let option = {name: date.toString(), value: i0};
+            this.end_date_options.push(option);
+            if (dif >= 0) break;
+            date.incr(i - i0);
+            i0 = i;
         }
         date = new MyDate(this.base_date_str);
         date.incr(this.span_size);
@@ -155,8 +181,9 @@ export class DateRangeCustomElement {
 
     @computedFrom('base_date_str', 'span_size')
     get end_date_str() {
-        this.calc_end_date();
-        this.build_end_date_options();
+        let date = new MyDate(this.base_date_str);
+        date.incr(this.span_size);
+        this._end_date_str = date.toString();
         return this._end_date_str;
     }
 
@@ -171,7 +198,7 @@ export class DateRangeCustomElement {
 
     @computedFrom("user.editing", "partial", "is_valid")
     get show_edit_end_date() {
-        return this.base_date_str && this.is_valid && this.user.editing && this.partial;
+        return this.base_date_str && this.is_valid && this.user.editing && this.partial && this.range_options.length > 1;
     }
 
     @computedFrom("user.editing", "partial", "is_valid")
@@ -186,7 +213,7 @@ export class DateRangeCustomElement {
     
     @computedFrom("user.editing", "partial", "span_size", "is_valid")
     get show_range_labels() {
-        return this.base_date_str && this.is_valid && this.partial && (this.user.editing || this.span_size > 0)
+        return this.base_date_str && this.range_options.length > 1 && this.is_valid && this.partial && (this.user.editing || this.span_size > 0)
     }
 
     @computedFrom("user.editing","base_date_str")
@@ -211,7 +238,7 @@ export class DateRangeCustomElement {
         let changeEvent = new CustomEvent('change', {
             detail: {
                 date_str: this.base_date_str,
-                date_span: this.span_size
+                date_span: this.span_size,
             },
             bubbles: true
         });

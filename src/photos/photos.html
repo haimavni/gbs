@@ -1,6 +1,6 @@
 <template>
     <require from='./photos.css'></require>
-    <section class="container content-area" css="height: ${win_height-265}px;">
+    <section class="container content-area photos" css="height: ${win_height-265}px;">
         <!--<div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
             <div style="padding-top:0px;padding-right:15px;">
                 <h1 if.bind="caller_type" dir="rtl">${'members.' + caller_type & t}</h1>
@@ -121,7 +121,12 @@
                         </form>
                     </div>
                     <div class="row" style="margin-top: 10px;float:right;" if.bind="can_set_dates">
-                        <date-range label="${'photos.photos-date' & t}" base_date_str.bind="params.photos_date_str" date_span_size.bind="params.photos_date_span_size"></date-range>
+                        <date-range 
+                            label="${'photos.photos-date' & t}" 
+                            base_date_str.bind="params.photos_date_str"
+                            range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]" 
+                            date_span_size.bind="params.photos_date_span_size">
+                        </date-range>
                     </div>
                 </div>
             </div>

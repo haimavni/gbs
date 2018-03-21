@@ -1,8 +1,8 @@
 <template>
-    <form class="form-inline" dir="${theme.rtltr}">
+    <form class="form-inline date-range" dir="${theme.rtltr}">
         <label if.bind="show_label">${label & t}</label>
         <div if.bind="show_edit_end_date" class="form-group" style="margin-right:0px;width:5em; ">
-            <select value.bind="span_size" style="height:2em;color:black;" change.delegate="span_size_changed($event)">
+            <select value.bind="span_size" style="height:2em;color:black;width:5.2em;" change.delegate="span_size_changed($event)">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
             </select>
         </div>
@@ -13,7 +13,7 @@
         </div>
 
         <div class="form-group" if.bind="show_range_labels" style="margin-right:0px;width:1em">
-            <span style="padding:6px;">-</span>
+            <span style="padding:0;margin:0;">-</span>
         </div>
 
         <div class="form-group" if.bind="! show_range_labels" style="margin-right:0px;width:1em;">
@@ -22,7 +22,8 @@
 
         <div if.bind="user.editing" class="form-group" style="margin-right:0px;width:5em;">
             <input type="text" value.bind="base_date_str" maxlength="10" 
-                style="height:2em;width:5.8em;padding-left:0.2em;padding-right:0.2em;color:black;direction:ltr;" 
+                aubs-tooltip="text.bind:hint"
+                style="height:2em;width:6.2em;padding-left:0.2em;padding-right:0;color:black;direction:ltr;margin-right:12px;margin-right:-9px;" 
                 change.trigger="base_date_changed($event)" 
                 keypress.trigger="keep_only_good_chars($event)" />
         </div>
@@ -30,6 +31,6 @@
         <div class="form-group" if.bind="show_date" style="width:5em;">
             <span style="padding-top:0.6em;">${base_date_str}</span>
         </div>
-        <div if.bind="build_now"></div>
+        <div if.bind="build_now"></div><!--to activate the variable get-->
     </form>
 </template>

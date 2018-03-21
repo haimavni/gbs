@@ -6,7 +6,7 @@
                 <i class="fa fa-rotate-left pull-left" data-role="button" t="[title]go-back" click.trigger="go_back()"></i>
                 <span if.bind="member.member_info.id">${member.member_info.full_name }</span>
                 <span if.bind="! member.member_info.id">${'members.new-member' & t }</span>
-                <span style="color:white;font-size:85%;"> ${life_cycle_text} </span>
+                <span style="color:white;font-size:85%;margin-right:30px;"> ${life_cycle_text} </span>
                 <copy-to-clipboard if.bind="user.editing" class="pull-left" content.bind="member_url"></copy-to-clipboard>
             </div>
         </div>

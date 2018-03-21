@@ -44,7 +44,6 @@ export class MemberDetail {
     member_url = "";
     sub1; sub2; sub3; sub4; sub5;
     panel_height = 566;
-    life_cycle_text = "";
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
@@ -84,7 +83,6 @@ export class MemberDetail {
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
                 this.set_displayed_stories();
-                this.life_cycle_text = this.calc_life_cycle_text(this.member.member_info);
             });
         this.member_url = this_page_url();
     }
@@ -104,18 +102,24 @@ export class MemberDetail {
             if (birth_place) {
                 s += this.i18n.tr('members.in-place') + birth_place + " ";
             }
-            s += this.i18n.tr('members.in-date') + birth_date;
+            s += this.i18n.tr('members.in-date') + birth_date + '.';
         }
         if (death_date) {
             s += ' ' + this.i18n.tr('members.died-' + member_info.gender) + " ";
             if (death_place) {
                 s += this.i18n.tr('members.in-place') + death_place + " ";
             }
-            s += this.i18n.tr('members.in-date') + death_date;
+            s += this.i18n.tr('members.in-date') + death_date + '.';
         }
 
         return s;
 
+    }
+
+    @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date')
+    get life_cycle_text() {
+        if (!this.member) return "";
+        return this.calc_life_cycle_text(this.member.member_info)
     }
 
     set_heights() {

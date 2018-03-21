@@ -64,16 +64,17 @@
                     <input type="text" class="form-control" id="former_last_name" t="[placeholder]members.former-last-name" value.bind="member.member_info.former_last_name">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="place_of_death" t="[placeholder]members.death-place" value.bind="member.member_info.place_of_death">
+                    <input type="text" class="form-control" id="place_of_birth" t="[placeholder]members.death-place" value.bind="member.member_info.place_of_death">
                 </div>
-                <!--div class="form-group">
-                    <input type="text" class="form-control" id="date_of_death" t="[placeholder]members.date-of-death" value.bind="member.member_info.date_of_death_str">
-                </div-->
                 <div class="form-group" style="margin-top:10px;">
-                    <div class="col-md-6" style="padding-left:0;">
-                        <partial-date date_str.two-way="member.member_info.date_of_death_str" id="date-of-death"></partial-date>
+                    <div class="col-md-6" style="padding-left:0;min-width:100%">
+                        <date-range
+                            label="${'members.date-of-death' & t}"
+                            base_date_str.bind="member.member_info.date_of_death.date"
+                            span_size.bind="member.member_info.date_of_death.span"
+                            id="date-of-death">
+                        </date-range>
                     </div>
-                    <label class="control-label col-md-6" style="padding-right:0;" for="date-of-death">${'members.date-of-death' & t}:</label>
                 </div>
             </div>
             <!--The right wing of the form-->
@@ -91,14 +92,15 @@
                 <div class="form-group">
                     <input type="text" class="form-control" id="birth_place" t="[placeholder]members.birth-place" value.bind="member.member_info.PlaceOfBirth">
                 </div>
-                <!--div class="form-group">
-                    <input type="text" class="form-control" id="date_of_birth" t="[placeholder]members.date-of-birth" value.bind="member.member_info.date_of_birth_str">
-                </div-->
                 <div class="form-group" style="margin-top:10px;">
-                    <div class="col-md-6" style="padding-left:0;">
-                        <partial-date date_str.two-way="member.member_info.date_of_birth_str" id="date-of-birth"></partial-date>
+                    <div class="col-md-6" style="padding-left:0;min-width:100%;">
+                        <date-range
+                            label="${'members.date-of-birth' & t}"
+                            base_date_str.bind="member.member_info.date_of_birth.date"
+                            span_size.bind="member.member_info.date_of_birth.span"
+                            id="date-of-birth">
+                        </date-range>
                     </div>
-                    <label class="control-label col-md-6" style="padding-right:0;" for="date-of-birth">${'members.date-of-birth' & t}:</label>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="nick_name" t="[placeholder]members.nick-name" value.bind="member.member_info.NickName">

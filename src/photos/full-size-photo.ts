@@ -22,7 +22,7 @@ export class FullSizePhoto {
     user;
     theme;
     slide;
-    photo_info = {name: "", photo_date_str: "", photo_date_span: 0, photographer: ""};
+    photo_info = {name: "", photo_date_str: "", photo_date_datespan: 0, photographer: ""};
     router;
     highlighting = false;
     eventAggregator;
@@ -94,10 +94,17 @@ export class FullSizePhoto {
                 if (! this.photo_info.photographer) {
                     this.photo_info.photographer = this.i18n.tr('photos.unknown');
                 }
-                this.photo_info.photo_date_span = data.photo_date_span;
+                this.photo_info.photo_date_datespan = data.photo_date_datespan;
                 this.photo_info.photo_date_str = data.photo_date_str;
             });
 
+    }
+
+    save_photo_info(event) {
+        let pi = event.detail;
+        this.photo_info.photo_date_str = pi.date_str;
+        this.photo_info.photo_date_datespan = pi.date_span;
+        this.api.call_server_post('members/save_photo_info', {photo_id: this.slide.photo_id, photo_info: this.photo_info});
     }
 
     face_location(face) {
@@ -239,5 +246,6 @@ export class FullSizePhoto {
         el = document.getElementById("side-tool highlighter");
         el.blur();
     }
+
 }
 

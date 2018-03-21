@@ -1,7 +1,7 @@
 <template>
     <require from="./full-size-photo.css"></require>
     <div class="slide" click.delegate="mark_face($event)" id="full-size-photo" style="z-index:0;margin-left:32px;">
-        <div class="slide" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
+        <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
             <img src="${slide.src}" height="${slide.height}" width="${slide.width}" />
             <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help"></help>
             <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help"></help>
@@ -34,7 +34,12 @@
                         <input type="text" value.bind="photo_info.name" style="color:black;">
                     </form>
                 </span>
-                <date-range label="${'photos.photo-date' & t}" base_date_str.bind="photo_info.photo_date_str" span_size.bind="photo_info.photo_date_span"></date-range>
+                <date-range label="${'photos.photo-date' & t}" 
+                    range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
+                    change.delegate="save_photo_info($event)"
+                    base_date_str.bind="photo_info.photo_date_str" 
+                    span_size.bind="photo_info.photo_date_datespan">
+                </date-range>
             </span>
         </div>
     </div>
