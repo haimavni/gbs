@@ -125,7 +125,8 @@
     "back-to-story": "חזרה לדף הספור",
     "to-story-page": "לדף הספור",
     "family-only": "קשרי משפחה",
-    "all-members": "כל החברים"
+    "all-members": "כל החברים",
+    "cause-of-death": "סיבת המוות"
   },
   "user": {
     "login": "התחבר",
@@ -216,7 +217,15 @@
     "vis-never": "לא ניתן לתצוגה!",
     "vis-not-ready": "לא מוכן עדיין",
     "vis-visible": "לתצוגה",
-    "vis-high": "גבוהה"
+    "vis-high": "גבוהה",
+    "dc-killed-f": "נהרגה",
+    "dc-died-f": "נפטרה",
+    "dc-fell-f": "נפלה",
+    "dc-murdered-f": "נרצחה",
+    "dc-killed-m": "נהרג",
+    "dc-died-m": "נפטר",
+    "dc-fell-m": "נפל",
+    "dc-murdered-m": "נרצח"
   },
   "multi-select": {
     "why-clip": "קבץ את כל התגים שאינם מקובצים",

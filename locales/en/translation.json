@@ -125,7 +125,8 @@
     "back-to-story": "Back to the story page",
     "to-story-page": "To the story page",
     "family-only": "Family connections",
-    "all-members": "All members"
+    "all-members": "All members",
+    "cause-of-death": "Cause of death"
   },
   "user": {
     "login": "Sign in",
@@ -216,7 +217,15 @@
     "vis-never": "Never display!",
     "vis-not-ready": "Not ready yet",
     "vis-visible": "Ready for display",
-    "vis-high": "High visibility"
+    "vis-high": "High visibility",
+    "dc-killed-f": "killed",
+    "dc-died-f": "died",
+    "dc-fell-f": "fell",
+    "dc-murdered-f": "murdered",
+    "dc-killed-m": "killed",
+    "dc-died-m": "died",
+    "dc-fell-m": "fell",
+    "dc-murdered-m": "murdered"
   },
   "multi-select": {
     "why-clip": "Merge all unmerged tags",

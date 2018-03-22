@@ -1,7 +1,10 @@
 <template>
     <form role="form">
-        <select value.bind="selectedval">
+        <select if.bind="user.editing" value.bind="selectedval" style="width:100%">
             <option repeat.for="option of options" model.bind="option.value" >${option.name}</option>
         </select>
     </form>
+    <span if.bind="! user.editing">
+        ${display}
+    </span>
 </template>

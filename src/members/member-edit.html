@@ -76,6 +76,15 @@
                         </date-range>
                     </div>
                 </div>
+                <div class="form-group" style="margin-top:10px;" if.bind="member.member_info.date_of_death.date">
+                    <div class="col-md-6" style="padding-left:0;">
+                        <selector dict.bind="api.constants.cause_of_death" 
+                            selectedval.two-way="member.member_info.cause_of_death" 
+                            suffix.bind="member.member_info.gender">
+                        </selector>
+                    </div>
+                    <label class="control-label col-md-6" style="padding-right:0;" >${'members.cause-of-death' & t}:</label>
+                </div>
             </div>
             <!--The right wing of the form-->
             <div class="col-md-6 member-info-right">
