@@ -29,8 +29,17 @@ export class Misc {
             s += this.i18n.tr('members.in-date') + birth_date + '.';
         }
         if (death_date) {
-            //todo: replace using deathc cause
-            s += ' ' + this.i18n.tr('members.died-' + member_info.gender) + " ";
+            let cod_idx =  member_info.cause_of_death || 0;
+            let keys = Object.keys(this.api.constants.cause_of_death);
+            let cod = "";
+            for (let key of keys) {
+                if (this.api.constants.cause_of_death[key] == cod_idx) {
+                    key = 'consts.' + (key.replace(/_/g, '-') + '-' + member_info.gender).toLowerCase();
+                    cod = this.i18n.tr(key);
+                    break;
+                }
+            }
+            s += " " + cod + " ";
             if (death_place) {
                 s += this.i18n.tr('members.in-place') + death_place + " ";
             }
