@@ -32,6 +32,7 @@ export function configure(aurelia: Aurelia) {
             config.settings.startingZIndex = 5;
         })
         .plugin('aurelia-interactjs')
+        //.plugin('aurelia-mobile-plugin')
         .plugin('aurelia-bootstrap', config => {
             config.options.accordionCloseOthers = true;
             config.options.accordionGroupPanelClass = 'panel-default';

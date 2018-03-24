@@ -1,7 +1,8 @@
 import { MemberGateway } from '../services/gateway';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { User } from '../services/user';
+import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
 import { I18N } from 'aurelia-i18n';
 import { MemberList } from '../services/member_list';
@@ -16,10 +17,12 @@ export class Home {
     video_list = [];
     member_of_the_day = { gender: '', name: '' };
     member_prefix;
+    member_of_the_day_life_cycle_text;
     was_born_in;
     died_in;
     router;
     user;
+    misc;
     theme;
     stories_sample;
     message_list;
@@ -29,10 +32,11 @@ export class Home {
     panel_height = 380;
     photo_strip_height = 360;
     subscriber1;
-    
-    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator) {
+        
+    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
         this.user = user;
+        this.misc = misc;
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
@@ -81,6 +85,7 @@ export class Home {
     attached() {
         this.api.call_server_post('members/get_random_member').then(result => {
             this.member_of_the_day = result.member_data;
+            this.member_of_the_day_life_cycle_text = this.misc.calc_life_cycle_text(this.member_of_the_day);
             this.member_prefix = this.member_of_the_day.gender == 'F' ? 'home.female-member-of-the-day' : 'home.male-member-of-the-day';
             this.was_born_in = this.member_of_the_day.gender == 'F' ? 'home.female-was-born-in' : 'home.male-was-born-in';
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';

@@ -71,7 +71,7 @@
                         ".html",
                         ".css"
                     ],
-                    "stub": true
+                    "stub": false
                 }
             ]
         },
@@ -220,6 +220,26 @@
                         "name": "downloadjs",
                         "path": "../node_modules/downloadjs",
                         "main": "download"
+                    },
+                    {
+                        "name": "iscroll",
+                        "path": "../node_modules/iscroll/build",
+                        "main": "iscroll"
+                    },
+                    {
+                        "name": "hammer-timejs",
+                        "path": "../node_modules/hammer-timejs/dist",
+                        "main": "hammer-time.min"
+                    },
+                    {
+                        "name": "hammerjs",
+                        "path": "../node_modules/hammerjs",
+                        "main": "hammer"
+                    },
+                    {
+                        "name": "aurelia-mobile-plugin",
+                        "path": "../node_modules/aurelia-mobile-plugin/dist/amd",
+                        "main": "index"
                     }
                 ]
             }

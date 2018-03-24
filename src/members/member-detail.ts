@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Misc } from "../services/misc";
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
@@ -20,6 +21,7 @@ export class MemberDetail {
     theme;
     eventAggregator;
     api;
+    misc;
     router;
     i18n;
     member;
@@ -46,11 +48,12 @@ export class MemberDetail {
     panel_height = 566;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
-        router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
+        router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
         this.theme = theme;
         this.eventAggregator = eventAggregator;
         this.api = api;
+        this.misc = misc;
         this.memberList = memberList;
         this.router = router;
         this.i18n = i18n;
@@ -91,35 +94,10 @@ export class MemberDetail {
         console.log("member url ", this.member_url);
     }
 
-    calc_life_cycle_text(member_info) {
-        let s = "";
-        let birth_place = member_info.PlaceOfBirth;
-        let birth_date = member_info.date_of_birth.date;
-        let death_place = member_info.place_of_death;
-        let death_date = member_info.date_of_death.date;
-        if (birth_date) {
-            s += this.i18n.tr('members.born-' + member_info.gender) + " ";
-            if (birth_place) {
-                s += this.i18n.tr('members.in-place') + birth_place + " ";
-            }
-            s += this.i18n.tr('members.in-date') + birth_date + '.';
-        }
-        if (death_date) {
-            s += ' ' + this.i18n.tr('members.died-' + member_info.gender) + " ";
-            if (death_place) {
-                s += this.i18n.tr('members.in-place') + death_place + " ";
-            }
-            s += this.i18n.tr('members.in-date') + death_date + '.';
-        }
-
-        return s;
-
-    }
-
     @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date')
     get life_cycle_text() {
         if (!this.member) return "";
-        return this.calc_life_cycle_text(this.member.member_info)
+        return this.misc.calc_life_cycle_text(this.member.member_info)
     }
 
     set_heights() {
