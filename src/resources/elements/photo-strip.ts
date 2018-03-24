@@ -205,4 +205,15 @@ export class PhotoStripCustomElement {
             this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides });
         }
     }
+
+    on_drag_start(event) {
+        let el = document.getElementById("slide-list");
+        el.classList.add("dragging");
+        this.dragging = true;
+    }
+
+    on_drag_end(event) {
+        let el = document.getElementById("slide-list");
+        el.classList.remove("dragging");
+    }
 }

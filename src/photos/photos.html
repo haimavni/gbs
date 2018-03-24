@@ -70,7 +70,7 @@
                             repeat.for="photo of photo_list | filter : filter : '*selected' : 'title' | take : 9999">
                             <a click.trigger="maximize_photo(photo, $event)" class.bind="photo.selected">
                                 <img src="${photo.square_src}" aubs-tooltip="text.bind:photo.title" width="${photo_size}" 
-                                    height="${photo_size}" style="margin:0;" />
+                                    height="${photo_size}" style="margin:0;cursor:pointer;" />
                             </a>
                            <!--a class="photo-maximizer" css="position:absolute;right:0px;top:${width/2}px;" 
                                 click.trigger="maximize_photo(photo, $event)">

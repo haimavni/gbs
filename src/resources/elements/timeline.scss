@@ -2,7 +2,7 @@ li.timeline-item {
     float: left;
     border-right:solid 1px white;
     height:100%;
-    width:12px;
+    width:11px;
     background-color: lightgray;
     &.in-range {
         background-color: gray;
@@ -29,7 +29,7 @@ ul.timeline-stoppers-box {
     >li {
         background-color: gray;
         color: white;
-        width:48px;
+        width:44px;
         height: 32px;
         padding-top: 3px;
         text-align: center;

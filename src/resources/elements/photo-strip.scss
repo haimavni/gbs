@@ -16,6 +16,10 @@ photo-strip {
     position: relative;
     display: inline-block;
     white-space: nowrap;
+    cursor: pointer;
+    &.dragging {
+        cursor: all-scroll;
+    }
 
     img { 
         display: inline-block;

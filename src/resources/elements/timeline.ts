@@ -2,23 +2,23 @@ import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Theme } from '../../services/theme';
 
-const time_element_width = 12;
+const time_element_width = 11;
 
 @inject(DOM.Element, I18N, Theme)
 export class TimelineCustomElement {
-    @bindable base_year = 1924;
+    @bindable base_year = 1923;
     @bindable first_year = 1928;
-    @bindable num_years = 100;
+    @bindable num_years = 102;
     last_year;
     i18n;
     theme;
     element;
 
-    timeline_width = 1202;
+    timeline_width = 1124;
     sides = ['left', 'right']
     items = [];
     first_year_position = 0;
-    last_year_position = 1000;
+    last_year_position = 922;
     drag_me;
 
     constructor(element, i18n, theme: Theme) {
@@ -56,8 +56,8 @@ export class TimelineCustomElement {
                 this.last_year_position  = Math.max(this.first_year_position + 4 * time_element_width, this.last_year_position);
                 break;
         }
-        this.first_year = this.base_year + Math.floor(this.first_year_position / time_element_width) + 3;
-        this.last_year = this.base_year + Math.floor(this.last_year_position / time_element_width);
+        this.first_year = this.base_year + Math.round(this.first_year_position / time_element_width) + 3;
+        this.last_year = this.base_year + Math.round(this.last_year_position / time_element_width);
     }
 
     dragend(side, event) {
