@@ -33,7 +33,7 @@ export class WatchVersion {
             return
         }
         console.log("api: ", this.api, " API: ", API);
-        this.api.call_server('default/get_curr_version')
+        API.call_server('default/get_curr_version')
             .then(response => {
                 console.log("curr version: ", response);
                 if (enversion && environment.version != response.version) {
