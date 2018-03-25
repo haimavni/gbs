@@ -4,6 +4,8 @@ import { MemberGateway } from './gateway';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 
+let API;
+
 @autoinject()
 @singleton()
 @noView()
@@ -16,6 +18,8 @@ export class WatchVersion {
 
     constructor(api: MemberGateway, dialog: DialogService, i18n: I18N) {
         this.api = api;
+        API = this.api;
+        console.log('this api: ', this.api);
         this.verify_latest_version();
         this.nudnik = setInterval(this.verify_latest_version, 10000);
         this.dialog = dialog;
@@ -28,6 +32,7 @@ export class WatchVersion {
         if (!enversion) {
             return
         }
+        console.log("api: ", this.api, " API: ", API);
         this.api.call_server('default/get_curr_version')
             .then(response => {
                 console.log("curr version: ", response);
