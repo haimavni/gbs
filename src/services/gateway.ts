@@ -186,5 +186,3 @@ export class MemberGateway {
     }
 
 }
-
-

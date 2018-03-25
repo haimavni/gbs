@@ -69,7 +69,7 @@ export class Theme {
         if (this.touchScreen == 'TOUCH-SCREEN') {
             this.interact_setting = { interactable: { preventDefault: 'never' } };
             return;
-        } 
+        }
         if (this.touchScreen == null) {
             window.addEventListener('touchstart', function onFirstTouch() {
                 THEME.touchScreen = true;

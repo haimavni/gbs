@@ -3,6 +3,7 @@ import { autoinject } from 'aurelia-framework';
 import { Theme } from './services/theme';
 import { MemberGateway } from './services/gateway';
 import { User } from './services/user';
+import { WatchVersion } from './services/watch_version';
 
 @autoinject
 export class App {
@@ -12,12 +13,14 @@ export class App {
   router_view_height;
   api;
   user;
+  watcher;
 
-  constructor(theme: Theme, api: MemberGateway, user: User) {
+  constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion) {
     this.baseURL = environment.baseURL;
     this.theme = theme;
     this.api = api;
     this.user = user;
+    this.watcher = watcher;
   }
 
   attached() {
