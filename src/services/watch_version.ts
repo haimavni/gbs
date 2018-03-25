@@ -24,6 +24,7 @@ export class WatchVersion {
 
     verify_latest_version() {
         let enversion = environment.version;
+        console.log("enter verify. enversion: ", enversion);
         if (!enversion) {
             return
         }
