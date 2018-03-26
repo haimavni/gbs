@@ -22,7 +22,7 @@ export class Misc {
         let death_place = member_info.place_of_death;
         let death_date = member_info.date_of_death.date;
         if (birth_date) {
-            s += this.i18n.tr('members.born-' + member_info.gender) + " ";
+            s += this.i18n.tr('members.born-' + member_info.gender.toLowerCase()) + " ";
             if (birth_place) {
                 s += this.i18n.tr('members.in-place') + birth_place + " ";
             }

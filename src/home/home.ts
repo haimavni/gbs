@@ -61,10 +61,6 @@ export class Home {
         return { type: "youtube", src: "//www.youtube.com/embed/" + video_code + "?wmode=opaque" }
     }
 
-    action(slide, event) {
-        console.log(" action on slide: ", slide, " event: ", event);
-    }
-
     add_message() {
         let name = this.i18n.tr('home.new-message');
         this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.story_type.STORY4MESSAGE, story_text: "" });
@@ -72,7 +68,6 @@ export class Home {
 
     hande_story_change(story, customEvent) {
         event = customEvent.detail;
-        console.log("story: ", story, " event: ", event, " deleted: ", story.deleted);
         if (story.deleted) {
             this.api.call_server_post('members/delete_story', {story_id: story.story_id})
                 .then(response => {

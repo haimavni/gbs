@@ -26,13 +26,9 @@ export class App {
   attached() {
     let h = window.innerHeight;
     let ci = window.clientInformation;
-    console.log("app attached. height ", h, " clinet info: ", ci);
     let el1 = document.getElementById("router-view");
     let el2 = document.getElementById("footer");
-    console.log("router-view offsets: ", el1.offsetHeight, el1.offsetTop, el1.offsetParent);
-    console.log("footer: ", el2.offsetHeight, el2.offsetTop, el2.offsetParent);
     this.router_view_height = this.theme.height - 60 - 117;
-    //this.min_height = h - el2.offsetHeight;
   }
 
   public router;

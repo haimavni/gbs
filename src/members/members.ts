@@ -60,7 +60,6 @@ export class Members {
     }
 
     activate(params, routeConfig) {
-        console.log("activate members: params ", params, ' router config ', routeConfig);
         return this.memberList.getMemberList().then(members => {
             this._members = members.member_list;
             for (let member of this._members) {
@@ -151,7 +150,6 @@ export class Members {
     get_relatives_path() {
         this.api.call_server_post('members/get_relatives_path', { origin_member_id: this.origin_member_id, other_member_id: this.other_member_id })
             .then(response => {
-                console.log("relative path: ", this.relatives_path);
                 this.build_relatives_path(response.relatives_path);
             });
     }

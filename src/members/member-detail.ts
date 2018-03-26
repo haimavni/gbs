@@ -90,10 +90,6 @@ export class MemberDetail {
         this.member_url = this_page_url();
     }
 
-    bind() {
-        console.log("member url ", this.member_url);
-    }
-
     @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 'member.member_info.cause_of_death')
     get life_cycle_text() {
         if (!this.member) return "";
@@ -104,11 +100,9 @@ export class MemberDetail {
         this.panel_height = this.theme.height - this.photo_strip_height - 188;
         this.top_height = Math.round(this.panel_height / 2);
         this.bottom_height = this.panel_height - this.top_height;
-        console.log("heights: ", this.panel_height, this.top_height, this.bottom_height);
     }
 
     attached() {
-        console.log("attached member detail");
         this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
@@ -118,7 +112,6 @@ export class MemberDetail {
     }
 
     detached() {
-        console.log("detached member detail");
         this.sub1.dispose();
         this.sub2.dispose();
         this.sub3.dispose();
@@ -224,7 +217,6 @@ export class MemberDetail {
                 this.member.member_info.story_id = response.output.story_id;
                 this.api.call_server_post('members/set_member_story_id', { member_id: this.member.member_info.id, story_id: response.output.story_id });
             }
-            console.log("response after edit dialog: ", response.output);
         });
 
     }

@@ -84,7 +84,7 @@ export class PhotoDetail {
     private openDialog(slide) {
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
             .whenClosed(response => {
-                console.log(response.output);
+                //do something?
             });
     }
 

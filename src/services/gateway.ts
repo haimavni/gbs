@@ -171,7 +171,6 @@ export class MemberGateway {
 
         let key = obj.key;
         let data = obj.data;
-        //console.log("publishing key/data ", key, '/', data);
         THIS.eventAggregator.publish(key, data);
     }
 

@@ -99,7 +99,6 @@ export class Photos {
     }
 
     activate(params, routeConfig) {
-        console.log("activate photos: params ", params, ' router config ', routeConfig);
         if (routeConfig.name == 'associate-photos') {
             this.caller_id = params.caller_id;
             this.caller_type = params.caller_type;
@@ -159,7 +158,6 @@ export class Photos {
         if (Number(this.photos_per_line) > this.params.max_photos_per_line) {
             this.params.max_photos_per_line = Number(this.photos_per_line);
             this.update_photo_list();
-            console.log("mprl: ", this.params.max_photos_per_line)
         }
         this.photo_list = this.photo_list.splice(0);
     }
@@ -170,7 +168,6 @@ export class Photos {
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
             .whenClosed(response => {
                 //this.theme.page_title = title;
-                console.log(response.output);
             });
     }
 

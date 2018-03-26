@@ -34,11 +34,10 @@ export class UserMode {
     private loginDialog() {
         this.dialog.open({ viewModel: Login, model: this.loginData, lock: false }).whenClosed(response => {
             if (!response.wasCancelled) {
-                console.log('successful login - ', response.output);
+                //do something?
             } else {
-                console.log('login cancelled');
+                //do something else?
             }
-            console.log(response.output);
         });
     }
 

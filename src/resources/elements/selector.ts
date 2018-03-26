@@ -8,7 +8,7 @@ export class SelectorCustomElement {
     @bindable selectedval;
     @bindable suffix;
     selected;
-    options;
+    //options;
     i18n;
     user;
     element;
@@ -19,16 +19,18 @@ export class SelectorCustomElement {
         this.user = user;
     }
 
-    attached() {
+    @computedFrom('suffix')
+    get options() {
         let keys = Object.keys(this.dict);
         let suffix = this.suffix ? '-' + this.suffix : '';
-        this.options = [];
+        let options = [];
         for (let key of keys) {
             let name = 'consts.' + (key.replace(/_/g, '-') + suffix).toLowerCase();
             let selected = { name: this.i18n.tr(name), value: this.dict[key] }
-            this.options.push(selected);
+            options.push(selected);
         }
-        this.options.sort((option1, option2) => option1.value - option2.value);
+        options.sort((option1, option2) => option1.value - option2.value);
+        return options;
     }
 
     @computedFrom('selectedval')

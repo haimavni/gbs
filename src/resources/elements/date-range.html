@@ -23,7 +23,7 @@
         <div if.bind="user.editing" class="form-group" style="margin-right:0px;width:5em;">
             <input type="text" value.bind="base_date_str" maxlength="10" 
                 aubs-tooltip="text.bind:hint"
-                style="height:2em;width:6.2em;padding-left:0.2em;padding-right:0;color:black;direction:ltr;margin-right:12px;margin-right:-9px;" 
+                style="width:6.2em;padding-left:0.2em;padding-right:0;color:black;direction:ltr;margin-right:-9px;" 
                 change.trigger="base_date_changed($event)" 
                 keypress.trigger="keep_only_good_chars($event)" />
         </div>

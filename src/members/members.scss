@@ -260,10 +260,20 @@ div.member-story-panel {
     }
 }
 
-//date-range
-.member-info .date-range label {
-    margin-right:-16px;
-    padding:4px;
-    width:100px;
+selector select {
+    height: 32px;
 }
+
+//date-range
+.member-info .date-range {
+    label {
+        margin-right:-16px;
+        padding:4px;
+        width:100px;
+    }
+    input {
+        height: 32px;
+    }
+}
+
 

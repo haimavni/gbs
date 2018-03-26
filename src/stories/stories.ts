@@ -235,7 +235,6 @@ export class Stories {
             this.checked_stories.delete(story.story_id)
         }
         this.params.checked_story_list = Array.from(this.checked_stories);
-        console.log("checked stories: ", this.checked_stories, " checked list: ", this.params.checked_story_list);
     }
 
     toggle_link_class() {
@@ -311,7 +310,6 @@ export class Stories {
 
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
-        console.log("before save merges, grouped: ", this.params.grouped_selected_topics);
         this.api.call_server_post('members/save_tag_merges', this.params);
     }
 

@@ -39,7 +39,6 @@ export class Theme {
         this.api.call_server('members/get_theme_data')
             .then(response => this.files = response.files);
         window.addEventListener('resize', () => {
-            console.log('addEventListener - resize');
             this.handle_content_resize();
         }, true);
         window.setTimeout(() => { this.handle_content_resize(); }, 200);
