@@ -252,5 +252,8 @@
   "abcde": "Abcde",
   "a": "A",
   "update": "update",
-  "date-hint": "Enter year, month/year or full date"
+  "date-hint": "Enter year, month/year or full date",
+  "please-update-head": "The system has been updated<br>",
+  "please-update-body": "<p>Please refresh the page.<br><p> ",
+  "please-update-stubborn": "<p>If this message repeats, please <strong>clear the cache memory</strong></p>"
 }
