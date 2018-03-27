@@ -3,7 +3,6 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { WordIndex } from "../services/word_index";
 import { autoinject, computedFrom, singleton } from 'aurelia-framework';
-//import { StoryDetail } from './story-detail';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';

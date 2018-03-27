@@ -76,10 +76,11 @@
         height: 20px;
     }
     span.span-a {
-        width: 60%;
+        width: 100%;
         float:right;
         overflow: hidden;
         cursor: pointer;
+        padding-right:2px;
         a {
             margin: 0;
             padding: 0;

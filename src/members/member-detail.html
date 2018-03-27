@@ -11,7 +11,8 @@
             </div>
         </div>
         <div class="row">
-            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height" id.bind="member.member_info.id" 
+            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height" id.bind="member.member_info.id"
+                style="padding:0;" 
                 action_key="Zoom" dir="ltr"
                 height_change.trigger="on_height_change($event)"
                 settings.bind="{arrows:true, height:220}"></photo-strip>

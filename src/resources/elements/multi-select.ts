@@ -266,6 +266,17 @@ export class MultiSelectCustomElement {
         alert(what)
     }
 
+    @computedFrom('selected_options_storage')
+    get display_option_list() {
+        if (! this.settings.show_only_if_filter) {
+            return true;
+        }
+        if (this.selected_options_storage.size() == 0) {
+            return false;
+        }
+        return true;
+    }
+
 }
 
 function extend(obj, src) {
