@@ -203,29 +203,15 @@ ux-dialog-containerxxx {
 
         .member-story-header {
             height: 45px;
+            cursor: pointer;
+            position: relative;
+            i.to-full-page {
+                position: absolute;
+                color: white;
+                left: -10px;
+                top: 4px;
+            }
         }
-
-        /*.member-story-panel {
-            height: 185px;
-            overflow-y: auto;
-
-            &.larger {
-                p {
-                    font-size:110%;
-                }
-            }
-
-            > p {
-                padding-bottom: 2px;
-                padding-left: 12px;
-                text-align: justify;
-            }
-
-            a {
-                color: blue;
-            }
-        }*/
-
 
 
         a.goto-story-page {
@@ -239,7 +225,7 @@ ux-dialog-containerxxx {
             margin-left:30px;
         }
         h4 {
-            width:255px;
+            width:225px;
         }
         span.name {
             font-weight: bold;

@@ -106,7 +106,6 @@
                             ${'members.life-summary' & t} ${member.member_info.first_name}
                         </h4>
                         <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
-                            <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_0, 'show')">&nbsp;&nbsp;</i>
                             <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                             ${story_0.name}
                         </h3>
@@ -119,14 +118,13 @@
             <!--member stories panel-->
             <div id="stories" class="fr-view row ${theme.font-size}" if.bind="! user.editing" css="min-height:270px;margin-left:-31px;margin-right:0px;height:${bottom_height}px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
-                <div class="col-md-3 col-sm-6 col-xs-12 story-box last notfirst" css="float:${theme.same_dir};height:${story_box_height}px;">
-                    <div class="member-story-header" show.bind="story_4.name" show.bind="story_4.story_text != ''">
-                        <a class="goto-story-page" click.trigger="goto_story_page(story_4)" t="[title]members.to-story-page"><i class="fa fa-play fa-rotate-180"></i></a>
+                <div class="col-md-3 col-sm-6 col-xs-12 story-box last notfirst" css="float:${theme.same_dir};height:${story_box_height}px;" click.trigger="goto_story_page(story_4)">
+                    <div class="member-story-header" show.bind="story_4.story_text != ''" aubs-tooltip="text.bind:to_story_page">
                         <h4 dir="rtl">
-                            <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_4, 'show')">&nbsp;</i>
                             <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_4, 'edit')">&nbsp;</i>
                             <span class="name" innerhtml.bind="story_4.name"></span>
                         </h4>
+                        <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel" show.bind="story_4.story_text != ''">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_4.story_text ">
@@ -134,13 +132,12 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 hidden-xs story-box notfirst" css="float:${theme.same_dir};height:${story_box_height}px;">
-                    <div class="member-story-header" show.bind="story_3.story_text != ''" >
-                        <a class="goto-story-page" click.trigger="goto_story_page(story_3)" t="[title]members.to-story-page"><i class="fa fa-play fa-rotate-180"></i></a>
+                    <div class="member-story-header" show.bind="story_3.story_text != ''" aubs-tooltip="text.bind:to_story_page" click.trigger="goto_story_page(story_3)" >
                         <h4 dir="rtl">
-                            <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_3, 'show')">&nbsp;</i>
                             <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_3, 'edit')">&nbsp;</i>
                             <span class="name" innerhtml.bind="story_3.name"></span>
                         </h4>
+                        <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel" show.bind="story_3.story_text != ''">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_3.story_text ">
@@ -148,13 +145,12 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 hidden-xs story-box notfirst" css="float:${theme.same_dir};height:${story_box_height}px;" >
-                    <div class="member-story-header" show.bind="story_2.story_text != ''" >
-                        <a class="goto-story-page" click.trigger="goto_story_page(story_2)" t="[title]members.to-story-page"><i class="fa fa-play fa-rotate-180"></i></a>
-                        <h4 dir="rtl" >
-                            <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_2, 'show')">&nbsp;&nbsp;</i>
+                    <div class="member-story-header" show.bind="story_2.story_text != ''" aubs-tooltip="text.bind:to_story_page" click.trigger="goto_story_page(story_2)" >
+                        <h4 dir="rtl">
                             <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_2, 'edit')">&nbsp;</i>
                             <span class="name" innerhtml.bind="story_2.name"></span>
                         </h4>
+                        <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel" show.bind="story_2.story_text != ''">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_2.story_text ">
@@ -162,13 +158,12 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 hidden-xs story-box" css="float:${theme.same_dir};height:${story_box_height}px;">
-                    <div class="member-story-header" show.bind="story_1.story_text != ''" >
-                        <a class="goto-story-page" click.trigger="goto_story_page(story_1)" t="[title]members.to-story-page"><i class="fa fa-play fa-rotate-180"></i></a>
+                    <div class="member-story-header" show.bind="story_1.story_text != ''" aubs-tooltip="text.bind:to_story_page" click.trigger="goto_story_page(story_1)" >
                         <h4 dir="rtl">
-                            <i class="fa fa-expand fa-xs is-link" t="[title]stories.zoom" click.trigger="zoom_out(story_1, 'show')">&nbsp;&nbsp;</i>
                             <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_1, 'edit')">&nbsp;</i>
                             <span class="name" innerhtml.bind="story_1.name"></span>
                         </h4>
+                        <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel" show.bind="story_1.story_text != ''">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_1.story_text">

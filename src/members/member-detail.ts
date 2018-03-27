@@ -46,6 +46,7 @@ export class MemberDetail {
     member_url = "";
     sub1; sub2; sub3; sub4; sub5;
     panel_height = 566;
+    to_story_page;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -57,6 +58,7 @@ export class MemberDetail {
         this.memberList = memberList;
         this.router = router;
         this.i18n = i18n;
+        this.to_story_page = this.i18n.tr('members.to-story-page');
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
