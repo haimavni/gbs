@@ -30,6 +30,7 @@ export class Misc {
         }
         if (death_date) {
             let cod_idx =  member_info.cause_of_death || 0;
+            if (!this.api.constants.cause_of_death) return s;
             let keys = Object.keys(this.api.constants.cause_of_death);
             let cod = "";
             for (let key of keys) {

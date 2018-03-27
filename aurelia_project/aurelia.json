@@ -124,7 +124,6 @@
                     "aurelia-templating",
                     "aurelia-templating-binding",
                     "text",
-                    "jquery",
                     {
                         "name": "aurelia-templating-resources",
                         "path": "../node_modules/aurelia-templating-resources/dist/amd",
@@ -241,17 +240,6 @@
                         "name": "aurelia-mobile-plugin",
                         "path": "../node_modules/aurelia-mobile-plugin/dist/amd",
                         "main": "index"
-                    },
-                    {
-                        "name": "toastr",
-                        "path": "../node_modules/toastr",
-                        "main": "toastr",
-                        "resources": [
-                            "build/toastr.min.css"
-                        ],
-                        "deps": [
-                            "jquery"
-                        ]
                     }
                 ]
             }

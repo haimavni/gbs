@@ -2,7 +2,7 @@ import environment from '../environment';
 import { autoinject, singleton, noView } from "aurelia-framework";
 import { MemberGateway } from './gateway';
 import { I18N } from 'aurelia-i18n';
-import * as toastr from 'toastr';
+//import * as toastr from 'toastr';
 
 let THIS1;
 
@@ -34,7 +34,9 @@ export class WatchVersion {
                     let msg_head = THIS1.i18n.tr('please-update-head');
                     let msg_body = THIS1.i18n.tr('please-update-body');
                     let msg_tail = THIS1.user_warned ? THIS1.i18n.tr('please-update-stubborn') : "";
-                    toastr.warning(msg_body + msg_tail, msg_head, {timeOut: 60000});
+                    let plain_message = THIS1.i28n.tr('please-update');
+                    alert(plain_message);
+                    //toastr.warning(msg_body + msg_tail, msg_head, {timeOut: 60000});
                     if (THIS1.user_warned > 1) {
                         clearInterval(THIS1.nudnik);
                         THIS1.nudnik = setInterval(THIS1.verify_latest_version, 600000);
