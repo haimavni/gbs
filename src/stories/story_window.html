@@ -14,6 +14,13 @@
                         <input type="text" class="form-control" t="[placeholder]stories.enter-story-source" value.bind="story.source" dir="rtl">
                     </div>
                 </form>
+                <div if.bind="user.privileges.TEXT_AUDITOR" class="form-group" style="margin:0;">
+                    <form class="form-inline" role="form" dir="ltr">
+                        <label>
+                            ${story.last_update_date}story updated
+                        </label>
+                    </form>
+                </div>
             </div>
         </ux-dialog-header>
         <ux-dialog-body>

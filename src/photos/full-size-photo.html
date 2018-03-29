@@ -31,7 +31,10 @@
                 </span>
                 <span if.bind="user.editing">
                     <form class="form-inline">
-                        <input type="text" value.bind="photo_info.name" style="color:black;">
+                        <input type="text" value.bind="photo_info.name" style="color:black;width:600px;" change.delegate="save_photo_caption($event)">
+                        <button style="border:none;background-color:black">
+                            <i class="fa fa-save"></i>
+                        </button>
                     </form>
                 </span>
                 <date-range label="${'photos.photo-date' & t}" 

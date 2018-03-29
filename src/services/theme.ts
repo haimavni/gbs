@@ -63,6 +63,10 @@ export class Theme {
         this.set_heights();
     }
 
+    language_dir(lang) {
+       return  rtl_langs.has(lang) ? "rtl" : "ltr"; 
+    }
+
     detectTouchScreen() {
         this.touchScreen = this.cookies.get('TOUCH-SCREEN');
         if (this.touchScreen == 'TOUCH-SCREEN') {

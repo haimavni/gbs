@@ -6,7 +6,7 @@
             <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
                 <i class="fa fa-rotate-left"  t="[title]go-back" click.trigger="go_back()"></i>
             </h3>
-            <h3 dir="rtl" style="float: right;margin:0px;">
+            <h3 dir="${story_dir}" style="float: right;margin:0px;">
                 ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
             <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing" 
@@ -14,7 +14,7 @@
             </button>
             <copy-to-clipboard if.bind="user.editing" content.bind="story_url" prefix.bind="host" style="float:left;"></copy-to-clipboard>
         </div>
-        <div class="row" style="direction:rtl;">
+        <div class="row" css="direction:${story_dir};">
             <div class="col-md-5">
                 <photo-strip if.bind="has_associated_photos" source.bind="source" height.bind="220" action_key="Zoom2" style="padding:0;"
                     dir="ltr" settings.bind="{arrows:true, height:220}"></photo-strip>
@@ -40,8 +40,8 @@
                     <ul class="list-group">
                         <li class="list-group-item" repeat.for="member of members">
                             <a route-href="route: member-details; params.bind: {id:member.id}">
-                                    <img src.bind="member.facePhotoURL" />
-                                    <h6 dir="rtl" class="list-group-item-heading" >${member.full_name}</h6>
+                                <img src.bind="member.facePhotoURL" />
+                                <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${member.full_name}</h6>
                             </a>
                         </li>
                     </ul>
@@ -50,16 +50,13 @@
             <div class="col-md-7 justified-story full-story" style="padding-right:36px;">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-8" if.bind="story.source">
-                        <span style="float:right;direction:rtl">${story.source}:</span>
+                        <span css="float:right;direction:${story_dir}">${story.source}:</span>
                     </div>
                 </div>
                 <div class="row" style="padding-right:15px;">
-                    <div class="fr-view" dir="rtl">
+                    <div class="fr-view" dir="${story_dir}">
                         <div class="big-story-panel ${theme.font_size}">
-                            <!--<p class="${story.language=='he' ? 'rtl' : 'ltr'} ${highlight_on}" if.bind="! user.editing" 
-                                innerhtml.bind="highlightedHtml">
-                            </p>-->
-                            <p class="${story.language=='he' ? 'rtl' : 'ltr'} ${highlight_on}" if.bind="! user.editing"> 
+                            <p class="${story_dir} ${highlight_on}" if.bind="! user.editing"> 
                                 <compose if.bind="story.story_text" view-model='./render-story' model.bind="highlightedHtml"></compose>
                             </p>
                             <editable if.bind="user.editing" 

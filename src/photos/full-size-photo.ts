@@ -107,6 +107,10 @@ export class FullSizePhoto {
         this.api.call_server_post('members/save_photo_info', {photo_id: this.slide.photo_id, photo_info: this.photo_info});
     }
 
+    save_photo_caption(event) {
+        this.api.call_server_post('members/save_photo_info', {photo_id: this.slide.photo_id, photo_info: this.photo_info});
+    }
+
     face_location(face) {
         let d = face.r * 2;
         return {

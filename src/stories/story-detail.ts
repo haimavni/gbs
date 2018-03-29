@@ -23,6 +23,7 @@ export class StoryDetail {
     user;
     theme;
     story_url;
+    story_dir;
     host;
     keywords;
     highlight_on="highlight-on";
@@ -61,6 +62,9 @@ export class StoryDetail {
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
+                    this.story_dir = this.theme.rtltr;
+                } else {
+                    this.story_dir = this.theme.language_dir(this.story.language)
                 }
                 this.members = response.members;
                 this.photos = response.photos;

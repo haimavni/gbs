@@ -211,9 +211,9 @@ export class DateRangeCustomElement {
        return this.is_valid && this.partial && this.span_size > 0 && (! this.user.editing) 
     }
     
-    @computedFrom("user.editing", "partial", "span_size", "is_valid")
+    @computedFrom("user.editing", "partial", "span_size", "is_valid", "base_date_str")
     get show_range_labels() {
-        return this.base_date_str && this.range_options.length > 1 && this.is_valid && this.partial && (this.user.editing || this.span_size > 0)
+        return this.base_date_str && this.range_options.length > 1 && this.is_valid && (this.user.editing || this.span_size > 0)
     }
 
     @computedFrom("user.editing","base_date_str")

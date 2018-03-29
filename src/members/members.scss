@@ -182,6 +182,7 @@ ux-dialog-containerxxx {
         >p {
             text-align: justify;
         }
+
     }
 }
 
@@ -234,6 +235,12 @@ div.member-story-panel {
         padding-bottom: 2px;
         padding-left:12px;
         text-align: justify;
+        &.rtl {
+            direction: rtl;
+        }
+        &.ltr {
+            direction: ltr;
+        }
     }
     a {
         color: blue;

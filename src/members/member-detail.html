@@ -109,8 +109,8 @@
                             <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                             ${story_0.name}
                         </h3>
-                    <div class="member-story-panel" style="border-left:solid 2px darkgray;">
-                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_0.story_text ">
+                    <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;">
+                        <p class="${theme.font_size}" innerhtml.bind="story_0.story_text ">
                         </p>
                     </div>
                 </div>
