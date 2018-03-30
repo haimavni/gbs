@@ -3,7 +3,7 @@
     <require from="scrollbox.css"></require>
     <require from="toastr/build/toastr.min.css"></require>
     
-    <div css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;">
+    <div css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" if.bind="! theme.hide_title">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color:white">
             <div class="container">
                 <div class="navbar-header navbar-right" style="padding-bottom:8px;">
@@ -48,6 +48,7 @@
         <footer id="footer">
             <div class="footer-area">
                 <a style="cursor:pointer; color:gray;" click.delegate="contact_us()">Built by Lifestone</a>
+                <span>${curr_version}</span>
             </div>
         </footer>
     </div>

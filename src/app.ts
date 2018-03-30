@@ -14,9 +14,11 @@ export class App {
   api;
   user;
   watcher;
+  curr_version;
 
   constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion) {
     this.baseURL = environment.baseURL;
+    this.curr_version = environment.version || "just now";
     this.theme = theme;
     this.api = api;
     this.user = user;

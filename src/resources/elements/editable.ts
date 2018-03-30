@@ -22,7 +22,9 @@ export class editableCustomElement {
     }
 
     zoom_out(story, what) {
+        this.theme.hide_title = true;
         this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
+            this.theme.hide_title = false;
             //console.log("response after edit dialog: ", response.output);
         });
 
