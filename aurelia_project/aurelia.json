@@ -96,8 +96,6 @@
                 "prepend": [
                     "node_modules/bluebird/js/browser/bluebird.core.js",
                     "node_modules/aurelia-cli/lib/resources/scripts/configure-bluebird.js",
-                    "node_modules/jquery/dist/jquery.min.js",
-                    "node_modules/froala-editor/js/froala_editor.pkgd.min.js",
                     "node_modules/requirejs/require.js"
                 ],
                 "dependencies": [
@@ -124,6 +122,30 @@
                     "aurelia-templating",
                     "aurelia-templating-binding",
                     "text",
+                    "jquery",
+                    {
+                        "name": "froala-editor",
+                        "path": "../node_modules/froala-editor",
+                        "main": "js/froala_editor.min",
+                        "resources": [
+                            "./js/**/*.{js}",
+                            "./css/**/*.{css}"
+                        ]
+                    },
+                    {
+                        "name": "aurelia-froala-editor",
+                        "path": "../node_modules/aurelia-froala-editor/dist/amd",
+                        "main": "index",
+                        "resources": [
+                            "froala-editor.js",
+                            "froala-editor.html"
+                        ],
+                        "deps": [
+                            "jquery",
+                            "froala-editor",
+                            "font-awesome"
+                        ]
+                    },
                     {
                         "name": "aurelia-templating-resources",
                         "path": "../node_modules/aurelia-templating-resources/dist/amd",
@@ -240,6 +262,17 @@
                         "name": "aurelia-mobile-plugin",
                         "path": "../node_modules/aurelia-mobile-plugin/dist/amd",
                         "main": "index"
+                    },
+                    {
+                        "name": "toastr",
+                        "path": "../node_modules/toastr",
+                        "main": "toastr",
+                        "resources": [
+                            "build/toastr.min.css"
+                        ],
+                        "deps": [
+                            "jquery"
+                        ]
                     }
                 ]
             }

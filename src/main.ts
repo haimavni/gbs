@@ -3,6 +3,7 @@ import environment from './environment';
 import * as Backend from 'i18next-xhr-backend';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import "froala-editor/js/froala_editor.pkgd.min";
 
 export function configure(aurelia: Aurelia) {
     aurelia.use
@@ -59,6 +60,7 @@ export function configure(aurelia: Aurelia) {
             config.options.imageDefaultWidth = 100;
             config.options.linkAlwaysBlank = true;
         })
+        .plugin('aurelia-froala-editor')
         .feature('polyfills')
         .feature('resources');
 

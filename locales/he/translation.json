@@ -153,7 +153,8 @@
     "register-done": "הבנתי",
     "passwords-dont-match": "הסיסמה לאישור שונה מהסיסמה",
     "chat-rooms": "קבוצות דיון",
-    "font-size": "בחרו את גודל האותיות"
+    "font-size": "בחרו את גודל האותיות",
+    "login-successful": "התחברת בהצלחה!"
   },
   "photos": {
     "photos": "תמונות",
