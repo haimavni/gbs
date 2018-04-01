@@ -99,9 +99,12 @@ export class MemberDetail {
         return this.misc.calc_life_cycle_text(this.member.member_info)
     }
 
-    @computedFrom('member.member_info.full_name')
-    get member_full_name() {
-        return this.member.member_info.full_name;
+    @computedFrom('member.member_info.Name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name', 
+        'member.member_info.former_last_name', 'member.member_info.NickName')
+    get member_display_name() {
+        if (! this.member)
+            return "";
+        return this.misc.calc_member_display_name(this.member.member_info);
     }
 
     set_heights() {
