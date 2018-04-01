@@ -18,9 +18,9 @@ export class Misc {
     calc_life_cycle_text(member_info) {
         let s = "";
         let birth_place = member_info.PlaceOfBirth;
-        let birth_date = member_info.date_of_birth.date;
+        let birth_date = member_info.date_of_birth ? member_info.date_of_birth.date : "";
         let death_place = member_info.place_of_death;
-        let death_date = member_info.date_of_death.date;
+        let death_date = member_info.date_of_death ? member_info.date_of_death.date : "";
         if (birth_date) {
             s += this.i18n.tr('members.born-' + member_info.gender.toLowerCase()) + " ";
             if (birth_place) {
