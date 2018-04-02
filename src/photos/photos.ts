@@ -315,7 +315,7 @@ export class Photos {
     upload_files() {
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: UploadPhotos, lock: false })
-            .whenClosed(result => {this.theme.hide_title = false);
+            .whenClosed(result => {this.theme.hide_title = false});
     }
 
 
