@@ -59,8 +59,8 @@ export class Members {
             { value: "selected;birth_date", name: this.i18n.tr('members.by-age-old-first') }
         ];
         this.approval_options = [
-            {value: '', name: this.i18n.tr('members.all-members')}
-            {value: 'x', name: this.i18n.tr('members.unapproved-only')},
+            {value: '', name: this.i18n.tr('members.all-members')},
+            {value: 'x', name: this.i18n.tr('members.unapproved-only')}
         ];
 
     }
