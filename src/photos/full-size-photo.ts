@@ -59,6 +59,7 @@ export class FullSizePhoto {
         this.baseURL = environment.baseURL;
         this.get_faces(this.slide.photo_id);
         this.get_photo_info(this.slide.photo_id);
+        this.api.hit('PHOTO', this.slide.photo_id);
         this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
             this.dialogController.ok();
         });

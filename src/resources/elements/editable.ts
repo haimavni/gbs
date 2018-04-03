@@ -7,7 +7,7 @@ import { DialogService } from 'aurelia-dialog';
 @inject(DOM.Element, User, Theme, DialogService)
 export class editableCustomElement {
     @bindable story;
-    @bindable settings = { show_date: false, class: 'story-panel', checkable: false, deletable: false };
+    @bindable settings = { show_date: false, class: 'story-panel', checkable: false, deletable: false, no_expand: false };
     element;
     user;
     theme;

@@ -165,7 +165,7 @@ export class MemberGateway {
             obj = JSON.parse(msg.data);
         }
         catch (e) {
-            console.log("ERROR handling ws message ", msg, " Exception ", e);
+            //console.log("ERROR handling ws message ", msg, " Exception ", e);
             return;
         }
 
@@ -182,6 +182,10 @@ export class MemberGateway {
             ws.onclose = onclose ? onclose : (function () { });
             return true; // supported
         } else return false; // not supported
+    }
+
+    hit(what, item_id?) {
+        this.call_server('members/count_hit', {what: what, item_id: item_id | 0})
     }
 
 }

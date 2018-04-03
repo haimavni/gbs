@@ -88,6 +88,7 @@ export class MemberDetail {
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
                 this.set_displayed_stories();
+                this.api.hit('MEMBER', this.member.member_info.id);
             });
         this.member_url = this_page_url();
     }
@@ -242,6 +243,7 @@ export class MemberDetail {
     }
 
     goto_story_page(story) {
+        this.api.hit("EVENT", story.story_id);
         this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
     }
 

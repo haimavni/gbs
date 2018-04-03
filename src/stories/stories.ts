@@ -143,19 +143,27 @@ export class Stories {
     }
 
     jump_to_the_full_story(story) {
+        let what;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
+                what = 'EVENT';
                 this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: this.keywords });
                 break;
             case this.api.constants.story_type.STORY4MEMBER:
+                what = 'MEMBER';
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story' });
                 break;
             case this.api.constants.story_type.STORY4PHOTO:
+                what = 'PHOTO';
                 this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story' });
                 break;
             case this.api.constants.story_type.STORY4TERM:
+                what = "TERM";
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'story' });
                 break;
+        }
+        if (what != 'MEMBER') { //these are counted inside the member detail module
+            this.api.hit(what, story.story_id);
         }
 
     }

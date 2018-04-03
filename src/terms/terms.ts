@@ -3,6 +3,7 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { autoinject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
+import { Router } from 'aurelia-router';
 
 @autoinject
 export class Terms {
@@ -15,12 +16,14 @@ export class Terms {
     //for development. remove soon.
     test_date = "";
     test_span = 3;
+    router;
 
-    constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme) {
+    constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router) {
         this.api = api;
         this.user = user;
         this.i18n = i18n;
         this.theme = theme;
+        this.router = router;
     }
 
     created(params, config) {
@@ -38,6 +41,10 @@ export class Terms {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
+    }
+
+    jump_to_the_full_story(term) {
+        this.router.navigateToRoute('term-detail', { id: term.story_id, what: 'story' });
     }
 
 }

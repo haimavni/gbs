@@ -31,6 +31,7 @@ export class App {
     let el1 = document.getElementById("router-view");
     let el2 = document.getElementById("footer");
     this.router_view_height = this.theme.height - 60 - 117;
+    this.api.hit('APP');
   }
 
   public router;
@@ -47,6 +48,7 @@ export class App {
       { route: 'members/:caller_id/*', name: 'associate-members', moduleId: './members/members', nav: false, title: 'members.update-story-members'},
       { route: 'photos-group/:caller_id/*', name: 'associate-photos', moduleId: './photos/photos', nav: false, title: 'photos.update-story-photos'},
       { route: 'story-detail/:id/*', name: 'story-detail', moduleId: './stories/story-detail' },
+      { route: 'term-detail/:id/*', name: 'term-detail', moduleId:  './stories/story-detail' },
       { route: 'member-details/:id/*', name: 'member-details', moduleId: './members/member-detail' },
       { route: 'memmbers/new', name: 'member-creation', moduleId: './members/member-edit', title: 'members.newMember' },
       { route: 'members/:id/edit', name: 'member-edit', moduleId: './members/member-edit', title: 'members.editMember' },

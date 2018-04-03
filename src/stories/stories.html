@@ -79,10 +79,10 @@
                                     <span if.bind="story.used_for==api.constants.story_type.STORY4PHOTO">
                                         ${'stories.to-the-photo-page' & t }...
                                     </span>
+                                    <span if.bind="story.used_for==api.constants.story_type.STORY4TERM">
+                                        ${'stories.term-page' & t }...
+                                    </span>
                                 </a>
-                                <span if.bind="story.used_for==api.constants.story_type.STORY4TERM">
-                                    ${'stories.term-page' & t }
-                                </span>
                             </div>
                         </li>
                     </ul>

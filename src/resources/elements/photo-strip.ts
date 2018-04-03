@@ -113,6 +113,7 @@ export class PhotoStripCustomElement {
 
     shift_photos(dx) {
         let target = this.slideList;
+        if (!target) return;
         let parent = target.parentElement;
         // keep the dragged position in the data-x/data-y attributes
         let x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
