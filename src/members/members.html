@@ -2,12 +2,6 @@
     <require from="./members.css"></require>
 
     <section class="container content-area">
-        <!--<div class="row top-head" css="margin-top:60px;background-image:url('${theme.files.top_background}');height:96px;">
-            <div style="padding-top:0px;padding-right:15px;">
-                <h1 if.bind="caller_type" dir="rtl">${'members.' + caller_type & t}</h1>
-                <h1 if.bind="!caller_type" dir="rtl">${"members.members" & t}</h1>
-            </div>
-        </div>-->
         <div style="margin-top:80px;">
             <div class="row">
                 <div class="col-md-10 col-md-offset-2" style="padding-right:50px;">
@@ -18,6 +12,11 @@
                         <div class="input-group" style="padding-top:16px;" if.bind="! relatives_mode">
                             <select value.bind="order" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.trigger="order_changed($event)">
                                 <option dir="rtl" repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
+                            </select>
+                        </div>
+                        <div class="input-group" style="padding-top:16px;" if.bind="user.privileges.DATA_AUDITOR &&! relatives_mode">
+                            <select value.bind="only_unapproved" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl">
+                                <option dir="rtl" repeat.for="option of approval_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </div>
                         <div class="input-group" style="padding-top:16px;" if.bind="! relatives_mode">
@@ -49,6 +48,7 @@
             <div id="member-list" class="member-list content-area" css="min-height:${win_height-447}px;max-height:593px;">
                 <ul class="list-group">
                     <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200 | filtervisibility : 0 "
+                        if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || !member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         dir="rtl">
                         <a click.trigger="member_clicked(member, $event)" disabled.bind="not_ready(member)" style="color:black;cursor:pointer;">

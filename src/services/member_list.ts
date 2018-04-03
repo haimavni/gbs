@@ -17,7 +17,7 @@ export class MemberList {
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.eventAggregator.subscribe('MEMBER_LISTS_CHANGED', payload => {
-            let flds = ['id', 'name', 'title', 'first_name', 'last_name', 'former_first_name', 'former_last_name', 'nick_name', 'gender', 'visibility', 'has_profile'];
+            let flds = ['id', 'name', 'title', 'first_name', 'last_name', 'former_first_name', 'former_last_name', 'nick_name', 'gender', 'visibility', 'has_profile', 'approved'];
             let mi = payload.member_rec;
             if (payload.new_member) {
                 let new_member = {};

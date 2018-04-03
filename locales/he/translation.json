@@ -126,7 +126,8 @@
     "to-story-page": "לדף הספור",
     "family-only": "קשרי משפחה",
     "all-members": "כל החברים",
-    "cause-of-death": "סיבת המוות"
+    "cause-of-death": "סיבת המוות",
+    "unapproved-only": "שינויים לאישור"
   },
   "user": {
     "login": "התחבר",

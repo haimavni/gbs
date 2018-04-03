@@ -126,7 +126,8 @@
     "to-story-page": "To the story page",
     "family-only": "Family connections",
     "all-members": "All members",
-    "cause-of-death": "Cause of death"
+    "cause-of-death": "Cause of death",
+    "unapproved-only": "Pending approval"
   },
   "user": {
     "login": "Sign in",

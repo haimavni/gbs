@@ -131,12 +131,17 @@ export class MemberDetail {
     }
 
     set_parent(member, parent) {
-        if (parent.gender == 'M') {
+        let gender = parent.gender;
+        if (parent.deleted) {
+            parent = null;
+        }
+        if (gender == 'M') {
             this.member.family_connections.parents.pa = parent
         } else {
             this.member.family_connections.parents.ma = parent
         }
-        this.member.family_connections.hasFamilyConnections = true;
+        this.member.family_connections.hasFamilyConnections = 
+            this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
     }
 
     tryDelete() {

@@ -42,13 +42,15 @@ export class MemberEdit {
     activate(member) {
         this.member = member;
         this.member_info_orig = deepClone(this.member.member_info);
+        if (this.user.privileges.DATA_AUDITOR)
+            this.member.member_info.approved = true;
         this.life_story_orig = member.story_info.story_text.slice();
     }
 
-    @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name', 
-                  'member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.NickName', 
-                  'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 'member.member_info.cause_of_death',
-                  'member.member_info.gender', 'member.story_info.life_story', 'member.member_info.visibility')
+    @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name',
+        'member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.NickName', 'member.member_info.mother_id', 'member.member_info.father_id',
+        'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 'member.member_info.cause_of_death',
+        'member.member_info.gender', 'member.story_info.life_story', 'member.member_info.visibility', 'member.member_info.approved')
     get dirty_info() {
         let dirty = JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
         this.eventAggregator.publish('DirtyInfo', dirty);
@@ -91,7 +93,7 @@ export class MemberEdit {
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = deepClone(this.member);
-           });
+            });
     }
 
     toggle_gender() {
@@ -110,7 +112,9 @@ export class MemberEdit {
         alert('editor content changed');
     }
 
-    find_father() {
+    find_father(event) {
+        if (event.ctrlKey)
+            return this.remove_parent('pa')
         this.dialog.open({
             viewModel: MemberPicker, model: { gender: 'M', child_name: this.member.member_info.full_name }, lock: false,
             position: this.setup, rejectOnCancel: true
@@ -119,13 +123,14 @@ export class MemberEdit {
             if (response.output.new_member) {
                 this.memberList.member_added(response.output.new_member);
             }
-            this.member.member_info = deepClone(this.member.member_info);
             let father = this.get_member_data(this.member.member_info.father_id);
             this.eventAggregator.publish('ParentFound', father);
         });
     }
 
-    find_mother() {
+    find_mother(event) {
+        if (event.ctrlKey)
+            return this.remove_parent('ma')
         this.dialog.open({
             viewModel: MemberPicker, model: { gender: 'F', child_name: this.member.member_info.full_name }, lock: false,
             position: this.setup, rejectOnCancel: true
@@ -134,10 +139,19 @@ export class MemberEdit {
             if (response.output.new_member) {
                 this.memberList.member_added(response.output.new_member);
             }
-            this.member.member_info = deepClone(this.member.member_info);
             let mother = this.get_member_data(this.member.member_info.mother_id);
             this.eventAggregator.publish('ParentFound', mother);
         });
+    }
+
+    remove_parent(who) {
+        let gender = (who == 'ma') ? 'F' : 'M';
+        if (who == 'ma')
+            this.member.member_info.mother_id = null
+        else if (who == 'pa') {
+            this.member.member_info.father_id = null;
+        }
+        this.eventAggregator.publish('ParentFound', {gender: gender, deleted: true});
     }
 
     get_member_data(member_id) {
