@@ -1,5 +1,6 @@
 export function configure(config) {
   config.globalResources([
+    './attributes/tapandhold',
     './value-converters/filter',
     './value-converters/filter-by-set',
     './value-converters/take',
