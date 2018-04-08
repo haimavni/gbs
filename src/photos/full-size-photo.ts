@@ -9,6 +9,7 @@ import environment from "../environment";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { getOffset } from "../services/dom_utils";
 import { I18N } from 'aurelia-i18n';
+import { copy_to_clipboard } from '../services/dom_utils';
 
 @autoinject()
 export class FullSizePhoto {
@@ -30,6 +31,7 @@ export class FullSizePhoto {
     i18n;
     highlight_all;
     jump_to_story_page;
+    copy_photo_url_text;
     photo_url;
     navEvent;
 
@@ -51,6 +53,7 @@ export class FullSizePhoto {
         this.i18n = i18n;
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
+        this.copy_photo_url_text = this.i18n.tr('photos.copy-photo-url');
     }
 
     activate(model) {
@@ -123,6 +126,10 @@ export class FullSizePhoto {
             cursor: face.moving ? "move" : "hand",
             position: 'absolute',
         };
+    }
+
+    copy_photo_url() {
+        copy_to_clipboard(this.slide.src);
     }
 
     handle_face(face, event, index) {

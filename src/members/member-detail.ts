@@ -12,7 +12,6 @@ import { StoryWindow } from '../stories/story_window';
 import { MemberEdit } from './member-edit';
 import environment from '../environment';
 import { MemberList } from '../services/member_list';
-import { this_page_url } from '../services/dom_utils';
 
 @autoinject()
 @singleton()
@@ -43,7 +42,6 @@ export class MemberDetail {
     life_summary;
     stories_scroll: boolean;
     source;
-    member_url = "";
     sub1; sub2; sub3; sub4; sub5;
     panel_height = 566;
     to_story_page;
@@ -90,7 +88,6 @@ export class MemberDetail {
                 this.set_displayed_stories();
                 this.api.hit('MEMBER', this.member.member_info.id);
             });
-        this.member_url = this_page_url();
     }
 
     @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 

@@ -205,7 +205,8 @@
     "unknown": "Unknown",
     "upload": "Add photos",
     "photo-date": "Photo date",
-    "photos-date": "Photos date"
+    "photos-date": "Photos date",
+    "copy-photo-url": "Copy photo address for sharing"
   },
   "videos": {
     "videos": "Video"

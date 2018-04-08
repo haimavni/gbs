@@ -3,7 +3,7 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
-import { this_page_url, highlight } from '../services/dom_utils';
+import { highlight } from '../services/dom_utils';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
@@ -22,9 +22,7 @@ export class StoryDetail {
     source;
     user;
     theme;
-    story_url;
     story_dir;
-    host;
     keywords;
     highlight_on="highlight-on";
     router: Router;
@@ -52,8 +50,6 @@ export class StoryDetail {
     }
 
     activate(params, config) {
-        this.story_url = this_page_url();
-        this.host = window.location.host;
         this.keywords = params.keywords;
         this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
             .then(response => {

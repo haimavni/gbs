@@ -12,7 +12,6 @@
             <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing" 
                 class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
             </button>
-            <copy-to-clipboard if.bind="user.editing" content.bind="story_url" prefix.bind="host" style="float:left;"></copy-to-clipboard>
         </div>
         <div class="row" css="direction:${story_dir};">
             <div class="col-md-5">

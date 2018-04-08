@@ -10,7 +10,7 @@
                 <i class="fa fa-lg fa-circle${highlighting ? '' :'-o'}"></i>
             </button>
             <button aubs-tooltip="text.bind:jump_to_story_page" class="side-tool story" click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
-            <copy-to-clipboard if.bind="user.editing" class="side-tool copy-to-clipboard" content.bind="photo_url"></copy-to-clipboard>
+            <button aubs-tooltip="text.bind:copy_photo_url_text" class="side-tool copy-to-clipboard" click.delegate="copy_photo_url()"><i class="fa fa-lg fa-link fa-rotate-90"></i></button>
             <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable.bind="theme.interact_setting"
                 class="face" 
                 id.bind="'face-' + face.member_id"

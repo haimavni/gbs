@@ -9,14 +9,6 @@ export function getOffset(el) {
     }
 }
 
-export function this_page_url() {
-    // INFO [Matt] Removed, as the URL API is not available in IE11.
-    // let url = document.URL;
-    // let parse = new URL(url);
-    // let path = parse.pathname + parse.hash;
-    return `${location.pathname}${location.hash}`;
-}
-
 export function highlight_doesntwork(html: String, keywords: Array<String>) {
     if (!keywords) {
         return html;

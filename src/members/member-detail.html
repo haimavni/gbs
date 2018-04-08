@@ -7,7 +7,6 @@
                 <span if.bind="member.member_info.id">${member_display_name}</span>
                 <span if.bind="! member.member_info.id">${'members.new-member' & t }</span>
                 <span style="color:white;font-size:85%;margin-right:30px;"> ${life_cycle_text} </span>
-                <copy-to-clipboard if.bind="user.editing" class="pull-left" content.bind="member_url"></copy-to-clipboard>
             </div>
         </div>
         <div class="row">

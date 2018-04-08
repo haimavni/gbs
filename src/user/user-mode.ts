@@ -22,7 +22,6 @@ export class UserMode {
     selectedLocale;
     locales = ['en', 'he'];
     isChangingLocale = false;
-    //page_url;
 
     constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup) {
         this.user = user;
@@ -31,11 +30,10 @@ export class UserMode {
         this.api = api;
         this.dialog = dialog;
         this.popup = popup;
-        //this.page_url = this_page_url();
     }
 
     share() {
-        let url = `${location.pathname}${location.hash}`
+        let url = `${location.host}${location.pathname}${location.hash}`
         if (url.endsWith('*')) url += '/';
         copy_to_clipboard(url);
     }

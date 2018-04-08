@@ -14,7 +14,6 @@ export function configure(config) {
     './elements/partial-date',
     './elements/date-range',
     './elements/help',
-    './elements/copy-to-clipboard',
     './elements/timeline',
     './elements/search-input',
     './elements/dlg-string',
