@@ -4,7 +4,6 @@ import { autoinject } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
-import { EventAggregator } from 'aurelia-event-aggregator';
 import * as toastr from 'toastr';
 
 @autoinject()
@@ -14,7 +13,6 @@ export class Login {
     user;
     theme;
     i18n;
-    ea;
     loginData = { email: '', password: '', first_name: '', last_name: "", confirm_password: "" };
     login_failed: boolean = false;
     message: string = "";
@@ -24,12 +22,11 @@ export class Login {
     REGISTERING_DONE = 2;
     registering = this.NOT_REGISTERING;
 
-    constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, ea: EventAggregator, i18n: I18N) {
+    constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, i18n: I18N) {
         this.controller = controller;
         this.api = api;
         this.user = user;
         this.theme = theme;
-        this.ea = ea;
         this.i18n = i18n;
     }
 

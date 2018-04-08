@@ -1,10 +1,13 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
+import { Router } from "aurelia-router";
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { Login } from '../user/login';
 import { DialogService } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
 import { Popup } from '../services/popups';
+import { copy_to_clipboard } from '../services/dom_utils';
+
 
 @autoinject()
 export class UserMode {
@@ -13,18 +16,28 @@ export class UserMode {
     theme;
     api;
     dialog;
+    router;
     popup: Popup;
     loginData = { email: '', password: '' };
     selectedLocale;
     locales = ['en', 'he'];
     isChangingLocale = false;
+    //page_url;
 
-    constructor(user: User, theme: Theme, dialog: DialogService, api: MemberGateway, popup: Popup) {
+    constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup) {
         this.user = user;
         this.theme = theme;
+        this.router = router;
         this.api = api;
         this.dialog = dialog;
         this.popup = popup;
+        //this.page_url = this_page_url();
+    }
+
+    share() {
+        let url = `${location.pathname}${location.hash}`
+        if (url.endsWith('*')) url += '/';
+        copy_to_clipboard(url);
     }
 
     toggle_edit_mode() {
@@ -32,7 +45,9 @@ export class UserMode {
     }
 
     private loginDialog() {
+        this.theme.hide_title = true;
         this.dialog.open({ viewModel: Login, model: this.loginData, lock: false }).whenClosed(response => {
+            this.theme.hide_title = false;
             if (!response.wasCancelled) {
                 //do something?
             } else {

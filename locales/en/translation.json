@@ -155,7 +155,8 @@
     "passwords-dont-match": "Passwords don't match",
     "chat-rooms": "Chat rooms",
     "font-size": "Select font size",
-    "login-successful": "You have logged in successfuly"
+    "login-successful": "You have logged in successfuly",
+    "share": "Copy the address"
   },
   "photos": {
     "photos": "Photos",
@@ -258,5 +259,10 @@
   "please-update-head": "The system has been updated<br>",
   "please-update-body": "<p>Please refresh the page.<br><p> ",
   "please-update-stubborn": "<p>If this message repeats, please <strong>clear the cache memory</strong></p>",
-  "please-update": "A new version is available.\n\nPlease refresh the screen (F5 or ctrl+F5)\n"
+  "please-update": "A new version is available.\n\nPlease refresh the screen (F5 or ctrl+F5)\n",
+  "promote-header-text": "<p>The engine behind this site may be used for other communities, large families etc.</p><p>To contact the developers, plase fill the form below and then press the SEND button.</p>",
+  "promote-name": "Name",
+  "promote-mobile": "Mobile phone",
+  "promote-message": "Message",
+  "promote-send": "Send"
 }
