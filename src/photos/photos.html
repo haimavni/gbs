@@ -62,7 +62,7 @@
                                     ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
-                            <div if.bind="user.privileges.PHOTO_UPLOADER" t="[title]user.upload-files" class="input-group">
+                            <div if.bind="phase == 'ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type " t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
                                     <i class="fa fa-plus-square-o"></i>
                                     ${'photos.upload' & t}
