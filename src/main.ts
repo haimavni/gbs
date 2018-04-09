@@ -60,7 +60,6 @@ export function configure(aurelia: Aurelia) {
             config.options.imageDefaultWidth = 100;
             config.options.linkAlwaysBlank = true;
         })
-        .plugin('aurelia-froala-editor')
         .feature('polyfills')
         .feature('resources');
 
