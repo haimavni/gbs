@@ -138,7 +138,6 @@ export class StoryDetail {
         this.candidates.splice(idx, 1);
         let mem = mems[0];
         this.members.push(mem);
-        console.log(" story --- ", this.story)
         this.api.call_server_post('members/add_story_member', {story_id: this.story.story_id, candidate_id: candidate_id});
     }
 
