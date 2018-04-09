@@ -9,6 +9,8 @@ import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import default_multi_select_options from '../resources/elements/multi-select';
 import { Theme } from '../services/theme';
+import { MemberPicker } from "../members/member-picker";
+
 
 @autoinject()
 @singleton()
@@ -37,6 +39,7 @@ export class Photos {
         photos_date_span_size: 3,
         selected_photo_list: [],
         user_id: null,
+        selected_member_id: null,
         first_year: 1928,
         last_year: 2021,
         base_year: 1925,
@@ -56,7 +59,7 @@ export class Photos {
     photographers_settings = default_multi_select_options;
     caller_type;
     caller_id;
-    
+
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
         this.user = user;
@@ -87,8 +90,8 @@ export class Photos {
 
     created(params, config) {
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
-        this.ea.subscribe('PHOTOS_WERE_UPLOADED', () => {this.update_photo_list()});
-        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => {this.update_topic_list()});  //for now they are linked...
+        this.ea.subscribe('PHOTOS_WERE_UPLOADED', () => { this.update_photo_list() });
+        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now they are linked...
         if (this.topic_list.length > 0) {
             return;
         }
@@ -126,7 +129,7 @@ export class Photos {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
-        this.theme.page_title = (this.caller_type) ? 'members.' + this.caller_type : "photos.photos-store";        
+        this.theme.page_title = (this.caller_type) ? 'members.' + this.caller_type : "photos.photos-store";
     }
 
     detached() {
@@ -197,7 +200,7 @@ export class Photos {
     }
 
     add_photographer(new_photographer_name) {
-        this.api.call_server_post('members/add_photographer', {photographer_name: new_photographer_name});
+        this.api.call_server_post('members/add_photographer', { photographer_name: new_photographer_name });
     }
 
     handle_change(event) {
@@ -230,6 +233,22 @@ export class Photos {
             });
     }
 
+    select_member(event: Event) {
+        this.theme.hide_title = true;
+        this.dialog.open({
+            viewModel: MemberPicker, model: {}, lock: false,
+            rejectOnCancel: true
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            this.params.selected_member_id = response.output.member_id;
+            this.update_photo_list()
+                .then(response => {
+                    this.params.selected_member_id = null;
+                });
+        });
+
+    }
+
     apply_to_selected() {
         this.done_selecting = false;
         this.api.call_server_post('members/apply_to_selected_photos', this.params)
@@ -260,7 +279,7 @@ export class Photos {
                 }
             } else {
                 this.done_selecting = false;
-                if (this.params.grouped_selected_topics.length > 0 || 
+                if (this.params.grouped_selected_topics.length > 0 ||
                     this.params.grouped_selected_photographers.length > 0) {
                     result = "can-modify-tags";
                 } else {
@@ -315,7 +334,7 @@ export class Photos {
     upload_files() {
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: UploadPhotos, lock: false })
-            .whenClosed(result => {this.theme.hide_title = false});
+            .whenClosed(result => { this.theme.hide_title = false });
     }
 
 

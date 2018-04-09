@@ -15,6 +15,7 @@ export class StoryDetail {
     i18n;
     story;
     members = [];
+    candidates = [];
     has_associated_photos = false;
     photos;
     curr_photo;
@@ -63,6 +64,7 @@ export class StoryDetail {
                     this.story_dir = this.theme.language_dir(this.story.language)
                 }
                 this.members = response.members;
+                this.candidates = response.candidates;
                 this.photos = response.photos;
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
@@ -94,7 +96,7 @@ export class StoryDetail {
     private openDialog(slide, event, slide_list) {
         event.stopPropagation();
         if (event.altKey && event.shiftKey) {
-            this.detach_photo_from_story(this.story.id, slide.photo_id, slide_list);
+            this.detach_photo_from_story(this.story.story_id, slide.photo_id, slide_list);
             return;
         }
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
@@ -129,6 +131,15 @@ export class StoryDetail {
             this.highlight_on = "highlight-on"
         }
         document.getElementById("word-highlighter").blur();
+    }
+
+    accept_candidate(candidate_id, idx) {
+        let mems = this.candidates.slice(idx, idx + 1);
+        this.candidates.splice(idx, 1);
+        let mem = mems[0];
+        this.members.push(mem);
+        console.log(" story --- ", this.story)
+        this.api.call_server_post('members/add_story_member', {story_id: this.story.story_id, candidate_id: candidate_id});
     }
 
     @computedFrom('story.story_text')

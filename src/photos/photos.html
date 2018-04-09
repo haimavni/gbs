@@ -15,10 +15,15 @@
                     <span css="position:absolute">${'photos.less' & t}</span>
                 </div>
                 <div class="col-md-8">
-                    <div class="row" style="margin-bottom:15px;">
+                    <div class="row" style="margin-bottom:15px;padding-right:15px;">
                         <form class="form-inline">
                             <div class="input-group">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
+                            </div>
+                            <div class="form-group" if.bind="caller_type=='story'">
+                                <button class="btn btn-basic btn-md" click.delegate="select_member($event)">
+                                    ${'photos.search-member' & t}
+                                </button>
                             </div>
                             <div class="form-group" if.bind="phase=='can-modify-tags'">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">

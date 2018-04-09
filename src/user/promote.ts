@@ -28,7 +28,7 @@ export class Promote {
 
     send() {
         this.api.call_server_post('default/get_interested_contact', 
-            {contact_name: this.contact_name, contact_email: this.contact_email, contact_mobile: this.contact_mobile, contact_message: this.contact_message})
+            {contact_name: this.contact_name, contact_email: this.contact_email, contact_mobile: this.contact_mobile, contact_message: this.contact_message, rtltr: this.theme.rtltr})
             .then(this.controller.ok());
     }
 

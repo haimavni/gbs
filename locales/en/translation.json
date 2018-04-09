@@ -206,7 +206,9 @@
     "upload": "Add photos",
     "photo-date": "Photo date",
     "photos-date": "Photos date",
-    "copy-photo-url": "Copy photo address for sharing"
+    "copy-photo-url": "Copy photo address for sharing",
+    "search-member": "With Member",
+    "candidates": "Candidates from the photos"
   },
   "videos": {
     "videos": "Video"
