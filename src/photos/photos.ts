@@ -176,8 +176,9 @@ export class Photos {
 
     maximize_photo(slide, event) {
         if (event.ctrlKey) {
-            this.toggle_selection(slide);
+            this.toggle_selection(slide, event);
         } else {
+            event.stopPropagation();
             this.openDialog(slide);
         }
     }
@@ -213,7 +214,8 @@ export class Photos {
         this.update_photo_list();
     }
 
-    toggle_selection(photo) {
+    toggle_selection(photo, event) {
+        event.stopPropagation();
         if (this.selected_photos.has(photo.photo_id)) {
             this.selected_photos.delete(photo.photo_id);
             photo.selected = "";

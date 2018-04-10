@@ -51,7 +51,8 @@
                         if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || !member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         dir="rtl">
-                        <a click.trigger="member_clicked(member, $event)" disabled.bind="not_ready(member)" style="color:black;cursor:pointer;">
+                        <a click.trigger="member_clicked(member, $event)" tapandhold="500" longtouch.delegate="toggle_selection(member, $event)" 
+                            disabled.bind="not_ready(member)" style="color:black;cursor:pointer;">
                             <img src.bind="member.facePhotoURL" aubs-tooltip="text.bind:member.title" 
                                 css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" />
                             <h6 dir="rtl" class="list-group-item-heading" >${member.name}</h6>

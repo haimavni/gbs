@@ -125,7 +125,8 @@ export class Members {
         this.memberList.sort_member_list(this.order);
     }
 
-    toggle_selection(member) {
+    toggle_selection(member, event) {
+        event.stopPropagation();
         if (member.selected) {
             member.selected = 0;
             this.selected_members.delete(member.id)
@@ -212,8 +213,9 @@ export class Members {
 
     member_clicked(member, event) {
         if (event.ctrlKey) {
-            this.toggle_selection(member);
+            this.toggle_selection(member, event);
         } else {
+            event.stopPropagation();
             this.router.navigateToRoute('member-details', { id: member.id });
         }
     }
