@@ -4,7 +4,6 @@ import { autoinject } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
-import * as toastr from 'toastr';
 
 @autoinject()
 export class Promote {

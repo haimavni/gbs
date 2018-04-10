@@ -23,6 +23,7 @@ export class MemberEdit {
     member_info_orig;
     life_story_orig;
     dialog;
+    update_info = '';
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
         this.user = user;
@@ -41,10 +42,17 @@ export class MemberEdit {
 
     activate(member) {
         this.member = member;
-        this.member_info_orig = deepClone(this.member.member_info);
+        let m = this.member.member_info
+        this.member_info_orig = deepClone(m);
         if (this.user.privileges.DATA_AUDITOR)
-            this.member.member_info.approved = true;
-        this.life_story_orig = member.story_info.story_text.slice();
+            m.approved = true;
+        this.life_story_orig = this.member.story_info.story_text.slice();
+        if (this.user.privileges.DATA_AUDITOR && m.updater_id) {
+            let s = ' ' + this.i18n.tr('members.updated-on-date') + ' ';
+            this.update_info = m.updater_name + s + m.update_time;
+        } else {
+            this.update_info = "";
+        }
     }
 
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name',

@@ -127,7 +127,8 @@
     "family-only": "Family connections",
     "all-members": "All members",
     "cause-of-death": "Cause of death",
-    "unapproved-only": "Pending approval"
+    "unapproved-only": "Pending approval",
+    "updated-on-date": "Updated on "
   },
   "user": {
     "login": "Sign in",
