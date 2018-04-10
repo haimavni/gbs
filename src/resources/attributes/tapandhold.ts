@@ -16,9 +16,9 @@ export class TapAndHoldCustomAttribute {
             let touchend = performance.now();
             if (touchend - touchstart > this.tolerance) {
                 el.dispatchEvent(new CustomEvent('longclick', { bubbles: true }));
+                event.preventDefault();
+                event.stopPropagation();
             }
-            event.preventDefault();
-            event.stopPropagation();
             touchstart = null;
             clearTimeout(timeout);
             el.removeEventListener('touchend', this.ontouchend);
