@@ -30,6 +30,7 @@ export class TapAndHoldCustomAttribute {
                 el.dispatchEvent(new CustomEvent('longtouch', { bubbles: true }));
                 event.preventDefault();
                 event.stopPropagation();
+                el.removeEventListener('touchend', this.ontouchend);
             }, this.tolerance);
         }
     }
