@@ -5,8 +5,9 @@ import { inject, customAttribute, bindable, bindingMode } from 'aurelia-framewor
 export class TapAndHoldCustomAttribute {
   @bindable({ primaryProperty: true, defaultBindingMode: bindingMode.oneTime }) tolerance = 300;
   el: Element;
-  ontouchstart: (event) => any;
-  ontouchend: (event) => any;
+  ontouchstart: (event: Event) => any;
+  ontouchend: (event: Event) => any;
+  disableContextMenu: (event:) => any;
   constructor(el) {
     this.el = el;
     let timeout = null;
@@ -26,14 +27,18 @@ export class TapAndHoldCustomAttribute {
       el.addEventListener('touchend', this.ontouchend);
       timeout = setTimeout(() => {
         el.dispatchEvent(new CustomEvent('longtouch', { bubbles: true }));
+        event.preventDefault();
       }, this.tolerance);
     }
+    this.disableContextMenu = (event) => event.preventDefault();
   }
   attached() {
     this.el.addEventListener('touchstart', this.ontouchstart);
+    this.el.addEventListener('contextmenu', this.disableContextMenu);
   }
   detatched() {
     this.el.removeEventListener('touchstart', this.ontouchstart);
     this.el.removeEventListener('touchend', this.ontouchend);
+    this.el.removeEventListener('contextmenu', this.disableContextMenu);
   }
 }
