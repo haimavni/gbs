@@ -126,7 +126,6 @@ export class Members {
     }
 
     toggle_selection(member, event) {
-        event.stopPropagation();
         if (member.selected) {
             member.selected = 0;
             this.selected_members.delete(member.id)

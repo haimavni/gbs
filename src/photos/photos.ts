@@ -215,7 +215,6 @@ export class Photos {
     }
 
     toggle_selection(photo, event) {
-        event.stopPropagation();
         if (this.selected_photos.has(photo.photo_id)) {
             this.selected_photos.delete(photo.photo_id);
             photo.selected = "";
