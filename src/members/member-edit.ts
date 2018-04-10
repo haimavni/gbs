@@ -46,9 +46,9 @@ export class MemberEdit {
         this.member_info_orig = deepClone(m);
         if (this.user.privileges.DATA_AUDITOR)
             m.approved = true;
-        this.life_story_orig = m.story_text.slice();
-        if (m.updater_id) {
-            let s = this.i18n.tr('members.updated-on-date')
+        this.life_story_orig = this.member.story_info.story_text.slice();
+        if (this.user.privileges.DATA_AUDITOR && m.updater_id) {
+            let s = ' ' + this.i18n.tr('members.updated-on-date') + ' ';
             this.update_info = m.updater_name + s + m.update_time;
         } else {
             this.update_info = "";

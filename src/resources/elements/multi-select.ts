@@ -163,7 +163,6 @@ export class MultiSelectCustomElement {
 
     attached() {
         //todo: verify state is synced with the bound variales
-        console.log(" multi select attached. grouped_selected_options ", this.grouped_selected_options, " ungrouped: ", this.ungrouped_selected_options)
         const elementRect = this.element.getBoundingClientRect();
         this.width = Math.round(elementRect.width) - 20;
         this.inner_width = this.width - 70;
@@ -174,7 +173,6 @@ export class MultiSelectCustomElement {
         this.height_selected = this.lineHeight;
         this.height_unselected = this.height - this.height_selected;
         //sync option sets from option arrays which are bound
-        console.log("ms attached. options: ", this.options);
         let all_storage_ready = this.build_all_options_storage();
         let uso = this.ungrouped_selected_options.map(opt => opt.name)
         this.ungrouped_selected = new Set(uso);
@@ -184,17 +182,14 @@ export class MultiSelectCustomElement {
                 let x = this.all_options_storage.getValue(opt_name);
                 this.selected_options_storage.setValue(opt_name, x);
             }
-            console.log("selected_options_storage: ", this.selected_options_storage)
         }
         this.grouped_selected = new Collections.Dictionary<string, Set<string>>();
         //now build it from this.grouped_selected_options
         this.all_selected = new Set(uso);
-        console.log("attached. all_selected: ", this.all_selected);
         this.calculate_heights();
     }
 
     detached() {
-        console.log("multi select detached. storage: ", this.selected_options_storage);
     }
 
     private make_list(name_set) {
@@ -238,13 +233,10 @@ export class MultiSelectCustomElement {
         this.grouped_selected_options = [];
         let storage = this.selected_options_storage;
         let gso = this.grouped_selected_options;
-        console.log("in multi, gs: ", this.grouped_selected);
         this.grouped_selected.forEach(function (name, set) {
             let option = storage.getValue(name);
-            console.log("in multi, name, set, option: ", name, set, option);
             gso.push(option);
         });
-        console.log("in multi, grouped options: ", this.grouped_selected_options);
         let ungrouped = Array.from(this.ungrouped_selected);
         this.ungrouped_selected_options = ungrouped.map(u => this.selected_options_storage.getValue(u));
         this.calculate_heights();

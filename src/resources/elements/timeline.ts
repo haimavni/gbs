@@ -40,7 +40,6 @@ export class TimelineCustomElement {
     }
 
     dragstart(side, event) {
-        console.log("dragstart ", side, event.detail);
     }
 
     dragmove(side, event) {

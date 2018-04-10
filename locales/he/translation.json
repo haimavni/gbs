@@ -127,7 +127,8 @@
     "family-only": "קשרי משפחה",
     "all-members": "כל החברים",
     "cause-of-death": "סיבת המוות",
-    "unapproved-only": "שינויים לאישור"
+    "unapproved-only": "שינויים לאישור",
+    "updated-on-date": "עדכן בתאריך "
   },
   "user": {
     "login": "התחבר",

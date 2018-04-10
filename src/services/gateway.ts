@@ -4,6 +4,7 @@ import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
 import environment from '../environment';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import * as download from 'downloadjs';
+import * as toastr from 'toastr';
 
 let THIS;
 
@@ -26,10 +27,10 @@ export class SimpleInterceptor implements Interceptor {
     }
 
     responseError(response: Response) {
-        console.log('responseError - Some error has occured! Run!');
+        toastr.error('Some error has occured!');
         THIS.pending -= 1;
         if (!THIS.pending) {
-            alert("Server Error. Please try again later.")
+            toastr.warning("Server Error. Please try again later.")
         }
         return response;
     }

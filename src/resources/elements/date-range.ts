@@ -120,7 +120,6 @@ export class DateRangeCustomElement {
         let arr;
         let today = new Date();
         let cur_year = today.getFullYear();
-        console.log("range options: ", this.range_options, typeof this.range_options);
         if (typeof this.range_options === 'number') {
             let N = this.range_options;
             arr = Array.apply(null, {length: N}).map(Number.call, Number);
