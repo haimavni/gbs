@@ -90,17 +90,17 @@ export class MemberDetail {
             });
     }
 
-    @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 
+    @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date',
         'member.member_info.cause_of_death', 'member.member_info.gender')
     get life_cycle_text() {
         if (!this.member) return "";
         return this.misc.calc_life_cycle_text(this.member.member_info)
     }
 
-    @computedFrom('member.member_info.Name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name', 
+    @computedFrom('member.member_info.Name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name',
         'member.member_info.former_last_name', 'member.member_info.NickName')
     get member_display_name() {
-        if (! this.member)
+        if (!this.member)
             return "";
         return this.misc.calc_member_display_name(this.member.member_info);
     }
@@ -138,7 +138,7 @@ export class MemberDetail {
         } else {
             this.member.family_connections.parents.ma = parent
         }
-        this.member.family_connections.hasFamilyConnections = 
+        this.member.family_connections.hasFamilyConnections =
             this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
     }
 
@@ -247,7 +247,20 @@ export class MemberDetail {
     on_height_change(event) {
         event.stopPropagation();
         let { new_height } = event.detail;
+        this.photo_strip_height = new_height;
         this.panel_height = 680 - new_height;
     }
+
+    @computedFrom('theme.hight', 'photo_strip_height')
+    get panel_height1() {
+        //todo: calculate all heights here
+        let ph = this.theme.height - this.photo_strip_height - 168;
+        let ph_half = Math.max(260, Math.round(ph / 2));
+        this.story_box_height = Math.max(260, ph_half - 100);
+        this.bottom_height = ph_half;
+        this.top_height = ph - ph_half;
+        return ph
+    }
+
 
 }

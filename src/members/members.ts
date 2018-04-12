@@ -21,7 +21,6 @@ export class Members {
     memberList;
     selectedId;
     faces_per_line = 8;
-    win_height;
     win_width;
     theme;
     sorting_options;
@@ -90,7 +89,6 @@ export class Members {
                 }
 
             }
-            this.win_height = window.outerHeight;
             this.win_width = window.outerWidth;
             this.theme.display_header_background = true;
         });
