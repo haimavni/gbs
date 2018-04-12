@@ -4,6 +4,7 @@ import * as Backend from 'i18next-xhr-backend';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import "froala-editor/js/froala_editor.pkgd.min";
+import "froala-editor/js/languages/he";
 
 export function configure(aurelia: Aurelia) {
     aurelia.use
@@ -60,6 +61,7 @@ export function configure(aurelia: Aurelia) {
             config.options.linkAlwaysBlank = true;
         })
         .feature('polyfills')
+        .plugin('aurelia-slickgrid')
         .feature('resources');
 
     aurelia.use.globalResources('./services/user');

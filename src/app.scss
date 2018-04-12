@@ -6,6 +6,7 @@ $list-group-bg: #eeeeee;
 $navbar-default-link-active-color: blue;
 $navbar-default-link-active-bg: inherit;
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../node_modules/aurelia-slickgrid/dist/styles/sass/slickgrid-theme-bootstrap';
 @import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 
 html, body {

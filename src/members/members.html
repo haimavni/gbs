@@ -22,7 +22,7 @@
                         <div class="input-group" style="padding-top:16px;" if.bind="! relatives_mode">
                             <help topic="members" position="bottom"></help>
                         </div>
-                        <div if.bind="user.editing" class="input-group" style="padding-top:16px;">
+                        <div if.bind="user.editing && ! caller_type" class="input-group" style="padding-top:16px;">
                             <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
                                 <i class="fa fa-plus-square-o"></i>
                                 ${'members.new' & t}
