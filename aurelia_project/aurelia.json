@@ -301,7 +301,6 @@
                         "path": "../node_modules/slickgrid",
                         "deps": [
                             "jquery",
-                            "jquery-event",
                             "jquery-ui-dist"
                         ]
                     }
