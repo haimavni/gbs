@@ -157,7 +157,8 @@
     "chat-rooms": "Chat rooms",
     "font-size": "Select font size",
     "login-successful": "You have logged in successfuly",
-    "share": "Copy the address"
+    "share": "Copy the address",
+    "number-of-hits": "Number of entries"
   },
   "photos": {
     "photos": "Photos",
