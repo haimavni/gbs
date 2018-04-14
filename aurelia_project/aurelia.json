@@ -258,51 +258,6 @@
                         "deps": [
                             "jquery"
                         ]
-                    },
-                    "moment",
-                    "text-encoding-utf-8",
-                    {
-                        "name": "aurelia-slickgrid",
-                        "path": "../node_modules/aurelia-slickgrid/dist/amd",
-                        "main": "index",
-                        "resources": [
-                            "**/*.{css,html}"
-                        ]
-                    },
-                    {
-                        "name": "flatpickr",
-                        "path": "../node_modules/flatpickr/dist",
-                        "main": "flatpickr.min",
-                        "resources": [
-                            "flatpickr.min.css"
-                        ]
-                    },
-                    {
-                        "name": "multiple-select",
-                        "path": "../node_modules/aurelia-slickgrid/dist/lib/multiple-select",
-                        "main": "multiple-select",
-                        "resources": [
-                            "multiple-select.css"
-                        ]
-                    },
-                    {
-                        "name": "jquery-event",
-                        "path": "../node_modules/slickgrid/lib",
-                        "main": "jquery.event.drag-2.3.0"
-                    },
-                    {
-                        "name": "jquery-ui-dist",
-                        "path": "../node_modules/jquery-ui-dist",
-                        "main": "jquery-ui"
-                    },
-                    {
-                        "name": "slickgrid",
-                        "main": "slick.grid",
-                        "path": "../node_modules/slickgrid",
-                        "deps": [
-                            "jquery",
-                            "jquery-ui-dist"
-                        ]
                     }
                 ]
             }
