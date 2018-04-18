@@ -144,9 +144,10 @@ export class FullSizePhoto {
                 this.remove_face(face);
                 return;
             }
+            let old_member_id = face.member_id
             face.member_id = response.output.member_id;
             let make_profile_photo = response.output.make_profile_photo;
-            this.api.call_server_post('members/save_face', { face: face, make_profile_photo: make_profile_photo })
+            this.api.call_server_post('members/save_face', { face: face, make_profile_photo: make_profile_photo, old_member_id: old_member_id })
                 .then(response => {
                     face.name = response.member_name;
                     this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
