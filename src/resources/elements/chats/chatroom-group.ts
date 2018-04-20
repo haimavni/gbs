@@ -1,5 +1,6 @@
 import { bindable, autoinject, singleton, bindingMode } from 'aurelia-framework';
 import { User } from '../../../services/user';
+import { Theme } from '../../../services/theme';
 import { MemberGateway } from '../../../services/gateway';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
@@ -7,6 +8,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 @singleton()
 export class ChatroomGroupCustomElement {
     user: User;
+    theme: Theme;
     api: MemberGateway;
     ea: EventAggregator;
 
@@ -16,8 +18,9 @@ export class ChatroomGroupCustomElement {
     new_chatroom_name_visible = false;
     new_chatroom_name = '';
 
-    constructor(user: User, api: MemberGateway, ea: EventAggregator) {
+    constructor(user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
         this.user = user;
+        this.theme = theme;
         this.api = api;
         this.ea = ea;
     }

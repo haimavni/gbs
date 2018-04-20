@@ -1,21 +1,22 @@
 <template>
     <div style="background-color: lightgray;">
-        <div class="row">
+        <div class="row" style="padding:16px;">
             <form class="form-horizontal" role="form">
-                <div class="col-md-5" style="margin:5px;">
-                    <input style="font-size: 95%;margin-bottom:3px;float: left;width: 100%;" dir="rtl" type="text" model.bind="messages_filter"
-                        t="[placeholder]enter-search-words}" class="form-control input-small" />
+                <div class="col-md-5" css="margin:5px;float:${theme.other_dir};">
+                    <input css="font-size: 95%;margin-bottom:3px;width: 100%;" dir="${theme.rtltr}" type="text" model.bind="messages_filter"
+                        t="[placeholder]chats.enter-search-words" class="form-control input-small" />
                 </div>
-                <div class="col-md-6">
-                    <h4 style="width:100%;">${chatroom_name}</h4>
+                <div class="col-md-6" css="float:${theme.same_dir};direction:${theme.rtltr};">
+                    <h4 css="width:100%;">${chatroom_name}</h4>
                 </div>
             </form>
-            <div class="row">
-                <div class="col-sm-12" scroll-glue style="padding:10px;" id="scroll-area">
-                    <ul>
-                        <li repeat.for="msg of messages | filter: messages_filter" style="margin-bottom: 15px;">
+            <div class="row message-collection" >
+                <div class="col-sm-12" scroll-glue style="padding:10px;height:600px;overflow:auto;" id="scroll-area">
+                    <ul class="${theme.rtltr}">
+                        <li repeat.for="msg of messages | filter: messages_filter : 'message'" style="margin-bottom: 15px;">
+                        <!--<li repeat.for="msg of messages" style="margin-bottom: 15px;">-->
                             <span style="font-weight:bold;">${msg.timestamp}: ${msg.sender_name}</span><br/>
-                            <span innerhtml.bind="msg.message"></span><br/>
+                            <span innerhtml.bind="msg.message"></span>
                         </li>
                     </ul>
                 </div>
@@ -24,8 +25,8 @@
         <div class="row">
             <div class="col-md-12">
                 <form role="form" style="padding:12px;">
-                    <textarea rows="3" t="[placeholder]enter-your-message}" style="width:100%;" model.bind="info.user_message" />
-                    <a class="btn btn-primary btn-block" click.trigger="send_message()">${chats.send-message}</a>
+                    <textarea rows="3" t="[placeholder]chats.enter-your-message" style="direction:rtl;width:100%;" dir="${theme.rtltr}" value.bind="user_message" ></textarea>
+                    <button class="btn btn-primary btn-block" disabled.bind="user_message==''" click.trigger="send_message()">${'chats.send-message' & t}</button>
                 </form>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <template>
-    <require from="./chats.scss"></require>
-    <div class="row" dir="rtl" >
+    <require from="./chats.css"></require>
+    <div class="row" dir="${theme.rtltr}" >
         <div class="col-md-4">
         </div>
         <div class="col-md-1" style="padding-top:5px;">
@@ -9,11 +9,11 @@
             </a>
         </div>
         <div class="col-md-2" style="text-align:center">
-            <h3 style="margin-top: 0">${chats.chats | t}</h3>
+            <h3 style="margin-top: 0">${'chats.chats' & t}</h3>
         </div>
-        <div class="col-md-1" if.bind="privileges.CHAT_MODERATOR" style="padding-top:5px;">
+        <div class="col-md-1" if.bind="user.privileges.CHAT_MODERATOR" style="padding-top:5px;">
             <a href style="padding:0;margin:0;height:32px;float:left;" click.trigger="add_chatroom()">
-                <i class="fa fa-2x" class="${'fa-floppy-o' : new_chatroom_name_visible, 'fa-plus' : ! new_chatroom_name_visible}"></i>
+                <i class="fa fa-2x ${new_chatroom_name_visible ? 'fa-floppy-o' : 'fa-plus'}"></i>
             </a>
         </div>
         <div class="col-md-2" style="text-align:center" show.bind="new_chatroom_name_visible">
@@ -34,7 +34,9 @@
     <div class="row">
         <div class="col-md-12">
             <div repeat.for="chatroom of chatrooms">
-                <chatroom room_index.bind="$index"
+                <chatroom 
+                    room_index.bind="$index"
+                    room_number.bind="chatroom.id"
                     show.bind="first_chatroom_number <= $index && $index < first_chatroom_number + chats_per_page"
                     onload="room_number=chatroom.id;room_index=$index;read_chatroom()"
                     class="col-md-3" >

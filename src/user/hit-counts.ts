@@ -28,7 +28,7 @@ export class HitCounts {
         this.what_options = [
             { value: "MEMBER", name: this.i18n.tr('members.members') },
             { value: "PHOTO", name: this.i18n.tr('photos.photos') },
-            { value: "EVENT", name: this.i18n.tr('stories.storires') },
+            { value: "EVENT", name: this.i18n.tr('stories.stories') },
             { value: "TERM", name: this.i18n.tr('terms.terms') }
         ];
     }

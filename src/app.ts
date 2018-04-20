@@ -59,7 +59,8 @@ export class App {
             { route: 'members/:id/edit', name: 'member-edit', moduleId: './members/member-edit', title: 'members.editMember' },
             { route: 'photos/:id/*', name: 'photo-detail', moduleId: './photos/photo-detail' },
             { route: 'access-manager', name: 'access-manager', moduleId: './user/access-manager'},
-            { route: 'hit-counts', name: 'hit-counts', moduleId: './user/hit-counts'}
+            { route: 'hit-counts', name: 'hit-counts', moduleId: './user/hit-counts'},
+            { route: 'chats', name: 'chats', moduleId: './user/chats'}
         ]);
         this.router = router;
     }
