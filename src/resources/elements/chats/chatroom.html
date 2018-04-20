@@ -3,7 +3,7 @@
         <div class="row" style="padding:16px;">
             <form class="form-horizontal" role="form">
                 <div class="col-md-5" css="margin:5px;float:${theme.other_dir};">
-                    <input css="font-size: 95%;margin-bottom:3px;width: 100%;" dir="${theme.rtltr}" type="text" model.bind="messages_filter"
+                    <input css="font-size: 95%;margin-bottom:3px;width: 100%;" dir="${theme.rtltr}" type="text" value.bind="messages_filter"
                         t="[placeholder]chats.enter-search-words" class="form-control input-small" />
                 </div>
                 <div class="col-md-6" css="float:${theme.same_dir};direction:${theme.rtltr};">
@@ -13,8 +13,7 @@
             <div class="row message-collection" >
                 <div class="col-sm-12" scroll-glue style="padding:10px;height:600px;overflow:auto;" id="scroll-area">
                     <ul class="${theme.rtltr}">
-                        <li repeat.for="msg of messages | filter: messages_filter : 'message'" style="margin-bottom: 15px;">
-                        <!--<li repeat.for="msg of messages" style="margin-bottom: 15px;">-->
+                        <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'" style="margin-bottom: 15px;">
                             <span style="font-weight:bold;">${msg.timestamp}: ${msg.sender_name}</span><br/>
                             <span innerhtml.bind="msg.message"></span>
                         </li>
