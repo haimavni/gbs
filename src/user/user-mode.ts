@@ -88,7 +88,9 @@ export class UserMode {
     }
 
     chat_rooms() {
-        this.popup.popup('CHAT-ROOMS', 'http://gbs.gbstories.org/gbs__www/stories', "height=800,width=1600,left=150,top=150");
+        let url = `${location.host}/#/chats`;
+        console.log("url is ", url);
+        this.popup.popup('CHAT-ROOMS', url, "height=800,width=1600,left=150,top=150");
     }
 
     set_font_size(size) {
