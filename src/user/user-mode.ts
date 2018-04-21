@@ -88,7 +88,7 @@ export class UserMode {
     }
 
     chat_rooms() {
-        let url = `${location.host}/#/chats`;
+        let url = `${location.host}${location.pathname}#/chats`;
         console.log("url is ", url);
         this.popup.popup('CHAT-ROOMS', url, "height=800,width=1600,left=150,top=150");
     }
