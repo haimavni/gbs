@@ -26,7 +26,7 @@ export class ChatroomGroupCustomElement {
     }
 
     read_chatrooms() {
-        this.api.call_server('stories/read_chatrooms')
+        this.api.call_server('chats/read_chatrooms')
             .then((data) => {
                 this.chatrooms = data.chatrooms;
             });
@@ -38,7 +38,7 @@ export class ChatroomGroupCustomElement {
 
     add_chatroom() {
         if (this.new_chatroom_name) {
-            this.api.call_server('stories/add_chatroom', { new_chatroom_name: this.new_chatroom_name })
+            this.api.call_server('chats/add_chatroom', { new_chatroom_name: this.new_chatroom_name })
                 .then( (data) => {
                     let chatroom = { id: data.chatroom_id, messages: [], info: { user_message: '' } };
                     this.chatrooms.push(chatroom);
