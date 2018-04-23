@@ -33,6 +33,8 @@ export class ChatroomGroupCustomElement {
     };
 
     created() {
+        this.theme.hide_menu = true;
+        this.theme.hide_title = true;
         this.read_chatrooms();
     }
 

@@ -85,6 +85,16 @@ export class MemberGateway {
         }
         return this.httpClient.fetch(url) //, {method: "POST", body: json(data))
             .catch(error => alert("error: " + error))
+            .then((result) => {
+                if (result.error) {
+                    toastr.error(result.error)
+                } else if(result.user_error) {
+                    toastr.warning(result.user_error);
+                    return result;
+                } else {
+                    return result;
+                }
+            });
     }
 
     call_server_post(url: string, data?: any) {
@@ -92,6 +102,16 @@ export class MemberGateway {
         let x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
             .catch(error => alert("error: " + error))
+            .then((result) => {
+                if (result.error) {
+                    toastr.error(result.error)
+                } else if(result.user_error) {
+                    toastr.warning(result.user_error);
+                    return result;
+                } else {
+                    return result;
+                }
+            });
     }
 
     getMemberList() {
@@ -186,7 +206,7 @@ export class MemberGateway {
     }
 
     hit(what, item_id?) {
-        this.call_server('members/count_hit', {what: what, item_id: item_id | 0})
+        this.call_server('members/count_hit', { what: what, item_id: item_id | 0 })
     }
 
 }

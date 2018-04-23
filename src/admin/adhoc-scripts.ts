@@ -25,6 +25,8 @@ export class Terms {
     }
 
     attached() {
+        this.theme.hide_menu = true;
+        this.theme.hide_title = true;
         this.load_script();
     }
 
