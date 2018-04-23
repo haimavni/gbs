@@ -170,7 +170,7 @@ export class MemberDetail {
     }
 
     get_profile_photo(member) {
-        if (member.facePhotoURL) {
+        if (member && member.facePhotoURL) {
             return member.facePhotoURL;
         } else {
             return 'x' //environment.baseURL + "/gbs/static/images/dummy_face.png";
