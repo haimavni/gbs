@@ -46,6 +46,11 @@ export class MemberDetail {
     panel_height = 566;
     to_story_page;
     life_summary_expanded = false;
+    member_detail_panel;
+    member_detail_container;
+    top_panel;
+    bottom_panel;
+    life_summary_content;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -243,7 +248,7 @@ export class MemberDetail {
         event.stopPropagation();
         let { new_height } = event.detail;
         this.photo_strip_height = new_height;
-        this.panel_height = 680 - new_height;
+        //this.panel_height = 680 - new_height;
         this.set_heights();
     }
 
@@ -254,9 +259,18 @@ export class MemberDetail {
     }
 
     set_heights() {
-        this.panel_height = this.theme.height - this.photo_strip_height - 188;
-        this.top_height = Math.round(this.panel_height / 2);
-        this.bottom_height = this.panel_height - this.top_height;
+        let panel_height = this.theme.height - this.photo_strip_height - 188;
+        panel_height = Math.max(panel_height, 566);
+        this.member_detail_panel.style.height = `${panel_height}px`;
+        let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
+        let lsh = tph - 100;
+        this.life_summary_content.style.height = `${lsh}px`;
+        this.top_panel.style.height = `${tph}px`;
+        let bph = panel_height - tph;
+        this.bottom_panel.style.height = `${bph}px`;
+        this.story_box_height = bph - 12;
+        let mdch = panel_height + this.photo_strip_height + 2;
+        this.member_detail_container.style.height = `${mdch}px`;
     }
 
 }

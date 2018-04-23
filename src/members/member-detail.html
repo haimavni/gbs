@@ -1,7 +1,7 @@
 <template>
     <require from="./members.css"></require>
     <div id="member-detail" class="container" style="height:775px;padding-right:46px;padding-left:28px;" ref="member_detail_container">
-        <div class="row">
+        <div class="row" ref="member_header">
             <div id="breadcrumb" class="col-xs-12 font-size-150" style="background-color:#aaaaaa" dir="rtl">
                 <i class="fa fa-rotate-left pull-left" data-role="button" t="[title]go-back" click.trigger="go_back()"></i>
                 <span if.bind="member.member_info.id">${member_display_name}</span>
@@ -128,7 +128,7 @@
                 </div>
             </div>
             <!--member stories panel-->
-            <div id="stories" class="fr-view row ${theme.font-size}" 
+            <div id="stories" class="fr-view row ${theme.font-size}" ref="bottom_panel"
                 show.bind="! (user.editing || life_summary_expanded)" 
                 css="min-height:270px;margin-left:-31px;margin-right:0px;height:${bottom_height}px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
