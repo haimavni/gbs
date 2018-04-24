@@ -53,6 +53,7 @@ export class MemberDetail {
     top_panel;
     bottom_panel;
     life_summary_content;
+    life_summary_box;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -276,6 +277,8 @@ export class MemberDetail {
             this.story_box_height = bph - 12;
             let mdch = panel_height + this.photo_strip_height - 11;
             this.member_detail_container.style.height = `${mdch}px`;
+            let lsb = tph - 30;
+            this.life_summary_box.style.height = `${lsb}px`;
         } catch (e) {
             return false;
         }
