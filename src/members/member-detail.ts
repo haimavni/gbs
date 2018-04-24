@@ -45,6 +45,8 @@ export class MemberDetail {
     sub1; sub2; sub3; sub4; sub5;
     panel_height = 566;
     to_story_page;
+    expand;
+    compress;
     life_summary_expanded = false;
     member_detail_panel;
     member_detail_container;
@@ -63,6 +65,8 @@ export class MemberDetail {
         this.router = router;
         this.i18n = i18n;
         this.to_story_page = this.i18n.tr('members.to-story-page');
+        this.expand = this.i18n.tr('members.expand-life-summary');
+        this.compress = this.i18n.tr('members.compress-life-summary');
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
@@ -254,23 +258,35 @@ export class MemberDetail {
 
     toggle_life_summary_size(event) {
         event.stopPropagation();
-        this.life_summary_expanded = ! this.life_summary_expanded;
+        this.life_summary_expanded = !this.life_summary_expanded;
         this.set_heights();
     }
 
+    _set_heights() {
+        try {
+            let panel_height = this.theme.height - this.photo_strip_height - 188;
+            panel_height = Math.max(panel_height, 566);
+            this.member_detail_panel.style.height = `${panel_height}px`;
+            let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
+            let lsh = tph - 100;
+            this.life_summary_content.style.height = `${lsh}px`;
+            this.top_panel.style.height = `${tph}px`;
+            let bph = panel_height - tph - 6;
+            this.bottom_panel.style.height = `${bph}px`;
+            this.story_box_height = bph - 12;
+            let mdch = panel_height + this.photo_strip_height - 11;
+            this.member_detail_container.style.height = `${mdch}px`;
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
     set_heights() {
-        let panel_height = this.theme.height - this.photo_strip_height - 188;
-        panel_height = Math.max(panel_height, 566);
-        this.member_detail_panel.style.height = `${panel_height}px`;
-        let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
-        let lsh = tph - 100;
-        this.life_summary_content.style.height = `${lsh}px`;
-        this.top_panel.style.height = `${tph}px`;
-        let bph = panel_height - tph - 6;
-        this.bottom_panel.style.height = `${bph}px`;
-        this.story_box_height = bph - 12;
-        let mdch = panel_height + this.photo_strip_height - 11;
-        this.member_detail_container.style.height = `${mdch}px`;
+        setTimeout(() => {
+            if (this._set_heights()) return;
+            this.set_heights();
+        }, 5)
     }
 
 }

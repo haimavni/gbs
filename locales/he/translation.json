@@ -128,7 +128,9 @@
         "all-members": "כל החברים",
         "cause-of-death": "סיבת המוות",
         "unapproved-only": "שינויים לאישור",
-        "updated-on-date": "עדכן בתאריך "
+        "updated-on-date": "עדכן בתאריך ",
+        "expand-life-summary": "הגדל",
+        "compress-life-summary": "צמצם"
     },
     "user": {
         "login": "התחבר כעורך ",

@@ -128,7 +128,9 @@
         "all-members": "All members",
         "cause-of-death": "Cause of death",
         "unapproved-only": "Pending approval",
-        "updated-on-date": "Updated on "
+        "updated-on-date": "Updated on ",
+        "expand-life-summary": "Expand life summary",
+        "compress-life-summary": "Compress life summary"
     },
     "user": {
         "login": "Sign in",
