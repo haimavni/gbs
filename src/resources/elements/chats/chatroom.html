@@ -1,21 +1,27 @@
 <template>
     <div style="background-color: lightgray;">
-        <div class="row">
+        <div class="row" style="padding:16px;">
             <form class="form-horizontal" role="form">
-                <div class="col-md-5" style="margin:5px;">
-                    <input style="font-size: 95%;margin-bottom:3px;float: left;width: 100%;" dir="rtl" type="text" model.bind="messages_filter"
-                        t="[placeholder]enter-search-words}" class="form-control input-small" />
+                <div class="col-md-5" css="margin:5px;float:${theme.other_dir};">
+                    <input css="font-size: 95%;margin-bottom:3px;width: 100%;" dir="${theme.rtltr}" type="text" value.bind="messages_filter"
+                        t="[placeholder]chats.enter-search-words" class="form-control input-small" />
                 </div>
-                <div class="col-md-6">
-                    <h4 style="width:100%;">${chatroom_name}</h4>
+                <div class="col-md-6" css="float:${theme.same_dir};direction:${theme.rtltr};">
+                    <h4 css="width:100%;">${chatroom_name}</h4>
                 </div>
             </form>
-            <div class="row">
-                <div class="col-sm-12" scroll-glue style="padding:10px;" id="scroll-area">
-                    <ul>
-                        <li repeat.for="msg of messages | filter: messages_filter" style="margin-bottom: 15px;">
-                            <span style="font-weight:bold;">${msg.timestamp}: ${msg.sender_name}</span><br/>
-                            <span innerhtml.bind="msg.message"></span><br/>
+            <div class="row" >
+                <div class="col-sm-12" scroll-glue css="padding:10px;height:${theme.height-411}px;overflow:auto;direction:${theme.rtltr};" ref="scroll_area">
+                    <ul class="${theme.rtltr}">
+                        <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'" style="margin-bottom: 15px;">
+                            <span style="font-weight:bold;">${msg.timestamp}: ${msg.sender_name}
+                                <span if.bind="user.privileges.CHAT_MODERATOR" style="float:left;margin-left:30px;cursor:pointer;">
+                                    <i class="fa fa-pencil" click.delegate="edit_message(msg, $index)" ></i>
+                                    <i class="fa fa-trash" click.delegate="delete_message(msg, $index)" ></i>
+                                </span>
+                            </span><br/>
+                            <span if.bind="msg.id != edited_message_id" innerhtml.bind="msg.message"></span>
+                            <textarea if.bind="msg.id == edited_message_id" rows="3" css="direction:${theme.rtltr};width:100%;" change.delegate="save_edited_message(msg)" value.bind="msg.message"></textarea>
                         </li>
                     </ul>
                 </div>
@@ -24,8 +30,8 @@
         <div class="row">
             <div class="col-md-12">
                 <form role="form" style="padding:12px;">
-                    <textarea rows="3" t="[placeholder]enter-your-message}" style="width:100%;" model.bind="info.user_message" />
-                    <a class="btn btn-primary btn-block" click.trigger="send_message()">${chats.send-message}</a>
+                    <textarea rows="3" t="[placeholder]chats.enter-your-message" css="direction:${theme.rtltr};width:100%;" dir="${theme.rtltr}" value.bind="user_message" ></textarea>
+                    <button class="btn btn-primary btn-block" disabled.bind="user_message==''" click.trigger="send_message()">${'chats.send-message' & t}</button>
                 </form>
             </div>
         </div>

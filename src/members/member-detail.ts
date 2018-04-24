@@ -45,6 +45,15 @@ export class MemberDetail {
     sub1; sub2; sub3; sub4; sub5;
     panel_height = 566;
     to_story_page;
+    expand;
+    compress;
+    life_summary_expanded = false;
+    member_detail_panel;
+    member_detail_container;
+    top_panel;
+    bottom_panel;
+    life_summary_content;
+    life_summary_box;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -57,6 +66,8 @@ export class MemberDetail {
         this.router = router;
         this.i18n = i18n;
         this.to_story_page = this.i18n.tr('members.to-story-page');
+        this.expand = this.i18n.tr('members.expand-life-summary');
+        this.compress = this.i18n.tr('members.compress-life-summary');
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
@@ -103,12 +114,6 @@ export class MemberDetail {
         if (!this.member)
             return "";
         return this.misc.calc_member_display_name(this.member.member_info);
-    }
-
-    set_heights() {
-        this.panel_height = this.theme.height - this.photo_strip_height - 188;
-        this.top_height = Math.round(this.panel_height / 2);
-        this.bottom_height = this.panel_height - this.top_height;
     }
 
     attached() {
@@ -248,19 +253,43 @@ export class MemberDetail {
         event.stopPropagation();
         let { new_height } = event.detail;
         this.photo_strip_height = new_height;
-        this.panel_height = 680 - new_height;
+        //this.panel_height = 680 - new_height;
+        this.set_heights();
     }
 
-    @computedFrom('theme.hight', 'photo_strip_height')
-    get panel_height1() {
-        //todo: calculate all heights here
-        let ph = this.theme.height - this.photo_strip_height - 168;
-        let ph_half = Math.max(260, Math.round(ph / 2));
-        this.story_box_height = Math.max(260, ph_half - 100);
-        this.bottom_height = ph_half;
-        this.top_height = ph - ph_half;
-        return ph
+    toggle_life_summary_size(event) {
+        event.stopPropagation();
+        this.life_summary_expanded = !this.life_summary_expanded;
+        this.set_heights();
     }
 
+    _set_heights() {
+        try {
+            let panel_height = this.theme.height - this.photo_strip_height - 188;
+            panel_height = Math.max(panel_height, 566);
+            this.member_detail_panel.style.height = `${panel_height}px`;
+            let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
+            let lsh = tph - 100;
+            this.life_summary_content.style.height = `${lsh}px`;
+            this.top_panel.style.height = `${tph}px`;
+            let bph = panel_height - tph - 6;
+            this.bottom_panel.style.height = `${bph}px`;
+            this.story_box_height = bph - 12;
+            let mdch = panel_height + this.photo_strip_height - 11;
+            this.member_detail_container.style.height = `${mdch}px`;
+            let lsb = tph - 30;
+            this.life_summary_box.style.height = `${lsb}px`;
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+    set_heights() {
+        setTimeout(() => {
+            if (this._set_heights()) return;
+            this.set_heights();
+        }, 5)
+    }
 
 }

@@ -258,6 +258,14 @@
                         "deps": [
                             "jquery"
                         ]
+                    },
+                    {
+                        "name": "json.human",
+                        "path": "../node_modules/json.human/src",
+                        "main": "json.human",
+                        "resources": [
+                            "**/*.css"
+                        ]
                     }
                 ]
             }

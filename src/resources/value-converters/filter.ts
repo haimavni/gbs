@@ -1,6 +1,6 @@
 export class FilterValueConverter {
     toView(array, value, ...properties) {
-        if (!array) {
+        if (!array || array.length == 0) {
             return [];
         }
         if (array.ignore) {

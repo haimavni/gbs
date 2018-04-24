@@ -29,6 +29,7 @@ export class Theme {
     interact_setting = {};
     page_title = "";
     hide_title = false;
+    hide_menu = false;
     same_dir;
     other_dir;
 

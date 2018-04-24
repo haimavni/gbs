@@ -1,7 +1,7 @@
 <template>
     <require from="./members.css"></require>
-    <div id="member-detail" class="container" style="height:775px;padding-right:46px;padding-left:28px;">
-        <div class="row">
+    <div id="member-detail" class="container" style="height:775px;padding-right:46px;padding-left:28px;" ref="member_detail_container">
+        <div class="row" ref="member_header">
             <div id="breadcrumb" class="col-xs-12 font-size-150" style="background-color:#aaaaaa" dir="rtl">
                 <i class="fa fa-rotate-left pull-left" data-role="button" t="[title]go-back" click.trigger="go_back()"></i>
                 <span if.bind="member.member_info.id">${member_display_name}</span>
@@ -14,10 +14,11 @@
                 style="padding:0;" 
                 action_key="Zoom" dir="ltr"
                 height_change.trigger="on_height_change($event)"
-                settings.bind="{arrows:true, height:220}"></photo-strip>
+                settings.bind="{arrows:true, height:220}">
+            </photo-strip>
         </div>
-        <div class="container" css="padding-right:58px;height:${panel_height}px">
-            <div id="member-detail-content" class="row" dir="rtl" css="${top_height}px;">
+        <div class="container" css="padding-right:58px;height:${panel_height}px" ref="member_detail_panel">
+            <div id="member-detail-content" class="row" dir="rtl" ref="top_panel">
                 <div class="col-md-6">
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
                     <div class="family-chains">
@@ -99,23 +100,37 @@
                         <compose view-model="./member-edit" model.bind="member"></compose>
                     </div>
                 </div>
-                <div class="col-md-6 fr-view" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" 
+                <div class="col-md-6 fr-view" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box"
                         if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
-                        <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
-                            ${'members.life-summary' & t} ${member.member_info.first_name}
-                        </h4>
-                        <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
-                            <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
-                            ${story_0.name}
-                        </h3>
-                    <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;">
+                    <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
+                        ${'members.life-summary' & t} ${member.member_info.first_name}
+                    </h4>
+                    <i class="fa fa-expand fa-lg"
+                        show.bind="!life_summary_expanded" 
+                        style="margin-left:32px;float:left;cursor:pointer;" 
+                        aubs-tooltip="text.bind:expand" 
+                        click.trigger="toggle_life_summary_size($event)">
+                    </i>
+                    <i class="fa fa-compress fa-lg"
+                        show.bind="life_summary_expanded" 
+                        style="margin-left:32px;float:left;cursor:pointer;" 
+                        aubs-tooltip="text.bind:compress" 
+                        click.trigger="toggle_life_summary_size($event)">
+                    </i>
+                    <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
+                        <i if.bind="user.privileges.EDITOR" class="fa fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
+                        ${story_0.name}
+                    </h3>
+                    <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;" ref="life_summary_content">
                         <p class="${theme.font_size}" innerhtml.bind="story_0.story_text ">
                         </p>
                     </div>
                 </div>
             </div>
             <!--member stories panel-->
-            <div id="stories" class="fr-view row ${theme.font-size}" if.bind="! user.editing" css="min-height:270px;margin-left:-31px;margin-right:0px;height:${bottom_height}px;"
+            <div id="stories" class="fr-view row ${theme.font-size}" ref="bottom_panel"
+                show.bind="! (user.editing || life_summary_expanded)" 
+                css="min-height:270px;margin-left:-31px;margin-right:0px;height:${bottom_height}px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
                 <div class="col-md-3 col-sm-6 col-xs-12 story-box last notfirst" css="float:${theme.same_dir};height:${story_box_height}px;" click.trigger="goto_story_page(story_4)">
                     <div class="member-story-header" show.bind="story_4.story_text != ''" aubs-tooltip="text.bind:to_story_page">
@@ -125,7 +140,7 @@
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
-                    <div class="member-story-panel" show.bind="story_4.story_text != ''">
+                    <div class="member-story-panel" show.bind="story_4.story_text != ''" css="height:${story_box_height-85}px;width:256px;">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_4.story_text ">
                         </p>
                     </div>
@@ -138,7 +153,7 @@
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
-                    <div class="member-story-panel" show.bind="story_3.story_text != ''">
+                    <div class="member-story-panel" show.bind="story_3.story_text != ''" css="height:${story_box_height-85}px;width:256px;">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_3.story_text ">
                         </p>
                     </div>
@@ -151,7 +166,7 @@
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
-                    <div class="member-story-panel" show.bind="story_2.story_text != ''">
+                    <div class="member-story-panel" show.bind="story_2.story_text != ''" css="height:${story_box_height-85}px;width:256px;">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_2.story_text ">
                         </p>
                     </div>
@@ -164,7 +179,7 @@
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
-                    <div class="member-story-panel" show.bind="story_1.story_text != ''">
+                    <div class="member-story-panel" show.bind="story_1.story_text != ''" css="height:${story_box_height-85}px;width:256px;">
                         <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_1.story_text">
                         </p>
                     </div>

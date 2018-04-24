@@ -18,6 +18,8 @@ export function configure(config) {
     './elements/timeline',
     './elements/search-input',
     './elements/dlg-string',
-    './elements/locale-picker'
+    './elements/locale-picker',
+    './elements/chats/chatroom-group',
+    './elements/chats/chatroom'
   ]);
 }
