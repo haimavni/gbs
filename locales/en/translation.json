@@ -218,7 +218,9 @@
         "photos-date": "Photos date",
         "copy-photo-url": "Copy photo address for sharing",
         "search-member": "With Member",
-        "candidates": "Candidates from the photos"
+        "candidates": "Candidates from the photos",
+        "delete": "Delete the photo",
+        "rotate": "Rotate the photo"
     },
     "videos": {
         "videos": "Video"
