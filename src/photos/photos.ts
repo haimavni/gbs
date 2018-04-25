@@ -345,7 +345,7 @@ export class Photos {
     delete_selected_photos() {
         this.api.call_server_post('members/delete_selected_photos', this.params)
             .then(() => {
-                this.params.selected_photo_list = []];
+                this.params.selected_photo_list = [];
                 this.selected_photos = new Set();
                 this.update_photo_list();
             });
