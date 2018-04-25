@@ -338,5 +338,19 @@ export class Photos {
             .whenClosed(result => { this.theme.hide_title = false });
     }
 
+    download_photos() {
+
+    }
+
+    delete_selected_photos() {
+        this.api.call_server_post('members/delete_selected_photos', this.params)
+            .then(() => this.update_photo_list());
+    }
+
+    rotate_selected_photos() {
+        this.api.call_server_post('members/rotate_selected_photos', this.params)
+            .then(() => this.update_photo_list());
+    }
+
 
 }
