@@ -21,8 +21,9 @@ export class Misc {
         let birth_date = member_info.date_of_birth ? member_info.date_of_birth.date : "";
         let death_place = member_info.place_of_death;
         let death_date = member_info.date_of_death ? member_info.date_of_death.date : "";
+        let gender = member_info.gender || "M";
         if (birth_date) {
-            s += this.i18n.tr('members.born-' + member_info.gender.toLowerCase()) + " ";
+            s += this.i18n.tr('members.born-' + gender.toLowerCase()) + " ";
             if (birth_place) {
                 s += this.i18n.tr('members.in-place') + birth_place + " ";
             }
@@ -35,7 +36,7 @@ export class Misc {
             let cod = "";
             for (let key of keys) {
                 if (this.api.constants.cause_of_death[key] == cod_idx) {
-                    key = 'consts.' + (key.replace(/_/g, '-') + '-' + member_info.gender).toLowerCase();
+                    key = 'consts.' + (key.replace(/_/g, '-') + '-' + gender).toLowerCase();
                     cod = this.i18n.tr(key);
                     break;
                 }

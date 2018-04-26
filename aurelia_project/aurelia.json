@@ -266,6 +266,20 @@
                         "resources": [
                             "**/*.css"
                         ]
+                    },
+                    {
+                        "name": "ag-grid",
+                        "path": "../node_modules/ag-grid",
+                        "main": "main",
+                        "resources": [
+                            "dist/styles/ag-grid.css",
+                            "dist/styles/ag-theme-balham.css"
+                        ]
+                    },
+                    {
+                        "name": "ag-grid-aurelia",
+                        "path": "../node_modules/ag-grid-aurelia",
+                        "main": "main"
                     }
                 ]
             }

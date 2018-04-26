@@ -8,6 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "ag-grid": "^17.1.1",
+    "ag-grid-aurelia": "^17.1.0",
     "au-table": "^0.1.13",
     "aurelia-bootstrap": "^0.1.20",
     "aurelia-bootstrapper": "^2.1.0",

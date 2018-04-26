@@ -60,6 +60,7 @@ export function configure(aurelia: Aurelia) {
             config.options.imageDefaultWidth = 100;
             config.options.linkAlwaysBlank = true;
         })
+        .plugin('ag-grid-aurelia')
         .feature('polyfills')
         .feature('resources');
 
