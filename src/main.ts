@@ -61,7 +61,6 @@ export function configure(aurelia: Aurelia) {
             config.options.linkAlwaysBlank = true;
         })
         .feature('polyfills')
-        //.plugin('aurelia-slickgrid')
         .feature('resources');
 
     aurelia.use.globalResources('./services/user');
