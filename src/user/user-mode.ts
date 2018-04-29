@@ -95,8 +95,15 @@ export class UserMode {
         this.popup.popup('CHAT-ROOMS', url, "height=800,width=1800,left=50,top=50");
     }
 
+
+
     adhoc_scripts() {
         let url = `${location.pathname}#/adhoc-scripts`;
+        this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
+    }
+
+    show_hit_counts() {
+        let url = `${location.pathname}#/hit-counts`;
         this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
     }
 
