@@ -16,7 +16,7 @@
                         <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'" style="margin-bottom: 15px;">
                             <span style="font-weight:bold;">${msg.timestamp}: ${msg.sender_name}
                                 <span if.bind="user.privileges.CHAT_MODERATOR" style="float:left;margin-left:30px;cursor:pointer;">
-                                    <i class="fa fa-pencil" click.delegate="edit_message(msg, $index)" ></i>
+                                    <i class="far fa-pencil" click.delegate="edit_message(msg, $index)" ></i>
                                     <i class="fa fa-trash" click.delegate="delete_message(msg, $index)" ></i>
                                 </span>
                             </span><br/>

@@ -58,7 +58,7 @@ export class App {
             { route: 'memmbers/new', name: 'member-creation', moduleId: './members/member-edit', title: 'members.newMember' },
             { route: 'members/:id/edit', name: 'member-edit', moduleId: './members/member-edit', title: 'members.editMember' },
             { route: 'photos/:id/*', name: 'photo-detail', moduleId: './photos/photo-detail' },
-            { route: 'access-manager', name: 'access-manager', moduleId: './user/access-manager'},
+            { route: 'access-manager', name: 'access-manager', moduleId: './admin/access-manager'},
             { route: 'hit-counts', name: 'hit-counts', moduleId: './user/hit-counts'},
             { route: 'chats', name: 'chats', moduleId: './user/chats'},
             { route: 'adhoc-scripts', name: 'adhoc-scripts', moduleId: './admin/adhoc-scripts'}

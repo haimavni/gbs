@@ -25,32 +25,28 @@
                 <div class="col-md-12" style="padding-right:0px">
                     <div class="btn-group" style="margin-bottom:15px;">
                         <button type="button" tabindex="-1" class="btn btn-default ${dirty_story || dirty_info ? 'disabled' : ''}" click.trigger="next_member()">
-                                <i class="fa fa-large fa-chevron-left" ></i>
-                            </button>
+                            <i class="fa fa-large fa-chevron-left" ></i>
+                        </button>
                         <button type="button" tabindex="-1" class="btn btn-default ${dirty_story || dirty_info ? 'disabled' : ''}" click.trigger="prev_member()">
-                                <i class="fa fa-large fa-chevron-right" ></i>
-                            </button>
+                            <i class="fa fa-large fa-chevron-right" ></i>
+                        </button>
                         <button type="button" class="btn btn-default ${member.member_info.gender ? '' : 'btn-danger'}" href click.trigger="toggle_gender()"
                             t="[title]members.gender">
-                                <i class="fa fa-male fa-small" if.bind="member.member_info.gender=='M' || !member.member_info.gender"></i>
-                                <i class="fa fa-female fa-small" if.bind="member.member_info.gender=='F'"></i>
-                            </button>
-                        <button type="button" class="btn btn-default" href click.trigger="member.member_info.visible = !member.member_info.visible"
-                            title="Visibility">
-                                <i class="fa ${member.member_info.visible ? 'fa-eye' : 'fa-eye-slash'}" ></i>
-                            </button>
+                            <i class="fa fa-male fa-small" if.bind="member.member_info.gender=='M' || !member.member_info.gender"></i>
+                            <i class="fa fa-female fa-small" if.bind="member.member_info.gender=='F'"></i>
+                        </button>
                         <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button" type="button" class="btn btn-default"
                             click.trigger="save_edited_data()" t="[title]members.save">
-                                <i class="fa  fa-large fa-save"></i>
-                            </button>
+                            <i class="fa  fa-large fa-save"></i>
+                        </button>
                         <button type="button" type="button" class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" click.trigger="cancel_edit_mode()"
                             t="[title]members.cancel">
-                                <i class="fa  fa-large fa-rotate-left"></i>
-                            </button>
+                            <i class="fa  fa-large fa-undo"></i>
+                        </button>
                         <button if.bind="user.privileges.ADMIN" type="button" type="button" class="btn btn-warning ${dirty_story || dirty_info ? 'disabled' : btn-warning'}"
                             click.trigger="tryDelete(member.member_info.id)" t="[title]members.delete-member">
-                                <i class="fa fa-large fa-trash"></i>
-                            </button>
+                            <i class="fa fa-large fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             </div>

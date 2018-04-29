@@ -4,7 +4,7 @@
     <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px" class="container content-area">
         <div class="row" style="background-color:lightgrey;padding:10px;margin-bottom:16px;margin-right:20px;margin-left:0px;font-size:150%;padding-top:18px;">
             <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
-                <i class="fa fa-rotate-left"  t="[title]go-back" click.trigger="go_back()"></i>
+                <i class="fa undo"  t="[title]go-back" click.trigger="go_back()"></i>
             </h3>
             <h3 dir="${story_dir}" style="float: right;margin:0px;">
                 ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>

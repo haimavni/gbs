@@ -28,7 +28,7 @@
 
     <div class="btn-group dropdown border-right" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.askLanguage || user.privileges.DEVELOPER">
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
-            <i class="fa fa-lg fa-globe"></i>
+            <i class="far fa-lg fa-globe"></i>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
@@ -42,20 +42,20 @@
 
     <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" title="${user.editing ? 'user.no-edit' : 'user.can-edit' & t}"
         class="border-right ${user.editing ? 'highlight' : ''}" style="border-left:1px solid gray;padding-left:10px;">
-        <i class="fa fa-lg ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>
+        <i class="far fa-lg ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>
     </a>
 
     <a if.bind="user.privileges.CHATTER" href click.trigger="chat_rooms()" t="[title]user.chat-rooms" class="border-right">
-        <i class="fa fa-lg fa-group"></i>
+        <i class="far fa-lg fa-comments"></i>
     </a>
 
     <a href click.delegate="share()" t="[title]user.share" class="border-right">
-        <i class="fa fa-sm fa-link fa-rotate-90"></i>
+        <i class="far fa-link"></i>
     </a>
 
     <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="user.privileges.HELP_AUTHOR ||user.privileges.ADMIN || user.privileges.DEVELOPER || user.privileges.ACCESS_MANAGER">
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
-            <i class="fa fa-lg fa-cog"></i>
+            <i class="far fa-lg fa-cog"></i>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left">
