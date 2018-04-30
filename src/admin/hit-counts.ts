@@ -15,7 +15,6 @@ export class HitCounts {
     itemized_counts;
     what_options;
     what_option;
-    private gridOptions: GridOptions;
 
     constructor(theme: Theme, router: Router, api: MemberGateway, i18n: I18N) {
         this.theme = theme;
