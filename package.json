@@ -23,6 +23,7 @@
     "bootstrap-sass": "^3.3.7",
     "calculate-pixel-size": "^1.0.0",
     "downloadjs": "^1.4.7",
+    "froala-editor": "^2.8.1",
     "i18next": "^8.4.0",
     "i18next-xhr-backend": "^1.4.1",
     "interactjs": "^1.3.3",
