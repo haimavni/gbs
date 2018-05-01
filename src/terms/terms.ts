@@ -44,7 +44,7 @@ export class Terms {
     }
 
     jump_to_the_full_story(term) {
-        this.router.navigateToRoute('term-detail', { id: term.story_id, what: 'story' });
+        this.router.navigateToRoute('term-detail', { id: term.story_id, what: 'term' });
     }
 
 }

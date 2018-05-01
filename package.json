@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "au-table": "^0.1.13",
+    "au-table": "^0.1.14",
     "aurelia-bootstrap": "^0.1.20",
     "aurelia-bootstrapper": "^2.1.0",
     "aurelia-dialog": "^1.0.0-rc.1.0.3",

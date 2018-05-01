@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-1" if.bind="user.privileges.CHAT_MODERATOR" style="padding-top:5px;">
             <a href style="padding:0;margin:0;height:32px;float:left;" click.trigger="add_chatroom()">
-                <i class="fa fa-2x ${new_chatroom_name_visible ? 'fa-floppy-o' : 'fa-plus'}"></i>
+                <i class="far fa-2x ${new_chatroom_name_visible ? 'fa-save' : 'fa-plus'}"></i>
             </a>
         </div>
         <div class="col-md-2" style="text-align:center" show.bind="new_chatroom_name_visible">

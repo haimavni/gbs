@@ -29,7 +29,7 @@
                                 <button if.bind="selected_photos.size > 0" t="[title]photos.download" class="btn btn-basic btn-md" click.delegate="download_photos()"><i class="fa fa-upload fa-rotate-180 fa-xs"></i></button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.delete" class="btn btn-basic btn-md" click.delegate="delete_selected_photos()"><i class="fa fa-trash fa-xs"></i></button>
+                                <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.delete" class="btn btn-basic btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
                             </div>
                             <div class="form-group">
                                 <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos()"><i class="fa fa-undo fa-xs"></i></button>
@@ -64,7 +64,7 @@
                             </div>
                             <div if.bind="phase == 'ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type " t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
-                                    <i class="fa fa-plus-square-o"></i>
+                                    <i class="far fa-plus-square"></i>
                                     ${'photos.upload' & t}
                                 </a>
                             </div>

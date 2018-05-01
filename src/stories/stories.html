@@ -27,13 +27,13 @@
                             </div>
                             <div class="form-group" if.bind="user.editing && checked_stories.size == 0">
                                 <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4EVENT}" class="btn btn-success cl-create-btn">
-                                    <i class="fa fa-plus-square-o"></i>
+                                    <i class="far fa-plus-square"></i>
                                     ${'stories.new' & t}
                                 </a>
                             </div>
                             <div class="form-group" if.bind="user.editing && checked_stories.size>0">
                                 <button class="btn btn-warning btn-md" click.trigger="delete_checked_stories()">
-                                    <i class="fa fa-trash fa-xs"></i>
+                                    <i class="far fa-trash-alt fa-xs"></i>
                                 </button>
                             </div>
                             <div class="form-group">
@@ -125,7 +125,7 @@
                         </button>
                         <button class="btn btn-xs ${params.deleted_stories ? 'active' : ''}" 
                             click.trigger="toggle_deleted_stories()" t="[title]stories.undelete">
-                            <i class="fa fa-trash fa-rotate-180 fa-xs"></i>
+                            <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
                         </button>
                     </div>
                     <div class="row" style="position:relative;">

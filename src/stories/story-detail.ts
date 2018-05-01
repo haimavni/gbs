@@ -30,6 +30,7 @@ export class StoryDetail {
     eventAggregator;
     dialog;
     subscriber;
+    story_type;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -52,7 +53,8 @@ export class StoryDetail {
 
     activate(params, config) {
         this.keywords = params.keywords;
-        this.api.getStoryDetail({ story_id: params.id, used_for: params.used_for })
+        this.story_type = params.what;
+        this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
                 this.story = response.story;
                 let html = this.story.story_text;
@@ -81,12 +83,12 @@ export class StoryDetail {
 
     update_associated_members() {
         let member_ids = this.members.map(member => Number(member.id));
-        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: 'story', associated_members: member_ids });
+        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: this.story_type, associated_members: member_ids });
     }
 
     update_associated_photos() {
         let photo_ids = this.photos.map(photo => Number(photo.id));
-        this.router.navigateToRoute('associate-photos', { caller_id: this.story.story_id, caller_type: 'story', associated_photos: photo_ids });
+        this.router.navigateToRoute('associate-photos', { caller_id: this.story.story_id, caller_type: this.story_type, associated_photos: photo_ids });
     }
 
     go_back() {

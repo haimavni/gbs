@@ -33,6 +33,7 @@ export function configure(aurelia: Aurelia) {
             config.settings.centerHorizontalOnly = true;
             config.settings.startingZIndex = 5;
         })
+        .plugin('aurelia-table')
         .plugin('aurelia-interactjs')
         .plugin('aurelia-bootstrap', config => {
             config.options.accordionCloseOthers = true;

@@ -43,7 +43,7 @@ export class MultiSelectCustomElement {
     @bindable settings = default_multi_select_options;
     @bindable can_edit = true;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) keywords = [];
-    anchor = '<button class="btn btn-success"><i class="fa fa-lg fa-plus-square-o"></i></button>';
+    anchor = '<button class="btn btn-success" style="padding-top:9px;"><i class="far fa-lg fa-plus-square"></i></button>';
     new_item_name;
     lineHeight = 20;
     why_clip = "Merge all unmerged tags";
