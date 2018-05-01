@@ -53,8 +53,9 @@ export class Theme {
         this.same_dir = this.rtltr == "rtl" ? "right" : "left";
         this.other_dir = this.rtltr == "rtl" ? "left" : "right";
         try {
-            let userLangs = navigator.languages;
-            let hasHebrew = userLangs.find(lang => lang.startsWith('he'));
+            let userLangs = navigator['languages'];
+            //let userLangs = navigator.languages;
+            let hasHebrew = userLangs && userLangs.find(lang => lang.startsWith('he'));
             this.askLanguage = !hasHebrew;
         } catch (e) {
             console.log('error occured in theme: ', e);
