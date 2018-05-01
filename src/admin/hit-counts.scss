@@ -1,0 +1,36 @@
+.aut-sort::before{
+    font-family: "Font Awesome 5 Regular";
+    padding-right: 0.5em;
+    width: 1.28571429em;
+    display: inline-block;
+    text-align: center;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.aut-sortable::before{
+    content: "\f0dc";
+}
+
+.aut-asc::before{
+    content: "\f160";
+}
+
+.aut-desc::before{
+    content: "\f161";
+}
+
+th {
+    background-color: lightgray;
+}
+
+.aut-desc {
+    color: blue;
+}
+
+.aut-asc {
+    color: green;
+}
+

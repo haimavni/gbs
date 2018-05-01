@@ -72,7 +72,7 @@ export class StoryDetail {
                     this.curr_photo = this.photos[0].photo_path;
                 }
             });
-        this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id });
+        this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id, story_type: this.story_type });
         this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
     }
 

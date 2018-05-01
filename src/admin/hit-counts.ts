@@ -14,7 +14,8 @@ export class HitCounts {
     total_count;
     itemized_counts;
     what_options;
-    what_option;
+    what_option = 'MEMBER';
+    items = [];
 
     constructor(theme: Theme, router: Router, api: MemberGateway, i18n: I18N) {
         this.theme = theme;
@@ -38,8 +39,13 @@ export class HitCounts {
             .then(response => {
                 this.total_count = response.total_count;
                 this.itemized_counts = response.itemized_counts;
-                this.what_option = 'MEMBER';
+                this.items = this.itemized_counts[this.what_option];
             })
+    }
+
+    change_what(event) {
+        if (!this.itemized_counts) return [];
+        this.items = this.itemized_counts[this.what_option]
     }
 
 }

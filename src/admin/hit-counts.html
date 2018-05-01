@@ -1,21 +1,38 @@
 <template>
+    <require from="./hit-counts.css"></require>
     <section class="container content-area" style="padding-right:30px;">
-        <div style="height:100px"></div>
-        <div css="direction:${theme.rtltr}">
-            <span>Total Hits Count: ${total_count}</span>
+        <div css="direction:${theme.rtltr1}">
+            <span class="boom">Total Hits Count: ${total_count}</span>
         </div>
-        <form class="form-inline" style="padding-top:16px;direction:rtl;">
+        <form class="form-inline" style="padding-top:16px;direction:rtl1;">
             <div class="input-group" style="padding-top:16px;">
-                <select value.bind="what" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.trigger="change_what($event)">
+                <select value.bind="what_option" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.delegate="change_what($event)">
                     <option dir="rtl" repeat.for="option of what_options" model.bind="option.value">${option.name}</option>
                 </select>
             </div>
         </form>
     </section>
     <section class="container content-area" style="padding-right:30px;">
-        <div style="width: 740px;margin-right:auto;margin-left:auto;">
-            <div style="width: 100%; height: 350px;">
-            </div>
+        <div style="width: 740px;margin-right:auto;margin-left:auto;height:600px;overflow:auto;">
+            <table class="table table-striped" aurelia-table="data.bind: items; display-data.bind: $displayData">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th aut-sort="key: count; default: desc">Count</th>
+                        <th aut-sort="key: new_count; default: desc">New count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of $displayData">
+                        <td>${item.item_id}</td>
+                        <td css="direction:${theme.rtltr}">${item.name}</td>
+                        <td>${item.count}</td>
+                        <td>${item.new_count}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 </template>
+
