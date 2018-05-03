@@ -4,6 +4,7 @@ import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
 import { MemberGateway } from '../services/gateway';
 import { DialogService } from 'aurelia-dialog';
+import * as toastr from 'toastr';
 
 @autoinject()
 export class AccessManager {
@@ -15,24 +16,34 @@ export class AccessManager {
     curr_user;
     curr_user_ref;
     dialog;
+    user_to_delete;
 
-    constructor(api: MemberGateway, dialog: DialogService) {
+    constructor(api: MemberGateway, dialog: DialogService, theme: Theme) {
         this.api = api;
         this.dialog = dialog;
+        this.theme = theme;
     }
 
     attached() {
         this.get_authorized_users();
+        this.theme.hide_title = true;
+        this.theme.hide_menu = true;
+    }
+
+    detached() {
+        this.theme.hide_title = false;
+        this.theme.hide_menu = false;
     }
 
     get_authorized_users() {
         this.api.call_server('admin/get_authorized_users').
             then((data) => {
                 this.authorized_users = data.authorized_users;
+                console.log("authorized users: ", this.authorized_users);
             });
     }
 
-    role_class = function (r) {
+    role_class(r) {
         let cls;
         switch (r.role) {
             case 'DEVELOPER':
@@ -90,7 +101,7 @@ export class AccessManager {
             .then((data) => {
                 for (let user of this.authorized_users) {
                     if (user.id == data.id) {
-                        for (r in user.roles) {
+                        for (r of user.roles) {
                             let role = user.roles[r];
                             if (role.role == data.role) {
                                 role.active = data.active;
@@ -103,20 +114,65 @@ export class AccessManager {
             });
     }
 
-    add_or_update(user_data)
-    {
-        if (user_data)
-        {
+    add_or_update(user_data) {
+        if (user_data) {
             this.curr_user = deepClone(user_data);
             this.curr_user_ref = user_data;
         }
-        else
-        {
-            this.curr_user = {last_name: "", service_level: 'standard'}
+        else {
+            this.curr_user = { last_name: "", service_level: 'standard' }
         }
         this.dialog.open({
             template: 'add_or_update_template',
         });
+    }
+
+    unlock_user(uid) {
+        this.api.call_server('admin/unlock_user', { user_id: uid }).
+            then(
+            (result) => {
+                toastr.pop('success', '', 'The user can now login');
+            });
+    }
+
+    resend_verification_email(uid) {
+        this.api.call_server('admin/resend_verification_email', { user_id: uid }).
+            then(
+            (result) => {
+                toastr.pop('success', '', 'Verification email was sent');
+            });
+    }
+
+    delete_user(usr) {
+        this.user_to_delete = usr;
+        if (confirm(this.i18n.tr('user.confirm-delete'))) {
+            this.api.call_server('admin/delete_user', usr).
+                then((data) => {
+                    var uid = parseInt(data.id);
+                    var idx = this.authorized_users.findIndex(item => item.id == data.id);
+                    this.authorized_users.splice(idx, 1);
+                });
+        }
+    }
+
+    save() {
+        this.api.call_server('admin/add_or_update_user', this.curr_user)
+            .then((data) => {
+                if (data.error || data.user_error) {
+                    return;
+                }
+                if (data.new_user) {
+                    this.authorized_users.push(data.user_data);
+                }
+                else setTimeout(function () {
+                    for (let f of data.user_data) {
+                        this.curr_user_ref[f] = data.user_data[f];
+                    }
+                });
+                setTimeout(function () {
+                    this.dialog.close('good');
+                });
+            });
     }
 
 }

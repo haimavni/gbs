@@ -1,6 +1,71 @@
 <template>
-    <div style="width: 740px;margin-right:auto;margin-left:auto;">
-        <div style="width: 100%; height: 350px;">
+    <div style="height:100%;">
+        <div style="width:400px;margin-left:auto;margin-right:auto">
+            <h3 class="center">Access Manager</h3>
+            <a href class="btn btn-primary" click.delegate="add_or_update()"style="margin-bottom:1em;">Add User</a>
+        </div>
+        <div style="height:660px;width:1000px;margin-left:auto;margin-right:auto;overflow:auto;">
+            <table class="table table-striped" aurelia-table="data.bind: authorized_users; display-data.bind: $displayData">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <!--<th>Created></th>-->
+                        <!--<th>Confirmed?</th>-->
+                        <th>Privileges</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody style="height:600px;overflow:auto;">
+                    <tr repeat.for="item of $displayData">
+                        <td>${item.id}</td>
+                        <td>${item.email}</td>
+                        <td>${item.first_name}</td>
+                        <td>${item.last_name}</td>
+                        <td class="center">
+                            <span repeat.for="r of item.roles">
+                                <a href title="${r.role_title}" click.delegate="toggle_membership(r, item.id)">
+                                    <i class="far ${role_class(r)}"></i>
+                                </a>
+                            </span>
+                        </td>
+                        <!--<td>${item.created}</td>-->
+                        <td class="center">
+                            <a href click.delegate="add_or_update(item)">
+                                <i class="far fa-pencil" title="Edit User Data" ></i>
+                            </a>
+                            <a href click.delegate="display_customer_data(item.id)">
+                                <i class="fa fa-user" title="Display User Data" ></i>
+                            </a>
+                            <a href click.delegate="unlock_user(item.id)" show.bind="item.status=='Unconfirmed'">
+                                <i class="far fa-unlock" title="Unlock User" ></i>
+                            </a>
+                        </td>
+                        <td class="center">
+                            <a href click.delegate="resend_verification_email(item.id)" show.bind="item.status=='Unconfirmed'">
+                                <i class="far fa-envelope" title="Resend Verification Email"></i>
+                            </a>
+                            <a href title="Delete" click.delegate="delete_user(item)">
+                                <i class="far fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+<style>
+    i.is_active
+    {
+        font-weight: bold;
+        color: orange;
+    }
+    h3.center
+    {
+        text-align: center;
+    }
+</style>
 </template>
