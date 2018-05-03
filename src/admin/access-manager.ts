@@ -4,6 +4,7 @@ import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
 import { MemberGateway } from '../services/gateway';
 import { DialogService } from 'aurelia-dialog';
+import { EditUser } from './edit-user';
 import * as toastr from 'toastr';
 
 @autoinject()
@@ -14,7 +15,7 @@ export class AccessManager {
     theme;
     authorized_users = [];
     curr_user;
-    curr_user_ref;
+    curr_user_orig;
     dialog;
     user_to_delete;
 
@@ -44,86 +45,49 @@ export class AccessManager {
     }
 
     role_class(r) {
-        let cls;
-        switch (r.role) {
-            case 'DEVELOPER':
-                cls = 'fa-cogs';
-                break;
-            case 'ACCESS_MANAGER':
-                cls = 'fa-th';
-                break;
-            case 'ADMIN':
-                cls = 'fa-star';
-                break;
-            case 'TESTER':
-                cls = 'fa-certificate';
-                break;
-            case 'EDITOR':
-                cls = 'fa-pencil';
-                break;
-            case 'COMMENTATOR':
-                cls = 'fa-comment';
-                break;
-            case 'PHOTO_UPLOADER':
-                cls = 'fa-camera';
-                break;
-            case 'CHATTER':
-                cls = 'fa-group';
-                break;
-            case 'CHAT_MODERATOR':
-                cls = 'fa-anchor';
-                break;
-            case 'TEXT_AUDITOR':
-                cls = 'fa-shield';
-                break;
-            case 'DATA_AUDITOR':
-                cls = 'fa-thumbs-up';
-                break;
-            case 'HELP_AUTHOR':
-                cls = 'fa-life-saver fa-pencil';
-                break;
-            case 'ADVANCED':
-                cls = 'fa-certificate';
-                break;
-            case 'MAIL_WATCHER':
-                cls = 'fa-envelope';
-                break;
+        const class_of_role = {
+            DEVELOPER: 'fa-cogs',
+            ACCESS_MANAGER: 'fa-th',
+            ADMIN: 'fa-star',
+            TESTER: 'fa-certificate',
+            EDITOR: 'fa-pencil',
+            COMMENTATOR: 'fa-comment',
+            PHOTO_UPLOADER: 'fa-camera',
+            CHATTER: 'fa-comments',
+            CHAT_MODERATOR: 'fa-anchor',
+            TEXT_AUDITOR: 'fa-shield',
+            DATA_AUDITOR: 'fa-thumbs-up',
+            HELP_AUTHOR: 'fa-life-saver fa-pencil',
+            ADVANCED: 'fa-user-md',
+            MAIL_WATCHER: 'fa-envelope'
         }
-        if (r.active) {
-            cls += ' is_active';
-        }
-        return cls;
+        return class_of_role[r.role];
     }
 
     toggle_membership(r, id) {
         r.id = id
         this.api.call_server('admin/toggle_membership', r)
             .then((data) => {
-                for (let user of this.authorized_users) {
-                    if (user.id == data.id) {
-                        for (r of user.roles) {
-                            let role = user.roles[r];
-                            if (role.role == data.role) {
-                                role.active = data.active;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
+                let user = this.authorized_users.find(u => u.id == data.id);
+                let role = user.roles.find(r => r.role == data.role);
+                role.active = data.active;
+
             });
     }
 
     add_or_update(user_data) {
         if (user_data) {
-            this.curr_user = deepClone(user_data);
-            this.curr_user_ref = user_data;
+            this.curr_user_orig = deepClone(user_data);
+            this.curr_user = user_data;
         }
         else {
-            this.curr_user = { last_name: "", service_level: 'standard' }
+            this.curr_user = { last_name: "" }
         }
         this.dialog.open({
-            template: 'add_or_update_template',
+            viewModel: EditUser, model: { curr_user: user_data }, lock: true
+        }).whenClosed(response => {
+            if (response.wasCancelled) this.dialog.close()
+            else this.save();
         });
     }
 
@@ -156,7 +120,7 @@ export class AccessManager {
     }
 
     save() {
-        this.api.call_server('admin/add_or_update_user', this.curr_user)
+        this.api.call_server_post('admin/add_or_update_user', this.curr_user)
             .then((data) => {
                 if (data.error || data.user_error) {
                     return;
@@ -166,7 +130,7 @@ export class AccessManager {
                 }
                 else setTimeout(function () {
                     for (let f of data.user_data) {
-                        this.curr_user_ref[f] = data.user_data[f];
+                        this.curr_user_orig[f] = data.user_data[f];
                     }
                 });
                 setTimeout(function () {

@@ -1,19 +1,19 @@
 <template>
+    <require from="./admin.css"></require>
     <div style="height:100%;">
         <div style="width:400px;margin-left:auto;margin-right:auto">
             <h3 class="center">Access Manager</h3>
-            <a href class="btn btn-primary" click.delegate="add_or_update()"style="margin-bottom:1em;">Add User</a>
         </div>
         <div style="height:660px;width:1000px;margin-left:auto;margin-right:auto;overflow:auto;">
+            <a href class="btn btn-primary" click.delegate="add_or_update()"style="margin-bottom:1em;">Add User</a>
             <table class="table table-striped" aurelia-table="data.bind: authorized_users; display-data.bind: $displayData">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Email</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th aut-sort="key: id">ID</th>
+                        <th aut-sort="key: email">Email</th>
+                        <th aut-sort="key: first_name">First Name</th>
+                        <th aut-sort="key: last_name">Last Name</th>
                         <!--<th>Created></th>-->
-                        <!--<th>Confirmed?</th>-->
                         <th>Privileges</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -28,7 +28,7 @@
                         <td class="center">
                             <span repeat.for="r of item.roles">
                                 <a href title="${r.role_title}" click.delegate="toggle_membership(r, item.id)">
-                                    <i class="far ${role_class(r)}"></i>
+                                    <i class="far ${role_class(r)} ${r.active ? 'is_active' : ''}"></i>
                                 </a>
                             </span>
                         </td>
@@ -36,9 +36,6 @@
                         <td class="center">
                             <a href click.delegate="add_or_update(item)">
                                 <i class="far fa-pencil" title="Edit User Data" ></i>
-                            </a>
-                            <a href click.delegate="display_customer_data(item.id)">
-                                <i class="fa fa-user" title="Display User Data" ></i>
                             </a>
                             <a href click.delegate="unlock_user(item.id)" show.bind="item.status=='Unconfirmed'">
                                 <i class="far fa-unlock" title="Unlock User" ></i>
@@ -68,4 +65,4 @@
         text-align: center;
     }
 </style>
-</template>
+</template> 
