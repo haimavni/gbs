@@ -18,6 +18,12 @@ export class AccessManager {
     curr_user_orig;
     dialog;
     user_to_delete;
+    pageSize = 15;
+    filters = [
+        { value: '', keys: ['first_name', 'last_name', 'email'] },
+        { value: 'all', custom: this.statusFilter },
+    ];
+    statuses = ['all', 'registered', 'unregistered'];
 
     constructor(api: MemberGateway, dialog: DialogService, theme: Theme) {
         this.api = api;
@@ -84,7 +90,7 @@ export class AccessManager {
             this.curr_user = { last_name: "" }
         }
         this.dialog.open({
-            viewModel: EditUser, model: { curr_user: user_data }, lock: true
+            viewModel: EditUser, model: { curr_user: this.curr_user }, lock: true
         }).whenClosed(response => {
             if (response.wasCancelled) this.dialog.close()
             else this.save();
@@ -137,6 +143,20 @@ export class AccessManager {
                     this.dialog.close('good');
                 });
             });
+    }
+
+    statusFilter(filterValue, user) {
+        let r = user.registration_key;
+        if (!r) r = "";
+        switch (filterValue) {
+            case "all":
+                return true;
+            case "registered":
+                return r == "";
+            case "unregistered":
+                return r != "";
+        }
+        return true;
     }
 
 }
