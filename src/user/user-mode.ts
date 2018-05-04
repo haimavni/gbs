@@ -100,6 +100,11 @@ export class UserMode {
         this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
     }
 
+    show_logs() {
+        let url = `${location.pathname}#/show-logs`;
+        this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
+    }
+
     show_hit_counts() {
         let url = `${location.pathname}#/hit-counts`;
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");

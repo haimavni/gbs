@@ -61,7 +61,8 @@ export class App {
             { route: 'access-manager', name: 'access-manager', moduleId: './admin/access-manager'},
             { route: 'hit-counts', name: 'hit-counts', moduleId: './admin/hit-counts'},
             { route: 'chats', name: 'chats', moduleId: './user/chats'},
-            { route: 'adhoc-scripts', name: 'adhoc-scripts', moduleId: './admin/adhoc-scripts'}
+            { route: 'adhoc-scripts', name: 'adhoc-scripts', moduleId: './admin/adhoc-scripts'},
+            { route: 'show-logs', name: 'show-logs', moduleId: './admin/show-logs'}
         ]);
         this.router = router;
     }
