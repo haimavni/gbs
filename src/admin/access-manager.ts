@@ -25,10 +25,11 @@ export class AccessManager {
     ];
     statuses = ['all', 'registered', 'unregistered'];
 
-    constructor(api: MemberGateway, dialog: DialogService, theme: Theme) {
+    constructor(api: MemberGateway, dialog: DialogService, theme: Theme, i18n: I18N) {
         this.api = api;
         this.dialog = dialog;
         this.theme = theme;
+        this.i18n = i18n;
     }
 
     attached() {
@@ -115,8 +116,8 @@ export class AccessManager {
 
     delete_user(usr) {
         this.user_to_delete = usr;
-        if (confirm(this.i18n.tr('user.confirm-delete'))) {
-            this.api.call_server('admin/delete_user', usr).
+        if (confirm('OK to delete?')) {
+            this.api.call_server_post('admin/delete_user', usr).
                 then((data) => {
                     var uid = parseInt(data.id);
                     var idx = this.authorized_users.findIndex(item => item.id == data.id);

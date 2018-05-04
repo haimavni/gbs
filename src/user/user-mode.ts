@@ -84,10 +84,8 @@ export class UserMode {
     }
 
     manage_users() {
-        // 'http://gbs.gbstories.org/gbs__www/stories',
-        let url = `${location.host}/stories`;
-        console.log("manage users url: ", url);
-        this.popup.popup('OLD_SITE',  url, "height=600,width=800,left=100,top=100");
+        let url = `${location.pathname}#/access-manager`;
+        this.popup.popup('OLD_SITE',  url, "height=860,width=1700,left=100,top=100");
     }
 
     chat_rooms() {
@@ -104,7 +102,7 @@ export class UserMode {
 
     show_hit_counts() {
         let url = `${location.pathname}#/hit-counts`;
-        this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
+        this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
 
     set_font_size(size) {
