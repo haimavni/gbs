@@ -280,5 +280,7 @@
     "promote-name": "שם מלא",
     "promote-mobile": "מספר נייד",
     "promote-message": "ספר לנו עליך",
-    "promote-send": "שלח"
+    "promote-send": "שלח",
+    "by-new-count": "קליקים חדשים",
+    "by-old-count": "קליקים מצטברים"
 }

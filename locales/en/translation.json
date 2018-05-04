@@ -280,5 +280,7 @@
     "promote-name": "Name",
     "promote-mobile": "Mobile phone",
     "promote-message": "Message",
-    "promote-send": "Send"
+    "promote-send": "Send",
+    "by-new-count": "By new count",
+    "by-old-count": "By old count"
 }
