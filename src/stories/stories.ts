@@ -159,7 +159,7 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4TERM:
                 what = "TERM";
-                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'story' });
+                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term' });
                 break;
         }
         if (what != 'MEMBER') { //these are counted inside the member detail module
