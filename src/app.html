@@ -21,7 +21,11 @@
                             <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">${row.title & t}.</a>
                         </li>
                     </ul>
-
+                    <input type="text" style="width:160px;margin-left:22px;margin-top:18px;padding-left:5px;padding-right:5px;"
+                        value.bind="keywords"
+                        t="[placeholder]enter-search-words" dir.bind="theme.rtltr"
+                        change.delegate="go_search()" />
+                    <button style="background-color:lightblue;color:white;border:solid 1px lightblue;"><i class="far fa-search"></i></button>
                     <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm" style="position:relative;">
                         <li class="loader" if.bind="api.pending" style="padding-top:16px;position:absolute;left:-40px;">
                             <i class="fa fa-spinner fa-spin fa-2x"></i>
@@ -32,6 +36,7 @@
                             <user-mode></user-mode>
                         </li>
                     </ul>
+
                 </div>
             </div>
             <div class="row top-head" style="height:80px;background-color:rgba(80,80,80,0.3);" if.bind="theme.page_title != '' && ! theme.hide_title">

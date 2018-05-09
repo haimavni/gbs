@@ -27,11 +27,11 @@ export class Stories {
     win_height;
     used_languages;
     keywords = [];
+    search_words = [];
     params = {
         selected_topics: [],
         grouped_selected_topics: [],
         grouped_selected_words: [],
-        ungrouped_selected_words: [],
         selected_words: [],
         selected_uploader: "",
         from_date: "",
@@ -89,6 +89,11 @@ export class Stories {
 
     }
 
+    activate(params, config) {
+        this.search_words = params.keywords.split(/\s+/);
+        this.keywords = this.search_words;
+    }
+
     created(params, config) {
         if (this.story_list.length > 0) {
             return;
@@ -97,7 +102,7 @@ export class Stories {
             .then(result => {
                 this.topic_list = result.topic_list;
             });
-        this.update_story_list();
+        //this.update_story_list();
         this.api.call_server('members/get_used_languages')
             .then(response => {
                 this.used_languages = response.used_languages;
@@ -109,6 +114,15 @@ export class Stories {
         this.word_index.get_word_index()
             .then(response => {
                 this.stories_index = response;
+                this.params.selected_words = [];
+                for (let wrd of this.search_words) {
+                    let iw = this.stories_index.find(w => w.name == wrd);
+                    if (iw) {
+                        this.params.selected_words.push(iw);
+                    }
+                }
+                this.calc_story_list();
+                this.update_story_list();
             });
     }
 
@@ -151,7 +165,7 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4MEMBER:
                 what = 'MEMBER';
-                this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story' });
+                this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: this.keywords });
                 break;
             case this.api.constants.story_type.STORY4PHOTO:
                 what = 'PHOTO';
@@ -179,7 +193,6 @@ export class Stories {
             return;
         }
         this.params.grouped_selected_words = event.detail.grouped_selected_options;
-        this.params.ungrouped_selected_words = event.detail.ungrouped_selected_options;
         event.detail.grouped_selected_options.forEach(element => {
             let uni = new Set<number>();
             for (let x of element) {
@@ -206,12 +219,25 @@ export class Stories {
             this.update_story_list();
         } else if (result) {
             this.num_of_stories = 0;
-            this.story_list = [];
+            this.story_list = Array.from(result);
         } else {
             this.params.selected_stories = [];
             this.update_story_list();
             this.num_of_stories = 0;
         }
+    }
+
+    calc_story_list() {
+        let result = null;
+        this.params.selected_words.forEach(element => {
+            let tmp = new Set(element.story_ids);
+            if (result) {
+                result = set_intersection(result, tmp);
+            } else {
+                result = tmp;
+            }
+        });
+        this.params.selected_stories =  Array.from(result);
     }
 
     handle_topic_change(event) {

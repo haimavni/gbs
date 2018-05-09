@@ -19,6 +19,7 @@ export class App {
     watcher;
     curr_version;
     dialog: DialogService;
+    keywords = "";
 
     constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService) {
         this.baseURL = environment.baseURL;
@@ -46,9 +47,9 @@ export class App {
             { route: '', redirect: 'home' },
             { route: 'home', moduleId: './home/home', nav: false, title: '' },
             { route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms' },
-            { route: 'videos', moduleId: './videos/videos', nav: environment.debug, title: 'videos.videos' },
+            { route: 'videos', moduleId: './videos/videos', nav: false && environment.debug, title: 'videos.videos' },
             { route: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos' },
-            { route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories' },
+            { route: 'stories/*', name: 'stories', moduleId: './stories/stories', nav: false, title: 'stories.stories' },
             { route: 'members', name: 'members', moduleId: './members/members', nav: true, title: 'members.members' },
             { route: 'members/:caller_id/*', name: 'associate-members', moduleId: './members/members', nav: false, title: 'members.update-story-members' },
             { route: 'photos-group/:caller_id/*', name: 'associate-photos', moduleId: './photos/photos', nav: false, title: 'photos.update-story-photos' },
@@ -77,6 +78,12 @@ export class App {
                 //do something else?
             }
         });
+    }
+
+    go_search() {
+        let keywords = this.keywords;
+        this.keywords = '';
+        this.router.navigateToRoute('stories', { keywords: keywords });
     }
 
 }
