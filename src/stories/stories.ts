@@ -26,6 +26,7 @@ export class Stories {
     win_width;
     win_height;
     used_languages;
+    keywords_str = "";
     keywords = [];
     search_words = [];
     params = {
@@ -93,6 +94,7 @@ export class Stories {
     }
 
     activate(params, config) {
+        this.keywords_str = params.keywords;
         this.search_words = params.keywords.split(/\s+/);
         this.keywords = this.search_words;
     }
@@ -130,6 +132,27 @@ export class Stories {
                 }
                 if (this.calc_story_list()) this.update_story_list();
             });
+    }
+
+    calc_story_list() {
+        if (this.params.selected_words.length == 0) return true;
+        let result = null;
+        this.params.selected_words.forEach(element => {
+            let tmp = new Set(element.story_ids);
+            if (result) {
+                result = set_intersection(result, tmp);
+            } else {
+                result = tmp;
+            }
+        });
+        if (! result || result.size == 0) {
+            this.no_results = true;
+            this.story_list = [];
+            return false;
+        }
+        this.params.selected_stories =  Array.from(result);
+        this.no_results = false;
+        return true;
     }
 
     simple_search(keywords) {
@@ -252,26 +275,6 @@ export class Stories {
             this.update_story_list();
             this.num_of_stories = 0;
         }
-    }
-
-    calc_story_list() {
-        let result = null;
-        this.params.selected_words.forEach(element => {
-            let tmp = new Set(element.story_ids);
-            if (result) {
-                result = set_intersection(result, tmp);
-            } else {
-                result = tmp;
-            }
-        });
-        if (! result || result.size == 0) {
-            this.no_results = true;
-            this.story_list = [];
-            return false;
-        }
-        this.params.selected_stories =  Array.from(result);
-        this.no_results = false;
-        return true;
     }
 
     handle_topic_change(event) {

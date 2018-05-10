@@ -25,7 +25,9 @@
                         value.bind="keywords"
                         t="[placeholder]enter-search-words" dir.bind="theme.rtltr"
                         change.delegate="go_search()" />
-                    <button style="background-color:lightblue;color:white;border:solid 1px lightblue;"><i class="far fa-search"></i></button>
+                    <button style="background-color:lightblue;color:white;border:solid 1px lightblue;" click.delegate="go_search(true)">
+                        <i class="far fa-search"></i>
+                    </button>
                     <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm" style="position:relative;">
                         <li class="loader" if.bind="api.pending" style="padding-top:16px;position:absolute;left:-40px;">
                             <i class="fa fa-spinner fa-spin fa-2x"></i>
