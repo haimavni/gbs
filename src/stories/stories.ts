@@ -55,6 +55,7 @@ export class Stories {
     num_of_stories = 0;
     story_types;
     done_selecting = false;
+    no_results = false;
     options_settings = default_multi_select_options;
     story_types_settings = default_multi_select_options;
     words_settings = default_multi_select_options;
@@ -87,6 +88,8 @@ export class Stories {
             { name: i18n.tr('stories.terms'), id: 4 }
         ]
 
+        this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords)});
+
     }
 
     activate(params, config) {
@@ -96,7 +99,7 @@ export class Stories {
 
     created(params, config) {
         if (this.story_list.length > 0) {
-            return;
+            if (this.keywords.length == 0) return;
         }
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
@@ -119,11 +122,31 @@ export class Stories {
                     let iw = this.stories_index.find(w => w.name == wrd);
                     if (iw) {
                         this.params.selected_words.push(iw);
+                    } else {
+                        let idx = this.search_words.findIndex(itm => itm == wrd);
+                        this.search_words = this.search_words.splice(idx, 1);
+                        this.keywords = this.search_words;
                     }
                 }
-                this.calc_story_list();
-                this.update_story_list();
+                if (this.calc_story_list()) this.update_story_list();
             });
+    }
+
+    simple_search(keywords) {
+        this.search_words = keywords.split(/\s+/);
+        this.keywords = this.search_words;
+        this.params.selected_words = [];
+        for (let wrd of this.search_words) {
+            let iw = this.stories_index.find(w => w.name == wrd);
+            if (iw) {
+                this.params.selected_words.push(iw);
+            } else {
+                let idx = this.search_words.findIndex(itm => itm == wrd);
+                this.search_words = this.search_words.splice(idx, 1);
+                this.keywords = this.search_words;
+            }
+        }
+        if (this.calc_story_list()) this.update_story_list();
     }
 
     attached() {
@@ -136,9 +159,11 @@ export class Stories {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
+        this.keywords = [];
     }
 
     update_story_list() {
+        this.no_results = false;
         let used_for = null;
         if (this.api.constants) {
             used_for = this.api.constants.story_type.STORY4EVENT;
@@ -149,6 +174,7 @@ export class Stories {
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
                 this.story_list = result.story_list;
+                this.no_results = this.story_list.length == 0;
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
@@ -237,7 +263,13 @@ export class Stories {
                 result = tmp;
             }
         });
+        if (! result || result.size == 0) {
+            this.no_results = true;
+            return false;
+        }
         this.params.selected_stories =  Array.from(result);
+        this.no_results = false;
+        return true;
     }
 
     handle_topic_change(event) {

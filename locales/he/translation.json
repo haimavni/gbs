@@ -60,7 +60,7 @@
         "to-the-photo-page": "לדף התמונה",
         "term-page": "מתוך מילון המונחים",
         "categories": "בחירת קטגוריות",
-        "words": "חיפוש לפי מילים",
+        "words": "חיפוש מתקדם ",
         "uploaded-any-time": "ספורים שהועלו בזמן כלשהו",
         "uploaded-today": "ספורים שהועלו היום",
         "uploaded-this-week": "ספורים שהועלו השבוע",
@@ -283,5 +283,6 @@
     "promote-send": "שלח",
     "by-new-count": "קליקים חדשים",
     "by-old-count": "קליקים מצטברים",
-    "enter-search-words": "הקלד מילות חיפוש"
+    "enter-search-words": "הקלד מילות חיפוש",
+    "no-results": "לא נמצאו תוצאות מתאימות"
 }

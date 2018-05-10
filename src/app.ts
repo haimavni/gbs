@@ -1,5 +1,6 @@
 import environment from './environment';
 import { autoinject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { Theme } from './services/theme';
 import { MemberGateway } from './services/gateway';
 import { User } from './services/user';
@@ -20,8 +21,9 @@ export class App {
     curr_version;
     dialog: DialogService;
     keywords = "";
+    ea;
 
-    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService) {
+    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator) {
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
@@ -29,6 +31,7 @@ export class App {
         this.user = user;
         this.watcher = watcher;
         this.dialog = dialog;
+        this.ea = ea;
     }
 
     attached() {
@@ -83,6 +86,7 @@ export class App {
     go_search() {
         let keywords = this.keywords;
         this.keywords = '';
+        this.ea.publish("GO-SEARCH", {keywords: keywords});
         this.router.navigateToRoute('stories', { keywords: keywords });
     }
 

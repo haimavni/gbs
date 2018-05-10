@@ -60,7 +60,7 @@
         "to-the-photo-page": "To the photo page",
         "term-page": "From the terms dictionary",
         "categories": "Categories selection",
-        "words": "Search by words",
+        "words": "Advanced search",
         "uploaded-any-time": "Stories uploaded any time",
         "uploaded-today": "Stories uploaded today",
         "uploaded-this-week": "Stories uploaded this week",
@@ -283,5 +283,6 @@
     "promote-send": "Send",
     "by-new-count": "By new count",
     "by-old-count": "By old count",
-    "enter-search-words": "Enter search words"
+    "enter-search-words": "Enter search words",
+    "no-results": "No matching results found"
 }
