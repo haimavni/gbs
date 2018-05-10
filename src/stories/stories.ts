@@ -245,6 +245,7 @@ export class Stories {
             this.update_story_list();
         } else if (result) {
             this.num_of_stories = 0;
+            this.no_results = true;
             this.story_list = Array.from(result);
         } else {
             this.params.selected_stories = [];
@@ -265,6 +266,7 @@ export class Stories {
         });
         if (! result || result.size == 0) {
             this.no_results = true;
+            this.story_list = [];
             return false;
         }
         this.params.selected_stories =  Array.from(result);
