@@ -26,10 +26,10 @@ export class Stories {
     win_width;
     win_height;
     used_languages;
-    keywords_str = "";
     keywords = [];
     search_words = [];
     params = {
+        keywords_str: "",
         selected_topics: [],
         grouped_selected_topics: [],
         grouped_selected_words: [],
@@ -94,9 +94,10 @@ export class Stories {
     }
 
     activate(params, config) {
-        this.keywords_str = params.keywords;
+        this.params.keywords_str = params.keywords;
         this.search_words = params.keywords.split(/\s+/);
         this.keywords = this.search_words;
+        this.simple_search(this.params.keywords_str);
     }
 
     created(params, config) {
@@ -159,17 +160,9 @@ export class Stories {
         this.search_words = keywords.split(/\s+/);
         this.keywords = this.search_words;
         this.params.selected_words = [];
-        for (let wrd of this.search_words) {
-            let iw = this.stories_index.find(w => w.name == wrd);
-            if (iw) {
-                this.params.selected_words.push(iw);
-            } else {
-                let idx = this.search_words.findIndex(itm => itm == wrd);
-                this.search_words = this.search_words.splice(idx, 1);
-                this.keywords = this.search_words;
-            }
-        }
-        if (this.calc_story_list()) this.update_story_list();
+        this.params.selected_stories = [];
+        this.params.keywords_str = keywords;
+        this.update_story_list();
     }
 
     attached() {
@@ -241,6 +234,7 @@ export class Stories {
         if (!event.detail) {
             return;
         }
+        this.params.keywords_str = "";
         this.params.grouped_selected_words = event.detail.grouped_selected_options;
         event.detail.grouped_selected_options.forEach(element => {
             let uni = new Set<number>();
