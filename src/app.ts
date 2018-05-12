@@ -87,11 +87,11 @@ export class App {
         if (ifempty && this.keywords) return; //not to duplicate on change
         let keywords = this.keywords;
         this.keywords = '';
-        //if (this.router.currentInstruction.config.name == 'stories') {
+        if (this.router.currentInstruction.config.name == 'stories') {
             this.ea.publish("GO-SEARCH", {keywords: keywords});
-        //} else {
+        } else {
             this.router.navigateToRoute('stories', { keywords: keywords });
-        //}
+        }
     }
 
 }

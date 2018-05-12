@@ -9,7 +9,7 @@ export function getOffset(el) {
     }
 }
 
-export function highlight_doesntwork(html: String, keywords: Array<String>) {
+/*export function highlight_doesntwork(html: String, keywords: Array<String>) {
     if (!keywords) {
         return html;
     }
@@ -19,16 +19,22 @@ export function highlight_doesntwork(html: String, keywords: Array<String>) {
     ///let pat_str = '([^א-ת]*)(' + keywords.join('|') + ')([^א-ת]*)';
     let pat = new RegExp(pat_str, 'gi');
     return html.replace(pat, "$1<span class='highlight'>$2</span>$3");
-}
+}*/
 
-export function highlight(html: String, keywords: Array<String>) {
+export function highlight(html: String, keywords: Array<String>, whole_words) {
     if (!keywords) {
         return html;
     }
-    let pat_str = '([\\s,-]+)(' + keywords.join('|') + ')([\\s,;.-]+|$)';
-    let pat = new RegExp(pat_str, 'gi');
-    html = html.replace(pat, "$1<span class='highlighted'>$2</span>$3");  //do it twice for consecutive highlighted words
-    return html.replace(pat, "$1<span class='highlighted'>$2</span>$3");
+    if (whole_words) {
+        let pat_str = '([\\s,.;()-]+|^)(' + keywords.join('|') + ')([\\s,;.()-]+|$)';
+        let pat = new RegExp(pat_str, 'gi');
+        html = html.replace(pat, "$1<span class='highlighted'>$2</span>$3");  //do it twice for consecutive highlighted words
+        return html.replace(pat, "$1<span class='highlighted'>$2</span>$3");
+    } else {
+        let pat_str = '(' + keywords.join('|') + ')';
+        let pat = new RegExp(pat_str, 'gi');
+        return html.replace(pat, "<span class='highlighted'>$1</span>");
+    }
 }
 
 function toUnicode(theString) {

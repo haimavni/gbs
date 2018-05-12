@@ -94,10 +94,12 @@ export class Stories {
     }
 
     activate(params, config) {
-        this.params.keywords_str = params.keywords;
-        this.search_words = params.keywords.split(/\s+/);
-        this.keywords = this.search_words;
-        this.simple_search(this.params.keywords_str);
+        if (this.router.isExplicitNavigation) {
+            this.params.keywords_str = params.keywords;
+            this.search_words = params.keywords.split(/\s+/);
+            this.keywords = this.search_words;
+            this.simple_search(this.params.keywords_str);
+        }
     }
 
     created(params, config) {
