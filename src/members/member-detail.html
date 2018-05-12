@@ -117,12 +117,16 @@
                         aubs-tooltip="text.bind:compress" 
                         click.trigger="toggle_life_summary_size($event)">
                     </i>
+                    <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing" 
+                        style="margin-left:2px;margin-top:-8px;float:left;cursor:pointer;"
+                        class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
+                    </button>
                     <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
                         <i if.bind="user.privileges.EDITOR" class="far fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                         ${story_0.name}
                     </h3>
                     <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;" ref="life_summary_content">
-                        <p class="${theme.font_size}" innerhtml.bind="story_0.story_text ">
+                        <p class="${theme.font_size} ${highlight_on}" innerhtml.bind="biography ">
                         </p>
                     </div>
                 </div>

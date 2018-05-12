@@ -177,7 +177,7 @@ export class Stories {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
-        this.keywords = [];
+        //this.keywords = [];
     }
 
     update_story_list() {

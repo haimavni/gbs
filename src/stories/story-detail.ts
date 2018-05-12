@@ -148,7 +148,7 @@ export class StoryDetail {
         if (! this.story) {
             return "";
         }
-        let highlighted_html = highlight(this.story.story_text, this.keywords);
+        let highlighted_html = highlight(this.story.story_text, this.keywords, false);
         return highlighted_html; 
     }
     

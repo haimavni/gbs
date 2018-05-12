@@ -12,6 +12,7 @@ import { StoryWindow } from '../stories/story_window';
 import { MemberEdit } from './member-edit';
 import environment from '../environment';
 import { MemberList } from '../services/member_list';
+import { highlight } from '../services/dom_utils';
 
 @autoinject()
 @singleton()
@@ -54,6 +55,8 @@ export class MemberDetail {
     bottom_panel;
     life_summary_content;
     life_summary_box;
+    keywords = [];
+    highlight_on = "";
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -88,6 +91,7 @@ export class MemberDetail {
     }
 
     activate(params, config) {
+        this.keywords = params.keywords;
         this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
         this.api.getMemberDetails({ member_id: params.id, what: params.what })
             .then(member => {
@@ -291,5 +295,22 @@ export class MemberDetail {
             this.set_heights();
         }, 5)
     }
+
+    @computedFrom("story_0")
+    get biography() {
+        let highlighted_html = highlight(this.story_0.story_text, this.keywords, false);
+        return highlighted_html;
+    }
+
+    toggle_highlight_on() {
+        if (this.highlight_on) {
+            this.highlight_on = ""
+        } else {
+            this.highlight_on = "highlight-on"
+        }
+        document.getElementById("word-highlighter").blur();
+    }
+
+
 
 }
