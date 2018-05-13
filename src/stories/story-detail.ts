@@ -53,7 +53,7 @@ export class StoryDetail {
 
     activate(params, config) {
         this.keywords = params.keywords;
-        this.story_type = params.what;
+        this.story_type = params.what || 'story';
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
                 this.story = response.story;
