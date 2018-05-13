@@ -321,7 +321,11 @@ export class Photos {
             { user_id: this.user.id, caller_id: this.caller_id, caller_type: this.caller_type, photo_ids: photo_ids })
             .then(response => {
                 this.clear_photo_group();
-                history.back();
+                if (this.caller_type=='story') {
+                    this.router.navigateToRoute('story-detail', { id: this.caller_id });
+                } if (this.caller_type=='term') {
+                    this.router.navigateToRoute('term-detail', { id: this.caller_id });
+                }
             });
     }
 
