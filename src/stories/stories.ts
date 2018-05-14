@@ -43,7 +43,8 @@ export class Stories {
         checked_story_list: [],
         link_class: "basic",
         deleted_stories: false,
-        days_since_update: 0
+        days_since_update: 0,
+        search_type: 'simple'
     };
     help_data = {
         num_words: 65056
@@ -61,6 +62,8 @@ export class Stories {
     story_types_settings = default_multi_select_options;
     words_settings = default_multi_select_options;
     ea: EventAggregator;
+    active_result_types;
+    used_for = null;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator) {
@@ -103,14 +106,11 @@ export class Stories {
     }
 
     created(params, config) {
-        if (this.story_list.length > 0) {
-            if (this.keywords.length == 0) return;
-        }
+        if (this.story_list.length > 0 && ! this.router.isExplicitNavigation) return;
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
             });
-        //this.update_story_list();
         this.api.call_server('members/get_used_languages')
             .then(response => {
                 this.used_languages = response.used_languages;
@@ -133,7 +133,7 @@ export class Stories {
                         this.keywords = this.search_words;
                     }
                 }
-                if (this.calc_story_list()) this.update_story_list();
+                if (this.calc_story_list()) this.update_story_list('simple');
             });
     }
 
@@ -164,7 +164,7 @@ export class Stories {
         this.params.selected_words = [];
         this.params.selected_stories = [];
         this.params.keywords_str = keywords;
-        this.update_story_list();
+        this.update_story_list('simple');
     }
 
     attached() {
@@ -180,7 +180,8 @@ export class Stories {
         //this.keywords = [];
     }
 
-    update_story_list() {
+    update_story_list(search_type?) {
+        if (search_type) this.params.search_type = search_type;
         this.no_results = false;
         let used_for = null;
         if (this.api.constants) {
@@ -196,10 +197,12 @@ export class Stories {
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
+                this.active_result_types = result.active_result_types;
+                this.used_for = result.active_result_types[0];
                 console.timeEnd('update-story-list');
             });
     }
-
+    
     jump_to_the_full_story(story) {
         let what;
         switch (story.used_for) {
@@ -228,7 +231,7 @@ export class Stories {
 
     handle_languages_change(event) {
         this.params.selected_languages = event.detail.ungrouped_selected_options;
-        this.update_story_list();
+        this.update_story_list('advanced');
     }
 
     handle_words_change(event) {
@@ -261,14 +264,14 @@ export class Stories {
             this.num_of_stories = story_list.length;
             if (story_list.length == 0) return;
             this.params.selected_stories = story_list;
-            this.update_story_list();
+            this.update_story_list('advanced');
         } else if (result) {
             this.num_of_stories = 0;
             this.no_results = true;
             this.story_list = Array.from(result);
         } else {
             this.params.selected_stories = [];
-            this.update_story_list();
+            this.update_story_list('advanced');
             this.num_of_stories = 0;
         }
     }
@@ -372,6 +375,10 @@ export class Stories {
             show_only_if_filter: true
         });
         return result;
+    }
+
+    select_used_for(used_for) {
+        this.used_for = used_for
     }
 
     save_merges(event: Event) {

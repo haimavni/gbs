@@ -284,5 +284,9 @@
     "by-new-count": "By new count",
     "by-old-count": "By old count",
     "enter-search-words": "Enter search words",
-    "no-results": "No matching results found"
+    "no-results": "No matching results found",
+    "result1": "Members",
+    "result2": "Stories",
+    "result3": "Photos",
+    "result4": "Terms"
 }
