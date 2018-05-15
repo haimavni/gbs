@@ -1,5 +1,5 @@
 import environment from './environment';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Theme } from './services/theme';
 import { MemberGateway } from './services/gateway';
@@ -92,6 +92,11 @@ export class App {
         } else {
             this.router.navigateToRoute('stories', { keywords: keywords });
         }
+    }
+
+    @computedFrom("user.isLoggedIn")
+    get search_input_width() {
+        return this.user.isLoggedIn ? 160 : 240;
     }
 
 }

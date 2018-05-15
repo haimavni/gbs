@@ -49,8 +49,8 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left palette-selector" dir="${theme.rtltr}" >
-            <li repeat.for="palette of theme.palettes">
-                <a class="dropdown-item ${palette}" href="#" click.trigger="change_palette(palette)">
+            <li repeat.for="palette of theme.palettes" class="${palette}">
+                <a class="dropdown-item" href="#" click.trigger="change_palette(palette)">
                     ${'palettes.' + palette & t}
                 </a>
             </li>
