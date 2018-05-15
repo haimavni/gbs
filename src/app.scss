@@ -1,4 +1,5 @@
 @import 'resources/elements/photo-strip';
+@import './palettes';
 
 $slide-height: 220px;
 $list-group-border:none; 
@@ -53,22 +54,6 @@ body{
     }
 }
 
-div.palette-default ul.palette-selector {
-    background-color: default;
-} 
-
-div.palette-oldie ul.palette-selector {
-    background-color: beige;
-} 
-
-div.palette-sky ul.palette-selector {
-    background-color: lightblue;
-} 
-
-div.palette-earth ul.palette-selector {
-    background-color: lightseagreen;
-} 
-
 #router-view {
     padding-top: 60px; // Account for the nav bar by offsetting the first 60px.
     background-repeat: no-repeat;
@@ -79,7 +64,7 @@ div.palette-earth ul.palette-selector {
     height: 67px;
 
     .footer-area {
-        background: rgba(80,80,80,0.3) no-repeat;
+        background-repeat: no-repeat;
         line-height: 67px;    
         text-align: center;
     }

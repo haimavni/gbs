@@ -1,0 +1,58 @@
+div.palette-default ul.palette-selector {
+    background-color: default;
+} 
+
+div.palette-oldie ul.palette-selector {
+    background-color: beige;
+} 
+
+div.palette-sky ul.palette-selector {
+    background-color: lightblue;
+} 
+
+div.palette-earth ul.palette-selector {
+    background-color: lightseagreen;
+} 
+
+div.palette-default div.editable {
+    background-color: default;
+}
+
+div.palette-oldie div.editable {
+    background-color:beige;
+}
+
+div.palette-sky div.editable {
+    background-color: lightblue;
+}
+
+div.palette-earth div.editable {
+    background-color: lightseagreen;
+}
+
+div.palette-default {
+    div.top-head, div.footer-area {
+        background: rgba(80, 80, 80, 0.3);
+    }
+}
+    
+div.palette-oldie {
+    div.top-head, div.footer-area {
+        background: rgba(180, 80, 0, 0.3);
+    }
+}
+    
+div.palette-sky {
+    div.top-head, div.footer-area {
+        background: rgba(0, 80, 180, 0.3);
+    }
+}
+
+div.palette-earth {
+    div.top-head, div.footer-area {
+        background: rgba(80, 0, 180, 0.3);
+    }
+}
+
+
+
