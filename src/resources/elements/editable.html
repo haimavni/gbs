@@ -1,7 +1,7 @@
 <template>
     <require from="./editable.css"></require>
 
-    <div css="margin-top:0px;margin-right:0;margin-left:0;padding:0;width:${width}">
+    <div css="margin-top:0px;margin-right:0;margin-left:0;padding:0;width:${width}" class="editable">
         <div>
             <span show.bind="story.name || user.privileges.EDITOR" dir="rtl" style="padding:0;margin:0;float:right;">
                 <!--<i if.bind="!settings.no_expand" class="fa fa-sm fa-expand is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>-->
@@ -10,6 +10,7 @@
                 <i if.bind="settings.checkable && user.editing" class="fa${story.checked ? '' : 'r'} fa-circle fa-sm is-link" t="[title]stories.checking" click.trigger="toggle_checked()">&nbsp;</i>
             <span if.bind="settings.show_date &&story.timestamp">${story.timestamp} | </span>
             <span if.bind="story.author">${story.author}:&nbsp;</span>
+            <span if.bind="! story.author">${'stories.unknown-source' & t}:&nbsp;</span>
         </div>
         <div class="row checkable ${story.checked ? 'selected' : ''}"><strong style="float:right" innerhtml.bind="story.name" ></strong></div>
 

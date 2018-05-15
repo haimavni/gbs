@@ -3,11 +3,11 @@
     <require from="scrollbox.css"></require>
     <require from="toastr/build/toastr.min.css"></require>
     
-    <div css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" >
+    <div css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" class="${theme.palette}" >
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color:white" if.bind="! theme.hide_menu" >
             <div class="container">
                 <div class="navbar-header navbar-right" style="padding-bottom:8px;">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="#" style="margin-left:-20px">
                         <span style="font-size:200%;">
                             ${router.title & t}
                             <img src="${theme.files.gb_logo_png}" width="32" style="float:right;margin-left:15px;" />
@@ -18,10 +18,10 @@
                 <div id="skeleton-navigation-navbar-collapse">
                     <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm" css="font-size:150%;margin-top:4px;direction:${theme.rtltr};">
                         <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-                            <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href">${row.title & t}.</a>
+                            <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href" style="padding-left:6px;padding-right:6px;">${row.title & t}.</a>
                         </li>
                     </ul>
-                    <input type="text" style="width:160px;margin-left:22px;margin-top:18px;padding-left:5px;padding-right:5px;"
+                    <input type="text" css="width:${search_input_width}px;margin-left:20px;margin-top:18px;padding-left:5px;padding-right:5px;"
                         value.bind="keywords"
                         t="[placeholder]enter-search-words" dir.bind="theme.rtltr"
                         change.delegate="go_search()" />
@@ -41,7 +41,7 @@
 
                 </div>
             </div>
-            <div class="row top-head" style="height:80px;background-color:rgba(80,80,80,0.3);" if.bind="theme.page_title != '' && ! theme.hide_title">
+            <div class="row top-head" style="height:80px;" if.bind="theme.page_title != '' && ! theme.hide_title">
                 <div class="page-title" css="background-image:url('${theme.files.top_background}');">
                     <div style="margin-top:20px;padding-top:2px;margin-right:12px;">
                         <h1 dir="rtl"> ${theme.page_title & t}</h1>

@@ -203,7 +203,9 @@ export class Stories {
             });
     }
     
-    jump_to_the_full_story(story) {
+    jump_to_the_full_story(event, story) {
+        let is_link = event.target.classList.contains('is-link');
+        if (is_link) return true;
         let what;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
@@ -220,13 +222,9 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4TERM:
                 what = "TERM";
-                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term' });
+                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: this.keywords  });
                 break;
         }
-        if (what != 'MEMBER') { //these are counted inside the member detail module
-            this.api.hit(what, story.story_id);
-        }
-
     }
 
     handle_languages_change(event) {

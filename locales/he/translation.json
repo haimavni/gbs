@@ -72,7 +72,8 @@
         "consolidate-selected-story": "מזג לסיפור אחד",
         "highlight-on": "הפעל/הפסק הדגשת מילות החיפוש",
         "clean": "נקה",
-        "promote-selected-stories": "קדם את הספורים שנבחרו"
+        "promote-selected-stories": "קדם את הספורים שנבחרו",
+        "unknown-source": "מקור בלתי ידוע"
     },
     "members": {
         "members": "חברים",
@@ -255,6 +256,13 @@
     "locales": {
         "he": "עברית",
         "en": "English"
+    },
+    "palettes": {
+        "select-colors": "בחר צבעים",
+        "palette-default": "ברירת המחדל",
+        "palette-oldie": "ישן נושן",
+        "palette-sky": "צבעי שמים",
+        "palette-earth": "צבעי אדמה"
     },
     "go-back": "חזור",
     "parents": "הורים",

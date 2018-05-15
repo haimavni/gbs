@@ -1,0 +1,63 @@
+div.palette-default {
+    div.top-head, div.footer-area {
+        background: rgba(80, 80, 80, 0.3);
+    }
+    div.editable {
+        background-color: default;
+    }
+    div.detail-header {
+        background-color: #cccccc;
+    }
+}
+    
+div.palette-oldie {
+    div.top-head, div.footer-area {
+        background: rgba(180, 80, 0, 0.3);
+    }
+    div.editable {
+        background-color:beige;
+    }
+    div.detail-header {
+        background-color: lightseagreen;
+    }
+}
+    
+div.palette-sky {
+    div.top-head, div.footer-area {
+        background: rgba(0, 80, 180, 0.3);
+    }
+    div.editable {
+        background-color: lightblue;
+    }
+    div.detail-header {
+        background-color: mediumaquamarine;
+    }
+}
+
+div.palette-earth {
+    div.top-head, div.footer-area {
+        background: rgba(80, 180, 0, 0.3);
+    }
+    div.editable {
+        background-color: lightseagreen;
+    }
+    div.detail-header {
+        background-color: green;
+    }
+}
+
+ul.palette-selector li.palette-default {
+    background-color: default;
+}
+
+ul.palette-selector li.palette-oldie {
+    background-color: beige;
+} 
+
+ul.palette-selector li.palette-sky {
+    background-color: lightblue;
+} 
+
+ul.palette-selector li.palette-earth {
+    background-color: lightseagreen;
+} 

@@ -1,4 +1,5 @@
 @import 'resources/elements/photo-strip';
+@import './palettes';
 
 $slide-height: 220px;
 $list-group-border:none; 
@@ -63,7 +64,7 @@ body{
     height: 67px;
 
     .footer-area {
-        background: rgba(80,80,80,0.3) no-repeat;
+        background-repeat: no-repeat;
         line-height: 67px;    
         text-align: center;
     }

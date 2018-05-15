@@ -32,6 +32,8 @@ export class Theme {
     hide_menu = false;
     same_dir;
     other_dir;
+    _palette = null;
+    palettes = ['palette-default', 'palette-oldie', 'palette-sky', 'palette-earth'];
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -134,6 +136,21 @@ export class Theme {
         this.cookies.put('locale', this._locale);
         this.rtltr = rtl_langs.has(this.locale) ? "rtl" : "ltr";
         return this.i18n.setLocale(locale);
+    }
+
+    get palette() {
+        if (this._palette===null) {
+            this._palette = this.cookies.get('palette')
+            if (!this._palette) {
+                this._palette = "palette-default";
+            }
+        }
+        return this._palette;
+    }
+
+    changePalette(palette) {
+        this._palette = palette;
+        this.cookies.put('palette', this._palette);
     }
 
 }

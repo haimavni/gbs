@@ -56,6 +56,7 @@ export class StoryDetail {
         this.story_type = params.what || 'story';
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
+                this.api.hit(this.story_type, params.id);
                 this.story = response.story;
                 let html = this.story.story_text;
                 if (this.story.story_id == 'new') {

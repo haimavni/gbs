@@ -72,7 +72,8 @@
         "consolidate-selected-story": "Merge into one story",
         "highlight-on": "Highlighting search words on/off",
         "clean": "Clean",
-        "promote-selected-stories": "Promote selected stories"
+        "promote-selected-stories": "Promote selected stories",
+        "unknown-source": "Unknown source"
     },
     "members": {
         "members": "Members",
@@ -255,6 +256,13 @@
     "locales": {
         "he": "Hebrew",
         "en": "English"
+    },
+    "palettes": {
+        "select-colors": "Select colors",
+        "palette-default": "Default",
+        "palette-oldie": "Oldie",
+        "palette-sky": "Sky",
+        "palette-earth": "Earth"
     },
     "go-back": "Back",
     "parents": "Parents",
