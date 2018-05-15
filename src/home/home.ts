@@ -97,7 +97,7 @@ export class Home {
     }
 
     goto_full_collection() {
-        this.router.navigateToRoute('stories');
+        this.router.navigateToRoute('stories', {keywords: ""});
     }
 
     jump_to_the_full_story(story) {
