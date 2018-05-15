@@ -40,6 +40,23 @@
         </ul>
     </div>
 
+    <div class="btn-group dropdown border-right" 
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" 
+        t="[title]palettes.select-colors"
+        if.bind="true || user.privileges.DEVELOPER">
+        <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
+            <i class="far fa-tint"></i>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-left palette-selector" dir="${theme.rtltr}" >
+            <li repeat.for="palette of theme.palettes">
+                <a class="dropdown-item ${palette}" href="#" click.trigger="change_palette(palette)">
+                    ${'palettes.' + palette & t}
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" title="${user.editing ? 'user.no-edit' : 'user.can-edit' & t}"
         class="border-right ${user.editing ? 'highlight' : ''}" style="border-left:1px solid gray;padding-left:10px;">
         <i class="far fa-lg ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>

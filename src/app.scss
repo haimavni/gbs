@@ -53,6 +53,22 @@ body{
     }
 }
 
+div.palette-default ul.palette-selector {
+    background-color: default;
+} 
+
+div.palette-oldie ul.palette-selector {
+    background-color: beige;
+} 
+
+div.palette-sky ul.palette-selector {
+    background-color: lightblue;
+} 
+
+div.palette-earth ul.palette-selector {
+    background-color: lightseagreen;
+} 
+
 #router-view {
     padding-top: 60px; // Account for the nav bar by offsetting the first 60px.
     background-repeat: no-repeat;

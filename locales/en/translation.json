@@ -256,6 +256,13 @@
         "he": "Hebrew",
         "en": "English"
     },
+    "palettes": {
+        "select-colors": "Select colors",
+        "palette-default": "Default",
+        "palette-oldie": "Oldie",
+        "palette-sky": "Sky",
+        "palette-earth": "Earth"
+    },
     "go-back": "Back",
     "parents": "Parents",
     "siblings": "Siblings",

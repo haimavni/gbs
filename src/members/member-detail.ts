@@ -56,7 +56,7 @@ export class MemberDetail {
     life_summary_content;
     life_summary_box;
     keywords = [];
-    highlight_on = "";
+    highlight_on="highlight-on";
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {

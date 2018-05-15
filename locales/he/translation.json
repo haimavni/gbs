@@ -256,6 +256,13 @@
         "he": "עברית",
         "en": "English"
     },
+    "palettes": {
+        "select-colors": "בחר צבעים",
+        "palette-default": "ברירת המחדל",
+        "palette-oldie": "ישן נושן",
+        "palette-sky": "צבעי שמים",
+        "palette-earth": "צבעי אדמה"
+    },
     "go-back": "חזור",
     "parents": "הורים",
     "siblings": "אחים/אחיות",

@@ -117,4 +117,8 @@ export class UserMode {
     change_locale(locale) {
         this.theme.changeLocale(locale);
     }
+
+    change_palette(palette) {
+        this.theme.changePalette(palette);
+    }
 }
