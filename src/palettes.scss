@@ -5,6 +5,9 @@ div.palette-default {
     div.editable {
         background-color: default;
     }
+    div.detail-header {
+        background-color: #cccccc;
+    }
 }
     
 div.palette-oldie {
@@ -13,6 +16,9 @@ div.palette-oldie {
     }
     div.editable {
         background-color:beige;
+    }
+    div.detail-header {
+        background-color: lightseagreen;
     }
 }
     
@@ -23,6 +29,9 @@ div.palette-sky {
     div.editable {
         background-color: lightblue;
     }
+    div.detail-header {
+        background-color: mediumaquamarine;
+    }
 }
 
 div.palette-earth {
@@ -31,6 +40,9 @@ div.palette-earth {
     }
     div.editable {
         background-color: lightseagreen;
+    }
+    div.detail-header {
+        background-color: green;
     }
 }
 

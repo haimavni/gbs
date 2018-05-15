@@ -22,12 +22,13 @@
                     </div>
                     <ul style="width:100%;padding:0;float:right;height:597px;overflow:auto;list-style-type: none;padding-left:20px;">
                         <li repeat.for="term of term_list | filter: filter : 'name' : 'author'" 
-                            dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
+                            dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;cursor:pointer;" 
+                                click.delegate="jump_to_the_full_story($event, term)">
                             <div style="height:120px;overflow:hidden;padding:20px;position:relative;">
                                 <div style="margin-bottom: 10px;padding-right:0px;">
                                     <editable settings.bind="{show_date:false, class:'story-section', no_expand: true}" story.bind="term"></editable>
                                 </div>
-                                <a style="position:absolute;top:20px;left:10px;cursor:pointer;" click.delegate="jump_to_the_full_story(term)">${'stories.to-the-full-story' & t}...</a>
+                                <!--<a style="position:absolute;top:20px;left:10px;cursor:pointer;" click.delegate="jump_to_the_full_story($event, term)">${'stories.to-the-full-story' & t}...</a>-->
                             </div>
                         </li>
                     </ul>

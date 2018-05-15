@@ -225,10 +225,6 @@ export class Stories {
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: this.keywords  });
                 break;
         }
-        if (what != 'MEMBER') { //these are counted inside the member detail module
-            this.api.hit(what, story.story_id);
-        }
-
     }
 
     handle_languages_change(event) {

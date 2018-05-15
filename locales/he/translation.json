@@ -72,7 +72,8 @@
         "consolidate-selected-story": "מזג לסיפור אחד",
         "highlight-on": "הפעל/הפסק הדגשת מילות החיפוש",
         "clean": "נקה",
-        "promote-selected-stories": "קדם את הספורים שנבחרו"
+        "promote-selected-stories": "קדם את הספורים שנבחרו",
+        "unknown-source": "מקור בלתי ידוע"
     },
     "members": {
         "members": "חברים",
