@@ -73,7 +73,7 @@
                             if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;">
                             <div style="height:130px;overflow:hidden;padding-right:20px;padding-left:20px;padding-top:0px;cursor:pointer;"
-                                click.delegate="jump_to_the_full_story($event, story, true)">
+                                click.delegate="jump_to_the_full_story($event, story)">
                                 <div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">
                                     <editable settings.bind="{show_date:false, class:'story-section', checkable: true}" 
                                         story.bind="story" change.delegate="toggle_story_selection(story, $event)">
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div style="position:absolute;top:132px;left:20px;">
-                                <a click.delegate="jump_to_the_full_story($event, story, false)" style="cursor:pointer;">
+                                <a click.delegate="jump_to_the_full_story($event, story)" style="cursor:pointer;">
                                     <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
                                         ${'stories.to-the-full-story' & t }...
                                     </span>

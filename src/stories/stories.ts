@@ -203,10 +203,9 @@ export class Stories {
             });
     }
     
-    jump_to_the_full_story(event, story, from_body) {
-        console.log("event in jump: ", event);
-        let x = event.target.classList.contains('is-link');
-        if (x) return true;
+    jump_to_the_full_story(event, story) {
+        let is_link = event.target.classList.contains('is-link');
+        if (is_link) return true;
         let what;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
