@@ -249,7 +249,6 @@ export class MemberDetail {
     }
 
     goto_story_page(story) {
-        this.api.hit("EVENT", story.story_id);
         this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
     }
 

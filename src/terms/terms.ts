@@ -46,7 +46,6 @@ export class Terms {
     jump_to_the_full_story(event, term) {
         if (event.target.classList.contains('is-link')) return true;
         this.router.navigateToRoute('term-detail', { id: term.story_id, what: 'term' });
-        this.api.hit('term', term.id);
     }
 
 }

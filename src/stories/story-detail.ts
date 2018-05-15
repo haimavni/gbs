@@ -54,6 +54,7 @@ export class StoryDetail {
     activate(params, config) {
         this.keywords = params.keywords;
         this.story_type = params.what || 'story';
+        let what = this.story_type=='story' ? 'EVENT' : 'TERM';
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
                 this.api.hit(this.story_type, params.id);
