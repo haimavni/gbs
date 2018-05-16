@@ -21,10 +21,13 @@
                             <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href" style="padding-left:6px;padding-right:6px;">${row.title & t}.</a>
                         </li>
                     </ul>
-                    <input type="text" css="width:${search_input_width}px;margin-left:20px;margin-top:18px;padding-left:5px;padding-right:5px;"
+                    <label style="position:relative"> 
+                        <input type="text" css="width:${search_input_width}px;margin-left:20px;margin-top:18px;padding-left:5px;padding-right:5px;"
                         value.bind="keywords"
                         t="[placeholder]enter-search-words" dir.bind="theme.rtltr"
                         change.delegate="go_search()" />
+                        <i class="far fa-times" style="position:absolute;left:25px;top:24px;" click.trigger="clear_keywords()"></i>
+                    </label>
                     <!--<search-input value.bind="keywords" placeholder.bind="'enter-search-words' & t" height="32"></search-input>-->
                     <button style="background-color:lightblue;color:white;border:solid 1px lightblue;" click.delegate="go_search(true)">
                         <i class="far fa-search"></i>

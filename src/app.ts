@@ -99,4 +99,8 @@ export class App {
         return this.user.isLoggedIn ? 160 : 240;
     }
 
+    clear_keywords() {
+        this.keywords = "";
+    }
+
 }
