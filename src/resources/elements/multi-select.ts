@@ -38,7 +38,7 @@ export class MultiSelectCustomElement {
     width;
     inner_width;
     @bindable height: 180;
-    @bindable height_selected = 60;
+    //@bindable height_selected = 160;
     @bindable height_unselected = 120;
     @bindable settings = default_multi_select_options;
     @bindable can_edit = true;
@@ -170,7 +170,7 @@ export class MultiSelectCustomElement {
             this.height = 180;
         }
         //use the code in calc_lists to set the correct heights
-        this.height_selected = this.lineHeight;
+        //this.height_selected = this.lineHeight;
         this.height_unselected = this.height - this.height_selected;
         //sync option sets from option arrays which are bound
         let all_storage_ready = this.build_all_options_storage();
@@ -186,7 +186,6 @@ export class MultiSelectCustomElement {
         this.grouped_selected = new Collections.Dictionary<string, Set<string>>();
         //now build it from this.grouped_selected_options
         this.all_selected = new Set(uso);
-        this.calculate_heights();
     }
 
     detached() {
@@ -239,7 +238,6 @@ export class MultiSelectCustomElement {
         });
         let ungrouped = Array.from(this.ungrouped_selected);
         this.ungrouped_selected_options = ungrouped.map(u => this.selected_options_storage.getValue(u));
-        this.calculate_heights();
         /*let selected_lines = Math.max(1, this.grouped_selected_options.length + this.ungrouped_selected_options.length);
 
         this.height_selected = Math.min(selected_lines * this.lineHeight, this.height - 3 * this.lineHeight) + 16;
@@ -248,10 +246,13 @@ export class MultiSelectCustomElement {
         this.dispatch_event();
     }
 
-    calculate_heights() {
+
+    @computedFrom('grouped_selected_options', 'ungrouped_selected_options', 'lineHeight')
+    get height_selected() {
         let selected_lines = Math.max(1, this.grouped_selected_options.length + this.ungrouped_selected_options.length);
-        this.height_selected = Math.min(selected_lines * this.lineHeight, this.height - 3 * this.lineHeight) + 16;
-        this.height_unselected = this.height - this.height_selected;
+        let hs = Math.min(selected_lines * this.lineHeight, this.height - 3 * this.lineHeight) + 16
+        this.height_unselected = this.height - hs;
+        return hs;
     }
 
     onfocus(what) {
