@@ -86,7 +86,7 @@ export class App {
     go_search(ifempty: boolean) {
         if (ifempty && this.keywords) return; //not to duplicate on change
         let keywords = this.keywords;
-        this.keywords = '';
+        //this.keywords = '';
         if (this.router.currentInstruction.config.name == 'stories') {
             this.ea.publish("GO-SEARCH", {keywords: keywords});
         } else {

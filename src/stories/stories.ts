@@ -92,7 +92,7 @@ export class Stories {
             { name: i18n.tr('stories.terms'), id: 4 }
         ]
 
-        this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords)});
+        this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true)});
 
     }
 
@@ -101,7 +101,7 @@ export class Stories {
             this.params.keywords_str = params.keywords;
             this.search_words = params.keywords.split(/\s+/);
             this.keywords = this.search_words;
-            this.simple_search(this.params.keywords_str);
+            this.simple_search(this.params.keywords_str, false);
         }
     }
 
@@ -136,33 +136,29 @@ export class Stories {
             });
     }
 
-    calc_story_list() {
-        if (this.params.selected_words.length == 0) return true;
-        let result = null;
-        this.params.selected_words.forEach(element => {
-            let tmp = new Set(element.story_ids);
-            if (result) {
-                result = set_intersection(result, tmp);
+    keywords_to_selected_words() {
+        this.params.selected_words = [];
+        for (let wrd of this.search_words) {
+            let iw = this.stories_index.find(w => w.name == wrd);
+            if (iw) {
+                this.params.selected_words.push(iw);
             } else {
-                result = tmp;
+                let idx = this.search_words.findIndex(itm => itm == wrd);
+                this.search_words = this.search_words.splice(idx, 1);
+                this.keywords = this.search_words;
             }
-        });
-        if (! result || result.size == 0) {
-            this.no_results = true;
-            this.story_list = [];
-            return false;
         }
-        this.params.selected_stories =  Array.from(result);
-        this.no_results = false;
-        return true;
     }
 
-    simple_search(keywords) {
+    simple_search(keywords, local) {
         this.search_words = keywords.split(/\s+/);
         this.keywords = this.search_words;
         this.params.selected_words = [];
         this.params.selected_stories = [];
         this.params.keywords_str = keywords;
+        if (local) {
+            this.keywords_to_selected_words();
+        }
         this.update_story_list('simple');
     }
 
