@@ -133,7 +133,6 @@ export class Stories {
                         this.keywords = this.search_words;
                     }
                 }
-                if (this.calc_story_list()) this.update_story_list('simple');
             });
     }
 
