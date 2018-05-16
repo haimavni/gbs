@@ -1,11 +1,6 @@
 <template>
     <require from="./stories.css"></require>
     <section class="container content-area">
-        <!--<div class="row top-head" css="height:96px;margin-top:60px;background-image:url('${theme.files.top_background}');">
-            <div style="padding-top:0px;padding-right:15px;">
-                <h1 dir="rtl">${"stories.place-stories" & t}</h1>
-            </div>
-        </div>-->
         <div class="row content-area" style="width:100%;margin-top:100px;padding-right:36px;" dir="rtl">
             <div class="row" style="height:675px;">
                 <div class="col-md-1">
@@ -81,22 +76,6 @@
                                     </editable>
                                 </div>
                             </div>
-                            <!--<div style="position:absolute;top:132px;left:20px;">
-                                <a click.delegate="jump_to_the_full_story($event, story)" style="cursor:pointer;">
-                                    <span if.bind="story.used_for==api.constants.story_type.STORY4EVENT">
-                                        ${'stories.to-the-full-story' & t }...
-                                    </span>
-                                    <span if.bind="story.used_for==api.constants.story_type.STORY4MEMBER">
-                                        ${'stories.to-the-member-page' & t }...
-                                    </span>
-                                    <span if.bind="story.used_for==api.constants.story_type.STORY4PHOTO">
-                                        ${'stories.to-the-photo-page' & t }...
-                                    </span>
-                                    <span if.bind="story.used_for==api.constants.story_type.STORY4TERM">
-                                        ${'stories.term-page' & t }...
-                                    </span>
-                                </a>
-                            </div>-->
                         </li>
                     </ul>
 
@@ -107,7 +86,7 @@
                         <multi-select options.bind="story_types" 
                             place_holder_text="stories.story-types" 
                             ungrouped_selected_options.bind="params.selected_story_types"
-                            height="110" settings.bind="story_types_settings"
+                            height.bind="220" settings.bind="story_types_settings"
                             change.delegate="handle_story_types_change($event) ">
                         </multi-select>
                     </div>
@@ -118,7 +97,7 @@
                             place_holder_text="photos.click-topic" 
                             ungrouped_selected_options.bind="params.selected_topics"
                             grouped_selected_options.bind="params.grouped_selected_topics"
-                            height="120" 
+                            height.bind="220" 
                             settings.bind="options_settings" 
                             change.delegate="handle_topic_change($event)"
                             style="margin-top:5px;">
