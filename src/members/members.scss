@@ -197,13 +197,13 @@ ux-dialog-containerxxx {
         //border-top: 6px solid white;
         //border-bottom: 6px solid white;
         background-color: rgba(208, 208, 208, 0.5);
+        cursor: pointer;
         &.notfirst {
             border-left: 6px solid white;
         }
 
         .member-story-header {
             height: 45px;
-            cursor: pointer;
             position: relative;
             i.to-full-page {
                 position: absolute;
