@@ -259,7 +259,7 @@
     },
     "palettes": {
         "select-colors": "Select colors",
-        "palette-default": "Default",
+        "palette-default": "Gray",
         "palette-oldie": "Oldie",
         "palette-sky": "Sky",
         "palette-earth": "Earth"

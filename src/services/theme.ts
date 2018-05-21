@@ -142,7 +142,7 @@ export class Theme {
         if (this._palette===null) {
             this._palette = this.cookies.get('palette')
             if (!this._palette) {
-                this._palette = "palette-default";
+                this._palette = "palette-oldie";
             }
         }
         return this._palette;
