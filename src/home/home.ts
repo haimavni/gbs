@@ -63,7 +63,7 @@ export class Home {
 
     add_message() {
         let name = this.i18n.tr('home.new-message');
-        this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.story_type.STORY4MESSAGE, story_text: "" });
+        this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.story_type.STORY4MESSAGE, story_text: "", story_preview: "" });
     }
 
     hande_story_change(story, customEvent) {

@@ -59,6 +59,7 @@ export class StoryWindow {
                 this.story.author = response.info.author;
                 this.dialogController.ok(response.info);
                 this.story.story_id = response.info.story_id;
+                this.story.story_preview = response.info.story_preview;
             });
     }
 

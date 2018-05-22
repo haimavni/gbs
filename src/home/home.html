@@ -44,9 +44,9 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3 panel-messages" style="direction: rtl">
+            <div class="col-md-3 panel-messages" css="direction:${theme.rtltr};font-size:83%;">
                 <h2 style="margin:0;margin-bottom:12px;">${'home.messages' & t}
-                    <span class="is-link" if.bind="user.editing" click.delegate="add_message()"><i class="far fa-plus-square"></i></span>
+                    <span class="is-link" if.bind="user.editing" click.delegate="add_message()"><i style="font-size:70%;" class="far fa-plus-square"></i></span>
                 </h2>
                 <ul class="message">
                     <li repeat.for="msg of message_list" dir="rtl" style="border-bottom: solid 2px gray;margin-bottom:10px;" >

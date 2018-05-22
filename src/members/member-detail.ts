@@ -50,6 +50,7 @@ export class MemberDetail {
     compress;
     life_summary_expanded = false;
     member_detail_panel;
+    family_connections_panel;
     member_detail_container;
     top_panel;
     bottom_panel;
@@ -282,6 +283,7 @@ export class MemberDetail {
             this.member_detail_container.style.height = `${mdch}px`;
             let lsb = tph - 30;
             this.life_summary_box.style.height = `${lsb}px`;
+            this.family_connections_panel.style.height = `${lsh+34}px`;
         } catch (e) {
             return false;
         }
@@ -309,7 +311,5 @@ export class MemberDetail {
         }
         document.getElementById("word-highlighter").blur();
     }
-
-
 
 }
