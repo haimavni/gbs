@@ -1,6 +1,6 @@
 <template>
     <form class="form-inline date-range" dir="${theme.rtltr}" style="position:relative;height:34px;">
-        <label if.bind="show_label">${label & t}</label>
+        <label if.bind="show_label" style="padding-right:6px;">${label & t}</label>
         <div if.bind="show_edit_end_date" class="form-group" style="margin-right:0px;width:5em;position:absolute;top:0;left:98px; ">
             <select value.bind="span_size" style="height:1.8em;color:black;width:5.2em;" change.delegate="span_size_changed($event)">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
