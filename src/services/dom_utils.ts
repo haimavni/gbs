@@ -13,9 +13,10 @@ export function highlight(html: String, keywords: Array<String>, whole_words) {
     if (!keywords) {
         return html;
     }
+    //keywords = keywords.filter(kw=>kw.length>0);
     let kws = [];
     for (let kw of keywords) {
-        if (kw && kw.length > 0 {
+        if (kw && kw.length > 0) {
             kws.push(kw)
         }
     }

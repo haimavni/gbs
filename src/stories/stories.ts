@@ -99,7 +99,7 @@ export class Stories {
     activate(params, config) {
         if (this.router.isExplicitNavigation) {
             this.params.keywords_str = params.keywords;
-            this.search_words = params.keywords.split(/\s+/);
+            this.search_words = params.keywords ? params.keywords.split(/\s+/) : null;
             this.keywords = this.search_words;
             this.simple_search(this.params.keywords_str, false);
         }
@@ -151,7 +151,7 @@ export class Stories {
     }
 
     simple_search(keywords, local) {
-        this.search_words = keywords.split(/\s+/);
+        this.search_words = keywords ? keywords.split(/\s+/) : null;
         this.keywords = this.search_words;
         this.params.selected_words = [];
         this.params.selected_stories = [];
@@ -202,7 +202,8 @@ export class Stories {
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
         let what;
-        let keywords = story.exact ? [this.params.keywords_str] : this.keywords;
+        let kws = this.params.keywords_str ? [this.params.keywords_str] : null;
+        let keywords = story.exact ? kws : this.keywords;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
                 what = 'EVENT';
