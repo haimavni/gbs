@@ -9,18 +9,6 @@ export function getOffset(el) {
     }
 }
 
-/*export function highlight_doesntwork(html: String, keywords: Array<String>) {
-    if (!keywords) {
-        return html;
-    }
-    html = toUnicode(html);
-    let pat_str = '\\b(' + keywords.join('|') + '\\b';
-    pat_str = toUnicode(pat_str);
-    ///let pat_str = '([^א-ת]*)(' + keywords.join('|') + ')([^א-ת]*)';
-    let pat = new RegExp(pat_str, 'gi');
-    return html.replace(pat, "$1<span class='highlight'>$2</span>$3");
-}*/
-
 export function highlight(html: String, keywords: Array<String>, whole_words) {
     if (!keywords) {
         return html;

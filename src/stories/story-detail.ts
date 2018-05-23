@@ -31,6 +31,7 @@ export class StoryDetail {
     dialog;
     subscriber;
     story_type;
+    advanced_search;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -53,6 +54,7 @@ export class StoryDetail {
 
     activate(params, config) {
         this.keywords = params.keywords;
+        this.advanced_search = params.search_type == 'advanced';
         this.story_type = params.what || 'story';
         let what = this.story_type=='story' ? 'EVENT' : 'TERM';
         this.api.getStoryDetail({ story_id: params.id })
@@ -150,7 +152,7 @@ export class StoryDetail {
         if (! this.story) {
             return "";
         }
-        let highlighted_html = highlight(this.story.story_text, this.keywords, false);
+        let highlighted_html = highlight(this.story.story_text, this.keywords, this.advanced_search);
         return highlighted_html; 
     }
     

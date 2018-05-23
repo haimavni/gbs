@@ -202,14 +202,15 @@ export class Stories {
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
         let what;
+        let keywords = story.exact ? [this.params.keywords_str] : this.keywords;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
                 what = 'EVENT';
-                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: this.keywords });
+                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4MEMBER:
                 what = 'MEMBER';
-                this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: this.keywords });
+                this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4PHOTO:
                 what = 'PHOTO';
@@ -217,7 +218,7 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4TERM:
                 what = "TERM";
-                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: this.keywords  });
+                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type  });
                 break;
         }
     }
