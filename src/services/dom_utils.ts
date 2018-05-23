@@ -13,6 +13,14 @@ export function highlight(html: String, keywords: Array<String>, whole_words) {
     if (!keywords) {
         return html;
     }
+    let kws = [];
+    for (let kw of keywords) {
+        if (kw && kw.length > 0 {
+            kws.push(kw)
+        }
+    }
+    if (kws.length == 0) return html;
+    keywords = kws;
     if (whole_words) {
         let pat_str = '([\\s,.;()-]+|^)(' + keywords.join('|') + ')([\\s,;.()-]+|$)';
         let pat = new RegExp(pat_str, 'gi');
