@@ -22,7 +22,7 @@
             <ul css="width:${width}px;" if.bind="true || unselected_options===[]">
                 <li repeat.for="option of options | filter: filter : 'name' | filterBySet : all_selected : 'exclude' | take : 199">
                     <div class="option-item" css="margin:0;padding:0;padding-right:2px;width:${inner_width}px">
-                        <a click.trigger="toggle_selection(option)">${option.name}</a>
+                        <a click.delegate="select_option(option)">${option.name}</a>
                     </div>
                 </li>
             </ul>

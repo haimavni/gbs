@@ -21,6 +21,7 @@ export class MultiSelectNewCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) all_selected = new Set([]);
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
+    selected_options_set = new Set();
     open_group;
     element;
     dialogService;
@@ -33,5 +34,47 @@ export class MultiSelectNewCustomElement {
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title')
     }
+
+    select_option(option) {
+        let g = this.find_free_group_number();
+        let item = { option: option, group_num: g };
+        this.selected_options.push(item);
+        this.selected_options_set.add(option.id);
+    }
+
+    unselect_item(item, index) {
+        this.selected_options.splice(index, 1);
+        this.selected_options_set.delete(item.option.id);
+    }
+
+    toggle_group(group_number) {
+        if (group_number == this.open_group) {
+            this.open_group = null;
+        } else {
+            this.open_group = group_number;
+        }
+    }
+
+    move_item(item) {
+        if (this.open_group == item.group_number) {  // remove item from the open group
+            item.group_number = this.find_free_group_number();
+        } else if (this.open_group) {                // 
+            item.group_number = this.open_group;
+        } // else do nothing?
+        this.sort_items();
+    }
+
+    find_free_group_number() {
+        let arr = this.selected_options.map(item => item.group_num);
+        let set = new Set(arr);
+        for (let g = 1; g++; g < 99) {
+            if (!set.has(g)) return g;
+        }
+    }
+
+    sort_items() {
+        this.selected_options.sort((item1, item2) => item1.group_number - item2.group_number);
+    }
+
 
 }
