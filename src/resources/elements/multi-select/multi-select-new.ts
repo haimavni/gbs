@@ -65,15 +65,27 @@ export class MultiSelectNewCustomElement {
     }
 
     find_free_group_number() {
-        let arr = this.selected_options.map(item => item.group_num);
-        let set = new Set(arr);
-        for (let g = 1; g++; g < 99) {
-            if (!set.has(g)) return g;
-        }
+        if (this.selected_options.length == 0) return 1;
+        return this.selected_options[this.selected_options.length-1].group_number + 1;
     }
 
     sort_items() {
         this.selected_options.sort((item1, item2) => item1.group_number - item2.group_number);
+        let i = 0;
+        let g = 0;
+        for (let item of this.selected_options) {
+            if (item.group_number != g) {
+                g = item.group_number;
+                i += 1;
+                item.first = true
+            } else {
+                item.first = false;
+            }
+            if (this.open_group == item.group_number) {
+                this.open_group = i;
+            }
+            item.group_number = i;
+        }
     }
 
 

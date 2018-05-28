@@ -14,8 +14,24 @@
                 title.bind="new_item_title">
             </dlg-string>
         </button>
+        <!-- list of selected options -->
+        <div class="row">
+            <ul>
+                <li repeat.for="option of selected_options" class.bind="option.group_number % 2 : 'odd-group' : 'even-group'" style="position:relative;">
+                    <!-- lock/unlock button -->
+                    <i class="far fa-${item.group_number==open_group ? 'unlock' : 'lock'}" 
+                        if.bind="item.first" style="position:absolute;left:0;"
+                        click.delegate="toggle_group(item.group_number)">
+                    </i>
+                    <i class="far fa-times-circle"
+                        style="position:absolute;left:24px;"
+                        click.delegate="unselect_item(item, $index)">
+                    </i>
+                </li>
+            </ul>
+        </div>
 
-        <!-- Under the line come all unselected options -->
+        <!-- unselected options -->
         <div class="row options unselected" 
             css="max-height:${filter || display_option_list ? height_unselected : 0}px;" 
             if.bind="options && options.length > 0 && (filter.length > 0 || ! settings.show_only_if_filter)">
