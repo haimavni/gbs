@@ -19,14 +19,24 @@ export default default_multi_select_options;
 @inject(DOM.Element, I18N, DialogService)
 export class MultiSelectNewCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) all_selected = new Set([]);
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
+    @bindable settings = default_multi_select_options;
+    @bindable place_holder_text = "";
+    @bindable height: 180;
+    @bindable height_unselected = 120;
+    @bindable can_edit = true;
     selected_options_set = new Set();
     open_group;
     element;
     dialogService;
     new_item_placeholder;
     new_item_title;
+    filter = "";
+    width;
+    inner_width;
+    anchor = '<button class="btn btn-success" style="padding-top:9px;"><i class="far fa-lg fa-plus-square"></i></button>';
+    new_item_name;
+    lineHeight = 20;
 
     constructor(element, i18n: I18N, dialogService: DialogService) {
         this.element = element;
@@ -66,7 +76,7 @@ export class MultiSelectNewCustomElement {
 
     find_free_group_number() {
         if (this.selected_options.length == 0) return 1;
-        return this.selected_options[this.selected_options.length-1].group_number + 1;
+        return this.selected_options[this.selected_options.length - 1].group_number + 1;
     }
 
     sort_items() {

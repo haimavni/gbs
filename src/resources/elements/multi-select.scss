@@ -103,8 +103,9 @@
         a {
             cursor: pointer;
             color:black;
-            :hover {
-                font-weight:bolder;
+            &:hover {
+                //font-weight:bolder;
+                background-color: lightblue;
             }
         }
     }
