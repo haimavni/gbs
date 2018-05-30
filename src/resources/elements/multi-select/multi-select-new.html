@@ -1,4 +1,6 @@
-<template class="multi-select">
+<template class="multi-select-new">
+    <require from="./multi-select-new.css">
+    </require>
     <div class="input-group search-filter" if.bind="options.length > 10">
         <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"></search-input>
     </div>
@@ -15,9 +17,9 @@
             </dlg-string>
         </button>
         <!-- list of selected options -->
-        <div class="row">
+        <div class="row opitons selected">
             <ul>
-                <li repeat.for="option of selected_options" class.bind="option.group_number % 2 : 'odd-group' : 'even-group'" style="position:relative;">
+                <li repeat.for="option of selected_options" class.bind="option.group_number % 2 : 'odd-group' : 'even-group'">
                     <!-- lock/unlock button -->
                     <i class="far fa-${item.group_number==open_group ? 'unlock' : 'lock'}" 
                         if.bind="item.first" style="position:absolute;left:0;"
@@ -27,6 +29,7 @@
                         style="position:absolute;left:24px;"
                         click.delegate="unselect_item(item, $index)">
                     </i>
+                    <span click.delegate="move_item(item)">${item.option.name}</span>
                 </li>
             </ul>
         </div>

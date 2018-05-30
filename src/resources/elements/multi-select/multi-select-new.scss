@@ -1,4 +1,4 @@
-.multi-select {
+.multi-select-new {
     div.selected {
         font-weight: bolder;
         color: black;
@@ -32,8 +32,16 @@
         padding: 0;
     }
 
-    div.selected ul {
-        padding-right:16px;
+    div.selected {
+        ul {
+            padding-right:16px;
+        }
+        i {
+            float: left;
+        }
+        span {
+            float: right;
+        }
     }
 
     li a {
@@ -103,8 +111,9 @@
         a {
             cursor: pointer;
             color:black;
-            :hover {
-                font-weight:bolder;
+            &:hover {
+                //font-weight:bolder;
+                background-color: lightblue;
             }
         }
     }
