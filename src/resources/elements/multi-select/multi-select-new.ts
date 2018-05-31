@@ -21,6 +21,7 @@ export class MultiSelectNewCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
     @bindable settings = default_multi_select_options;
+
     @bindable place_holder_text = "";
     @bindable height: 180;
     @bindable height_unselected = 120;
@@ -49,12 +50,17 @@ export class MultiSelectNewCustomElement {
         let g = this.find_free_group_number();
         let item = { option: option, group_num: g };
         this.selected_options.push(item);
-        this.selected_options_set.add(option.id);
+        let arr = this.selected_options.map((item) => item.option.name);
+        this.selected_options_set = new Set(arr);
+        //this.selected_options_set.add(option.name); changes are not detected
+        this.sort_items();
     }
 
     unselect_item(item, index) {
         this.selected_options.splice(index, 1);
-        this.selected_options_set.delete(item.option.id);
+        let arr = this.selected_options.map((item) => item.option.name);
+        this.selected_options_set = new Set(arr);
+        //this.selected_options_set.delete(item.option.name); like the above
     }
 
     toggle_group(group_number) {
@@ -98,5 +104,15 @@ export class MultiSelectNewCustomElement {
         }
     }
 
+    @computedFrom('selected_options_set')
+    get display_option_list() {
+        if (!this.settings.show_only_if_filter) {
+            return true;
+        }
+        if (this.selected_options_set.size == 0) {
+            return false;
+        }
+        return true;
+    }
 
 }
