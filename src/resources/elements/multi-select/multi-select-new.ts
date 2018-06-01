@@ -5,29 +5,29 @@ import { DialogService } from 'aurelia-dialog';
 import * as Collections from 'typescript-collections';
 import { I18N } from 'aurelia-i18n';
 
-let default_multi_select_options = {
+let default_multi_select_settings = {
     clear_filter_after_select: false,
     mergeable: false,
     name_editable: false,
     can_set_sign: false,
     can_add: false,
     can_delete: false,
-    show_only_if_filter: false
+    show_only_if_filter: false,
+    height_selected: 120,
+    height_unselected: 120
 };
-export default default_multi_select_options;
+export default default_multi_select_settings;
 
 @inject(DOM.Element, I18N, DialogService)
 export class MultiSelectNewCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
-    @bindable settings = default_multi_select_options;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) settings;
 
     @bindable place_holder_text = "";
-    @bindable height: 180;
-    @bindable height_unselected = 120;
     @bindable can_edit = true;
     selected_options_set = new Set();
-    open_group;
+    open_group = 0;
     element;
     dialogService;
     new_item_placeholder;
@@ -46,9 +46,15 @@ export class MultiSelectNewCustomElement {
         this.new_item_title = i18n.tr('multi-select.new-item-title')
     }
 
+    attached() {
+        let tmp = {};
+        Object.assign(tmp, default_multi_select_settings, this.settings);
+        this.settings = tmp;
+    }
+
     select_option(option) {
-        let g = this.find_free_group_number();
-        let item = { option: option, group_num: g };
+        let g = this.assign_group_number();
+        let item = { option: option, group_number: g };
         this.selected_options.push(item);
         let arr = this.selected_options.map((item) => item.option.name);
         this.selected_options_set = new Set(arr);
@@ -60,12 +66,13 @@ export class MultiSelectNewCustomElement {
         this.selected_options.splice(index, 1);
         let arr = this.selected_options.map((item) => item.option.name);
         this.selected_options_set = new Set(arr);
+        this.sort_items();
         //this.selected_options_set.delete(item.option.name); like the above
     }
 
     toggle_group(group_number) {
         if (group_number == this.open_group) {
-            this.open_group = null;
+            this.open_group = 0;
         } else {
             this.open_group = group_number;
         }
@@ -85,8 +92,16 @@ export class MultiSelectNewCustomElement {
         return this.selected_options[this.selected_options.length - 1].group_number + 1;
     }
 
+    assign_group_number() {
+        if (this.open_group) {
+            return this.open_group;
+        } else {
+            return this.find_free_group_number();
+        }
+    }
+
     sort_items() {
-        this.selected_options.sort((item1, item2) => item1.group_number - item2.group_number);
+        this.selected_options = this.selected_options.sort((item1, item2) => item1.group_number - item2.group_number);
         let i = 0;
         let g = 0;
         for (let item of this.selected_options) {

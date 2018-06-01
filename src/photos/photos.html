@@ -85,18 +85,16 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="padding-right:6px;">
-                    <div class="row" style="margin-bottom:15px;position:relative;" if.bind="user.privileges.DEVELOPER">
+                    <div class="row" style="margin-bottom:15px;position:relative;" if.bind="user.debugging">
                         <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select-new options.bind="topic_list"
-                            settings.bind="options_settings"
-                            ungrouped_selected_options.bind="params.selected_topics"
-                            grouped_selected_options.bind="params.grouped_selected_topics"
+                            selected_options.bind="params.selected_topics"
                             name="topics"
                             place_holder_text="photos.click-topic"
                             change.delegate="handle_topic_change($event) ">
                         </multi-select-new>
                     </div>
-                    <div class="row" style="margin-bottom:15px;position:relative;" if.bind="! user.privileges.DEVELOPER">
+                    <div class="row" style="margin-bottom:15px;position:relative;" if.bind="! user.debugging">
                         <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
                             settings.bind="options_settings"
