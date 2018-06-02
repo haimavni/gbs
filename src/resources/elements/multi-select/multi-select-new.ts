@@ -5,7 +5,7 @@ import { DialogService } from 'aurelia-dialog';
 import * as Collections from 'typescript-collections';
 import { I18N } from 'aurelia-i18n';
 
-let default_multi_select_settings = {
+let default_multi_select_settings_new = {
     clear_filter_after_select: false,
     mergeable: false,
     name_editable: false,
@@ -16,7 +16,6 @@ let default_multi_select_settings = {
     height_selected: 120,
     height_unselected: 120
 };
-export default default_multi_select_settings;
 
 @inject(DOM.Element, I18N, DialogService)
 export class MultiSelectNewCustomElement {
@@ -47,9 +46,8 @@ export class MultiSelectNewCustomElement {
     }
 
     attached() {
-        let tmp = {};
-        Object.assign(tmp, default_multi_select_settings, this.settings);
-        this.settings = tmp;
+        clean(this.settings);
+        this.settings = Object.assign({}, default_multi_select_settings_new, this.settings);
     }
 
     select_option(option) {
@@ -117,6 +115,7 @@ export class MultiSelectNewCustomElement {
             }
             item.group_number = i;
         }
+        this.dispatch_event();
     }
 
     @computedFrom('selected_options_set')
@@ -130,4 +129,47 @@ export class MultiSelectNewCustomElement {
         return true;
     }
 
+    dispatch_event() {
+        let changeEvent = new CustomEvent('change', {
+            detail: {
+                selected_options: this.selected_options,
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(changeEvent);
+    }
+
+    @computedFrom('settings.mergeable')
+    get can_merge() {
+        return this.settings.mergeable;
+    }
+
+    @computedFrom('settings.name_editable')
+    get can_edit_name() {
+        return this.settings.name_editable;
+    }
+
+    @computedFrom('settings.can_set_sign')
+    get can_set_sign() {
+        return this.settings.can_set_sign;
+    }
+
+    @computedFrom('settings.can_add')
+    get can_add() {
+        return this.settings.can_add;
+    }
+
+    @computedFrom('settings.can_delete')
+    get can_delete() {
+        return this.settings.can_delete;
+    }
+
+}
+
+function clean(obj) {
+  for (var propName in obj) { 
+    if (obj[propName] === null || obj[propName] === undefined) {
+      delete obj[propName];
+    }
+  }
 }

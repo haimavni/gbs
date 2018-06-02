@@ -44,7 +44,8 @@ export class Photos {
         last_year: 2021,
         base_year: 1925,
         num_years: 100,
-        max_photos_per_line: 8
+        max_photos_per_line: 8,
+        debugging: false
     };
     topic_list = [];
     photographer_list = [];
@@ -56,6 +57,8 @@ export class Photos {
     done_selecting = false;
     router;
     options_settings = default_multi_select_options;
+    options_settings_new = {};
+    photographers_settings_new = {};
     photographers_settings = default_multi_select_options;
     caller_type;
     caller_id;
@@ -63,6 +66,7 @@ export class Photos {
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
         this.user = user;
+        this.params.debugging = this.user.debugging;
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
@@ -185,14 +189,23 @@ export class Photos {
 
     handle_topic_change(event) {
         if (!event.detail) return;
-        this.params.selected_topics = event.detail.ungrouped_selected_options;
-        this.params.grouped_selected_topics = event.detail.grouped_selected_options;
+        if (this.user.debugging) {
+            console.log("selected topics before ", this.params.selected_topics);
+            this.params.selected_topics = event.detail.selected_options
+        } else {
+            this.params.selected_topics = event.detail.ungrouped_selected_options;
+            this.params.grouped_selected_topics = event.detail.grouped_selected_options;
+        }
         this.update_photo_list();
     }
 
     handle_photographer_change(event) {
         if (event.detail.string_value) {
             this.add_photographer(event.detail.string_value)
+        } else if (this.user.debugging) {
+           console.log(" selected photographers: ", this.params.selected_photographers);
+           this.params.selected_photographers = event.detail.selected_options; 
+            this.update_photo_list();
         } else {
             this.params.selected_photographers = event.detail.ungrouped_selected_options;
             this.params.grouped_selected_photographers = event.detail.grouped_selected_options;
@@ -288,6 +301,15 @@ export class Photos {
                 }
             }
         }
+        this.options_settings_new = {
+            clear_filter_after_select: false,
+            mergeable: result != "applying-to-photos" && result != "selecting-photos",
+            name_editable: result == "ready-to-edit",
+            can_set_sign: result == "ready-to-edit",
+            can_add: result == "ready-to-edit",
+            can_delete: result == "ready-to-edit",
+            clear_selections_now: false
+        };
         this.options_settings = Object.assign({}, default_multi_select_options, {
             clear_filter_after_select: false,
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
@@ -297,6 +319,15 @@ export class Photos {
             can_delete: result == "ready-to-edit",
             clear_selections_now: false
         });
+        this.photographers_settings_new = {
+            clear_filter_after_select: true,
+            mergeable: result == "can-modify-tags" || result == "ready-to-edit",
+            name_editable: result == "ready-to-edit",
+            can_set_sign: false,
+            can_add: result == "ready-to-edit",
+            can_delete: result == "ready-to-edit",
+            clear_selections_now: false
+        };
         this.photographers_settings = Object.assign({}, default_multi_select_options, {
             clear_filter_after_select: true,
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
