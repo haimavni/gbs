@@ -44,7 +44,8 @@ export class Stories {
         link_class: "basic",
         deleted_stories: false,
         days_since_update: 0,
-        search_type: 'simple'
+        search_type: 'simple',
+        debugging: false
     };
     help_data = {
         num_words: 65056
@@ -224,11 +225,6 @@ export class Stories {
         }
     }
 
-    handle_languages_change(event) {
-        this.params.selected_languages = event.detail.ungrouped_selected_options;
-        this.update_story_list('advanced');
-    }
-
     handle_words_change(event) {
         let result = null;
         if (!event.detail) {
@@ -272,8 +268,13 @@ export class Stories {
     }
 
     handle_topic_change(event) {
-        this.params.selected_topics = event.detail.ungrouped_selected_options;
-        this.params.grouped_selected_topics = event.detail.grouped_selected_options;
+        this.params.debugging = this.user.debugging;
+        if (this.user.debugging) {
+            this.params.selected_topics = event.detail.selected_options;
+        } else {
+            this.params.selected_topics = event.detail.ungrouped_selected_options;
+            this.params.grouped_selected_topics = event.detail.grouped_selected_options;
+        }
         this.update_story_list();
     }
 

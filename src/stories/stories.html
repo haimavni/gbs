@@ -81,19 +81,18 @@
 
                 </div>
                 <div class="col-md-3">
-                    <div class="row" if.bind="false">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.story-types' & t}</div>
-                        <multi-select options.bind="story_types" 
-                            place_holder_text="stories.story-types" 
-                            ungrouped_selected_options.bind="params.selected_story_types"
-                            height.bind="220" settings.bind="story_types_settings"
-                            change.delegate="handle_story_types_change($event) ">
-                        </multi-select>
-                    </div>
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help topic="tags" position="left" style="position:absolute;left:0px;top:26px;"></help>
-                        <multi-select options.bind="topic_list" 
+                        <multi-select-new options.bind="topic_list" if.bind="user.debugging"
+                            place_holder_text="photos.click-topic" 
+                            selected_options.bind="params.selected_topics"
+                            height.bind="220" 
+                            settings.bind="options_settings" 
+                            change.delegate="handle_topic_change($event)"
+                            style="margin-top:5px;">
+                        </multi-select-new>
+                        <multi-select options.bind="topic_list" if.bind="!user.debugging"
                             place_holder_text="photos.click-topic" 
                             ungrouped_selected_options.bind="params.selected_topics"
                             grouped_selected_options.bind="params.grouped_selected_topics"
@@ -101,13 +100,6 @@
                             settings.bind="options_settings" 
                             change.delegate="handle_topic_change($event)"
                             style="margin-top:5px;">
-                        </multi-select>
-                    </div>
-                    <div if.bind="false" class="row">
-                        <multi-select options.bind="used_languages" 
-                            place_holder_text="stories.languages" 
-                            height="80" 
-                            change.delegate="handle_languages_change($event) ">
                         </multi-select>
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.editing" class="row">

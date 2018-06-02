@@ -50,7 +50,7 @@
                 </h2>
                 <ul class="message">
                     <li repeat.for="msg of message_list" dir="rtl" style="border-bottom: solid 2px gray;margin-bottom:10px;" >
-                        <editable story.bind="msg" settings.bind="{show_date:true, deletable: true}"
+                        <editable story.bind="msg" settings.bind="{show_date:true, deletable: true, divclass: 'no-theme'}"
                             change.delegate="hande_story_change(msg, $event)"></editable>
                     </li>
                 </ul>

@@ -1,7 +1,7 @@
 <template>
     <require from="./editable.css"></require>
 
-    <div css="margin-top:0px;margin-right:0;margin-left:0;padding:0;width:${width}" class="editable">
+    <div css="margin-top:0px;margin-right:0;margin-left:0;padding:0;width:${width}" class="${settings.divclass}">
         <div>
             <span show.bind="story.name || user.privileges.EDITOR" dir="rtl" style="padding:0;margin:0;float:right;">
                 <!--<i if.bind="!settings.no_expand" class="fa fa-sm fa-expand is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>-->

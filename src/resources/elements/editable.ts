@@ -7,7 +7,7 @@ import { DialogService } from 'aurelia-dialog';
 @inject(DOM.Element, User, Theme, DialogService)
 export class editableCustomElement {
     @bindable story;
-    @bindable settings = { show_date: false, class: 'story-panel', checkable: false, deletable: false, no_expand: false };
+    @bindable settings = { show_date: false, class: 'story-panel', divclass: null, checkable: false, deletable: false, no_expand: false };
     element;
     user;
     theme;
@@ -37,6 +37,9 @@ export class editableCustomElement {
     attached() {
         const elementRect = this.element.getBoundingClientRect();
         this.width = elementRect.width;
+        if (! this.settings.divclass) {
+            this.settings.divclass = 'editable';
+        }
     }
 
     toggle_checked() {
