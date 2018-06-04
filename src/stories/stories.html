@@ -56,7 +56,7 @@
                     <h2 if.bind="no_results">
                         ${'no-results' & t}
                     </h2>
-                    <form class="form-inline" style="margin-right:36px;margin-bottom:6px;">
+                    <form if.bind="!no_results" class="form-inline" style="margin-right:36px;margin-bottom:6px;">
                         <button repeat.for="uf of active_result_types" 
                             class="btn btn-${uf==used_for ? 'primary' : 'default'}" 
                             click.delegate="select_used_for(uf)">
@@ -89,7 +89,7 @@
                             selected_options.bind="params.selected_topics"
                             height.bind="220" 
                             settings.bind="options_settings" 
-                            change.delegate="handle_topic_change($event)"
+                            ms-change.delegate="handle_topic_change($event)"
                             style="margin-top:5px;">
                         </multi-select-new>
                         <multi-select options.bind="topic_list" if.bind="!user.debugging"
@@ -117,7 +117,16 @@
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="top" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
-                        <multi-select 
+                        <multi-select-new if.bind="user.debugging" 
+                            options.bind="stories_index" 
+                            selected_options.bind="params.selected_words"
+                            keywords.two-way="keywords"
+                            place_holder_text="stories.word-index" 
+                            height="201" 
+                            ms-change.trigger="handle_words_change_new($event)" 
+                            settings.bind="words_settings">
+                        </multi-select-new>
+                        <multi-select if.bind="! user.debugging"
                             options.bind="stories_index" 
                             ungrouped_selected_options.bind="params.selected_words"
                             grouped_selected_options.bind="params.grouped_selected_words"

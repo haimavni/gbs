@@ -34,6 +34,7 @@ export class Theme {
     other_dir;
     _palette = null;
     palettes = ['palette-default', 'palette-oldie', 'palette-sky', 'palette-earth'];
+    blue_logo = false;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;

@@ -100,21 +100,31 @@ export class MultiSelectNewCustomElement {
 
     sort_items() {
         this.selected_options = this.selected_options.sort((item1, item2) => item1.group_number - item2.group_number);
+        for (let item of this.selected_options) item.last = false;
+        let n = this.selected_options.length;
+        if (n == 0) return;
         let i = 0;
         let g = 0;
+        let prev_item = null;
         for (let item of this.selected_options) {
             if (item.group_number != g) {
                 g = item.group_number;
                 i += 1;
-                item.first = true
+                item.first = true;
+                if (prev_item) {
+                    prev_item.last = true;
+                }
             } else {
                 item.first = false;
             }
+            prev_item = item;
             if (this.open_group == item.group_number) {
                 this.open_group = i;
             }
             item.group_number = i;
         }
+        this.selected_options[n-1].last = true;
+        console.log("sort items: ", this.selected_options);
         this.dispatch_event();
     }
 
@@ -130,7 +140,7 @@ export class MultiSelectNewCustomElement {
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('change', {
+        let changeEvent = new CustomEvent('ms-change', {
             detail: {
                 selected_options: this.selected_options,
             },

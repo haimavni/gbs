@@ -121,4 +121,8 @@ export class UserMode {
     change_palette(palette) {
         this.theme.changePalette(palette);
     }
+
+    toggle_logo() {
+        this.theme.blue_logo = ! this.theme.blue_logo;
+    }
 }

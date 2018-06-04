@@ -107,7 +107,7 @@ export class Stories {
     }
 
     created(params, config) {
-        if (this.story_list.length > 0 && ! this.router.isExplicitNavigation) return;
+        if (this.story_list && this.story_list.length > 0 && ! this.router.isExplicitNavigation) return;
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -127,13 +127,20 @@ export class Stories {
                 for (let wrd of this.search_words) {
                     let iw = this.stories_index.find(w => w.name == wrd);
                     if (iw) {
-                        this.params.selected_words.push(iw);
-                    } else {
+
+                        if (this.user.debugging) {
+                            let item = {group_number: 1, first: true, last: true, option: iw};
+                            this.params.selected_words.push(item);
+                        } else {
+                            this.params.selected_words.push(iw);
+                        }
+                    } else { //no such word in the vocabulary.
                         let idx = this.search_words.findIndex(itm => itm == wrd);
                         this.search_words = this.search_words.splice(idx, 1);
                         this.keywords = this.search_words;
                     }
                 }
+                console.log("selected words after simple search: ", this.params.selected_words);
             });
     }
 
@@ -223,6 +230,46 @@ export class Stories {
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type  });
                 break;
         }
+    }
+
+    handle_words_change_new(event) {
+        let result = null;
+        if (!event.detail) {
+            return;
+        }
+        this.params.keywords_str = "";
+        console.log("params selected words:", this.params.selected_words);
+        this.params.selected_words = event.detail.selected_options;
+        let uni = new Set<number>();
+        this.params.selected_words.forEach(element => {
+            if (element.first) {
+                uni = new Set<number>();
+            }
+            uni = set_union(uni, new Set(element.option.story_ids));
+            if (element.last) {
+                if (result) {
+                    result = set_intersection(result, uni);
+                } else {
+                    result = uni;
+                }
+            }
+        });
+        if (result && result.size > 0) {
+            let story_list = Array.from(result);
+            this.num_of_stories = story_list.length;
+            if (story_list.length == 0) return;
+            this.params.selected_stories = story_list;
+            this.update_story_list('advanced');
+        } else if (result) {
+            this.num_of_stories = 0;
+            this.no_results = true;
+            this.story_list = Array.from(result);
+        } else {
+            this.params.selected_stories = [];
+            this.update_story_list('advanced');
+            this.num_of_stories = 0;
+        }
+        this.keywords = this.params.selected_words.map(item=>item.option.name);
     }
 
     handle_words_change(event) {
