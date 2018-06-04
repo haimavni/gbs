@@ -34,7 +34,7 @@ export class Theme {
     other_dir;
     _palette = null;
     palettes = ['palette-default', 'palette-oldie', 'palette-sky', 'palette-earth'];
-    blue_logo = false;
+    _blue_logo = null;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -152,6 +152,21 @@ export class Theme {
     changePalette(palette) {
         this._palette = palette;
         this.cookies.put('palette', this._palette);
+    }
+
+    get blue_logo() {
+        if (this._blue_logo===null) {
+            this._blue_logo = this.cookies.get('blue-logo')
+            if (this._blue_logo == null) {
+                this._blue_logo = 'grey';
+            }
+        }
+        return this._blue_logo == 'blue';
+    }
+
+    changeLogoColor() {
+        this._blue_logo =  this._blue_logo == 'blue' ? 'grey' : 'blue'
+        this.cookies.put('blue-logo', this._blue_logo);
     }
 
 }

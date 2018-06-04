@@ -123,6 +123,6 @@ export class UserMode {
     }
 
     toggle_logo() {
-        this.theme.blue_logo = ! this.theme.blue_logo;
+        this.theme.changeLogoColor();
     }
 }

@@ -124,12 +124,13 @@ export class Stories {
             .then(response => {
                 this.stories_index = response;
                 this.params.selected_words = [];
+                let g = 0;
                 for (let wrd of this.search_words) {
                     let iw = this.stories_index.find(w => w.name == wrd);
                     if (iw) {
-
+                        g += 1;
                         if (this.user.debugging) {
-                            let item = {group_number: 1, first: true, last: true, option: iw};
+                            let item = {group_number: g, first: true, last: true, option: iw};
                             this.params.selected_words.push(item);
                         } else {
                             this.params.selected_words.push(iw);
@@ -146,10 +147,13 @@ export class Stories {
 
     keywords_to_selected_words() {
         this.params.selected_words = [];
+        let g = 0;
         for (let wrd of this.search_words) {
             let iw = this.stories_index.find(w => w.name == wrd);
             if (iw) {
-                this.params.selected_words.push(iw);
+                g += 1;
+                let item = {group_number: g, first: true, last: true, option: iw};
+                this.params.selected_words.push(item);
             } else {
                 let idx = this.search_words.findIndex(itm => itm == wrd);
                 this.search_words = this.search_words.splice(idx, 1);

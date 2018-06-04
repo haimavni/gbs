@@ -102,7 +102,10 @@ export class MultiSelectNewCustomElement {
         this.selected_options = this.selected_options.sort((item1, item2) => item1.group_number - item2.group_number);
         for (let item of this.selected_options) item.last = false;
         let n = this.selected_options.length;
-        if (n == 0) return;
+        if (n == 0) {
+            this.dispatch_event();
+            return;
+        }
         let i = 0;
         let g = 0;
         let prev_item = null;

@@ -48,14 +48,14 @@
             <i class="far fa-tint"></i>
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-left palette-selector" dir="${theme.rtltr}" >
-            <li repeat.for="palette of theme.palettes" class="${palette}">
-                <a class="dropdown-item" href="#" click.trigger="change_palette(palette)">
+        <ul class="dropdown-menu dropdown-menu-left palette-selector" >
+            <li repeat.for="palette of theme.palettes" class="${palette}" style="height:24px;">
+                <a class="dropdown-item" href="#" click.trigger="change_palette(palette)" css="float:${theme.same_dir};">
                     ${'palettes.' + palette & t}
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="#" click.trigger="toggle_logo()">
+                <a class="dropdown-item" href="#" click.trigger="toggle_logo()" style="float:${theme.same_dir}">
                     <img if.bind="! theme.blue_logo" src="${theme.files.gb_logo_blue}" width="20" />
                     <img if.bind="theme.blue_logo" src="${theme.files.gb_logo_png}" width="20" />
                 </a>
