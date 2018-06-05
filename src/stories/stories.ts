@@ -276,48 +276,6 @@ export class Stories {
         this.keywords = this.params.selected_words.map(item=>item.option.name);
     }
 
-    handle_words_change(event) {
-        let result = null;
-        if (!event.detail) {
-            return;
-        }
-        this.params.keywords_str = "";
-        this.params.grouped_selected_words = event.detail.grouped_selected_options;
-        event.detail.grouped_selected_options.forEach(element => {
-            let uni = new Set<number>();
-            for (let x of element) {
-                uni = set_union(uni, new Set(x.story_ids));
-            }
-            if (result) {
-                result = set_intersection(result, uni);
-            } else {
-                result = uni;
-            }
-        });
-        event.detail.ungrouped_selected_options.forEach(element => {
-            if (result) {
-                result = set_intersection(result, new Set(element.story_ids));
-            } else {
-                result = new Set(element.story_ids)
-            }
-        });
-        if (result && result.size > 0) {
-            let story_list = Array.from(result);
-            this.num_of_stories = story_list.length;
-            if (story_list.length == 0) return;
-            this.params.selected_stories = story_list;
-            this.update_story_list('advanced');
-        } else if (result) {
-            this.num_of_stories = 0;
-            this.no_results = true;
-            this.story_list = Array.from(result);
-        } else {
-            this.params.selected_stories = [];
-            this.update_story_list('advanced');
-            this.num_of_stories = 0;
-        }
-    }
-
     handle_topic_change(event) {
         this.params.debugging = this.user.debugging;
         if (this.user.debugging) {

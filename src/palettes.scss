@@ -2,7 +2,7 @@ div.palette-default {
     div.top-head, div.footer-area {
         background: rgba(80, 80, 80, 0.3);
     }
-    div.editable, div.story-preview {
+    div.editable, div.story-preview, div.member-story-preview {
         background-color: default;
     }
     div.detail-header {
@@ -17,14 +17,14 @@ div.palette-oldie {
     div.top-head, div.footer-area {
         background: rgba(180, 80, 0, 0.3);
     }
-    div.editable, div.story-preview {
+    div.editable, div.story-preview, div.member-story-preview {
         background-color:beige;
     }
     div.detail-header {
         background-color: rgba(180, 80, 0, 0.5);
     }
     div.member-of-the-day {
-        background-color: #cbc5ac;
+        background-color: rgb(135, 60, 0);
     }
 }
     
@@ -32,7 +32,7 @@ div.palette-sky {
     div.top-head, div.footer-area {
         background: rgba(0, 80, 180, 0.3);
     }
-    div.editable, div.story-preview {
+    div.editable, div.story-preview, div.member-story-preview {
         background-color: lightblue;
     }
     div.detail-header {
@@ -47,7 +47,7 @@ div.palette-earth {
     div.top-head, div.footer-area {
         background: rgba(80, 180, 0, 0.3);
     }
-    div.editable, div.story-preview {
+    div.editable, div.story-preview, div.member-story-preview {
         background-color: lightseagreen;
     }
     div.detail-header {

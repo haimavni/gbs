@@ -92,15 +92,6 @@
                             ms-change.delegate="handle_topic_change($event)"
                             style="margin-top:5px;">
                         </multi-select-new>
-                        <multi-select options.bind="topic_list" if.bind="!user.debugging"
-                            place_holder_text="photos.click-topic" 
-                            ungrouped_selected_options.bind="params.selected_topics"
-                            grouped_selected_options.bind="params.grouped_selected_topics"
-                            height.bind="220" 
-                            settings.bind="options_settings" 
-                            change.delegate="handle_topic_change($event)"
-                            style="margin-top:5px;">
-                        </multi-select>
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
                         <button class="btn btn-${params.link_class} btn-xs" 
@@ -126,16 +117,6 @@
                             ms-change.trigger="handle_words_change_new($event)" 
                             settings.bind="words_settings">
                         </multi-select-new>
-                        <multi-select if.bind="! user.debugging"
-                            options.bind="stories_index" 
-                            ungrouped_selected_options.bind="params.selected_words"
-                            grouped_selected_options.bind="params.grouped_selected_words"
-                            keywords.two-way="keywords"
-                            place_holder_text="stories.word-index" 
-                            height="201" 
-                            change.delegate="handle_words_change($event)" 
-                            settings.bind="words_settings">
-                        </multi-select>
                     </div>
                     <div class="row" style="margin-top: 20px;" if.bind="user.editing">
                         <form role="form">

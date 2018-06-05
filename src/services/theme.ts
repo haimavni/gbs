@@ -158,7 +158,7 @@ export class Theme {
         if (this._blue_logo===null) {
             this._blue_logo = this.cookies.get('blue-logo')
             if (this._blue_logo == null) {
-                this._blue_logo = 'grey';
+                this._blue_logo = 'blue';
             }
         }
         return this._blue_logo == 'blue';

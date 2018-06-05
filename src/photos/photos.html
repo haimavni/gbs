@@ -95,17 +95,6 @@
                             ms-change.delegate="handle_topic_change($event) ">
                         </multi-select-new>
                     </div>
-                    <div class="row" style="margin-bottom:15px;position:relative;" if.bind="! user.debugging">
-                        <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                        <multi-select options.bind="topic_list"
-                            settings.bind="options_settings"
-                            ungrouped_selected_options.bind="params.selected_topics"
-                            grouped_selected_options.bind="params.grouped_selected_topics"
-                            name="topics"
-                            place_holder_text="photos.click-topic"
-                            change.delegate="handle_topic_change($event) ">
-                        </multi-select>
-                    </div>
                     <div class="row">
                         <multi-select-new options.bind="photographer_list" if.bind="user.debugging"
                             place_holder_text="photos.click-photographer"
@@ -113,12 +102,6 @@
                             settings.bind="photographers_settings_new"
                             ms-change.delegate="handle_photographer_change($event)">
                         </multi-select-new>
-                        <multi-select options.bind="photographer_list"  if.bind="!user.debugging"
-                            place_holder_text="photos.click-photographer"
-                            ungrouped_selected_options.bind="params.selected_photographers"
-                            settings.bind="photographers_settings"
-                            change.delegate="handle_photographer_change($event)">
-                        </multi-select>
                     </div>
                     <div class="row" style="margin-top: 10px;">
                         <form role="form">

@@ -7,7 +7,6 @@ import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
-import default_multi_select_options from '../resources/elements/multi-select';
 import { Theme } from '../services/theme';
 import { MemberPicker } from "../members/member-picker";
 
@@ -56,10 +55,8 @@ export class Photos {
     selected_photos = new Set([]);
     done_selecting = false;
     router;
-    options_settings = default_multi_select_options;
     options_settings_new = {};
     photographers_settings_new = {};
-    photographers_settings = default_multi_select_options;
     caller_type;
     caller_id;
 
@@ -310,15 +307,6 @@ export class Photos {
             can_delete: result == "ready-to-edit",
             clear_selections_now: false
         };
-        this.options_settings = Object.assign({}, default_multi_select_options, {
-            clear_filter_after_select: false,
-            mergeable: result != "applying-to-photos" && result != "selecting-photos",
-            name_editable: result == "ready-to-edit",
-            can_set_sign: result == "ready-to-edit",
-            can_add: result == "ready-to-edit",
-            can_delete: result == "ready-to-edit",
-            clear_selections_now: false
-        });
         this.photographers_settings_new = {
             clear_filter_after_select: true,
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
@@ -328,15 +316,6 @@ export class Photos {
             can_delete: result == "ready-to-edit",
             clear_selections_now: false
         };
-        this.photographers_settings = Object.assign({}, default_multi_select_options, {
-            clear_filter_after_select: true,
-            mergeable: result == "can-modify-tags" || result == "ready-to-edit",
-            name_editable: result == "ready-to-edit",
-            can_set_sign: false,
-            can_add: result == "ready-to-edit",
-            can_delete: result == "ready-to-edit",
-            clear_selections_now: false
-        });
         return result;
     }
 

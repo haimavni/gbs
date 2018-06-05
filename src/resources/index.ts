@@ -7,7 +7,6 @@ export function configure(config) {
     './value-converters/filter-visibility',
     './value-converters/filter-gender',
     './value-converters/sort',
-    './elements/multi-select',
     './elements/multi-select/multi-select-new',
     './elements/selector',
     './elements/photo-strip',
