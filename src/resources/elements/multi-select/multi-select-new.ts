@@ -52,6 +52,7 @@ export class MultiSelectNewCustomElement {
 
     select_option(option) {
         let g = this.assign_group_number();
+        option.sign = 'plus';
         let item = { option: option, group_number: g };
         this.selected_options.push(item);
         let arr = this.selected_options.map((item) => item.option.name);

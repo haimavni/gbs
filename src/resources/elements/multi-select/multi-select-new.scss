@@ -68,7 +68,7 @@
         float: left;
         margin-right: 4px;
         cursor: pointer;
-        opacity: 0.5;
+        opacity: 0.8;
         &:hover {
             opacity: 1.0;
         }
@@ -102,6 +102,10 @@
             padding: 0;
             //float: left;
         }
+    }
+    span.keyword-area {
+        width: 160px;
+        cursor: pointer;
     }
 
     span.span-i {
