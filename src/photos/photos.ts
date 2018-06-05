@@ -54,8 +54,8 @@ export class Photos {
     selected_photos = new Set([]);
     done_selecting = false;
     router;
-    options_settings_new = {};
-    photographers_settings_new = {};
+    options_settings = {};
+    photographers_settings = {};
     caller_type;
     caller_id;
 
@@ -287,7 +287,7 @@ export class Photos {
                 }
             }
         }
-        this.options_settings_new = {
+        this.options_settings = {
             clear_filter_after_select: false,
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
             name_editable: result == "ready-to-edit",
@@ -296,7 +296,7 @@ export class Photos {
             can_delete: result == "ready-to-edit",
             clear_selections_now: false
         };
-        this.photographers_settings_new = {
+        this.photographers_settings = {
             clear_filter_after_select: true,
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
             name_editable: result == "ready-to-edit",

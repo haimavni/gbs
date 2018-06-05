@@ -230,7 +230,7 @@ export class Stories {
         }
     }
 
-    handle_words_change_new(event) {
+    handle_words_change(event) {
         let result = null;
         if (!event.detail) {
             return;

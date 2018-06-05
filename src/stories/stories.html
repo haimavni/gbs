@@ -84,14 +84,14 @@
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help topic="tags" position="left" style="position:absolute;left:0px;top:26px;"></help>
-                        <multi-select-new options.bind="topic_list"
+                        <multi-select options.bind="topic_list"
                             place_holder_text="photos.click-topic" 
                             selected_options.bind="params.selected_topics"
                             height.bind="220" 
                             settings.bind="options_settings" 
                             ms-change.delegate="handle_topic_change($event)"
                             style="margin-top:5px;">
-                        </multi-select-new>
+                        </multi-select>
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
                         <button class="btn btn-${params.link_class} btn-xs" 
@@ -108,15 +108,15 @@
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="top" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
-                        <multi-select-new 
+                        <multi-select 
                             options.bind="stories_index" 
                             selected_options.bind="params.selected_words"
                             keywords.two-way="keywords"
                             place_holder_text="stories.word-index" 
                             height="201" 
-                            ms-change.trigger="handle_words_change_new($event)" 
+                            ms-change.trigger="handle_words_change($event)" 
                             settings.bind="words_settings">
-                        </multi-select-new>
+                        </multi-select>
                     </div>
                     <div class="row" style="margin-top: 20px;" if.bind="user.editing">
                         <form role="form">

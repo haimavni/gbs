@@ -5,7 +5,7 @@ import { DialogService } from 'aurelia-dialog';
 import * as Collections from 'typescript-collections';
 import { I18N } from 'aurelia-i18n';
 
-let default_multi_select_settings_new = {
+let default_multi_select_settings = {
     clear_filter_after_select: false,
     mergeable: false,
     name_editable: false,
@@ -18,7 +18,7 @@ let default_multi_select_settings_new = {
 };
 
 @inject(DOM.Element, I18N, DialogService)
-export class MultiSelectNewCustomElement {
+export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
     @bindable ({ defaultBindingMode: bindingMode.twoWay }) settings;
@@ -47,7 +47,7 @@ export class MultiSelectNewCustomElement {
 
     attached() {
         clean(this.settings);
-        this.settings = Object.assign({}, default_multi_select_settings_new, this.settings);
+        this.settings = Object.assign({}, default_multi_select_settings, this.settings);
     }
 
     select_option(option) {
