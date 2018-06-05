@@ -84,7 +84,7 @@
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help topic="tags" position="left" style="position:absolute;left:0px;top:26px;"></help>
-                        <multi-select-new options.bind="topic_list" if.bind="user.debugging"
+                        <multi-select-new options.bind="topic_list"
                             place_holder_text="photos.click-topic" 
                             selected_options.bind="params.selected_topics"
                             height.bind="220" 
@@ -108,7 +108,7 @@
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="top" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
-                        <multi-select-new if.bind="user.debugging" 
+                        <multi-select-new 
                             options.bind="stories_index" 
                             selected_options.bind="params.selected_words"
                             keywords.two-way="keywords"

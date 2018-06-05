@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="padding-right:6px;">
-                    <div class="row" style="margin-bottom:15px;position:relative;" if.bind="user.debugging">
+                    <div class="row" style="margin-bottom:15px;position:relative;">
                         <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select-new options.bind="topic_list"
                             selected_options.bind="params.selected_topics"
@@ -96,7 +96,7 @@
                         </multi-select-new>
                     </div>
                     <div class="row">
-                        <multi-select-new options.bind="photographer_list" if.bind="user.debugging"
+                        <multi-select-new options.bind="photographer_list"
                             place_holder_text="photos.click-photographer"
                             ungrouped_selected_options.bind="params.selected_photographers"
                             settings.bind="photographers_settings_new"

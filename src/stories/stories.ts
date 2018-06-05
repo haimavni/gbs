@@ -8,7 +8,6 @@ import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import default_multi_select_options from '../resources/elements/multi-select';
 
 @autoinject
 @singleton()
@@ -45,7 +44,6 @@ export class Stories {
         deleted_stories: false,
         days_since_update: 0,
         search_type: 'simple',
-        debugging: false
     };
     help_data = {
         num_words: 65056
@@ -59,9 +57,9 @@ export class Stories {
     story_types;
     done_selecting = false;
     no_results = false;
-    options_settings = default_multi_select_options;
-    story_types_settings = default_multi_select_options;
-    words_settings = default_multi_select_options;
+    options_settings = {};
+    story_types_settings = {};
+    words_settings = {};
     ea: EventAggregator;
     active_result_types;
     used_for = null;
@@ -129,12 +127,8 @@ export class Stories {
                     let iw = this.stories_index.find(w => w.name == wrd);
                     if (iw) {
                         g += 1;
-                        if (this.user.debugging) {
-                            let item = {group_number: g, first: true, last: true, option: iw};
-                            this.params.selected_words.push(item);
-                        } else {
-                            this.params.selected_words.push(iw);
-                        }
+                        let item = {group_number: g, first: true, last: true, option: iw};
+                        this.params.selected_words.push(item);
                     } else { //no such word in the vocabulary.
                         let idx = this.search_words.findIndex(itm => itm == wrd);
                         this.search_words = this.search_words.splice(idx, 1);
@@ -245,9 +239,11 @@ export class Stories {
         console.log("params selected words:", this.params.selected_words);
         this.params.selected_words = event.detail.selected_options;
         let uni = new Set<number>();
+        let sign = 'plus'; //todo: place all minuses in the end?
         this.params.selected_words.forEach(element => {
             if (element.first) {
                 uni = new Set<number>();
+                sign = element.option.sign;
             }
             uni = set_union(uni, new Set(element.option.story_ids));
             if (element.last) {
@@ -277,13 +273,8 @@ export class Stories {
     }
 
     handle_topic_change(event) {
-        this.params.debugging = this.user.debugging;
-        if (this.user.debugging) {
-            this.params.selected_topics = event.detail.selected_options;
-        } else {
-            this.params.selected_topics = event.detail.ungrouped_selected_options;
-            this.params.grouped_selected_topics = event.detail.grouped_selected_options;
-        }
+        this.params.selected_topics = event.detail.selected_options;
+        
         this.update_story_list();
     }
 
@@ -362,15 +353,15 @@ export class Stories {
                 }
             }
         }
-        this.options_settings = Object.assign({}, default_multi_select_options, {
+        this.options_settings = {
             clear_filter_after_select: false,
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: result == "ready-to-edit",
             can_set_sign: result == "ready-to-edit",
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit"
-        });
-        this.words_settings = Object.assign({}, default_multi_select_options, {
+        };
+        this.words_settings = {
             clear_filter_after_select: false,
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: false,
@@ -378,7 +369,7 @@ export class Stories {
             can_add: false,
             can_delete: false,
             show_only_if_filter: true
-        });
+        };
         return result;
     }
 

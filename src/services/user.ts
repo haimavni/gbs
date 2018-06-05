@@ -16,7 +16,6 @@ export class User {
     public id;
     private api;
     private i18n;
-    public debugging = false;
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N) {
         this.eventAggregator = eventAggregator;
@@ -28,7 +27,6 @@ export class User {
             EDITOR: true
         }
         this.readPrivileges();
-        this.debugging = environment.debug;
     }
 
     toggle_edit_mode() {

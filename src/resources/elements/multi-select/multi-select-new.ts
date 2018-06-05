@@ -77,6 +77,19 @@ export class MultiSelectNewCustomElement {
         }
     }
 
+    toggle_sign(option, event) {
+        option.sign = (option.sign == 'plus') ? 'minus' : 'plus';
+        this.dispatch_event();
+    }
+
+    remove_option(option, event) {
+        console.log("remove option not ready", option);
+    }
+
+    edit_option(option, event) {
+        console.log("edit option not ready", option);
+    }
+
     move_item(item) {
         if (this.open_group == item.group_number) {  // remove item from the open group
             item.group_number = this.find_free_group_number();

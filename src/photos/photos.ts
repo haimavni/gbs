@@ -44,7 +44,6 @@ export class Photos {
         base_year: 1925,
         num_years: 100,
         max_photos_per_line: 8,
-        debugging: false
     };
     topic_list = [];
     photographer_list = [];
@@ -63,7 +62,6 @@ export class Photos {
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
         this.user = user;
-        this.params.debugging = this.user.debugging;
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
@@ -186,28 +184,19 @@ export class Photos {
 
     handle_topic_change(event) {
         if (!event.detail) return;
-        if (this.user.debugging) {
-            console.log("selected topics before ", this.params.selected_topics);
-            this.params.selected_topics = event.detail.selected_options
-        } else {
-            this.params.selected_topics = event.detail.ungrouped_selected_options;
-            this.params.grouped_selected_topics = event.detail.grouped_selected_options;
-        }
+        console.log("selected topics before ", this.params.selected_topics);
+        this.params.selected_topics = event.detail.selected_options
         this.update_photo_list();
     }
 
     handle_photographer_change(event) {
         if (event.detail.string_value) {
             this.add_photographer(event.detail.string_value)
-        } else if (this.user.debugging) {
+        } else {
            console.log(" selected photographers: ", this.params.selected_photographers);
            this.params.selected_photographers = event.detail.selected_options; 
             this.update_photo_list();
-        } else {
-            this.params.selected_photographers = event.detail.ungrouped_selected_options;
-            this.params.grouped_selected_photographers = event.detail.grouped_selected_options;
-            this.update_photo_list();
-        }
+        } 
     }
 
     add_photographer(new_photographer_name) {
