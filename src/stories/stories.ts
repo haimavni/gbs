@@ -239,21 +239,29 @@ export class Stories {
         console.log("params selected words:", this.params.selected_words);
         this.params.selected_words = event.detail.selected_options;
         let uni = new Set<number>();
-        let sign = 'plus'; //todo: place all minuses in the end?
-        this.params.selected_words.forEach(element => {
-            if (element.first) {
-                uni = new Set<number>();
-                sign = element.option.sign;
-            }
-            uni = set_union(uni, new Set(element.option.story_ids));
-            if (element.last) {
-                if (result) {
-                    result = set_intersection(result, uni);
-                } else {
-                    result = uni;
+        let group_sign;
+        for (let sign of ['plus', 'minus']) {
+            this.params.selected_words.forEach(element => {
+                if (element.first) {
+                    group_sign = element.option.sign
+                    uni = new Set<number>();
                 }
-            }
-        });
+                if (group_sign == sign) {
+                    uni = set_union(uni, new Set(element.option.story_ids));
+                    if (element.last) {
+                        if (result) {
+                            if (sign == 'plus') {
+                                result = set_intersection(result, uni);
+                            } else {
+                                result = set_diff(result, uni)
+                            }
+                        } else {
+                            result = uni;
+                        }
+                    }
+                }
+            });
+        };
         if (result && result.size > 0) {
             let story_list = Array.from(result);
             this.num_of_stories = story_list.length;
