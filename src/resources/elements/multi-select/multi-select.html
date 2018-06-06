@@ -18,35 +18,46 @@
         </button>
         <!-- list of selected options -->
         <div class="row options selected">
-            <ul css="padding-right:0;max-height:${settings.height_selected}px;overflow:auto;">
+            <ul css="padding-right:0;max-height:${settings.height_selected}px;overflow:auto;" ref="scroll_area">
                 <li repeat.for="item of selected_options" class="${item.group_number % 2 ? 'odd-group' : 'even-group'}">
                     <div class="option-item" css="margin:0;padding:0;width:${inner_width}px;width:100%;height:24px;position:relative;">
                         <!-- lock/unlock button -->
                         <i class="far fa-${item.group_number==open_group ? 'lock-open-alt' : 'lock-alt'} tool" 
-                            if.bind="item.first" 
+                            if.bind="item.first"
+                            t="[title]multi-select.lock-unlock" 
                             style="position:absolute;left:0;top:4px;"
                             click.delegate="toggle_group(item.group_number)">
                         </i>
                         <i class="far fa-${item.option.sign}-square fa-rotate-180 tool"
                             if.bind="item.first" 
+                            t="[title]multi-select.change-sign"
                             style="position:absolute;left:18px;top:4px;"
                             click.delegate="toggle_sign(item.option, $event)">
                         </i>
                         <i class="far fa-times-circle tool"
+                            t="[title]multi-select.unselect"
                             style="position:absolute;left:34px;top:4px;"
                             click.delegate="unselect_item(item, $index)">
                         </i>
+                        <i class="far fa-exchange-alt tool"
+                            t="[title]multi-select.change-group"
+                            show.bind="item.moveable"
+                            style="position:absolute;left:50px;top:4px;"
+                            click.delegate="move_item(item, $index)">
+                        </i>
                         <i class="far fa-pencil fa-rotate-180 fa-rotate-180 tool"
                             if.bind="can_edit_name"
-                            style="position:absolute;left:50px;top:4px;"
+                            t="[title]multi-select.edit-item"
+                            style="position:absolute;left:66px;top:4px;"
                             click.trigger="edit_option(option, $event)">
                         </i>
                         <i class="far fa-trash-alt tool"
                             if.bind="can_delete"
-                            style="position:absolute;left:66px;top:4px;"
+                            t="[title]multi-select.remove-item"
+                            style="position:absolute;left:82px;top:4px;"
                             click.delegate="remove_option(option, $event)">
                         </i>
-                        <span click.delegate="move_item(item)" style="height:24px;padding-right:5px;"><span class="keyword-area">${item.option.name}</span></span>
+                        <span style="height:24px;padding-right:5px;">${item.option.name}</span>
                     </div>
                 </li>
             </ul>

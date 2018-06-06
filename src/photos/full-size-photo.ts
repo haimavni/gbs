@@ -230,6 +230,12 @@ export class FullSizePhoto {
         el.style.top = face_location.top;
         el.style.width = face_location.width;
         el.style.height = face_location.height;
+        el.style.backgroundColor = 'lightblue';
+        if (face.action == 'moving') {
+            el.style.cursor = 'all-scroll';
+        } else {
+            el.style.cursor = 'se-resize';
+        }
     }
 
     public dragend(face, customEvent: CustomEvent) {

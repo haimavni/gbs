@@ -248,10 +248,14 @@
         "dc-murdered-m": "murdered"
     },
     "multi-select": {
-        "why-clip": "Merge all unmerged tags",
-        "why-unclip": "Dismantle tags group",
         "new-item-placeholder": "Enter new name",
-        "new-item-title": "New name addition"
+        "new-item-title": "New name addition",
+        "lock-unlock": "Lock or unlock group",
+        "change-sign": "Change sign",
+        "unselect": "Unselect",
+        "change-group": "Change group",
+        "edit-item": "Edit the name",
+        "remove-item": "Remove the item"
     },
     "locales": {
         "he": "Hebrew",

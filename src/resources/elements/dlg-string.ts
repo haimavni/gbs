@@ -1,8 +1,9 @@
 import { DialogService } from 'aurelia-dialog';
 import { inject, DOM, noView, bindable, InlineViewStrategy, bindingMode } from 'aurelia-framework';
 import { CustomDialog } from '../../services/custom-dialog';
+import { Theme } from '../../services/theme';
 
-@inject(DOM.Element, DialogService)
+@inject(DOM.Element, DialogService, Theme)
 export class DlgStringCustomElement {
     @bindable title;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) str;
@@ -10,10 +11,12 @@ export class DlgStringCustomElement {
     @bindable anchor;
     element;
     dialogService: DialogService;
+    theme;
 
-    constructor(element, dialogService: DialogService) {
+    constructor(element, dialogService: DialogService, theme: Theme) {
         this.element = element;
-        this.dialogService = dialogService
+        this.dialogService = dialogService;
+        this.theme = theme;
     }
 
     inputString() {
@@ -31,8 +34,10 @@ export class DlgStringCustomElement {
                         </div>
                 </template>`
         }
+        this.theme.hide_title = true;
         this.dialogService.open({ viewModel: CustomDialog, model: model, lock: false })
             .whenClosed(response => {
+                this.theme.hide_title = false;
                 if (!response.wasCancelled) {
                     this.str = model.str;
                     this.dispatch_event();

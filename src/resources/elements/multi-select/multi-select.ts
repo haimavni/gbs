@@ -21,7 +21,7 @@ let default_multi_select_settings = {
 export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
-    @bindable ({ defaultBindingMode: bindingMode.twoWay }) settings;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) settings;
 
     @bindable place_holder_text = "";
     @bindable can_edit = true;
@@ -37,6 +37,7 @@ export class MultiSelectCustomElement {
     anchor = '<button class="btn btn-success" style="padding-top:9px;"><i class="far fa-lg fa-plus-square"></i></button>';
     new_item_name;
     lineHeight = 20;
+    scroll_area;
 
     constructor(element, i18n: I18N, dialogService: DialogService) {
         this.element = element;
@@ -59,6 +60,10 @@ export class MultiSelectCustomElement {
         this.selected_options_set = new Set(arr);
         //this.selected_options_set.add(option.name); changes are not detected
         this.sort_items();
+        let div = this.scroll_area;
+        setTimeout(() => {
+            div.scrollTop = div.scrollHeight; // - div.clientHeight + 150
+        }, 10);
     }
 
     unselect_item(item, index) {
@@ -75,6 +80,7 @@ export class MultiSelectCustomElement {
         } else {
             this.open_group = group_number;
         }
+        this.calc_moveable();
     }
 
     toggle_sign(option, event) {
@@ -140,9 +146,15 @@ export class MultiSelectCustomElement {
             }
             item.group_number = i;
         }
-        this.selected_options[n-1].last = true;
-        console.log("sort items: ", this.selected_options);
+        this.selected_options[n - 1].last = true;
+        this.calc_moveable();
         this.dispatch_event();
+    }
+
+    calc_moveable() {
+        for (let item of this.selected_options) {
+            item.moveable = this.can_move_item(item);
+        }
     }
 
     @computedFrom('selected_options_set')
@@ -153,6 +165,13 @@ export class MultiSelectCustomElement {
         if (this.selected_options_set.size == 0) {
             return false;
         }
+        return true;
+    }
+
+    can_move_item(item) {
+        if (this.selected_options[this.selected_options.length-1].group_number==1) return false;
+        if (!this.open_group) return false;
+        if (item.group_number == this.open_group && item.first && item.last) return false;
         return true;
     }
 
@@ -194,9 +213,9 @@ export class MultiSelectCustomElement {
 }
 
 function clean(obj) {
-  for (var propName in obj) { 
-    if (obj[propName] === null || obj[propName] === undefined) {
-      delete obj[propName];
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined) {
+            delete obj[propName];
+        }
     }
-  }
 }

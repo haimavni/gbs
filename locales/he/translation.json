@@ -248,10 +248,14 @@
         "dc-murdered-m": "נרצח"
     },
     "multi-select": {
-        "why-clip": "קבץ את כל התגים שאינם מקובצים",
-        "why-unclip": "פרק מחדש את קבוצת התגים",
         "new-item-placeholder": "הכנס שם חדש",
-        "new-item-title": "הוספת שם"
+        "new-item-title": "הוספת שם",
+        "lock-unlock": "נעל או פתח את הקבוצה",
+        "change-sign": "שלילי או חיובי",
+        "unselect": "בטל את בחירת המילה",
+        "change-group": "העבר לקבוצה אחרת",
+        "edit-item": "ערוך את שם הפריט",
+        "remove-item": "בטל לגמרי את הפריט"
     },
     "locales": {
         "he": "עברית",
