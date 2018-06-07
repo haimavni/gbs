@@ -3,13 +3,16 @@ import { User } from '../../services/user';
 import { Theme } from '../../services/theme';
 import { I18N } from 'aurelia-i18n';
 
+const date_sep = ".";
+
 export class MyDate {
     _day;
     _month;
     _year;
 
     constructor(date_str) {
-        let parts = date_str.split('/');
+        date_str = date_str.replace("/", date_sep);
+        let parts = date_str.split(date_sep);
         let n = parts.length;
         switch(n) {
             case 1:
@@ -74,14 +77,14 @@ export class MyDate {
             if (day < 10) {
                 day = '0' + day;
             }
-            s += day + '/'
+            s += day + date_sep
         }
         if (this._month != undefined) { //months are 0-based...
             let m = this._month + 1;
             if (m < 10) {
                 m = '0' + m;
             }
-            s += m + '/'
+            s += m + date_sep
         }
         s += this._year;
         return s;
@@ -117,6 +120,8 @@ export class DateRangeCustomElement {
     }
 
     build_end_date_options() {
+        if (! this.base_date_str) return;
+        this.base_date_str = this.base_date_str.replace('/', date_sep);
         let arr;
         let today = new Date();
         let cur_year = today.getFullYear();
@@ -176,6 +181,7 @@ export class DateRangeCustomElement {
         let date = new MyDate(this.base_date_str);
         date.incr(this.span_size);
         this._end_date_str = date.toString();
+        return this._end_date_str;
     }
 
     @computedFrom('base_date_str', 'span_size')
@@ -204,20 +210,17 @@ export class DateRangeCustomElement {
     get dont_show_edit_end_date() {
         return ! (this.is_valid && this.user.editing && this.partial);
     }
-
-    @computedFrom("user.editing", "partial", "span_size", "is_valid")
-    get show_end_date() {
-       return this.is_valid && this.partial && this.span_size > 0 && (! this.user.editing) 
-    }
     
-    @computedFrom("user.editing", "partial", "span_size", "is_valid", "base_date_str")
-    get show_range_labels() {
-        return this.base_date_str && this.range_options.length > 1 && this.is_valid && (this.user.editing || this.span_size > 0)
-    }
-
-    @computedFrom("user.editing","base_date_str")
+    @computedFrom("user.editing","base_date_str", "span_size")
     get show_date() {
-        return this.base_date_str && ! this.user.editing;
+        if (this.user.editing) return false;
+        this.build_end_date_options();
+        let s = this.base_date_str;
+        if (this.partial && this.span_size > 0) {
+            s += '-';
+            s += this.calc_end_date();
+        }
+        return s;
     }
 
     @computedFrom("user.editing","base_date_str")
@@ -227,7 +230,7 @@ export class DateRangeCustomElement {
 
     @computedFrom("base_date_str", "user.editing")
     get build_now() {
-        if (this.user.editing) {
+        if (true || this.user.editing) {
             this.build_end_date_options();
             return true;
         }

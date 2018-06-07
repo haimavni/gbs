@@ -8,28 +8,20 @@
         </div>
         <div if.bind="!show_edit_end_date" class="form-group" style="margin-right:0px;width:5em; "></div>
  
-        <div class="form-group" if.bind="show_end_date" style="position:absolute;top:0;left:98px;">
-            <span style="padding-top:0.6em;">${end_date_str}</span>
-        </div>
-
-        <div class="form-group" if.bind="show_range_labels" style="margin-right:0px;width:1em;position:absolute;top:0;left:82px;">
+        <div class="form-group" if.bind="show_edit_end_date" style="margin-right:0px;width:1em;position:absolute;top:0;left:82px;">
             <span style="padding:0;margin:0;">-</span>
         </div>
 
-        <div class="form-group" if.bind="! show_range_labels" style="margin-right:0px;width:1em;">
-            <span></span>
-        </div>
-
         <div if.bind="user.editing" class="form-group" style="margin-right:0px;width:5em;position:absolute;top:0;left:0;">
-            <input type="text" value.bind="base_date_str" maxlength="10" 
-                aubs-tooltip="text.bind:hint"
+            <input type="text" value.bind="base_date_str" maxlength="10"
+                title.bind="hint" 
                 style="width:6.2em;padding-left:0.2em;padding-right:0;color:black;direction:ltr;margin-right:-18px;" 
                 change.trigger="base_date_changed($event)" 
                 keypress.trigger="keep_only_good_chars($event)" />
         </div>
 
-        <div class="form-group" if.bind="show_date" style="width:5em;position:absolute;top:0;left:0;">
-            <span style="padding-top:0.6em;">${base_date_str}</span>
+        <div class="form-group" if.bind="show_date" style="width:10em;position:absolute;top:0;left:0;">
+            <span style="padding-top:0.6em;">${show_date}</span>
         </div>
         <div if.bind="build_now"></div><!--to activate the variable get-->
     </form>
