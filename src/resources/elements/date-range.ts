@@ -223,17 +223,15 @@ export class DateRangeCustomElement {
         return s;
     }
 
-    @computedFrom("user.editing","base_date_str")
+    @computedFrom("user.editing", "base_date_str", "span_size")
     get show_label() {
         return this.base_date_str || this.user.editing;
     }
 
     @computedFrom("base_date_str", "user.editing")
     get build_now() {
-        if (true || this.user.editing) {
-            this.build_end_date_options();
-            return true;
-        }
+        this.build_end_date_options();
+        return true;
     }
 
     dispatch_event() {
