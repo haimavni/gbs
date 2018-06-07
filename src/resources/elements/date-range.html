@@ -20,8 +20,8 @@
                 keypress.trigger="keep_only_good_chars($event)" />
         </div>
 
-        <div class="form-group" if.bind="show_date" style="width:10em;position:absolute;top:0;left:0;">
-            <span style="padding-top:0.6em;">${show_date}</span>
+        <div class="form-group" if.bind="show_date" style="width:18em;float:right">
+            <span css="padding-top:0.6em;direction:${theme.rtltr};">${label & t}: ${show_date}</span>
         </div>
         <div if.bind="build_now"></div><!--to activate the variable get-->
     </form>

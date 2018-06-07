@@ -225,7 +225,7 @@ export class DateRangeCustomElement {
 
     @computedFrom("user.editing", "base_date_str", "span_size")
     get show_label() {
-        return this.base_date_str || this.user.editing;
+        return this.base_date_str && this.user.editing;
     }
 
     @computedFrom("base_date_str", "user.editing")
