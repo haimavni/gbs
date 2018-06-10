@@ -188,8 +188,12 @@
                         </p>
                     </div>
                 </div>
-                <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)"><i class="fa fa-chevron-right fa-3x"></i></div>
-                <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)"><i class="fa fa-chevron-left fa-3x"></i></div>
+                <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)">
+                    <i class="far fa-chevron-right fa-3x"></i>
+                </div>
+                <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)">
+                    <i class="far fa-chevron-left fa-3x"></i>
+                </div>
             </div>
         </div>
     </div>

@@ -5,7 +5,6 @@ import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
-import default_multi_select_options from '../resources/elements/multi-select';
 
 @autoinject()
 @singleton()
@@ -40,8 +39,8 @@ export class Videos {
     selected_videos = new Set([]);
     done_selecting = false;
     router;
-    options_settings = default_multi_select_options;
-    videographers_settings = default_multi_select_options;
+    options_settings = {};
+    videographers_settings = {};
 
     constructor(api: MemberGateway, user: User, theme: Theme, dialog: DialogService, i18n: I18N, router: Router) {
         this.api = api;
@@ -197,20 +196,20 @@ export class Videos {
                 }
             }
         }
-        this.options_settings = Object.assign({}, default_multi_select_options, { 
+        this.options_settings = { 
                                   clear_filter_after_select: false, 
                                   mergeable: result != "applying-to-videos" && result != "selecting-videos", 
                                   name_editable: result == "ready-to-edit", 
                                   can_set_sign: result == "ready-to-edit", 
                                   can_add: result == "ready-to-edit", 
-                                  can_delete: result == "ready-to-edit" });
-        this.videographers_settings = Object.assign({}, default_multi_select_options, { 
+                                  can_delete: result == "ready-to-edit" };
+        this.videographers_settings = { 
                                   clear_filter_after_select: true, 
                                   mergeable: result == "can-modify-tags" || result == "ready-to-edit", 
                                   name_editable: result == "ready-to-edit", 
                                   can_set_sign: false, 
                                   can_add: result == "ready-to-edit", 
-                                  can_delete: result == "ready-to-edit" });
+                                  can_delete: result == "ready-to-edit" };
         return result; 
     }
 
