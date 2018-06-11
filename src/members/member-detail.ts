@@ -58,6 +58,7 @@ export class MemberDetail {
     life_summary_box;
     keywords = [];
     highlight_on="highlight-on";
+    advanced_search = false;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -93,6 +94,7 @@ export class MemberDetail {
 
     activate(params, config) {
         this.keywords = params.keywords;
+        this.advanced_search = params.search_type == 'advanced';
         this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
         this.api.getMemberDetails({ member_id: params.id, what: params.what })
             .then(member => {
@@ -299,7 +301,7 @@ export class MemberDetail {
 
     @computedFrom("story_0")
     get biography() {
-        let highlighted_html = highlight(this.story_0.story_text, this.keywords, false);
+        let highlighted_html = highlight(this.story_0.story_text, this.keywords, this.advanced_search);
         return highlighted_html;
     }
 

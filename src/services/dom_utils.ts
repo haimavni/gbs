@@ -23,7 +23,8 @@ export function highlight(html: String, keywords: Array<String>, whole_words) {
     if (kws.length == 0) return html;
     keywords = kws;
     if (whole_words) {
-        let pat_str = '([\\s,.;()-]+|^)(' + keywords.join('|') + ')([\\s,;.()-]+|$)';
+        //let pat_str = '([\\s,.;()\'-]+|^)(' + keywords.join('|') + ')([\\s,;.()\'-]+|$)';
+        let pat_str = '([^א-תa-zA-Z0-9]+|^)(' + keywords.join('|') + ')([^א-תa-zA-Z0-9]+|$)';
         let pat = new RegExp(pat_str, 'gi');
         html = html.replace(pat, "$1<span class='highlighted'>$2</span>$3");  //do it twice for consecutive highlighted words
         return html.replace(pat, "$1<span class='highlighted'>$2</span>$3");
