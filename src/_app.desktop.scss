@@ -1,0 +1,25 @@
+$navbar-height: 60px;
+
+.navbar {
+    height: $navbar-height;
+
+    > * {
+        align-self: center;
+
+        + * {
+            margin-left: 1rem;
+        }
+    }
+
+    .nav-item {
+        padding: 0.5em;
+    }
+
+    .navbar-logo {
+        font-size: 1.5rem;
+    }
+}
+
+#router-view {
+    padding-top: $navbar-height;
+}

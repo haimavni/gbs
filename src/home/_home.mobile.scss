@@ -1,0 +1,20 @@
+.main-panel.panel {
+    height: auto !important;
+    flex-direction: column-reverse;
+
+    > * + * {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.panel-stories .panel-story-segment + .panel-story-segment {
+    margin-top: 2rem;
+}
+
+.panel-vid {
+    align-items: center;
+}
+
+.member-of-the-day > div {
+    justify-content: flex-end;
+}

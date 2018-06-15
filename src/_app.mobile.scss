@@ -1,0 +1,36 @@
+$navbar-height: 108px;
+
+.navbar {
+    height: auto;
+    padding-top: 1vh;
+    padding-bottom: 0.5rem;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+
+    .navbar-main,
+    .navbar-search {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar-controls {
+        align-self: flex-start;
+    }
+
+    .nav-item {
+        padding: 0 0.5rem;
+    }
+
+    .nav-item,
+    .navbar-logo {
+        font-size: 1.6rem;
+    }
+}
+
+.search-box {
+    width: 100% !important;
+}
+
+#router-view {
+    padding-top: $navbar-height;
+}

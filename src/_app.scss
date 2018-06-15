@@ -1,0 +1,117 @@
+@include desktop { @import 'app.desktop'; }
+@include mobile { @import 'app.mobile'; }
+
+.navbar {
+    @include container;
+    margin-bottom: 0 !important;
+    z-index: 1;
+
+    .navbar-main {
+        display: flex;
+        flex: 1;
+        color: #777;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .loader {
+        justify-self: flex-start;
+    }
+
+    .nav-items {
+        flex: 1;
+        text-align: right;
+    }
+
+    .nav-item {
+        color: inherit;
+        display: inline-block;
+    }
+
+    &.navbar-default {
+        background: white !important;
+    }
+
+    .navbar-logo {
+        display: inline-block;
+        font-weight: bold;
+        color: inherit;
+
+        img {
+            width: 3rem;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+    }
+
+    .loader {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.navbar.navbar-fixed-top {
+    z-index: 1;
+}
+
+.search-box {
+    display: inline-flex;
+
+    .search-box-container {
+        position: relative;
+        flex: 1;
+        margin-bottom: 0;
+        margin-right: 0.5rem;
+
+        .search-box-input {
+            padding-left: 2rem;
+            padding-right: 0.5rem;
+            width: 100%;
+        }
+
+        i {
+            position: absolute;
+            left: 0.5rem;
+            top: 0.5rem;
+        }
+    }
+
+    .search-box-button {
+        background-color: lightblue;
+        color: white;
+        border: solid 1px lightblue;
+    }
+}
+
+.top-head {
+    background-repeat: no-repeat;
+    //height: 400px;
+    div.page-title {
+        padding-top:0px;
+        padding-right:15px;
+        width:1170px;
+        margin-left:auto;
+        margin-right:auto;
+        height:96px;
+        margin-top:0px;
+        background-repeat:no-repeat;
+        margin-top:-20px;
+    }
+}
+
+#router-view {
+    background-repeat: no-repeat;
+    overflow: auto;
+}
+
+#footer .footer-area {
+    height: 67px;
+    margin-top: 5vh;
+    background-repeat: no-repeat;
+    text-align: center;
+    line-height: 67px;
+
+    a {
+        cursor: pointer;
+    }
+}

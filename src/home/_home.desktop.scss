@@ -1,0 +1,33 @@
+%column {
+    max-height: 100%;
+    overflow-y: auto;
+
+    &:not(:first-child) {
+        margin-left: 2rem;
+    }
+}
+
+.panel-vid {
+    @extend %column;
+    width: 220px;
+    align-items: flex-start;
+}
+
+.panel-messages {
+    @extend %column;
+    width: 220px;
+}
+
+.panel-stories {
+    @extend %column;
+    width: 500px;
+    flex: 1;
+
+    .panel-story-segment + .panel-story-segment {
+        margin-top: 3rem;
+    }
+}
+
+.member-of-the-day > div {
+    justify-content: space-between;
+}

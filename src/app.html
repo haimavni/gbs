@@ -1,51 +1,41 @@
 <template>
-    <require from="app.css"></require>
-    <require from="scrollbox.css"></require>
+    <require from="styles.css"></require>
     <require from="toastr/build/toastr.min.css"></require>
     
-    <div css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" class="${theme.palette}" >
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color:white" if.bind="! theme.hide_menu" >
-            <div class="container">
-                <div class="navbar-header navbar-right" style="padding-bottom:8px;">
-                    <a class="navbar-brand" href="#" style="margin-left:-20px">
-                        <span style="font-size:200%;position:relative;padding-right:40px;">
-                            ${router.title & t}
-                            <img if.bind="theme.blue_logo" src="${theme.files.gb_logo_blue}" width="32" style="float:right;margin-left:15px;position:absolute;right:-46px;top:12px;" />
-                            <img if.bind="! theme.blue_logo" src="${theme.files.gb_logo_png}" width="32" style="float:right;margin-left:15px;position:absolute;right:-46px;top:12px;" />
-                        </span>
-                    </a>
-                </div>
+    <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu">
+                    
+            <div class="navbar-controls">
+                <user-mode></user-mode>
+            </div>
 
-                <div id="skeleton-navigation-navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm" css="font-size:150%;margin-top:4px;direction:${theme.rtltr};">
-                        <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-                            <a data-toggle="collapse" data-target="#skeleton-navigation-navbar-collapse.in" href.bind="row.href" style="padding-left:6px;padding-right:6px;">${row.title & t}.</a>
-                        </li>
-                    </ul>
-                    <label style="position:relative"> 
-                        <input type="text" css="width:${search_input_width}px;margin-left:20px;margin-top:18px;padding-left:15px;padding-right:5px;"
-                        value.bind="keywords"
-                        t="[placeholder]enter-search-words" dir.bind="theme.rtltr"
-                        change.delegate="go_search()" />
-                        <i class="far fa-times" style="position:absolute;left:25px;top:24px;" click.trigger="clear_keywords()"></i>
+            <div class="navbar-search">
+                <div class="search-box" css="width:${search_input_width}px;">
+                    <label class="search-box-container"> 
+                        <input type="text" class="search-box-input" value.bind="keywords" t="[placeholder]enter-search-words" dir.bind="theme.rtltr" change.delegate="go_search()" />
+                        <i class="far fa-times" click.trigger="clear_keywords()"></i>
                     </label>
-                    <!--<search-input value.bind="keywords" placeholder.bind="'enter-search-words' & t" height="32"></search-input>-->
-                    <button style="background-color:lightblue;color:white;border:solid 1px lightblue;" click.delegate="go_search(true)">
+                    <button class="search-box-button" click.delegate="go_search(true)">
                         <i class="far fa-search"></i>
                     </button>
-                    <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm" style="position:relative;">
-                        <li class="loader" if.bind="api.pending" style="padding-top:16px;position:absolute;left:-40px;">
-                            <i class="fa fa-spinner fa-spin fa-2x"></i>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-left hidden-xs" style="margin-top:6px;">
-                        <li class="menu-item" style="margin-top: 10px;">
-                            <user-mode></user-mode>
-                        </li>
-                    </ul>
-
                 </div>
             </div>
+
+            <div class="navbar-main" css="direction:${theme.rtltr};">
+                <span class="loader" if.bind="api.pending || true">
+                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </span>
+                <div class="nav-items">
+                    <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">
+                        ${row.title & t}.
+                    </a>
+                    <a class="navbar-logo" href="#">
+                        ${router.title & t}
+                        <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
+                    </a>
+                </div>
+            </div>
+
             <div class="row top-head" style="height:80px;" if.bind="theme.page_title != '' && ! theme.hide_title">
                 <div class="page-title" css="background-image:url('${theme.files.top_background}');">
                     <div style="margin-top:20px;padding-top:2px;margin-right:8px;">
@@ -59,7 +49,7 @@
         </div>
         <footer id="footer" if.bind="! theme.hide_title">
             <div class="footer-area">
-                <a style="cursor:pointer;" click.delegate="contact_us()">Built by Lifestone</a>
+                <a click.delegate="contact_us()">Built by Lifestone</a>
                 <span>${curr_version}</span>
             </div>
         </footer>

@@ -1,5 +1,4 @@
 <template>
-    <require from='./home.css'></require>
 
     <!-- Photo strip -->
     <div id="photo-strip">
@@ -7,68 +6,58 @@
             action_key="Zoom1" settings.bind="{arrows:true, slide_show: 4}" style="padding:0;"></photo-strip>
     </div>
 
-    <div class="container">
-        <div class="row panel main-panel" css="height:${panel_height}px;">
-            <div class="col-md-3 panel-vid" style="direction:rtl;">
-                <ul>
-                    <li repeat.for="video of video_list | filter:'youtube':'type'">
-                        <p>
-                            <span class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
-                                <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
-                                </iframe>
-                            </span>
-                        </p>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6 panel-stories" style="direction:rtl;">
-                <h2 style="margin-top:0;">
-                    ${'home.sample-stories' & t}
-                    <span style="float:left;font-size:80%;color:gray;direction:rtl;cursor:pointer;" click.delegate="goto_full_collection()">
-                        ${'home.full-collection' & t} 
-                        <i class="fa fa-play fa-rotate-180"> </i>
-                    </span>
-                </h2>
-                <ul class="panel-story-segments">
-                    <li repeat.for="story of stories_sample" dir="${theme.rtltr}"  click.delegate="jump_to_the_full_story(story)" style="cursor:pointer;">
-                        <div style="margin-top:12px;max-height:100px;min-height:100px;padding-bottom:30px;border-bottom:solid 2px lightgray;position:relative;" >
-                            <h4 dir="rtl" style="float:right;margin:0;padding:0;cursor:pointer;font-weight:bold;">
-                                ${story.name}
-                            </h4>
-                            <div class="story-preview">
-                                <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story.story_preview" 
-                                    style="text-align:right;max-height:50px;width:100%;overflow:hidden;">
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3 panel-messages" css="direction:${theme.rtltr};font-size:83%;">
-                <h2 style="margin:0;margin-bottom:12px;">${'home.messages' & t}
-                    <span class="is-link" if.bind="user.editing" click.delegate="add_message()"><i style="font-size:70%;" class="far fa-plus-square"></i></span>
-                </h2>
-                <ul class="message">
-                    <li repeat.for="msg of message_list" dir="rtl" style="border-bottom: solid 2px gray;margin-bottom:10px;" >
-                        <editable story.bind="msg" settings.bind="{show_date:true, deletable: true, divclass: 'no-theme'}"
-                            change.delegate="hande_story_change(msg, $event)"></editable>
-                    </li>
-                </ul>
-            </div>
+    <div class="panel main-panel" css="height:${panel_height}px;">
+        <div class="panel-vid" style="direction:rtl;">
+            <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
+                <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
+                </iframe>
+            </span>
+        </div>
+        <div class="panel-stories" style="direction:rtl;">
+            <h2 class="panel-stories-header">
+                <span class="expand">${'home.sample-stories' & t}</span>
+                <span class="full-collection-button" click.delegate="goto_full_collection()">
+                    ${'home.full-collection' & t} 
+                    <i class="fa fa-play fa-rotate-180"> </i>
+                </span>
+            </h2>
+            <ul class="panel-story-segments">
+                <li class="panel-story-segment" repeat.for="story of stories_sample" dir="${theme.rtltr}" click.delegate="jump_to_the_full_story(story)">
+                    <div class="story-preview">
+                        <h4 class="panel-story-header" dir="rtl">
+                            ${story.name}
+                        </h4>
+                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story.story_preview"></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-messages" css="direction:${theme.rtltr};">
+            <h2 class="messages-header">
+                <span>${'home.messages' & t}</span>
+                <span class="is-link" if.bind="user.editing" click.delegate="add_message()">
+                    <i class="fa fa-plus-square"></i>
+                </span>
+            </h2>
+            <ul class="messages">
+                <li class="message" repeat.for="msg of message_list" dir="rtl">
+                    <editable story.bind="msg" settings.bind="{show_date:true, deletable: true, divclass: 'no-theme'}" change.delegate="hande_story_change(msg, $event)"></editable>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="member-of-the-day row" dir="${theme.rtltr}">
-        <div class="col-xs-12">
-            <span class="hidden-xs marg-right" style="width:100px;text-align:right;margin-top:20px;">${member_prefix & t}</span>
-            <span style="padding-left:20px;padding-top:6px;"><img src.bind="member_of_the_day.face_photo_url" width="60" style="border-radius:50%;" /></span>
-            <span style="border-right:2px solid gray;margin-top:20px;margin-left:16px;padding-right:10px;">${member_of_the_day.name}</span>
-            <span class="hidden-xs hidden-sm" style="border-right:2px solid gray;margin-top:20px;padding-right:10px;">
-                ${member_of_the_day_life_cycle_text}
-            </span>
-            <span class="hidden-xs marg-left" style="float:left;margin-top:20px;padding-right:16px;border-right:2px solid gray;cursor:pointer;"
-                click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
+
+    <div class="member-of-the-day">
+        <div dir="${theme.rtltr}">
+            <span class="hidden-xs member-link" click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
                 ${'home.to-the-page-of' & t} ${member_of_the_day.first_name}
             </span>
+            <span class="hidden-xs hidden-sm member-text">
+                ${member_of_the_day_life_cycle_text}
+            </span>
+            <span class="member-name">${member_of_the_day.name}</span>
+            <img class="member-image" src.bind="member_of_the_day.face_photo_url" />
+            <span class="hidden-xs member-prefix">${member_prefix & t}</span>
         </div>
     </div>
 

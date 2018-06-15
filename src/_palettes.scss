@@ -1,75 +1,75 @@
-div.palette-default {
-    div.top-head, div.footer-area {
+.palette-default {
+    .top-head, .footer-area {
         background: rgba(80, 80, 80, 0.3);
     }
-    div.editable, div.story-preview, div.member-story-preview {
+    .editable, .story-preview, .member-story-preview {
         background-color: default;
     }
-    div.detail-header {
+    .detail-header {
         background-color: #bbbbbb;
     }
-    div.member-of-the-day {
+    .member-of-the-day {
         background-color: #3e4142;
     }
 }
     
-div.palette-oldie {
-    div.top-head, div.footer-area {
+.palette-oldie {
+    .top-head, .footer-area {
         background: rgba(160, 100, 0, 0.3);
     }
-    div.editable, div.story-preview, div.member-story-preview {
+    .editable, .story-preview, .member-story-preview {
         background-color:beige;
     }
-    div.detail-header {
+    .detail-header {
         background-color: rgba(180, 80, 0, 0.5);
     }
-    div.member-of-the-day {
+    .member-of-the-day {
         background-color: rgb(151, 108, 0);
     }
 }
     
-div.palette-sky {
-    div.top-head, div.footer-area {
+.palette-sky {
+    .top-head, .footer-area {
         background: rgba(0, 80, 180, 0.3);
     }
-    div.editable, div.story-preview, div.member-story-preview {
+    .editable, .story-preview, .member-story-preview {
         background-color: lightblue;
     }
-    div.detail-header {
+    .detail-header {
         background-color: rgba(0, 80, 180, 0.5);
     }
-    div.member-of-the-day {
+    .member-of-the-day {
         background-color: #5e7056;
     }
 }
 
-div.palette-earth {
-    div.top-head, div.footer-area {
+.palette-earth {
+    .top-head, .footer-area {
         background: rgba(80, 180, 0, 0.3);
     }
-    div.editable, div.story-preview, div.member-story-preview {
+    .editable, .story-preview, .member-story-preview {
         background-color: lightseagreen;
     }
-    div.detail-header {
+    .detail-header {
         background-color: rgba(80, 180, 0, 0.5);
     }
-    div.member-of-the-day {
+    .member-of-the-day {
         background-color: mediumaquamarine;
     }
 }
 
-ul.palette-selector li.palette-default {
+.palette-selector .palette-default {
     background-color: default;
 }
 
-ul.palette-selector li.palette-oldie {
+.palette-selector .palette-oldie {
     background-color: beige;
 } 
 
-ul.palette-selector li.palette-sky {
+.palette-selector .palette-sky {
     background-color: lightblue;
 } 
 
-ul.palette-selector li.palette-earth {
+.palette-selector .palette-earth {
     background-color: lightseagreen;
 } 

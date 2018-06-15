@@ -1,0 +1,151 @@
+@include mobile { @import 'home.mobile'; }
+@include desktop { @import 'home.desktop'; }
+
+.main-panel.panel {
+    @include container;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background-color: transparent;
+
+    > * {
+        padding: 1.5rem;
+    }
+
+    h2 {
+        border-bottom: solid 2px gray;
+    }
+}
+
+.panel-vid {
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+}
+
+.panel-stories {
+
+    .panel-stories-header {
+        display: flex;
+        margin-top: 0;
+        width: 100%;
+        align-items: flex-end;
+        text-align: right;
+        direction: rtl;
+        font-size: 2.8rem;
+
+        .full-collection-button {
+            font-size: 1.4rem;
+            color: gray;
+            direction: rtl;
+            cursor: pointer;
+        }
+    }
+
+    .panel-story-segments {
+        cursor: pointer;
+        padding: 0;
+
+        .panel-story-segment {
+            padding-top: 1rem;
+            max-height: 100px;
+            position: relative;
+
+            .panel-story-header {
+                margin: 0;
+                padding: 0;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .story-preview {
+                text-align: right;
+                width: 100%;
+                overflow: hidden;
+
+                p {
+                    text-align: justify;
+                    padding-left:12px;
+                }
+            }
+        }
+
+        .panel-story-segment + .panel-story-segment {
+            border-top: solid 2px lightgray;
+        }
+    }
+}
+
+.panel-messages {
+    background-color: lightgray;
+    font-size: 83%;
+
+    .messages-header {
+        margin: 0 0 1rem;
+        text-align: right;
+
+        i {
+            font-size: 70%;
+        }
+    }
+
+    .messages {
+        padding: 0;
+
+        .message {
+            border-bottom: solid 2px gray;
+            margin-bottom: 1rem;
+            margin: 0;
+            padding: 0;
+
+            p {
+                text-align: justify;
+                padding-left: 1.5rem;
+            }
+        }
+
+        .message + .message {
+            margin-top: 1rem;
+        }
+    }
+}
+
+.member-of-the-day {
+    height: 74px;
+    background-color: rgba(62,65,66,1.0);
+    color: white;
+    font-size: 150%;
+    padding-right: 16px;
+
+    > div {
+        @include container;
+        height: 100%;
+        align-items: center;
+    }
+
+    .member-link,
+    .member-text,
+    .member-name {
+        padding-right: 1.5rem;
+        margin-right: 1.5rem;
+        border-right: 2px solid grey;
+    }
+
+    .member-prefix {
+        width: 100px;
+        text-align: right;
+    }
+
+    .member-image {
+        height: 60px;
+        border-radius: 50%;
+    }
+
+    .member-text {
+        flex: 1;
+        text-align: right;
+    }
+
+    .member-link {
+        cursor: pointer;
+    }
+}
