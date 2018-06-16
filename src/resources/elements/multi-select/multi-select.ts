@@ -157,15 +157,21 @@ export class MultiSelectCustomElement {
         }
     }
 
-    @computedFrom('selected_options_set')
-    get display_option_list() {
-        if (!this.settings.show_only_if_filter) {
-            return true;
+    @computedFrom('selected_options_set.size', 'filter')
+    get option_list_height() {
+        if (this.filter || !this.settings.show_only_if_filter) {
+            return this.settings.height_unselected;
         }
-        if (this.selected_options_set.size == 0) {
-            return false;
+        return 0;
+    }
+
+    @computedFrom('selected_options_set.size', 'filter')
+    get total_size() {
+        let h = this.selected_options_set.size * this.lineHeight;
+        if (this.filter || ! this.settings.show_only_if_filter) {
+            h += this.settings.height_unselected;
         }
-        return true;
+        return h;
     }
 
     can_move_item(item) {

@@ -27,6 +27,8 @@ export class Stories {
     used_languages;
     keywords = [];
     search_words = [];
+    scroll_area;
+    scroll_top = 0;
     params = {
         keywords_str: "",
         selected_topics: [],
@@ -173,12 +175,12 @@ export class Stories {
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
         this.theme.page_title = "stories.place-stories";
+         this.scroll_area.scrollTop = this.scroll_top;
     }
 
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
-        //this.keywords = [];
     }
 
     update_story_list(search_type?) {
@@ -201,10 +203,12 @@ export class Stories {
                 this.active_result_types = result.active_result_types;
                 this.used_for = result.active_result_types[0];
                 console.timeEnd('update-story-list');
+                this.scroll_top = 0;
             });
     }
     
     jump_to_the_full_story(event, story) {
+        this.scroll_top = this.scroll_area.scrollTop;
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
         let what;

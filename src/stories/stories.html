@@ -63,7 +63,7 @@
                             ${'result' + uf & t}
                         </button>
                     </form>
-                    <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;">
+                    <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area">
                         <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999 | sort : 'name'" dir="${theme.rtltr}" 
                             if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
@@ -83,7 +83,7 @@
                 <div class="col-md-3">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help topic="tags" position="left" style="position:absolute;left:0px;top:26px;"></help>
+                        <help topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
                         <multi-select options.bind="topic_list"
                             place_holder_text="photos.click-topic" 
                             selected_options.bind="params.selected_topics"
@@ -107,7 +107,7 @@
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' & t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
-                        <help topic="words" position="top" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
+                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
                         <multi-select 
                             options.bind="stories_index" 
                             selected_options.bind="params.selected_words"

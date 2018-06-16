@@ -5,7 +5,7 @@
         <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"></search-input>
     </div>
 
-    <div class="ms-container" css="height:${filter || ! settings.show_only_if_filter ? height : 0}px;position:relative">
+    <div class="ms-container" css="height:${total_height}px;position:relative">
         <button if.bind="can_add" 
             style="position:absolute;top:60px;left:140px;padding:0;" 
             click_trigger="add_item()" 
@@ -65,7 +65,7 @@
 
         <!-- unselected options -->
         <div class="row options unselected" 
-            css="max-height:${filter || display_option_list ? settings.height_unselected : 0}px;" 
+            css="max-height:${option_list_height}px;" 
             if.bind="options && options.length > 0 && (filter.length > 0 || (! settings.show_only_if_filter)) ">
             <ul css="width:${width}px;" if.bind="true || unselected_options===[]">
                 <li repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' | take : 199">
