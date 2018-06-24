@@ -55,7 +55,13 @@ export class StoryDetail {
     activate(params, config) {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
-        this.story_type = params.what || 'story';
+        let used_for = params.used_for
+        if (used_for) {
+            used_for = parseInt(used_for) 
+        } else {
+            used_for = (params.what && params.what == 'term') ? this.api.constants.story_type.STORY4TERM : this.api.constants.story_type.STORY4EVEMT;
+        }
+        this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : 'story';
         let what = this.story_type=='story' ? 'EVENT' : 'TERM';
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
@@ -65,6 +71,7 @@ export class StoryDetail {
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
+                    this.story.used_for = used_for;
                     this.story_dir = this.theme.rtltr;
                 } else {
                     this.story_dir = this.theme.language_dir(this.story.language)

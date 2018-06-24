@@ -225,9 +225,9 @@ export class Members {
             .then(response => {
                 this.clear_member_group();
                 if (this.caller_type=='story') {
-                    this.router.navigateToRoute('story-detail', { id: this.caller_id });
+                    this.router.navigateToRoute('story-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4EVENT });
                 } if (this.caller_type=='term') {
-                    this.router.navigateToRoute('term-detail', { id: this.caller_id });
+                    this.router.navigateToRoute('term-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4TERM });
                 }
             });
     }

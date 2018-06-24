@@ -5,8 +5,8 @@
         <div>
             <span show.bind="story.name || user.privileges.EDITOR" dir="rtl" style="padding:0;margin:0;float:right;">
                 <!--<i if.bind="!settings.no_expand" class="fa fa-sm fa-expand is-link" t="[title]stories.zoom" click.trigger="zoom_out(story, 'show')">&nbsp;&nbsp;</i>-->
-                <i if.bind="user.privileges.EDITOR" class="far fa-sm fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story, 'edit')">&nbsp;</i>
-                <i if.bind="settings.deletable && user.privileges.ADMIN" class="far fa-sm fa-trash-alt is-link" t="[title]stories.delete" click.trigger="delete_story(story)">&nbsp;</i>
+                <i if.bind="user.privileges.EDITOR && user.editing" class="far fa-sm fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story, 'edit')">&nbsp;</i>
+                <i if.bind="settings.deletable && user.privileges.ADMIN && user.editing" class="far fa-sm fa-trash-alt is-link" t="[title]stories.delete" click.trigger="delete_story(story)">&nbsp;</i>
                 <i if.bind="settings.checkable && user.editing" class="fa${story.checked ? '' : 'r'} fa-circle fa-sm is-link" t="[title]stories.checking" click.trigger="toggle_checked()">&nbsp;</i>
             <span if.bind="settings.show_date &&story.timestamp">${story.timestamp} | </span>
             <span if.bind="story.author">${story.author}:&nbsp;</span>

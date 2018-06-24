@@ -58,6 +58,8 @@ export class Photos {
     photographers_settings = {};
     caller_type;
     caller_id;
+    with_a_member;
+    with_a_member_text;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -65,6 +67,7 @@ export class Photos {
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
+        this.with_a_member_text = this.i18n.tr('photos.search-member');
         this.router = router;
         this.ea = ea;
         this.days_since_upload_options = [
@@ -234,6 +237,14 @@ export class Photos {
     }
 
     select_member(event: Event) {
+        this.with_a_member = ! this.with_a_member;
+        if (! this.with_a_member) {
+            this.params.selected_member_id = null;
+            this.update_photo_list();
+            this.with_a_member_text = this.i18n.tr('photos.search-member');
+            return;
+        }
+        this.with_a_member_text = this.i18n.tr('photos.any-photo');
         this.theme.hide_title = true;
         this.dialog.open({
             viewModel: MemberPicker, model: {}, lock: false,
@@ -243,7 +254,7 @@ export class Photos {
             this.params.selected_member_id = response.output.member_id;
             this.update_photo_list()
                 .then(response => {
-                    this.params.selected_member_id = null;
+                    //this.params.selected_member_id = null;
                 });
         });
 
@@ -321,9 +332,9 @@ export class Photos {
             .then(response => {
                 this.clear_photo_group();
                 if (this.caller_type=='story') {
-                    this.router.navigateToRoute('story-detail', { id: this.caller_id });
+                    this.router.navigateToRoute('story-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4EVENT });
                 } if (this.caller_type=='term') {
-                    this.router.navigateToRoute('term-detail', { id: this.caller_id });
+                    this.router.navigateToRoute('term-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4TERM });
                 }
             });
     }
