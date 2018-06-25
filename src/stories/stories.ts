@@ -94,7 +94,16 @@ export class Stories {
         ]
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true)});
+        this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+    }
 
+    refresh_story(data) {
+        console.log("refresh story ", data.story_data);
+        let story_id = data.story_data.story_id;
+        let idx = this.story_list.findIndex(itm => itm.story_id==story_id);
+        if (idx >= 0) {
+            this.story_list[idx].story_preview = data.story_data.story_preview;
+        }
     }
 
     activate(params, config) {

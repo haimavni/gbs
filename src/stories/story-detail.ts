@@ -30,8 +30,10 @@ export class StoryDetail {
     eventAggregator;
     dialog;
     subscriber;
+    subscriber1;
     story_type;
     advanced_search;
+    story_changed = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -46,10 +48,24 @@ export class StoryDetail {
 
     attached() {
         this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.subscriber1 =  this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+    }
+
+    refresh_story(data) {
+        console.log("story detail refresh story ", data.story_data);
+        let story_id = data.story_data.story_id;
+        if (this.story && this.story.story_id == story_id) {
+            this.api.call_server_post('members/get_story', {story_id: story_id})
+                .then(response => {
+                    this.story = response.story;
+                    this.story_changed = true;
+                });
+        }
     }
 
     detached() {
         this.subscriber.dispose();
+        this.subscriber1.dispose();
     }
 
     activate(params, config) {
@@ -154,8 +170,9 @@ export class StoryDetail {
         this.api.call_server_post('members/add_story_member', {story_id: this.story.story_id, candidate_id: candidate_id});
     }
 
-    @computedFrom('story.story_text')
+    @computedFrom('story.story_text', 'story_changed')
     get highlightedHtml() {
+        this.story_changed = false;
         if (! this.story) {
             return "";
         }

@@ -2,7 +2,7 @@
     <require from="./multi-select.css">
     </require>
     <div class="input-group search-filter" if.bind="options.length > 10">
-        <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"></search-input>
+        <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32" filter-change.delegate="enter_word($event)"></search-input>
     </div>
 
     <div class="ms-container" css="height:${total_height}px;position:relative">

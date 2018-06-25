@@ -76,6 +76,20 @@ export class MemberDetail {
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
+        this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+    }
+
+    refresh_story(data) {
+        let story_id = data.story_data.story_id;
+        let idx = this.member.member_stories.findIndex(itm => itm.story_id==story_id);
+        if (idx >= 0) {
+            this.member.member_stories[idx].story_preview = data.story_data.story_preview;
+            this.api.call_server_post('members/get_story', {story_id: story_id})
+                .then(response => {
+                    this.member.member_stories[idx].story_text = response.story.story_text;
+                    this.set_displayed_stories();
+            });
+        }
     }
 
     @computedFrom('dirty_info')
@@ -299,7 +313,7 @@ export class MemberDetail {
         }, 5)
     }
 
-    @computedFrom("story_0")
+    @computedFrom("story_0.story_text")
     get biography() {
         let highlighted_html = highlight(this.story_0.story_text, this.keywords, this.advanced_search);
         return highlighted_html;

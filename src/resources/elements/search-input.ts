@@ -15,4 +15,23 @@ export class SearchInputCustomElement {
         this.value = "";
     }
 
+    input_changed(event) {
+        let key = event.key;
+        if (key == "Enter") {
+            this.dispatch_event();
+        }
+        return true;
+    }
+
+    dispatch_event() {
+        let changeEvent = new CustomEvent('filter-change', {
+            detail: {
+                value: this.value,
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(changeEvent);
+    }
+    
+
 }

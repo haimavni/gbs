@@ -66,6 +66,13 @@ export class MultiSelectCustomElement {
         }, 10);
     }
 
+    enter_word(event) {
+        let option = this.options.find(opt => opt.name == event.detail.value);
+        if (option) {
+            this.select_option(option);
+        }
+    }
+
     unselect_item(item, index) {
         this.selected_options.splice(index, 1);
         let arr = this.selected_options.map((item) => item.option.name);
