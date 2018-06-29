@@ -40,7 +40,7 @@ export class Home {
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
-        this.photo_list = this.api.call_server_post('members/get_photo_list');
+        this.photo_list = this.api.call_server_post('members/get_photo_list', {relevant_only: true});
         this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample = result.stories_sample);
         memberList.getMemberList(); //to load in the background
         this.api.call_server_post('members/get_message_list').then(
