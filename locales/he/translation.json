@@ -73,7 +73,8 @@
         "highlight-on": "הפעל/הפסק הדגשת מילות החיפוש",
         "clean": "נקה",
         "promote-selected-stories": "קדם את הספורים שנבחרו",
-        "unknown-source": "מקור בלתי ידוע"
+        "unknown-source": "מקור בלתי ידוע",
+        "updated-by": "עודכן על ידי"
     },
     "members": {
         "members": "חברים",

@@ -295,7 +295,7 @@ export class MemberDetail {
             let bph = panel_height - tph - 6;
             this.bottom_panel.style.height = `${bph}px`;
             this.story_box_height = bph - 12;
-            let mdch = panel_height + this.photo_strip_height - 11;
+            let mdch = panel_height + this.photo_strip_height - 12;
             this.member_detail_container.style.height = `${mdch}px`;
             let lsb = tph - 30;
             this.life_summary_box.style.height = `${lsb}px`;

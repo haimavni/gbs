@@ -73,7 +73,8 @@
         "highlight-on": "Highlighting search words on/off",
         "clean": "Clean",
         "promote-selected-stories": "Promote selected stories",
-        "unknown-source": "Unknown source"
+        "unknown-source": "Unknown source",
+        "updated-by": "Updated by"
     },
     "members": {
         "members": "Members",

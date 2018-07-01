@@ -13,6 +13,7 @@
             <span if.bind="! story.author">${'stories.unknown-source' & t}:&nbsp;</span>
         </div>
         <div class="row checkable ${story.checked ? 'selected' : ''}"><strong style="float:right" innerhtml.bind="story.name" ></strong></div>
+        <span if.bind="user.privileges.EDITOR && user.editing && story.updater.name"> ${updated_by}: ${story.updater.name} @${story.timestamp}</span>
 
         <div class="fr-view ${settings.class}">
             <p class="${theme.font_size}" innerhtml.bind="story.story_preview" css="float:right;direction:rtl;text-align:justify;" >
