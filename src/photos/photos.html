@@ -93,6 +93,7 @@
                             has_groups.bind="has_grouped_topics"
                             name="topics"
                             place_holder_text="photos.click-topic"
+                            clear_selections_now.bind="clear_selected_topics_now"
                             ms-change.delegate="handle_topic_change($event) ">
                         </multi-select>
                     </div>
@@ -105,6 +106,7 @@
                             new-name.delegate="add_photographer($event)"
                             remove-option.delegate="remove_photographer($event)"
                             name-changed.delegate="photographer_name_changed($event)"
+                            clear_selections_now.bind="clear_selected_phototgraphers_now"
                             ms-change.delegate="handle_photographer_change($event)">
                         </multi-select>
                     </div>

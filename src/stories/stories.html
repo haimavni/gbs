@@ -32,7 +32,7 @@
                                 </button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && checked_stories.size > 0 && params.grouped_selected_topics.length==0 && params.selected_topics.length>0"
+                                <button if.bind="user.editing && checked_stories.size > 0 && params.selected_topics.length>0"
                                     class="btn btn-basic btn-md">
                                     ${'stories.apply-to-selected' & t}
                                 </button>
@@ -91,6 +91,7 @@
                             settings.bind="options_settings" 
                             has_groups.bind="has_grouped_topics"
                             ms-change.delegate="handle_topic_change($event)"
+                            clear_selections_now.bind="clear_selected_topics_now"
                             style="margin-top:5px;">
                         </multi-select>
                     </div>

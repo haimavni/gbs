@@ -36,6 +36,7 @@ export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) settings;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) has_groups;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) clear_selections_now;
 
     @bindable place_holder_text = "";
     @bindable can_edit = true;
@@ -95,6 +96,19 @@ export class MultiSelectCustomElement {
         this.selected_options_set = new Set(arr);
         this.sort_items();
         //this.selected_options_set.delete(item.option.name); like the above
+    }
+
+    clear_all_selections() {
+        this.selected_options = [];
+        this.selected_options_set = new Set();
+        this.sort_items();
+    }
+
+    @computedFrom('clear_selections_now')
+    get clear_selections() {
+        this.clear_all_selections();
+        this.clear_selections_now = false;
+        return false;
     }
 
     toggle_group(group_number) {

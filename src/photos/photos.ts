@@ -67,6 +67,8 @@ export class Photos {
     caller_id;
     with_a_member;
     with_a_member_text;
+    clear_selected_phototgraphers_now = false;
+    clear_selected_topics_now = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -245,6 +247,8 @@ export class Photos {
         this.api.call_server_post('members/save_tag_merges', this.params)
             .then(response => {
                 this.has_grouped_topics = false;
+                this.clear_selected_phototgraphers_now = true;
+                this.clear_selected_topics_now = true;
             });
     }
 

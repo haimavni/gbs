@@ -22,7 +22,6 @@ export class Videos {
     win_height;
     params = {
         selected_topics: [],
-        grouped_selected_topics: [],
         selected_videographers: [],
         grouped_selected_videographers: [],
         selected_days_since_upload: 0,
@@ -128,7 +127,6 @@ export class Videos {
         if (!event.detail) return;
         console.log("selected_topics: ", event.detail.ungrouped_selected_options);
         this.params.selected_topics = event.detail.ungrouped_selected_options;
-        this.params.grouped_selected_topics = event.detail.grouped_selected_options;
         this.update_video_list();
     }
 
@@ -157,7 +155,6 @@ export class Videos {
 
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
-        console.log("before save merges, grouped: ", this.params.grouped_selected_topics);
         this.api.call_server_post('members/save_tag_merges', this.params)
     }
 
@@ -176,7 +173,7 @@ export class Videos {
         this.done_selecting = true;
     }
 
-    @computedFrom('user.editing', 'params.selected_video_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_videographers', 
+    @computedFrom('user.editing', 'params.selected_video_list', 'done_selecting',
                   'params.selected_topics', 'params.selected_videographers')
     get phase() {
         let result = "not-editing";
@@ -189,7 +186,7 @@ export class Videos {
                 }
             } else {
                 this.done_selecting = false;
-                if (this.params.grouped_selected_topics.length > 0 || this.params.grouped_selected_videographers.length > 0) {
+                if (this.params.grouped_selected_videographers.length > 0) {
                     result = "can-modify-tags";
                 }  else {
                     result = "ready-to-edit"

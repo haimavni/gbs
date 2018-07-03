@@ -71,6 +71,7 @@ export class Stories {
     active_result_types;
     used_for = null;
     has_grouped_topics: false;
+    clear_selected_topics_now = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator) {
@@ -398,10 +399,19 @@ export class Stories {
         this.used_for = used_for
     }
 
-    save_merges(event: Event) {
+    /*save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
         this.has_grouped_topics = false;
         this.api.call_server_post('members/save_tag_merges', this.params);
+    }*/
+
+    save_merges(event: Event) {
+        //todo: if event.ctrl create a super group rather than merge?
+        this.api.call_server_post('members/save_tag_merges', this.params)
+            .then(response => {
+                this.has_grouped_topics = false;
+                this.clear_selected_topics_now = true;
+            });
     }
 
     consolidate_stories() {

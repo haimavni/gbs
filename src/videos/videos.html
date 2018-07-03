@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group" if.bind="phase=='applying-to-photos'">
                                 <button
-                                     disabled.bind="params.grouped_selected_topics.length>0 || (params.selected_topics.length==0 && params.selected_photographers.length != 1)"
+                                     disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1"
                                      class="btn btn-basic btn-md"
                                      click.trigger="apply_to_selected()">
                                      ${'photos.apply-to-selected' & t}
