@@ -193,17 +193,23 @@ export class Photos {
     }
 
     handle_photographer_change(event) {
-        if (event.detail.string_value) {
-            this.add_photographer(event.detail.string_value)
-        } else {
-           console.log(" selected photographers: ", this.params.selected_photographers);
-           this.params.selected_photographers = event.detail.selected_options; 
-            this.update_photo_list();
-        } 
+        this.params.selected_photographers = event.detail.selected_options;
+        this.update_photo_list();
     }
 
-    add_photographer(new_photographer_name) {
+    photographer_name_changed(event) {
+        let p = event.detail.option;
+        this.api.call_server_post('members/rename_photographer', p);
+    }
+
+    add_photographer(event) {
+        let new_photographer_name = event.detail.new_name;
         this.api.call_server_post('members/add_photographer', { photographer_name: new_photographer_name });
+    }
+
+    remove_photographer(event) {
+        let photographer = event.detail.option;
+        this.api.call_server_post('members/remove_photographer', { photographer: photographer });
     }
 
     handle_change(event) {
@@ -237,8 +243,8 @@ export class Photos {
     }
 
     select_member(event: Event) {
-        this.with_a_member = ! this.with_a_member;
-        if (! this.with_a_member) {
+        this.with_a_member = !this.with_a_member;
+        if (!this.with_a_member) {
             this.params.selected_member_id = null;
             this.update_photo_list();
             this.with_a_member_text = this.i18n.tr('photos.search-member');
@@ -314,7 +320,8 @@ export class Photos {
             can_set_sign: false,
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
-            clear_selections_now: false
+            clear_selections_now: false,
+            can_group: false
         };
         return result;
     }
@@ -331,9 +338,9 @@ export class Photos {
             { user_id: this.user.id, caller_id: this.caller_id, caller_type: this.caller_type, photo_ids: photo_ids })
             .then(response => {
                 this.clear_photo_group();
-                if (this.caller_type=='story') {
+                if (this.caller_type == 'story') {
                     this.router.navigateToRoute('story-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4EVENT });
-                } if (this.caller_type=='term') {
+                } if (this.caller_type == 'term') {
                     this.router.navigateToRoute('term-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4TERM });
                 }
             });

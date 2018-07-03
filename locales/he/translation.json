@@ -224,7 +224,8 @@
         "any-photo": "כל התמונות",
         "candidates": "מועמדים לצרוף מתוך התמונות",
         "delete": "מחק את התמונה",
-        "rotate": "סובב את התמונה"
+        "rotate": "סובב את התמונה",
+        "photographer-already-exists": "הצלם כבר קיים במערכת"
     },
     "videos": {
         "videos": "סרטונים"

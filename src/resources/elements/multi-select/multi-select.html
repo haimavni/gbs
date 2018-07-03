@@ -8,11 +8,11 @@
     <div class="ms-container" css="height:${total_height}px;position:relative">
         <button if.bind="can_add" 
             style="position:absolute;top:60px;left:140px;padding:0;" 
-            click_trigger="add_item()" 
             class="btn btn-success btn-xs cl-create-btn">
             <dlg-string str.bind="new_item_name" 
                 placeholder.bind="new_item_placeholder" 
                 anchor.bind="anchor"
+                str-change.delegate="handle_new_item($event)"
                 title.bind="new_item_title">
             </dlg-string>
         </button>
@@ -23,13 +23,13 @@
                     <div class="option-item" css="margin:0;padding:0;width:${inner_width}px;width:100%;height:24px;position:relative;">
                         <!-- lock/unlock button -->
                         <i class="far fa-${item.group_number==open_group ? 'lock-open-alt' : 'lock-alt'} tool" 
-                            if.bind="item.first"
+                            if.bind="settings.can_group && item.first"
                             t="[title]multi-select.lock-unlock" 
                             style="position:absolute;left:0;top:4px;"
                             click.delegate="toggle_group(item.group_number)">
                         </i>
                         <i class="far fa-${item.option.sign}-square fa-rotate-180 tool"
-                            if.bind="item.first" 
+                            if.bind="settings.can_set_sign && item.first" 
                             t="[title]multi-select.change-sign"
                             style="position:absolute;left:18px;top:4px;"
                             click.delegate="toggle_sign(item.option, $event)">
@@ -49,15 +49,16 @@
                             if.bind="can_edit_name"
                             t="[title]multi-select.edit-item"
                             style="position:absolute;left:66px;top:4px;"
-                            click.trigger="edit_option(option, $event)">
+                            click.trigger="edit_option(item, $event)">
                         </i>
                         <i class="far fa-trash-alt tool"
                             if.bind="can_delete"
                             t="[title]multi-select.remove-item"
                             style="position:absolute;left:82px;top:4px;"
-                            click.delegate="remove_option(option, $event)">
+                            click.delegate="remove_option(item.option, $event)">
                         </i>
-                        <span style="height:24px;padding-right:5px;">${item.option.name}</span>
+                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;">${item.option.name}</span>
+                        <input type="text" if.bind="item.editing" value.bind="item.option.name" change.delegate="name_changed(item, $event)" style="width:55%" >
                     </div>
                 </li>
             </ul>

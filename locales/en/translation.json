@@ -224,7 +224,8 @@
         "any-photo": "All photos",
         "candidates": "Candidates from the photos",
         "delete": "Delete the photo",
-        "rotate": "Rotate the photo"
+        "rotate": "Rotate the photo",
+        "photographer-already-exists": "Photographer already exists"
     },
     "videos": {
         "videos": "Video"

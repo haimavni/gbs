@@ -12,6 +12,7 @@ let default_multi_select_settings = {
     can_set_sign: false,
     can_add: false,
     can_delete: false,
+    can_group: true,
     show_only_if_filter: false,
     height_selected: 120,
     height_unselected: 120
@@ -96,11 +97,43 @@ export class MultiSelectCustomElement {
     }
 
     remove_option(option, event) {
-        console.log("remove option not ready", option);
+        let customEvent = new CustomEvent('remove-option', {
+            detail: {
+                option: option
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(customEvent);
     }
 
-    edit_option(option, event) {
-        console.log("edit option not ready", option);
+    edit_option(item, event) {
+        item.editing = true;
+    }
+
+    name_changed(item, event) {
+        item.editing = false;
+        let customEvent = new CustomEvent('name-changed', {
+            detail: {
+                option: item.option
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(customEvent);
+    }
+
+
+    dispatch_new_item_event(new_name) {
+        let customEvent = new CustomEvent('new-name', {
+            detail: {
+                new_name: new_name
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(customEvent);
+    }
+
+    handle_new_item(event) {
+        this.dispatch_new_item_event(event.detail.string_value);
     }
 
     move_item(item) {
@@ -175,14 +208,14 @@ export class MultiSelectCustomElement {
     @computedFrom('selected_options_set.size', 'filter')
     get total_size() {
         let h = this.selected_options_set.size * this.lineHeight;
-        if (this.filter || ! this.settings.show_only_if_filter) {
+        if (this.filter || !this.settings.show_only_if_filter) {
             h += this.settings.height_unselected;
         }
         return h;
     }
 
     can_move_item(item) {
-        if (this.selected_options[this.selected_options.length-1].group_number==1) return false;
+        if (this.selected_options[this.selected_options.length - 1].group_number == 1) return false;
         if (!this.open_group) return false;
         if (item.group_number == this.open_group && item.first && item.last) return false;
         return true;
@@ -222,7 +255,6 @@ export class MultiSelectCustomElement {
     get can_delete() {
         return this.settings.can_delete;
     }
-
 }
 
 function clean(obj) {
