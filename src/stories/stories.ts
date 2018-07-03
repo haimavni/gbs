@@ -8,6 +8,7 @@ import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 @autoinject
 @singleton()
@@ -32,8 +33,6 @@ export class Stories {
     params = {
         keywords_str: "",
         selected_topics: [],
-        grouped_selected_topics: [],
-        grouped_selected_words: [],
         selected_words: [],
         selected_uploader: "",
         from_date: "",
@@ -59,12 +58,19 @@ export class Stories {
     story_types;
     done_selecting = false;
     no_results = false;
-    options_settings = {};
-    story_types_settings = {};
-    words_settings = {};
+    options_settings = new MultiSelectSettings({ clear_filter_after_select: false });
+    words_settings = new MultiSelectSettings({
+        clear_filter_after_select: false,
+        name_editable: false,
+        can_add: false,
+        can_delete: false,
+        can_group: true,
+        show_only_if_filter: true
+    });
     ea: EventAggregator;
     active_result_types;
     used_for = null;
+    has_grouped_topics: false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator) {
@@ -93,14 +99,14 @@ export class Stories {
             { name: i18n.tr('stories.terms'), id: 4 }
         ]
 
-        this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true)});
+        this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
     }
 
     refresh_story(data) {
         console.log("refresh story ", data.story_data);
         let story_id = data.story_data.story_id;
-        let idx = this.story_list.findIndex(itm => itm.story_id==story_id);
+        let idx = this.story_list.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
             this.story_list[idx].story_preview = data.story_data.story_preview;
         }
@@ -116,7 +122,7 @@ export class Stories {
     }
 
     created(params, config) {
-        if (this.story_list && this.story_list.length > 0 && ! this.router.isExplicitNavigation) return;
+        if (this.story_list && this.story_list.length > 0 && !this.router.isExplicitNavigation) return;
         this.api.call_server('members/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -138,7 +144,7 @@ export class Stories {
                     let iw = this.stories_index.find(w => w.name == wrd);
                     if (iw) {
                         g += 1;
-                        let item = {group_number: g, first: true, last: true, option: iw};
+                        let item = { group_number: g, first: true, last: true, option: iw };
                         this.params.selected_words.push(item);
                     } else { //no such word in the vocabulary.
                         let idx = this.search_words.findIndex(itm => itm == wrd);
@@ -157,7 +163,7 @@ export class Stories {
             let iw = this.stories_index.find(w => w.name == wrd);
             if (iw) {
                 g += 1;
-                let item = {group_number: g, first: true, last: true, option: iw};
+                let item = { group_number: g, first: true, last: true, option: iw };
                 this.params.selected_words.push(item);
             } else {
                 let idx = this.search_words.findIndex(itm => itm == wrd);
@@ -184,7 +190,7 @@ export class Stories {
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
         this.theme.page_title = "stories.place-stories";
-         this.scroll_area.scrollTop = this.scroll_top;
+        this.scroll_area.scrollTop = this.scroll_top;
     }
 
     detached() {
@@ -215,7 +221,7 @@ export class Stories {
                 this.scroll_top = 0;
             });
     }
-    
+
     jump_to_the_full_story(event, story) {
         this.scroll_top = this.scroll_area.scrollTop;
         let is_link = event.target.classList.contains('is-link');
@@ -238,7 +244,7 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4TERM:
                 what = "TERM";
-                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type  });
+                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type });
                 break;
         }
     }
@@ -290,12 +296,12 @@ export class Stories {
             this.update_story_list('advanced');
             this.num_of_stories = 0;
         }
-        this.keywords = this.params.selected_words.map(item=>item.option.name);
+        this.keywords = this.params.selected_words.map(item => item.option.name);
     }
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
-        
+
         this.update_story_list();
     }
 
@@ -355,7 +361,7 @@ export class Stories {
         this.update_story_list();
     }
 
-    @computedFrom('user.editing', 'done_selecting', 'params.grouped_selected_topics', 'params.selected_topics')
+    @computedFrom('user.editing', 'done_selecting', 'has_grouped_topics', 'params.selected_topics')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -367,30 +373,24 @@ export class Stories {
                 }
             } else {
                 this.done_selecting = false;
-                if (this.params.grouped_selected_topics.length > 0) {
+                if (this.has_grouped_topics) {
                     result = "can-modify-tags";
                 } else {
                     result = "ready-to-edit"
                 }
             }
         }
-        this.options_settings = {
-            clear_filter_after_select: false,
+        this.options_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: result == "ready-to-edit",
             can_set_sign: result == "ready-to-edit",
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit"
-        };
-        this.words_settings = {
-            clear_filter_after_select: false,
+        });
+        this.words_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
-            name_editable: false,
             can_set_sign: result == "not-editing",
-            can_add: false,
-            can_delete: false,
-            show_only_if_filter: true
-        };
+        });
         return result;
     }
 
@@ -400,6 +400,7 @@ export class Stories {
 
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
+        this.has_grouped_topics = false;
         this.api.call_server_post('members/save_tag_merges', this.params);
     }
 

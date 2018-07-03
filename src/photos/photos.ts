@@ -9,6 +9,7 @@ import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { Theme } from '../services/theme';
 import { MemberPicker } from "../members/member-picker";
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 
 @autoinject()
@@ -26,11 +27,11 @@ export class Photos {
     dialog;
     win_width;
     win_height;
+    has_grouped_photographers = false;
+    has_grouped_topics = false;
     params = {
         selected_topics: [],
-        grouped_selected_topics: [],
         selected_photographers: [],
-        grouped_selected_photographers: [],
         selected_days_since_upload: 0,
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
@@ -54,8 +55,14 @@ export class Photos {
     selected_photos = new Set([]);
     done_selecting = false;
     router;
-    options_settings = {};
-    photographers_settings = {};
+    options_settings = new MultiSelectSettings({
+        clear_filter_after_select: false,
+        can_group: true
+    });
+    photographers_settings = new MultiSelectSettings({
+        clear_filter_after_select: true,
+        can_set_sign: false
+    });
     caller_type;
     caller_id;
     with_a_member;
@@ -237,8 +244,7 @@ export class Photos {
         //todo: if event.ctrl create a super group rather than merge?
         this.api.call_server_post('members/save_tag_merges', this.params)
             .then(response => {
-                this.params.grouped_selected_topics = [];
-                //this.options_settings.clear_selections_now = true;
+                this.has_grouped_topics = false;
             });
     }
 
@@ -283,8 +289,8 @@ export class Photos {
         this.done_selecting = true;
     }
 
-    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting', 'params.grouped_selected_topics', 'params.grouped_selected_photographers',
-        'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 'selected_photos')
+    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting',
+        'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 'selected_photos', 'has_grouped_photographers', 'has_grouped_topics')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -296,33 +302,31 @@ export class Photos {
                 }
             } else {
                 this.done_selecting = false;
-                if (this.params.grouped_selected_topics.length > 0 ||
-                    this.params.grouped_selected_photographers.length > 0) {
+                if (this.has_grouped_topics ||
+                    this.has_grouped_photographers) {
                     result = "can-modify-tags";
                 } else {
                     result = "ready-to-edit"
                 }
             }
         }
-        this.options_settings = {
-            clear_filter_after_select: false,
+        this.options_settings.update({
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
             name_editable: result == "ready-to-edit",
             can_set_sign: result == "ready-to-edit",
             can_add: result == "ready-to-edit",
-            can_delete: result == "ready-to-edit",
-            clear_selections_now: false
-        };
-        this.photographers_settings = {
-            clear_filter_after_select: true,
+            can_delete: result == "ready-to-edit"
+        });
+        this.photographers_settings.update({
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
             name_editable: result == "ready-to-edit",
-            can_set_sign: false,
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
-            clear_selections_now: false,
-            can_group: false
-        };
+            can_group: this.user.editing
+        });
+        if (this.has_grouped_photographers) {
+            console.log("has grouped photographers. result is ", result);
+        }
         return result;
     }
 

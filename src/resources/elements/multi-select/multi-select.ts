@@ -4,18 +4,30 @@ import { CustomDialog } from '../../../services/custom-dialog';
 import { DialogService } from 'aurelia-dialog';
 import * as Collections from 'typescript-collections';
 import { I18N } from 'aurelia-i18n';
+import { User } from '../../../services/user';
 
-let default_multi_select_settings = {
-    clear_filter_after_select: false,
-    mergeable: false,
-    name_editable: false,
-    can_set_sign: false,
-    can_add: false,
-    can_delete: false,
-    can_group: true,
-    show_only_if_filter: false,
-    height_selected: 120,
-    height_unselected: 120
+export class MultiSelectSettings {
+    clear_filter_after_select = false;
+    mergeable = false;
+    name_editable = false;
+    can_set_sign = false;
+    can_add = false;
+    can_delete = false;
+    can_group = true;
+    show_only_if_filter = false;
+    height_selected = 120;
+    height_unselected = 120;
+
+    constructor(obj) {
+        this.update(obj);
+    }
+
+    update(obj) {
+        for (let key of Object.keys(obj)) {
+            this[key] = obj[key]
+        }
+        return this;
+    }
 };
 
 @inject(DOM.Element, I18N, DialogService)
@@ -23,6 +35,7 @@ export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) settings;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) has_groups;
 
     @bindable place_holder_text = "";
     @bindable can_edit = true;
@@ -39,17 +52,19 @@ export class MultiSelectCustomElement {
     new_item_name;
     lineHeight = 20;
     scroll_area;
+    user;
 
-    constructor(element, i18n: I18N, dialogService: DialogService) {
+    constructor(element, i18n: I18N, dialogService: DialogService, user: User) {
         this.element = element;
         this.dialogService = dialogService;
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
-        this.new_item_title = i18n.tr('multi-select.new-item-title')
+        this.new_item_title = i18n.tr('multi-select.new-item-title');
+        this.user = user;
     }
 
     attached() {
-        clean(this.settings);
-        this.settings = Object.assign({}, default_multi_select_settings, this.settings);
+        /*clean(this.settings);
+        this.settings = Object.assign({}, default_multi_select_settings, this.settings);*/
     }
 
     select_option(option) {
@@ -168,6 +183,7 @@ export class MultiSelectCustomElement {
         }
         let i = 0;
         let g = 0;
+        let has_groups = false;
         let prev_item = null;
         for (let item of this.selected_options) {
             if (item.group_number != g) {
@@ -179,6 +195,7 @@ export class MultiSelectCustomElement {
                 }
             } else {
                 item.first = false;
+                has_groups = true;
             }
             prev_item = item;
             if (this.open_group == item.group_number) {
@@ -189,6 +206,7 @@ export class MultiSelectCustomElement {
         this.selected_options[n - 1].last = true;
         this.calc_moveable();
         this.dispatch_event();
+        this.has_groups = has_groups;
     }
 
     calc_moveable() {
@@ -215,7 +233,7 @@ export class MultiSelectCustomElement {
     }
 
     can_move_item(item) {
-        if (this.selected_options[this.selected_options.length - 1].group_number == 1) return false;
+        if (this.selected_options.length < 2) return false;
         if (!this.open_group) return false;
         if (item.group_number == this.open_group && item.first && item.last) return false;
         return true;
