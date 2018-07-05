@@ -6,7 +6,7 @@
     </div>
 
     <div class="ms-container" css="height:${total_height}px;position:relative">
-        <button if.bind="can_add" 
+        <button if.bind="can_add  && ! filter" 
             style="position:absolute;top:60px;left:140px;padding:0;" 
             class="btn btn-success btn-xs cl-create-btn">
             <dlg-string str.bind="new_item_name" 

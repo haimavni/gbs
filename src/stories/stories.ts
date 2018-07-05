@@ -183,6 +183,7 @@ export class Stories {
         if (local) {
             this.keywords_to_selected_words();
         }
+        console.log("update storty list - simple search")
         this.update_story_list('simple');
     }
 
@@ -294,6 +295,7 @@ export class Stories {
             this.story_list = Array.from(result);
         } else {
             this.params.selected_stories = [];
+            console.log("update story list advanced")
             this.update_story_list('advanced');
             this.num_of_stories = 0;
         }
@@ -302,7 +304,7 @@ export class Stories {
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
-
+        console.log("update story list - handle topic change")
         this.update_story_list();
     }
 
@@ -310,6 +312,7 @@ export class Stories {
         this.params.selected_story_types = event.detail.ungrouped_selected_options;
         this.update_topic_list();
         //modify visible categories according to selected story types
+        console.log("update story list - handle story types change")
         this.update_story_list();
     }
 
@@ -337,6 +340,7 @@ export class Stories {
     }
 
     handle_age_change() {
+        console.log("update story list - handle age change");
         this.update_story_list();
     }
 
@@ -359,6 +363,7 @@ export class Stories {
 
     toggle_deleted_stories() {
         this.params.deleted_stories = !this.params.deleted_stories;
+        console.log("update story  list - toggle deleted")
         this.update_story_list();
     }
 
@@ -418,6 +423,7 @@ export class Stories {
         this.api.call_server_post('members/consolidate_stories', { stories_to_merge: this.params.checked_story_list })
             .then(() => {
                 this.checked_stories = new Set();
+                console.log("updatge story list - consolidate");
                 this.update_story_list();
             });
     }

@@ -106,6 +106,7 @@ export class MultiSelectCustomElement {
 
     @computedFrom('clear_selections_now')
     get clear_selections() {
+        if (! this.clear_selections_now) return false;
         this.clear_all_selections();
         this.clear_selections_now = false;
         return false;
