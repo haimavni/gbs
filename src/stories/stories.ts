@@ -105,7 +105,6 @@ export class Stories {
     }
 
     refresh_story(data) {
-        console.log("refresh story ", data.story_data);
         let story_id = data.story_data.story_id;
         let idx = this.story_list.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
@@ -145,6 +144,7 @@ export class Stories {
                     let iw = this.stories_index.find(w => w.name == wrd);
                     if (iw) {
                         g += 1;
+                        iw.sign = 'plus'
                         let item = { group_number: g, first: true, last: true, option: iw };
                         this.params.selected_words.push(item);
                     } else { //no such word in the vocabulary.
@@ -153,7 +153,6 @@ export class Stories {
                         this.keywords = this.search_words;
                     }
                 }
-                console.log("selected words after simple search: ", this.params.selected_words);
             });
     }
 
@@ -164,6 +163,7 @@ export class Stories {
             let iw = this.stories_index.find(w => w.name == wrd);
             if (iw) {
                 g += 1;
+                iw.sign = 'plus';
                 let item = { group_number: g, first: true, last: true, option: iw };
                 this.params.selected_words.push(item);
             } else {
@@ -183,7 +183,6 @@ export class Stories {
         if (local) {
             this.keywords_to_selected_words();
         }
-        console.log("update storty list - simple search")
         this.update_story_list('simple');
     }
 
@@ -257,7 +256,6 @@ export class Stories {
             return;
         }
         this.params.keywords_str = "";
-        console.log("params selected words:", this.params.selected_words);
         this.params.selected_words = event.detail.selected_options;
         let uni = new Set<number>();
         let group_sign;
@@ -295,7 +293,6 @@ export class Stories {
             this.story_list = Array.from(result);
         } else {
             this.params.selected_stories = [];
-            console.log("update story list advanced")
             this.update_story_list('advanced');
             this.num_of_stories = 0;
         }
@@ -304,7 +301,6 @@ export class Stories {
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
-        console.log("update story list - handle topic change")
         this.update_story_list();
     }
 
@@ -312,7 +308,6 @@ export class Stories {
         this.params.selected_story_types = event.detail.ungrouped_selected_options;
         this.update_topic_list();
         //modify visible categories according to selected story types
-        console.log("update story list - handle story types change")
         this.update_story_list();
     }
 
@@ -340,7 +335,6 @@ export class Stories {
     }
 
     handle_age_change() {
-        console.log("update story list - handle age change");
         this.update_story_list();
     }
 
@@ -363,7 +357,6 @@ export class Stories {
 
     toggle_deleted_stories() {
         this.params.deleted_stories = !this.params.deleted_stories;
-        console.log("update story  list - toggle deleted")
         this.update_story_list();
     }
 
@@ -423,7 +416,6 @@ export class Stories {
         this.api.call_server_post('members/consolidate_stories', { stories_to_merge: this.params.checked_story_list })
             .then(() => {
                 this.checked_stories = new Set();
-                console.log("updatge story list - consolidate");
                 this.update_story_list();
             });
     }
