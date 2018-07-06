@@ -266,7 +266,8 @@ export class MemberDetail {
     }
 
     goto_story_page(story) {
-        this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story' });
+        let what = story.used_for == this.api.constants.story_type.STORY4TERM ? 'term' : 'story';
+        this.router.navigateToRoute('story-detail', { id: story.story_id, what: what });
     }
 
     on_height_change(event) {
