@@ -127,6 +127,13 @@
                             </select>
                         </form>
                     </div>
+                    <div class="row" style="margin-top: 20px;" if.bind="user.privileges.TEXT_AUDITOR && user.editing">
+                        <form role="form">
+                            <select value.bind="params.approval_state" style="height:32px;width:90%;" change.delegate="handle_approval_state_change($event)">
+                                <option repeat.for="option of approval_state_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

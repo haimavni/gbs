@@ -74,7 +74,10 @@
         "clean": "נקה",
         "promote-selected-stories": "קדם את הספורים שנבחרו",
         "unknown-source": "מקור בלתי ידוע",
-        "updated-by": "עודכן על ידי"
+        "updated-by": "עודכן על ידי",
+        "approved-and-unapproved": "ספורים שאושרו ושלא אושרו",
+        "unapproved": "ספורים שטרם אושרו",
+        "approved": "ספורים שכבר אושרו"
     },
     "members": {
         "members": "חברים",

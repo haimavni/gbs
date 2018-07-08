@@ -45,6 +45,7 @@ export class Stories {
         deleted_stories: false,
         days_since_update: 0,
         search_type: 'simple',
+        approval_state: 0
     };
     help_data = {
         num_words: 65056
@@ -53,6 +54,7 @@ export class Stories {
     authors_list = [];
     checked_stories = new Set();
     days_since_update_options;
+    approval_state_options;
     i18n;
     num_of_stories = 0;
     story_types;
@@ -98,6 +100,12 @@ export class Stories {
             { name: i18n.tr('stories.events'), id: 2 },
             { name: i18n.tr('stories.photos'), id: 3 },
             { name: i18n.tr('stories.terms'), id: 4 }
+        ]
+
+        this.approval_state_options = [
+            { name: i18n.tr('stories.approved-and-unapproved'), id: 1},
+            { name: i18n.tr('stories.unapproved'), id: 2},
+            { name: i18n.tr('stories.approved'), id: 3}
         ]
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
@@ -308,6 +316,10 @@ export class Stories {
         this.params.selected_story_types = event.detail.ungrouped_selected_options;
         this.update_topic_list();
         //modify visible categories according to selected story types
+        this.update_story_list();
+    }
+
+    handle_approval_state_change(event) {
         this.update_story_list();
     }
 

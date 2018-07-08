@@ -74,7 +74,11 @@
         "clean": "Clean",
         "promote-selected-stories": "Promote selected stories",
         "unknown-source": "Unknown source",
-        "updated-by": "Updated by"
+        "updated-by": "Updated by",
+        "approved-and-unapproved": "Both approved and unapproved",
+        "unapproved": "Unapproved stories",
+        "approved": "Approved stories"
+
     },
     "members": {
         "members": "Members",
