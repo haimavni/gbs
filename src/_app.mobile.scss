@@ -31,6 +31,17 @@ $navbar-height: 108px;
     width: 100% !important;
 }
 
-#router-view {
+.top-head {
+    position: absolute;
+    top: $navbar-height;
+    width: 100%;
+}
+
+.navbar + #router-view {
     padding-top: $navbar-height;
 }
+
+.top-head + #router-view {
+    padding-top: $navbar-height + 80px;
+}
+
