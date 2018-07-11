@@ -85,18 +85,16 @@
 
 .top-head {
     height: 80px;
-    background-repeat: no-repeat;
 
-    div.page-title {
-        padding-top:0px;
-        padding-right:15px;
-        width:1170px;
-        margin-left:auto;
-        margin-right:auto;
-        height:96px;
-        margin-top:0px;
-        background-repeat:no-repeat;
-        margin-top:-20px;
+    .page-title {
+        @include container;
+        display: block;
+        height: 96px;
+		margin: 0 auto;
+        padding: 0 6px;
+        background-repeat: no-repeat;
+        line-height: 80px;
+        font-size: 36px;
     }
 }
 
