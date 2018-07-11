@@ -29,6 +29,7 @@ export class SimpleInterceptor implements Interceptor {
 
     responseError(response: Response) {
         toastr.error('Some error has occured! ' + response);
+        console.log("Server error: ", response);
         THIS.pending -= 1;
         if (!THIS.pending) {
             toastr.warning("Server Error. Please try again later.")
