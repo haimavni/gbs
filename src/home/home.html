@@ -17,7 +17,7 @@
             <h2 class="panel-stories-header">
                 <span class="expand">${'home.sample-stories' & t}</span>
                 <span class="full-collection-button" click.delegate="goto_full_collection()">
-                    ${'home.full-collection' & t} 
+                    ${'home.full-collection' & t}
                     <i class="fa fa-play fa-rotate-180"> </i>
                 </span>
             </h2>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="member-of-the-day">
-        <div dir="${theme.rtltr}">
+        <div dir="ltr">
             <span class="hidden-xs member-link" click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
                 ${'home.to-the-page-of' & t} ${member_of_the_day.first_name}
             </span>
