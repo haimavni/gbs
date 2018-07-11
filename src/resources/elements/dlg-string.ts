@@ -48,7 +48,7 @@ export class DlgStringCustomElement {
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('change', {
+        let changeEvent = new CustomEvent('str-change', {
             detail: {
                 string_value: this.str
             },

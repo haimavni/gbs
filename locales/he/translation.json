@@ -73,7 +73,11 @@
         "highlight-on": "הפעל/הפסק הדגשת מילות החיפוש",
         "clean": "נקה",
         "promote-selected-stories": "קדם את הספורים שנבחרו",
-        "unknown-source": "מקור בלתי ידוע"
+        "unknown-source": "מקור בלתי ידוע",
+        "updated-by": "עודכן על ידי",
+        "approved-and-unapproved": "ספורים שאושרו ושלא אושרו",
+        "unapproved": "ספורים שטרם אושרו",
+        "approved": "ספורים שכבר אושרו"
     },
     "members": {
         "members": "חברים",
@@ -123,6 +127,7 @@
         "load-member-group": "טען קבוצת חברים",
         "clear-member-group": "נקה את הקבוצה שנבחרה",
         "story": "בחירת חברים הקשורים לסיפור",
+        "term": "בחירת חברים הקשורים למונח",
         "back-to-story": "חזרה לדף הספור",
         "back-to-term": "חזרה לדף המונח",
         "to-story-page": "לדף הספור",
@@ -220,9 +225,11 @@
         "photos-date": "תאריך התמונות",
         "copy-photo-url": "העתק את כתובת התמונה למטרת שיתוף",
         "search-member": "עם חבר...",
+        "any-photo": "כל התמונות",
         "candidates": "מועמדים לצרוף מתוך התמונות",
         "delete": "מחק את התמונה",
-        "rotate": "סובב את התמונה"
+        "rotate": "סובב את התמונה",
+        "photographer-already-exists": "הצלם כבר קיים במערכת"
     },
     "videos": {
         "videos": "סרטונים"

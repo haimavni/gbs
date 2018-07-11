@@ -1,7 +1,7 @@
 <template>
     <require from="./stories.css"></require>
     <section class="container content-area">
-        <div class="row content-area" style="width:100%;margin-top:100px;padding-right:36px;" dir="rtl">
+        <div class="row content-area" style="width:100%;margin-top:99px;padding-right:36px;" dir="rtl">
             <div class="row" style="height:675px;">
                 <div class="col-md-1">
                 </div>
@@ -32,7 +32,7 @@
                                 </button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && checked_stories.size > 0 && params.grouped_selected_topics.length==0 && params.selected_topics.length>0"
+                                <button if.bind="user.editing && checked_stories.size > 0 && params.selected_topics.length>0"
                                     class="btn btn-basic btn-md">
                                     ${'stories.apply-to-selected' & t}
                                 </button>
@@ -89,7 +89,9 @@
                             selected_options.bind="params.selected_topics"
                             height.bind="220" 
                             settings.bind="options_settings" 
+                            has_groups.bind="has_grouped_topics"
                             ms-change.delegate="handle_topic_change($event)"
+                            clear_selections_now.bind="clear_selected_topics_now"
                             style="margin-top:5px;">
                         </multi-select>
                     </div>
@@ -122,6 +124,13 @@
                         <form role="form">
                             <select value.bind="params.days_since_update" style="height:32px;width:90%;" change.delegate="handle_age_change($event)">
                                 <option repeat.for="option of days_since_update_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="row" style="margin-top: 20px;" if.bind="user.privileges.TEXT_AUDITOR && user.editing">
+                        <form role="form">
+                            <select value.bind="params.approval_state" style="height:32px;width:90%;" change.delegate="handle_approval_state_change($event)">
+                                <option repeat.for="option of approval_state_options" model.bind="option">${option.name}</option>
                             </select>
                         </form>
                     </div>

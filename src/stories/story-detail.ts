@@ -30,8 +30,10 @@ export class StoryDetail {
     eventAggregator;
     dialog;
     subscriber;
+    subscriber1;
     story_type;
     advanced_search;
+    story_changed = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -46,16 +48,36 @@ export class StoryDetail {
 
     attached() {
         this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.subscriber1 =  this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+    }
+
+    refresh_story(data) {
+        console.log("story detail refresh story ", data.story_data);
+        let story_id = data.story_data.story_id;
+        if (this.story && this.story.story_id == story_id) {
+            this.api.call_server_post('members/get_story', {story_id: story_id})
+                .then(response => {
+                    this.story = response.story;
+                    this.story_changed = true;
+                });
+        }
     }
 
     detached() {
         this.subscriber.dispose();
+        this.subscriber1.dispose();
     }
 
     activate(params, config) {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
-        this.story_type = params.what || 'story';
+        let used_for = params.used_for
+        if (used_for) {
+            used_for = parseInt(used_for) 
+        } else {
+            used_for = (params.what && params.what == 'term') ? this.api.constants.story_type.STORY4TERM : this.api.constants.story_type.STORY4EVEMT;
+        }
+        this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : 'story';
         let what = this.story_type=='story' ? 'EVENT' : 'TERM';
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
@@ -65,6 +87,7 @@ export class StoryDetail {
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
+                    this.story.used_for = used_for;
                     this.story_dir = this.theme.rtltr;
                 } else {
                     this.story_dir = this.theme.language_dir(this.story.language)
@@ -147,8 +170,9 @@ export class StoryDetail {
         this.api.call_server_post('members/add_story_member', {story_id: this.story.story_id, candidate_id: candidate_id});
     }
 
-    @computedFrom('story.story_text')
+    @computedFrom('story.story_text', 'story_changed')
     get highlightedHtml() {
+        this.story_changed = false;
         if (! this.story) {
             return "";
         }

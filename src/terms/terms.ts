@@ -58,4 +58,12 @@ export class Terms {
         this.router.navigateToRoute('term-detail', { id: term.story_id, what: 'term' });
     }
 
+    handle_event(term, event) {
+        if (event.detail.action == 'delete') {
+            let idx = this.term_list.findIndex(trm=>trm.id==term.id);
+            this.term_list.splice(idx, 1);
+            this.api.call_server('members/delete_term', {term_id: term.id});
+        }
+    }
+
 }

@@ -3,8 +3,9 @@ import { StoryWindow } from '../../stories/story_window';
 import { User } from '../../services/user';
 import { Theme } from '../../services/theme';
 import { DialogService } from 'aurelia-dialog';
+import { I18N } from 'aurelia-i18n';
 
-@inject(DOM.Element, User, Theme, DialogService)
+@inject(DOM.Element, User, Theme, DialogService, I18N)
 export class editableCustomElement {
     @bindable story;
     @bindable settings = { show_date: false, class: 'story-panel', divclass: null, checkable: false, deletable: false, no_expand: false };
@@ -13,12 +14,16 @@ export class editableCustomElement {
     theme;
     dialog;
     width;
+    i18n;
+    updated_by;
 
-    constructor(element, user, theme,  dialog) {
+    constructor(element, user, theme,  dialog, i18n) {
         this.element = element;
         this.dialog = dialog;
         this.user = user;
         this.theme = theme;
+        this.i18n = i18n;
+        this.updated_by = this.i18n.tr('stories.updated-by')
     }
 
     zoom_out(story, what) {

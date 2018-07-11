@@ -4,6 +4,7 @@ import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
 import environment from '../environment';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import * as download from 'downloadjs';
+import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
 
 let THIS;
@@ -27,7 +28,7 @@ export class SimpleInterceptor implements Interceptor {
     }
 
     responseError(response: Response) {
-        toastr.error('Some error has occured!');
+        toastr.error('Some error has occured! ' + response);
         THIS.pending -= 1;
         if (!THIS.pending) {
             toastr.warning("Server Error. Please try again later.")
@@ -41,6 +42,7 @@ export class MemberGateway {
 
     httpClient;
     eventAggregator;
+    i18n;
     constants = {
         visibility: {
             VIS_NEVER: 0,
@@ -59,9 +61,10 @@ export class MemberGateway {
     };
     pending = 0;
 
-    constructor(httpClient: HttpClient, eventAggregator: EventAggregator) {
+    constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N) {
         this.httpClient = httpClient;
         this.eventAggregator = eventAggregator;
+        this.i18n = i18n;
         let href = window.location.href;
         let app = href.split('/')[3];
         if (app == '#') {
@@ -79,6 +82,14 @@ export class MemberGateway {
         THIS = this;
     }
 
+    tr(s) {
+        if (s.startsWith('!')) {
+            s = s.slice(1, s.length);
+            s = this.i18n.tr(s);
+        }
+        return s;
+    }
+
     call_server(url: string, data?: any) {
         if (data) {
             url += '?' + params(data);
@@ -87,9 +98,9 @@ export class MemberGateway {
             .catch(error => alert("error: " + error))
             .then((result) => {
                 if (result.error) {
-                    toastr.error(result.error)
+                    toastr.error(this.tr(result.error));
                 } else if(result.user_error) {
-                    toastr.warning(result.user_error);
+                    toastr.warning(this.tr(result.user_error));
                     return result;
                 } else {
                     return result;
@@ -104,9 +115,9 @@ export class MemberGateway {
             .catch(error => alert("error: " + error))
             .then((result) => {
                 if (result.error) {
-                    toastr.error(result.error)
+                    toastr.error(this.tr(result.error))
                 } else if(result.user_error) {
-                    toastr.warning(result.user_error);
+                    toastr.warning(this.tr(result.user_error));
                     return result;
                 } else {
                     return result;

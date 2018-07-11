@@ -73,7 +73,12 @@
         "highlight-on": "Highlighting search words on/off",
         "clean": "Clean",
         "promote-selected-stories": "Promote selected stories",
-        "unknown-source": "Unknown source"
+        "unknown-source": "Unknown source",
+        "updated-by": "Updated by",
+        "approved-and-unapproved": "Both approved and unapproved",
+        "unapproved": "Unapproved stories",
+        "approved": "Approved stories"
+
     },
     "members": {
         "members": "Members",
@@ -123,6 +128,7 @@
         "load-member-group": "Load members group",
         "clear-member-group": "Clear member selections",
         "story": "Selet members associated with the story",
+        "term": "Selet members associated with the term",
         "back-to-story": "Back to the story page",
         "back-to-term": "Back to the term page",
         "to-story-page": "To the story page",
@@ -220,9 +226,11 @@
         "photos-date": "Photos date",
         "copy-photo-url": "Copy photo address for sharing",
         "search-member": "With Member",
+        "any-photo": "All photos",
         "candidates": "Candidates from the photos",
         "delete": "Delete the photo",
-        "rotate": "Rotate the photo"
+        "rotate": "Rotate the photo",
+        "photographer-already-exists": "Photographer already exists"
     },
     "videos": {
         "videos": "Video"

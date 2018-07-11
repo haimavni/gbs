@@ -62,5 +62,25 @@ export function copy_to_clipboard(text) {
     document.body.removeChild(hiddenElement);
 }
 
+function getLines(ctx, text, maxWidth) {
+    //this is only an excersize for the truncated text custom elment
+    let words = text.split(" ");
+    let lines = [];
+    let currentLine = words[0];
+
+    for (let i = 1; i < words.length; i++) {
+        let word = words[i];
+        let width = ctx.measureText(currentLine + " " + word).width;
+        if (width < maxWidth) {
+            currentLine += " " + word;
+        } else {
+            lines.push(currentLine);
+            currentLine = word;
+        }
+    }
+    lines.push(currentLine);
+    return lines;
+}
+
 
 
