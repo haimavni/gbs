@@ -9,7 +9,7 @@
                     <div class="row" style="margin-bottom:15px;padding-right:32px;">
                         <form class="form-inline">
                             <!--<div class="input-group" style="width:400px;" if.bind="user.privileges.DEVELOPER">
-                                <search-input value.bind="filter" 
+                                <search-input value.bind="filter"
                                     placeholder="stories.filter" height="38"
                                     change.delegate="update_story_list()">
                                 </search-input>
@@ -57,21 +57,21 @@
                         ${'no-results' & t}
                     </h2>
                     <form if.bind="!no_results" class="form-inline" style="margin-right:36px;margin-bottom:6px;">
-                        <button repeat.for="uf of active_result_types" 
-                            class="btn btn-${uf==used_for ? 'primary' : 'default'}" 
+                        <button repeat.for="uf of active_result_types"
+                            class="btn btn-${uf==used_for ? 'primary' : 'default'}"
                             click.delegate="select_used_for(uf)">
                             ${'result' + uf & t}
                         </button>
                     </form>
-                    <ul style="width:100%;padding:0;float:right;height:560px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area">
-                        <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999 | sort : 'name'" dir="${theme.rtltr}" 
+                    <ul style="width:100%;padding:0;height:560px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area">
+                        <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999 | sort : 'name'" dir="${theme.rtltr}"
                             if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
                             <div style="height:130px;overflow:hidden;padding-right:20px;padding-left:20px;padding-top:0px;cursor:pointer;"
                                 click.delegate="jump_to_the_full_story($event, story)">
                                 <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">-->
                                 <div style="margin-bottom: 10px;" class="story-preview">
-                                    <editable settings.bind="{show_date:false, class:'story-section', checkable: true}" 
+                                    <editable settings.bind="{show_date:false, class:'story-section', checkable: true}"
                                         story.bind="story" change.delegate="toggle_story_selection(story, $event)">
                                     </editable>
                                 </div>
@@ -85,10 +85,10 @@
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
                         <multi-select options.bind="topic_list"
-                            place_holder_text="photos.click-topic" 
+                            place_holder_text="photos.click-topic"
                             selected_options.bind="params.selected_topics"
-                            height.bind="220" 
-                            settings.bind="options_settings" 
+                            height.bind="220"
+                            settings.bind="options_settings"
                             has_groups.bind="has_grouped_topics"
                             ms-change.delegate="handle_topic_change($event)"
                             clear_selections_now.bind="clear_selected_topics_now"
@@ -96,11 +96,11 @@
                         </multi-select>
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
-                        <button class="btn btn-${params.link_class} btn-xs" 
+                        <button class="btn btn-${params.link_class} btn-xs"
                             click.trigger="toggle_link_class()" t="[title]stories.older-links">
                             <i class="fa fa-link fa-xs"></i>
                         </button>
-                        <button class="btn btn-xs ${params.deleted_stories ? 'active' : ''}" 
+                        <button class="btn btn-xs ${params.deleted_stories ? 'active' : ''}"
                             click.trigger="toggle_deleted_stories()" t="[title]stories.undelete">
                             <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
                         </button>
@@ -110,13 +110,13 @@
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
-                        <multi-select 
-                            options.bind="stories_index" 
+                        <multi-select
+                            options.bind="stories_index"
                             selected_options.bind="params.selected_words"
                             keywords.two-way="keywords"
-                            place_holder_text="stories.word-index" 
-                            height="201" 
-                            ms-change.trigger="handle_words_change($event)" 
+                            place_holder_text="stories.word-index"
+                            height="201"
+                            ms-change.trigger="handle_words_change($event)"
                             settings.bind="words_settings">
                         </multi-select>
                     </div>
