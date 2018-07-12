@@ -23,7 +23,12 @@ $navbar-height: 108px;
 
     .nav-item,
     .navbar-logo {
-        font-size: 1.6rem;
+        font-size: 4.25vw;
+
+        img {
+            width: 24px;
+            margin-left: 0.25rem;
+        }
     }
 }
 

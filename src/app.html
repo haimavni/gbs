@@ -21,17 +21,17 @@
                 </div>
             </div>
 
-            <div class="navbar-main" css="direction:${theme.rtltr};">
+            <div class="navbar-main" direction="ltr">
                 <span class="loader" if.bind="api.pending">
-                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                    <i class="fa fa-spinner fa-spin"></i>
                 </span>
                 <div class="nav-items">
-                    <a class="navbar-logo" href="#">
-                        <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
-                        ${router.title & t}
-                    </a>
                     <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">
                         ${row.title & t}.
+                    </a>
+                    <a class="navbar-logo" href="#">
+                        ${router.title & t}
+                        <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
                     </a>
                 </div>
             </div>
