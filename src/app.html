@@ -15,13 +15,13 @@
                         ${row.title & t}.
                     </a>
                 </div>
-                <span class="loader" if.bind="api.pending">
+                <span class="loader" css="opacity:${api.pending ? 1.0 : 0}">
                     <i class="fa fa-spinner fa-spin"></i>
                 </span>
             </div>
 
             <div class="navbar-search">
-                <div class="search-box" css="width:${search_input_width}px;">
+                <div class="search-box">
                     <label class="search-box-container">
                         <input type="text" class="search-box-input" value.bind="keywords" t="[placeholder]enter-search-words" dir.bind="theme.rtltr" change.delegate="go_search()" />
                         <i class="far fa-times" click.trigger="clear_keywords()"></i>
