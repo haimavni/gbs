@@ -1,4 +1,4 @@
-<template>
+<template dir="${theme.ltrtl}">
     <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right" style="text-decoration:none;color:black">
         <i class="fa fa-play"></i>
         ${'user.login' & t}

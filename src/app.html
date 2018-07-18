@@ -3,10 +3,21 @@
     <require from="toastr/build/toastr.min.css"></require>
 
     <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu" dir="${theme.rtltr}">
 
-            <div class="navbar-controls">
-                <user-mode></user-mode>
+            <div class="navbar-main" dir="${theme.rtltr}">
+                <div class="nav-items">
+                    <a class="navbar-logo" href="#">
+                        <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
+                        ${router.title & t}
+                    </a>
+                    <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">
+                        ${row.title & t}.
+                    </a>
+                </div>
+                <span class="loader" if.bind="api.pending">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
             </div>
 
             <div class="navbar-search">
@@ -20,20 +31,8 @@
                     </button>
                 </div>
             </div>
-
-            <div class="navbar-main" direction="ltr">
-                <span class="loader" if.bind="api.pending">
-                    <i class="fa fa-spinner fa-spin"></i>
-                </span>
-                <div class="nav-items">
-                    <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">
-                        ${row.title & t}.
-                    </a>
-                    <a class="navbar-logo" href="#">
-                        ${router.title & t}
-                        <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
-                    </a>
-                </div>
+            <div class="navbar-controls">
+                <user-mode></user-mode>
             </div>
         </nav>
 
