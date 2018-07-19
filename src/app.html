@@ -37,7 +37,7 @@
         </nav>
 
         <div class="top-head" if.bind="theme.page_title != '' && ! theme.hide_title">
-            <div class="page-title" css="background-image:url('${theme.files.top_background}');" dir="rtl">
+            <div class="page-title" css="background-image:url('${theme.files.top_background}');" dir="${theme.rtltr}">
                 <span>${theme.page_title & t}</span>
             </div>
         </div>

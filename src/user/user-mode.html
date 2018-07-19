@@ -1,5 +1,5 @@
 <template dir="${theme.ltrtl}">
-    <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right" style="text-decoration:none;color:black">
+    <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right hide-if-small" style="text-decoration:none;color:black">
         <i class="fa fa-play"></i>
         ${'user.login' & t}
     </a>
@@ -9,7 +9,7 @@
     </a>
     <help topic="introduction" position="bottom" style="margin:0;padding:0;border-right:1px solid gray;">
     </help>
-    <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+    <div class="btn-group dropdown border-right hide-if-small" style="padding:0;margin-right:18px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
         <button class="btn btn-link btn-md dropdown-toggle" t="[title]user.font-size" style="text-decoration:none;position:relative"
             aubs-dropdown-toggle>
             <span style="position:absolute;left:20px;top:-8px;" class="font-size-150">${'a' & t}</span>
@@ -40,7 +40,7 @@
         </ul>
     </div>
 
-    <div class="btn-group dropdown border-right" 
+    <div class="btn-group dropdown border-right hide-if-small" 
         aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" 
         t="[title]palettes.select-colors"
         if.bind="true || user.privileges.DEVELOPER">

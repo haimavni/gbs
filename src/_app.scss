@@ -15,8 +15,9 @@
     }
 
     .loader {
-        justify-self: flex-start;
+        //justify-self: flex-start;
         font-size: 1.5em;
+        //width: 1.5em;
     }
 
     .nav-items {
@@ -39,6 +40,10 @@
         display: inline-block;
         font-weight: bold;
         color: inherit;
+    }
+
+    .navbar-controls {
+        align-self: center;
     }
 
 }
@@ -73,22 +78,6 @@
         background-color: lightblue;
         color: white;
         border: solid 1px lightblue;
-    }
-}
-
-.top-head {
-    height: 80px;
-    z-index: 1;
-
-    .page-title {
-        @include container;
-        display: block;
-        height: 96px;
-		margin: 0 auto;
-        padding: 0 6px;
-        background-repeat: no-repeat;
-        line-height: 80px;
-        font-size: 36px;
     }
 }
 

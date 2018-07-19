@@ -9,18 +9,23 @@ $navbar-height: 108px;
 
     .navbar-main,
     .navbar-search {
-        width: 100%;
         margin-bottom: 0.5rem;
+    }
+
+    .navbar-main {
         align-self: flex-start;
+        width: 57%;
     }
 
     .navbar-search {
-        order: -2;
+        order: -3;
+        width: 100%;
     }
 
     .navbar-controls {
         align-self: flex-end;
-        order: -3;
+        order: -2;
+        width: 30%;
     }
 
     .nav-item {
@@ -36,10 +41,18 @@ $navbar-height: 108px;
             margin-left: 0.25rem;
         }
     }
+
+}
+
+.hide-if-small {
+    display: none;
 }
 
 .search-box {
     width: 100% !important;
+    label {
+        width: 100%;
+    }
 }
 
 .top-head {
@@ -61,4 +74,22 @@ $navbar-height: 108px;
 .top-head + #router-view {
     padding-top: $navbar-height + 80px;
 }
+
+.top-head {
+    height: 80px;
+    z-index: 1;
+
+    .page-title {
+        @include container;
+        display: block;
+        height: 96px;
+		margin: 0 auto;
+        padding: 0 6px;
+        background-repeat: no-repeat;
+        line-height: 80px;
+        font-size: 36px;
+    }
+}
+
+
 

@@ -2,6 +2,7 @@ $navbar-height: 60px;
 
 .navbar {
     height: $navbar-height;
+    flex-direction: row-reverse;
 
     > * {
         align-self: center;
@@ -32,12 +33,24 @@ $navbar-height: 60px;
             width: 400px;
         }
     }
+
+    .navbar-search {
+        order: -2;
+    }
+
+    .navbar-controls {
+        align-self: flex-end;
+        order: -3;
+    }
 }
 
 .top-head {
     position: absolute;
     top: $navbar-height;
     width: 100%;
+    .head-title {
+        width: 1100px;
+    }
 }
 
 .navbar + #router-view {
@@ -47,3 +60,22 @@ $navbar-height: 60px;
 .top-head + #router-view {
     padding-top: $navbar-height + 80px;
 }
+
+.top-head {
+    height: 80px;
+    z-index: 1;
+
+    .page-title {
+        @include container;
+        display: block;
+        height: 96px;
+		margin: 0 auto;
+        padding: 0 6px;
+        background-repeat: no-repeat;
+        line-height: 80px;
+        font-size: 36px;
+        width: 1100px;
+    }
+}
+
+
