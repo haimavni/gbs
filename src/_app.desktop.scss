@@ -61,21 +61,5 @@ $navbar-height: 60px;
     padding-top: $navbar-height + 80px;
 }
 
-.top-head {
-    height: 80px;
-    z-index: 1;
-
-    .page-title {
-        @include container;
-        display: block;
-        height: 96px;
-		margin: 0 auto;
-        padding: 0 6px;
-        background-repeat: no-repeat;
-        line-height: 80px;
-        font-size: 36px;
-        width: 1100px;
-    }
-}
 
 
