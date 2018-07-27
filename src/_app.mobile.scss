@@ -7,6 +7,10 @@ $navbar-height: 78px;
     align-items: flex-end;
     flex-wrap: wrap;
 
+    .navbar-main {
+        flex: 1;
+    }
+
     .navbar-main,
     .navbar-search {
         margin-bottom: 0.5rem;
