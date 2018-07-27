@@ -41,6 +41,10 @@ $navbar-height: 60px;
     }
 }
 
+#router-view {
+    height: calc(100vh - 67px);
+}
+
 .top-head {
     position: absolute;
     top: $navbar-height;
