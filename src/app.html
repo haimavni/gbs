@@ -2,10 +2,9 @@
     <require from="styles.css"></require>
     <require from="toastr/build/toastr.min.css"></require>
 
-    <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu" dir="${theme.rtltr}">
-
-            <div class="navbar-main" dir="${theme.rtltr}">
+    <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" dir="${theme.rtltr}">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu">
+            <div class="navbar-main">
                 <div class="nav-items">
                     <a class="navbar-logo" href="#">
                         <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
@@ -19,11 +18,10 @@
                     <i class="fa fa-spinner fa-spin"></i>
                 </span>
             </div>
-
             <div class="navbar-search">
                 <div class="search-box">
                     <label class="search-box-container">
-                        <input type="text" class="search-box-input" value.bind="keywords" t="[placeholder]enter-search-words" dir.bind="theme.rtltr" change.delegate="go_search()" />
+                        <input type="text" class="search-box-input" value.bind="keywords" t="[placeholder]enter-search-words" change.delegate="go_search()" />
                         <i class="far fa-times" click.trigger="clear_keywords()"></i>
                     </label>
                     <button class="search-box-button" click.delegate="go_search(true)">
@@ -37,7 +35,7 @@
         </nav>
 
         <div class="top-head" if.bind="theme.page_title != '' && ! theme.hide_title">
-            <div class="page-title" css="background-image:url('${theme.files.top_background}');" dir="${theme.rtltr}">
+            <div class="page-title" css="background-image:url('${theme.files.top_background}');">
                 <span>${theme.page_title & t}</span>
             </div>
         </div>

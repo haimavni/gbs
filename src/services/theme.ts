@@ -24,7 +24,6 @@ export class Theme {
     _locale;
     askLanguage = false;
     public rtltr;
-    public ltrtl;
     i18n;
     touchScreen = null;
     interact_setting = {};
@@ -56,7 +55,6 @@ export class Theme {
         this.rtltr = rtl_langs.has(this.locale) ? "rtl" : "ltr";
         this.same_dir = this.rtltr == "rtl" ? "right" : "left";
         this.other_dir = this.rtltr == "rtl" ? "left" : "right";
-        this.ltrtl = this.rtltr == 'ltr' ? 'rtl' : 'ltr';
         try {
             let userLangs = navigator['languages'];
             //let userLangs = navigator.languages;
@@ -71,7 +69,7 @@ export class Theme {
     }
 
     language_dir(lang) {
-       return  rtl_langs.has(lang) ? "rtl" : "ltr"; 
+       return  rtl_langs.has(lang) ? "rtl" : "ltr";
     }
 
     detectTouchScreen() {

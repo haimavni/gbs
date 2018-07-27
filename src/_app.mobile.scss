@@ -4,28 +4,17 @@ $navbar-height: 108px;
     height: auto;
     padding-top: 1vh;
     padding-bottom: 0.5rem;
-    flex-direction: column-reverse;
     align-items: flex-end;
+    flex-wrap: wrap;
 
     .navbar-main,
     .navbar-search {
         margin-bottom: 0.5rem;
     }
 
-    .navbar-main {
-        align-self: flex-start;
-        width: 57%;
-    }
-
     .navbar-search {
-        order: -3;
         width: 100%;
-    }
-
-    .navbar-controls {
-        align-self: flex-end;
-        order: -2;
-        width: 30%;
+        order: 1; // re-order to the end, a new line
     }
 
     .nav-item {

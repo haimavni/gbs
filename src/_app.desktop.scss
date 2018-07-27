@@ -2,7 +2,6 @@ $navbar-height: 60px;
 
 .navbar {
     height: $navbar-height;
-    flex-direction: row-reverse;
 
     > * {
         align-self: center;
@@ -35,12 +34,10 @@ $navbar-height: 60px;
     }
 
     .navbar-search {
-        order: -2;
     }
 
     .navbar-controls {
         align-self: flex-end;
-        order: -3;
     }
 }
 
