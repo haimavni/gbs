@@ -4,7 +4,7 @@
 .navbar {
     @include container;
     margin-bottom: 0 !important;
-    z-index: 1;
+    z-index: 10;
 
     .navbar-main {
         display: flex;
