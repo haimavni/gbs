@@ -10,9 +10,11 @@
                         <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
                         ${router.title & t}
                     </a>
-                    <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">
-                        ${row.title & t}.
-                    </a>
+                    <div class="menu-items">
+                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">
+                            ${row.title & t}.
+                        </a>
+                    </div>
                 </div>
                 <span class="loader" css="opacity:${api.pending ? 1.0 : 0}">
                     <i class="fa fa-spinner fa-spin"></i>

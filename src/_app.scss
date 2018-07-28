@@ -92,6 +92,11 @@
     }
 }
 
+div.menu-items {
+    display: flex;
+    flex-direction:row-reverse;
+}
+
 .top-head {
     height: 80px;
     z-index: 1;
@@ -106,4 +111,10 @@
         line-height: 80px;
         font-size: 36px;
     }
+}
+
+.navbar .toolbar {
+    display: flex;
+    //flex-direction: row-reverse;
+    align-items: center;
 }

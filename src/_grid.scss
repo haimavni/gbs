@@ -29,6 +29,6 @@ $desktop-width: 1200px;
 
 .container {
     @include desktop {
-        width: $desktop-width !important;
+        width: $desktop-width - 30 !important;
     }
 }
