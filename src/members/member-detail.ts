@@ -293,7 +293,7 @@ export class MemberDetail {
             let lsh = tph - 100;
             this.life_summary_content.style.height = `${lsh}px`;
             this.top_panel.style.height = `${tph}px`;
-            let bph = panel_height - tph - 26;
+            let bph = panel_height - tph - 1;
             this.bottom_panel.style.height = `${bph}px`;
             this.story_box_height = bph - 12;
             let mdch = panel_height + this.photo_strip_height - 12;
