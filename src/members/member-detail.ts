@@ -287,13 +287,13 @@ export class MemberDetail {
     _set_heights() {
         try {
             let panel_height = this.theme.height - this.photo_strip_height - 188;
-            panel_height = Math.max(panel_height, 566);
+            panel_height = Math.max(panel_height, 555);
             this.member_detail_panel.style.height = `${panel_height}px`;
             let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
             let lsh = tph - 100;
             this.life_summary_content.style.height = `${lsh}px`;
             this.top_panel.style.height = `${tph}px`;
-            let bph = panel_height - tph - 6;
+            let bph = panel_height - tph - 26;
             this.bottom_panel.style.height = `${bph}px`;
             this.story_box_height = bph - 12;
             let mdch = panel_height + this.photo_strip_height - 12;

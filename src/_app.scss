@@ -44,7 +44,7 @@
 }
 
 .navbar.navbar-fixed-top {
-    z-index: 1;
+    z-index: 9999;
 }
 
 .search-box {
@@ -117,4 +117,11 @@ div.menu-items {
     display: flex;
     //flex-direction: row-reverse;
     align-items: center;
+}
+
+[dir="rtl"] .navbar-logo {
+    margin-left: 10px;
+}
+[dir="ltr"] .navbar-logo {
+    margin-right: 10px;
 }

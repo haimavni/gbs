@@ -3,11 +3,15 @@ $navbar-height: 60px;
 .navbar {
     height: $navbar-height;
 
+    &.navbar-default.navbar-fixed-top {
+        width: 1170px;
+    }
+
     > * {
         align-self: center;
 
         + * {
-            margin-left: 1rem;
+            margin-left: 0rem;
         }
     }
 
@@ -48,8 +52,8 @@ $navbar-height: 60px;
     position: absolute;
     top: $navbar-height;
     width: 100%;
-    .head-title {
-        width: 1100px;
+    .page-title {
+        width:1170px;
     }
 }
 
@@ -59,6 +63,20 @@ $navbar-height: 60px;
 
 .top-head + #router-view {
     padding-top: $navbar-height + 80px;
+}
+
+.detail-header {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 9px;
+    height:45px;
+    &.detail-header-modifier {  //why is this needed?
+        margin-top: -15px;
+        margin-left: -15px;
+        margin-right: -15px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
 }
 
 

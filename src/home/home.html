@@ -7,11 +7,18 @@
     </div>
 
     <div class="panel main-panel" css="height:${panel_height}px;">
-        <div class="panel-vid" style="direction:rtl;">
-            <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
-                <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
-                </iframe>
-            </span>
+        <div class="panel-messages" css="direction:${theme.rtltr};">
+            <h2 class="messages-header">
+                <span>${'home.messages' & t}</span>
+                <span class="is-link" if.bind="user.editing" click.delegate="add_message()">
+                    <i class="fa fa-plus-square"></i>
+                </span>
+            </h2>
+            <ul class="messages">
+                <li class="message" repeat.for="msg of message_list" dir="rtl">
+                    <editable story.bind="msg" settings.bind="{show_date:true, deletable: true, divclass: 'no-theme'}" change.delegate="hande_story_change(msg, $event)"></editable>
+                </li>
+            </ul>
         </div>
         <div class="panel-stories" style="direction:rtl;">
             <h2 class="panel-stories-header">
@@ -32,18 +39,11 @@
                 </li>
             </ul>
         </div>
-        <div class="panel-messages" css="direction:${theme.rtltr};">
-            <h2 class="messages-header">
-                <span>${'home.messages' & t}</span>
-                <span class="is-link" if.bind="user.editing" click.delegate="add_message()">
-                    <i class="fa fa-plus-square"></i>
-                </span>
-            </h2>
-            <ul class="messages">
-                <li class="message" repeat.for="msg of message_list" dir="rtl">
-                    <editable story.bind="msg" settings.bind="{show_date:true, deletable: true, divclass: 'no-theme'}" change.delegate="hande_story_change(msg, $event)"></editable>
-                </li>
-            </ul>
+        <div class="panel-vid" style="direction:rtl;">
+            <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
+                <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
+                </iframe>
+            </span>
         </div>
     </div>
 
@@ -52,10 +52,10 @@
             <span class="hidden-xs member-link" click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
                 ${'home.to-the-page-of' & t} ${member_of_the_day.first_name}
             </span>
-            <span class="hidden-xs hidden-sm member-text">
+            <span class="hidden-xs hidden-sm member-text" css="direction:${theme.rtltr};">
                 ${member_of_the_day_life_cycle_text}
             </span>
-            <span class="member-name">${member_of_the_day.name}</span>
+            <span class="member-name" css="direction:${theme.rtltr};">${member_of_the_day.name}</span>
             <img class="member-image" src.bind="member_of_the_day.face_photo_url" />
             <span class="hidden-xs member-prefix">${member_prefix & t}</span>
         </div>

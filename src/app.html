@@ -31,14 +31,14 @@
                     </button>
                 </div>
             </div>
-            <div class="navbar-controls">
+            <div class="navbar-controls" style="margin-left:10px;margin-right:10px;">
                 <user-mode></user-mode>
             </div>
         </nav>
 
         <div class="top-head" if.bind="theme.page_title != '' && ! theme.hide_title">
             <div class="page-title" css="background-image:url('${theme.files.top_background}');">
-                <span>${theme.page_title & t}</span>
+                <span style="padding-left:15px;padding-right:15px">${theme.page_title & t}</span>
             </div>
         </div>
         <div id="router-view" css="min-height:${router_view_height};">

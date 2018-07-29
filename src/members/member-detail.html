@@ -2,7 +2,7 @@
     <require from="./members.css"></require>
     <div id="member-detail" class="container" style="height:774px;" ref="member_detail_container">
         <div class="row" ref="member_header">
-            <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" styledeletesoon="background-color:#aaaaaa" dir="${theme.rtltr}">
+            <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" dir="${theme.rtltr}">
                 <i class="far fa-share pull-left" data-role="button" t="[title]go-back" click.trigger="go_back()"></i>
                 <span if.bind="member.member_info.id">${member_display_name}</span>
                 <span if.bind="! member.member_info.id">${'members.new-member' & t }</span>
