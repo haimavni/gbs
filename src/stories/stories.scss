@@ -129,5 +129,9 @@ button.word-highlighter {
     }
 }
 
+[dir="rtl"] button.word-highlighter {
+    float: left;
+}
+
 
 
