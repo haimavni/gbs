@@ -21,9 +21,10 @@ photo-strip {
         cursor: all-scroll;
     }
 
-    img { 
+    img {
         display: inline-block;
         max-height: 100%;
+        user-select: none;
     }
 }
 
@@ -34,7 +35,7 @@ photo-strip {
 
     // INFO [Matt] These top & margin-top styles are the quintessential "vertical center" pattern.
     top: 50%;
-    margin-top: -21px; 
+    margin-top: -21px;
 
     color: white;
     opacity: 0.6;

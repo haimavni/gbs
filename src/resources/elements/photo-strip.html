@@ -1,9 +1,11 @@
 <template>
     <div id="slide-list" class="row slide-list" css="height: ${height}px;" element.ref="slideList"
-        interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="drag_photos($event)"
+        interact-draggable.bind="theme.interact_setting"
+        interact-dragmove.delegate="drag_photos($event)"
         interact-dragstart.delegate="on_drag_start($event)"
-        interact-dragend.delegate="on_drag_end($event)">
-        <img repeat.for="slide of slides" id="img-${slide.photo_id}" src="${slide.src}" aubs-tooltip="text.bind:slide.title" click.delegate="on_click($event, slide)" />
+        interact-dragend.delegate="on_drag_end($event)"
+        click.delegate="dragging = false">
+        <img repeat.for="slide of slides" draggable="false" id="img-${slide.photo_id}" src="${slide.src}" aubs-tooltip="text.bind:slide.title" click.delegate="on_click($event, slide)" />
     </div>
     <help topic.bind="photo-strip" position="right"></help>
     <template if.bind="settings.arrows && show_arrows">
