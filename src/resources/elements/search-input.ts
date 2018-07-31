@@ -16,10 +16,11 @@ export class SearchInputCustomElement {
     }
 
     input_changed(event) {
-        let key = event.key;
+        /*let key = event.key;
         if (key == "Enter") {
             this.dispatch_event();
-        }
+        }*/
+        this.dispatch_event();
         return true;
     }
 

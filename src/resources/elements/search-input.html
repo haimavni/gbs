@@ -5,7 +5,10 @@
             <!--i class="fa fa-search search"></i-->
             <help topic="search-input" class="search" icon="search" position="bottom" css="position:absolute;top:${(height-30)/2}px;right:4px;"></help>
         </div>
-        <input type="search" value.bind="value" t="[placeholder]${placeholder}" css="height:${height}px;" keypress.delegate="input_changed($event)">
+        <input type="search" value.bind="value" t="[placeholder]${placeholder}" css="height:${height}px;" 
+            keydown.delegate="input_changed($event) & debounce: 1400" 
+            >
+            <!--keypress.delegate="input_changed($event)"-->
         <i class="far fa-times fa-sm remove" if.bind="value" click.trigger="clear_text()" css="top:${(height-14)/2}px;"></i>
     </div>
 </template>
