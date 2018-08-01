@@ -406,7 +406,8 @@ export class Stories {
     }
 
     select_used_for(used_for) {
-        this.used_for = used_for
+        this.used_for = used_for;
+        this.scroll_area.scrollTop = this.scroll_top = 0;
     }
 
     /*save_merges(event: Event) {
