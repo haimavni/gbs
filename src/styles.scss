@@ -6,7 +6,7 @@
 
 /* Variables */
 $slide-height: 220px;
-$list-group-border:none; 
+$list-group-border:none;
 $list-group-bg: #eeeeee;
 $navbar-default-link-active-color: blue;
 $navbar-default-link-active-bg: inherit;
@@ -27,12 +27,18 @@ html, body {
                  Helvetica,
                  Arial,
                  sans-serif !important;
+    overflow-x: hidden;
 }
 
 body > .page-container {
     height: 100%;
     width: 100%;
-    //overflow: auto;
+}
+
+@include mobile {
+    body > .page-container {
+        overflow: auto;
+    }
 }
 
 div, footer, main {
@@ -68,7 +74,7 @@ ux-dialog-footer>button {
 }
 
 .full {
-  background: url(http://placehold.it/1920x1080) no-repeat center center fixed; 
+  background: url(http://placehold.it/1920x1080) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
