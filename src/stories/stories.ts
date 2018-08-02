@@ -60,7 +60,10 @@ export class Stories {
     story_types;
     done_selecting = false;
     no_results = false;
-    options_settings = new MultiSelectSettings({ clear_filter_after_select: false });
+    options_settings = new MultiSelectSettings({
+         clear_filter_after_select: false, 
+         can_set_sign: true
+    });
     words_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
         name_editable: false,
@@ -68,6 +71,7 @@ export class Stories {
         can_delete: false,
         can_group: true,
         show_only_if_filter: true
+         can_set_sign: true
     });
     ea: EventAggregator;
     active_result_types;
@@ -394,7 +398,7 @@ export class Stories {
         this.options_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: result == "ready-to-edit",
-            can_set_sign: result == "ready-to-edit",
+            can_set_sign: result != "can-modify-tags",
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit"
         });
