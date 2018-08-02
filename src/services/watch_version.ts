@@ -14,6 +14,7 @@ export class WatchVersion {
     nudnik;
     user_warned = 0;
     i18n;
+    window;
 
     constructor(api: MemberGateway, i18n: I18N) {
         this.api = api;
@@ -21,6 +22,7 @@ export class WatchVersion {
         this.verify_latest_version();
         this.nudnik = setInterval(this.verify_latest_version, 60000);
         this.i18n = i18n;
+        this.window = window;
     }
 
     verify_latest_version() {
@@ -34,10 +36,11 @@ export class WatchVersion {
                     let msg_head = THIS1.i18n.tr('please-update-head');
                     let msg_body = THIS1.i18n.tr('please-update-body');
                     let msg_tail = THIS1.user_warned ? THIS1.i18n.tr('please-update-stubborn') : "";
-                    //let plain_message = THIS1.i28n.tr('please-update');
-                    //alert(plain_message);
                     toastr.success(msg_body + msg_tail, msg_head, {timeOut: 60000});
-                    window.location.reload(true);
+                    this.window.setTimeout(() => { 
+                        this.window.location.reload(true);
+                    }, 5000);
+                    
                     if (THIS1.user_warned > 1) {
                         clearInterval(THIS1.nudnik);
                         THIS1.nudnik = setInterval(THIS1.verify_latest_version, 600000);

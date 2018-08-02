@@ -52,7 +52,7 @@ export class App {
             { route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms' },
             { route: 'videos', moduleId: './videos/videos', nav: false && environment.debug, title: 'videos.videos' },
             { route: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos' },
-            { route: 'stories/*', name: 'stories', moduleId: './stories/stories', nav: false, title: 'stories.stories' },
+            { route: 'stories/*', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories' },
             { route: 'members', name: 'members', moduleId: './members/members', nav: true, title: 'members.members' },
             { route: 'members/:caller_id/*', name: 'associate-members', moduleId: './members/members', nav: false, title: 'members.update-story-members' },
             { route: 'photos-group/:caller_id/*', name: 'associate-photos', moduleId: './photos/photos', nav: false, title: 'photos.update-story-photos' },
