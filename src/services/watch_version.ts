@@ -37,6 +37,7 @@ export class WatchVersion {
                     //let plain_message = THIS1.i28n.tr('please-update');
                     //alert(plain_message);
                     toastr.success(msg_body + msg_tail, msg_head, {timeOut: 60000});
+                    window.location.reload(true);
                     if (THIS1.user_warned > 1) {
                         clearInterval(THIS1.nudnik);
                         THIS1.nudnik = setInterval(THIS1.verify_latest_version, 600000);

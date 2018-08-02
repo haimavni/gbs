@@ -170,8 +170,10 @@ export class PhotoStripCustomElement {
     }
 
     auto_next_slide() {
+        let target = this.slideList;
+        let dir = getComputedStyle(target).direction === 'ltr' ? -1 : +1;
         if (!this.slideShowStopped) {
-            this.shift_photos(-1);
+            this.shift_photos(dir);
         }
     }
 

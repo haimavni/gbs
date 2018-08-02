@@ -93,6 +93,7 @@ export class App {
         } else {
             this.router.navigateToRoute('stories', { keywords: keywords });
         }
+        return true;
     }
 
     @computedFrom("user.isLoggedIn")

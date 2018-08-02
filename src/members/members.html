@@ -47,7 +47,7 @@
 
             <div id="member-list" class="member-list content-area" css="min-height:${theme.min_height-320}px;max-height:590px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 3200 | filtervisibility : 0 "
+                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 1000 | filtervisibility : 0 "
                         if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || !member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         dir="rtl">
