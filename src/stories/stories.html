@@ -71,6 +71,9 @@
                                 click.delegate="jump_to_the_full_story($event, story)">
                                 <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">-->
                                 <div style="margin-bottom: 10px;" class="story-preview">
+                                    <div>
+                                        <img if.bind="used_for==3" src.bind="story.photo_src" width="128" />
+                                    </div>
                                     <editable settings.bind="{show_date:false, class:'story-section', checkable: true}"
                                         story.bind="story" change.delegate="toggle_story_selection(story, $event)">
                                     </editable>

@@ -133,5 +133,13 @@ button.word-highlighter {
     float: left;
 }
 
+div.story-preview {
+    display: flex;
+    div>img {
+        padding-left:10px;
+        align-self: stretch;
+    }
+}
+
 
 
