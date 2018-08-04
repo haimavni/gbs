@@ -32,9 +32,16 @@ div.panel.panel-default {
     width:100px;
 }
 
-.photo-detail .date-range label {
+.photo-detail {
+    .date-range label {
     margin-right:-6px;
     padding:4px;
     width:100px;
+    }
+    img {
+        cursor: pointer;
+        float:left;
+    }
+
 }
 

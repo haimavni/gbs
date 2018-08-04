@@ -35,7 +35,7 @@
                         <span style="float:right;margin-right:-10px;">${'stories.associated-members' & t}</span>
                     </div>
                 </div>
-                <div if.bind="members.length>0" id="member-list" class="row stories-member-list content-area" 
+                <div if.bind="members.length>0" id="member-list" class="row stories-member-list" 
                     css="max-height:${user.editing ? 200 : 400}px;overflow:auto;overflow-x:hidden;">
                     <ul class="list-group">
                         <li class="list-group-item" repeat.for="member of members">
@@ -59,13 +59,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-7 justified-story full-story" style="padding-right:36px;">
-                <div class="row">
+            <div class="col-md-7 justified-story full-story">
+                <div class="row" style="padding-top:8px;">
                     <div class="col-md-4 col-md-offset-8" if.bind="story.source">
                         <span css="float:right;direction:${story_dir}">${story.source}:</span>
                     </div>
                 </div>
-                <div class="row" style="padding-right:15px;">
+                <div class="row" style="padding-right:15px;padding-top:8pxl;">
                     <div class="fr-view" dir="${story_dir}">
                         <div class="big-story-panel ${theme.font_size}">
                             <p class="${story_dir} ${highlight_on}" if.bind="! user.editing"> 

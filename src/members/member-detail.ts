@@ -287,7 +287,7 @@ export class MemberDetail {
     _set_heights() {
         try {
             let panel_height = this.theme.height - this.photo_strip_height - 188;
-            panel_height = Math.max(panel_height, 555);
+            panel_height = Math.max(panel_height, 544);
             this.member_detail_panel.style.height = `${panel_height}px`;
             let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
             let lsh = tph - 100;

@@ -71,6 +71,8 @@ $navbar-height: 60px;
     margin-top: 0px;
     padding-top: 9px;
     height:45px;
+    padding-left:12px;
+    padding-right:12px;
     &.detail-header-modifier {  //why is this needed?
         margin-top: -15px;
         margin-left: -15px;
@@ -78,6 +80,12 @@ $navbar-height: 60px;
         padding-right: 15px;
         padding-left: 15px;
     }
+}
+
+.content-area {
+    width: 1170px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 
