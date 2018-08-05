@@ -37,9 +37,9 @@ export class WatchVersion {
                     let msg_body = THIS1.i18n.tr('please-update-body');
                     let msg_tail = THIS1.user_warned ? THIS1.i18n.tr('please-update-stubborn') : "";
                     toastr.success(msg_body + msg_tail, msg_head, {timeOut: 60000});
-                    this.window.setTimeout(() => { 
-                        this.window.location.reload(true);
-                    }, 5000);
+                    THIS1.window.setTimeout(() => { 
+                        THIS1.window.location.reload(true);
+                    }, 60000);
                     
                     if (THIS1.user_warned > 1) {
                         clearInterval(THIS1.nudnik);
