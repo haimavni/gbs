@@ -8,7 +8,15 @@ import { I18N } from 'aurelia-i18n';
 @inject(DOM.Element, User, Theme, DialogService, I18N)
 export class editableCustomElement {
     @bindable story;
-    @bindable settings = { show_date: false, class: 'story-panel', divclass: null, checkable: false, deletable: false, no_expand: false };
+    @bindable settings = {
+        show_date: false,
+        show_time: false, 
+        show_author: true,
+        class: 'story-panel', 
+        divclass: null, 
+        checkable: false, 
+        deletable: false, 
+        no_expand: false };
     element;
     user;
     theme;

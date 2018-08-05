@@ -74,7 +74,7 @@
                                     <div>
                                         <img if.bind="used_for==3" src.bind="story.photo_src" width="128" />
                                     </div>
-                                    <editable settings.bind="{show_date:false, class:'story-section', checkable: true}"
+                                    <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                         story.bind="story" change.delegate="toggle_story_selection(story, $event)"
                                         class="story-body">
                                     </editable>

@@ -27,7 +27,7 @@
                                     click.delegate="jump_to_the_full_story($event, term)">
                                 <div style="height:120px;overflow:hidden;" class="story-preview">
                                     <div style="margin-bottom: 10px;padding-right:0px;">
-                                        <editable settings.bind="{show_date:false, class:'story-section', no_expand: true, deletable: true}" 
+                                        <editable settings.bind="{show_author:true, show_date:false, class:'story-section', no_expand: true, deletable: true}" 
                                             story.bind="term" 
                                             change.delegate="handle_event(term, $event)"></editable>
                                     </div>

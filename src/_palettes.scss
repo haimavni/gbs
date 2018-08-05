@@ -58,6 +58,15 @@
     }
 }
 
+.editable .checkable {
+    padding-right: 8px;
+    padding-left:8px;
+}
+
+.no-theme .preview-header {
+    padding:0;
+}
+
 .palette-selector .palette-default {
     background-color: default;
 }
