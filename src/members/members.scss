@@ -168,64 +168,67 @@ ux-dialog-containerxxx {
 }
 
 
-#member-detail #member-detail-content > div {
+#member-detail {
+    padding-left:15px;
+    padding-right:19px;
+    #member-detail-content > div {
     //height: calc(100vh - 713px);
-    min-height: 271px;
+        min-height: 271px;
 
-    .member-story-panel-moved {
-        overflow-y: auto;
-        height: calc(100% - 53px);
-        >p {
-            text-align: justify;
-        }
-
-    }
-}
-
-#member-detail #stories {
-    position: relative;
-    padding: 0;
-    border: solid 6px white;
-
-    .story-box {
-        //height: 260px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        border-bottom: 6px solid white;
-        //border-top: 6px solid white;
-        //border-bottom: 6px solid white;
-        background-color: rgba(208, 208, 208, 0.5);
-        padding-right:8px;
-        cursor: pointer;
-        &.notfirst {
-            border-left: 6px solid white;
-        }
-
-        .member-story-header {
-            height: 45px;
-            position: relative;
-            i.to-full-page {
-                position: absolute;
-                color: white;
-                left: -10px;
-                top: 4px;
+        .member-story-panel-moved {
+            overflow-y: auto;
+            height: calc(100% - 53px);
+            >p {
+                text-align: justify;
             }
-        }
 
-        .member-story-preview {
-            padding-right: 8px;
-            width:256px;
         }
+    }
+    #stories {
+        position: relative;
+        padding: 0;
+        border: solid 6px white;
 
-        a.goto-story-page {
-            position:absolute;
-            left:-28px;
-        }
-        h4 {
-            width:225px;
-        }
-        span.name {
-            font-weight: bold;
+        .story-box {
+            //height: 260px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border-bottom: 6px solid white;
+            //border-top: 6px solid white;
+            //border-bottom: 6px solid white;
+            background-color: rgba(208, 208, 208, 0.5);
+            padding-right:8px;
+            cursor: pointer;
+            &.notfirst {
+                border-left: 6px solid white;
+            }
+
+            .member-story-header {
+                height: 45px;
+                position: relative;
+                i.to-full-page {
+                    position: absolute;
+                    color: white;
+                    left: -10px;
+                    top: 4px;
+                }
+            }
+
+            .member-story-preview {
+                padding-right: 8px;
+                width:256px;
+            }
+
+            a.goto-story-page {
+                position:absolute;
+                left:-28px;
+            }
+            h4 {
+                width:225px;
+            }
+            span.name {
+                font-weight: bold;
+            }
         }
     }
 }
