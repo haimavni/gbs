@@ -1,6 +1,6 @@
 <template>
     <require from="./admin.css"></require>
-    <section class="container content-area" style="padding-right:30px;">
+    <section class="container content-area" style="padding-right:30px;" dir="ltr">
         <div css="direction:${theme.rtltr1}">
             <span class="boom">Total Hits Count: ${total_count}</span>
         </div>
@@ -16,7 +16,7 @@
             </div>
         </form>
     </section>
-    <section class="container content-area" style="padding-right:30px;">
+    <section class="container content-area" style="padding-right:30px;" dir="ltr">
         <div style="width: 740px;margin-right:auto;margin-left:auto;height:600px;overflow:auto;">
             <table class="table table-striped" aurelia-table="data.bind: items; display-data.bind: $displayData;
                 current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">

@@ -39,7 +39,7 @@ export class WatchVersion {
                     toastr.success(msg_body + msg_tail, msg_head, {timeOut: 60000});
                     THIS1.window.setTimeout(() => { 
                         THIS1.window.location.reload(true);
-                    }, 60000);
+                    }, 20000);
                     
                     if (THIS1.user_warned > 1) {
                         clearInterval(THIS1.nudnik);
