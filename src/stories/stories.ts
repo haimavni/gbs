@@ -120,13 +120,13 @@ export class Stories {
         let idx = this.story_list.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
             this.story_list[idx].story_preview = data.story_data.story_preview;
-        }
-    }
+        }   
+     }
 
     activate(params, config) {
-        if (this.router.isExplicitNavigation || ! params.keywords) {
+        if (this.router.isExplicitNavigation) {
             this.params.keywords_str = params.keywords;
-            this.search_words = params.keywords ? params.keywords.split(/\s+/) : null;
+            this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
             this.keywords = this.search_words;
             this.simple_search(this.params.keywords_str, false);
         }
@@ -186,7 +186,7 @@ export class Stories {
     }
 
     simple_search(keywords, local) {
-        this.search_words = keywords ? keywords.split(/\s+/) : null;
+        this.search_words = keywords ? keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
         this.params.selected_words = [];
         this.params.selected_stories = [];
