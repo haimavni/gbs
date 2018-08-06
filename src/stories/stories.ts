@@ -61,8 +61,8 @@ export class Stories {
     done_selecting = false;
     no_results = false;
     options_settings = new MultiSelectSettings({
-         clear_filter_after_select: false, 
-         can_set_sign: true
+        clear_filter_after_select: false,
+        can_set_sign: true
     });
     words_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
@@ -106,9 +106,9 @@ export class Stories {
         ]
 
         this.approval_state_options = [
-            { name: i18n.tr('stories.approved-and-unapproved'), id: 1},
-            { name: i18n.tr('stories.unapproved'), id: 2},
-            { name: i18n.tr('stories.approved'), id: 3}
+            { name: i18n.tr('stories.approved-and-unapproved'), id: 1 },
+            { name: i18n.tr('stories.unapproved'), id: 2 },
+            { name: i18n.tr('stories.approved'), id: 3 }
         ]
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
@@ -120,11 +120,12 @@ export class Stories {
         let idx = this.story_list.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
             this.story_list[idx].story_preview = data.story_data.story_preview;
-        }   
-     }
+        }
+    }
 
     activate(params, config) {
-        if (this.router.isExplicitNavigation) {
+        if (this.user.navigating) {
+            this.init_params();
             this.params.keywords_str = params.keywords;
             this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
             this.keywords = this.search_words;
@@ -434,6 +435,27 @@ export class Stories {
                 this.checked_stories = new Set();
                 this.update_story_list();
             });
+    }
+
+    init_params() {
+        this.params = {
+            keywords_str: "",
+            selected_topics: [],
+            selected_words: [],
+            selected_uploader: "",
+            from_date: "",
+            to_date: "",
+            selected_languages: [],
+            selected_stories: [],
+            selected_story_types: [],
+            checked_story_list: [],
+            link_class: "basic",
+            deleted_stories: false,
+            days_since_update: 0,
+            search_type: 'simple',
+            approval_state: 0
+        };
+
     }
 
 }

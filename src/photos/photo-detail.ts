@@ -98,6 +98,7 @@ export class PhotoDetail {
     }
 
     go_back() {
+        this.user.navigating = false;
         history.back();
     }
     

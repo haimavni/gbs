@@ -136,6 +136,7 @@ button.word-highlighter {
 
 div.story-preview {
     display: flex;
+    direction: column;
     div>img {
         padding-left:10px;
         align-self: stretch;
