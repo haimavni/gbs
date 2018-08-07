@@ -117,6 +117,11 @@
                         aubs-tooltip="text.bind:compress"
                         click.trigger="toggle_life_summary_size($event)">
                     </i>
+                    <!--<i class="fa fa-play fa-lg"
+                        style="margin-left:32px;float:left;cursor:pointer;"
+                        aubs-tooltip="text.bind:expand"
+                        click.trigger="next_page($event)">
+                    </i>-->
                     <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
                         style="margin-left:2px;margin-top:-8px;float:left;cursor:pointer;"
                         class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">

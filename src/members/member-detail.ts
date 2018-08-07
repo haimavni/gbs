@@ -285,6 +285,18 @@ export class MemberDetail {
         this.set_heights();
     }
 
+    calc_px(s) {
+        let n = s.length - 2;
+        s = s.substring(0, n);
+        return parseInt(s);
+    }
+
+    next_page(event) {
+        let t = this.life_summary_content.scrollTop;
+        let h = this.calc_px(this.life_summary_content.style.height);
+        this.life_summary_content.scrollTop = t + h;
+    }
+
     _set_heights() {
         try {
             let panel_height = this.theme.height - this.photo_strip_height - 188;
@@ -293,6 +305,7 @@ export class MemberDetail {
             let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
             let lsh = tph - 100;
             this.life_summary_content.style.height = `${lsh}px`;
+
             this.top_panel.style.height = `${tph}px`;
             let bph = panel_height - tph - 1;
             this.bottom_panel.style.height = `${bph}px`;
