@@ -39,7 +39,7 @@
                     css="max-height:${user.editing ? 200 : 400}px;overflow:auto;overflow-x:hidden;">
                     <ul class="list-group">
                         <li class="list-group-item" repeat.for="member of members">
-                            <a route-href="route: member-details; params.bind: {id:member.id}">
+                            <a route-href="route: member-details; params.bind: {id:member.id, keywords: ''}">
                                 <img src.bind="member.facePhotoURL" />
                                 <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${member.full_name}</h6>
                             </a>
