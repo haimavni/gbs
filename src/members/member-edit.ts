@@ -80,7 +80,7 @@ export class MemberEdit {
         let n = this.members.member_list.length;
         member_idx = (member_idx + n + dif) % n;
         member_id = this.members.member_list[member_idx].id;
-        this.router.navigateToRoute('member-details', { id: member_id });
+        this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
     }
 
     cancel_edit_mode() {

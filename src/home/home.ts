@@ -93,7 +93,7 @@ export class Home {
     }
 
     jump_to_member_of_the_day_page(member_id) {
-        this.router.navigateToRoute('member-details', { id: member_id });
+        this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
     }
 
     goto_full_collection() {

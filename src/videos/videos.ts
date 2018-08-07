@@ -166,7 +166,7 @@ export class Videos {
     private jump_to_video(slide) {
         console.log("slide in jump: ", slide);
         let video_id = slide.video_id;
-        this.router.navigateToRoute('video-detail', { id: video_id });
+        this.router.navigateToRoute('video-detail', { id: video_id, keywords: "" });
     }
 
     finish_selecting() {

@@ -213,7 +213,7 @@ export class Members {
             this.toggle_selection(member, event);
         } else {
             event.stopPropagation();
-            this.router.navigateToRoute('member-details', { id: member.id });
+            this.router.navigateToRoute('member-details', { id: member.id, keywords: "" });
         }
     }
 

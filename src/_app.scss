@@ -25,6 +25,13 @@
     .nav-item {
         color: inherit;
         display: inline-block;
+        &.active {
+            color: blue;
+            cursor: default;
+        }
+        &:hover {
+            color: blue;
+        }
     }
 
     &.navbar-default {

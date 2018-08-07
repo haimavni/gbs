@@ -286,7 +286,7 @@ export class Photos {
 
     private jump_to_photo(slide) {
         let photo_id = slide.photo_id;
-        this.router.navigateToRoute('photo-detail', { id: photo_id });
+        this.router.navigateToRoute('photo-detail', { id: photo_id, keywords: "" });
     }
 
     finish_selecting() {

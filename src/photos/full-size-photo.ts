@@ -164,13 +164,13 @@ export class FullSizePhoto {
 
     private jump_to_member(member_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('member-details', { id: member_id });
+        this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
     }
 
     jump_to_photo_page(event) {
         event.stopPropagation();
         this.dialogController.ok();
-        this.router.navigateToRoute('photo-detail', { id: this.slide.photo_id });
+        this.router.navigateToRoute('photo-detail', { id: this.slide.photo_id, keywords: "" });
     }
 
     mark_face(event) {
