@@ -1,3 +1,5 @@
+@include mobile { @import 'photos.mobile'; }
+@include desktop { @import 'photos.desktop'; }
 
 #range {
     -webkit-appearance: slider-vertical;
@@ -33,10 +35,13 @@ div.panel.panel-default {
 }
 
 .photo-detail {
+    margin-left:auto;
+    margin-right:auto;
+    min-height:755px;
     .date-range label {
-    margin-right:-6px;
-    padding:4px;
-    width:100px;
+        margin-right:-6px;
+        padding:4px;
+        width:100px;
     }
     img {
         cursor: pointer;
@@ -44,4 +49,3 @@ div.panel.panel-default {
     }
 
 }
-
