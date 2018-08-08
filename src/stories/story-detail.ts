@@ -119,8 +119,7 @@ export class StoryDetail {
     }
 
     go_back() {
-        this.user.navigating = false;
-        history.back();
+        this.router.navigateBack();
     }
 
     private openDialog(slide, event, slide_list) {

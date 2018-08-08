@@ -124,7 +124,7 @@ export class Stories {
     }
 
     activate(params, config) {
-        if (this.user.navigating) {
+        if (! this.router.isExplicitNavigationBack) {
             this.init_params();
             this.params.keywords_str = params.keywords;
             this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];

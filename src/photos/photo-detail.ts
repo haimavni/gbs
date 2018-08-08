@@ -1,4 +1,5 @@
 import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
@@ -28,12 +29,14 @@ export class PhotoDetail {
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
     MAX_HEIGHT = 750;
     dialog;
+    router;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
         this.dialog = dialog;
+        this.router = router;
     }
 
     activate(params, config) {
@@ -98,8 +101,7 @@ export class PhotoDetail {
     }
 
     go_back() {
-        this.user.navigating = false;
-        history.back();
+        this.router.navigateBack();
     }
     
 }

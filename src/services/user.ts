@@ -16,17 +16,6 @@ export class User {
     public id;
     private api;
     private i18n;
-    private _navigating = true;
-
-    get navigating() {
-        let tmp = this._navigating;
-        this._navigating = true;
-        return tmp;
-    }
-
-    set navigating(arg) {
-        this._navigating = arg;
-    }
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N) {
         this.eventAggregator = eventAggregator;

@@ -262,8 +262,7 @@ export class MemberDetail {
     }
 
     go_back() {
-        this.user.navigating = false;
-        history.back();
+        this.router.navigateBack();
     }
 
     goto_story_page(story) {
