@@ -2,5 +2,6 @@ export default {
     debug: true,
     testing: true,
     baseURL: "",
-    version: ""
+    version: "",
+    i18n_ver: ''
 };
