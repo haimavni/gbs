@@ -124,13 +124,14 @@ export class Stories {
     }
 
     activate(params, config) {
-        if (! this.router.isExplicitNavigationBack) {
-            this.init_params();
-            this.params.keywords_str = params.keywords;
-            this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
-            this.keywords = this.search_words;
-            this.simple_search(this.params.keywords_str, false);
-        }
+        if (this.router.isExplicitNavigationBack) return;
+        if (this.story_list.length > 0 && ! params.keywords) return;
+        if (params.keywords == this.params.keywords_str) return;
+        this.init_params();
+        this.params.keywords_str = params.keywords;
+        this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
+        this.keywords = this.search_words;
+        this.simple_search(this.params.keywords_str, false);
     }
 
     created(params, config) {
