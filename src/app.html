@@ -8,7 +8,7 @@
                 <div class="nav-items">
                     <a class="navbar-logo" href="#">
                         <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
-                        ${router.title & t}
+                        <span class="router-title">${router.title & t}</span>
                     </a>
                     <div class="menu-items">
                         <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">

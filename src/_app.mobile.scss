@@ -27,7 +27,7 @@ $navbar-height: 78px;
 
     .nav-item,
     .navbar-logo {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
 
         img {
             width: 28px;
@@ -61,6 +61,12 @@ $navbar-height: 78px;
 
 .top-head + #router-view {
     padding-top: $navbar-height + 80px;
+}
+
+@media(max-width: 700px) {
+    span.router-title {
+        display: none;
+    }
 }
 
 
