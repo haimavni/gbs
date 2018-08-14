@@ -1,9 +1,9 @@
 //members
-$profile_photo_size: 110px;
+@include mobile { @import 'members.mobile'; }
+@include desktop { @import 'members.desktop'; }
+
 div.member-list.content-area li.list-group-item {
-    width: 130px;
     float: right;
-    min-height: 132px;
     font-size: 9px;
     vertical-align: text-bottom;
     background-color:rgba(0,0,0,0);
@@ -12,8 +12,6 @@ div.member-list.content-area li.list-group-item {
          align-content: center;
          border: none;
          img {
-             width: $profile_photo_size;
-             height: $profile_photo_size;
              border-radius: 50%;
          }
          h6 {
@@ -267,4 +265,10 @@ selector select {
     }
 }
 
+div.inputs-inline {
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    padding-top:16px;
+}
 
