@@ -46,10 +46,9 @@
                         </li>
                     </ul>
                 </div>
-                <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="row stories-member-list content-area" 
-                    style="max-height:200px;overflow:auto;overflow-x:hidden;">
+                <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="row stories-member-list">
                     <h3 style="margin-right:40px;">${'photos.candidates' & t}</h3>
-                    <ul class="list-group">
+                    <ul class="list-group" style="max-height:200px;overflow:auto;overflow-x:hidden;">
                         <li class="list-group-item" repeat.for="candidate of candidates">
                             <a click.delegate="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
                                 <img src.bind="candidate.facePhotoURL" />
@@ -59,18 +58,26 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-7 justified-story full-story">
+            <div class="col-md-7 justified-story full-story" ref="story_box">
                 <div class="row" style="padding-top:8px;">
                     <div class="col-md-4 col-md-offset-8" if.bind="story.source">
                         <span css="float:${theme.same_dir};direction:${story_dir};padding-right:12px;padding-left:12px;">${story.source}:</span>
                     </div>
                 </div>
-                <div class="row" style="padding-right:15px;padding-top:8pxl;">
+                <div if.bind="! user.editing" class="row" style="padding-right:15px;padding-top:8pxl;">
                     <div class="fr-view" dir="${story_dir}">
-                        <div class="big-story-panel ${theme.font_size}">
-                            <p class="${story_dir} ${highlight_on}" if.bind="! user.editing"> 
+                        <div class="big-story-panel ${theme.font_size}" style="position:relative;">
+                            <p class="${story_dir} ${highlight_on}"> 
+                                <div class="page-control next" click.trigger="next_page($event, +1)"></div>
+                                <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
                                 <compose if.bind="story.story_text" view-model='./render-story' model.bind="highlightedHtml"></compose>
                             </p>
+                        </div>
+                    </div>
+                </div>
+                <div if.bind="user.editing" class="row" style="padding-right:15px;padding-top:8pxl;">
+                    <div class="fr-view" dir="${story_dir}">
+                        <div class="big-story-panel ${theme.font_size}" style="position:relative;">
                             <editable if.bind="user.editing" 
                                 settings.bind="{show_date:false, class:'story-section', checkable: false}" 
                                 story.bind="story">

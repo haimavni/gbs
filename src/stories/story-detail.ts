@@ -25,7 +25,7 @@ export class StoryDetail {
     theme;
     story_dir;
     keywords;
-    highlight_on="highlight-on";
+    highlight_on = "highlight-on";
     router: Router;
     eventAggregator;
     dialog;
@@ -34,6 +34,7 @@ export class StoryDetail {
     story_type;
     advanced_search;
     story_changed = false;
+    story_box;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -43,19 +44,19 @@ export class StoryDetail {
         this.theme = theme;
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
-        
+
     }
 
     attached() {
         this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
-        this.subscriber1 =  this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+        this.subscriber1 = this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
     }
 
     refresh_story(data) {
         console.log("story detail refresh story ", data.story_data);
         let story_id = data.story_data.story_id;
         if (this.story && this.story.story_id == story_id) {
-            this.api.call_server_post('members/get_story', {story_id: story_id})
+            this.api.call_server_post('members/get_story', { story_id: story_id })
                 .then(response => {
                     this.story = response.story;
                     this.story_changed = true;
@@ -73,12 +74,12 @@ export class StoryDetail {
         this.advanced_search = params.search_type == 'advanced';
         let used_for = params.used_for
         if (used_for) {
-            used_for = parseInt(used_for) 
+            used_for = parseInt(used_for)
         } else {
             used_for = (params.what && params.what == 'term') ? this.api.constants.story_type.STORY4TERM : this.api.constants.story_type.STORY4EVEMT;
         }
         this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : 'story';
-        let what = this.story_type=='story' ? 'EVENT' : 'TERM';
+        let what = this.story_type == 'story' ? 'EVENT' : 'TERM';
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
                 this.api.hit(what, params.id);
@@ -131,15 +132,15 @@ export class StoryDetail {
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
         });
     }
-    
+
     detach_photo_from_story(story_id, photo_id, slide_list) {
         this.api.call_server_post('members/detach_photo_from_event', { story_id: story_id, photo_id: photo_id })
             .then(response => {
                 if (response.photo_detached) {
                     // now delete slide #photo_id from slide_list:
                     let idx = -1;
-                    for (let i=0; i < slide_list.length; i++) {
-                        if (slide_list[i].photo_id==photo_id) {
+                    for (let i = 0; i < slide_list.length; i++) {
+                        if (slide_list[i].photo_id == photo_id) {
                             idx = i;
                             break;
                         }
@@ -167,17 +168,27 @@ export class StoryDetail {
         this.candidates.splice(idx, 1);
         let mem = mems[0];
         this.members.push(mem);
-        this.api.call_server_post('members/add_story_member', {story_id: this.story.story_id, candidate_id: candidate_id});
+        this.api.call_server_post('members/add_story_member', { story_id: this.story.story_id, candidate_id: candidate_id });
     }
 
     @computedFrom('story.story_text', 'story_changed')
     get highlightedHtml() {
         this.story_changed = false;
-        if (! this.story) {
+        if (!this.story) {
             return "";
         }
         let highlighted_html = highlight(this.story.story_text, this.keywords, this.advanced_search);
-        return highlighted_html; 
+        return highlighted_html;
     }
-    
+
+    next_page(event, dif) {
+        let t = this.story_box.scrollTop;
+        let h = this.story_box.clientHeight;
+        t += dif * h;
+        if (t < 0) {
+            t = 0;
+        }
+        this.story_box.scrollTop = t;
+    }
+
 }
