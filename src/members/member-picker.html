@@ -26,7 +26,7 @@
         <div class="member-list popup">
             <div style="padding-right:75px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 'first_name':'last_name' : 'NickName' : 'former_last_name' | take : 3000" 
+                    <li repeat.for="member of members | filter : filter : 'first_name':'last_name' : 'nick_name' : 'former_last_name' | take : 500" 
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
                         style="width:65px;float:right;min-height:88px;font-size:9px;vertical-align: text-bottom;">
 
