@@ -68,9 +68,9 @@
                     <div class="fr-view" dir="${story_dir}">
                         <div class="big-story-panel ${theme.font_size}" style="position:relative;">
                             <p class="${story_dir} ${highlight_on}"> 
+                                <compose if.bind="story.story_text" view-model='./render-story' model.bind="highlightedHtml"></compose>
                                 <div class="page-control next" click.trigger="next_page($event, +1)"></div>
                                 <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
-                                <compose if.bind="story.story_text" view-model='./render-story' model.bind="highlightedHtml"></compose>
                             </p>
                         </div>
                     </div>
