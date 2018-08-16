@@ -156,7 +156,10 @@ div.story-preview {
     top: 0%;
     width: 5%;
     height:100%;
-    opacity: 0.15;
+    opacity: 0;
+    &:hover {
+        opacity: 0.2;
+    }
     background-color: lightblue;
     cursor: pointer;
     &.next {
