@@ -36,6 +36,7 @@ export class Members {
     other_member_id;
     only_unapproved = "";
     approval_options;
+    max_members_displayed = 1000;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -57,6 +58,9 @@ export class Members {
             { value: "selected;-birth_date", name: this.i18n.tr('members.by-age-young-first') },
             { value: "selected;birth_date", name: this.i18n.tr('members.by-age-old-first') }
         ];
+        if (this.user.privileges.EDITOR) {
+            this.sorting_options.push({ value: "has_profile_photo", name: this.i18n.tr('members.profile-missing-first') });
+        }
         this.approval_options = [
             {value: '', name: this.i18n.tr('members.all-members')},
             {value: 'x', name: this.i18n.tr('members.unapproved-only')}

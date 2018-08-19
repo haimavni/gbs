@@ -110,6 +110,12 @@ export class UserMode {
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
 
+    show_feedbacks() {
+        let url = `${location.pathname}#/feedbacks`;
+        this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
+    }
+    
+
     set_font_size(size) {
         this.theme.font_size = "font-size-" + size;
     }

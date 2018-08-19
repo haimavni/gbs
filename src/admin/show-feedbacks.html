@@ -1,0 +1,48 @@
+<template>
+    <require from="./admin.css"></require>
+    <section class="container content-area" style="padding-right:30px;" dir="ltr">
+        <div style="width: 1200px;margin-right:auto;margin-left:auto;height:800px;overflow:auto;">
+            <table class="table table-striped" aurelia-table="data.bind: items; display-data.bind: $displayData;
+                current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Negative</th>
+                        <th>Positive</th>
+                        <th>Version</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of $displayData">
+                        <td css="direction:${theme.rtltr}">${item.name}</td>
+                        <td>${item.email}</td>
+                        <td style="direction:rtl">${item.bad}</td>
+                        <td style="direction:rtl">${item.good}</td>
+                        <td>${item.version}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row" style="margin-right:0;">
+            <div class="col-md-9">
+                <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems" pagination-size.bind="15"
+                    boundary-links.bind="true"> </aut-pagination>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-inline">
+                    <div class="form-group pull-right">
+                        <label for="pageSize">Page Size: </label>
+                        <select value.bind="pageSize" id="pageSize" class="form-control">
+                            <option model.bind="5">5</option>
+                            <option model.bind="10">10</option>
+                            <option model.bind="15">15</option>
+                            <option model.bind="50">50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

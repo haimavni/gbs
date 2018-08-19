@@ -123,6 +123,7 @@
         "by-first-name": "By first name",
         "by-age-young-first": "Younger first",
         "by-age-old-first": "Older first",
+        "profile-missing-first": "Missing profile photo first",
         "member-groups": "Member groups",
         "save-member-group": "Save members group",
         "load-member-group": "Load members group",
@@ -300,6 +301,12 @@
     "promote-mobile": "Mobile phone",
     "promote-message": "Message",
     "promote-send": "Send",
+    "feedback-header-text": "<p>Your feedback is important.</p>",
+    "feedback-bad-message": "What I do not like in the site",
+    "feedback-good-message": "What I like in the site",
+    "feedback-name": "Name. Not mandatory!",
+    "feedback-email-address": "Email address. Not mandatory!",
+    "feedback-message-successful": "Your message was succesfully sent",
     "by-new-count": "By new count",
     "by-old-count": "By old count",
     "enter-search-words": "Enter search words",
@@ -307,5 +314,6 @@
     "result1": "Members",
     "result2": "Stories",
     "result3": "Photos",
-    "result4": "Terms"
+    "result4": "Terms",
+    "feedback": "Feedback"
 }

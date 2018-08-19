@@ -1,0 +1,36 @@
+<template>
+    <require="./promote.css"></require>
+    <ux-dialog css="direction:${theme.rtltr};width:400px;">
+        <ux-dialog-header style="padding-right:32px;">
+            <h4 class="panel-title" innerhtml.bind="header_text"></h4>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        <textarea required name="message" id="bad-message" class="form-control" value.bind="params.feedback_bad_message" rows="6"
+                            t="[placeholder]feedback-bad-message" />
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea required name="message" id="good-message" class="form-control" value.bind="params.feedback_good_message" rows="6"
+                            t="[placeholder]feedback-good-message" />
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="name" id="name" class="form-control input-sm lowercase" value.bind="params.feedback_name"
+                            t="[placeholder]feedback-name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" class="form-control input-sm lowercase" value.bind="params.feedback_email"
+                            t="[placeholder]feedback-email-address">
+                    </div>
+                </form>
+            </div>
+        </ux-dialog-body>
+        <ux-dialog-footer style="padding-right:32px;">
+            <button class="btn btn-danger btn-warning" click.trigger="cancel()" disable="params.feedback_bad_message=='' && params.feedback_good_message==''">${'stories.cancel' & t}</button>
+            <button class="btn btn-success btn-primary" click.trigger="send()">${'promote-send' & t}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

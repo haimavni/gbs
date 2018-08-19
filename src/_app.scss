@@ -89,6 +89,8 @@
 }
 
 #footer .footer-area {
+    display: flex;
+    justify-content: center;
     height: 67px;
     background-repeat: no-repeat;
     text-align: center;
@@ -96,6 +98,10 @@
 
     a {
         cursor: pointer;
+    }
+    span.footer-item {
+        margin-right:12px;
+        margin-left:12px;
     }
 }
 

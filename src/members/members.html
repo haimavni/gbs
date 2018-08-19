@@ -8,12 +8,13 @@
                         <div class="input-group" style="padding-top:16px;width:50%;font-size:18px;">
                             <search-input value.bind="filter" placeholder="members.filter" height="38"></search-input>
                         </div>
-                        <div class="input-group" style="padding-top:16px;" if.bind="! relatives_mode">
+                        <div class="input-group members-selector" if.bind="! relatives_mode">
                             <select value.bind="order" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.trigger="order_changed($event)">
-                                <option dir="rtl" repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
+                                <option repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </div>
-                        <div class="input-group" style="padding-top:16px;" if.bind="user.privileges.DATA_AUDITOR &&! relatives_mode">
+                        <div class="input-group members-selector" 
+                            if.bind="user.privileges.DATA_AUDITOR &&! relatives_mode">
                             <select value.bind="only_unapproved" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl">
                                 <option dir="rtl" repeat.for="option of approval_options" model.bind="option.value">${option.name}</option>
                             </select>
@@ -46,7 +47,7 @@
 
             <div id="member-list" class="member-list content-area" css="min-height:${theme.min_height-320}px;max-height:590px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : 1000 | filtervisibility : 0 "
+                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : max_members_displayed | filtervisibility : 0 "
                         if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || !member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         dir="rtl">

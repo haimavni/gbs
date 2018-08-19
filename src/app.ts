@@ -7,6 +7,7 @@ import { User } from './services/user';
 import { WatchVersion } from './services/watch_version';
 import { DialogService } from 'aurelia-dialog';
 import { Promote } from './user/promote';
+import { Feedback } from './user/feedback';
 
 
 @autoinject
@@ -65,12 +66,25 @@ export class App {
             { route: 'photos/:id/*', name: 'photo-detail', moduleId: './photos/photo-detail' },
             { route: 'access-manager', name: 'access-manager', moduleId: './admin/access-manager' },
             { route: 'hit-counts', name: 'hit-counts', moduleId: './admin/hit-counts' },
+            { route: 'feedbacks', name: 'feedbacks', moduleId: './admin/show-feedbacks' },
             { route: 'chats', name: 'chats', moduleId: './user/chats' },
             { route: 'adhoc-scripts', name: 'adhoc-scripts', moduleId: './admin/adhoc-scripts' },
             { route: 'show-logs', name: 'show-logs', moduleId: './admin/show-logs' },
             { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment'}
         ]);
         this.router = router;
+    }
+
+    feedback() {
+        this.theme.hide_title = true;
+        this.dialog.open({ viewModel: Feedback, lock: false }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (!response.wasCancelled) {
+                //do something?
+            } else {
+                //do something else?
+            }
+        });
     }
 
     contact_us() {

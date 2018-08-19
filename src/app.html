@@ -46,8 +46,9 @@
         </div>
         <footer id="footer" if.bind="! theme.hide_title">
             <div class="footer-area">
-                <a click.delegate="contact_us()">Built by Lifestone</a>
-                <span>${curr_version}</span>
+                <span class="footer-item"><a click.delegate="contact_us()">Built by Lifestone</a></span>
+                <span class="footer-item">${curr_version}</span>
+                <span class="footer-item"><a click.delegate="feedback()">${'feedback' & t}</a></span>
             </div>
         </footer>
     </div>
