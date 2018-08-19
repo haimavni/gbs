@@ -1,6 +1,6 @@
 import { DialogController } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom} from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -41,6 +41,11 @@ export class Feedback {
 
     cancel() {
         this.controller.cancel();
+    }
+
+    @computedFrom('params.feedback_bad_message', 'feedback_good_message')
+    get is_disabled() {
+        return (this.params.feedback_bad_message=='' && this.params.feedback_good_message=='');
     }
 
 
