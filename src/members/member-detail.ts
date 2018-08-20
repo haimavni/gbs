@@ -304,7 +304,8 @@ export class MemberDetail {
             let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
             let lsh = tph - 100;
             this.life_summary_content.style.height = `${lsh+28}px`;
-            if (this.theme.width >= 1024) {
+            //console.log("theme height/width: ", this.theme.height, this.theme.width);
+            if (this.theme.height >= 800 && this.theme.width >= 800) {
                 this.top_panel.style.height = `${tph}px`;
             }
             let bph = panel_height - tph - 1;
@@ -315,7 +316,9 @@ export class MemberDetail {
             let lsb = tph - 30;
             this.life_summary_box.style.height = `${lsb}px`;
             let d = this.life_summary_expanded ? 28 : 58;
-            this.family_connections_panel.style.height = `${lsh+d}px`;
+            if (this.theme.height >= 800 && this.theme.width >= 800) {
+                this.family_connections_panel.style.height = `${lsh+d}px`;
+            }
         } catch (e) {
             return false;
         }
@@ -324,9 +327,9 @@ export class MemberDetail {
 
     set_heights() {
         setTimeout(() => {
-            if (this._set_heights()) return;
+            let x = this._set_heights();
             this.set_heights();
-        }, 5)
+        }, 50)
     }
 
     @computedFrom("story_0.story_text")

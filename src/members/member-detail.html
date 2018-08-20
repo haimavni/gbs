@@ -143,7 +143,7 @@
             </div>
             <!--member stories panel-->
             <div id="stories" class="fr-view row ${theme.font-size}" ref="bottom_panel"
-                show.bind="! (user.editing || life_summary_expanded)"
+                show.bind="story_1.story_preview && ! (user.editing || life_summary_expanded)"
                 css="margin-left:-28px;margin-right:0px;height:${bottom_height}px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
                 <div class="col-lg-3 visible-lg hidden-md story-box" css="float:${theme.same_dir};height:${story_box_height}px;" click.trigger="goto_story_page(story_4)">

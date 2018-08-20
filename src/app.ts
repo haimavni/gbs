@@ -77,7 +77,7 @@ export class App {
 
     feedback() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: Feedback, lock: false }).whenClosed(response => {
+        this.dialog.open({ viewModel: Feedback, lock: true }).whenClosed(response => {
             this.theme.hide_title = false;
             if (!response.wasCancelled) {
                 //do something?
@@ -89,7 +89,7 @@ export class App {
 
     contact_us() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: Promote, lock: false }).whenClosed(response => {
+        this.dialog.open({ viewModel: Promote, lock: true }).whenClosed(response => {
             this.theme.hide_title = false;
             if (!response.wasCancelled) {
                 //do something?

@@ -28,6 +28,10 @@ export class ShowFeedbacks {
         this.api.call_server('default/get_feedbacks')
             .then(response => {
                 this.items = response.feedbacks;
+                for (let item of this.items) {
+                    item.bad = item.bad.replace('\n', '<br>');
+                    item.good = item.good.replace('\n', '<br>');
+                }
             })
     }
 

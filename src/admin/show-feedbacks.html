@@ -8,6 +8,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Device Type</th>
+                        <th>Device Details</th>
                         <th>Negative</th>
                         <th>Positive</th>
                         <th>Version</th>
@@ -17,8 +19,10 @@
                     <tr repeat.for="item of $displayData">
                         <td css="direction:${theme.rtltr}">${item.name}</td>
                         <td>${item.email}</td>
-                        <td style="direction:rtl">${item.bad}</td>
-                        <td style="direction:rtl">${item.good}</td>
+                        <td>${item.device_type}</td>
+                        <td>${item.device_details}</td>
+                        <td style="direction:rtl" innerhtml.bind="item.bad"></td>
+                        <td style="direction:rtl" innerhtml.bind="item.good"></td>
                         <td>${item.version}</td>
                     </tr>
                 </tbody>
