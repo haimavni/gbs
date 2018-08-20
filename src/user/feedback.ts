@@ -30,14 +30,13 @@ export class Feedback {
         this.api = api;
         this.theme = theme;
         this.i18n = i18n;
-        this.header_text = this.i18n.tr('feedback.header-text');
+        this.header_text = 'feedback.header-text';
         this.device_type_options = [
-            { value: "any-device", name: this.i18n.tr('feedback.any-device') },
-            { value: "desktop", name: this.i18n.tr('feedback.desktop') },
-            { value: "tablet", name: this.i18n.tr('feedback.tablet') },
-            { value: "smartphone", name: this.i18n.tr('feedback.smartphone') }
+            { value: "any-device", name: 'feedback.any-device' },
+            { value: "desktop", name: 'feedback.desktop' },
+            { value: "tablet", name: 'feedback.tablet' },
+            { value: "smartphone", name: 'feedback.smartphone' }
         ];
-
     }
 
     send() {

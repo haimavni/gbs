@@ -1,8 +1,8 @@
 <template>
     <require="./promote.css"></require>
-        <ux-dialog css="direction:${theme.rtltr};width:400px;">
+        <ux-dialog css="direction:${theme.rtltr};width:500px;">
             <ux-dialog-header style="padding-right:32px;">
-                <h4 class="panel-title" innerhtml.bind="header_text"></h4>
+                <h4 class="panel-title" innerhtml.bind="header_text & t"></h4>
             </ux-dialog-header>
             <ux-dialog-body>
                 <div class="panel-body">
@@ -10,13 +10,12 @@
                         <div style="margin-bottom:16px;display:flex;justify-content:space-between;">
                             <div class="input-group">
                                 <select value.bind="params.device_type" 
-                                    style="height:32px;" 
-                                    dir="rtl">
-                                    <option repeat.for="option of device_type_options" model.bind="option.value">${option.name}</option>
+                                    style="height:32px;">
+                                    <option repeat.for="option of device_type_options" model.bind="option.value">${option.name & t}</option>
                                 </select>
                             </div>
                             <div class="input-group">
-                                <input type="text" value.bind="params.device_details" style="height:32px;padding-right:5px;padding-left:5px;" t="[placeholder]feedback.device-details"/>
+                                <input type="text" value.bind="params.device_details" style="height:32px;padding-right:5px;padding-left:5px;width:320px;" t="[placeholder]feedback.device-details"/>
                             </div>
                         </div>
                         <div class="form-group">
