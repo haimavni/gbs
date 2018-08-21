@@ -45,7 +45,7 @@
             <router-view></router-view>
         </div>
         <footer id="footer" if.bind="! theme.hide_title">
-            <div class="footer-area">
+            <div class="footer-area" style="font-size:120%;font-weight:bold;">
                 <span class="footer-item"><a click.delegate="contact_us()">Built by Lifestone</a></span>
                 <span class="footer-item">${curr_version}</span>
                 <span class="footer-item"><a click.delegate="feedback()">${'feedback.feedback' & t}</a></span>
