@@ -36,6 +36,7 @@ export class PhotoStripCustomElement {
     }
 
     ready() {
+        console.log("ready photo strip");
         if (!this) {
             return;
         }
