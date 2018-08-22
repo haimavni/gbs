@@ -18,7 +18,7 @@
                                     ${with_a_member_text}
                                 </button>
                             </div>
-                            <div class="form-group" if.bind="phase=='can-modify-tags'">
+                            <div class="form-group" if.bind="phase=='photos.can-modify-tags'">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
@@ -33,10 +33,10 @@
                             <div class="form-group">
                                 <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos()"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
-                            <div class="form-group" if.bind="phase=='not-editing'">
+                            <div class="form-group" if.bind="phase=='photos-not-editing'">
                                 <help topic="photos-not-editing" position="bottom"></help>
                             </div>
-                            <div class="form-group" if.bind="phase=='ready-to-edit'">
+                            <div class="form-group" if.bind="phase=='photos-ready-to-edit'">
                                 <help topic="photos-ready-to-edit" position="bottom"></help>
                             </div>
                             <div class="form-group" if.bind="phase=='applying-to-photos'">
@@ -56,12 +56,15 @@
                                 </button>
                                 <help topic="done-selecting-photos" position="bottom"></help>
                             </div>
+                            <div class="input-group" if.bind="phase == 'selecting-photos-for-story'">
+                                <help topic.bind="phase" position="bottom"></help>
+                            </div>
                             <div if.bind="caller_type" class="form-group">
                                 <button class="btn btn-success" click.trigger="save_photo_group()">
                                     ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
-                            <div if.bind="phase == 'ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type " t="[title]user.upload-files" class="input-group">
+                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type " t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'photos.upload' & t}

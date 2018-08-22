@@ -296,7 +296,9 @@ export class Photos {
     @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting',
         'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 'selected_photos', 'has_grouped_photographers', 'has_grouped_topics')
     get phase() {
-        let result = "not-editing";
+        if (this.caller_type == 'term' || this.caller_type == 'story')
+            return 'selecting-photos-for-story'
+        let result = "photos-not-editing";
         if (this.user.editing) {
             if (this.selected_photos.size > 0) {
                 if (this.done_selecting) {
@@ -308,24 +310,24 @@ export class Photos {
                 this.done_selecting = false;
                 if (this.has_grouped_topics ||
                     this.has_grouped_photographers) {
-                    result = "can-modify-tags";
+                    result = "photos.can-modify-tags";
                 } else {
-                    result = "ready-to-edit"
+                    result = "photos-ready-to-edit"
                 }
             }
         }
         this.options_settings.update({
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
-            name_editable: result == "ready-to-edit",
-            can_set_sign: result == "ready-to-edit",
-            can_add: result == "ready-to-edit",
-            can_delete: result == "ready-to-edit"
+            name_editable: result == "photos-ready-to-edit",
+            can_set_sign: result == "photos-ready-to-edit",
+            can_add: result == "photos-ready-to-edit",
+            can_delete: result == "photos-ready-to-edit"
         });
         this.photographers_settings.update({
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
-            name_editable: result == "ready-to-edit",
-            can_add: result == "ready-to-edit",
-            can_delete: result == "ready-to-edit",
+            name_editable: result == "photos-ready-to-edit",
+            can_add: result == "photos-ready-to-edit",
+            can_delete: result == "photos-ready-to-edit",
             can_group: this.user.editing
         });
         if (this.has_grouped_photographers) {
@@ -384,6 +386,5 @@ export class Photos {
         this.api.call_server_post('members/rotate_selected_photos', this.params)
             .then(() => this.update_photo_list());
     }
-
 
 }

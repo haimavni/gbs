@@ -254,4 +254,12 @@ export class Members {
         return this._members;
     }
 
+    get topic_members() {
+        if (this.caller_type == 'story' || this.caller_type == 'term') {
+            return 'select-members'
+        } else {
+            return 'members'
+        }
+    }
+
 }
