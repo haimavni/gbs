@@ -19,6 +19,7 @@ export class PhotoStripCustomElement {
     eventAggregator;
     bindingEngine: BindingEngine;
     subscription;
+    ready_interval;
     slideShow;
     theme;
     dragging = false;
@@ -68,12 +69,14 @@ export class PhotoStripCustomElement {
         this.width = elementRect.width;
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
-        setInterval(() => this.ready(), 100);
+        this.ready_interval = setInterval(() => this.ready(), 100);
         this.ready();
         //this.subscription = this.bindingEngine.collectionObserver(this.slides).subscribe(this.ready);
     }
 
     detached() {
+        clearInterval(this.ready_interval);
+        clearInterval(this.slideShow);
         //this.subscription.dispose();
     }
 
