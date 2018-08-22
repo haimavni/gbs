@@ -75,8 +75,12 @@ export class PhotoStripCustomElement {
     }
 
     detached() {
+        console.log("clear interval of ", this.ready_interval, " and ", this.slideShow);
         clearInterval(this.ready_interval);
         clearInterval(this.slideShow);
+        console.log("after clear interval of ", this.ready_interval, " and ", this.slideShow);
+        this.ready_interval = 0;
+        this.slideShow = 0;
         //this.subscription.dispose();
     }
 
