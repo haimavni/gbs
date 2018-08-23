@@ -107,6 +107,8 @@ export class MemberDetail {
     }
 
     activate(params, config) {
+        if (this.member && this.member.member_info && this.member.member_info.id == params.id) return;
+        this.init_member(); //So that changing to a new member does not display most recent one
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
@@ -120,6 +122,12 @@ export class MemberDetail {
                 this.set_displayed_stories();
                 this.api.hit('MEMBER', this.member.member_info.id);
             });
+    }
+
+    init_member() {
+        this.member = null;
+        this.life_summary = null;
+        this.life_summary_expanded = false;
     }
 
     @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date',
