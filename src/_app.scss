@@ -103,6 +103,11 @@
         margin-right:12px;
         margin-left:12px;
     }
+    button {
+        font-weight: bolder;
+        font-size: 16px;
+        border-radius: 10px;
+    }
 }
 
 div.menu-items {
@@ -138,3 +143,5 @@ div.menu-items {
 [dir="ltr"] .navbar-logo {
     margin-right: 10px;
 }
+
+

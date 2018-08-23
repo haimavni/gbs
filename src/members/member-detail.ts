@@ -25,6 +25,7 @@ export class MemberDetail {
     router;
     i18n;
     member;
+    new_member = '';
     memberList;
     dialog;
     baseURL;
@@ -108,6 +109,7 @@ export class MemberDetail {
 
     activate(params, config) {
         if (this.member && this.member.member_info && this.member.member_info.id == params.id) return;
+        this.new_member = params.id == 'new' ? this.i18n.tr('members.new-member') : '';
         this.init_member(); //So that changing to a new member does not display most recent one
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
