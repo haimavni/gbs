@@ -52,7 +52,7 @@ export class Feedback {
         this.controller.cancel();
     }
 
-    @computedFrom('params.feedback_bad_message', 'feedback_good_message')
+    @computedFrom('params.feedback_bad_message', 'params.feedback_good_message')
     get is_disabled() {
         return (this.params.feedback_bad_message=='' && this.params.feedback_good_message=='');
     }

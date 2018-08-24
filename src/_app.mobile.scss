@@ -68,6 +68,17 @@ $navbar-height: 78px;
         display: none;
     }
 }
+@media(max-width: 360px) {
+    div.navbar-controls {
+        display: none;
+    }
+}
+
+@media(max-width: 700px) {
+    #footer .footer-area button {
+        display: none;
+    }
+}
 
 
 

@@ -315,11 +315,11 @@ export class MemberDetail {
             let lsh = tph - 100;
             this.life_summary_content.style.height = `${lsh+28}px`;
             //console.log("theme height/width: ", this.theme.height, this.theme.width);
-            if (this.theme.height >= 800 && this.theme.width >= 800) {
-                this.top_panel.style.height = `${tph}px`;
-            }
             let bph = panel_height - tph - 1;
-            this.bottom_panel.style.height = `${bph}px`;
+            if (this.theme.height >= 1000 && this.theme.width >= 1000) {
+                this.top_panel.style.height = `${tph}px`;
+                this.bottom_panel.style.height = `${bph}px`;
+            }
             this.story_box_height = bph - 12;
             let mdch = panel_height + this.photo_strip_height - 12;
             this.member_detail_container.style.height = `${mdch}px`;
