@@ -42,9 +42,9 @@
             </div>
         </div>
         <div id="router-view" css="min-height:${router_view_height};">
-            <router-view></router-view>
+            <router-view ref="theme.router_view"></router-view>
         </div>
-        <footer id="footer" if.bind="! theme.hide_title">
+        <footer id="footer" if.bind="! theme.hide_title" ref="theme.footer">
             <div class="footer-area" style="font-size:120%;font-weight:bold;">
                 <span class="footer-item"><button class="btn btn-default footer-button" click.delegate="contact_us()">Built by Lifestone</button></span>
                 <span style="direction:ltr" class="footer-item">${curr_version}</span>

@@ -36,10 +36,6 @@ export class App {
     }
 
     attached() {
-        let h = window.innerHeight;
-        let ci = window.clientInformation;
-        let el1 = document.getElementById("router-view");
-        let el2 = document.getElementById("footer");
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit('APP');
     }

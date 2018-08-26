@@ -35,6 +35,8 @@ export class Theme {
     _palette = null;
     palettes = ['palette-default', 'palette-oldie', 'palette-sky', 'palette-earth'];
     _blue_logo = null;
+    router_view;
+    footer;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -45,7 +47,6 @@ export class Theme {
         window.addEventListener('resize', () => {
             this.handle_content_resize();
         }, true);
-        window.setTimeout(() => { this.handle_content_resize(); }, 200);
         this.i18n = i18n;
         //force locale from cookies if exists
         let locale = this.i18n.getLocale();

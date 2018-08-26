@@ -8,15 +8,15 @@
                 <span style="color:white;font-size:85%;margin-right:30px;"> ${life_cycle_text} </span>
             </div>
         </div>
-        <div class="row">
+        <div class="row" ref="photo_strip">
             <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height" id.bind="member.member_info.id"
                 style="padding:0;"
                 action_key="Zoom" dir="ltr"
-                height_change.trigger="on_height_change($event)"
+                height_change.delegate="on_height_change($event)"
                 settings.bind="{arrows:true, height:220}">
             </photo-strip>
         </div>
-        <div class="container" css="margin-right:-32px;height:${panel_height}px" ref="member_detail_panel">
+        <div class="container" style="margin-right:-32px;" ref="member_detail_panel">
             <div id="member-detail-content" class="row" dir="rtl" ref="top_panel">
                 <div class="col-md-6 col-sm-12">
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
@@ -135,7 +135,7 @@
                         <i if.bind="user.privileges.EDITOR" class="far fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                         ${story_0.name}
                     </h3>
-                    <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;" ref="life_summary_content">
+                    <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;height:82%" ref="life_summary_content">
                         <p class="${theme.font_size} ${highlight_on}" innerhtml.bind="biography ">
                         </p>
                     </div>

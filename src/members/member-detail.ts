@@ -45,7 +45,6 @@ export class MemberDetail {
     stories_scroll: boolean;
     source;
     sub1; sub2; sub3; sub4; sub5;
-    panel_height = 566;
     to_story_page;
     expand;
     compress;
@@ -54,6 +53,7 @@ export class MemberDetail {
     family_connections_panel;
     member_detail_container;
     top_panel;
+    photo_strip;
     bottom_panel;
     life_summary_content;
     life_summary_box;
@@ -78,6 +78,7 @@ export class MemberDetail {
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
         this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+        this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_heights() });
     }
 
     refresh_story(data) {
@@ -306,40 +307,41 @@ export class MemberDetail {
         this.life_summary_content.scrollTop = t + h;
     }
 
-    _set_heights() {
+    set_heights() {
+        console.log("entered set heights");
         try {
-            let panel_height = this.theme.height - this.photo_strip_height - 188;
+            console.log("theme router view height: ", this.theme.router_view.offsetTop);
+            console.log("theme footer height: ", this.theme.footer.offsetTop);
+            console.log("photo strip height: ", this.photo_strip.offsetTop);
+            let footer_height = 67;
+            let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height - 16;
+            //let panel_height = this.theme.height - this.photo_strip_height - 188 - 500;
             panel_height = Math.max(panel_height, 544);
+            console.log("theme.height: ", this.theme.height, " panel height: ", panel_height);
             this.member_detail_panel.style.height = `${panel_height}px`;
-            let tph = this.life_summary_expanded ? panel_height : Math.round(panel_height / 2);
-            let lsh = tph - 100;
-            this.life_summary_content.style.height = `${lsh+28}px`;
+            let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
+            let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
+            console.log("tph: ", tph);
+            //this.life_summary_content.style.height = `${lsh+28}px`;
             //console.log("theme height/width: ", this.theme.height, this.theme.width);
-            let bph = panel_height - tph - 1;
-            if (this.theme.height >= 1000 && this.theme.width >= 1000) {
+            let bph = panel_height - tph;
+            if (this.theme.height >= 800 && this.theme.width >= 1000) {
                 this.top_panel.style.height = `${tph}px`;
                 this.bottom_panel.style.height = `${bph}px`;
             }
             this.story_box_height = bph - 12;
-            let mdch = panel_height + this.photo_strip_height - 12;
-            this.member_detail_container.style.height = `${mdch}px`;
-            let lsb = tph - 30;
-            this.life_summary_box.style.height = `${lsb}px`;
-            let d = this.life_summary_expanded ? 28 : 58;
-            if (this.theme.height >= 800 && this.theme.width >= 800) {
-                this.family_connections_panel.style.height = `${lsh+d}px`;
+            //let mdch = panel_height + this.photo_strip_height - 12;
+            //this.member_detail_container.style.height = `${mdch}px`;
+            //let lsb = tph - 30;
+            this.life_summary_box.style.height = '90%'// `${lsb}px`;
+            if (this.theme.width >= 1200) {
+                this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
             }
         } catch (e) {
+            console.log("exception in set heights ", e);
             return false;
         }
         return true;
-    }
-
-    set_heights() {
-        setTimeout(() => {
-            let x = this._set_heights();
-            this.set_heights();
-        }, 50)
     }
 
     @computedFrom("story_0.story_text")
