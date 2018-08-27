@@ -169,19 +169,6 @@ ux-dialog-containerxxx {
 #member-detail {
     padding-left:15px;
     padding-right:19px;
-    #member-detail-content > div {
-    //height: calc(100vh - 713px);
-        //min-height: 271px;
-
-        .member-story-panel-moved {
-            overflow-y: auto;
-            height: calc(100% - 53px);
-            >p {
-                text-align: justify;
-            }
-
-        }
-    }
     div.life-summary {
         margin-bottom:20px;
         padding-left:20px;
@@ -231,7 +218,7 @@ ux-dialog-containerxxx {
 }
 
 div.member-story-panel {
-    height: 185px;
+    //height: 185px;
     overflow: auto;
     >p {
         padding-bottom: 2px;

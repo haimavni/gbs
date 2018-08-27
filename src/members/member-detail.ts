@@ -308,40 +308,31 @@ export class MemberDetail {
     }
 
     set_heights() {
-        console.log("entered set heights");
-        try {
-            console.log("theme router view height: ", this.theme.router_view.offsetTop);
-            console.log("theme footer height: ", this.theme.footer.offsetTop);
-            console.log("photo strip height: ", this.photo_strip.offsetTop);
-            let footer_height = 67;
-            let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height - 16;
-            //let panel_height = this.theme.height - this.photo_strip_height - 188 - 500;
-            panel_height = Math.max(panel_height, 544);
-            console.log("theme.height: ", this.theme.height, " panel height: ", panel_height);
-            this.member_detail_panel.style.height = `${panel_height}px`;
-            let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
-            let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
-            console.log("tph: ", tph);
-            //this.life_summary_content.style.height = `${lsh+28}px`;
-            //console.log("theme height/width: ", this.theme.height, this.theme.width);
-            let bph = panel_height - tph;
-            if (this.theme.height >= 800 && this.theme.width >= 1000) {
-                this.top_panel.style.height = `${tph}px`;
-                this.bottom_panel.style.height = `${bph}px`;
-            }
-            this.story_box_height = bph - 12;
-            //let mdch = panel_height + this.photo_strip_height - 12;
-            //this.member_detail_container.style.height = `${mdch}px`;
-            //let lsb = tph - 30;
-            this.life_summary_box.style.height = '90%'// `${lsb}px`;
-            if (this.theme.width >= 1200) {
-                this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
-            }
-        } catch (e) {
-            console.log("exception in set heights ", e);
-            return false;
+        let footer_height = 67;
+        let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height;
+        panel_height = Math.max(panel_height, 544);
+        this.member_detail_panel.style.height = `${panel_height}px`;
+        let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
+        let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
+        let lsco = this.life_summary_content.offsetTop + 16 + 16;  //16 for the top margin, 16 for bottom margin
+        this.life_summary_content.style.height = `${tph - lsco}px`;
+        let bph = panel_height - tph;
+        if (this.theme.height >= 800 && this.theme.width >= 1000) {
+            this.top_panel.style.height = `${tph}px`;
+            this.bottom_panel.style.height = `${bph}px`;
+        } else {
+            this.top_panel.style.height = null;
+            this.bottom_panel.style.height = null;
         }
-        return true;
+        if (this.photo_strip_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
+        this.story_box_height = bph;
+        //let mdch = panel_height + this.photo_strip_height - 12;
+        //this.member_detail_container.style.height = `${mdch}px`;
+        //let lsb = tph - 30;
+        this.life_summary_box.style.height = '90%'// `${lsb}px`;
+        if (this.theme.width >= 1200) {
+            this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
+        }
     }
 
     @computedFrom("story_0.story_text")
