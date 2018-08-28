@@ -39,7 +39,7 @@
                 </li>
             </ul>
         </div>
-        <div class="panel-vid" style="direction:rtl;">
+        <div class="panel-vid">
             <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
                 <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
                 </iframe>
@@ -48,16 +48,16 @@
     </div>
 
     <div class="member-of-the-day">
-        <div dir="ltr">
-            <span class="member-link" click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
-                ${'home.to-the-page-of' & t} ${member_of_the_day.first_name}
-            </span>
+        <div>
+            <span class="hidden-xs member-prefix">${member_prefix & t}</span>
+            <img class="member-image" src.bind="member_of_the_day.face_photo_url" />
+            <span class="member-name" css="direction:${theme.rtltr};">${member_of_the_day.name}</span>
             <span class="hidden-xs hidden-sm member-text" css="direction:${theme.rtltr};">
                 ${member_of_the_day_life_cycle_text}
             </span>
-            <span class="member-name" css="direction:${theme.rtltr};">${member_of_the_day.name}</span>
-            <img class="member-image" src.bind="member_of_the_day.face_photo_url" />
-            <span class="hidden-xs member-prefix">${member_prefix & t}</span>
+            <span class="member-link" click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
+                ${'home.to-the-page-of' & t} ${member_of_the_day.first_name}
+            </span>
         </div>
     </div>
 

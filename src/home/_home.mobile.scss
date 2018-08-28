@@ -12,7 +12,13 @@
 }
 
 .panel-vid {
-    align-items: center;
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    span {
+        width: 230px;
+        height: 140px;
+    }
 }
 
 .member-of-the-day > div {

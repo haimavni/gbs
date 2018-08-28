@@ -17,7 +17,6 @@ export class Home {
     video_list = [];
     member_of_the_day = { gender: '', name: '' };
     member_prefix;
-    member_of_the_day_life_cycle_text;
     was_born_in;
     died_in;
     router;
@@ -80,12 +79,15 @@ export class Home {
     attached() {
         this.api.call_server_post('members/get_random_member').then(result => {
             this.member_of_the_day = result.member_data;
-            this.member_of_the_day_life_cycle_text = this.misc.calc_life_cycle_text(this.member_of_the_day);
             this.member_prefix = this.member_of_the_day.gender == 'F' ? 'home.female-member-of-the-day' : 'home.male-member-of-the-day';
             this.was_born_in = this.member_of_the_day.gender == 'F' ? 'home.female-was-born-in' : 'home.male-was-born-in';
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';
         });
         this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+    }
+
+    get member_of_the_day_life_cycle_text() {
+        return this.misc.calc_life_cycle_text(this.member_of_the_day);
     }
 
     detached() {

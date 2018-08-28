@@ -11,6 +11,7 @@
     @extend %column;
     width: 220px;
     align-items: flex-start;
+    flex-direction: column;
 }
 
 .panel-messages {
