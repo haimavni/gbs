@@ -36,13 +36,7 @@ export class MemberDetail {
     top_height = 271;
     story_box_height = 260;
     stories_base = 0;
-    story_0 = { story_text: "" };
-    story_1 = { story_text: "" };
-    story_2 = { story_text: "" };
-    story_3 = { story_text: "" };
-    story_4 = { story_text: "" };
     life_summary;
-    stories_scroll: boolean;
     source;
     sub1; sub2; sub3; sub4; sub5;
     to_story_page;
@@ -89,7 +83,6 @@ export class MemberDetail {
             this.api.call_server_post('members/get_story', {story_id: story_id})
                 .then(response => {
                     this.member.member_stories[idx].story_text = response.story.story_text;
-                    this.set_displayed_stories();
             });
         }
     }
@@ -97,15 +90,6 @@ export class MemberDetail {
     @computedFrom('dirty_info')
     get disabled_if() {
         return this.dirty_info ? "disabled" : "";
-    }
-
-    set_displayed_stories() {
-        this.stories_scroll = (this.member.member_stories.length > 5);
-        this.story_0 = this.story(0);
-        this.story_1 = this.story(1);
-        this.story_2 = this.story(2);
-        this.story_3 = this.story(3);
-        this.story_4 = this.story(4);
     }
 
     activate(params, config) {
@@ -122,8 +106,8 @@ export class MemberDetail {
                 if (life_story) {
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
-                this.set_displayed_stories();
                 this.api.hit('MEMBER', this.member.member_info.id);
+                this.set_heights();
             });
     }
 
@@ -154,7 +138,7 @@ export class MemberDetail {
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
         this.sub5 = this.eventAggregator.subscribe('Zoom', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
-        this.set_heights();
+        //this.set_heights();
     }
 
     detached() {
@@ -191,7 +175,6 @@ export class MemberDetail {
         this.stories_base += dir;
         let n = this.member.member_stories.length - 1;
         this.stories_base = (this.stories_base + n - 1) % n + 1;
-        this.set_displayed_stories();
     }
 
     shift_stories(customEvent: CustomEvent) {
@@ -219,14 +202,28 @@ export class MemberDetail {
         }
     }
 
+    num_displayed_stories() {
+        return this.theme.width >= 1200 ? 4 : this.theme.width >= 992 ? 3 : this.theme.width >= 768 ? 2 : 1;
+    }
+
+    get stories_scroll() {
+        if (! this.member) return false;
+        let nd = this.num_displayed_stories() + 1;
+        let ns = this.member.member_stories.length;
+        return nd < ns;
+    }
+
     story(idx) {
+        let empty_story = { name: "", story_text: "" };
+        if (! this.member) return empty_story;
         let n = this.member.member_stories.length;
         let i;
-        if (n <= 5) {
+        let N = this.num_displayed_stories();
+        if (n <= N + 1) {
             i = idx;
-            if (idx > 0 && this.theme.rtltr === "rtl") {
+            /*if (idx > 0 && this.theme.rtltr === "rtl") {
                 i = 5 - i;
-            }
+            }*/
         } else if (idx == 0) {
             i = 0
         } else {
@@ -237,8 +234,28 @@ export class MemberDetail {
             rec.name = rec.name ? rec.name : ""
             return rec
         } else {
-            return { name: "", story_text: "" }
+            return empty_story;
         }
+    }
+
+    get story_0() {
+        return this.story(0);
+    }
+
+    get story_1() {
+        return this.story(1);
+    }
+
+    get story_2() {
+        return this.story(2);
+    }
+
+    get story_3() {
+        return this.story(3);
+    }
+
+    get story_4() {
+        return this.story(4);
     }
 
     detach_photo_from_member(member_id, photo_id, slide_list) {
@@ -309,11 +326,13 @@ export class MemberDetail {
 
     set_heights() {
         let footer_height = 67;
+        if (! this.photo_strip) return;
         let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height;
         panel_height = Math.max(panel_height, 544);
         this.member_detail_panel.style.height = `${panel_height}px`;
         let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
+        if (! this.life_summary_content) return;
         let lsco = this.life_summary_content.offsetTop + 16 + 16;  //16 for the top margin, 16 for bottom margin
         this.life_summary_content.style.height = `${tph - lsco}px`;
         let bph = panel_height - tph;

@@ -21,7 +21,7 @@ export class AccessManager {
     pageSize = 15;
     filters = [
         { value: '', keys: ['first_name', 'last_name', 'email'] },
-        { value: 'all', custom: this.statusFilter },
+        { value: 'all', custom: this.statusFilter }
     ];
     statuses = ['all', 'registered', 'unregistered'];
 
