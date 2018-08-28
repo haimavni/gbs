@@ -100,6 +100,7 @@ export class DateRangeCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 0;
     @bindable label;
     @bindable range_options: any = [];
+    @bindable hide_label_if_no_date = false;
     _end_date_str="";
     end_date_options = [];
     partial;
@@ -223,9 +224,9 @@ export class DateRangeCustomElement {
         return s;
     }
 
-    @computedFrom("user.editing", "base_date_str", "span_size")
+    @computedFrom("user.editing", "base_date_str")
     get show_label() {
-        return this.base_date_str && this.user.editing;
+        return this.user.editing || this.base_date_str || ! this.hide_label_if_no_date; 
     }
 
     @computedFrom("base_date_str", "user.editing")

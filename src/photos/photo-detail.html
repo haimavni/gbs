@@ -31,6 +31,7 @@
                             <editable if.bind="user.editing" settings.bind="{show_date:false, class:'story-section', checkable: false}" story.bind="photo_story"></editable>
                             <date-range label="${'photos.photo-date' & t}" 
                                 base_date_str.bind="photo_date_str" 
+                                hide_label_if_no_date.bind="true"
                                 span_size.bind="photo_date_datespan"
                                 range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
                                 change.delegate="update_photo_date($event)">
