@@ -20,7 +20,7 @@
             <div id="member-detail-content" class="row" dir="rtl" ref="top_panel">
                 <div class="col-md-6 col-sm-12">
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
-                    <div class="family-chains" style="overflow:auto;" ref="family_connections_panel">
+                    <div class="family-chains" ref="family_connections_panel">
                         <table class="noborder">
                             <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
                                 <td class="relation-kind">${'parents' & t}</td>
@@ -199,10 +199,10 @@
                     </div>
                 </div>
                 <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)">
-                    <i class="far fa-chevron-right fa-3x"></i>
+                    <i class="far fa-chevron-right fa-2x"></i>
                 </div>
                 <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)">
-                    <i class="far fa-chevron-left fa-3x"></i>
+                    <i class="far fa-chevron-left fa-2x"></i>
                 </div>
             </div>
         </div>

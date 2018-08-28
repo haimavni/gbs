@@ -101,47 +101,35 @@ ux-dialog-containerxxx {
     }
 }
 
-#stories .slide-control.next
-{
-    right: 0px;
-    color:grey;
-}
-#stories .slide-control.prev
-{
-    left: 0px;
-    color: grey;
-}
 
-.family-chains button
-{
-    min-width: 130px;
-    border-radius:5px;
-}
-
-.family-chains a
-{
-    border-right: solid 2px gray;
-    border-bottom: solid 2px gray;
-    background-color: lightgray;
-    border-radius: 20px;
-    padding: 0;
-    font-size:12px;
-    & img {
-        float:right;
+.family-chains {
+    overflow: auto;
+    button {
+        min-width: 130px;
+        border-radius:5px;
     }
-    max-width:110px;
-    min-width:110px;
-    overflow:hidden;
-}
-.family-chains ul
-{
-    list-style-type: none;
-    /*margin: 10px;*/
-}
-.family-chains ul li
-{
-    float: right;
-    margin:5px;
+    a {
+        border-right: solid 2px gray;
+        border-bottom: solid 2px gray;
+        background-color: lightgray;
+        border-radius: 20px;
+        padding: 0;
+        font-size:12px;
+        & img {
+            float:right;
+        }
+        max-width:110px;
+        min-width:110px;
+        overflow:hidden;
+    }
+    ul {
+        list-style-type: none;
+        /*margin: 10px;*/
+        li {
+            float: right;
+            margin:5px;
+        }
+    }
 }
 
 .relation-kind
@@ -178,6 +166,15 @@ ux-dialog-containerxxx {
     #stories {
         position: relative;
         padding: 0;
+        .slide-control {
+            color:grey;
+            &.next {
+                right: 0px;
+            }
+            &.prev {
+                left: 0px;
+            }
+        }
 
         .story-box {
             //height: 260px;

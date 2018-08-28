@@ -39,7 +39,7 @@ body > .page-container {
 
 @include mobile {
     body > .page-container {
-        overflow: auto;
+        overflow: auto;  //whould be none???
     }
 }
 

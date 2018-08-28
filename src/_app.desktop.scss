@@ -47,6 +47,7 @@ $navbar-height: 60px;
 
 #router-view {
     height: calc(100vh - 67px);
+    overflow: auto;
 }
 
 .top-head {
