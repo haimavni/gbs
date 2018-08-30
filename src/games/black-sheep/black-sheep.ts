@@ -5,9 +5,10 @@ export class BlackSheep {
 
     status(r, c, m) {
         let n = 100 * m + 10 * r + c;
-        if (this.black_loc == n) return 'black';
-        if (this.white_locs.findIndex(item => item == n) >= 0) return 'white';
-        return 'empty';
+        let kind = m ? 'middle' : 'main';
+        if (this.black_loc == n) return 'black ' + kind;
+        if (this.white_locs.findIndex(item => item == n) >= 0) return 'white ' + kind;
+        return 'empty ' + kind;
     }
 
     has_border(r, c) {

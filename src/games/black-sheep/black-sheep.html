@@ -9,10 +9,10 @@
             <table>
                 <tr repeat.for="r of [0,1,2]">
                     <td repeat.for="c of [0,1,2]" class.bind="has_border(r, c)">
-                        <button class="main ${status(r, c, 0)}">
+                        <button class.bind="status(r, c, 0)">
                             ${10 * r + c}
                         </button>
-                        <button class="middle ${status(r, c, 1)}" if.bind="r < 2 && c < 2">
+                        <button class.bind="status(r, c, 1)" if.bind="r < 2 && c < 2">
                             ${100 + 10 * r + c}
                         </button>
                     </td>
