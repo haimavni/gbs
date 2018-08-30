@@ -1,0 +1,98 @@
+$cell_size: 200px;
+$hole_size: 70px;
+
+div#commands {
+    display: flex;
+    justify-content: flex-start;
+    width: 2 * $cell_size + 100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 200px;
+    button {
+        width: 80px;
+        margin-right:10px;
+    }
+}
+
+div#frame {
+   // width: 2 * cell_size + 80px;
+   // height: 2 * cell_size + 80px;
+    background-color: beige;
+    padding-top: 20px;
+}
+div#bs-board {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    table {
+        margin-top: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        //border: 2px solid gray;
+        td {
+            //display: flex;
+            position: relative;
+            &.bordered {
+                border: 2px solid gray;
+            }
+            width: $cell_size;
+            height: $cell_size;
+            button{
+                position:absolute;
+                border-radius: 50%;
+                border: solid 2px darkgray;
+                z-index: 3;
+                &.black {
+                    background-color: black;
+                }
+                &.white {
+                    background-color: white;
+                }
+                &.empty {
+                    background-color: "lightgray";
+                }
+                width: $hole_size;
+                height: $hole_size;
+                &.main {
+                    top: -$hole_size / 2;
+                    left: -$hole_size / 2;
+                }
+                &.middle {
+                    top: $cell_size /2 - $hole_size / 2;
+                    left: $cell_size /2 - $hole_size / 2;
+                }
+            }
+        }
+    }
+
+}
+
+.crossed {
+    position: relative;
+    width: $cell_size;
+    height: $cell_size;
+}
+
+.crossed:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1px;
+    bottom: 1px;
+    border-width: $cell_size / 2 - 2;
+    border-style: solid;
+    border-color: black transparent;
+}
+
+.crossed:after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    top: 0;
+    bottom: 0;
+    border-width: $cell_size / 2 - 2;
+    border-style: solid;
+    border-color: beige transparent;
+}
