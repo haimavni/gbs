@@ -3,17 +3,18 @@
     <div id="frame" dir="ltr">
         <div id="commands">
             <button class="btn btn-default" click.delegate="new_game()">New</button>
-            <button class="btn btn-default">Solve</button>
+            <button class="btn btn-default" click.delegate="solve()">Solve</button>
+            <button if.bind="has_solution" class="btn btn-default" click.delegate="next()" disabled.bind="curr_step_idx>solution_steps.length">Next</button>
+            <button if.bind="has_solution" class="btn btn-default" click.delegate="prev()" disabled.bind="curr_step_idx < 1">Prev</button>
+            <f2 if.bind="failed">There is no solution!</f2>
         </div>
         <div id="bs-board" dir="ltr">
             <table>
                 <tr repeat.for="r of [0,1,2]">
                     <td repeat.for="c of [0,1,2]" class.bind="has_border(r, c)">
-                        <button class.bind="status(r, c, 0)">
-                            ${10 * r + c}
+                        <button class="main" css="background-color:${status(r, c, 0)};" click.delegate="mutate(r, c, 0, $event)" id="${10 * r + c}">
                         </button>
-                        <button class.bind="status(r, c, 1)" if.bind="r < 2 && c < 2">
-                            ${100 + 10 * r + c}
+                        <button class="middle" css="background-color:${status(r, c, 1)};" if.bind="r < 2 && c < 2" click.delegate="mutate(r, c, 1, $event)" id="${100 + 10 * r + c}">
                         </button>
                     </td>
                 </tr>
