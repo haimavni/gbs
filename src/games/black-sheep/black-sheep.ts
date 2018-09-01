@@ -1,9 +1,11 @@
 import { MemberGateway } from '../../services/gateway';
 import { autoinject } from 'aurelia-framework';
+import { Theme } from '../../services/theme';
 
 @autoinject
 export class BlackSheep {
     api;
+    theme;
     black_loc = 12;
     white_locs = new Set([0, 1, 2, 100, 101, 11, 110, 111, 12, 21, 22]);
     mode = 'placing'; // solving-display
@@ -11,8 +13,13 @@ export class BlackSheep {
     curr_step_idx = 0;
     failed = false;
     
-    constructor(api: MemberGateway, ) {
+    constructor(api: MemberGateway, theme: Theme) {
         this.api = api;
+        this.theme = theme;
+    }
+
+    attached() {
+        this.theme.hide_menu = true;;
     }
 
     status(r, c, m) {
@@ -37,7 +44,6 @@ export class BlackSheep {
     }
 
     mutate(r, c, m, event) {
-        console.log("mutate. event: ", event);
         let n = 100 * m + 10 * r + c;
         if (this.black_loc == n) {
             this.black_loc = -1
@@ -48,7 +54,7 @@ export class BlackSheep {
         } else {
             this.white_locs.add(n);
         }
-        event.target.style.backgroundColor = this.status(r, c, m);
+        this.refresh();
     }
 
     refresh() {

@@ -1,5 +1,21 @@
-$cell_size: 200px;
-$hole_size: 70px;
+$cell_size: 100px;
+$hole_size: 35px;
+
+//todo: try to use this examaple
+@mixin styling($base-width) {
+    // your SCSS here, e.g.
+    #Contents {
+        width: $base-width;
+    }
+}
+
+@media screen and (max-width: 1170px) {
+    @include styling($base-width: 960px);
+}
+@media screen and (min-width: 1171px) {
+    @include styling($base-width: 1160px);
+}
+//odot
 
 div#commands {
     display: flex;
@@ -20,8 +36,9 @@ div#frame {
     background-color: beige;
     padding-top: 20px;
 }
+
 div#bs-board {
-    width: 1000px;
+    width: 2 * $cell-size + 100px;
     margin-left: auto;
     margin-right: auto;
     table {
