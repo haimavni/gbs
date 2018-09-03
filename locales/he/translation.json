@@ -234,7 +234,13 @@
     },
     "videos": {
         "videos": "וידאו",
+        "video-clips": "סרטוני וידאו",
         "new": "סרטון חדש",
+        "add-video": "הוסף וידאו",
+        "paste-video-address": "הדבק את כתובת הוידאו שהעתקת",
+        "video-name": "תן שם לקטע הוידאו",
+        "send": "שלח",
+        "message-successful": "הוידאו הועלה בהצלחה",
         "filter": "חפוש מהיר בשמות הסרטונים"
     },
     "terms": {

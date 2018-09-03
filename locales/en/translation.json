@@ -235,7 +235,13 @@
     },
     "videos": {
         "videos": "Video",
+        "video-clips": "Video clips",
         "new": "New video",
+        "add-video": "Add video",
+        "paste-video-address": "Paste the video address you copied",
+        "video-name": "Name the video clip",
+        "send": "Send",
+        "message-successful": "Video was successfuly added",
         "filter": "Fast search in video titles"
     },
     "terms": {

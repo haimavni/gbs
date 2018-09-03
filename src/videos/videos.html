@@ -9,7 +9,7 @@
                     <div class="row" style="margin-bottom:15px;">
 
                         <div class="col-md-1 col-md-offset-5" if.bind="user.editing" style="padding-top:18px;">
-                            <button click.delegate- "new_video()" class="btn btn-success cl-create-btn">
+                            <button click.delegate="new_video()" class="btn btn-success cl-create-btn">
                                 <i class="far fa-plus-square"></i>
                                 ${'videos.new' & t}
                             </button>
@@ -17,13 +17,13 @@
                         <div class="col-md-1 col-md-offset-5" if.bind="!user.editing"></div>
                         <div class="col-md-6">
                             <div class="input-group row" style="width:100%;margin-top:15px;">
-                                <search-input value.bind="filter" change.delegate="update_story_list()" placeholder="videos.filter" height="38"></search-input>
+                                <search-input value.bind="filter" placeholder="videos.filter" height="38"></search-input>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="panel-vid">
-                            <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false"
+                        <div class="panel-vid" ref="scroll_area">
+                            <span repeat.for="video of video_list | filter: filter : '*selected' : 'name'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false"
                                 draggable="true">
                                 <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
                                 </iframe>
