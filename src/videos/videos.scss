@@ -1,0 +1,15 @@
+#video-page {
+    .panel-vid {
+        display:flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: flex-start;
+        height: 600px;
+        width:100%;
+        span {
+            width: 230px;
+            height: 140px;
+        }
+    }
+}

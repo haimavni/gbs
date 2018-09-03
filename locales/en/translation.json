@@ -234,7 +234,9 @@
         "photographer-already-exists": "Photographer already exists"
     },
     "videos": {
-        "videos": "Video"
+        "videos": "Video",
+        "new": "New video",
+        "filter": "Fast search in video titles"
     },
     "terms": {
         "terms": "Terms",

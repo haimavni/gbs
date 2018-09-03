@@ -14,12 +14,10 @@ export class Terms {
     user;
     theme;
     i18n;
-    //for development. remove soon.
-    test_date = "";
-    test_span = 3;
     router;
     scroll_area;
     scroll_top = 0;
+    video_list = [];
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router) {
         this.api = api;

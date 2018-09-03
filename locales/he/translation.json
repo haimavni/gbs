@@ -233,7 +233,9 @@
         "photographer-already-exists": "הצלם כבר קיים במערכת"
     },
     "videos": {
-        "videos": "סרטונים"
+        "videos": "וידאו",
+        "new": "סרטון חדש",
+        "filter": "חפוש מהיר בשמות הסרטונים"
     },
     "terms": {
         "terms": "מונחים",
