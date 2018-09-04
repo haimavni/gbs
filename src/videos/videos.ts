@@ -27,7 +27,7 @@ export class Videos {
         this.i18n = i18n;
         this.theme = theme;
         this.dialog = dialog;
-        this.api.call_server_post('members/get_video_sample')
+        this.api.call_server_post('members/get_video_list')
             .then(response => this.set_video_list(response.video_list));
     }
 
@@ -47,6 +47,10 @@ export class Videos {
         this.dialog.open({ viewModel: AddVideo, lock: true }).whenClosed(response => {
             this.theme.hide_title = false;
             if (!response.wasCancelled) {
+                console.log("new video response: ", response);
+                let new_video_rec = response.output.new_video_rec;
+                new_video_rec = this.video_data(new_video_rec);
+                this.video_list.push(new_video_rec);
                 //do something?
             } else {
                 //do something else?
@@ -55,11 +59,23 @@ export class Videos {
     }
 
     set_video_list(video_list) {
-        this.video_list = video_list.map(v =>  this.youtube_data(v));
+        this.video_list = video_list.map(v =>  this.video_data(v));
     }
 
-    youtube_data(video_code) {
-        return { type: "youtube", src: "//www.youtube.com/embed/" + video_code + "?wmode=opaque", name: video_code, selected: false }
+    video_data(video_rec) {
+        switch(video_rec.video_type) {
+            case 'youtube': 
+                video_rec.src = "//www.youtube.com/embed/" + video_rec.src + "?wmode=opaque";
+                break;
+            case 'vimeo':
+                //use the sample below 
+                // <iframe src="https://player.vimeo.com/video/38324835" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                // <p><a href="https://vimeo.com/38324835">צבעונים ונוריות בשמורת הבונים</a> from <a href="https://vimeo.com/user2289719">Haim Avni</a> on <a href="https://vimeo.com">Vimeo</a>.</p>            
+                video_rec.src = 'https://vimeo.com/' + video_rec.src;
+                break;
+        }
+        video_rec.selected = false;
+        return video_rec;
     }
 
 }

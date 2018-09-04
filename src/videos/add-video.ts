@@ -33,9 +33,9 @@ export class AddVideo {
     send() {
         this.params.user_id = this.user.id;
         this.api.call_server_post('members/save_video', this.params)
-            .then(() => {
+            .then(response => {
                 toastr.success("<p dir='rtl'>" + this.i18n.tr('video.message-successful') + "</p>", '', 6000);
-                this.controller.ok();
+                this.controller.ok({new_video_rec: response.new_video_rec});
             });
     }
 

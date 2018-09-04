@@ -1,5 +1,5 @@
-$vid-height: 121px;
-$vid-width: 168px;
+$vid-height: 180px;
+$vid-width: 250px;
 div.video-page {
     height:380px;
     width:100%;
@@ -14,13 +14,17 @@ div.video-page {
         align-content: flex-start;
         height: 600px;
         width: 100%;
-        span {
+        span.fr-video {
             width: $vid-width + 16px;
             height: $vid-height + 20px;
+            margin-bottom: 16px;
             .video-iframe {
                 width: $vid-width;
                 height: $vid-height;
             }
+        }
+        span.video-name {
+            font-size: 14px;
         }
     }
 }
