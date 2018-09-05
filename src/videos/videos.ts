@@ -1,11 +1,12 @@
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
-import { autoinject, singleton } from 'aurelia-framework';
+import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { DialogService } from 'aurelia-dialog';
 import { AddVideo } from './add-video';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject
 @singleton()
@@ -20,13 +21,17 @@ export class Videos {
     scroll_area;
     scroll_top = 0;
     dialog;
+    ea;
+    first_index = 0;
+    videos_per_page = 9;
 
-    constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService) {
+    constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
         this.user = user;
         this.i18n = i18n;
         this.theme = theme;
         this.dialog = dialog;
+        this.ea = ea;
         this.api.call_server_post('members/get_video_list')
             .then(response => this.set_video_list(response.video_list));
     }
@@ -35,6 +40,12 @@ export class Videos {
         this.theme.display_header_background = true;
         this.theme.page_title = "videos.video-clips";
         this.scroll_area.scrollTop = this.scroll_top;
+    }
+
+    created(params, config) {
+        this.ea.subscribe('NEW-VIDEO', msg => {
+            this.add_video(msg.new_video_rec) 
+        });
     }
 
     detached() {
@@ -46,16 +57,12 @@ export class Videos {
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: AddVideo, lock: true }).whenClosed(response => {
             this.theme.hide_title = false;
-            if (!response.wasCancelled) {
-                console.log("new video response: ", response);
-                let new_video_rec = response.output.new_video_rec;
-                new_video_rec = this.video_data(new_video_rec);
-                this.video_list.push(new_video_rec);
-                //do something?
-            } else {
-                //do something else?
-            }
         });
+    }
+
+    add_video(new_video_rec) {
+        new_video_rec = this.video_data(new_video_rec);
+        this.video_list.push(new_video_rec);
     }
 
     set_video_list(video_list) {
@@ -76,6 +83,39 @@ export class Videos {
         }
         video_rec.selected = false;
         return video_rec;
+    }
+
+    page(step, event) {
+        let idx = this.new_first_index(step);
+        if (idx >= 0) {
+            this.first_index = idx;
+        }
+        event.target.parentElement.blur();
+    }
+
+    new_first_index(step) {
+        let idx = this.first_index + step * this.videos_per_page;
+        if (idx >= 0 && idx < this.video_list.length) {
+            return idx;
+        }
+        return -1;
+    }
+
+    _disabled(side) {
+        if (this.video_list.length == 0) return false;
+        let idx = this.new_first_index(side);
+        console.log("first index, side, idx: ", this.first_index, side, idx);
+        return (idx < 0);
+    }
+
+    @computedFrom('video_list', 'first_index')
+    get next_disabled() {
+        return this._disabled(+1);
+    }
+
+    @computedFrom('video_list', 'first_index')
+    get prev_disabled() {
+        return this._disabled(-1);
     }
 
 }

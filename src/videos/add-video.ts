@@ -34,8 +34,12 @@ export class AddVideo {
         this.params.user_id = this.user.id;
         this.api.call_server_post('members/save_video', this.params)
             .then(response => {
-                toastr.success("<p dir='rtl'>" + this.i18n.tr('video.message-successful') + "</p>", '', 6000);
-                this.controller.ok({new_video_rec: response.new_video_rec});
+                if (response.user_error || response.error) {
+                    //toastr.warning("<p dir='rtl'>" + this.i18n.tr(response.user_error) + "</p>", '', 10000);
+                } else {
+                    toastr.success("<p dir='rtl'>" + this.i18n.tr('video.message-successful') + "</p>", '', 10000);
+                }
+                this.controller.ok();
             });
     }
 

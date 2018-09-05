@@ -242,6 +242,10 @@
         "video-name": "Name the video clip",
         "send": "Send",
         "message-successful": "Video was successfuly added",
+        "duplicate": "Video clip already exists",
+        "unknown-video-type": "Unknown video type",
+        "next": "Page forward",
+        "prev": "Page backward",
         "filter": "Fast search in video titles"
     },
     "terms": {
