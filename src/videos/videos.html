@@ -1,7 +1,7 @@
 <template>
     <require from="./videos.css"></require>
     <section class="container content-area photos" css="height: ${win_height-304}px;">
-        <div class="video-page row content-area" >
+        <div class="video-page row content-area">
             <div class="row">
                 <div class="col-md-9">
                     <div class="row" style="margin-bottom:15px;">
@@ -25,13 +25,19 @@
                     </div>
                     <div class="row">
                         <div class="video-panel" ref="scroll_area">
-                            <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | take : videos_per_page : first_index" 
-                                class="fr-video fr-fvc fr-draggable fr-dvi" 
-                                contenteditable="false"
-                                draggable="true">
+                            <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | take : videos_per_page : first_index" class="fr-video fr-fvc fr-draggable fr-dvi"
+                                
+                                contenteditable="false" draggable="true">
                                 <iframe class="video-iframe" src.bind="video.src" frameborder="0" allowfullscreen="">
                                 </iframe>
-                                <span class="video-name">${video.name}</span>
+                                <span class="video-name">
+                                    <span if.bind="user.editing">
+                                        <i class="fa${video.selected ? 's' : 'r'} fa-circle" click.delegate="toggle_selection(video)"></i>
+                                        <i class="far fa-trash-alt" click.delegate="delete_video(video)"></i>
+                                        <i class="far fa-pencil" click.delegate="edit_video_info(video)"></i>
+                                        ${video.name}
+                                    </span>
+                                </span>
                             </span>
                         </div>
                     </div>

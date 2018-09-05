@@ -39,12 +39,11 @@ export class Videos {
     attached() {
         this.theme.display_header_background = true;
         this.theme.page_title = "videos.video-clips";
-        this.scroll_area.scrollTop = this.scroll_top;
     }
 
     created(params, config) {
         this.ea.subscribe('NEW-VIDEO', msg => {
-            this.add_video(msg.new_video_rec) 
+            this.add_video(msg.new_video_rec)
         });
     }
 
@@ -66,12 +65,12 @@ export class Videos {
     }
 
     set_video_list(video_list) {
-        this.video_list = video_list.map(v =>  this.video_data(v));
+        this.video_list = video_list.map(v => this.video_data(v));
     }
 
     video_data(video_rec) {
-        switch(video_rec.video_type) {
-            case 'youtube': 
+        switch (video_rec.video_type) {
+            case 'youtube':
                 video_rec.src = "//www.youtube.com/embed/" + video_rec.src + "?wmode=opaque";
                 break;
             case 'vimeo':
@@ -104,7 +103,6 @@ export class Videos {
     _disabled(side) {
         if (this.video_list.length == 0) return false;
         let idx = this.new_first_index(side);
-        console.log("first index, side, idx: ", this.first_index, side, idx);
         return (idx < 0);
     }
 
@@ -116,6 +114,22 @@ export class Videos {
     @computedFrom('video_list', 'first_index')
     get prev_disabled() {
         return this._disabled(-1);
+    }
+
+    toggle_selection(video) {
+        if (video.selected) {
+            video.selected = false;
+        } else {
+            video.selected = true;
+        }
+    }
+
+    delete_video(video) { 
+
+    }
+
+    edit_video_info(video) { 
+
     }
 
 }

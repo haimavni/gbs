@@ -27,6 +27,12 @@ div.video-page {
         }
         span.video-name {
             font-size: 14px;
+            span {
+                cursor: pointer;
+                i:hover {
+                    background-color: lightblue;
+                }
+            }
         }
     }
     div.paging-buttons {
