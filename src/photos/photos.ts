@@ -30,6 +30,7 @@ export class Photos {
     has_grouped_photographers = false;
     has_grouped_topics = false;
     params = {
+        kind: "P",
         selected_topics: [],
         selected_photographers: [],
         selected_days_since_upload: 0,
@@ -213,7 +214,7 @@ export class Photos {
 
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
-        this.api.call_server_post('members/add_photographer', { photographer_name: new_photographer_name });
+        this.api.call_server_post('members/add_photographer', { photographer_name: new_photographer_name, kind: 'P' });
     }
 
     remove_photographer(event) {

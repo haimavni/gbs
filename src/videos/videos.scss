@@ -45,5 +45,14 @@ div.video-page {
             border: none;
         }
     }
+
+    div.ctrls-group {
+         display:flex;
+         justify-content:flex-start;
+         align-items: flex-start;
+         div.ctrl>button {
+             height: 38px;
+         }
+    }
 }
 

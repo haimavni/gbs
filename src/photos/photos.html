@@ -102,7 +102,7 @@
                     <div class="row">
                         <multi-select options.bind="photographer_list"
                             place_holder_text="photos.click-photographer"
-                            ungrouped_selected_options.bind="params.selected_photographers"
+                            selected_options.bind="params.selected_photographers"
                             settings.bind="photographers_settings"
                             has_groups.bind="has_grouped_photographers"
                             new-name.delegate="add_photographer($event)"

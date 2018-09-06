@@ -317,13 +317,6 @@ export class Stories {
         this.update_story_list();
     }
 
-    handle_story_types_change(event) {
-        this.params.selected_story_types = event.detail.ungrouped_selected_options;
-        this.update_topic_list();
-        //modify visible categories according to selected story types
-        this.update_story_list();
-    }
-
     handle_approval_state_change(event) {
         this.update_story_list();
     }
