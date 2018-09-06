@@ -10,7 +10,7 @@
                             <button t="[title]videos.next" class="btn btn-default" click.delegate="page(+1, $event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                         </div>
 
-                        <div class="col-md-1 col-md-offset-5" if.bind="user.editing" style="padding-top:18px;">
+                        <div class="col-md-1 col-md-offset-5" if.bind="user.editing" style="padding-top:3px;">
                             <button click.delegate="new_video()" class="btn btn-success cl-create-btn">
                                 <i class="far fa-plus-square"></i>
                                 ${'videos.new' & t}
@@ -18,14 +18,14 @@
                         </div>
                         <div class="col-md-1 col-md-offset-5" if.bind="!user.editing"></div>
                         <div class="col-md-5">
-                            <div class="input-group row" style="width:100%;margin-top:15px;">
+                            <div class="input-group row" style="width:100%;">
                                 <search-input value.bind="filter" placeholder="videos.filter" height="38"></search-input>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="video-panel" ref="scroll_area">
-                            <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | take : videos_per_page : first_index" class="fr-video fr-fvc fr-draggable fr-dvi"
+                            <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | keeplen : length_keeper | take : videos_per_page : first_index" class="fr-video fr-fvc fr-draggable fr-dvi"
                                 
                                 contenteditable="false" draggable="true">
                                 <iframe class="video-iframe" src.bind="video.src" frameborder="0" allowfullscreen="">
@@ -35,8 +35,8 @@
                                         <i class="fa${video.selected ? 's' : 'r'} fa-circle" click.delegate="toggle_selection(video)"></i>
                                         <i class="far fa-trash-alt" click.delegate="delete_video(video)"></i>
                                         <i class="far fa-pencil" click.delegate="edit_video_info(video)"></i>
-                                        ${video.name}
                                     </span>
+                                    ${video.name}
                                 </span>
                             </span>
                         </div>
@@ -44,6 +44,18 @@
                 </div>
 
                 <div class="col-md-3">
+                    <div class="row" style="margin-bottom:15px;position:relative;">
+                        <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <multi-select options.bind="topic_list"
+                            selected_options.bind="params.selected_topics"
+                            settings.bind="options_settings"
+                            has_groups.bind="has_grouped_topics"
+                            name="topics"
+                            place_holder_text="photos.click-topic"
+                            clear_selections_now.bind="clear_selected_topics_now"
+                            ms-change.delegate="handle_topic_change($event) ">
+                        </multi-select>
+                    </div>
                 </div>
             </div>
         </div>

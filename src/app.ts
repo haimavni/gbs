@@ -47,7 +47,7 @@ export class App {
             { route: '', redirect: 'home' },
             { route: 'home', moduleId: './home/home', nav: false, title: '' },
             { route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms' },
-            { route: 'videos', moduleId: './videos/videos', nav: environment.debug, title: 'videos.videos' },
+            { route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos' },
             { route: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos' },
             { route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories' },
             //{ route: 'stories-tool/*', name: 'stories', moduleId: './stories/stories', nav: false, title: 'stories.stories' },

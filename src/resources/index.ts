@@ -7,6 +7,7 @@ export function configure(config) {
     './value-converters/filter-visibility',
     './value-converters/filter-gender',
     './value-converters/sort',
+    './value-converters/keeplen',
     './value-converters/format-date',
     './elements/multi-select/multi-select',
     './elements/selector',

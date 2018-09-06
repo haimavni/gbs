@@ -7,6 +7,7 @@ import { Router } from 'aurelia-router';
 import { DialogService } from 'aurelia-dialog';
 import { AddVideo } from './add-video';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 @autoinject
 @singleton()
@@ -24,6 +25,26 @@ export class Videos {
     ea;
     first_index = 0;
     videos_per_page = 9;
+    topic_list = [];
+    selected_videos = new Set();
+    params = {
+        selected_topics: [],
+        selected_photographers: [],
+        selected_days_since_upload: 0,
+        selected_uploader: "anyone",
+        selected_dates_option: "dated-or-not",
+        photos_date_str: "",
+        photos_date_span_size: 3,
+        selected_video_list: [],
+        user_id: null,
+    };
+    options_settings = new MultiSelectSettings({
+        clear_filter_after_select: false,
+        can_group: true
+    });
+    length_keeper = {
+        len:  0
+    }
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
@@ -45,12 +66,22 @@ export class Videos {
         this.ea.subscribe('NEW-VIDEO', msg => {
             this.add_video(msg.new_video_rec)
         });
+        this.update_topic_list();
     }
 
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
     }
+
+    update_topic_list() {
+        this.api.call_server('members/get_topic_list', { usage: 'P' })
+            .then(result => {
+                this.topic_list = result.topic_list;
+                //this.photographer_list = result.photographer_list;
+            });
+    }
+    
 
     new_video() {
         this.theme.hide_title = true;
@@ -66,6 +97,7 @@ export class Videos {
 
     set_video_list(video_list) {
         this.video_list = video_list.map(v => this.video_data(v));
+        this.length_keeper.len = this.video_list.length;
     }
 
     video_data(video_rec) {
@@ -94,24 +126,27 @@ export class Videos {
 
     new_first_index(step) {
         let idx = this.first_index + step * this.videos_per_page;
-        if (idx >= 0 && idx < this.video_list.length) {
+        if (idx >= 0 && idx < this.length_keeper.len) {
             return idx;
         }
         return -1;
     }
 
     _disabled(side) {
-        if (this.video_list.length == 0) return false;
+        if (this.length_keeper.len == 0) return true;
+        if (this.first_index >= this.length_keeper.len) {
+            this.first_index = 0;
+        }
         let idx = this.new_first_index(side);
         return (idx < 0);
     }
 
-    @computedFrom('video_list', 'first_index')
+    @computedFrom('length_keeper.len', 'first_index')
     get next_disabled() {
         return this._disabled(+1);
     }
 
-    @computedFrom('video_list', 'first_index')
+    @computedFrom('length_keeper.len', 'first_index')
     get prev_disabled() {
         return this._disabled(-1);
     }
@@ -119,9 +154,12 @@ export class Videos {
     toggle_selection(video) {
         if (video.selected) {
             video.selected = false;
+            this.selected_videos.delete(video.id);
         } else {
             video.selected = true;
+            this.selected_videos.add(video.id);
         }
+        this.params.selected_video_list = Array.from(this.selected_videos);
     }
 
     delete_video(video) { 
