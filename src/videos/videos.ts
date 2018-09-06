@@ -263,4 +263,11 @@ export class Videos {
             .then(response => this.set_video_list(response.video_list));
     }
 
+    handle_topic_change(event) {
+        if (!event.detail) return;
+        console.log("selected topics before ", this.params.selected_topics);
+        this.params.selected_topics = event.detail.selected_options;
+        this.update_video_list();
+    }
+
 }
