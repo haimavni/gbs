@@ -37,8 +37,8 @@ export class Videos {
         selected_days_since_upload: 0,
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
-        photos_date_str: "",
-        photos_date_span_size: 3,
+        videos_date_datestr: "",
+        videos_date_span_size: 3,
         selected_video_list: [],
         user_id: null,
     };
@@ -97,7 +97,7 @@ export class Videos {
 
     new_video() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: AddVideo, lock: true }).whenClosed(response => {
+        this.dialog.open({ viewModel: AddVideo, model: {params: {}}, lock: true }).whenClosed(response => {
             this.theme.hide_title = false;
         });
     }
@@ -105,6 +105,9 @@ export class Videos {
     add_video(new_video_rec) {
         new_video_rec = this.video_data(new_video_rec);
         this.video_list.push(new_video_rec);
+        let n = this.video_list.length;
+        let r = n % this.videos_per_page
+        this.first_index = n - r;
     }
 
     set_video_list(video_list) {
@@ -181,7 +184,11 @@ export class Videos {
     }
 
     delete_video(video) { 
-
+        this.api.call_server('members/delete_video', {video_id: video.id})
+            .then(() => {
+                let idx = this.video_list.findIndex(v => v.id==video.id);
+                this.video_list.splice(idx, 1);
+            });
     }
 
     edit_video_info(video) { 
@@ -191,7 +198,8 @@ export class Videos {
         });
     }
 
-    @computedFrom('user.editing', 'params.selected_video_list', 'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 'selected_videos', 'has_grouped_photographers', 'has_grouped_topics')
+    @computedFrom('user.editing', 'params.selected_video_list', 'params.selected_topics', 'params.selected_photographers', 'params.videos_date_datestr', 'params.videos_date_datespan', 'selected_videos',
+         'has_grouped_photographers', 'has_grouped_topics')
     get phase() {
         let result = "photos-not-editing";
         if (this.user.editing) {

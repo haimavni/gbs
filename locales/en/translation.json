@@ -246,6 +246,7 @@
         "unknown-video-type": "Unknown video type",
         "next": "Page forward",
         "prev": "Page backward",
+        "video-date-range": "Video Date",
         "filter": "Fast search in video titles"
     },
     "terms": {

@@ -31,9 +31,8 @@ export class AddVideo {
         this.params = model.params;
         if (!this.params) {
             this.params = {
-                video_address: '',
-                video_name: '',
-                user_id: null
+                src: '',
+                name: '',
             }
         }
         this.old_params = deepClone(this.params);
@@ -56,19 +55,11 @@ export class AddVideo {
         this.controller.cancel();
     }
 
-    @computedFrom('params.video_address', 'params.video_name')
-    get is_disabled() {
-        return (this.params.video_address == '' || this.params.video_name == '');
-    }
-
-    @computedFrom('params.video_address', 'params.video_name')
+    @computedFrom('params.src', 'params.name', 'params.video_date_datestr', 'params.video_date_datespan')
     get dirty() {
         let dirty = JSON.stringify(this.params) != JSON.stringify(this.old_params);
-        console.log("dirty: params, old params ", this.params, this.old_params, dirty);
         return dirty;
     }
-
-    
 
 }
 

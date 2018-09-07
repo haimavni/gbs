@@ -226,7 +226,7 @@ export class DateRangeCustomElement {
 
     @computedFrom("user.editing", "base_date_str")
     get show_label() {
-        return this.user.editing || this.base_date_str || ! this.hide_label_if_no_date; 
+        return this.user.editing; // || this.base_date_str || ! this.hide_label_if_no_date; 
     }
 
     @computedFrom("base_date_str", "user.editing")

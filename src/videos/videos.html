@@ -29,7 +29,7 @@
                             </div>
                             <div if.bind="phase=='videos-were-selected'" class="ctrl">
                                 <button 
-                                    disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.photos_date_str == ''"
+                                    disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.videos_date_datestr == ''"
                                     class="btn btn-default btn-md" 
                                     click.trigger="apply_to_selected()">
                                     ${'photos.apply-to-selected' & t}
