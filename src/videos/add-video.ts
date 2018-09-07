@@ -15,11 +15,8 @@ export class AddVideo {
     user;
     i18n;
     header_text;
-    params = {
-        video_address: '',
-        video_name: '',
-        user_id: null
-    }
+    params;
+    old_params;
 
     constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N, user: User) {
         this.controller = controller;
@@ -30,9 +27,20 @@ export class AddVideo {
         this.user = user;
     }
 
+    activate(model) {
+        this.params = model.params;
+        if (!this.params) {
+            this.params = {
+                video_address: '',
+                video_name: '',
+                user_id: null
+            }
+        }
+        this.old_params = deepClone(this.params);
+    }
+
     send() {
-        this.params.user_id = this.user.id;
-        this.api.call_server_post('members/save_video', this.params)
+        this.api.call_server_post('members/save_video', {params: this.params, user_id: this.user.id})
             .then(response => {
                 if (response.user_error || response.error) {
                     //toastr.warning("<p dir='rtl'>" + this.i18n.tr(response.user_error) + "</p>", '', 10000);
@@ -44,12 +52,28 @@ export class AddVideo {
     }
 
     cancel() {
+        this.params = deepClone(this.old_params);
         this.controller.cancel();
     }
 
     @computedFrom('params.video_address', 'params.video_name')
     get is_disabled() {
-        return (this.params.video_address=='' || this.params.video_name=='');
+        return (this.params.video_address == '' || this.params.video_name == '');
     }
 
+    @computedFrom('params.video_address', 'params.video_name')
+    get dirty() {
+        let dirty = JSON.stringify(this.params) != JSON.stringify(this.old_params);
+        console.log("dirty: params, old params ", this.params, this.old_params, dirty);
+        return dirty;
+    }
+
+    
+
 }
+
+function deepClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+    //use Object.assign({}, obj) if you don't need a deep clone
+}
+

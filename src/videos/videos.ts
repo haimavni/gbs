@@ -185,7 +185,10 @@ export class Videos {
     }
 
     edit_video_info(video) { 
-
+        this.theme.hide_title = true;
+        this.dialog.open({ viewModel: AddVideo, model: {params: video}, lock: true }).whenClosed(response => {
+            this.theme.hide_title = false;
+        });
     }
 
     @computedFrom('user.editing', 'params.selected_video_list', 'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 'selected_videos', 'has_grouped_photographers', 'has_grouped_topics')
