@@ -1,0 +1,16 @@
+<template>
+    <!--<div style="width:800px">-->
+        <button style="border-radius:50%;width:24px;margin:4px;background-color:rgba(0,0,0,0);" class="btn btn-xs" 
+            aubs-popover="custom-popover.bind: customPopover;position.bind: position;" >
+            <i class="far fa-${icon} fa-lg"></i>
+        </button>
+
+        <div ref="customPopover" dir="rtl">
+            <h5 class="popover-title" innerhtml.bind="title">
+            </h5>
+
+            <div class="popover-content" innerhtml.bind="content">
+            </div>
+        </div>
+    <!--</div>-->
+</template>

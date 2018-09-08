@@ -8,6 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { AddVideo } from './add-video';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MyDate, format_date } from '../services/my-date';
 
 @autoinject
 @singleton()
@@ -63,8 +64,16 @@ export class Videos {
         this.theme = theme;
         this.dialog = dialog;
         this.ea = ea;
+    }
+
+    update_video_list() {
         this.api.call_server_post('members/get_video_list', this.params)
             .then(response => this.set_video_list(response.video_list));
+    }
+
+    set_video_list(video_list) {
+        this.video_list = video_list.map(v => this.video_data(v));
+        this.length_keeper.len = this.video_list.length;
     }
 
     attached() {
@@ -73,12 +82,17 @@ export class Videos {
     }
 
     created(params, config) {
+        this.update_video_list();
         this.ea.subscribe('NEW-VIDEO', msg => {
             this.add_video(msg.new_video_rec)
+        });
+        this.ea.subscribe('VIDEO-INFO-CHANGED', msg => {
+            this.refresh_video(msg.changes)
         });
         this.update_topic_list();
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
         this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now topics and photogaphers are handled together...
+        this.ea.subscribe('VIDEO-TAGS-CHANGED', () => { this.update_video_list() });
     }
 
     detached() {
@@ -110,9 +124,11 @@ export class Videos {
         this.first_index = n - r;
     }
 
-    set_video_list(video_list) {
-        this.video_list = video_list.map(v => this.video_data(v));
-        this.length_keeper.len = this.video_list.length;
+    refresh_video(changes) {
+        let video = this.video_list.find(vid => vid.id == changes.id);
+        for (let p of ['name', 'keywords', 'photographer_id', 'video_date_datestr', 'video_date_datespan']) {
+            if (changes[p]) video[p] = changes[p]
+        }
     }
 
     video_data(video_rec) {
@@ -127,7 +143,7 @@ export class Videos {
                 video_rec.src = 'https://vimeo.com/' + video_rec.src;
                 break;
         }
-        video_rec.selected = false;
+        //video_rec.selected = false;
         return video_rec;
     }
 
@@ -268,17 +284,34 @@ export class Videos {
         this.update_video_list();
     }
 
-    update_video_list() {
-        this.params.user_id = this.user.id;
-        return this.api.call_server_post('members/get_video_list', this.params)
-            .then(response => this.set_video_list(response.video_list));
-    }
-
     handle_topic_change(event) {
         if (!event.detail) return;
         console.log("selected topics before ", this.params.selected_topics);
         this.params.selected_topics = event.detail.selected_options;
         this.update_video_list();
+    }
+
+    video_info_title(video) {
+        let title=`<h3>${video.name}</h3>`
+        return title;
+    }
+
+    video_info_content(video) {
+        let photographer = this.photographer_list.find(p => p.id == video.photographer_id);
+        let photographer_name = photographer ?  photographer.name : this.i18n.tr('videos.unknown-photographer');
+        let pn = this.i18n.tr('videos.photographer-name');
+        let vdr = this.i18n.tr('videos.video-date-range');
+        let date_range = format_date(video.video_date_datestr, video.video_date_datespan);
+        let keywords = video.keywords ? video.keywords : "";
+        let kw_label = this.i18n.tr('videos.keywords')
+        let content = `
+        <ul>
+            <li>${pn}:&nbsp;${photographer_name}</li>
+            <li>${vdr}:&nbsp;${date_range}</li>
+            <li>${kw_label}:&nbsp;${keywords}</li>
+        </ul>
+        `
+        return content;
     }
 
 }

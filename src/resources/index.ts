@@ -17,6 +17,7 @@ export function configure(config) {
     './elements/partial-date',
     './elements/date-range',
     './elements/help',
+    './elements/info',
     './elements/timeline',
     './elements/search-input',
     './elements/dlg-string',

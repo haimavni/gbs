@@ -9,14 +9,6 @@
                             <button t="[title]videos.prev" class="btn btn-default" click.delegate="page(-1, $event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
                             <button t="[title]videos.next" class="btn btn-default" click.delegate="page(+1, $event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                         </div>
-
-                        <!--<div class="col-md-1 col-md-offset-5" if.bind="phase=='photos-ready-to-edit''" style="padding-top:3px;">
-                            <button click.delegate="new_video()" class="btn btn-success cl-create-btn">
-                                <i class="far fa-plus-square"></i>
-                                ${'videos.new' & t}
-                            </button>
-                        </div>-->
-                        <!--<div class="col-md-11 col-md-offset-5" if.bind="!user.editing"></div>-->
                         <div class="col-md-10 col-md-offset-1 ctrls-group">
                             <div class="input-group row" style="width:40%;margin-left:20px;">
                                 <search-input value.bind="filter" placeholder="videos.filter" height="38"></search-input>
@@ -53,11 +45,14 @@
                                 contenteditable="false" draggable="true">
                                 <iframe class="video-iframe" src.bind="video.src" frameborder="0" allowfullscreen="">
                                 </iframe>
-                                <span class="video-name">
+                                <span class="video-name" style="margin-top:-6px;">
                                     <span if.bind="user.editing">
                                         <i class="fa${video.selected ? 's' : 'r'} fa-circle" click.delegate="toggle_selection(video)"></i>
                                         <i class="far fa-trash-alt" click.delegate="delete_video(video)"></i>
                                         <i class="far fa-pencil" click.delegate="edit_video_info(video)"></i>
+                                    </span>
+                                    <span>
+                                        <info title.bind="video_info_title(video)" content.bind="video_info_content(video)" style="margin-right:-8px;"></info>
                                     </span>
                                     ${video.name}
                                 </span>

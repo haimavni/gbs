@@ -247,6 +247,9 @@
         "next": "Page forward",
         "prev": "Page backward",
         "video-date-range": "Video Date",
+        "keywords": "Associatted topics",
+        "photographer-name": "Photographer name",
+        "unknown-photographer": "Unknown",
         "filter": "Fast search in video titles"
     },
     "terms": {
