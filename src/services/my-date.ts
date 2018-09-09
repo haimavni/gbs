@@ -6,6 +6,7 @@ export class MyDate {
     _year;
 
     constructor(date_str) {
+        if (! date_str) date_str = '1';
         date_str = date_str.replace("/", date_sep);
         let parts = date_str.split(date_sep);
         let n = parts.length;
