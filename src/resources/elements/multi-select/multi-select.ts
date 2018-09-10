@@ -85,6 +85,7 @@ export class MultiSelectCustomElement {
 
     enter_word(event) {
         let option = this.options.find(opt => opt.name == event.detail.value);
+        if (! option) return;
         if (this.selected_options_set.has(option.name)) return;
         //if option was entered automatically from search box, it is not in the set, so:
         if (this.selected_options.find(item => item.option.name == option.name)) return;

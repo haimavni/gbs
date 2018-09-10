@@ -324,15 +324,20 @@ export class MemberDetail {
         this.life_summary_content.scrollTop = t + h;
     }
 
-    set_heights() {
+    async set_heights() {
+        while (! this.photo_strip || ! this.life_summary_content) {
+            await sleep(20);
+        }
+        this._set_heights();
+    }
+
+    _set_heights() {
         let footer_height = 67;
-        if (! this.photo_strip) return;
         let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height;
         panel_height = Math.max(panel_height, 544);
         this.member_detail_panel.style.height = `${panel_height}px`;
         let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
-        if (! this.life_summary_content) return;
         let lsco = this.life_summary_content.offsetTop + 16 + 16;  //16 for the top margin, 16 for bottom margin
         this.life_summary_content.style.height = `${tph - lsco}px`;
         let bph = panel_height - tph;
@@ -345,13 +350,15 @@ export class MemberDetail {
         }
         if (this.photo_strip_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
         this.story_box_height = bph;
-        //let mdch = panel_height + this.photo_strip_height - 12;
-        //this.member_detail_container.style.height = `${mdch}px`;
-        //let lsb = tph - 30;
         this.life_summary_box.style.height = '90%'// `${lsb}px`;
         if (this.theme.width >= 1200) {
             this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
+    }
+
+    life_summary_contentChanged() {
+        console.log("life summary con changed");
+        this.set_heights();
     }
 
     @computedFrom("story_0.story_text")
@@ -369,4 +376,8 @@ export class MemberDetail {
         document.getElementById("word-highlighter").blur();
     }
 
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
