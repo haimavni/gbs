@@ -338,7 +338,7 @@ export class MemberDetail {
         this.member_detail_panel.style.height = `${panel_height}px`;
         let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
-        let lsco = this.life_summary_content.offsetTop + 16 + 16;  //16 for the top margin, 16 for bottom margin
+        let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
         this.life_summary_content.style.height = `${tph - lsco}px`;
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
