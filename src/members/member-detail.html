@@ -111,13 +111,13 @@
                         ${'members.life-summary' & t} ${member.member_info.first_name}
                     </h4>
                     <i class="fa fa-expand fa-lg"
-                        show.bind="!life_summary_expanded"
+                        show.bind="member.member_stories.length > 1 && !life_summary_expanded"
                         style="margin-left:32px;float:left;cursor:pointer;"
                         aubs-tooltip="text.bind:expand"
                         click.trigger="toggle_life_summary_size($event)">
                     </i>
                     <i class="fa fa-compress fa-lg"
-                        show.bind="life_summary_expanded"
+                        show.bind="member.member_stories.length > 1 && life_summary_expanded"
                         style="margin-left:32px;float:left;cursor:pointer;"
                         aubs-tooltip="text.bind:compress"
                         click.trigger="toggle_life_summary_size($event)">
