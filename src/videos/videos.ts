@@ -11,10 +11,45 @@ import { MultiSelectSettings } from '../resources/elements/multi-select/multi-se
 import { MyDate, format_date } from '../services/my-date';
 
 @autoinject
+class Video {
+    photographer_name = "";
+    photographer_name_label = "";
+    video_date_label = "";
+    keywords_label = "";
+    name = "";
+    src="";
+    id = 0;
+    keywords = "";
+    video_date_datestr = "";
+    video_date_datespan = 0;
+    selected: boolean = false;
+
+    constructor(photographer_name, photographer_name_label, video_date_label, keywords_label) {
+        this.photographer_name = photographer_name;
+        this.photographer_name_label = photographer_name_label;
+        this.video_date_label = video_date_label;
+        this.keywords_label = keywords_label;
+    }
+
+    get video_info_content() {
+        let date_range = format_date(this.video_date_datestr, this.video_date_datespan);
+        let content = `
+        <ul>
+            <li>${this.photographer_name_label}:&nbsp;${this.photographer_name}</li>
+            <li>${this.video_date_label}:&nbsp;${date_range}</li>
+            <li>${this.keywords_label}:&nbsp;${this.keywords}</li>
+        </ul>
+        `
+        return content;
+    }
+    
+}
+
+@autoinject
 @singleton()
 export class Videos {
     filter = "";
-    video_list = [];
+    video_list: Video[] = [];
     api;
     user;
     theme;
@@ -81,7 +116,8 @@ export class Videos {
         this.theme.page_title = "videos.video-clips";
     }
 
-    created(params, config) {
+    async created(params, config) {
+        await this.update_topic_list();
         this.update_video_list();
         this.ea.subscribe('NEW-VIDEO', msg => {
             this.add_video(msg.new_video_rec)
@@ -89,10 +125,11 @@ export class Videos {
         this.ea.subscribe('VIDEO-INFO-CHANGED', msg => {
             this.refresh_video(msg.changes)
         });
-        this.update_topic_list();
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
         this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now topics and photogaphers are handled together...
-        this.ea.subscribe('VIDEO-TAGS-CHANGED', () => { this.update_video_list() });
+        this.ea.subscribe('VIDEO-TAGS-CHANGED', response => {
+             this.apply_changes(response.changes) 
+        });
     }
 
     detached() {
@@ -107,6 +144,16 @@ export class Videos {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
             });
+    }
+
+    apply_changes(changes) {
+        for (let change of changes) {
+            let video = this.video_list.find(v => v.id==change.video_id);
+            if (change.photographer_name) {
+                video.photographer_name = change.photographer_name;
+            }
+            video.keywords = change.keywords;
+        }
     }
 
     new_video() {
@@ -144,7 +191,19 @@ export class Videos {
                 break;
         }
         //video_rec.selected = false;
-        return video_rec;
+        let photographer = this.photographer_list.find(p => p.id == video_rec.photographer_id);
+        let photographer_name = photographer ?  photographer.name : this.i18n.tr('videos.unknown-photographer');
+        let vr = new Video(
+            photographer_name,
+            this.i18n.tr('videos.photographer-name'), 
+            this.i18n.tr('videos.video-date-range'), 
+            this.i18n.tr('videos.keywords'));
+        for (let key of Object.keys(vr)) {
+            if (video_rec[key])
+                vr[key] = video_rec[key];
+        }
+        return vr;
+        //return video_rec;
     }
 
     page(step, event) {
@@ -268,8 +327,9 @@ export class Videos {
     }
 
     clear_video_group() {
+        console.log("clear video group");
         for (let video of this.video_list) {
-            video.selected = 0;
+            video.selected = false;
         }
         this.selected_videos = new Set();
     }
@@ -286,7 +346,6 @@ export class Videos {
 
     handle_topic_change(event) {
         if (!event.detail) return;
-        console.log("selected topics before ", this.params.selected_topics);
         this.params.selected_topics = event.detail.selected_options;
         this.update_video_list();
     }

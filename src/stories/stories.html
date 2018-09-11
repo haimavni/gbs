@@ -68,9 +68,10 @@
                             if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
                             <div style="height:130px;overflow:hidden;padding-right:20px;padding-left:20px;padding-top:0px;cursor:pointer;"
+                                
                                 click.delegate="jump_to_the_full_story($event, story)">
                                 <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">-->
-                                <div style="margin-bottom: 10px;" class="story-preview">
+                                <div style="margin-bottom: 10px;" class="story-preview" if.bind="used_for!=8">
                                     <div>
                                         <img if.bind="used_for==3" src.bind="story.photo_src" width="140" />
                                     </div>
@@ -78,6 +79,13 @@
                                         story.bind="story" change.delegate="toggle_story_selection(story, $event)"
                                         class="story-body">
                                     </editable>
+                                </div>
+                                <div class="video-panel" if.bind="used_for==8" style="position:relative">
+                                    <iframe class="video-iframe" src.bind="story.video_src" frameborder="0" allowfullscreen="">
+                                    </iframe>
+                                    <span class="video-name" style="position:absolute;padding-right:20px;">
+                                        ${story.name}
+                                    </span>
                                 </div>
                             </div>
                         </li>
