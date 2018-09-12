@@ -322,16 +322,16 @@ export class Videos {
     apply_to_selected() {
         this.api.call_server_post('members/apply_to_selected_videos', this.params)
             .then(response => {
-                this.clear_video_group();
+                this.clear_selected_videos();
             });
     }
 
-    clear_video_group() {
-        console.log("clear video group");
+    clear_selected_videos() {
         for (let video of this.video_list) {
             video.selected = false;
         }
         this.selected_videos = new Set();
+        this.params.selected_video_list = [];
     }
 
     add_photographer(event) {
@@ -354,6 +354,15 @@ export class Videos {
         let title=`<h3>${video.name}</h3>`
         return title;
     }
+
+    promote_videos() {
+        this.api.call_server_post('members/promote_videos', { params: this.params })
+            .then(response => {
+                this.clear_selected_videos();
+            });
+    }
+
+
 
     video_info_content(video) {
         let photographer = this.photographer_list.find(p => p.id == video.photographer_id);

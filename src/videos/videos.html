@@ -19,6 +19,13 @@
                                     ${'videos.new' & t}
                                 </button>
                             </div>
+                            <div  if.bind="user.editing && selected_videos.size > 0 && user.privileges.ADMIN" class="ctrl">
+                                <button
+                                    class="btn btn-default btn-md" 
+                                    click.trigger="promote_videos()">
+                                    ${'videos.promote-selected-videos' & t}
+                                </button>
+                            </div>
                             <div if.bind="phase=='videos-were-selected'" class="ctrl">
                                 <button 
                                     disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.videos_date_datestr == ''"
