@@ -56,7 +56,7 @@
                             if.bind="can_delete"
                             t="[title]multi-select.remove-item"
                             style="position:absolute;left:82px;top:4px;"
-                            click.delegate="remove_option(item.option, $event)">
+                            click.delegate="remove_option(item, $event, $index)">
                         </i>
                         <span if.bind="! item.editing" style="height:24px;padding-right:5px;">${item.option.name}</span>
                         <input type="text" if.bind="item.editing" value.bind="item.option.name" change.delegate="name_changed(item, $event)" style="width:55%" >

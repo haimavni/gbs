@@ -130,7 +130,9 @@ export class MultiSelectCustomElement {
         this.dispatch_event();
     }
 
-    remove_option(option, event) {
+    remove_option(item, event, index) {
+        let option = item.option
+        this.unselect_item(item, index);
         let customEvent = new CustomEvent('remove-option', {
             detail: {
                 option: option
@@ -141,7 +143,7 @@ export class MultiSelectCustomElement {
     }
 
     edit_option(item, event) {
-        item.editing = true;
+        item.editing = ! item.editing;
     }
 
     name_changed(item, event) {

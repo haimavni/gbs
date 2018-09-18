@@ -452,4 +452,10 @@ export class Stories {
 
     }
 
+    remove_topic(event) {
+        let topic_id = event.detail.option.id;
+        this.api.call_server_post('members/remove_topic', {topic_id: topic_id})
+            .then(() => this.update_topic_list());
+    }
+
 }
