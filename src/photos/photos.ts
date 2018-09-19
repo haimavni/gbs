@@ -130,7 +130,7 @@ export class Photos {
     }
 
     update_topic_list() {
-        this.api.call_server('members/get_topic_list', { usage: 'P' })
+        this.api.call_server('topics/get_topic_list', { usage: 'P' })
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
@@ -209,17 +209,17 @@ export class Photos {
 
     photographer_name_changed(event) {
         let p = event.detail.option;
-        this.api.call_server_post('members/rename_photographer', p);
+        this.api.call_server_post('topics/rename_photographer', p);
     }
 
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
-        this.api.call_server_post('members/add_photographer', { photographer_name: new_photographer_name, kind: 'P' });
+        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' });
     }
 
     remove_photographer(event) {
         let photographer = event.detail.option;
-        this.api.call_server_post('members/remove_photographer', { photographer: photographer });
+        this.api.call_server_post('topics/remove_photographer', { photographer: photographer });
     }
 
     handle_change(event) {
@@ -245,7 +245,7 @@ export class Photos {
 
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
-        this.api.call_server_post('members/save_tag_merges', this.params)
+        this.api.call_server_post('topics/save_tag_merges', this.params)
             .then(response => {
                 this.has_grouped_topics = false;
                 this.clear_selected_phototgraphers_now = true;

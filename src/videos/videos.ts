@@ -139,7 +139,7 @@ export class Videos {
 
     update_topic_list() {
         let usage = this.user.editing ?  {} : {usage: 'V'};
-        this.api.call_server('members/get_topic_list', usage)
+        this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
@@ -311,7 +311,7 @@ export class Videos {
 
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
-        this.api.call_server_post('members/save_tag_merges', this.params)
+        this.api.call_server_post('topics/save_tag_merges', this.params)
             .then(response => {
                 this.has_grouped_topics = false;
                 this.clear_selected_phototgraphers_now = true;

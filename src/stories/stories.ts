@@ -136,7 +136,7 @@ export class Stories {
 
     created(params, config) {
         if (this.story_list && this.story_list.length > 0 && !this.router.isExplicitNavigation) return;
-        this.api.call_server('members/get_topic_list', {})
+        this.api.call_server('topics/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
             });
@@ -322,7 +322,7 @@ export class Stories {
     }
 
     update_topic_list() {
-        this.api.call_server_post('members/get_topic_list', { params: this.params })
+        this.api.call_server_post('topics/get_topic_list', { params: this.params })
             .then(response => {
                 this.topic_list = response.topic_list;
             });
@@ -408,18 +408,13 @@ export class Stories {
         this.scroll_area.scrollTop = this.scroll_top = 0;
     }
 
-    /*save_merges(event: Event) {
-        //todo: if event.ctrl create a super group rather than merge?
-        this.has_grouped_topics = false;
-        this.api.call_server_post('members/save_tag_merges', this.params);
-    }*/
-
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
-        this.api.call_server_post('members/save_tag_merges', this.params)
+        this.api.call_server_post('topics/save_tag_merges', this.params)
             .then(response => {
                 this.has_grouped_topics = false;
                 this.clear_selected_topics_now = true;
+                this.update_topic_list();
             });
     }
 
@@ -454,7 +449,7 @@ export class Stories {
 
     remove_topic(event) {
         let topic_id = event.detail.option.id;
-        this.api.call_server_post('members/remove_topic', {topic_id: topic_id})
+        this.api.call_server_post('topics/remove_topic', {topic_id: topic_id})
             .then(() => this.update_topic_list());
     }
 
