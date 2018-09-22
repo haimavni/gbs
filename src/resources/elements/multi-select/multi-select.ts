@@ -40,6 +40,7 @@ export class MultiSelectCustomElement {
 
     @bindable place_holder_text = "";
     @bindable can_edit = true;
+    @bindable option_groups = [];  // list looks like [(parent, children)...]
     selected_options_set = new Set();
     open_group = 0;
     element;

@@ -77,7 +77,8 @@
         "updated-by": "Updated by",
         "approved-and-unapproved": "Both approved and unapproved",
         "unapproved": "Unapproved stories",
-        "approved": "Approved stories"
+        "approved": "Approved stories",
+        "topic-already-exists": "Topic already exists"
 
     },
     "members": {
@@ -209,6 +210,7 @@
         "more": "More",
         "less": "Less",
         "save-merges": "Save merges",
+        "save-topic-group": "Save as new topic",
         "apply-to-selected": "Apply to selected photos",
         "download": "Download photos",
         "done-selecting": "Finish selecting",

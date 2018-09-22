@@ -77,7 +77,8 @@
         "updated-by": "עודכן על ידי",
         "approved-and-unapproved": "ספורים שאושרו ושלא אושרו",
         "unapproved": "ספורים שטרם אושרו",
-        "approved": "ספורים שכבר אושרו"
+        "approved": "ספורים שכבר אושרו",
+        "topic-already-exists": "יש כבר נושא כזה"
     },
     "members": {
         "members": "חברים",
@@ -208,6 +209,7 @@
         "more": "יותר",
         "less": "פחות",
         "save-merges": "שמור את המיזוגים",
+        "save-topic-group": "שמור כנושא חדש",
         "apply-to-selected": "יִשֵּׂם לתמונות שנבחרו",
         "download": "הורדת תמונות",
         "done-selecting": "סיים את שלב הבחירה",

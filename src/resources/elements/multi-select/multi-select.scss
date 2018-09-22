@@ -119,11 +119,18 @@
         }
     }
 
+    span.option-group {
+        color: blue;
+    }
+
     div.unselected {
         max-height: 120px;
         a {
             cursor: pointer;
-            color:black;
+            //color:black;
+            &.option-group {
+                color: blue;
+            }
             &:hover {
                 //font-weight:bolder;
                 background-color: lightblue;

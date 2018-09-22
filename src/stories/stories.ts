@@ -51,6 +51,7 @@ export class Stories {
         num_words: 65056
     }
     topic_list = [];
+    topic_groups = [];
     authors_list = [];
     checked_stories = new Set();
     days_since_update_options;
@@ -139,6 +140,8 @@ export class Stories {
         this.api.call_server('topics/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
+                this.topic_groups = result.topic_groups;
+                console.log("topic groups: ", this.topic_groups);
             });
         this.api.call_server('members/get_used_languages')
             .then(response => {
@@ -418,6 +421,16 @@ export class Stories {
             });
     }
 
+    save_topic_group(event: Event) {
+        //todo: if event.ctrl create a super group rather than merge?
+        this.api.call_server_post('topics/add_topic_group', this.params)
+            .then(response => {
+                this.has_grouped_topics = false;
+                this.clear_selected_topics_now = true;
+                this.update_topic_list();
+            });
+    }
+
     consolidate_stories() {
         this.api.call_server_post('members/consolidate_stories', { stories_to_merge: this.params.checked_story_list })
             .then(() => {
@@ -445,6 +458,12 @@ export class Stories {
             approval_state: 0
         };
 
+    }
+
+    add_topic(event) {
+        let new_topic_name = event.detail.new_name;
+        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name})
+            .then(() => this.update_topic_list());
     }
 
     remove_topic(event) {
