@@ -100,7 +100,7 @@ export class MemberGateway {
             .then((result) => {
                 if (result.error) {
                     toastr.error(this.tr(result.error));
-                } else if(result.user_error) {
+                } else if (result.user_error) {
                     toastr.warning(this.tr(result.user_error));
                     return result;
                 } else {
@@ -117,7 +117,7 @@ export class MemberGateway {
             .then((result) => {
                 if (result.error) {
                     toastr.error(this.tr(result.error))
-                } else if(result.user_error) {
+                } else if (result.user_error) {
                     toastr.warning(this.tr(result.user_error));
                     return result;
                 } else {
@@ -143,38 +143,42 @@ export class MemberGateway {
     }
 
     uploadPhotos(user_id, fileList) {
-        let payload = { user_id };
-        let readers = [];
-        let m = 0;
-        let n = fileList.length;
         let This = this;
-        for (let i = 0; i < n; i++) {
-            let file = fileList[i];
-            payload['file-' + i] = { name: file.name, size: file.size };
+        let n = fileList.length;
+        let uploaded_photo_ids = [];
+        let failed = [];
+        let duplicates = [];
+        This.eventAggregator.publish('FileWasUploaded', {files_left: n});
+        for (let file of fileList) {
             let fr = new FileReader();
-            fr.onload = function () {
-                m += 1;
-                payload['file-' + i].BINvalue = this.result;
-                if (m == n) {
-                    This.upload(payload);
-                }
-            }
-            readers.push(fr);
             fr.readAsBinaryString(file);
-        }
-
+            let payload = { user_id: user_id }
+            fr.onload = function () {
+                payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result };
+                This.upload(payload)
+                    .then(response => {
+                        if (response.upload_result == 'failed') {
+                            failed.push(file.name)
+                        } else if (response.upload_result == 'duplicate') {
+                            duplicates.push(file.name)
+                        } else {
+                            uploaded_photo_ids.push(response.upload_result)
+                        }
+                        n -= 1;
+                        This.eventAggregator.publish('FileWasUploaded', {files_left: n});
+                        if (n == 0) {
+                            This.eventAggregator.publish('FilesUploaded', {failed: failed, duplicates: duplicates, uploaded: uploaded_photo_ids});
+                            This.httpClient.fetch('members/notify_new_photos', {uploaded_photo_ids: uploaded_photo_ids});
+                        }
+                    })
+                    .catch(e => console.log('error occured ', e));
+            }
+        } 
     }
 
     upload(payload) {
         payload = JSON.stringify(payload);
-        return this.httpClient.fetch(`members/upload_photos`, {
-            method: 'POST',
-            body: payload
-        })
-            .then(response => {
-                this.eventAggregator.publish('FilesUploaded', response);
-            })
-            .catch(e => console.log('error occured ', e));
+        return this.httpClient.fetch(`members/upload_photo`, {method: 'POST', body: payload})
     }
 
     get_constants() {

@@ -15,9 +15,10 @@ export class UploadPhotos {
   ea: EventAggregator;
   dc: DialogController;
   upload_finished = false;
-  number_uploaded;
-  number_duplicates;
+  uploaded;
+  duplicates;
   failed = [];
+  photos_left = 0;
   working = false;
   host_name;
 
@@ -38,12 +39,15 @@ export class UploadPhotos {
     this.ea.subscribe('FilesUploaded', response => {
       this.working = false;
       this.upload_finished = true;
-      this.number_uploaded = response.number_uploaded;
-      this.number_duplicates = response.number_duplicates;
+      this.uploaded = response.uploaded;
+      this.duplicates = response.duplicates;
       this.failed = response.failed;
       window.setTimeout(() => {
         this.dc.ok(response);
       }, 15000);
+    });
+    this.ea.subscribe('FileWasUploaded', response => {
+        this.photos_left = response.files_left
     });
     if (this.photos) {
       this.api.uploadPhotos(
