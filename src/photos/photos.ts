@@ -129,13 +129,28 @@ export class Photos {
         this.update_photo_list();
     }
 
+    @computedFrom('user.editing')
+    get user_editing() {
+        this.update_topic_list();
+        return this.user.editing;
+    }
+
     update_topic_list() {
-        this.api.call_server('topics/get_topic_list', { usage: 'P' })
+        let usage = this.user.editing ? {} : { usage: 'P' };
+        this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
             });
     }
+
+    add_topic(event) {
+        let new_topic_name = event.detail.new_name;
+        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
+            .then(() => this.update_topic_list());
+    }
+
+
 
     attached() {
         this.win_height = window.outerHeight;
@@ -210,6 +225,11 @@ export class Photos {
     photographer_name_changed(event) {
         let p = event.detail.option;
         this.api.call_server_post('topics/rename_photographer', p);
+    }
+
+    topic_name_changed(event) {
+        let t = event.detail.option;
+        this.api.call_server_post('topics/rename_topic', t);
     }
 
     add_photographer(event) {

@@ -17,7 +17,7 @@ class Video {
     video_date_label = "";
     keywords_label = "";
     name = "";
-    src="";
+    src = "";
     id = 0;
     keywords = "";
     video_date_datestr = "";
@@ -42,7 +42,7 @@ class Video {
         `
         return content;
     }
-    
+
 }
 
 @autoinject
@@ -87,7 +87,7 @@ export class Videos {
         can_set_sign: false
     });
     length_keeper = {
-        len:  0
+        len: 0
     }
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
@@ -128,7 +128,7 @@ export class Videos {
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
         this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now topics and photogaphers are handled together...
         this.ea.subscribe('VIDEO-TAGS-CHANGED', response => {
-             this.apply_changes(response.changes) 
+            this.apply_changes(response.changes)
         });
     }
 
@@ -138,7 +138,7 @@ export class Videos {
     }
 
     update_topic_list() {
-        let usage = this.user.editing ?  {} : {usage: 'V'};
+        let usage = this.user.editing ? {} : { usage: 'V' };
         this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -148,7 +148,7 @@ export class Videos {
 
     apply_changes(changes) {
         for (let change of changes) {
-            let video = this.video_list.find(v => v.id==change.video_id);
+            let video = this.video_list.find(v => v.id == change.video_id);
             if (change.photographer_name) {
                 video.photographer_name = change.photographer_name;
             }
@@ -158,7 +158,7 @@ export class Videos {
 
     new_video() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: AddVideo, model: {params: {}}, lock: true }).whenClosed(response => {
+        this.dialog.open({ viewModel: AddVideo, model: { params: {} }, lock: true }).whenClosed(response => {
             this.theme.hide_title = false;
         });
     }
@@ -192,11 +192,11 @@ export class Videos {
         }
         //video_rec.selected = false;
         let photographer = this.photographer_list.find(p => p.id == video_rec.photographer_id);
-        let photographer_name = photographer ?  photographer.name : this.i18n.tr('videos.unknown-photographer');
+        let photographer_name = photographer ? photographer.name : this.i18n.tr('videos.unknown-photographer');
         let vr = new Video(
             photographer_name,
-            this.i18n.tr('videos.photographer-name'), 
-            this.i18n.tr('videos.video-date-range'), 
+            this.i18n.tr('videos.photographer-name'),
+            this.i18n.tr('videos.video-date-range'),
             this.i18n.tr('videos.keywords'));
         for (let key of Object.keys(vr)) {
             if (video_rec[key])
@@ -247,6 +247,17 @@ export class Videos {
         return this.user.editing;
     }
 
+    add_topic(event) {
+        let new_topic_name = event.detail.new_name;
+        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
+            .then(() => this.update_topic_list());
+    }
+
+    topic_name_changed(event) {
+        let t = event.detail.option;
+        this.api.call_server_post('topics/rename_topic', t);
+    }
+
     toggle_selection(video) {
         if (video.selected) {
             video.selected = false;
@@ -258,23 +269,23 @@ export class Videos {
         this.params.selected_video_list = Array.from(this.selected_videos);
     }
 
-    delete_video(video) { 
-        this.api.call_server('members/delete_video', {video_id: video.id})
+    delete_video(video) {
+        this.api.call_server('members/delete_video', { video_id: video.id })
             .then(() => {
-                let idx = this.video_list.findIndex(v => v.id==video.id);
+                let idx = this.video_list.findIndex(v => v.id == video.id);
                 this.video_list.splice(idx, 1);
             });
     }
 
-    edit_video_info(video) { 
+    edit_video_info(video) {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: AddVideo, model: {params: video}, lock: true }).whenClosed(response => {
+        this.dialog.open({ viewModel: AddVideo, model: { params: video }, lock: true }).whenClosed(response => {
             this.theme.hide_title = false;
         });
     }
 
     @computedFrom('user.editing', 'params.selected_video_list', 'params.selected_topics', 'params.selected_photographers', 'params.videos_date_datestr', 'params.videos_date_datespan', 'selected_videos',
-         'has_grouped_photographers', 'has_grouped_topics')
+        'has_grouped_photographers', 'has_grouped_topics')
     get phase() {
         let result = "photos-not-editing";
         if (this.user.editing) {
@@ -351,7 +362,7 @@ export class Videos {
     }
 
     video_info_title(video) {
-        let title=`<h3>${video.name}</h3>`
+        let title = `<h3>${video.name}</h3>`
         return title;
     }
 
@@ -366,7 +377,7 @@ export class Videos {
 
     video_info_content(video) {
         let photographer = this.photographer_list.find(p => p.id == video.photographer_id);
-        let photographer_name = photographer ?  photographer.name : this.i18n.tr('videos.unknown-photographer');
+        let photographer_name = photographer ? photographer.name : this.i18n.tr('videos.unknown-photographer');
         let pn = this.i18n.tr('videos.photographer-name');
         let vdr = this.i18n.tr('videos.video-date-range');
         let date_range = format_date(video.video_date_datestr, video.video_date_datespan);

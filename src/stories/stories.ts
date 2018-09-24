@@ -472,4 +472,9 @@ export class Stories {
             .then(() => this.update_topic_list());
     }
 
+    topic_name_changed(event) {
+        let t = event.detail.option;
+        this.api.call_server_post('topics/rename_topic', t);
+    }
+
 }
