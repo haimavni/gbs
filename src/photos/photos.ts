@@ -232,6 +232,12 @@ export class Photos {
         this.api.call_server_post('topics/rename_topic', t);
     }
 
+    remove_topic(event) {
+        let topic_id = event.detail.option.id;
+        this.api.call_server_post('topics/remove_topic', { topic_id: topic_id })
+            .then(() => this.update_topic_list());
+    }
+
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
         this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' });

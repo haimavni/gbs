@@ -95,6 +95,7 @@
                             settings.bind="options_settings"
                             has_groups.bind="has_grouped_topics"
                             new-name.delegate="add_topic($event)"
+                            remove-option.delegate="remove_topic($event)"
                             name-changed.delegate="topic_name_changed($event)"
                             name="topics"
                             place_holder_text="photos.click-topic"

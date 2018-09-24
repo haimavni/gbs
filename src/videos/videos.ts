@@ -253,6 +253,12 @@ export class Videos {
             .then(() => this.update_topic_list());
     }
 
+    remove_topic(event) {
+        let topic_id = event.detail.option.id;
+        this.api.call_server_post('topics/remove_topic', { topic_id: topic_id })
+            .then(() => this.update_topic_list());
+    }
+
     topic_name_changed(event) {
         let t = event.detail.option;
         this.api.call_server_post('topics/rename_topic', t);
