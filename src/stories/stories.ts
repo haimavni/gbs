@@ -401,19 +401,19 @@ export class Stories {
                     result = "selecting-stories";
                 }
             } else {
-                console.log("selected topics: ", this.params.selected_topics);
                 this.done_selecting = false;
-                if (this.has_grouped_topics) {
+                result = this.topics_action();
+                /*if (this.has_grouped_topics) {
                     result = "can-modify-tags";
                 } else {
                     result = "ready-to-edit"
-                }
+                }*/
             }
         }
         this.options_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: result == "ready-to-edit",
-            can_set_sign: result != "can-modify-tags",
+            can_set_sign: !this.has_grouped_topics,
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit"
         });
@@ -422,6 +422,23 @@ export class Stories {
             can_set_sign: result == "not-editing",
         });
         return result;
+    }
+
+    topics_action() {
+        let n_groups = 0;
+        let has_group_candidate = false;
+        for (let topic_item of  this.params.selected_topics) {
+            if (topic_item.first && topic_item.last) {
+                if (topic_item.option.usage) return 'ready-to-edit';
+                has_group_candidate = true;
+            }
+            if (topic_item.last && ! topic_item.first) {
+                n_groups += 1;
+            }
+        }
+        if (has_group_candidate && n_groups == 1) return 'can-create-group';
+        if (n_groups == 1) return 'can-merge-topics';
+        return 'ready-to-edit';
     }
 
     select_used_for(used_for) {

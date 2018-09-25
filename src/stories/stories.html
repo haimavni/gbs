@@ -14,14 +14,17 @@
                                     change.delegate="update_story_list()">
                                 </search-input>
                             </div>-->
-                            <div class="form-group" if.bind="phase=='can-modify-tags'">
+                            <div if.bind="phase=='can-merge-topics'" class="form-group">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
+                                <help topic="photos.can-modify-tags", position="bottom"></help>
+                            </div>
+                            <div if.bind="phase=='can-create-group'" class="form-group">
                                 <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
                                     ${'photos.save-topic-group' & t}
                                 </button>
-                                <help topic="photos.can-modify-tags", position="bottom"></help>
+                                <help topic="photos.can-create-group", position="bottom"></help>
                             </div>
                             <div class="form-group" if.bind="user.editing && checked_stories.size == 0">
                                 <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4EVENT}" class="btn btn-success cl-create-btn">

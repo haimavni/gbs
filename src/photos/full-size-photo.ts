@@ -23,7 +23,7 @@ export class FullSizePhoto {
     user;
     theme;
     slide;
-    photo_info = {name: "", photo_date_str: "", photo_date_datespan: 0, photographer: ""};
+    photo_info = { name: "", photo_date_str: "", photo_date_datespan: 0, photographer: "" };
     router;
     highlighting = false;
     eventAggregator;
@@ -72,7 +72,7 @@ export class FullSizePhoto {
     deactivate() {
         this.navEvent.dispose();
         this.theme.hide_title = false;
-    }    
+    }
 
     attached() {
         let div = document.getElementById("full-size-photo");
@@ -91,11 +91,11 @@ export class FullSizePhoto {
     }
 
     get_photo_info(photo_id) {
-        this.api.call_server('members/get_photo_info',  { photo_id: photo_id })
+        this.api.call_server('members/get_photo_info', { photo_id: photo_id })
             .then((data) => {
                 this.photo_info.name = data.name;
                 this.photo_info.photographer = data.photographer;
-                if (! this.photo_info.photographer) {
+                if (!this.photo_info.photographer) {
                     this.photo_info.photographer = this.i18n.tr('photos.unknown');
                 }
                 this.photo_info.photo_date_datespan = data.photo_date_datespan;
@@ -108,11 +108,11 @@ export class FullSizePhoto {
         let pi = event.detail;
         this.photo_info.photo_date_str = pi.date_str;
         this.photo_info.photo_date_datespan = pi.date_span;
-        this.api.call_server_post('members/save_photo_info', {photo_id: this.slide.photo_id, photo_info: this.photo_info});
+        this.api.call_server_post('members/save_photo_info', { photo_id: this.slide.photo_id, photo_info: this.photo_info });
     }
 
     save_photo_caption(event) {
-        this.api.call_server_post('members/save_photo_info', {photo_id: this.slide.photo_id, photo_info: this.photo_info});
+        this.api.call_server_post('members/save_photo_info', { photo_id: this.slide.photo_id, photo_info: this.photo_info });
     }
 
     face_location(face) {
@@ -158,8 +158,12 @@ export class FullSizePhoto {
     }
 
     remove_face(face) {
-        let i = this.faces.indexOf(face);
-        this.faces.splice(i, 1);
+        console.log("remove face!!!");
+        this.api.call_server_post('members/detach_photo_from_member', { member_id: face.member_id, photo_id: this.slide.photo_id })
+            .then(() => {
+                let i = this.faces.indexOf(face);
+                this.faces.splice(i, 1);
+            });
     }
 
     private jump_to_member(member_id) {
@@ -198,14 +202,14 @@ export class FullSizePhoto {
             return;
         }
         let el = document.getElementById('full-size-photo');
-        face.corner = getOffset(el);        
+        face.corner = getOffset(el);
         customEvent.stopPropagation();
         let event = customEvent.detail;
         let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
         let dist = this.distance(face, pt);
         face.action = (dist < face.r - 10) ? "moving" : "resizing";
         face.dist = dist;
-        this.current_face = {x: face.x, y: face.y, r: face.r, dist: face.dist};
+        this.current_face = { x: face.x, y: face.y, r: face.r, dist: face.dist };
     }
 
     public dragmove(face, customEvent: CustomEvent) {
@@ -213,7 +217,7 @@ export class FullSizePhoto {
         if (!this.user.editing) {
             return;
         }
-        let el = document.getElementById('face-'+ face.member_id);
+        let el = document.getElementById('face-' + face.member_id);
         let current_face = this.current_face;
         let event = customEvent.detail;
         if (face.action === "moving") {
@@ -251,7 +255,7 @@ export class FullSizePhoto {
             let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
             let dist = this.distance(face, pt);
             face.r += dist - face.dist;
-            if (face.r < 15) {
+            if (face.r < 18) {
                 this.remove_face(face);
             }
         }
