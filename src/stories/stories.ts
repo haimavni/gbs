@@ -126,7 +126,7 @@ export class Stories {
 
     activate(params, config) {
         if (this.router.isExplicitNavigationBack) return;
-        if (this.story_list.length > 0 && ! params.keywords) return;
+        if (this.story_list.length > 0 && !params.keywords) return;
         if (params.keywords == this.params.keywords_str) return;
         this.init_params();
         this.params.keywords_str = params.keywords;
@@ -266,6 +266,23 @@ export class Stories {
         }
     }
 
+    apply_topics_to_selected_stories() {
+        console.log("apply topics!!")
+        this.api.call_server_post('members/apply_topics_to_selected_stories', {params: this.params, used_for: this.used_for})
+            .then(() => {
+                this.clear_selected_topics_now = true;
+                this.uncheck_selected_stories();
+            });
+    }
+
+    uncheck_selected_stories() {
+        this.params.selected_stories = [];
+        this.checked_stories = new Set();
+        for (let story of this.story_list) {
+            story.checked = false;
+        }
+    }
+
     handle_words_change(event) {
         let result = null;
         if (!event.detail) {
@@ -384,6 +401,7 @@ export class Stories {
                     result = "selecting-stories";
                 }
             } else {
+                console.log("selected topics: ", this.params.selected_topics);
                 this.done_selecting = false;
                 if (this.has_grouped_topics) {
                     result = "can-modify-tags";
@@ -462,13 +480,13 @@ export class Stories {
 
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name})
+        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
             .then(() => this.update_topic_list());
     }
 
     remove_topic(event) {
         let topic_id = event.detail.option.id;
-        this.api.call_server_post('topics/remove_topic', {topic_id: topic_id})
+        this.api.call_server_post('topics/remove_topic', { topic_id: topic_id })
             .then(() => this.update_topic_list());
     }
 

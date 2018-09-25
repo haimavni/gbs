@@ -1,4 +1,4 @@
-import { bindable, inject, DOM } from 'aurelia-framework';
+import { bindable, inject, DOM, computedFrom } from 'aurelia-framework';
 import { StoryWindow } from '../../stories/story_window';
 import { User } from '../../services/user';
 import { Theme } from '../../services/theme';
@@ -69,6 +69,11 @@ export class editableCustomElement {
             bubbles: true
         });
         this.element.dispatchEvent(changeEvent);
+    }
+
+    @computedFrom('story.checked')
+    get checked() {
+        return this.story.checked;
     }
 
 }
