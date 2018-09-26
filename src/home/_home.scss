@@ -104,8 +104,13 @@
             }
         }
 
+        .preview-header  div.checkable {
+                font-size:108%;
+        }
+
         .message + .message {
             margin-top: 1rem;
+           
         }
     }
 }
