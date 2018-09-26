@@ -73,7 +73,8 @@ export class editableCustomElement {
 
     @computedFrom('story.checked')
     get checked() {
-        return this.story.checked;
+        if (this.story) return this.story.checked;
+        return false;
     }
 
 }
