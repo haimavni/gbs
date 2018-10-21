@@ -69,7 +69,7 @@ export class MemberGateway {
         let href = window.location.href;
         let app = href.split('/')[3];
         if (app == '#') {
-            app = 'gbs__www';
+            app = environment.app;
         }
         httpClient.configure(config => {
             config
