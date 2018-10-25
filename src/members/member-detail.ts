@@ -349,7 +349,7 @@ export class MemberDetail {
             this.bottom_panel.style.height = null;
         }
         if (this.photo_strip_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
-        this.story_box_height = bph;
+        this.story_box_height = bph - 2;
         this.life_summary_box.style.height = '90%'// `${lsb}px`;
         if (this.theme.width >= 1200) {
             this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
