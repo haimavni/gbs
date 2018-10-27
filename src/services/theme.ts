@@ -129,7 +129,16 @@ export class Theme {
                 this._locale = this.i18n.getLocale();
             }
         }
+        //let rb = this.i18n.i18next.getResourceBundle('he', 'translation');
+        //console.log('rb: ', rb);
+        //let overrides = {gbstories: 'פלוגת הקשר'};
+        //this.customize('he', overrides);
+        //get overrides from the server, then customize
         return this._locale;
+    }
+
+    customize(lang, overrides) {
+        this.i18n.i18next.addResourceBundle(lang, 'translation', overrides, true, true);
     }
 
     changeLocale(locale) {
