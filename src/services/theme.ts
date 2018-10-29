@@ -56,7 +56,7 @@ export class Theme {
     }
 
     async set_locale() {
-        //await this.get_locale_overrides();
+        await this.get_locale_overrides();
         let locale = this.i18n.getLocale();
         if (this.locale != locale) {
             this.i18n.setLocale(this.locale)
