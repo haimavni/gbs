@@ -48,7 +48,15 @@ export class Theme {
             this.handle_content_resize();
         }, true);
         this.i18n = i18n;
+        this.set_locale();
         //force locale from cookies if exists
+        THEME = this;
+        this.detectTouchScreen();
+        this.set_heights();
+    }
+
+    async set_locale() {
+        //await this.get_locale_overrides();
         let locale = this.i18n.getLocale();
         if (this.locale != locale) {
             this.i18n.setLocale(this.locale)
@@ -64,9 +72,7 @@ export class Theme {
         } catch (e) {
             console.log('error occured in theme: ', e);
         }
-        THEME = this;
-        this.detectTouchScreen();
-        this.set_heights();
+
     }
 
     language_dir(lang) {
@@ -138,7 +144,21 @@ export class Theme {
     }
 
     customize(lang, overrides) {
+        console.log("customize. lang: ", lang, " overrides: ", overrides);
         this.i18n.i18next.addResourceBundle(lang, 'translation', overrides, true, true);
+    }
+
+    get_locale_overrides() {
+        this.api.call_server('default/get_locale_overrides')
+        .then(response => {
+            let obj = response.locale_overrides;
+            console.log("lang overrides: ", obj);
+            let langs = Object.keys(obj);
+            for (let lang of langs) {
+                this.customize(lang, obj[lang]);
+                this.i18n.setLocale(this.locale);
+            } 
+        });
     }
 
     changeLocale(locale) {

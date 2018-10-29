@@ -58,6 +58,7 @@ export class Photos {
     router;
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
+        can_set_sign: true,
         can_group: true
     });
     photographers_settings = new MultiSelectSettings({
@@ -346,7 +347,7 @@ export class Photos {
         this.options_settings.update({
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
             name_editable: result == "photos-ready-to-edit",
-            can_set_sign: result == "photos-ready-to-edit",
+            can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit"
         });

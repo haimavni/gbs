@@ -42,7 +42,7 @@ export class App {
 
     public router;
     configureRouter(config, router) {
-        router.title = 'gbstories';
+        router.title = 'app-title';
         config.map([
             { route: '', redirect: 'home' },
             { route: 'home', moduleId: './home/home', nav: false, title: '' },
