@@ -7,7 +7,7 @@
             <div class="navbar-main">
                 <div class="nav-items">
                     <a class="navbar-logo" href="#">
-                        <img src="${theme.blue_logo ? theme.files.gb_logo_blue : theme.files.gb_logo_png}" />
+                        <img if.bind="theme.files.app_logo" src="${theme.files.app_logo}" />
                         <span class="router-title">${router.title & t}</span>
                     </a>
                     <div class="menu-items">
