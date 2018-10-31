@@ -108,11 +108,11 @@ export class FullSizePhoto {
         let pi = event.detail;
         this.photo_info.photo_date_str = pi.date_str;
         this.photo_info.photo_date_datespan = pi.date_span;
-        this.api.call_server_post('members/save_photo_info', { photo_id: this.slide.photo_id, photo_info: this.photo_info });
+        this.api.call_server_post('members/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
     }
 
     save_photo_caption(event) {
-        this.api.call_server_post('members/save_photo_info', { photo_id: this.slide.photo_id, photo_info: this.photo_info });
+        this.api.call_server_post('members/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
     }
 
     face_location(face) {

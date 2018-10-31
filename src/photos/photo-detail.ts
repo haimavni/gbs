@@ -44,10 +44,10 @@ export class PhotoDetail {
             .then(response => {
                 this.photo_id = params.id;
                 this.photo_src = response.photo_src;
-                this.photo_name = response.photo_name;
                 this.photo_story = response.photo_story;
+                this.photo_name = this.photo_story.name || response.photo_name;
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
-                if (this.photo_story.story_id=='new') {
+                if (this.photo_story.story_id == 'new') {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
                     this.photo_story.story_text = this.i18n.tr('photos.new-story-content');
                 }
@@ -71,16 +71,17 @@ export class PhotoDetail {
     }
 
     update_photo_caption(event) {
-        this.api.call_server('members/update_photo_caption', {caption: this.photo_name, photo_id: this.photo_id});
+        this.api.call_server_post('members/update_photo_caption', { caption: this.photo_name, photo_id: this.photo_id })
+            .then(() => { alert('changed') });
     }
 
     update_photo_date(customEvent) {
         customEvent.stopPropagation();
         let event = customEvent.detail;
         let s = typeof event;
-        this.api.call_server('members/update_photo_date', {photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id});
+        this.api.call_server('members/update_photo_date', { photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id });
     }
-    
+
     private openDialog(slide) {
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
             .whenClosed(response => {
@@ -91,8 +92,8 @@ export class PhotoDetail {
 
     open_full_size_photo() {
         let slide = {
-            src: this.photo_src, 
-            width: this.orig_photo_width, 
+            src: this.photo_src,
+            width: this.orig_photo_width,
             height: this.orig_photo_height,
             name: this.photo_name,
             photo_id: this.true_photo_id
@@ -103,5 +104,5 @@ export class PhotoDetail {
     go_back() {
         this.router.navigateBack();
     }
-    
+
 }

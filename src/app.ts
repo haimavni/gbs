@@ -46,6 +46,7 @@ export class App {
         config.map([
             { route: '', redirect: 'home' },
             { route: 'home', moduleId: './home/home', nav: false, title: '' },
+            { route: 'docs', moduleId: './docs/docs', nav: environment.debug, title: 'docs.docs' },
             { route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms' },
             { route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos' },
             { route: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos' },

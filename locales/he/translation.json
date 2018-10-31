@@ -254,6 +254,9 @@
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
         "filter": "חפוש מהיר בשמות הסרטונים"
     },
+    "docs": {
+        "docs": "מסמכים"
+    },
     "terms": {
         "terms": "מונחים",
         "terms-lexicon": "מילון מונחים",

@@ -256,6 +256,9 @@
         "promote-selected-videos": "Promote selected videos",
         "filter": "Fast search in video titles"
     },
+    "docs": {
+        "docs": "Docs"
+    },
     "terms": {
         "terms": "Terms",
         "terms-lexicon": "Terms lexicon",
