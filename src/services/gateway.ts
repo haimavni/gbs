@@ -58,7 +58,8 @@ export class MemberGateway {
             STORY4TERM: 4,
             STORY4MESSAGE: 5,
             STORY4HELP: 6
-        }
+        },
+        ptp_key: 0
     };
     pending = 0;
 
@@ -111,6 +112,7 @@ export class MemberGateway {
 
     call_server_post(url: string, data?: any) {
         data = data ? data : {};
+        data['ptp_key'] = this.constants.ptp_key;
         let x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
             .catch(error => alert("error: " + error))
@@ -183,7 +185,10 @@ export class MemberGateway {
 
     get_constants() {
         this.call_server_post('members/get_constants')
-            .then(response => this.constants = response);
+            .then(response => {
+                this.constants = response;
+                this.listen(this.constants.ptp_key);
+            });
     }
 
     listen(group?) {
