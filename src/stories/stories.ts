@@ -196,10 +196,13 @@ export class Stories {
         this.params.selected_words = [];
         this.params.selected_stories = [];
         this.params.keywords_str = keywords;
+        let typ = 'simple'
         if (local) {
             this.keywords_to_selected_words();
+        } else {
+            typ = 'menu'
         }
-        this.update_story_list('simple');
+        this.update_story_list(typ);
     }
 
     attached() {
@@ -215,7 +218,7 @@ export class Stories {
         this.theme.page_title = "";
     }
 
-    update_story_list(search_type?) {
+    update_story_list(search_type) {
         if (search_type) this.params.search_type = search_type;
         this.no_results = false;
         let used_for = null;
@@ -334,11 +337,11 @@ export class Stories {
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
-        this.update_story_list();
+        this.update_story_list('other');
     }
 
     handle_approval_state_change(event) {
-        this.update_story_list();
+        this.update_story_list('other');
     }
 
     update_topic_list() {
@@ -361,11 +364,11 @@ export class Stories {
     toggle_link_class() {
         //todo: "primary" displays only stories with links to the old givat-brenner site. This button is temporary and should be removed after porting is finished.
         this.params.link_class = (this.params.link_class == "basic") ? "primary" : "basic";
-        this.update_story_list();
+        this.update_story_list('other');
     }
 
     handle_age_change() {
-        this.update_story_list();
+        this.update_story_list('other');
     }
 
     delete_checked_stories() {
@@ -387,7 +390,7 @@ export class Stories {
 
     toggle_deleted_stories() {
         this.params.deleted_stories = !this.params.deleted_stories;
-        this.update_story_list();
+        this.update_story_list('other');
     }
 
     @computedFrom('user.editing', 'done_selecting', 'has_grouped_topics', 'params.selected_topics')
@@ -470,7 +473,7 @@ export class Stories {
         this.api.call_server_post('members/consolidate_stories', { stories_to_merge: this.params.checked_story_list })
             .then(() => {
                 this.checked_stories = new Set();
-                this.update_story_list();
+                this.update_story_list('other');
             });
     }
 
