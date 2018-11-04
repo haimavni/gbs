@@ -37,9 +37,7 @@ export class Stories {
         selected_uploader: "",
         from_date: "",
         to_date: "",
-        selected_languages: [],
         selected_stories: [],
-        selected_story_types: [],
         checked_story_list: [],
         link_class: "basic",
         deleted_stories: false,
@@ -126,8 +124,8 @@ export class Stories {
 
     activate(params, config) {
         if (this.router.isExplicitNavigationBack) return;
-        if (this.story_list.length > 0 && !params.keywords) return;
-        if (params.keywords == this.params.keywords_str) return;
+        if (this.story_list && this.story_list.length > 0 && !params.keywords) return;
+        if (params.keywords == this.params.keywords_str && this.story_list && this.story_list.length > 0) return;
         this.init_params();
         this.params.keywords_str = params.keywords;
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
@@ -361,12 +359,6 @@ export class Stories {
         this.params.checked_story_list = Array.from(this.checked_stories);
     }
 
-    toggle_link_class() {
-        //todo: "primary" displays only stories with links to the old givat-brenner site. This button is temporary and should be removed after porting is finished.
-        this.params.link_class = (this.params.link_class == "basic") ? "primary" : "basic";
-        this.update_story_list('other');
-    }
-
     handle_age_change() {
         this.update_story_list('other');
     }
@@ -485,9 +477,7 @@ export class Stories {
             selected_uploader: "",
             from_date: "",
             to_date: "",
-            selected_languages: [],
             selected_stories: [],
-            selected_story_types: [],
             checked_story_list: [],
             link_class: "basic",
             deleted_stories: false,
