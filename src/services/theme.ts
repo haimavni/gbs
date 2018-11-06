@@ -160,6 +160,7 @@ export class Theme {
             for (let lang of langs) {
                 this.customize(lang, obj[lang]);
                 this.i18n.setLocale(this.locale);
+                document.title = this.i18n.tr('app-title');
             } 
         });
     }
