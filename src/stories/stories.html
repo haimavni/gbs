@@ -60,9 +60,8 @@
                             </div>
                         </form>
                     </div>
-                    <h2 if.bind="no_results">
-                        ${'no-results' & t}
-                    </h2>
+                    <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
+                    </h3>
                     <form if.bind="!no_results" class="form-inline" style="margin-right:20px;margin-bottom:6px;">
                         <button repeat.for="uf of active_result_types"
                             class="btn btn-${uf==used_for ? 'primary' : 'default'}"

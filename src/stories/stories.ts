@@ -127,7 +127,7 @@ export class Stories {
         if (this.router.isExplicitNavigationBack) return;
         if (this.story_list && this.story_list.length > 0 && !params.keywords) return;
         if (params.keywords == this.params.keywords_str && this.story_list && this.story_list.length > 0) return;
-        if (params.keywords == this.prev_keywords) return;
+        if (params.keywords && params.keywords == this.prev_keywords) return;
         this.prev_keywords = params.keywords;
         this.init_params();
         this.params.keywords_str = params.keywords;
