@@ -62,6 +62,7 @@ export class MemberGateway {
         ptp_key: 0
     };
     pending = 0;
+    ptp_connected;
 
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N) {
         this.httpClient = httpClient;
@@ -150,7 +151,7 @@ export class MemberGateway {
         let uploaded_photo_ids = [];
         let failed = [];
         let duplicates = [];
-        This.eventAggregator.publish('FileWasUploaded', {files_left: n});
+        This.eventAggregator.publish('FileWasUploaded', { files_left: n });
         for (let file of fileList) {
             let fr = new FileReader();
             fr.readAsBinaryString(file);
@@ -167,47 +168,56 @@ export class MemberGateway {
                             uploaded_photo_ids.push(response.upload_result)
                         }
                         n -= 1;
-                        This.eventAggregator.publish('FileWasUploaded', {files_left: n});
+                        This.eventAggregator.publish('FileWasUploaded', { files_left: n });
                         if (n == 0) {
-                            This.eventAggregator.publish('FilesUploaded', {failed: failed, duplicates: duplicates, uploaded: uploaded_photo_ids});
-                            This.httpClient.fetch('members/notify_new_photos', {uploaded_photo_ids: uploaded_photo_ids});
+                            This.eventAggregator.publish('FilesUploaded', { failed: failed, duplicates: duplicates, uploaded: uploaded_photo_ids });
+                            This.httpClient.fetch('members/notify_new_photos', { uploaded_photo_ids: uploaded_photo_ids });
                         }
                     })
                     .catch(e => console.log('error occured ', e));
             }
-        } 
+        }
     }
 
     upload(payload) {
         payload = JSON.stringify(payload);
-        return this.httpClient.fetch(`members/upload_photo`, {method: 'POST', body: payload})
+        return this.httpClient.fetch(`members/upload_photo`, { method: 'POST', body: payload })
     }
 
     get_constants() {
+        console.log('get constants');
         this.call_server_post('members/get_constants')
             .then(response => {
                 this.constants = response;
+                console.log('will listen to ', this.constants.ptp_key)
                 this.listen(this.constants.ptp_key);
             });
     }
 
-    listen(group?) {
+    listen(group) {
         this.call_server('default/get_tornado_host', { group: group })
             .then(data => {
                 let ws = data.ws;
                 if (!this.web2py_websocket(ws, this.handle_ws_message)) {
                     alert("html5 websocket not supported by your browser, try Google Chrome");
                 };
+                if (group == this.constants.ptp_key) {
+                    this.ptp_connected = true;
+                    console.log("ptp is listened to");
+                }
+                console.log("listening to ", group);
             });
+
     }
 
     handle_ws_message(msg) {
+        console.log("handle ws message");
         let obj;
         try {
             obj = JSON.parse(msg.data);
         }
         catch (e) {
-            //console.log("ERROR handling ws message ", msg, " Exception ", e);
+            console.log("ERROR handling ws message ", msg, " Exception ", e);
             return;
         }
 

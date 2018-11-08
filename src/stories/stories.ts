@@ -113,6 +113,7 @@ export class Stories {
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+        this.ea.subscribe('STORY-LIST-CHUNK', payload => {this.handle_chunk(payload)});
     }
 
     refresh_story(data) {
@@ -219,7 +220,18 @@ export class Stories {
         this.theme.page_title = "";
     }
 
-    update_story_list(search_type) {
+    async update_story_list(search_type) {
+        console.log("update story. this.api.ptp_connected: ", this.api.ptp_connected);
+        let cnt = 0;
+        while (!this.api.ptp_connected) {
+            console.log("this.api.ptp_connected: ", this.api.ptp_connected);
+            await sleep(100);
+            cnt += 1;
+            if (cnt > 50) {
+                break;
+            }
+            console.log("cnt: ", cnt, " this.api.ptp_connected: ", this.api.ptp_connected )
+        }
         if (search_type) this.params.search_type = search_type;
         this.no_results = false;
         let used_for = null;
@@ -231,16 +243,27 @@ export class Stories {
         console.time('update-story-list');
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
-                this.story_list = result.story_list;
+                //this.story_list = result.story_list;
                 this.no_results = this.story_list.length == 0;
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
-                this.active_result_types = result.active_result_types;
+                //this.active_result_types = result.active_result_types;
                 this.used_for = result.active_result_types[0];
                 console.timeEnd('update-story-list');
                 this.scroll_top = 0;
             });
+    }
+
+    handle_chunk(payload) {
+        console.log("handle chunk ", payload.first);
+        if (payload.first == 0) {
+            this.story_list = [];
+            this.scroll_top = 0;
+        }
+        this.active_result_types = payload.active_result_types;
+        this.story_list = this.story_list.concat(payload.chunk);
+
     }
 
     jump_to_the_full_story(event, story) {
@@ -508,4 +531,9 @@ export class Stories {
         this.api.call_server_post('topics/rename_topic', t);
     }
 
+}
+
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
