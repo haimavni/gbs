@@ -244,12 +244,15 @@ export class Stories {
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
                 //this.story_list = result.story_list;
-                this.no_results = this.story_list.length == 0;
+                this.no_results = result.no_results;
+                if (this.no_results) {
+                    this.story_list = [];
+                }
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
                 //this.active_result_types = result.active_result_types;
-                this.used_for = result.active_result_types[0];
+                //this.used_for = result.active_result_types[0];
                 console.timeEnd('update-story-list');
                 this.scroll_top = 0;
             });
@@ -257,13 +260,16 @@ export class Stories {
 
     handle_chunk(payload) {
         console.log("handle chunk ", payload.first);
+        this.active_result_types = payload.active_result_types;
         if (payload.first == 0) {
             this.story_list = [];
             this.scroll_top = 0;
+            this.used_for = this.active_result_types[0];
         }
-        this.active_result_types = payload.active_result_types;
+        for (let story of payload.chunk) {
+            story.title = '<span dir="rtl">' + story.title + '</span>';
+        }
         this.story_list = this.story_list.concat(payload.chunk);
-
     }
 
     jump_to_the_full_story(event, story) {

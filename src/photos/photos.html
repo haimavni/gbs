@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="padding-right:6px;">
-                    <div class="row" style="margin-bottom:15px;position:relative;">
+                    <div class="row multi-select-div" style="margin-bottom:15px;position:relative;">
                         <span show.bind="false">${user_editing}</span>
                         <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
@@ -103,7 +103,7 @@
                             ms-change.delegate="handle_topic_change($event) ">
                         </multi-select>
                     </div>
-                    <div class="row">
+                    <div class="row multi-select-div">
                         <multi-select options.bind="photographer_list"
                             place_holder_text="photos.click-photographer"
                             selected_options.bind="params.selected_photographers"
