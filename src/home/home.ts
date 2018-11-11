@@ -31,7 +31,8 @@ export class Home {
     panel_height = 380;
     photo_strip_height = 360;
     subscriber1;
-        
+    scroll_area;
+
     constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
         this.user = user;
@@ -39,7 +40,7 @@ export class Home {
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
-        this.photo_list = this.api.call_server_post('members/get_photo_list', {relevant_only: true});
+        this.photo_list = this.api.call_server_post('members/get_photo_list', { relevant_only: true });
         this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample = result.stories_sample);
         memberList.getMemberList(); //to load in the background
         this.api.call_server_post('members/get_message_list').then(
@@ -49,11 +50,11 @@ export class Home {
         this.api.call_server_post('members/get_video_sample')
             .then(response => this.set_video_list(response.video_list));
         this.dialog = dialog;
-        this.eventAggregator = eventAggregator;   
+        this.eventAggregator = eventAggregator;
     }
 
     set_video_list(video_list) {
-        this.video_list = video_list.map(v =>  this.youtube_data(v));
+        this.video_list = video_list.map(v => this.youtube_data(v));
     }
 
     youtube_data(video_code) {
@@ -65,12 +66,24 @@ export class Home {
         this.message_list.splice(0, 0, { story_id: null, name: name, used_for: this.api.constants.story_type.STORY4MESSAGE, story_text: "", story_preview: "" });
     }
 
+    push_story(story, customEvent) {
+        event = customEvent.detail;
+        this.api.call_server_post('members/push_message_up', { story_id: story.story_id })
+            .then(response => {
+                let idx = this.message_list.findIndex(item => item.story_id == story.story_id);
+                let msgs = this.message_list.slice(idx, idx+1);
+                this.message_list.splice(idx, 1);
+                this.message_list.splice(0, 0, msgs[0]);
+                this.scroll_area.scrollTop = 0;
+            })
+    }
+
     hande_story_change(story, customEvent) {
         event = customEvent.detail;
         if (story.deleted) {
-            this.api.call_server_post('members/delete_story', {story_id: story.story_id})
+            this.api.call_server_post('members/delete_story', { story_id: story.story_id })
                 .then(response => {
-                    let idx = this.message_list.findIndex(item => item.story_id==story.story_id);
+                    let idx = this.message_list.findIndex(item => item.story_id == story.story_id);
                     this.message_list.splice(idx, 1);
                 })
         }

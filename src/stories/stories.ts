@@ -77,6 +77,8 @@ export class Stories {
     used_for = null;
     has_grouped_topics: false;
     clear_selected_topics_now = false;
+    ready_for_new_story_list = true;
+    result_type_counters = {};
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator) {
@@ -261,15 +263,18 @@ export class Stories {
     handle_chunk(payload) {
         console.log("handle chunk ", payload.first);
         this.active_result_types = payload.active_result_types;
-        if (payload.first == 0) {
+        if (this.ready_for_new_story_list) {
             this.story_list = [];
             this.scroll_top = 0;
-            this.used_for = this.active_result_types[0];
+            if (!this.active_result_types.find(art=>art==this.used_for))
+                this.used_for = this.active_result_types[0];
+            this.result_type_counters = payload.result_type_counters;
         }
         for (let story of payload.chunk) {
             story.title = '<span dir="rtl">' + story.title + '</span>';
         }
         this.story_list = this.story_list.concat(payload.chunk);
+        this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
     }
 
     jump_to_the_full_story(event, story) {

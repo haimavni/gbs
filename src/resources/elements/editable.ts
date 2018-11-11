@@ -16,7 +16,9 @@ export class editableCustomElement {
         divclass: null, 
         checkable: false, 
         deletable: false, 
-        no_expand: false };
+        no_expand: false,
+        pushable: false
+     };
     element;
     user;
     theme;
@@ -44,7 +46,7 @@ export class editableCustomElement {
 
     delete_story(story) {
         this.story.deleted = true;
-        this.dispatch_event('delete');
+        this.dispatch_event('delete', 'change');
     }
 
     attached() {
@@ -57,11 +59,15 @@ export class editableCustomElement {
 
     toggle_checked() {
         this.story.checked = !this.story.checked;
-        this.dispatch_event('check');
+        this.dispatch_event('check', 'change');
     }
 
-    dispatch_event(action) {
-        let changeEvent = new CustomEvent('change', {
+    push_story() {
+        this.dispatch_event('pushup', 'pushup');
+    }
+
+    dispatch_event(action, what) {
+        let changeEvent = new CustomEvent(what, {
             detail: {
                 checked: this.story.checked,
                 action: action

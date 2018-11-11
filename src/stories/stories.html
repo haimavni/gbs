@@ -66,7 +66,7 @@
                         <button repeat.for="uf of active_result_types"
                             class="btn btn-${uf==used_for ? 'primary' : 'default'}"
                             click.delegate="select_used_for(uf)">
-                            ${'result' + uf & t}
+                            <span style="font-size:70%;">${result_type_counters[uf]}</span>&nbsp;&nbsp;<span style="font-weight:bolder">${'result' + uf & t}</span>
                         </button>
                     </form>
                     <ul style="width:100%;padding:0;height:560px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area">

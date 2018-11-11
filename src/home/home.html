@@ -7,7 +7,7 @@
     </div>
 
     <div class="panel main-panel" css="height:${panel_height}px;">
-        <div class="panel-messages" css="direction:${theme.rtltr};">
+        <div class="panel-messages" css="direction:${theme.rtltr};" ref="scroll_area">
             <h2 class="messages-header">
                 <span>${'home.messages' & t}</span>
                 <span class="is-link" if.bind="user.editing" click.delegate="add_message()">
@@ -16,7 +16,10 @@
             </h2>
             <ul class="messages">
                 <li class="message" repeat.for="msg of message_list" dir="rtl">
-                    <editable story.bind="msg" settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme'}" change.delegate="hande_story_change(msg, $event)"></editable>
+                    <editable story.bind="msg" settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true}" 
+                        change.delegate="hande_story_change(msg, $event)"
+                        pushup.delegate="push_story(msg, $event)">
+                    </editable>
                 </li>
             </ul>
         </div>
