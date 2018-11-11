@@ -78,7 +78,8 @@
         "approved-and-unapproved": "Both approved and unapproved",
         "unapproved": "Unapproved stories",
         "approved": "Approved stories",
-        "topic-already-exists": "Topic already exists"
+        "topic-already-exists": "Topic already exists",
+        "push-up": "Place at the top"
 
     },
     "members": {

@@ -77,7 +77,8 @@
         "approved-and-unapproved": "ספורים שאושרו ושלא אושרו",
         "unapproved": "ספורים שטרם אושרו",
         "approved": "ספורים שכבר אושרו",
-        "topic-already-exists": "יש כבר נושא כזה"
+        "topic-already-exists": "יש כבר נושא כזה",
+        "push-up": "העלה לראש הרשימה"
     },
     "members": {
         "members": "חברים",
