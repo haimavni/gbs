@@ -259,7 +259,7 @@ export class MemberDetail {
     }
 
     detach_photo_from_member(member_id, photo_id, slide_list) {
-        this.api.call_server_post('members/detach_photo_from_member', { member_id: member_id, photo_id: photo_id })
+        this.api.call_server_post('photos/detach_photo_from_member', { member_id: member_id, photo_id: photo_id })
             .then(response => {
                 if (response.photo_detached) {
                     // now delete slide #photo_id from slide_list:

@@ -102,7 +102,7 @@ export class Videos {
     }
 
     update_video_list() {
-        this.api.call_server_post('members/get_video_list', this.params)
+        this.api.call_server_post('photos/get_video_list', this.params)
             .then(response => this.set_video_list(response.video_list));
     }
 
@@ -276,7 +276,7 @@ export class Videos {
     }
 
     delete_video(video) {
-        this.api.call_server('members/delete_video', { video_id: video.id })
+        this.api.call_server('photos/delete_video', { video_id: video.id })
             .then(() => {
                 let idx = this.video_list.findIndex(v => v.id == video.id);
                 this.video_list.splice(idx, 1);
@@ -337,7 +337,7 @@ export class Videos {
     }
 
     apply_to_selected() {
-        this.api.call_server_post('members/apply_to_selected_videos', this.params)
+        this.api.call_server_post('photos/apply_to_selected_videos', this.params)
             .then(response => {
                 this.clear_selected_videos();
             });
@@ -373,7 +373,7 @@ export class Videos {
     }
 
     promote_videos() {
-        this.api.call_server_post('members/promote_videos', { params: this.params })
+        this.api.call_server_post('photos/promote_videos', { params: this.params })
             .then(response => {
                 this.clear_selected_videos();
             });

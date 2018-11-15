@@ -71,7 +71,7 @@ export class PhotoDetail {
     }
 
     update_photo_caption(event) {
-        this.api.call_server_post('members/update_photo_caption', { caption: this.photo_name, photo_id: this.photo_id })
+        this.api.call_server_post('photos/update_photo_caption', { caption: this.photo_name, photo_id: this.photo_id })
             .then(() => { alert('changed') });
     }
 
@@ -79,7 +79,7 @@ export class PhotoDetail {
         customEvent.stopPropagation();
         let event = customEvent.detail;
         let s = typeof event;
-        this.api.call_server('members/update_photo_date', { photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id });
+        this.api.call_server('photos/update_photo_date', { photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id });
     }
 
     private openDialog(slide) {

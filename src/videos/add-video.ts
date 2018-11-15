@@ -39,7 +39,7 @@ export class AddVideo {
     }
 
     send() {
-        this.api.call_server_post('members/save_video', {params: this.params, user_id: this.user.id})
+        this.api.call_server_post('photos/save_video', {params: this.params, user_id: this.user.id})
             .then(response => {
                 if (response.user_error || response.error) {
                     //toastr.warning("<p dir='rtl'>" + this.i18n.tr(response.user_error) + "</p>", '', 10000);

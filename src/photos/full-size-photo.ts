@@ -80,7 +80,7 @@ export class FullSizePhoto {
 
     get_faces(photo_id) {
         this.faces = [];
-        this.api.call_server('members/get_faces', { photo_id: photo_id })
+        this.api.call_server('photos/get_faces', { photo_id: photo_id })
             .then((data) => {
                 this.faces = data.faces;
                 for (let face of this.faces) {
@@ -91,7 +91,7 @@ export class FullSizePhoto {
     }
 
     get_photo_info(photo_id) {
-        this.api.call_server('members/get_photo_info', { photo_id: photo_id })
+        this.api.call_server('photos/get_photo_info', { photo_id: photo_id })
             .then((data) => {
                 this.photo_info.name = data.name;
                 this.photo_info.photographer = data.photographer;
@@ -108,11 +108,11 @@ export class FullSizePhoto {
         let pi = event.detail;
         this.photo_info.photo_date_str = pi.date_str;
         this.photo_info.photo_date_datespan = pi.date_span;
-        this.api.call_server_post('members/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
+        this.api.call_server_post('photos/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
     }
 
     save_photo_caption(event) {
-        this.api.call_server_post('members/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
+        this.api.call_server_post('photos/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
     }
 
     face_location(face) {
@@ -147,7 +147,7 @@ export class FullSizePhoto {
             let old_member_id = face.member_id
             face.member_id = response.output.member_id;
             let make_profile_photo = response.output.make_profile_photo;
-            this.api.call_server_post('members/save_face', { face: face, make_profile_photo: make_profile_photo, old_member_id: old_member_id })
+            this.api.call_server_post('photos/save_face', { face: face, make_profile_photo: make_profile_photo, old_member_id: old_member_id })
                 .then(response => {
                     let idx = this.candidates.findIndex(m => m.member_id == face.member_id);
                     this.candidates.splice(idx, 1);
@@ -159,7 +159,7 @@ export class FullSizePhoto {
 
     remove_face(face) {
         console.log("remove face!!!");
-        this.api.call_server_post('members/detach_photo_from_member', { member_id: face.member_id, photo_id: this.slide.photo_id })
+        this.api.call_server_post('photos/detach_photo_from_member', { member_id: face.member_id, photo_id: this.slide.photo_id })
             .then(() => {
                 let i = this.faces.indexOf(face);
                 this.faces.splice(i, 1);

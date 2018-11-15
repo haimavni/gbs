@@ -40,14 +40,14 @@ export class Home {
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
-        this.photo_list = this.api.call_server_post('members/get_photo_list', { relevant_only: true });
+        this.photo_list = this.api.call_server_post('photos/get_photo_list', { relevant_only: true });
         this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample = result.stories_sample);
         memberList.getMemberList(); //to load in the background
         this.api.call_server_post('members/get_message_list').then(
             result => {
                 this.message_list = result.message_list;
             });
-        this.api.call_server_post('members/get_video_sample')
+        this.api.call_server_post('photos/get_video_sample')
             .then(response => this.set_video_list(response.video_list));
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;

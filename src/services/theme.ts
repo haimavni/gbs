@@ -42,7 +42,7 @@ export class Theme {
         this.api = api;
         this.cookies = cookies;
         this.eventAggregator = eventAggregator;
-        this.api.call_server('members/get_theme_data')
+        this.api.call_server('photos/get_theme_data')
             .then(response => {
                 this.files = response.files;
                 console.log("theme files: ", this.files);

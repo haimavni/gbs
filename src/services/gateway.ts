@@ -142,7 +142,7 @@ export class MemberGateway {
     }
 
     getPhotoDetail(photo) {
-        return this.call_server('members/get_photo_detail', photo);
+        return this.call_server('photos/get_photo_detail', photo);
     }
 
     uploadPhotos(user_id, fileList) {
@@ -171,7 +171,7 @@ export class MemberGateway {
                         This.eventAggregator.publish('FileWasUploaded', { files_left: n });
                         if (n == 0) {
                             This.eventAggregator.publish('FilesUploaded', { failed: failed, duplicates: duplicates, uploaded: uploaded_photo_ids });
-                            This.httpClient.fetch('members/notify_new_photos', { uploaded_photo_ids: uploaded_photo_ids });
+                            This.httpClient.fetch('photos/notify_new_photos', { uploaded_photo_ids: uploaded_photo_ids });
                         }
                     })
                     .catch(e => console.log('error occured ', e));
@@ -181,7 +181,7 @@ export class MemberGateway {
 
     upload(payload) {
         payload = JSON.stringify(payload);
-        return this.httpClient.fetch(`members/upload_photo`, { method: 'POST', body: payload })
+        return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload })
     }
 
     get_constants() {

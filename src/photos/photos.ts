@@ -168,7 +168,7 @@ export class Photos {
     update_photo_list() {
         console.time('get_photo_list');
         this.params.user_id = this.user.id;
-        return this.api.call_server_post('members/get_photo_list', this.params)
+        return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
@@ -306,7 +306,7 @@ export class Photos {
 
     apply_to_selected() {
         this.done_selecting = false;
-        this.api.call_server_post('members/apply_to_selected_photos', this.params)
+        this.api.call_server_post('photos/apply_to_selected_photos', this.params)
             .then(response => {
                 this.clear_photo_group();
             });
@@ -402,7 +402,7 @@ export class Photos {
     }
 
     delete_selected_photos() {
-        this.api.call_server_post('members/delete_selected_photos', this.params)
+        this.api.call_server_post('photos/delete_selected_photos', this.params)
             .then(() => {
                 this.params.selected_photo_list = [];
                 this.selected_photos = new Set();
@@ -411,7 +411,7 @@ export class Photos {
     }
 
     rotate_selected_photos() {
-        this.api.call_server_post('members/rotate_selected_photos', this.params)
+        this.api.call_server_post('photos/rotate_selected_photos', this.params)
             .then(() => this.update_photo_list());
     }
 
