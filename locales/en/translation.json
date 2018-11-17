@@ -258,7 +258,15 @@
         "filter": "Fast search in video titles"
     },
     "docs": {
-        "docs": "Docs"
+        "docs": "Docs",
+        "upload": "Add documents",
+        "upload-files": "Documents upload",
+        "select-docs": "Select documents",
+        "upload-in-progress": "Upload in progress...",
+        "docs-uploaded": "Successfuly uploaded - ",
+        "docs-duplicate": "Duplicate documents - ",
+        "left": "Left",
+        "failed": "Failed - "
     },
     "terms": {
         "terms": "Terms",

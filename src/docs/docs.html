@@ -1,0 +1,121 @@
+<template>
+    <section class="container content-area">
+        <div class="row content-area" style="width:100%;margin-top:16px;padding-right:36px;" dir="rtl">
+            <div class="row" style="height:675px;">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <div class="row" style="margin-bottom:15px;padding-right:32px;">
+                        <form class="form-inline">
+                            <div if.bind="phase=='can-merge-topics'" class="form-group">
+                                <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
+                                    ${'photos.save-merges' & t}
+                                </button>
+                                <help topic="photos.can-modify-tags", position="bottom"></help>
+                            </div>
+                            <div if.bind="phase=='can-create-group'" class="form-group">
+                                <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
+                                    ${'photos.save-topic-group' & t}
+                                </button>
+                                <help topic="photos.can-create-group", position="bottom"></help>
+                            </div>
+
+                            <div if.bind="user.editing && checked_stories.size == 0" t="[title]user.upload-files" class="input-group">
+                                <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
+                                    <i class="far fa-plus-square"></i>
+                                    ${'docs.upload' & t}
+                                </a>
+                            </div>
+
+                            <div class="form-group" if.bind="user.editing && checked_stories.size>0">
+                                <button class="btn btn-warning btn-md" click.trigger="delete_checked_stories()">
+                                    <i class="far fa-trash-alt fa-xs"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button if.bind="user.editing && checked_stories.size > 0 && params.selected_topics.length>0"
+                                    click.trigger="apply_topics_to_selected_stories()"
+                                    class="btn btn-basic btn-md">
+                                    ${'stories.apply-to-selected' & t}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
+                    </h3>
+                    <ul style="width:100%;padding:0;height:560px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area">
+                        <li repeat.for="story of story_list | filter: filter : 'name' : 'author' | take : 9999 | sort : 'name'" dir="${theme.rtltr}"
+                            style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
+                            <div style="height:130px;overflow:hidden;padding-right:20px;padding-left:20px;padding-top:0px;cursor:pointer;"
+                                
+                                click.delegate="jump_to_the_full_story($event, story)">
+                                <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">-->
+                                <div style="margin-bottom: 10px;" class="story-preview">
+                                    <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
+                                        story.bind="story" change.delegate="toggle_story_selection(story, $event)"
+                                        class="story-body">
+                                    </editable>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="row" style="position:relative;">
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
+                        <help topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
+                        <multi-select options.bind="topic_list"
+                            place_holder_text="photos.click-topic"
+                            selected_options.bind="params.selected_topics"
+                            height.bind="220"
+                            settings.bind="options_settings"
+                            has_groups.bind="has_grouped_topics"
+                            ms-change.delegate="handle_topic_change($event)"
+                            new-name.delegate="add_topic($event)"
+                            name-changed.delegate="topic_name_changed($event)"
+                            remove-option.delegate="remove_topic($event)"
+                            clear_selections_now.bind="clear_selected_topics_now"
+                            style="margin-top:5px;">
+                        </multi-select>
+                    </div>
+                    <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
+                        <button class="btn btn-xs ${params.deleted_stories ? 'active' : ''}"
+                            click.trigger="toggle_deleted_stories()" t="[title]stories.undelete">
+                            <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
+                        </button>
+                    </div>
+                    <div class="row" style="position:relative;">
+                        <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' & t}</span>
+                        <span if.bind="! num_of_stories">&nbsp;</span>
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
+                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
+                        <multi-select
+                            options.bind="stories_index"
+                            selected_options.bind="params.selected_words"
+                            keywords.two-way="keywords"
+                            place_holder_text="stories.word-index"
+                            height="201"
+                            ms-change.trigger="handle_words_change($event)"
+                            settings.bind="words_settings">
+                        </multi-select>
+                    </div>
+                    <div class="row" style="margin-top: 20px;" if.bind="user.editing">
+                        <form role="form">
+                            <select value.bind="params.days_since_update" style="height:32px;width:90%;" change.delegate="handle_age_change($event)">
+                                <option repeat.for="option of days_since_update_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="row" style="margin-top: 20px;" if.bind="user.privileges.TEXT_AUDITOR && user.editing">
+                        <form role="form">
+                            <select value.bind="params.approval_state" style="height:32px;width:90%;" change.delegate="handle_approval_state_change($event)">
+                                <option repeat.for="option of approval_state_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

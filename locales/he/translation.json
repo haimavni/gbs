@@ -256,7 +256,17 @@
         "filter": "חפוש מהיר בשמות הסרטונים"
     },
     "docs": {
-        "docs": "מסמכים"
+        "docs": "מסמכים",
+        "upload": "הוסף מסמכים",
+        "upload-files": "העלאת מסמכים",
+        "select-docs": "בחר מסמכים",
+        "upload-in-progress": "המסמכים נשלחים לשלט...",
+        "docs-were-selected": " - מסמכים שנבחרו",
+        "docs-uploaded": " - מסמכים שהועלו בהצלחה",
+        "docs-duplicate": " - מסמכים שהועלו בעבר",
+        "left": "נותרו",
+        "failed": " - לא נקלטו במערכת",
+        "save": "שלח"
     },
     "terms": {
         "terms": "מונחים",

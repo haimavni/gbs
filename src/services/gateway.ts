@@ -145,10 +145,10 @@ export class MemberGateway {
         return this.call_server('photos/get_photo_detail', photo);
     }
 
-    uploadPhotos(user_id, fileList) {
+    uploadFiles(user_id, fileList, what) {
         let This = this;
         let n = fileList.length;
-        let uploaded_photo_ids = [];
+        let uploaded_file_ids = [];
         let failed = [];
         let duplicates = [];
         This.eventAggregator.publish('FileWasUploaded', { files_left: n });
@@ -158,20 +158,20 @@ export class MemberGateway {
             let payload = { user_id: user_id }
             fr.onload = function () {
                 payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result };
-                This.upload(payload)
+                This.upload(payload, what)
                     .then(response => {
                         if (response.upload_result == 'failed') {
                             failed.push(file.name)
                         } else if (response.upload_result == 'duplicate') {
                             duplicates.push(file.name)
                         } else {
-                            uploaded_photo_ids.push(response.upload_result)
+                            uploaded_file_ids.push(response.upload_result)
                         }
                         n -= 1;
                         This.eventAggregator.publish('FileWasUploaded', { files_left: n });
                         if (n == 0) {
-                            This.eventAggregator.publish('FilesUploaded', { failed: failed, duplicates: duplicates, uploaded: uploaded_photo_ids });
-                            This.httpClient.fetch('photos/notify_new_photos', { uploaded_photo_ids: uploaded_photo_ids });
+                            This.eventAggregator.publish('FilesUploaded', { failed: failed, duplicates: duplicates, uploaded: uploaded_file_ids });
+                            This.call_server_post('default/notify_new_files', { uploaded_file_ids: uploaded_file_ids, what: what });
                         }
                     })
                     .catch(e => console.log('error occured ', e));
@@ -179,9 +179,12 @@ export class MemberGateway {
         }
     }
 
-    upload(payload) {
+    upload(payload, what) {
         payload = JSON.stringify(payload);
-        return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload })
+        if (what == 'PHOTOS')
+            return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload })
+        else if (what == 'DOCS')
+            return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
     }
 
     get_constants() {

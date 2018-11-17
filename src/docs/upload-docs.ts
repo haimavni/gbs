@@ -6,11 +6,11 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogController } from 'aurelia-dialog';
 
 @autoinject()
-export class UploadPhotos {
+export class UploadDocs {
 
   api;
   router;
-  photos: FileList;
+  docs: FileList;
   user: User;
   ea: EventAggregator;
   dc: DialogController;
@@ -18,7 +18,7 @@ export class UploadPhotos {
   uploaded;
   duplicates;
   failed = [];
-  photos_left = 0;
+  docs_left = 0;
   working = false;
   host_name;
 
@@ -47,13 +47,13 @@ export class UploadPhotos {
       }, 15000);
     });
     this.ea.subscribe('FileWasUploaded', response => {
-        this.photos_left = response.files_left
+        this.docs_left = response.files_left
     });
-    if (this.photos) {
+    if (this.docs) {
       this.api.uploadFiles(
         this.user.id,
-        this.photos,
-        'PHOTOS'
+        this.docs,
+        'DOCS'
       );
     }
   }
