@@ -236,7 +236,7 @@
         "photographer-already-exists": "הצלם כבר קיים במערכת"
     },
     "videos": {
-        "videos": "וידאו",
+        "videos": "סרטים",
         "video-clips": "סרטוני וידאו",
         "new": "סרטון חדש",
         "add-video": "הוסף וידאו",
@@ -264,6 +264,8 @@
         "docs-were-selected": " - מסמכים שנבחרו",
         "docs-uploaded": " - מסמכים שהועלו בהצלחה",
         "docs-duplicate": " - מסמכים שהועלו בעבר",
+        "categories": "בחירת נושאים",
+        "words": "חיפוש מתקדם ",
         "left": "נותרו",
         "failed": " - לא נקלטו במערכת",
         "save": "שלח"
@@ -355,5 +357,6 @@
     "result2": "ספורים",
     "result3": "תמונות",
     "result4": "מונחים",
-    "result8": "וידאו"
+    "result8": "סרטים",
+    "result9": "מסמכים"
 }

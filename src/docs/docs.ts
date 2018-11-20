@@ -15,8 +15,8 @@ import { UploadDocs } from './upload-docs';
 @singleton()
 export class Docs {
     filter = "";
-    story_list = [];
-    stories_index;
+    doc_list = [];
+    docs_index;
     story_previews;
     api;
     user;
@@ -38,10 +38,10 @@ export class Docs {
         selected_uploader: "",
         from_date: "",
         to_date: "",
-        selected_stories: [],
-        checked_story_list: [],
+        selected_docs: [],
+        checked_doc_list: [],
         link_class: "basic",
-        deleted_stories: false,
+        deleted_docs: false,
         days_since_update: 0,
         search_type: 'simple',
         approval_state: 0
@@ -53,12 +53,11 @@ export class Docs {
     topic_list = [];
     topic_groups = [];
     authors_list = [];
-    checked_stories = new Set();
+    checked_docs = new Set();
     days_since_update_options;
     approval_state_options;
     i18n;
-    num_of_stories = 0;
-    story_types;
+    num_of_docs = 0;
     done_selecting = false;
     no_results = false;
     options_settings = new MultiSelectSettings({
@@ -74,12 +73,8 @@ export class Docs {
         show_only_if_filter: true
     });
     ea: EventAggregator;
-    active_result_types;
-    used_for = null;
     has_grouped_topics: false;
     clear_selected_topics_now = false;
-    ready_for_new_story_list = true;
-    result_type_counters = {};
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator) {
@@ -103,16 +98,16 @@ export class Docs {
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
-        let idx = this.story_list.findIndex(itm => itm.story_id == story_id);
+        let idx = this.doc_list.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
-            this.story_list[idx].story_preview = data.story_data.story_preview;
+            this.doc_list[idx].story_preview = data.story_data.story_preview;
         }
     }
 
     activate(params, config) {
         if (this.router.isExplicitNavigationBack) return;
-        if (this.story_list && this.story_list.length > 0 && !params.keywords) return;
-        if (params.keywords == this.params.keywords_str && this.story_list && this.story_list.length > 0) return;
+        if (this.doc_list && this.doc_list.length > 0 && !params.keywords) return;
+        if (params.keywords == this.params.keywords_str && this.doc_list && this.doc_list.length > 0) return;
         if (params.keywords && params.keywords == this.prev_keywords) return;
         this.prev_keywords = params.keywords;
         this.init_params();
@@ -122,8 +117,8 @@ export class Docs {
     }
 
     created(params, config) {
-        this.ea.subscribe('DOCS_WERE_UPLOADED', () => { this.update_doc_list('other') });
-        if (this.story_list && this.story_list.length > 0 && !this.router.isExplicitNavigation) return;
+        this.ea.subscribe('DOCS_WERE_UPLOADED', () => { this.update_doc_list() });
+        if (this.doc_list && this.doc_list.length > 0 && !this.router.isExplicitNavigation) return;
         this.api.call_server('topics/get_topic_list', {})
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -132,11 +127,11 @@ export class Docs {
             });
         this.word_index.get_word_index()
             .then(response => {
-                this.stories_index = response;
+                this.docs_index = response;
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
-                    let iw = this.stories_index.find(w => w.name == wrd);
+                    let iw = this.docs_index.find(w => w.name == wrd);
                     if (iw) {
                         g += 1;
                         iw.sign = 'plus'
@@ -155,7 +150,7 @@ export class Docs {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
-        this.theme.page_title = "stories.place-stories";
+        this.theme.page_title = "docs.docs";
         this.scroll_area.scrollTop = this.scroll_top;
     }
 
@@ -170,8 +165,8 @@ export class Docs {
             .whenClosed(result => { this.theme.hide_title = false });
     }
 
-    async update_doc_list(search_type) {
-        console.log("update story. this.api.ptp_connected: ", this.api.ptp_connected);
+    async update_doc_list() {
+        console.log("update doc. this.api.ptp_connected: ", this.api.ptp_connected);
         let cnt = 0;
         while (!this.api.ptp_connected) {
             console.log("this.api.ptp_connected: ", this.api.ptp_connected);
@@ -182,71 +177,35 @@ export class Docs {
             }
             console.log("cnt: ", cnt, " this.api.ptp_connected: ", this.api.ptp_connected)
         }
-        if (search_type) this.params.search_type = search_type;
         this.no_results = false;
-        let used_for = null;
-        if (this.api.constants) {
-            used_for = this.api.constants.story_type.STORY4EVENT;
-        } else {
-            used_for = 2;
-        }
-        console.time('update-story-list');
-        return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
+        console.time('update-doc-list');
+        return this.api.call_server_post('members/get_doc_list', { params: this.params })
             .then(result => {
-                //this.story_list = result.story_list;
+                //this.doc_list = result.doc_list;
                 this.no_results = result.no_results;
                 if (this.no_results) {
-                    this.story_list = [];
+                    this.doc_list = [];
                 }
-                for (let story of this.story_list) {
-                    story.title = '<span dir="rtl">' + story.title + '</span>';
+                for (let doc of this.doc_list) {
+                    doc.title = '<span dir="rtl">' + doc.title + '</span>';
                 }
-                //this.active_result_types = result.active_result_types;
-                //this.used_for = result.active_result_types[0];
-                console.timeEnd('update-story-list');
                 this.scroll_top = 0;
             });
     }
-    jump_to_the_full_story(event, story) {
-        this.scroll_top = this.scroll_area.scrollTop;
-        let is_link = event.target.classList.contains('is-link');
-        if (is_link) return true;
-        let what;
-        let kws = this.params.keywords_str ? [this.params.keywords_str] : null;
-        let keywords = story.exact ? kws : this.keywords;
-        switch (story.used_for) {
-            case this.api.constants.story_type.STORY4EVENT:
-                what = 'EVENT';
-                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
-                break;
-            case this.api.constants.story_type.STORY4MEMBER:
-                what = 'MEMBER';
-                this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
-                break;
-            case this.api.constants.story_type.STORY4PHOTO:
-                what = 'PHOTO';
-                this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story' });
-                break;
-            case this.api.constants.story_type.STORY4TERM:
-                what = "TERM";
-                this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type });
-                break;
-        }
-    }
 
-    apply_topics_to_selected_stories() {
-        this.api.call_server_post('members/apply_topics_to_selected_stories', { params: this.params, used_for: this.used_for })
+    apply_topics_to_selected_docs() {
+        this.api.call_server_post('members/apply_topics_to_selected_docs', { params: this.params})
             .then(() => {
                 this.clear_selected_topics_now = true;
-                this.uncheck_selected_stories();
+                this.uncheck_selected_docs();
             });
     }
 
-    uncheck_selected_stories() {
-        this.params.selected_stories = [];
-        this.checked_stories = new Set();
-        for (let story of this.story_list) {
-            story.checked = false;
+    uncheck_selected_docs() {
+        this.params.selected_docs = [];
+        this.checked_docs = new Set();
+        for (let doc of this.doc_list) {
+            doc.checked = false;
         }
     }
 
@@ -266,7 +225,7 @@ export class Docs {
                     uni = new Set<number>();
                 }
                 if (group_sign == sign) {
-                    uni = set_union(uni, new Set(element.option.story_ids));
+                    uni = set_union(uni, new Set(element.option.doc_ids));
                     if (element.last) {
                         if (result) {
                             if (sign == 'plus') {
@@ -282,30 +241,30 @@ export class Docs {
             });
         };
         if (result && result.size > 0) {
-            let story_list = Array.from(result);
-            this.num_of_stories = story_list.length;
-            if (story_list.length == 0) return;
-            this.params.selected_stories = story_list;
-            this.update_doc_list('advanced');
+            let doc_list = Array.from(result);
+            this.num_of_docs = doc_list.length;
+            if (doc_list.length == 0) return;
+            this.params.selected_docs = doc_list;
+            this.update_doc_list();
         } else if (result) {
-            this.num_of_stories = 0;
+            this.num_of_docs = 0;
             this.no_results = true;
-            this.story_list = Array.from(result);
+            this.doc_list = Array.from(result);
         } else {
-            this.params.selected_stories = [];
-            this.update_doc_list('advanced');
-            this.num_of_stories = 0;
+            this.params.selected_docs = [];
+            this.update_doc_list();
+            this.num_of_docs = 0;
         }
         this.keywords = this.params.selected_words.map(item => item.option.name);
     }
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
-        this.update_doc_list('other');
+        this.update_doc_list();
     }
 
     handle_approval_state_change(event) {
-        this.update_doc_list('other');
+        this.update_doc_list();
     }
 
     update_topic_list() {
@@ -315,43 +274,43 @@ export class Docs {
             });
     }
 
-    toggle_story_selection(story, event) {
+    toggle_doc_selection(doc, event) {
         let checked = event.detail.checked;
         if (checked) {
-            this.checked_stories.add(story.story_id)
+            this.checked_docs.add(doc.story_id)
         } else {
-            this.checked_stories.delete(story.story_id)
+            this.checked_docs.delete(doc.story_id)
         }
-        this.params.checked_story_list = Array.from(this.checked_stories);
+        this.params.checked_doc_list = Array.from(this.checked_docs);
     }
 
     handle_age_change() {
-        this.update_doc_list('other');
+        this.update_doc_list();
     }
 
-    delete_checked_stories() {
-        this.api.call_server_post('members/delete_checked_stories', { params: this.params })
+    delete_checked_docs() {
+        this.api.call_server_post('members/delete_checked_docs', { params: this.params })
             .then(response => {
-                this.params.checked_story_list = [];
-                this.checked_stories = new Set();
-                this.story_list = [];
+                this.params.checked_doc_list = [];
+                this.checked_docs = new Set();
+                this.doc_list = [];
             });
     }
 
-    toggle_deleted_stories() {
-        this.params.deleted_stories = !this.params.deleted_stories;
-        this.update_doc_list('other');
+    toggle_deleted_docs() {
+        this.params.deleted_docs = !this.params.deleted_docs;
+        this.update_doc_list();
     }
 
     @computedFrom('user.editing', 'done_selecting', 'has_grouped_topics', 'params.selected_topics')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
-            if (this.checked_stories.size > 0) {
+            if (this.checked_docs.size > 0) {
                 if (this.done_selecting) {
-                    result = "applying-to-stories"
+                    result = "applying-to-docs"
                 } else {
-                    result = "selecting-stories";
+                    result = "selecting-docs";
                 }
             } else {
                 this.done_selecting = false;
@@ -364,14 +323,14 @@ export class Docs {
             }
         }
         this.options_settings.update({
-            mergeable: result != "applying-to-stories" && result != "selecting-stories",
+            mergeable: result != "applying-to-docs" && result != "selecting-docs",
             name_editable: result == "ready-to-edit",
             can_set_sign: !this.has_grouped_topics,
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit"
         });
         this.words_settings.update({
-            mergeable: result != "applying-to-stories" && result != "selecting-stories",
+            mergeable: result != "applying-to-docs" && result != "selecting-docs",
             can_set_sign: result == "not-editing",
         });
         return result;
@@ -412,10 +371,10 @@ export class Docs {
             selected_uploader: "",
             from_date: "",
             to_date: "",
-            selected_stories: [],
-            checked_story_list: [],
+            selected_docs: [],
+            checked_doc_list: [],
             link_class: "basic",
-            deleted_stories: false,
+            deleted_docs: false,
             days_since_update: 0,
             search_type: 'simple',
             approval_state: 0
@@ -441,7 +400,6 @@ export class Docs {
     }
 
 }
-
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

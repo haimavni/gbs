@@ -265,6 +265,8 @@
         "upload-in-progress": "Upload in progress...",
         "docs-uploaded": "Successfuly uploaded - ",
         "docs-duplicate": "Duplicate documents - ",
+        "categories": "Categories selection",
+        "words": "Advanced search",
         "left": "Left",
         "failed": "Failed - "
     },
@@ -355,5 +357,6 @@
     "result2": "Stories",
     "result3": "Photos",
     "result4": "Terms",
-    "result8": "Video"
+    "result8": "Video",
+    "result9": "Document"
 }
