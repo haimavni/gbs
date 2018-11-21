@@ -9,6 +9,7 @@ import { Router } from 'aurelia-router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { Popup } from '../services/popups';
 
 @autoinject
 @singleton()
@@ -20,6 +21,7 @@ export class Stories {
     api;
     user;
     theme;
+    popup: Popup;
     word_index;
     router;
     dialog;
@@ -37,8 +39,8 @@ export class Stories {
         selected_uploader: "",
         from_date: "",
         to_date: "",
-        selected_stories: [],
-        checked_story_list: [],
+        selected_stories: [],  //stories that match currently selected words
+        checked_story_list: [], //stores that were checked by the user. needs to be calculated from the set this.checked_stories before calling the server
         link_class: "basic",
         deleted_stories: false,
         days_since_update: 0,
@@ -81,7 +83,7 @@ export class Stories {
     result_type_counters = {};
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
-        word_index: WordIndex, theme: Theme, ea: EventAggregator) {
+        word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
         this.api = api;
         this.user = user;
         this.theme = theme;
@@ -90,6 +92,7 @@ export class Stories {
         this.i18n = i18n;
         this.router = router;
         this.ea = ea;
+        this.popup = popup;
         this.days_since_update_options = [
             { value: 0, name: this.i18n.tr('stories.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('stories.uploaded-today') },
@@ -223,16 +226,14 @@ export class Stories {
     }
 
     async update_story_list(search_type) {
-        console.log("update story. this.api.ptp_connected: ", this.api.ptp_connected);
+        this.params.checked_story_list = Array.from(this.checked_stories);
         let cnt = 0;
         while (!this.api.ptp_connected) {
-            console.log("this.api.ptp_connected: ", this.api.ptp_connected);
             await sleep(100);
             cnt += 1;
             if (cnt > 50) {
                 break;
             }
-            console.log("cnt: ", cnt, " this.api.ptp_connected: ", this.api.ptp_connected )
         }
         if (search_type) this.params.search_type = search_type;
         this.no_results = false;
@@ -301,11 +302,16 @@ export class Stories {
                 what = "TERM";
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type });
                 break;
+            case this.api.constants.story_type.STORY4DOC:
+                what = "DOC";
+                let url = story.doc_url
+                this.popup.popup('POPUP', url, '');
+                break;
         }
     }
 
     apply_topics_to_selected_stories() {
-        console.log("apply topics!!")
+        this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/apply_topics_to_selected_stories', {params: this.params, used_for: this.used_for})
             .then(() => {
                 this.clear_selected_topics_now = true;
@@ -314,7 +320,7 @@ export class Stories {
     }
 
     uncheck_selected_stories() {
-        this.params.selected_stories = [];
+        //this.params.selected_stories = [];
         this.checked_stories = new Set();
         for (let story of this.story_list) {
             story.checked = false;
@@ -380,6 +386,7 @@ export class Stories {
     }
 
     update_topic_list() {
+        this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('topics/get_topic_list', { params: this.params })
             .then(response => {
                 this.topic_list = response.topic_list;
@@ -393,7 +400,6 @@ export class Stories {
         } else {
             this.checked_stories.delete(story.story_id)
         }
-        this.params.checked_story_list = Array.from(this.checked_stories);
     }
 
     handle_age_change() {
@@ -401,18 +407,19 @@ export class Stories {
     }
 
     delete_checked_stories() {
+        this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/delete_checked_stories', { params: this.params })
             .then(response => {
-                this.params.checked_story_list = [];
+                //this.params.checked_story_list = [];
                 this.checked_stories = new Set();
                 this.story_list = [];
             });
     }
 
     promote_stories() {
+        this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/promote_stories', { params: this.params })
             .then(response => {
-                this.params.checked_story_list = [];
                 this.checked_stories = new Set();
             });
     }
@@ -499,6 +506,7 @@ export class Stories {
     }
 
     consolidate_stories() {
+        this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/consolidate_stories', { stories_to_merge: this.params.checked_story_list })
             .then(() => {
                 this.checked_stories = new Set();

@@ -114,6 +114,7 @@ export class Docs {
         this.params.keywords_str = params.keywords;
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
+        this.update_doc_list();
     }
 
     created(params, config) {
@@ -165,27 +166,16 @@ export class Docs {
             .whenClosed(result => { this.theme.hide_title = false });
     }
 
-    async update_doc_list() {
-        console.log("update doc. this.api.ptp_connected: ", this.api.ptp_connected);
-        let cnt = 0;
-        while (!this.api.ptp_connected) {
-            console.log("this.api.ptp_connected: ", this.api.ptp_connected);
-            await sleep(100);
-            cnt += 1;
-            if (cnt > 50) {
-                break;
-            }
-            console.log("cnt: ", cnt, " this.api.ptp_connected: ", this.api.ptp_connected)
-        }
+    update_doc_list() {
         this.no_results = false;
-        console.time('update-doc-list');
-        return this.api.call_server_post('members/get_doc_list', { params: this.params })
+        return this.api.call_server_post('docs/get_doc_list', { params: this.params })
             .then(result => {
                 //this.doc_list = result.doc_list;
                 this.no_results = result.no_results;
                 if (this.no_results) {
                     this.doc_list = [];
                 }
+                this.doc_list = result.doc_list;
                 for (let doc of this.doc_list) {
                     doc.title = '<span dir="rtl">' + doc.title + '</span>';
                 }
@@ -194,7 +184,7 @@ export class Docs {
     }
 
     apply_topics_to_selected_docs() {
-        this.api.call_server_post('members/apply_topics_to_selected_docs', { params: this.params})
+        this.api.call_server_post('docs/apply_to_selected_docs', { params: this.params})
             .then(() => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_selected_docs();
@@ -289,7 +279,7 @@ export class Docs {
     }
 
     delete_checked_docs() {
-        this.api.call_server_post('members/delete_checked_docs', { params: this.params })
+        this.api.call_server_post('docs/delete_checked_docs', { params: this.params })
             .then(response => {
                 this.params.checked_doc_list = [];
                 this.checked_docs = new Set();
