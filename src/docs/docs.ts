@@ -10,6 +10,7 @@ import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { UploadDocs } from './upload-docs';
+import { Popup } from '../services/popups';
 
 @autoinject
 @singleton()
@@ -17,10 +18,10 @@ export class Docs {
     filter = "";
     doc_list = [];
     docs_index;
-    story_previews;
     api;
     user;
     theme;
+    popup: Popup;
     word_index;
     router;
     dialog;
@@ -77,7 +78,7 @@ export class Docs {
     clear_selected_topics_now = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
-        word_index: WordIndex, theme: Theme, ea: EventAggregator) {
+        word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
         this.api = api;
         this.user = user;
         this.theme = theme;
@@ -86,6 +87,7 @@ export class Docs {
         this.i18n = i18n;
         this.router = router;
         this.ea = ea;
+        this.popup = popup;
         this.days_since_update_options = [
             { value: 0, name: this.i18n.tr('stories.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('stories.uploaded-today') },
@@ -100,7 +102,7 @@ export class Docs {
         let story_id = data.story_data.story_id;
         let idx = this.doc_list.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
-            this.doc_list[idx].story_preview = data.story_data.story_preview;
+            this.doc_list[idx].preview = data.story_data.preview;
         }
     }
 
@@ -168,6 +170,7 @@ export class Docs {
 
     update_doc_list() {
         this.no_results = false;
+        console.log("params: ", this.params);
         return this.api.call_server_post('docs/get_doc_list', { params: this.params })
             .then(result => {
                 //this.doc_list = result.doc_list;
@@ -184,7 +187,7 @@ export class Docs {
     }
 
     apply_topics_to_selected_docs() {
-        this.api.call_server_post('docs/apply_to_selected_docs', { params: this.params})
+        this.api.call_server_post('docs/apply_to_selected_docs', { params: this.params })
             .then(() => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_selected_docs();
@@ -206,16 +209,19 @@ export class Docs {
         }
         this.params.keywords_str = "";
         this.params.selected_words = event.detail.selected_options;
+        console.log("this.params.selected_words: ", this.params.selected_words);
         let uni = new Set<number>();
         let group_sign;
         for (let sign of ['plus', 'minus']) {
             this.params.selected_words.forEach(element => {
+                console.log("element: ", element);
                 if (element.first) {
                     group_sign = element.option.sign
                     uni = new Set<number>();
                 }
                 if (group_sign == sign) {
-                    uni = set_union(uni, new Set(element.option.doc_ids));
+                    uni = set_union(uni, new Set(element.option.story_ids));
+                    console.log("uni is ", uni);
                     if (element.last) {
                         if (result) {
                             if (sign == 'plus') {
@@ -226,6 +232,7 @@ export class Docs {
                         } else {
                             result = uni;
                         }
+                        console.log("result: ", result);
                     }
                 }
             });
@@ -235,6 +242,7 @@ export class Docs {
             this.num_of_docs = doc_list.length;
             if (doc_list.length == 0) return;
             this.params.selected_docs = doc_list;
+            console.log("doc_list: ", doc_list);
             this.update_doc_list();
         } else if (result) {
             this.num_of_docs = 0;
@@ -389,8 +397,11 @@ export class Docs {
         this.api.call_server_post('topics/rename_topic', t);
     }
 
-}
+    jump_to_the_full_doc(event, doc) {
+        console.log("jump to the full. event: ", event);
+        if (this.user.editing) return;
+        let url = doc.doc_url
+        this.popup.popup('POPUP', url, '');
+    }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }

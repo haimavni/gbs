@@ -79,7 +79,7 @@ export class MemberDetail {
         let story_id = data.story_data.story_id;
         let idx = this.member.member_stories.findIndex(itm => itm.story_id==story_id);
         if (idx >= 0) {
-            this.member.member_stories[idx].story_preview = data.story_data.story_preview;
+            this.member.member_stories[idx].preview = data.story_data.preview;
             this.api.call_server_post('members/get_story', {story_id: story_id})
                 .then(response => {
                     this.member.member_stories[idx].story_text = response.story.story_text;

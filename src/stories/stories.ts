@@ -17,7 +17,6 @@ export class Stories {
     filter = "";
     story_list = [];
     stories_index;
-    story_previews;
     api;
     user;
     theme;
@@ -125,7 +124,7 @@ export class Stories {
         let story_id = data.story_data.story_id;
         let idx = this.story_list.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
-            this.story_list[idx].story_preview = data.story_data.story_preview;
+            this.story_list[idx].preview = data.story_data.preview;
         }
     }
 

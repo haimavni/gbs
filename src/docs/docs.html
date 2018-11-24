@@ -52,7 +52,7 @@
                                 <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:doc.topics">-->
                                 <div style="margin-bottom: 10px;" class="story-preview">
                                     <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
-                                        story.bind="doc" change.delegate="toggle_doc_selection(doc, $event)"
+                                        story.bind="doc.story" change.delegate="toggle_doc_selection(doc, $event)"
                                         class="story-body">
                                     </editable>
                                 </div>
@@ -86,7 +86,7 @@
                         </button>
                     </div>
                     <div class="row" style="position:relative;">
-                        <span if.bind="num_of_docs">${num_of_docs} ${'stories.matching-docs' & t}</span>
+                        <span if.bind="num_of_docs">${num_of_docs} ${'docs.matching-docs' & t}</span>
                         <span if.bind="! num_of_docs">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>

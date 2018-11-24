@@ -265,6 +265,7 @@
         "apply-to-selected": "Tag the selected documents",
         "upload-in-progress": "Upload in progress...",
         "docs-uploaded": "Successfuly uploaded - ",
+        "matching-docs": "Documents that contain the selected words",
         "docs-duplicate": "Duplicate documents - ",
         "categories": "Categories selection",
         "words": "Advanced search",
