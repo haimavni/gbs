@@ -85,7 +85,6 @@ export class MemberPicker {
                 });
             })
         } else {
-            console.log("new member. slide: ", this.slide, "face: ", this.face);
             this.api.call_server('members/create_new_member', {photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r})  //todo: not ready. when ready, remove if.bind in the html file
                 .then(response => {
                         this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
