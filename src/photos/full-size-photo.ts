@@ -138,7 +138,15 @@ export class FullSizePhoto {
             this.jump_to_member(face.member_id);
             return;
         }
-        this.dialogService.open({ viewModel: MemberPicker, model: { face_identifier: true, member_id: face.member_id, candidates: this.candidates }, lock: false }).whenClosed(response => {
+        this.dialogService.open({ 
+            viewModel: MemberPicker, 
+            model: {
+                face_identifier: true, 
+                member_id: face.member_id, 
+                candidates: this.candidates, 
+                slide: this.slide,
+                current_face: this.current_face }, lock: false })
+        .whenClosed(response => {
             this.marking_face_active = false;
             if (response.wasCancelled) {
                 this.remove_face(face);

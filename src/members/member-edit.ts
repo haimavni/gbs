@@ -124,7 +124,7 @@ export class MemberEdit {
         if (event.ctrlKey)
             return this.remove_parent('pa')
         this.dialog.open({
-            viewModel: MemberPicker, model: { gender: 'M', child_name: this.member.member_info.full_name }, lock: false,
+            viewModel: MemberPicker, model: { gender: 'M', child_name: this.member.member_info.full_name, child_id: this.member.member_info.id }, lock: false,
             position: this.setup, rejectOnCancel: true
         }).whenClosed(response => {
             this.member.member_info.father_id = response.output.member_id;

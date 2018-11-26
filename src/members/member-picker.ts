@@ -12,6 +12,8 @@ export class MemberPicker {
     filter = "";
     gender = "";
     face_identifier = false;
+    face;
+    slide;
     user;
     eventAggregator;
     members = [];
@@ -23,6 +25,7 @@ export class MemberPicker {
     candidates = [];
     api;
     child_name;
+    child_id;
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway) {
         this.user = user;
@@ -49,9 +52,12 @@ export class MemberPicker {
     }
 
     activate(model) {
+        this.child_id = model.child_id;
         this.gender = model.gender;
         this.child_name = model.child_name;  //the child for whom we select paent
         this.face_identifier = model.face_identifier;
+        this.face = model.current_face;
+        this.slide = model.slide;
         this.candidates = model.candidates ? model.candidates : [];
         /*this.filter = this.memberList.member_name(model.member_id)*/
         this.memberList.get_member_by_id(model.member_id)
@@ -73,13 +79,18 @@ export class MemberPicker {
 
     create_new_member() {
         if (this.gender) {
-            this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name })
+            this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name, child_id: this.child_id })
                 .then(response => {
                     this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
                 });
             })
         } else {
-            this.api.call_server('members/create_new_member', {})  //todo: not ready. when ready, remove if.bind in the html file
+            console.log("new member. slide: ", this.slide, "face: ", this.face);
+            this.api.call_server('members/create_new_member', {photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r})  //todo: not ready. when ready, remove if.bind in the html file
+                .then(response => {
+                        this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
+                    });
+                });
         }
     }
 
