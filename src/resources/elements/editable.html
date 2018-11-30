@@ -11,13 +11,14 @@
             </span>
             <span if.bind="settings.show_date &&story.timestamp">${story.timestamp | formatdate} |&nbsp;</span>
             <span if.bind="settings.show_author && story.author">${story.author}:&nbsp;</span>
-            <span if.bind="settings.show_author && ! story.author">${'stories.unknown-source' & t}:&nbsp;</span>
+            <span if.bind="settings.show_author && story.source">${story.source}:&nbsp;</span>
+            <span if.bind="settings.show_author && ! story.author && ! story.source">${'stories.unknown-source' & t}:&nbsp;</span>
             <div class="checkable ${checked ? 'selected' : ''}"><strong innerhtml.bind="story.name"></strong></div>
             <span if.bind="user.privileges.EDITOR && user.editing && story.updater.name"> ${updated_by}: ${story.updater.name} @${story.timestamp}</span>
         </div>
 
         <div class="fr-view ${settings.class} message-body">
-            <p class="${theme.font_size}" innerhtml.bind="story.preview" css="direction:${theme.rtltr};text-align:justify;">
+            <p class="${theme.font_size}" innerhtml.bind="story.preview" dir.bind="theme.rtltr" style="text-align:justify;">
             </p>
         </div>
     </div>
