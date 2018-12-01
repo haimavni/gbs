@@ -14,7 +14,7 @@
                                     change.delegate="update_story_list()">
                                 </search-input>
                             </div>-->
-                            <div if.bind="phase=='can-merge-topics'" class="form-group">
+                            <div if.bind="phase=='can-merge-topics' && user.privileges.DEVELOPER" class="form-group">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
