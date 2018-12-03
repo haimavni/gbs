@@ -277,6 +277,13 @@ export class Stories {
         }
         this.story_list = this.story_list.concat(payload.chunk);
         this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
+        /*if (this.ready_for_new_story_list) {
+            let i = 0;
+            for (let itm of this.story_list) {
+                itm.idx = i;
+                i += 1;
+            }
+        }*/
     }
 
     jump_to_the_full_story(event, story) {
@@ -398,7 +405,6 @@ export class Stories {
         let checked = event.detail.checked;
         let keys = event.detail.keys;
         let ii = this.story_list.findIndex((itm) => itm.story_id == story.story_id);
-        console.log("index: ", index, " ii: ", ii);
         index = ii;
         if (this.anchor < 0) this.anchor = index;
         //todo: if keys.shiftKey toggle checked for the range
@@ -416,7 +422,6 @@ export class Stories {
                     itm.checked = false;
             }
         } else if (keys.ctrlKey) {  //will use shiftKey, the standard, if it dpes not select whole areas (blue)
-            console.log("ii: ", ii, " index: ", index, " anchor: ", this.anchor);
             let i0, i1;
             if (this.anchor < index) {
                 i0 = this.anchor;
