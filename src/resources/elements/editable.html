@@ -6,7 +6,7 @@
             <span show.bind="story.name || user.privileges.EDITOR" dir="${theme.rtltr}" style="padding:0;margin:0;">
                 <i if.bind="user.privileges.EDITOR && user.editing" class="far fa-sm fa-pencil is-link" t="[title]stories.edit" click.trigger="zoom_out(story, 'edit')">&nbsp;</i>
                 <i if.bind="settings.deletable && user.privileges.ADMIN && user.editing" class="far fa-sm fa-trash-alt is-link" t="[title]stories.delete" click.trigger="delete_story(story)">&nbsp;</i>
-                <i if.bind="settings.checkable && user.editing" class="fa${checked ? '' : 'r'} fa-circle fa-sm is-link" t="[title]stories.checking" click.trigger="toggle_checked()">&nbsp;</i>
+                <i if.bind="settings.checkable && user.editing" class="fa${checked ? '' : 'r'} fa-circle fa-sm is-link" t="[title]stories.checking" click.delegate="toggle_checked($event)">&nbsp;</i>
                 <i if.bind="settings.pushable && user.privileges.ADMIN && user.editing" class="far fa-sm fa-arrow-up is-link" t="[title]stories.push-up" click.trigger="push_story(story)">&nbsp;</i>
             </span>
             <span if.bind="settings.show_date &&story.timestamp">${story.timestamp | formatdate} |&nbsp;</span>

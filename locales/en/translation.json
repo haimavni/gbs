@@ -56,6 +56,7 @@
         "checking": "Marking the story",
         "older-links": "קישורים לאתר הישן",
         "undelete": "Recover deleted stories",
+        "delete": "Delete the checked stories",
         "to-the-member-page": "To the member's page",
         "to-the-photo-page": "To the photo page",
         "term-page": "From the terms dictionary",
@@ -144,6 +145,7 @@
         "compress-life-summary": "Compress life summary"
     },
     "user": {
+        "hit-counts": "מונה הכניסות",
         "login": "Sign in",
         "logout": "Sign out",
         "please-login": "Please sign in",
@@ -327,6 +329,7 @@
         "message-successful": "Your message was succesfully sent",
         "device-details": "Device details"
     },
+    "feedbacks": "משוב",
     "go-back": "Back",
     "parents": "Parents",
     "siblings": "Siblings",

@@ -91,7 +91,7 @@
             <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="show_logs()">Show Log Files</a></li>
             <li if.bind="user.privileges.ACCESS_MANAGER" t="[title]user.manage-users"><a class="dropdown-item" href="#" click.trigger="manage_users()">Manage Users</a></li>
             <li if.bind="user.privileges.ADMIN" t="[title]user.hit-counts"><a class="dropdown-item" href="#" click.trigger="show_hit_counts()">Page hit counts</a></li>
-            <li if.bind="user.privileges.ADMIN" t="[title]feedbacks"><a class="dropdown-item" href="#" click.trigger="show_feedbacks()">Show Feedbacks</a></li>
+            <li if.bind="user.privileges.ADMIN" t="[title]feedback.feedback"><a class="dropdown-item" href="#" click.trigger="show_feedbacks()">Show Feedbacks</a></li>
         </ul>
     </div>
 

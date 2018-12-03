@@ -14,7 +14,7 @@
                                     change.delegate="update_story_list()">
                                 </search-input>
                             </div>-->
-                            <div if.bind="phase=='can-merge-topics' && user.privileges.DEVELOPER" class="form-group">
+                            <div if.bind="phase=='can-merge-topics'" class="form-group">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
@@ -45,7 +45,7 @@
                                 </button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && checked_stories.size > 1"
+                                <button if.bind="user.editing && checked_stories.size > 1 && user.privileges.DEVELOPER"
                                     class="btn btn-basic btn-md"
                                     click.trigger="consolidate_stories()">
                                     ${'stories.consolidate-selected-story' & t}
@@ -82,7 +82,7 @@
                                         <img if.bind="used_for==3" src.bind="story.photo_src" width="140" />
                                     </div>
                                     <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
-                                        story.bind="story" change.delegate="toggle_story_selection(story, $event)"
+                                        story.bind="story" change.delegate="toggle_story_selection(story, $event, $index)"
                                         class="story-body">
                                     </editable>
                                 </div>

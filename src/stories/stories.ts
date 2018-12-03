@@ -80,6 +80,8 @@ export class Stories {
     clear_selected_topics_now = false;
     ready_for_new_story_list = true;
     result_type_counters = {};
+    anchor = -1; //for multiple selections
+    story_items = [];
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -117,7 +119,7 @@ export class Stories {
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
-        this.ea.subscribe('STORY-LIST-CHUNK', payload => {this.handle_chunk(payload)});
+        this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
     }
 
     refresh_story(data) {
@@ -266,7 +268,7 @@ export class Stories {
         if (this.ready_for_new_story_list) {
             this.story_list = [];
             this.scroll_top = 0;
-            if (!this.active_result_types.find(art=>art==this.used_for))
+            if (!this.active_result_types.find(art => art == this.used_for))
                 this.used_for = this.active_result_types[0];
             this.result_type_counters = payload.result_type_counters;
         }
@@ -311,7 +313,7 @@ export class Stories {
 
     apply_topics_to_selected_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
-        this.api.call_server_post('members/apply_topics_to_selected_stories', {params: this.params, used_for: this.used_for})
+        this.api.call_server_post('members/apply_topics_to_selected_stories', { params: this.params, used_for: this.used_for })
             .then(() => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_selected_stories();
@@ -392,13 +394,55 @@ export class Stories {
             });
     }
 
-    toggle_story_selection(story, event) {
+    toggle_story_selection(story, event, index) {
         let checked = event.detail.checked;
+        let keys = event.detail.keys;
+        let ii = this.story_list.findIndex((itm) => itm.story_id == story.story_id);
+        console.log("index: ", index, " ii: ", ii);
+        index = ii;
+        if (this.anchor < 0) this.anchor = index;
+        //todo: if keys.shiftKey toggle checked for the range
         if (checked) {
             this.checked_stories.add(story.story_id)
         } else {
             this.checked_stories.delete(story.story_id)
         }
+        if (keys.altKey) {
+            this.checked_stories = new Set();
+            if (checked)
+                this.checked_stories.add(story.story_id);
+            for (let itm of this.story_list) {
+                if (itm.story_id != story.story_id)
+                    itm.checked = false;
+            }
+        } else if (keys.ctrlKey) {  //will use shiftKey, the standard, if it dpes not select whole areas (blue)
+            console.log("ii: ", ii, " index: ", index, " anchor: ", this.anchor);
+            let i0, i1;
+            if (this.anchor < index) {
+                i0 = this.anchor;
+                i1 = index;
+            } else {
+                i0 = index;
+                i1 = this.anchor;
+            }
+            console.log("i0, i1: ", i0, i1);
+            for (let i = i0; i < i1; i++) {
+                let itm = this.story_list[i];
+                if (itm) {
+                    if (itm.used_for != this.used_for) continue;
+                    itm.checked = checked;
+                    if (checked) {
+                        this.checked_stories.add(itm.story_id)
+                    } else {
+                        this.checked_stories.delete(itm.story_id)
+                    }
+                } else {
+                    console.log("no itm. i is: ", i);
+                }
+            }
+        }
+        this.anchor = index;
+        return false;
     }
 
     handle_age_change() {
@@ -465,12 +509,12 @@ export class Stories {
     topics_action() {
         let n_groups = 0;
         let has_group_candidate = false;
-        for (let topic_item of  this.params.selected_topics) {
+        for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
                 if (topic_item.option.usage) return 'ready-to-edit';
                 has_group_candidate = true;
             }
-            if (topic_item.last && ! topic_item.first) {
+            if (topic_item.last && !topic_item.first) {
                 n_groups += 1;
             }
         }
@@ -553,5 +597,5 @@ export class Stories {
 
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

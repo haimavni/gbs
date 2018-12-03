@@ -46,7 +46,7 @@ export class editableCustomElement {
 
     delete_story(story) {
         this.story.deleted = true;
-        this.dispatch_event('delete', 'change');
+        this.dispatch_event('delete', 'change', {});
     }
 
     attached() {
@@ -57,20 +57,25 @@ export class editableCustomElement {
         }
     }
 
-    toggle_checked() {
+    toggle_checked(event) {
+        event.stopPropagation(); //todo: attempt to prevent the default selection
+        event.preventDefault();
         this.story.checked = !this.story.checked;
-        this.dispatch_event('check', 'change');
+        let keys = {altKey: event.altKey, ctrlKey: event.ctrlKey, shiftKey: event.shiftKey};
+        this.dispatch_event('check', 'change', keys);
+        return false;
     }
 
     push_story() {
-        this.dispatch_event('pushup', 'pushup');
+        this.dispatch_event('pushup', 'pushup', {});
     }
 
-    dispatch_event(action, what) {
+    dispatch_event(action, what, keys) {
         let changeEvent = new CustomEvent(what, {
             detail: {
                 checked: this.story.checked,
-                action: action
+                action: action,
+                keys: keys
             },
             bubbles: true
         });
