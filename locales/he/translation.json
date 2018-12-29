@@ -140,7 +140,9 @@
         "unapproved-only": "שינויים לאישור",
         "updated-on-date": "עדכן בתאריך ",
         "expand-life-summary": "הגדל",
-        "compress-life-summary": "צמצם"
+        "compress-life-summary": "צמצם",
+        "pa-of": "אבא של",
+        "ma-of": "אמא של"
     },
     "user": {
         "login": "התחבר כעורך ",

@@ -5,6 +5,7 @@ import { MemberList } from '../services/member_list';
 import { DialogController } from 'aurelia-dialog';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
+import { I18N } from 'aurelia-i18n';
 
 @autoinject()
 export class MemberPicker {
@@ -26,8 +27,9 @@ export class MemberPicker {
     api;
     child_name;
     child_id;
+    i18n;
 
-    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway) {
+    constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
@@ -36,6 +38,7 @@ export class MemberPicker {
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.router = router;
         this.api = api;
+        this.i18n = i18n;
     }
 
     created() {
@@ -79,7 +82,8 @@ export class MemberPicker {
 
     create_new_member() {
         if (this.gender) {
-            this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name, child_id: this.child_id })
+            let parent_of = (this.gender == 'M') ?  this.i18n.tr('members.pa-of') : this.i18n.tr('members.ma-of');
+            this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name, child_id: this.child_id, parent_of: parent_of })
                 .then(response => {
                     this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
                 });

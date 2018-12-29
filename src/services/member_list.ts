@@ -83,6 +83,10 @@ export class MemberList {
             });
     }
 
+    add_member(member_details) {
+        this.members.member_list.push(member_details);
+    }
+
     remove_member(member_id) {
         return this.api.call_server('members/remove_member', { member_id: member_id })
             .then(response => {

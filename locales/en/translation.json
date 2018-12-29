@@ -142,7 +142,9 @@
         "unapproved-only": "Pending approval",
         "updated-on-date": "Updated on ",
         "expand-life-summary": "Expand life summary",
-        "compress-life-summary": "Compress life summary"
+        "compress-life-summary": "Compress life summary",
+        "pa-of": "Father of",
+        "ma-of": "Mother of"
     },
     "user": {
         "hit-counts": "מונה הכניסות",
