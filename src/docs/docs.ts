@@ -89,13 +89,18 @@ export class Docs {
         this.ea = ea;
         this.popup = popup;
         this.days_since_update_options = [
-            { value: 0, name: this.i18n.tr('stories.uploaded-any-time') },
-            { value: 1, name: this.i18n.tr('stories.uploaded-today') },
-            { value: 7, name: this.i18n.tr('stories.uploaded-this-week') },
-            { value: 30, name: this.i18n.tr('stories.uploaded-this-month') },
-            { value: 91, name: this.i18n.tr('stories.uploaded-this-quarter') },
-            { value: 365, name: this.i18n.tr('stories.uploaded-this-year') }
+            { value: 0, name: this.i18n.tr('docs.uploaded-any-time') },
+            { value: 1, name: this.i18n.tr('docs.uploaded-today') },
+            { value: 7, name: this.i18n.tr('docs.uploaded-this-week') },
+            { value: 30, name: this.i18n.tr('docs.uploaded-this-month') },
+            { value: 91, name: this.i18n.tr('docs.uploaded-this-quarter') },
+            { value: 365, name: this.i18n.tr('docs.uploaded-this-year') }
         ];
+        this.approval_state_options = [
+            { name: i18n.tr('docs.approved-and-unapproved'), id: 1 },
+            { name: i18n.tr('docs.unapproved'), id: 2 },
+            { name: i18n.tr('docs.approved'), id: 3 }
+        ]
     }
 
     refresh_story(data) {
@@ -122,12 +127,7 @@ export class Docs {
     created(params, config) {
         this.ea.subscribe('DOCS_WERE_UPLOADED', () => { this.update_doc_list() });
         if (this.doc_list && this.doc_list.length > 0 && !this.router.isExplicitNavigation) return;
-        this.api.call_server('topics/get_topic_list', {})
-            .then(result => {
-                this.topic_list = result.topic_list;
-                this.topic_groups = result.topic_groups;
-                console.log("topic groups: ", this.topic_groups);
-            });
+        this.update_topic_list();
         this.word_index.get_word_index()
             .then(response => {
                 this.docs_index = response;
@@ -266,9 +266,10 @@ export class Docs {
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', { params: this.params })
+        this.api.call_server_post('topics/get_topic_list', { params: this.params, usage: this.user.editing ? null : 'D' })
             .then(response => {
                 this.topic_list = response.topic_list;
+                this.topic_groups = response.topic_groups;
             });
     }
 
@@ -402,6 +403,12 @@ export class Docs {
         if (this.user.editing) return;
         let url = doc.doc_url
         this.popup.popup('POPUP', url, '');
+    }
+
+    @computedFrom('user.editing')
+    get user_editing() {
+        this.update_topic_list();
+        return this.user.editing;
     }
 
 }

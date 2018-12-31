@@ -68,6 +68,9 @@
         "uploaded-this-month": "Stories uploaded this month",
         "uploaded-this-quarter": "Stories uploaded this quarter",
         "uploaded-this-year": "Stories uploaded this year",
+        "approved-and-unapproved": "Both approved and unapproved",
+        "unapproved": "Unapproved stories",
+        "approved": "Approved stories",
         "update-associated-members": "Update associated members",
         "update-associated-photos": "Update associated photos",
         "consolidate-selected-story": "Merge into one story",
@@ -76,9 +79,6 @@
         "promote-selected-stories": "Promote selected stories",
         "unknown-source": "Unknown source",
         "updated-by": "Updated by",
-        "approved-and-unapproved": "Both approved and unapproved",
-        "unapproved": "Unapproved stories",
-        "approved": "Approved stories",
         "topic-already-exists": "Topic already exists",
         "push-up": "Place at the top"
 
@@ -273,8 +273,18 @@
         "docs-duplicate": "Duplicate documents - ",
         "categories": "Categories selection",
         "words": "Advanced search",
+        "word-index": "Search words appearing in the documents",
         "left": "Left",
-        "failed": "Failed - "
+        "failed": "Failed - ",
+        "uploaded-any-time": "Documents uploaded any time",
+        "uploaded-today": "Documents uploaded today",
+        "uploaded-this-week": "Documents uploaded this week",
+        "uploaded-this-month": "Documents uploaded this month",
+        "uploaded-this-quarter": "Documents uploaded this quarter",
+        "uploaded-this-year": "Documents uploaded this year",
+        "approved-and-unapproved": "Both approved and unapproved",
+        "unapproved": "Unapproved Documents",
+        "approved": "Approved Documents"
     },
     "terms": {
         "terms": "Terms",
