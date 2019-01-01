@@ -17,6 +17,7 @@ export class MultiSelectSettings {
     show_only_if_filter = false;
     height_selected = 120;
     height_unselected = 120;
+    hide_higher_options = false;  //hide options that are collections of lower level options
 
     constructor(obj) {
         this.update(obj);
@@ -70,10 +71,24 @@ export class MultiSelectCustomElement {
     }
 
     select_option(option) {
-        let g = this.assign_group_number();
+        let g;
+        if (option.topic_kind == 1) {
+            this.selected_options = [];
+            g = 1;
+            this.open_group = 2;
+        } else {
+            g = this.assign_group_number();
+        }
         option.sign = 'plus';
         let item = { option: option, group_number: g };
         this.selected_options.push(item);
+        if (option.topic_kind == 1) {
+            let sub_options = this.get_sub_options(option);
+            for (let opt of sub_options) {
+                item = {option: opt, group_number: 2}
+                this.selected_options.push(item);
+            }
+        }
         let arr = this.selected_options.map((item) => item.option.name);
         this.selected_options_set = new Set(arr);
         //this.selected_options_set.add(option.name); changes are not detected
@@ -82,6 +97,18 @@ export class MultiSelectCustomElement {
         setTimeout(() => {
             div.scrollTop = div.scrollHeight; // - div.clientHeight + 150
         }, 10);
+    }
+
+    get_sub_options(option) {
+        let idx = option.id;
+        let itm = this.option_groups.find((opt) => opt[0]==idx);
+        let sub_option_indexes = itm[1];
+        let result = [];
+        for (let i of sub_option_indexes) {
+            let opt = this.options.find((op) => op.id == i)
+            result.push(opt);
+        }
+        return result
     }
 
     enter_word(event) {
@@ -252,6 +279,11 @@ export class MultiSelectCustomElement {
             h += this.settings.height_unselected;
         }
         return h;
+    }
+
+    @computedFrom('settings.hide_higher_options')
+    get hide_higher(){
+        return this.settings.hide_higher_options;
     }
 
     can_move_item(item) {

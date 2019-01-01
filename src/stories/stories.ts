@@ -477,7 +477,7 @@ export class Stories {
         this.update_story_list('other');
     }
 
-    @computedFrom('user.editing', 'done_selecting', 'has_grouped_topics', 'params.selected_topics')
+    @computedFrom('user.editing', 'done_selecting', 'has_grouped_topics', 'params.selected_topics', 'checked_stories.size')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -490,11 +490,6 @@ export class Stories {
             } else {
                 this.done_selecting = false;
                 result = this.topics_action();
-                /*if (this.has_grouped_topics) {
-                    result = "can-modify-tags";
-                } else {
-                    result = "ready-to-edit"
-                }*/
             }
         }
         this.options_settings.update({
@@ -502,7 +497,8 @@ export class Stories {
             name_editable: result == "ready-to-edit",
             can_set_sign: !this.has_grouped_topics,
             can_add: result == "ready-to-edit",
-            can_delete: result == "ready-to-edit"
+            can_delete: result == "ready-to-edit",
+            hide_higher_options: this.checked_stories.size > 0 && this.user.editing
         });
         this.words_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
@@ -516,7 +512,7 @@ export class Stories {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.usage) return 'ready-to-edit';
+                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
