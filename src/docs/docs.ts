@@ -181,6 +181,7 @@ export class Docs {
                 this.doc_list = result.doc_list;
                 for (let doc of this.doc_list) {
                     doc.title = '<span dir="rtl">' + doc.title + '</span>';
+                    doc.story.checked = doc.checked;
                 }
                 this.scroll_top = 0;
             });
