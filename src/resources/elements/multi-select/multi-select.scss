@@ -119,8 +119,16 @@
         }
     }
 
-    span.option-group {
+    .option-kind-0 {
+        color: green;
+    }
+
+    .option-kind-1 {
         color: blue;
+    }
+
+    .option-kind-2 {
+        color: inherited;
     }
 
     div.unselected {
