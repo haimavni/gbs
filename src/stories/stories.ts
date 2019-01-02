@@ -398,6 +398,7 @@ export class Stories {
         this.api.call_server_post('topics/get_topic_list', { params: this.params })
             .then(response => {
                 this.topic_list = response.topic_list;
+                this.topic_groups = response.topic_groups;
             });
     }
 
@@ -540,7 +541,6 @@ export class Stories {
     }
 
     save_topic_group(event: Event) {
-        //todo: if event.ctrl create a super group rather than merge?
         this.api.call_server_post('topics/add_topic_group', this.params)
             .then(response => {
                 this.has_grouped_topics = false;

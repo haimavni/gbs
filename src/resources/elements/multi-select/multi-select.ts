@@ -31,7 +31,7 @@ export class MultiSelectSettings {
     }
 };
 
-@inject(DOM.Element, I18N, DialogService)
+@inject(DOM.Element, I18N, DialogService, User)
 export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
@@ -73,7 +73,7 @@ export class MultiSelectCustomElement {
     select_option(option) {
         let g;
         if (option.topic_kind == 1) {
-            this.selected_options = [];
+            //this.selected_options = [];
             g = 1;
             this.open_group = 2;
         } else {
@@ -82,7 +82,7 @@ export class MultiSelectCustomElement {
         option.sign = 'plus';
         let item = { option: option, group_number: g };
         this.selected_options.push(item);
-        if (option.topic_kind == 1) {
+        if (this.user.editing && (option.topic_kind == 1) && (this.selected_options.length == 1)) {
             let sub_options = this.get_sub_options(option);
             for (let opt of sub_options) {
                 item = {option: opt, group_number: 2}

@@ -58,7 +58,7 @@
                             style="position:absolute;left:82px;top:4px;"
                             click.delegate="remove_option(item, $event, $index)">
                         </i>
-                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;" class.bind="item.option.topic_kind == 1 ? 'option-group' : ''">${item.option.name}</span>
+                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;" class.bind="'option-kind-' + item.option.topic_kind">${item.option.name}</span>
                         <input type="text" if.bind="item.editing" value.bind="item.option.name" change.delegate="name_changed(item, $event)" style="width:55%" >
                     </div>
                 </li>
