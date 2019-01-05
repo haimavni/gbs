@@ -48,6 +48,7 @@ export class Photos {
         max_photos_per_line: 8,
     };
     topic_list = [];
+    topic_groups = [];
     photographer_list = [];
     days_since_upload_options;
     uploader_options;
@@ -141,6 +142,7 @@ export class Photos {
         this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
+                this.topic_groups = result.topic_groups;
                 this.photographer_list = result.photographer_list;
             });
     }
@@ -336,20 +338,16 @@ export class Photos {
                 }
             } else {
                 this.done_selecting = false;
-                if (this.has_grouped_topics ||
-                    this.has_grouped_photographers) {
-                    result = "photos.can-modify-tags";
-                } else {
-                    result = "photos-ready-to-edit"
-                }
-            }
+                result = this.topics_action();
+           }
         }
         this.options_settings.update({
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
             name_editable: result == "photos-ready-to-edit",
             can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
             can_add: result == "photos-ready-to-edit",
-            can_delete: result == "photos-ready-to-edit"
+            can_delete: result == "photos-ready-to-edit",
+            hide_higher_options: this.selected_photos.size > 0 && this.user.editing
         });
         this.photographers_settings.update({
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
@@ -362,6 +360,33 @@ export class Photos {
             console.log("has grouped photographers. result is ", result);
         }
         return result;
+    }
+
+    topics_action() {
+        let n_groups = 0;
+        let has_group_candidate = false;
+        for (let topic_item of this.params.selected_topics) {
+            if (topic_item.first && topic_item.last) {
+                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
+                has_group_candidate = true;
+            }
+            if (topic_item.last && !topic_item.first) {
+                n_groups += 1;
+            }
+        }
+        if (has_group_candidate && n_groups == 1) return 'can-create-group';
+        if (n_groups == 1) return 'can-merge-topics';
+        if (n_groups == 0 && this.has_grouped_photographers) return 'can-merge-topics'
+        return 'ready-to-edit';
+    }
+
+    save_topic_group(event: Event) {
+        this.api.call_server_post('topics/add_topic_group', this.params)
+            .then(response => {
+                this.has_grouped_topics = false;
+                this.clear_selected_topics_now = true;
+                this.update_topic_list();
+            });
     }
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_dates_option')
