@@ -55,7 +55,6 @@ export class Photos {
     dates_options;
     i18n;
     selected_photos = new Set([]);
-    done_selecting = false;
     router;
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
@@ -307,7 +306,6 @@ export class Photos {
     }
 
     apply_to_selected() {
-        this.done_selecting = false;
         this.api.call_server_post('photos/apply_to_selected_photos', this.params)
             .then(response => {
                 this.clear_photo_group();
@@ -319,25 +317,16 @@ export class Photos {
         this.router.navigateToRoute('photo-detail', { id: photo_id, keywords: "" });
     }
 
-    finish_selecting() {
-        this.done_selecting = true;
-    }
-
-    @computedFrom('user.editing', 'params.selected_photo_list', 'done_selecting',
-        'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 'selected_photos', 'has_grouped_photographers', 'has_grouped_topics')
+    @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 
+                  'selected_photos', 'has_grouped_photographers', 'has_grouped_topics')
     get phase() {
         if (this.caller_type == 'term' || this.caller_type == 'story')
             return 'selecting-photos-for-story'
         let result = "photos-not-editing";
         if (this.user.editing) {
             if (this.selected_photos.size > 0) {
-                if (this.done_selecting) {
-                    result = "applying-to-photos"
-                } else {
-                    result = "selecting-photos";
-                }
+                result = "applying-to-photos"
             } else {
-                this.done_selecting = false;
                 result = this.topics_action();
            }
         }

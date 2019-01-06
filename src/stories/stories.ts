@@ -59,7 +59,6 @@ export class Stories {
     i18n;
     num_of_stories = 0;
     story_types;
-    done_selecting = false;
     no_results = false;
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
@@ -478,18 +477,13 @@ export class Stories {
         this.update_story_list('other');
     }
 
-    @computedFrom('user.editing', 'done_selecting', 'has_grouped_topics', 'params.selected_topics', 'checked_stories.size')
+    @computedFrom('user.editing', 'has_grouped_topics', 'params.selected_topics', 'checked_stories.size')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
             if (this.checked_stories.size > 0) {
-                if (this.done_selecting) {
-                    result = "applying-to-stories"
-                } else {
-                    result = "selecting-stories";
-                }
+                result = "selecting-stories";
             } else {
-                this.done_selecting = false;
                 result = this.topics_action();
             }
         }
