@@ -175,11 +175,6 @@ export class Photos {
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }
-                if (this.photo_list) {
-                    console.log(this.photo_list.length + " photos");
-                } else {
-                    console.log("no photos found");
-                }
                 console.timeEnd('get_photo_list');
             });
     }
@@ -214,7 +209,6 @@ export class Photos {
 
     handle_topic_change(event) {
         if (!event.detail) return;
-        console.log("selected topics before ", this.params.selected_topics);
         this.params.selected_topics = event.detail.selected_options
         this.update_photo_list();
     }
@@ -278,6 +272,15 @@ export class Photos {
                 this.has_grouped_topics = false;
                 this.clear_selected_phototgraphers_now = true;
                 this.clear_selected_topics_now = true;
+            });
+    }
+
+    save_topic_group(event: Event) {
+        this.api.call_server_post('topics/add_topic_group', this.params)
+            .then(response => {
+                this.has_grouped_topics = false;
+                this.clear_selected_topics_now = true;
+                this.update_topic_list();
             });
     }
 
@@ -345,9 +348,6 @@ export class Photos {
             can_delete: result == "photos-ready-to-edit",
             can_group: this.user.editing
         });
-        if (this.has_grouped_photographers) {
-            console.log("has grouped photographers. result is ", result);
-        }
         return result;
     }
 
@@ -367,15 +367,6 @@ export class Photos {
         if (n_groups == 1) return 'can-merge-topics';
         if (n_groups == 0 && this.has_grouped_photographers) return 'can-merge-topics'
         return 'ready-to-edit';
-    }
-
-    save_topic_group(event: Event) {
-        this.api.call_server_post('topics/add_topic_group', this.params)
-            .then(response => {
-                this.has_grouped_topics = false;
-                this.clear_selected_topics_now = true;
-                this.update_topic_list();
-            });
     }
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_dates_option')

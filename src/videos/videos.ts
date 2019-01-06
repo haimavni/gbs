@@ -63,6 +63,7 @@ export class Videos {
     videos_per_page = 9;
     photographer_list = [];
     topic_list = [];
+    topic_groups = [];
     selected_videos = new Set();
     has_grouped_photographers = false;
     has_grouped_topics = false;
@@ -142,6 +143,7 @@ export class Videos {
         this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
+                this.topic_groups = result.topic_groups;
                 this.photographer_list = result.photographer_list;
             });
     }
@@ -298,12 +300,7 @@ export class Videos {
             if (this.selected_videos.size > 0) {
                 result = "videos-were-selected";
             } else {
-                if (this.has_grouped_topics ||
-                    this.has_grouped_photographers) {
-                    result = "can-modify-tags";
-                } else {
-                    result = "photos-ready-to-edit"
-                }
+                result = this.topics_action();
             }
         }
         this.options_settings.update({
@@ -320,10 +317,25 @@ export class Videos {
             can_delete: result == "photos-ready-to-edit",
             can_group: this.user.editing
         });
-        if (this.has_grouped_photographers) {
-            console.log("has grouped photographers. result is ", result);
-        }
         return result;
+    }
+
+    topics_action() {
+        let n_groups = 0;
+        let has_group_candidate = false;
+        for (let topic_item of this.params.selected_topics) {
+            if (topic_item.first && topic_item.last) {
+                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
+                has_group_candidate = true;
+            }
+            if (topic_item.last && !topic_item.first) {
+                n_groups += 1;
+            }
+        }
+        if (has_group_candidate && n_groups == 1) return 'can-create-group';
+        if (n_groups == 1) return 'can-merge-topics';
+        if (n_groups == 0 && this.has_grouped_photographers) return 'can-merge-topics'
+        return 'ready-to-edit';
     }
 
     save_merges(event: Event) {
@@ -333,6 +345,15 @@ export class Videos {
                 this.has_grouped_topics = false;
                 this.clear_selected_phototgraphers_now = true;
                 this.clear_selected_topics_now = true;
+            });
+    }
+
+    save_topic_group(event: Event) {
+        this.api.call_server_post('topics/add_topic_group', this.params)
+            .then(response => {
+                this.has_grouped_topics = false;
+                this.clear_selected_topics_now = true;
+                this.update_topic_list();
             });
     }
 

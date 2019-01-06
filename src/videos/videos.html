@@ -35,13 +35,19 @@
                                 </button>
                                 <help topic="apply-to-selected-photos" position="bottom"></help>
                             </div>
-                            <div class="ctrl" if.bind="phase=='can-modify-tags'">
+                            <div class="ctrl" if.bind="phase=='can-merge-topics'">
                                 <button 
                                     class="btn btn-default btn-md" 
                                     click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
                                 <help topic="photos.can-modify-tags", position="bottom"></help>
+                            </div>
+                            <div if.bind="phase=='can-create-group'" class="form-group">
+                                <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
+                                    ${'photos.save-topic-group' & t}
+                                </button>
+                                <help topic="photos.can-create-group", position="bottom"></help>
                             </div>
                         </div>
                     </div>
@@ -76,6 +82,7 @@
                             selected_options.bind="params.selected_topics"
                             settings.bind="options_settings"
                             has_groups.bind="has_grouped_topics"
+                            option_groups.bind="topic_groups"
                             name="topics"
                             new-name.delegate="add_topic($event)"
                             remove-option.delegate="remove_topic($event)"

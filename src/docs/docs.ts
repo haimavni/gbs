@@ -59,7 +59,6 @@ export class Docs {
     approval_state_options;
     i18n;
     num_of_docs = 0;
-    done_selecting = false;
     no_results = false;
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
@@ -170,7 +169,6 @@ export class Docs {
 
     update_doc_list() {
         this.no_results = false;
-        console.log("params: ", this.params);
         return this.api.call_server_post('docs/get_doc_list', { params: this.params })
             .then(result => {
                 //this.doc_list = result.doc_list;
@@ -210,19 +208,16 @@ export class Docs {
         }
         this.params.keywords_str = "";
         this.params.selected_words = event.detail.selected_options;
-        console.log("this.params.selected_words: ", this.params.selected_words);
         let uni = new Set<number>();
         let group_sign;
         for (let sign of ['plus', 'minus']) {
             this.params.selected_words.forEach(element => {
-                console.log("element: ", element);
                 if (element.first) {
                     group_sign = element.option.sign
                     uni = new Set<number>();
                 }
                 if (group_sign == sign) {
                     uni = set_union(uni, new Set(element.option.story_ids));
-                    console.log("uni is ", uni);
                     if (element.last) {
                         if (result) {
                             if (sign == 'plus') {
@@ -233,7 +228,6 @@ export class Docs {
                         } else {
                             result = uni;
                         }
-                        console.log("result: ", result);
                     }
                 }
             });
@@ -243,7 +237,6 @@ export class Docs {
             this.num_of_docs = doc_list.length;
             if (doc_list.length == 0) return;
             this.params.selected_docs = doc_list;
-            console.log("doc_list: ", doc_list);
             this.update_doc_list();
         } else if (result) {
             this.num_of_docs = 0;
@@ -302,24 +295,14 @@ export class Docs {
         this.update_doc_list();
     }
 
-    @computedFrom('user.editing', 'done_selecting', 'has_grouped_topics', 'params.selected_topics')
+    @computedFrom('user.editing', 'has_grouped_topics', 'params.selected_topics', 'user.editing', 'params.checked_doc_list', 'checked_docs')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
             if (this.checked_docs.size > 0) {
-                if (this.done_selecting) {
-                    result = "applying-to-docs"
-                } else {
-                    result = "selecting-docs";
-                }
+                result = "applying-to-docs"
             } else {
-                this.done_selecting = false;
                 result = this.topics_action();
-                /*if (this.has_grouped_topics) {
-                    result = "can-modify-tags";
-                } else {
-                    result = "ready-to-edit"
-                }*/
             }
         }
         this.options_settings.update({
@@ -327,7 +310,8 @@ export class Docs {
             name_editable: result == "ready-to-edit",
             can_set_sign: !this.has_grouped_topics,
             can_add: result == "ready-to-edit",
-            can_delete: result == "ready-to-edit"
+            can_delete: result == "ready-to-edit",
+            hide_higher_options: this.checked_docs.size > 0 && this.user.editing
         });
         this.words_settings.update({
             mergeable: result != "applying-to-docs" && result != "selecting-docs",
@@ -341,7 +325,7 @@ export class Docs {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.usage) return 'ready-to-edit';
+                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
@@ -400,7 +384,6 @@ export class Docs {
     }
 
     jump_to_the_full_doc(event, doc) {
-        console.log("jump to the full. event: ", event);
         if (this.user.editing) return;
         let url = doc.doc_url
         this.popup.popup('POPUP', url, '');
