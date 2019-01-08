@@ -325,7 +325,7 @@ export class Videos {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
+                if (topic_item.option.topic_kind == 2) return 'ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
@@ -388,11 +388,6 @@ export class Videos {
         this.update_video_list();
     }
 
-    video_info_title(video) {
-        let title = `<h3>${video.name}</h3>`
-        return title;
-    }
-
     promote_videos() {
         this.api.call_server_post('photos/promote_videos', { params: this.params })
             .then(response => {
@@ -400,7 +395,10 @@ export class Videos {
             });
     }
 
-
+    video_info_title(video) {
+        let title = `<h3>${video.name}</h3>`
+        return title;
+    }
 
     video_info_content(video) {
         let photographer = this.photographer_list.find(p => p.id == video.photographer_id);

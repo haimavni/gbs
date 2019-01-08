@@ -83,6 +83,7 @@
                                     </div>
                                     <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                         story.bind="story" change.delegate="toggle_story_selection(story, $event, $index)"
+                                        info_title.bind="story.name" info_content.bind="story.topics"
                                         class="story-body">
                                     </editable>
                                 </div>

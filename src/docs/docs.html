@@ -53,6 +53,7 @@
                                 <div style="margin-bottom: 10px;" class="story-preview">
                                     <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                         story.bind="doc.story" change.delegate="toggle_doc_selection(doc, $event)"
+                                        info_title.bind="doc.name" info_content.bind="doc.keywords"
                                         class="story-body">
                                     </editable>
                                 </div>

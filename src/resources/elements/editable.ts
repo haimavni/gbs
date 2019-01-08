@@ -10,15 +10,17 @@ export class editableCustomElement {
     @bindable story;
     @bindable settings = {
         show_date: false,
-        show_time: false, 
+        show_time: false,
         show_author: true,
-        class: 'story-panel', 
-        divclass: null, 
-        checkable: false, 
-        deletable: false, 
+        class: 'story-panel',
+        divclass: null,
+        checkable: false,
+        deletable: false,
         no_expand: false,
         pushable: false
-     };
+    };
+    @bindable info_title = "Info title";
+    @bindable info_content = "Info content";
     element;
     user;
     theme;
@@ -27,7 +29,7 @@ export class editableCustomElement {
     i18n;
     updated_by;
 
-    constructor(element, user, theme,  dialog, i18n) {
+    constructor(element, user, theme, dialog, i18n) {
         this.element = element;
         this.dialog = dialog;
         this.user = user;
@@ -52,7 +54,7 @@ export class editableCustomElement {
     attached() {
         const elementRect = this.element.getBoundingClientRect();
         this.width = elementRect.width;
-        if (! this.settings.divclass) {
+        if (!this.settings.divclass) {
             this.settings.divclass = 'editable';
         }
     }
@@ -61,7 +63,7 @@ export class editableCustomElement {
         event.stopPropagation(); //todo: attempt to prevent the default selection
         event.preventDefault();
         this.story.checked = !this.story.checked;
-        let keys = {altKey: event.altKey, ctrlKey: event.ctrlKey, shiftKey: event.shiftKey};
+        let keys = { altKey: event.altKey, ctrlKey: event.ctrlKey, shiftKey: event.shiftKey };
         this.dispatch_event('check', 'change', keys);
         return false;
     }
