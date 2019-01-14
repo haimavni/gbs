@@ -13,7 +13,7 @@
                             <div class="input-group row" style="width:40%;margin-left:20px;">
                                 <search-input value.bind="filter" placeholder="videos.filter" height="38"></search-input>
                             </div>
-                            <div if.bind="phase=='photos-ready-to-edit'" class="ctrl">
+                            <div if.bind="phase=='ready-to-edit'" class="ctrl">
                                 <button click.delegate="new_video()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'videos.new' & t}

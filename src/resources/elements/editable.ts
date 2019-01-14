@@ -19,8 +19,8 @@ export class editableCustomElement {
         no_expand: false,
         pushable: false
     };
-    @bindable info_title = "Info title";
-    @bindable info_content = "Info content";
+    @bindable info_title = "";
+    @bindable info_content = "";
     element;
     user;
     theme;
