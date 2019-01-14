@@ -89,7 +89,8 @@ export class MemberPicker {
                 });
             })
         } else {
-            this.api.call_server('members/create_new_member', {photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter})
+            let default_name = this.i18n.tr('members.default-name');
+            this.api.call_server('members/create_new_member', {photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name})
                 .then(response => {
                         this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
                     });

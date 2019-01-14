@@ -142,7 +142,8 @@
         "expand-life-summary": "הגדל",
         "compress-life-summary": "צמצם",
         "pa-of": "אבא של",
-        "ma-of": "אמא של"
+        "ma-of": "אמא של",
+        "default-name": "חבר חדש"
     },
     "user": {
         "login": "התחבר כעורך ",

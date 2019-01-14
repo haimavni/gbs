@@ -144,7 +144,8 @@
         "expand-life-summary": "Expand life summary",
         "compress-life-summary": "Compress life summary",
         "pa-of": "Father of",
-        "ma-of": "Mother of"
+        "ma-of": "Mother of",
+        "default-name": "New member"
     },
     "user": {
         "hit-counts": "מונה הכניסות",
