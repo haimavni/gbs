@@ -3,7 +3,7 @@
 
     <div css="width:${width}" class="${settings.divclass} editable-box">
         <div class="preview-header">
-            <span if.bind="info_content">
+            <span if.bind="info_content && user.isLoggedIn">
                 <info title.bind="info_title" content.bind="info_content"></info>
             </span>
             <span show.bind="story.name || user.privileges.EDITOR" dir="${theme.rtltr}" style="padding:0;margin:0;">
