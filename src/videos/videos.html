@@ -59,15 +59,15 @@
                                 <iframe class="video-iframe" src.bind="video.src" frameborder="0" allowfullscreen="">
                                 </iframe>
                                 <span class="video-name" style="margin-top:-6px;">
+                                    <span>
+                                        <info title.bind="video_info_title(video)" content.bind="video_info_content(video)"></info>
+                                    </span>
                                     <span if.bind="user.editing">
                                         <i class="fa${video.selected ? 's' : 'r'} fa-circle" click.delegate="toggle_selection(video)"></i>
                                         <i class="far fa-trash-alt" click.delegate="delete_video(video)"></i>
                                         <i class="far fa-pencil" click.delegate="edit_video_info(video)"></i>
                                     </span>
-                                    <span>
-                                        <info title.bind="video_info_title(video)" content.bind="video_info_content(video)"></info>
-                                            ${video.name}
-                                    </span>
+                                    ${video.name}
                                 </span>
                             </span>
                         </div>

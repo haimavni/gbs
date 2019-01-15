@@ -205,7 +205,6 @@ export class Videos {
                 vr[key] = video_rec[key];
         }
         return vr;
-        //return video_rec;
     }
 
     page(step, event) {
@@ -401,8 +400,6 @@ export class Videos {
     }
 
     video_info_content(video) {
-        let photographer = this.photographer_list.find(p => p.id == video.photographer_id);
-        let photographer_name = photographer ? photographer.name : this.i18n.tr('videos.unknown-photographer');
         let pn = this.i18n.tr('videos.photographer-name');
         let vdr = this.i18n.tr('videos.video-date-range');
         let date_range = format_date(video.video_date_datestr, video.video_date_datespan);
@@ -410,7 +407,7 @@ export class Videos {
         let kw_label = this.i18n.tr('videos.keywords')
         let content = `
         <ul>
-            <li>${pn}:&nbsp;${photographer_name}</li>
+            <li>${pn}:&nbsp;${video.photographer_name}</li>
             <li>${vdr}:&nbsp;${date_range}</li>
             <li>${kw_label}:&nbsp;${keywords}</li>
         </ul>
