@@ -11,6 +11,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { UploadDocs } from './upload-docs';
 import { Popup } from '../services/popups';
+import { DocPage } from './doc-page';
 
 @autoinject
 @singleton()
@@ -384,6 +385,7 @@ export class Docs {
     }
 
     jump_to_the_full_doc(event, doc) {
+        this.openDialog(doc); return;
         if (this.user.editing) return;
         let url = doc.doc_url
         this.popup.popup('POPUP', url, '');
@@ -393,6 +395,13 @@ export class Docs {
     get user_editing() {
         this.update_topic_list();
         return this.user.editing;
+    }
+
+    private openDialog(doc) {
+        this.dialog.open({ viewModel: DocPage, model: { doc_src: doc.doc_url }, lock: false })
+            .whenClosed(response => {
+                //this.theme.page_title = title;
+            });
     }
 
 }
