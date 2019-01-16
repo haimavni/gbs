@@ -386,9 +386,9 @@ export class Docs {
 
     jump_to_the_full_doc(event, doc) {
         this.openDialog(doc); return;
-        if (this.user.editing) return;
+        /*if (this.user.editing) return;
         let url = doc.doc_url
-        this.popup.popup('POPUP', url, '');
+        this.popup.popup('POPUP', url, '');*/
     }
 
     @computedFrom('user.editing')
