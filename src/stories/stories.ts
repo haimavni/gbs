@@ -10,6 +10,7 @@ import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { Popup } from '../services/popups';
+import { DocPage } from '../docs/doc-page';
 
 @autoinject
 @singleton()
@@ -310,12 +311,18 @@ export class Stories {
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4DOC:
-                what = "DOC";
-                let url = story.doc_url
-                this.popup.popup('POPUP', url, '');
+                this.openDialog(story.doc_url);
                 break;
         }
     }
+
+    private openDialog(doc_url) {
+        this.dialog.open({ viewModel: DocPage, model: { doc_src: doc_url }, lock: false, keyboard: ['Enter', 'Escape'] })
+            .whenClosed(response => {
+                //this.theme.page_title = title;
+            });
+    }
+    
 
     apply_topics_to_selected_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);

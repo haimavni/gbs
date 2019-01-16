@@ -326,7 +326,7 @@ export class Docs {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
+                if (topic_item.option.topic_kind == 2) return 'ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
@@ -385,10 +385,7 @@ export class Docs {
     }
 
     jump_to_the_full_doc(event, doc) {
-        this.openDialog(doc); return;
-        /*if (this.user.editing) return;
-        let url = doc.doc_url
-        this.popup.popup('POPUP', url, '');*/
+        this.openDialog(doc);
     }
 
     @computedFrom('user.editing')
