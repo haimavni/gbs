@@ -398,7 +398,7 @@ export class Docs {
     }
 
     private openDialog(doc) {
-        this.dialog.open({ viewModel: DocPage, model: { doc_src: doc.doc_url }, lock: false })
+        this.dialog.open({ viewModel: DocPage, model: { doc_src: doc.doc_url }, lock: false, keyboard: ['Enter', 'Escape'] })
             .whenClosed(response => {
                 //this.theme.page_title = title;
             });
