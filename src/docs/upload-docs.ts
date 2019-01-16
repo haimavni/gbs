@@ -43,6 +43,7 @@ export class UploadDocs {
             this.uploaded = response.uploaded;
             this.duplicates = response.duplicates;
             this.failed = response.failed;
+            this.ea.publish('DOCS_WERE_UPLOADED', {});
             window.setTimeout(() => {
                 this.dc.ok(response);
             }, 15000);
