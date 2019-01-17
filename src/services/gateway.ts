@@ -225,6 +225,7 @@ export class MemberGateway {
         }
 
         let key = obj.key;
+        console.log("message key: ", key);
         let data = obj.data;
         THIS.eventAggregator.publish(key, data);
     }

@@ -125,7 +125,9 @@ export class Docs {
     }
 
     created(params, config) {
-        this.ea.subscribe('DOCS_WERE_UPLOADED', () => { this.update_doc_list() });
+        this.ea.subscribe('DOCS_WERE_UPLOADED', () => {
+             this.update_doc_list();
+        });
         if (this.doc_list && this.doc_list.length > 0 && !this.router.isExplicitNavigation) return;
         this.update_topic_list();
         this.word_index.get_word_index()
@@ -180,7 +182,11 @@ export class Docs {
                 this.doc_list = result.doc_list;
                 for (let doc of this.doc_list) {
                     doc.title = '<span dir="rtl">' + doc.title + '</span>';
-                    doc.story.checked = doc.checked;
+                    if (doc.story) {
+                        doc.story.checked = doc.checked;
+                    } else {
+                        console.log("doc has no story: ", doc);
+                    }
                 }
                 this.scroll_top = 0;
             });
@@ -287,7 +293,7 @@ export class Docs {
             .then(response => {
                 this.params.checked_doc_list = [];
                 this.checked_docs = new Set();
-                this.doc_list = [];
+                this.update_doc_list();
             });
     }
 
