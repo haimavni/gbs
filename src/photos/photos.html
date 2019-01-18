@@ -70,7 +70,7 @@
                                     ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
-                            <div if.bind="phase == 'ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type " t="[title]user.upload-files" class="input-group">
+                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type " t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'photos.upload' & t}
@@ -95,7 +95,8 @@
                 <div class="col-md-3" style="padding-right:6px;">
                     <div class="row multi-select-div" style="margin-bottom:15px;position:relative;">
                         <span show.bind="false">${user_editing}</span>
-                        <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="phase=='photos-not-editing'"topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
                             selected_options.bind="params.selected_topics"
                             settings.bind="options_settings"

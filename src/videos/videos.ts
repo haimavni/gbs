@@ -324,7 +324,7 @@ export class Videos {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.topic_kind == 2) return 'ready-to-edit';
+                if (topic_item.option.topic_kind == 2) return 'photos-ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {

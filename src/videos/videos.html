@@ -13,7 +13,7 @@
                             <div class="input-group row" style="width:40%;margin-left:20px;">
                                 <search-input value.bind="filter" placeholder="videos.filter" height="38"></search-input>
                             </div>
-                            <div if.bind="phase=='ready-to-edit'" class="ctrl">
+                            <div if.bind="phase=='photos-ready-to-edit'" class="ctrl">
                                 <button click.delegate="new_video()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'videos.new' & t}
@@ -77,7 +77,9 @@
                 <div class="col-md-3">
                     <span show.bind="false">${user_editing}</span>
                     <div class="row" style="margin-bottom:15px;position:relative;">
-                        <help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <!--<help topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>-->
+                        <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="phase=='photos-not-editing'"topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
                             selected_options.bind="params.selected_topics"
                             settings.bind="options_settings"

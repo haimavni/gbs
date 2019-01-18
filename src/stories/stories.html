@@ -102,7 +102,8 @@
                 <div class="col-md-3">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="phase == 'not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="phase=='ready-to-edit'" topic="topics.ready-to-edit", position="bottom" style="position:absolute;left:0px;top:26px;"></help>
                         <multi-select options.bind="topic_list"
                             place_holder_text="photos.click-topic"
                             selected_options.bind="params.selected_topics"
