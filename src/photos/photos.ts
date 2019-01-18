@@ -336,8 +336,8 @@ export class Photos {
         this.options_settings.update({
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
             name_editable: result == "photos-ready-to-edit",
-            can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
             can_add: result == "photos-ready-to-edit",
+            can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
             can_delete: result == "photos-ready-to-edit",
             hide_higher_options: this.selected_photos.size > 0 && this.user.editing
         });
@@ -356,7 +356,7 @@ export class Photos {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
+                if (topic_item.option.topic_kind==2) return 'photos-ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
@@ -366,7 +366,7 @@ export class Photos {
         if (has_group_candidate && n_groups == 1) return 'can-create-group';
         if (n_groups == 1) return 'can-merge-topics';
         if (n_groups == 0 && this.has_grouped_photographers) return 'can-merge-topics'
-        return 'ready-to-edit';
+        return 'photos-ready-to-edit';
     }
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_dates_option')

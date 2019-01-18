@@ -334,7 +334,7 @@ export class Videos {
         if (has_group_candidate && n_groups == 1) return 'can-create-group';
         if (n_groups == 1) return 'can-merge-topics';
         if (n_groups == 0 && this.has_grouped_photographers) return 'can-merge-topics'
-        return 'ready-to-edit';
+        return 'photos-ready-to-edit';
     }
 
     save_merges(event: Event) {
