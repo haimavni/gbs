@@ -2,10 +2,10 @@
     <div style="padding: 15px;padding-top:0;background:lightgray;cursor:default;">
         <div class="row" style="background-color:gray;height:60px;padding-top:13px;">
             <div class="col-md-3">
-                <a click.delegate="create_new_member()" class="btn btn-success cl-create-btn">
+                <button click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)">
                     <i class="far fa-plus-square"></i>
                     ${'members.new' & t}
-                </a>
+                </button>
             </div>
             <div if.bind="face_identifier" class="col-md-3" style="padding-left:0px;">
                 <div class="checkbox">

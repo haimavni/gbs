@@ -152,7 +152,12 @@ export class FullSizePhoto {
                 this.remove_face(face);
                 return;
             }
-            let old_member_id = face.member_id
+            let old_member_id = face.member_id;
+            let mi =  (response.output && response.output.new_member) ? response.output.new_member.member_info : null;
+            if (mi) {
+                face.name = mi.first_name + ' ' + mi.last_name;
+                return;
+            }
             face.member_id = response.output.member_id;
             let make_profile_photo = response.output.make_profile_photo;
             this.api.call_server_post('photos/save_face', { face: face, make_profile_photo: make_profile_photo, old_member_id: old_member_id })
