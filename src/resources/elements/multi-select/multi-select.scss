@@ -23,9 +23,10 @@
         margin-right: 0px;
     }
 
-    /*div.ms-container {
-        height: 180px;
-    }*/
+    div.ms-container {
+        min-height: 40px;
+        position: relative;
+    }
 
     ul {
         list-style-type: none;

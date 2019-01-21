@@ -238,7 +238,10 @@
         "candidates": "מועמדים לצרוף מתוך התמונות",
         "delete": "מחק את התמונה",
         "rotate": "סובב את התמונה",
-        "photographer-already-exists": "הצלם כבר קיים במערכת"
+        "photographer-already-exists": "הצלם כבר קיים במערכת",
+        "no-photographers-yet": "רשימת הצלמים ריקה עדיין",
+        "no-topics-yet": "רשימת הנושאים ריקה עדיין",
+        "no-words-yet": "המילון ריק עדיין"
     },
     "videos": {
         "videos": "סרטים",

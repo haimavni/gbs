@@ -318,11 +318,13 @@ export class Docs {
             can_set_sign: !this.has_grouped_topics,
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
-            hide_higher_options: this.checked_docs.size > 0 && this.user.editing
+            hide_higher_options: this.checked_docs.size > 0 && this.user.editing,
+            empty_list_message: this.i18n.tr('photos.no-topics-yet')
         });
         this.words_settings.update({
             mergeable: result != "applying-to-docs" && result != "selecting-docs",
             can_set_sign: result == "not-editing",
+            empty_list_message: this.i18n.tr('photos.no-words-yet')
         });
         return result;
     }

@@ -56,15 +56,8 @@ export class Photos {
     i18n;
     selected_photos = new Set([]);
     router;
-    options_settings = new MultiSelectSettings({
-        clear_filter_after_select: false,
-        can_set_sign: true,
-        can_group: true
-    });
-    photographers_settings = new MultiSelectSettings({
-        clear_filter_after_select: true,
-        can_set_sign: false
-    });
+    options_settings;
+    photographers_settings;
     caller_type;
     caller_id;
     with_a_member;
@@ -99,6 +92,17 @@ export class Photos {
             { value: "dated", name: this.i18n.tr('photos.dated') },
             { value: "undated", name: this.i18n.tr('photos.undated') }
         ];
+    this.options_settings = new MultiSelectSettings({
+        clear_filter_after_select: false,
+        can_set_sign: true,
+        can_group: true,
+        empty_list_message: this.i18n.tr('photos.no-topics-yet')
+    });
+    this.photographers_settings = new MultiSelectSettings({
+        clear_filter_after_select: true,
+        can_set_sign: false,
+        empty_list_message: this.i18n.tr('photos.no-photographers-yet')
+    });
     }
 
     created(params, config) {

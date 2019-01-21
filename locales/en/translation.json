@@ -240,7 +240,10 @@
         "candidates": "Candidates from the photos",
         "delete": "Delete the photo",
         "rotate": "Rotate the photo",
-        "photographer-already-exists": "Photographer already exists"
+        "photographer-already-exists": "Photographer already exists",
+        "no-photographers-yet": "No photographers yet",
+        "no-topics-yet": "No topics defined yet",
+        "no-words-yet": "The dictionary is still empty"
     },
     "videos": {
         "videos": "Video",

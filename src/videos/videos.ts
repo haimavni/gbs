@@ -307,14 +307,16 @@ export class Videos {
             name_editable: result == "photos-ready-to-edit",
             can_set_sign: result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
-            can_delete: result == "photos-ready-to-edit"
+            can_delete: result == "photos-ready-to-edit",
+            empty_list_message: this.i18n.tr('photos.no-topics-yet')
         });
         this.photographers_settings.update({
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
             name_editable: result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
-            can_group: this.user.editing
+            can_group: this.user.editing,
+            empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
         return result;
     }
