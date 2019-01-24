@@ -501,7 +501,8 @@ export class Stories {
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
             hide_higher_options: this.checked_stories.size > 0 && this.user.editing,
-            empty_list_message: this.i18n.tr('photos.no-topics-yet')
+            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            help_topic: 'topics-help'
         });
         this.words_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",

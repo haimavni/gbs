@@ -343,14 +343,16 @@ export class Photos {
             can_add: result == "photos-ready-to-edit",
             can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
             can_delete: result == "photos-ready-to-edit",
-            hide_higher_options: this.selected_photos.size > 0 && this.user.editing
+            hide_higher_options: this.selected_photos.size > 0 && this.user.editing,
+            help_topic: 'topics-help'
         });
         this.photographers_settings.update({
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
             name_editable: result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
-            can_group: this.user.editing
+            can_group: this.user.editing,
+            help_topic: 'photographers-help'
         });
         return result;
     }

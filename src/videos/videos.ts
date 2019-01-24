@@ -308,7 +308,8 @@ export class Videos {
             can_set_sign: result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
-            empty_list_message: this.i18n.tr('photos.no-topics-yet')
+            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            help_topic: 'topics-help'
         });
         this.photographers_settings.update({
             mergeable: result == "can-modify-tags" || result == "ready-to-edit",
@@ -316,7 +317,8 @@ export class Videos {
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
             can_group: this.user.editing,
-            empty_list_message: this.i18n.tr('photos.no-photographers-yet')
+            empty_list_message: this.i18n.tr('photos.no-photographers-yet'),
+            help_topic: 'photographers-help'
         });
         return result;
     }

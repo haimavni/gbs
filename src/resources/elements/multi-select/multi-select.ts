@@ -19,6 +19,7 @@ export class MultiSelectSettings {
     height_unselected = 132;
     hide_higher_options = false;  //hide options that are collections of lower level options
     empty_list_message = 'Empty list of options';
+    help_topic = 'search-input';
 
     constructor(obj) {
         this.update(obj);

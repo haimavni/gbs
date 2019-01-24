@@ -5,6 +5,7 @@ export class SearchInputCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay}) value;
     @bindable placeholder = 'type someting';
     @bindable height;
+    @bindable help_topic = 'search-input';
     element;
 
     constructor(element) {
