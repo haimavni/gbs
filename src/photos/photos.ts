@@ -377,7 +377,7 @@ export class Photos {
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_dates_option')
     get can_set_dates() {
-        return this.user.editing && this.selected_photos.size > 0 && this.params.selected_dates_option == 'undated'
+        return this.user.editing && this.selected_photos.size > 0
     }
 
     save_photo_group() {
