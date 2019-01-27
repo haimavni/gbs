@@ -63,10 +63,10 @@ export class DateRangeCustomElement {
             return;
         }
         this.end_date_options = [];
-        let i0 = 0;
+        let i0 = 1;
         for (let i of arr) {
             let dif = date._year - cur_year;
-            if (dif >= 0) {
+            if (dif >= 0) {  //not future dates!
                 i0 -= dif;
                 date.incr(-dif);
             }
@@ -77,7 +77,7 @@ export class DateRangeCustomElement {
             i0 = i;
         }
         date = new MyDate(this.base_date_str);
-        date.incr(this.span_size);
+        date.incr(this.span_size - 1);
         this._end_date_str = date.toString();
     }
 
@@ -94,8 +94,9 @@ export class DateRangeCustomElement {
     }
 
     calc_end_date() {
+        if (this.span_size <= 1) return ""
         let date = new MyDate(this.base_date_str);
-        date.incr(this.span_size);
+        date.incr(this.span_size - 1);
         this._end_date_str = date.toString();
         return this._end_date_str;
     }
@@ -132,7 +133,7 @@ export class DateRangeCustomElement {
         if (this.user.editing) return false;
         this.build_end_date_options();
         let s = this.base_date_str;
-        if (this.partial && this.span_size > 0) {
+        if (this.partial && this.span_size > 1) {
             s += '-';
             s += this.calc_end_date();
         }

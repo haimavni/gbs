@@ -255,6 +255,7 @@ export class Photos {
     time_range_changed(event) {
         this.params.first_year = event.detail.first_year;
         this.params.last_year = event.detail.last_year;
+        this.params.base_year = event.detail.base_year;
         this.update_photo_list();
     }
 

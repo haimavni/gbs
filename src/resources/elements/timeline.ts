@@ -8,7 +8,9 @@ const time_element_width = 11;
 export class TimelineCustomElement {
     @bindable base_year = 1923;
     @bindable first_year = 1928;
-    @bindable num_years = 102;
+    @bindable num_years = 100;
+    first_year_at_start = 0;
+    last_year_at_start = 0;
     last_year;
     i18n;
     theme;
@@ -26,8 +28,8 @@ export class TimelineCustomElement {
         this.i18n = i18n;
         this.theme = theme;
         this.drag_me = this.i18n.tr('photos.drag-me');
-        this.items = [];
         this.element = element;
+        this.items = [];
         for (let i = 0; i < this.num_years; i++) {
             this.items.push({ year: this.base_year + i });
         }
@@ -37,9 +39,16 @@ export class TimelineCustomElement {
     attached() {
         this.first_year_position = (this.first_year - this.base_year - 3) * time_element_width;
         this.last_year_position = (this.last_year - this.base_year) * time_element_width;
+        this.items = [];
+        for (let i = 0; i < this.num_years; i++) {
+            this.items.push({ year: this.base_year + i });
+        }
+        this.last_year = this.base_year + this.num_years - 4;
     }
 
     dragstart(side, event) {
+        this.first_year_at_start = this.first_year;
+        this.last_year_at_start = this.last_year;
     }
 
     dragmove(side, event) {
@@ -51,8 +60,8 @@ export class TimelineCustomElement {
                 break;
             case 'right':
                 this.last_year_position += event.detail.dx;
-                this.last_year_position  = Math.min(this.timeline_width - 4 * time_element_width, this.last_year_position);
-                this.last_year_position  = Math.max(this.first_year_position + 4 * time_element_width, this.last_year_position);
+                this.last_year_position = Math.min(this.timeline_width - 4 * time_element_width, this.last_year_position);
+                this.last_year_position = Math.max(this.first_year_position + 4 * time_element_width, this.last_year_position);
                 break;
         }
         this.first_year = this.base_year + Math.round(this.first_year_position / time_element_width) + 3;
@@ -60,6 +69,29 @@ export class TimelineCustomElement {
     }
 
     dragend(side, event) {
+        let shifting = false;
+        let gap;
+        if (side == 'left' && event.detail.dx < 0) {
+            gap = Math.round(-event.detail.dx / time_element_width);
+            if (this.first_year_at_start == this.base_year + 3) {
+                shifting = true;
+                gap = -gap;
+            }
+        }
+        if (side == 'right' && event.detail.dx > 0) {
+            gap = Math.round(event.detail.dx / time_element_width);
+            if (this.last_year_at_start == this.base_year + this.num_years - 4) {
+                shifting = true;
+            }
+        }
+        if (shifting) {
+            this.base_year += gap;
+            this.first_year = this.base_year + 3;
+            this.last_year += gap;
+            for (let i = 0; i < this.num_years; i++) {
+                this.items[i].year = this.base_year + i;
+            }
+        }
         this.first_year_position = (this.first_year - this.base_year - 3) * time_element_width;
         this.last_year_position = (this.last_year - this.base_year) * time_element_width;
         this.dispatch_event();
@@ -69,7 +101,8 @@ export class TimelineCustomElement {
         let changeEvent = new CustomEvent('change', {
             detail: {
                 first_year: this.first_year,
-                last_year: this.last_year
+                last_year: this.last_year,
+                base_year: this.base_year
             },
             bubbles: true
         });
