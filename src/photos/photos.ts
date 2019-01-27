@@ -64,6 +64,7 @@ export class Photos {
     with_a_member_text;
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
+    anchor = -1; //for multiple selections
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -92,17 +93,17 @@ export class Photos {
             { value: "dated", name: this.i18n.tr('photos.dated') },
             { value: "undated", name: this.i18n.tr('photos.undated') }
         ];
-    this.options_settings = new MultiSelectSettings({
-        clear_filter_after_select: false,
-        can_set_sign: true,
-        can_group: true,
-        empty_list_message: this.i18n.tr('photos.no-topics-yet')
-    });
-    this.photographers_settings = new MultiSelectSettings({
-        clear_filter_after_select: true,
-        can_set_sign: false,
-        empty_list_message: this.i18n.tr('photos.no-photographers-yet')
-    });
+        this.options_settings = new MultiSelectSettings({
+            clear_filter_after_select: false,
+            can_set_sign: true,
+            can_group: true,
+            empty_list_message: this.i18n.tr('photos.no-topics-yet')
+        });
+        this.photographers_settings = new MultiSelectSettings({
+            clear_filter_after_select: true,
+            can_set_sign: false,
+            empty_list_message: this.i18n.tr('photos.no-photographers-yet')
+        });
     }
 
     created(params, config) {
@@ -202,9 +203,45 @@ export class Photos {
             });
     }
 
-    maximize_photo(slide, event) {
+    maximize_photo(slide, event, index) {
+        if (this.anchor < 0) this.anchor = index;
         if (event.ctrlKey) {
             this.toggle_selection(slide, event);
+        } else if (event.altKey) {
+            this.selected_photos = new Set();
+            if (slide.selected)
+                this.selected_photos.add(slide.photo_id);
+            for (let photo of this.photo_list) {
+                if (photo.photo_id != slide.photo_id)
+                    photo.selected = "";
+            }
+            this.params.selected_photo_list = Array.from(this.selected_photos);
+        } else if (event.shiftKey) {
+            //
+            this.toggle_selection(slide, event);
+            let checked = slide.photo_selected != "";
+            let i0, i1;
+            if (this.anchor < index) {
+                i0 = this.anchor;
+                i1 = index;
+            } else {
+                i0 = index;
+                i1 = this.anchor;
+            }
+            for (let i = i0; i < i1; i++) {
+                let photo = this.photo_list[i];
+                if (photo) {
+                    photo.selected = checked ? "photo-selected" : "";
+                    if (checked) {
+                        this.selected_photos.add(photo.photo_id)
+                    } else {
+                        this.selected_photos.delete(photo.photo_id)
+                    }
+                } else {
+                    console.log("no itm. i is: ", i);
+                }
+            }
+            this.params.selected_photo_list = Array.from(this.selected_photos);
         } else {
             event.stopPropagation();
             this.openDialog(slide);
@@ -325,8 +362,8 @@ export class Photos {
         this.router.navigateToRoute('photo-detail', { id: photo_id, keywords: "" });
     }
 
-    @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str', 
-                  'selected_photos', 'has_grouped_photographers', 'has_grouped_topics')
+    @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str',
+        'selected_photos', 'has_grouped_photographers', 'has_grouped_topics')
     get phase() {
         if (this.caller_type == 'term' || this.caller_type == 'story')
             return 'selecting-photos-for-story'
@@ -336,7 +373,7 @@ export class Photos {
                 result = "applying-to-photos"
             } else {
                 result = this.topics_action();
-           }
+            }
         }
         this.options_settings.update({
             mergeable: result != "applying-to-photos" && result != "selecting-photos",
@@ -363,7 +400,7 @@ export class Photos {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.topic_kind==2) return 'photos-ready-to-edit';
+                if (topic_item.option.topic_kind == 2) return 'photos-ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {

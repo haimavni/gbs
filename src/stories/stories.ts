@@ -428,7 +428,7 @@ export class Stories {
                 if (itm.story_id != story.story_id)
                     itm.checked = false;
             }
-        } else if (keys.ctrlKey) {  //will use shiftKey, the standard, if it dpes not select whole areas (blue)
+        } else if (keys.ctrlKey || keys.shiftKey) {  //will use shiftKey, the standard, if it dpes not select whole areas (blue)
             let i0, i1;
             if (this.anchor < index) {
                 i0 = this.anchor;
@@ -437,7 +437,6 @@ export class Stories {
                 i0 = index;
                 i1 = this.anchor;
             }
-            console.log("i0, i1: ", i0, i1);
             for (let i = i0; i < i1; i++) {
                 let itm = this.story_list[i];
                 if (itm) {
