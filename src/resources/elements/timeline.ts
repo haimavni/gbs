@@ -9,8 +9,11 @@ export class TimelineCustomElement {
     @bindable base_year = 1923;
     @bindable first_year = 1928;
     @bindable num_years = 100;
-    first_year_at_start = 0;
-    last_year_at_start = 0;
+    base_year_at_start = 0;
+    start_at_left = false;
+    start_at_right = false;
+    shifting = false;
+    distance = 0;
     last_year;
     i18n;
     theme;
@@ -47,53 +50,61 @@ export class TimelineCustomElement {
     }
 
     dragstart(side, event) {
-        this.first_year_at_start = this.first_year;
-        this.last_year_at_start = this.last_year;
+        let first_year_at_start = this.first_year;
+        let last_year_at_start = this.last_year;
+        this.base_year_at_start = this.base_year;
+        this.start_at_left = first_year_at_start == this.base_year + 3;
+        this.start_at_right = last_year_at_start == this.base_year + this.num_years - 4;
+        this.distance = 0;
+        this.shifting = false;
     }
 
     dragmove(side, event) {
+        console.log("dx: ", event.detail.dx);
         switch (side) {
             case 'left':
-                this.first_year_position += event.detail.dx;
-                this.first_year_position = Math.max(0, this.first_year_position);
-                this.first_year_position = Math.min(this.last_year_position - 4 * time_element_width, this.first_year_position);
+                if (this.start_at_left && event.detail.dx < 0 && this.distance == 0) {
+                    this.shifting = true;
+                }
+                if (this.shifting) {
+                    this.distance += event.detail.dx;
+                } else {
+                    this.first_year_position += event.detail.dx;
+                    this.first_year_position = Math.max(0, this.first_year_position);
+                    this.first_year_position = Math.min(this.last_year_position - 4 * time_element_width, this.first_year_position);
+                }
                 break;
             case 'right':
-                this.last_year_position += event.detail.dx;
-                this.last_year_position = Math.min(this.timeline_width - 4 * time_element_width, this.last_year_position);
-                this.last_year_position = Math.max(this.first_year_position + 4 * time_element_width, this.last_year_position);
+                if (this.start_at_right && event.detail.dx > 0 && this.distance == 0) {
+                    this.shifting = true;
+                }
+                if (this.shifting) {
+                    this.distance += event.detail.dx;
+                } else {
+                    this.last_year_position += event.detail.dx
+                    this.last_year_position = Math.max(this.first_year_position + 4 * time_element_width, this.last_year_position);
+                    this.last_year_position = Math.min(this.timeline_width - 6 * time_element_width, this.last_year_position);
+                }
                 break;
         }
-        this.first_year = this.base_year + Math.round(this.first_year_position / time_element_width) + 3;
-        this.last_year = this.base_year + Math.round(this.last_year_position / time_element_width);
+        if (this.shifting) {
+            let gap = Math.round(this.distance / time_element_width);
+            this.base_year = this.base_year_at_start + gap;
+            this.first_year = this.base_year + 3;
+            this.last_year = this.base_year + this.num_years - 4;
+        } else {
+            this.first_year = this.base_year + Math.round(this.first_year_position / time_element_width) + 3;
+            this.last_year = this.base_year + Math.round(this.last_year_position / time_element_width);
+        }
     }
 
     dragend(side, event) {
-        let shifting = false;
-        let gap;
-        if (side == 'left' && event.detail.dx < 0) {
-            gap = Math.round(-event.detail.dx / time_element_width);
-            if (this.first_year_at_start == this.base_year + 3) {
-                shifting = true;
-                gap = -gap;
-            }
-        }
-        if (side == 'right' && event.detail.dx > 0) {
-            gap = Math.round(event.detail.dx / time_element_width);
-            if (this.last_year_at_start == this.base_year + this.num_years - 4) {
-                shifting = true;
-            }
-        }
-        if (shifting) {
-            this.base_year += gap;
-            this.first_year = this.base_year + 3;
-            this.last_year += gap;
+        if (this.shifting) {
+            this.shifting = false;
             for (let i = 0; i < this.num_years; i++) {
                 this.items[i].year = this.base_year + i;
             }
         }
-        this.first_year_position = (this.first_year - this.base_year - 3) * time_element_width;
-        this.last_year_position = (this.last_year - this.base_year) * time_element_width;
         this.dispatch_event();
     }
 
