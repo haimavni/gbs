@@ -133,7 +133,6 @@ export class DateRangeCustomElement {
         if (this.user.editing) return false;
         this.build_end_date_options();
         let s = this.base_date_str;
-        if (s.length < 4) return "";
         if (this.partial && this.span_size > 1) {
             s += '-';
             s += this.calc_end_date();
