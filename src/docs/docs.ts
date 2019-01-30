@@ -40,7 +40,7 @@ export class Docs {
         selected_uploader: "",
         from_date: "",
         to_date: "",
-        checked_docs: [],
+        selected_docs: [],
         checked_doc_list: [],
         link_class: "basic",
         deleted_docs: false,
@@ -202,7 +202,7 @@ export class Docs {
     }
 
     uncheck_checked_docs() {
-        this.params.checked_docs = [];
+        this.params.selected_docs = [];
         this.checked_docs = new Set();
         for (let doc of this.doc_list) {
             doc.checked = false;
@@ -244,14 +244,14 @@ export class Docs {
             let doc_list = Array.from(result);
             this.num_of_docs = doc_list.length;
             if (doc_list.length == 0) return;
-            this.params.checked_docs = doc_list;
+            this.params.selected_docs = doc_list;
             this.update_doc_list();
         } else if (result) {
             this.num_of_docs = 0;
             this.no_results = true;
             this.doc_list = Array.from(result);
         } else {
-            this.params.checked_docs = [];
+            this.params.selected_docs = [];
             this.update_doc_list();
             this.num_of_docs = 0;
         }
@@ -286,7 +286,6 @@ export class Docs {
 
     toggle_selection(doc, event, index) {
         if (this.anchor < 0) this.anchor = index;
-        console.log("event: ", event, " index: ", index);
         event = event.detail;
         if (event.keys.altKey) {
             this.checked_docs = new Set();
@@ -409,7 +408,7 @@ export class Docs {
             selected_uploader: "",
             from_date: "",
             to_date: "",
-            checked_docs: [],
+            selected_docs: [],
             checked_doc_list: [],
             link_class: "basic",
             deleted_docs: false,
