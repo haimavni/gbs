@@ -92,6 +92,7 @@ export class Videos {
     }
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
+    anchor = -1; //for multiple selections
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
@@ -265,13 +266,57 @@ export class Videos {
         this.api.call_server_post('topics/rename_topic', t);
     }
 
-    toggle_selection(video) {
-        if (video.selected) {
+    toggle_selection(video, event, index) {
+        if (this.anchor < 0) this.anchor = index;
+        if (event.altKey) {
+            this.selected_videos = new Set();
+            if (video.selected)
+                this.selected_videos.add(video.id);
+            for (let vid of this.video_list) {
+                if (vid.id != video.id)
+                    vid.selected = false;
+            }
+        } else if (event.shiftKey) {
+            this.toggle_video_selection(video);
+            let checked = video.selected;
+            let i0, i1;
+            if (this.anchor < index) {
+                i0 = this.anchor;
+                i1 = index;
+            } else {
+                i0 = index;
+                i1 = this.anchor;
+            }
+            for (let i = i0; i < i1; i++) {
+                let video = this.video_list[i];
+                if (video) {
+                    video.selected = checked;
+                    if (checked) {
+                        this.selected_videos.add(video.id)
+                    } else {
+                        this.selected_videos.delete(video.id)
+                    }
+                } else {
+                    console.log("no itm. i is: ", i);
+                }
+            }
+        } else if (video.selected) {
             video.selected = false;
             this.selected_videos.delete(video.id);
         } else {
             video.selected = true;
             this.selected_videos.add(video.id);
+        }
+        this.params.selected_video_list = Array.from(this.selected_videos);
+    }
+
+    toggle_video_selection(video) {
+        if (this.selected_videos.has(video.id)) {
+            this.selected_videos.delete(video.id);
+            video.selected = false;
+        } else {
+            this.selected_videos.add(video.id);
+            video.selected = true;
         }
         this.params.selected_video_list = Array.from(this.selected_videos);
     }

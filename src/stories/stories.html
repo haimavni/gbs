@@ -69,7 +69,7 @@
                             <span style="font-size:70%;">${result_type_counters[uf]}</span>&nbsp;&nbsp;<span style="font-weight:bolder">${'result' + uf & t}</span>
                         </button>
                     </form>
-                    <ul style="width:100%;padding:0;height:560px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area">
+                    <ul ref="scroll_area" class="unselectable story-list">
                         <li repeat.for="story of story_list | filter: filter : '*selected' : 'name' : 'author' | take : 9999" dir="${theme.rtltr}"
                             if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">

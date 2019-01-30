@@ -40,7 +40,7 @@ export class Docs {
         selected_uploader: "",
         from_date: "",
         to_date: "",
-        selected_docs: [],
+        checked_docs: [],
         checked_doc_list: [],
         link_class: "basic",
         deleted_docs: false,
@@ -76,6 +76,7 @@ export class Docs {
     ea: EventAggregator;
     has_grouped_topics: false;
     clear_selected_topics_now = false;
+    anchor = -1; //for multiple selections
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -126,7 +127,7 @@ export class Docs {
 
     created(params, config) {
         this.ea.subscribe('DOCS_WERE_UPLOADED', () => {
-             this.update_doc_list();
+            this.update_doc_list();
         });
         if (this.doc_list && this.doc_list.length > 0 && !this.router.isExplicitNavigation) return;
         this.update_topic_list();
@@ -192,16 +193,16 @@ export class Docs {
             });
     }
 
-    apply_topics_to_selected_docs() {
-        this.api.call_server_post('docs/apply_to_selected_docs', { params: this.params })
+    apply_topics_to_checked_docs() {
+        this.api.call_server_post('docs/apply_to_checked_docs', { params: this.params })
             .then(() => {
                 this.clear_selected_topics_now = true;
-                this.uncheck_selected_docs();
+                this.uncheck_checked_docs();
             });
     }
 
-    uncheck_selected_docs() {
-        this.params.selected_docs = [];
+    uncheck_checked_docs() {
+        this.params.checked_docs = [];
         this.checked_docs = new Set();
         for (let doc of this.doc_list) {
             doc.checked = false;
@@ -243,14 +244,14 @@ export class Docs {
             let doc_list = Array.from(result);
             this.num_of_docs = doc_list.length;
             if (doc_list.length == 0) return;
-            this.params.selected_docs = doc_list;
+            this.params.checked_docs = doc_list;
             this.update_doc_list();
         } else if (result) {
             this.num_of_docs = 0;
             this.no_results = true;
             this.doc_list = Array.from(result);
         } else {
-            this.params.selected_docs = [];
+            this.params.checked_docs = [];
             this.update_doc_list();
             this.num_of_docs = 0;
         }
@@ -275,11 +276,54 @@ export class Docs {
     }
 
     toggle_doc_selection(doc, event) {
-        let checked = event.detail.checked;
+        let checked = event.checked;
         if (checked) {
             this.checked_docs.add(doc.story_id)
         } else {
             this.checked_docs.delete(doc.story_id)
+        }
+    }
+
+    toggle_selection(doc, event, index) {
+        if (this.anchor < 0) this.anchor = index;
+        console.log("event: ", event, " index: ", index);
+        event = event.detail;
+        if (event.keys.altKey) {
+            this.checked_docs = new Set();
+            if (doc.story.checked)
+                this.checked_docs.add(doc.story_id);
+            for (let d of this.doc_list) {
+                if (d.story_id != doc.story_id)
+                    d.story.checked = false;
+            }
+        } else if (event.keys.shiftKey) {
+            //this.toggle_doc_selection(doc, event);
+            let checked = doc.story.checked;
+            let i0, i1;
+            if (this.anchor < index) {
+                i0 = this.anchor;
+                i1 = index;
+            } else {
+                i0 = index;
+                i1 = this.anchor;
+            }
+            for (let i = i0; i < i1; i++) {
+                let d = this.doc_list[i];
+                if (d) {
+                    d.story.checked = checked;
+                    if (checked) {
+                        this.checked_docs.add(d.story_id)
+                    } else {
+                        this.checked_docs.delete(d.story_id)
+                    }
+                } else {
+                    console.log("no itm. i is: ", i);
+                }
+            }
+        } else if (doc.story.checked) {
+            this.checked_docs.add(doc.story_id);
+        } else {
+            this.checked_docs.delete(doc.story_id);
         }
         this.params.checked_doc_list = Array.from(this.checked_docs);
     }
@@ -365,7 +409,7 @@ export class Docs {
             selected_uploader: "",
             from_date: "",
             to_date: "",
-            selected_docs: [],
+            checked_docs: [],
             checked_doc_list: [],
             link_class: "basic",
             deleted_docs: false,

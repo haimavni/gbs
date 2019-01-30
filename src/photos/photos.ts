@@ -206,7 +206,7 @@ export class Photos {
     maximize_photo(slide, event, index) {
         if (this.anchor < 0) this.anchor = index;
         if (event.ctrlKey) {
-            this.toggle_selection(slide, event);
+            this.toggle_selection(slide);
         } else if (event.altKey) {
             this.selected_photos = new Set();
             if (slide.selected)
@@ -218,7 +218,7 @@ export class Photos {
             this.params.selected_photo_list = Array.from(this.selected_photos);
         } else if (event.shiftKey) {
             //
-            this.toggle_selection(slide, event);
+            this.toggle_selection(slide);
             let checked = slide.photo_selected != "";
             let i0, i1;
             if (this.anchor < index) {
@@ -296,7 +296,7 @@ export class Photos {
         this.update_photo_list();
     }
 
-    toggle_selection(photo, event) {
+    toggle_selection(photo) {
         if (this.selected_photos.has(photo.photo_id)) {
             this.selected_photos.delete(photo.photo_id);
             photo.selected = "";
