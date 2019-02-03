@@ -58,6 +58,9 @@
                                     ${'stories.promote-selected-stories' & t}
                                 </button>
                             </div>
+                            <div class="form-group" if.bind="user.editing">
+                                <help topic="how-to-select" position="bottom"></help>
+                            </div>
                         </form>
                     </div>
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
