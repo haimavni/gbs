@@ -77,7 +77,7 @@
 }
 
 .panel-messages {
-    background-color: lightgray;
+    background-color: rgba(176,196,222,0.2);
     font-size: 83%;
 
     .messages-header {
@@ -91,7 +91,6 @@
 
     .messages {
         padding: 0;
-
         .message {
             border-bottom: solid 2px gray;
             margin-bottom: 1rem;
