@@ -65,6 +65,7 @@ export class Photos {
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
+    download_url = "";
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -447,7 +448,18 @@ export class Photos {
     }
 
     download_photos() {
-
+        this.api.call_server_post('photos/download_files', this.params)
+            .then(response => {
+                this.download_url = response.download_url;
+                setTimeout(() => {
+                    this.download_url = "";
+                    this.clear_photo_group();
+                }, 7000);
+/*
+                let el = document.getElementById('download_url');
+                console.log("el is ", el);
+                el.click();
+*/            });
     }
 
     delete_selected_photos() {

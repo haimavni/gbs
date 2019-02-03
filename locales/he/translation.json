@@ -241,7 +241,8 @@
         "photographer-already-exists": "הצלם כבר קיים במערכת",
         "no-photographers-yet": "רשימת הצלמים ריקה עדיין",
         "no-topics-yet": "רשימת הנושאים ריקה עדיין",
-        "no-words-yet": "המילון ריק עדיין"
+        "no-words-yet": "המילון ריק עדיין",
+        "download-now": "הקלק להתחלת ההורדה"
     },
     "videos": {
         "videos": "סרטים",
