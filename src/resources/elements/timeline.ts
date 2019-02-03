@@ -19,17 +19,19 @@ export class TimelineCustomElement {
     theme;
     element;
 
-    timeline_width = 1124;
+    timeline_width = 1102;
     sides = ['left', 'right']
     items = [];
     first_year_position = 0;
-    last_year_position = 922;
+    last_year_position = 1068;
     drag_me;
 
     constructor(element, i18n, theme: Theme) {
         //this.timeline_width = elementRect.width;
         this.i18n = i18n;
         this.theme = theme;
+        this.timeline_width = this.num_years * time_element_width + 2;
+        this.last_year_position = this.timeline_width - 4 * time_element_width;
         this.drag_me = this.i18n.tr('photos.drag-me');
         this.element = element;
         this.items = [];
@@ -70,8 +72,8 @@ export class TimelineCustomElement {
                     this.distance += event.detail.dx;
                 } else {
                     this.first_year_position += event.detail.dx;
-                    this.first_year_position = Math.max(0, this.first_year_position);
                     this.first_year_position = Math.min(this.last_year_position - 4 * time_element_width, this.first_year_position);
+                    this.first_year_position = Math.max(0, this.first_year_position)
                 }
                 break;
             case 'right':
@@ -83,7 +85,7 @@ export class TimelineCustomElement {
                 } else {
                     this.last_year_position += event.detail.dx
                     this.last_year_position = Math.max(this.first_year_position + 4 * time_element_width, this.last_year_position);
-                    this.last_year_position = Math.min(this.timeline_width - 6 * time_element_width, this.last_year_position);
+                    this.last_year_position = Math.min(this.timeline_width - 4 * time_element_width, this.last_year_position);
                 }
                 break;
         }
@@ -99,7 +101,11 @@ export class TimelineCustomElement {
     }
 
     dragend(side, event) {
+        this.first_year_position = Math.round(this.first_year_position / time_element_width) * time_element_width;;
+        this.last_year_position = Math.round(this.last_year_position / time_element_width) * time_element_width;;
         if (this.shifting) {
+            this.first_year_position = 0;
+            this.last_year_position = this.timeline_width - 4 * time_element_width;
             this.shifting = false;
             for (let i = 0; i < this.num_years; i++) {
                 this.items[i].year = this.base_year + i;
@@ -121,5 +127,3 @@ export class TimelineCustomElement {
     }
 
 }
-
-
