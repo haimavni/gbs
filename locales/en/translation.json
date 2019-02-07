@@ -244,7 +244,8 @@
         "no-photographers-yet": "No photographers yet",
         "no-topics-yet": "No topics defined yet",
         "no-words-yet": "The dictionary is still empty",
-        "download-now": "Click to download"
+        "download-now": "Click to download",
+        "pair": "Match photo back"
     },
     "videos": {
         "videos": "Video",

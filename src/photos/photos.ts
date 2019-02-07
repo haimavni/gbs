@@ -50,22 +50,23 @@ export class Photos {
     topic_list = [];
     topic_groups = [];
     photographer_list = [];
-    days_since_upload_options;
-    uploader_options;
-    dates_options;
-    i18n;
+    days_since_upload_options = [];
+    uploader_options = [];
+    dates_options = [];
+    i18n: I18N;
     selected_photos = new Set([]);
-    router;
-    options_settings;
+    router: Router;
+    options_settings: MultiSelectSettings;
     photographers_settings;
     caller_type;
-    caller_id;
-    with_a_member;
-    with_a_member_text;
+    caller_id: number;
+    with_a_member = false;
+    with_a_member_text = "";
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
     download_url = "";
+    can_pair_photos = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -205,6 +206,11 @@ export class Photos {
     }
 
     maximize_photo(slide, event, index) {
+        let distance_from_right = this.photo_size - event.offsetX;
+        if (distance_from_right <= 8) {
+            this.flip_sides(slide);
+            return;
+        }
         if (this.anchor < 0) this.anchor = index;
         if (event.ctrlKey) {
             this.toggle_selection(slide);
@@ -393,6 +399,7 @@ export class Photos {
             can_group: this.user.editing,
             help_topic: 'photographers-help'
         });
+        this.can_pair_photos = this.user.editing && this.selected_photos.size == 2;
         return result;
     }
 
@@ -474,6 +481,33 @@ export class Photos {
     rotate_selected_photos() {
         this.api.call_server_post('photos/rotate_selected_photos', this.params)
             .then(() => this.update_photo_list());
+    }
+
+    pair_selected_photos() {
+        this.api.call_server_post('photos/pair_selected_photos', this.params)
+            .then(response => {
+                let front_id = response.front_id;
+                let back_id = response.back_id;
+                let front_photo = this.photo_list.find(item => item.photo_id == front_id);
+                front_photo.flipable = 'flipable';
+                let back_photo = this.photo_list.find(item => item.photo_id == back_id);
+                front_photo['backside'] = {square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src};
+                let idx = this.photo_list.findIndex(item => item.photo_id == back_id);
+                this.photo_list.splice(idx, 1)
+                this.clear_photo_group();
+            })
+    }
+
+    flip_sides(photo) {
+        photo.flipped = !photo.flipped;
+        if (photo.flipped) {
+            photo.photo_square_src = photo.backside.square_src
+        } else {
+            photo.photo_square_src = photo.square_src
+        }
+        if (this.user.editing) {
+            this.api.call_server_post('photos/flip_photo', {front_id: photo.photo_id, back_id: photo.backside.photo_id})
+        }
     }
 
 }
