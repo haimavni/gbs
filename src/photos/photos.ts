@@ -207,7 +207,7 @@ export class Photos {
 
     maximize_photo(slide, event, index) {
         let distance_from_right = this.photo_size - event.offsetX;
-        if (distance_from_right <= 8) {
+        if (slide.flipable && distance_from_right <= 12) {
             this.flip_sides(slide);
             return;
         }
@@ -462,11 +462,7 @@ export class Photos {
                     this.download_url = "";
                     this.clear_photo_group();
                 }, 7000);
-/*
-                let el = document.getElementById('download_url');
-                console.log("el is ", el);
-                el.click();
-*/            });
+            });
     }
 
     delete_selected_photos() {
@@ -491,7 +487,7 @@ export class Photos {
                 let front_photo = this.photo_list.find(item => item.photo_id == front_id);
                 front_photo.flipable = 'flipable';
                 let back_photo = this.photo_list.find(item => item.photo_id == back_id);
-                front_photo['backside'] = {square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src};
+                front_photo['back'] = {square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src};
                 let idx = this.photo_list.findIndex(item => item.photo_id == back_id);
                 this.photo_list.splice(idx, 1)
                 this.clear_photo_group();
@@ -499,14 +495,9 @@ export class Photos {
     }
 
     flip_sides(photo) {
-        photo.flipped = !photo.flipped;
-        if (photo.flipped) {
-            photo.photo_square_src = photo.backside.square_src
-        } else {
-            photo.photo_square_src = photo.square_src
-        }
-        if (this.user.editing) {
-            this.api.call_server_post('photos/flip_photo', {front_id: photo.photo_id, back_id: photo.backside.photo_id})
+        photo.side = (photo.side == 'front') ? 'back' : 'front'
+        if (this.user.editing && photo.side == 'back') {
+            this.api.call_server_post('photos/flip_photo', {front_id: photo.front.photo_id, back_id: photo.back.photo_id})
         }
     }
 

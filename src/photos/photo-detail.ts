@@ -92,9 +92,12 @@ export class PhotoDetail {
 
     open_full_size_photo() {
         let slide = {
-            src: this.photo_src,
-            width: this.orig_photo_width,
-            height: this.orig_photo_height,
+            side: 'front',
+            front: {
+                src: this.photo_src,
+                width: this.orig_photo_width,
+                height: this.orig_photo_height
+            },
             name: this.photo_name,
             photo_id: this.true_photo_id
         };

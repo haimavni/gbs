@@ -58,7 +58,7 @@ export class FullSizePhoto {
 
     activate(model) {
         this.slide = model.slide;
-        this.photo_url = this.slide.flipped ? this.slide.backside.src : this.slide.src;
+        this.photo_url = this.slide[this.slide.side].src
         this.baseURL = environment.baseURL;
         this.get_faces(this.slide.photo_id);
         this.get_photo_info(this.slide.photo_id);
@@ -67,7 +67,7 @@ export class FullSizePhoto {
             this.dialogController.ok();
         });
         this.theme.hide_title = true;
-    }
+    } 
 
     deactivate() {
         this.navEvent.dispose();

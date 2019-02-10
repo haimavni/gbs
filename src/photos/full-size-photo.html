@@ -2,7 +2,7 @@
     <require from="./full-size-photo.css"></require>
     <div class="slide" click.delegate="mark_face($event)" id="full-size-photo" style="z-index:0;margin-left:32px;cursor:default;">
         <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
-            <img src="${photo_url}" height="${slide.height}" width="${slide.width}" />
+            <img src="${photo_url}" height="${slide[slide.side].height}" width="${slide[slide.side].width}" />
             <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help"></help>
             <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help"></help>
             <button aubs-tooltip="text.bind:highlight_all" class="side-tool highlighter" id="side-tool highlighter" 
@@ -25,7 +25,7 @@
                     </span>
                 </span>
             </button>
-            <span css="position:absolute;color:white;direction:rtl;width:${slide.width}px;diretion:rtl;">
+            <span css="position:absolute;color:white;direction:rtl;width:${slide[slide.side].width}px;diretion:rtl;">
                 <span if.bind="!user.editing">
                     ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
                 </span>
