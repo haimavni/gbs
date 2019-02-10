@@ -207,6 +207,7 @@ export class Docs {
         for (let doc of this.doc_list) {
             doc.checked = false;
         }
+        this.params.checked_doc_list = [];
     }
 
     handle_words_change(event) {

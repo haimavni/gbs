@@ -354,6 +354,7 @@ export class Videos {
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            hide_higher_options: this.selected_videos.size > 0 && this.user.editing,
             help_topic: 'topics-help'
         });
         this.photographers_settings.update({

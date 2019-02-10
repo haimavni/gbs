@@ -446,6 +446,7 @@ export class Photos {
             photo.selected = 0;
         }
         this.selected_photos = new Set();
+        this.params.selected_photo_list = [];
     }
 
     upload_files() {
