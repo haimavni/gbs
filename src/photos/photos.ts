@@ -496,8 +496,8 @@ export class Photos {
     }
 
     flip_sides(photo) {
-        photo.side = (photo.side == 'front') ? 'back' : 'front'
-        if (this.user.editing && photo.side == 'back') {
+        photo.side = (photo.side == 'front') ? 'back' : 'front';
+        if (this.user.editing) {
             this.api.call_server_post('photos/flip_photo', {front_id: photo.front.photo_id, back_id: photo.back.photo_id})
         }
     }
