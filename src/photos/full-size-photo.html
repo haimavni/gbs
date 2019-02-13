@@ -2,7 +2,7 @@
     <require from="./full-size-photo.css"></require>
     <div class="slide" click.delegate="mark_face($event)" id="full-size-photo" style="z-index:0;margin-left:32px;cursor:default;">
         <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
-            <img src="${photo_url}" height="${slide[slide.side].height}" width="${slide[slide.side].width}" />
+            <img src="${slide[slide.side].src}" height="${slide[slide.side].height}" width="${slide[slide.side].width}" />
             <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help"></help>
             <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help"></help>
             <button aubs-tooltip="text.bind:highlight_all" class="side-tool highlighter" id="side-tool highlighter" 
@@ -11,6 +11,7 @@
             </button>
             <button aubs-tooltip="text.bind:jump_to_story_page" class="side-tool story" click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
             <button aubs-tooltip="text.bind:copy_photo_url_text" class="side-tool copy-to-clipboard" click.delegate="copy_photo_url()"><i class="fa fa-lg fa-link"></i></button>
+            <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text" class="side-tool flip-sides" click.delegate="flip_photo()"><i class="fa fa-lg fa-sync"></i></button>
             <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable.bind="theme.interact_setting"
                 class="face" 
                 id.bind="'face-' + face.member_id"

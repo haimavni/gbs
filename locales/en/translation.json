@@ -245,7 +245,8 @@
         "no-topics-yet": "No topics defined yet",
         "no-words-yet": "The dictionary is still empty",
         "download-now": "Click to download",
-        "pair": "Match photo back"
+        "pair": "Match photo back",
+        "flip": "Watch the other side"
     },
     "videos": {
         "videos": "Video",

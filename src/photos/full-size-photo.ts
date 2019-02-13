@@ -32,7 +32,7 @@ export class FullSizePhoto {
     highlight_all;
     jump_to_story_page;
     copy_photo_url_text;
-    photo_url;
+    flip_text;
     navEvent;
 
     constructor(dialogController: DialogController,
@@ -54,11 +54,11 @@ export class FullSizePhoto {
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
         this.copy_photo_url_text = this.i18n.tr('photos.copy-photo-url');
+        this.flip_text = this.i18n.tr('photos.flip');
     }
 
     activate(model) {
         this.slide = model.slide;
-        this.photo_url = this.slide[this.slide.side].src
         this.baseURL = environment.baseURL;
         this.get_faces(this.slide.photo_id);
         this.get_photo_info(this.slide.photo_id);
@@ -130,6 +130,10 @@ export class FullSizePhoto {
 
     copy_photo_url() {
         copy_to_clipboard(this.slide.src);
+    }
+
+    flip_photo() {
+        this.slide.side = (this.slide.side == 'front') ? 'back' : 'front';
     }
 
     handle_face(face, event, index) {
