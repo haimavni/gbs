@@ -15,7 +15,7 @@ export class Terms {
     prev_enabled;
     next_enabled;
     results;
-    like;
+    like = "";
 
     constructor(api: MemberGateway, user: User, theme: Theme, hj: HumanJson) {
         this.api = api;
