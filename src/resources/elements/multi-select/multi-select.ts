@@ -74,8 +74,7 @@ export class MultiSelectCustomElement {
 
     select_option(option) {
         let g;
-        if (option.topic_kind == 1) {
-            //this.selected_options = [];
+        if (this.user.editing && option.topic_kind == 0) {  //ready to add sub topics to new topic
             g = 1;
             this.open_group = 2;
         } else {
