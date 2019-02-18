@@ -229,6 +229,7 @@ export class MultiSelectCustomElement {
         let n = this.selected_options.length;
         if (n == 0) {
             this.dispatch_event();
+            this.open_group = 0;
             return;
         }
         let i = 0;

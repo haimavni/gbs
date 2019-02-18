@@ -20,7 +20,7 @@
     "aurelia-validation": "^1.1.1",
     "aurelia-websocket": "^0.3.1",
     "bluebird": "^3.4.1",
-    "bootstrap-sass": "^3.3.7",
+    "bootstrap-sass": "^3.4.1",
     "calculate-pixel-size": "^1.0.0",
     "downloadjs": "^1.4.7",
     "froala-editor": "^2.8.1",
