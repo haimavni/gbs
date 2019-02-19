@@ -76,8 +76,11 @@ export class StoryWindow {
     }
 
     clean() {
-        this.api.call_server_post('members/clean_html_format', {html: this.story.story_text})
-            .then(response => this.story.story_text = response.html);
+        this.api.call_server_post('members/clean_html_format', {html: this.story_text})
+            .then(response => {
+                this.story_text = response.html;
+            });
+
     }
 
 }
