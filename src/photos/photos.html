@@ -85,11 +85,14 @@
                         </form>
                     </div>
                     <div class="row" id="photos-container" style="height:560px;overflow:auto;direction:rtl;margin:0;padding:0;margin-bottom:16px;">
-                        <span css="padding:0;margin:0;position:relative;width:${photo_size}px;height:${photo_size}px;"
+                        <span css="padding:0;margin:0;positionxx:relative;width:${photo_size}px;height:${photo_size}px;"
                             repeat.for="photo of photo_list | filter : filter : '*selected' : 'title' : name | take : 9999">
-                            <a click.delegate="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.delegate="toggle_selection(photo)" 
+                            <a style="position:relative;" click.delegate="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.delegate="toggle_selection(photo)" 
                                 class.bind="photo.selected" >
-                                <img src="${photo[photo.side].square_src}" aubs-tooltip="text.bind:photo.title" width="${photo_size}" 
+                                <button class="btn btn-xs" css="position:absolute;top:${photo_size / 2};left:10px;background-color:rgba(0,0,0,0">
+                                    <i class="far fa-info-circle" style="color: blue;" aubs-tooltip="text.bind:photo.title"></i>
+                                </button>
+                                <img src="${photo[photo.side].square_src}"  width="${photo_size}" 
                                     height="${photo_size}" style="margin:0;cursor:pointer;" class.bind="photo.flipable" 
                                     draggable="false" />
                             </a>
