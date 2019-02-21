@@ -18,7 +18,7 @@ export class Theme {
     height = 0;
     display_header_background = false;
     min_height = 0;
-    footer_height = 67;
+    footer_height = 63;
     cookies;
     _font_size;// = "font-size-110";
     _locale;

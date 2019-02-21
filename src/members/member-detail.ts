@@ -332,7 +332,7 @@ export class MemberDetail {
     }
 
     _set_heights() {
-        let footer_height = 67;
+        let footer_height = 63;
         let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height;
         panel_height = Math.max(panel_height, 544);
         this.member_detail_panel.style.height = `${panel_height}px`;
