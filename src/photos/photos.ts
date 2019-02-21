@@ -10,7 +10,7 @@ import { Router } from 'aurelia-router';
 import { Theme } from '../services/theme';
 import { MemberPicker } from "../members/member-picker";
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-
+import { MyDate, format_date } from '../services/my-date';
 
 @autoinject()
 @singleton()
@@ -501,5 +501,30 @@ export class Photos {
             this.api.call_server_post('photos/flip_photo', {front_id: photo.front.photo_id, back_id: photo.back.photo_id})
         }
     }
+    
+    photo_info_title(photo) {
+        console.log("yoptfoyamat")
+        let title = `<h3>${photo.name}</h3>`
+        return title;
+    }
+
+    photo_info_content(photo) {
+        let photographer = this.photographer_list.find(p => p.id == photo.photographer_id);
+        let photographer_name = photographer ? photographer.name : this.i18n.tr('photos.unknown-photographer');
+        let pn = this.i18n.tr('photos.photographer-name');
+        let vdr = this.i18n.tr('photos.photo-date-range');
+        let date_range = format_date(photo.photo_date_datestr, photo.photo_date_datespan);
+        let keywords = photo.keywords ? photo.keywords : "";
+        let kw_label = this.i18n.tr('photos.keywords')
+        let content = `
+        <ul>
+            <li>${pn}:&nbsp;${photographer_name}</li>
+            <li>${vdr}:&nbsp;${date_range}</li>
+            <li>${kw_label}:&nbsp;${keywords}</li>
+        </ul>
+        `
+        return content;
+    }
+
 
 }

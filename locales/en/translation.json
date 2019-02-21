@@ -246,7 +246,11 @@
         "no-words-yet": "The dictionary is still empty",
         "download-now": "Click to download",
         "pair": "Match photo back",
-        "flip": "Watch the other side"
+        "flip": "Watch the other side",
+        "photo-date-range": "Photo Date",
+        "keywords": "Associatted topics",
+        "photographer-name": "Photographer name",
+        "unknown-photographer": "Unknown",
     },
     "videos": {
         "videos": "Video",
