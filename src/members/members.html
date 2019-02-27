@@ -53,9 +53,9 @@
                         dir="rtl">
                         <a click.trigger="member_clicked(member, $event)" tapandhold="500" longtouch.delegate="toggle_selection(member, $event)" 
                             disabled.bind="not_ready(member)" style="color:black;cursor:pointer;">
-                            <img src.bind="member.facePhotoURL" aubs-tooltip="text.bind:member.title" 
+                            <img src.bind="member.facePhotoURL" 
                                 css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" />
-                            <h6 dir="rtl" class="list-group-item-heading" >${member.name}</h6>
+                            <h6 class="list-group-item-heading">${member.name}</h6>
                         </a>
                     </li>
                 </ul>

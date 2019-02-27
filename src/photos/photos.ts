@@ -503,7 +503,6 @@ export class Photos {
     }
     
     photo_info_title(photo) {
-        console.log("yoptfoyamat")
         let title = `<h3>${photo.name}</h3>`
         return title;
     }
