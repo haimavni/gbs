@@ -131,6 +131,7 @@
                             ms-change.delegate="handle_photographer_change($event)">
                         </multi-select>
                     </div>
+                    <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->
                     <div class="row" style="margin-top: 10px;">
                         <form role="form">
                             <select value.bind="params.selected_days_since_upload" style="height:32px;width:90%;" change.delegate="handle_change($event)">
