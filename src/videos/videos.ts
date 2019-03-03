@@ -423,7 +423,15 @@ export class Videos {
 
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
-        this.api.call_server_post('members/add_photographer', { photographer_name: new_photographer_name, kind: 'V' });
+        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'V' });
+    }
+
+    remove_photographer(event) {
+        let photographer = event.detail.option;
+        this.api.call_server_post('topics/remove_photographer', { photographer: photographer })
+        .then(() => {
+            this.update_topic_list();
+        });
     }
 
     handle_photographer_change(event) {

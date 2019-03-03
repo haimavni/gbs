@@ -250,6 +250,7 @@
         "photo-date-range": "Photo Date",
         "keywords": "Associatted topics",
         "photographer-name": "Photographer name",
+        "photographer-has-photos": "Photographer has photos. <br/>Delete or assign another photographer",
         "unknown-photographer": "Unknown"
     },
     "videos": {

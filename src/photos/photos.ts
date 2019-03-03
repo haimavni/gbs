@@ -289,7 +289,10 @@ export class Photos {
 
     remove_photographer(event) {
         let photographer = event.detail.option;
-        this.api.call_server_post('topics/remove_photographer', { photographer: photographer });
+        this.api.call_server_post('topics/remove_photographer', { photographer: photographer })
+        .then(() => {
+            this.update_topic_list();
+        });
     }
 
     handle_change(event) {
