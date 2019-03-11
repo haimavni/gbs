@@ -59,7 +59,6 @@ export class Stories {
     approval_state_options;
     i18n;
     num_of_stories = 0;
-    story_types;
     no_results = false;
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
@@ -102,14 +101,6 @@ export class Stories {
             { value: 91, name: this.i18n.tr('stories.uploaded-this-quarter') },
             { value: 365, name: this.i18n.tr('stories.uploaded-this-year') }
         ];
-
-        this.story_types = [
-            //{name: i18n.tr('stories.all-types'), id: 0},
-            { name: i18n.tr('stories.life-stories'), id: 1 },
-            { name: i18n.tr('stories.events'), id: 2 },
-            { name: i18n.tr('stories.photos'), id: 3 },
-            { name: i18n.tr('stories.terms'), id: 4 }
-        ]
 
         this.approval_state_options = [
             { name: i18n.tr('stories.approved-and-unapproved'), id: 1 },
@@ -227,6 +218,7 @@ export class Stories {
     }
 
     async update_story_list(search_type) {
+        //if (this.checked_stories.size > 0) return;
         this.params.checked_story_list = Array.from(this.checked_stories);
         let cnt = 0;
         while (!this.api.ptp_connected) {
@@ -322,7 +314,6 @@ export class Stories {
                 //this.theme.page_title = title;
             });
     }
-    
 
     apply_topics_to_selected_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
@@ -516,7 +507,7 @@ export class Stories {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.topic_kind==2) return 'ready-to-edit';
+                if (topic_item.option.topic_kind == 2) return 'ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
