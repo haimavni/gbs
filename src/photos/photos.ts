@@ -183,12 +183,19 @@ export class Photos {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }
                 console.timeEnd('get_photo_list');
+                this.slider_changed();
             });
     }
 
     slider_changed() {
-        let width = document.getElementById("photos-container").offsetWidth;
+        let el = document.getElementById("photos-container");
+        let width = el.offsetWidth;
         this.photo_size = Math.floor((width - 60) / this.photos_per_line);
+        let num_lines = Math.floor(this.photo_list.length / this.photos_per_line);
+        num_lines = Math.max(num_lines, 1);
+        let height = Math.min(579, num_lines * this.photo_size);
+        el.style.height = "" + height + 'px';
+        el.style.overflow = (height > 579) ? 'auto' : '';
         if (Number(this.photos_per_line) > this.params.max_photos_per_line) {
             this.params.max_photos_per_line = Number(this.photos_per_line);
             this.update_photo_list();
