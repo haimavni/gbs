@@ -350,7 +350,7 @@ export class Videos {
         this.options_settings.update({
             mergeable: result != "videos-were-selected",
             name_editable: result == "photos-ready-to-edit",
-            can_set_sign: result == "photos-ready-to-edit",
+            can_set_sign: true, //result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),

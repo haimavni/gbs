@@ -38,12 +38,14 @@ export class editableCustomElement {
         this.updated_by = this.i18n.tr('stories.updated-by')
     }
 
-    zoom_out(story, what) {
+    zoom_out(story, what, event) {
+        event.stopPropagation(); //todo: attempt to prevent the default selection
+        event.preventDefault();
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
             this.theme.hide_title = false;
         });
-
+        return false;
     }
 
     delete_story(story) {
