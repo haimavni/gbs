@@ -44,9 +44,8 @@ export class Docs {
         checked_doc_list: [],
         link_class: "basic",
         deleted_docs: false,
-        days_since_update: 0,
-        search_type: 'simple',
-        approval_state: 0
+        days_since_upload: 0,
+        search_type: 'simple'
     };
     prev_keywords;
     help_data = {
@@ -56,8 +55,7 @@ export class Docs {
     topic_groups = [];
     authors_list = [];
     checked_docs = new Set();
-    days_since_update_options;
-    approval_state_options;
+    days_since_upload_options;
     i18n;
     num_of_docs = 0;
     no_results = false;
@@ -89,7 +87,7 @@ export class Docs {
         this.router = router;
         this.ea = ea;
         this.popup = popup;
-        this.days_since_update_options = [
+        this.days_since_upload_options = [
             { value: 0, name: this.i18n.tr('docs.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('docs.uploaded-today') },
             { value: 7, name: this.i18n.tr('docs.uploaded-this-week') },
@@ -97,11 +95,6 @@ export class Docs {
             { value: 91, name: this.i18n.tr('docs.uploaded-this-quarter') },
             { value: 365, name: this.i18n.tr('docs.uploaded-this-year') }
         ];
-        this.approval_state_options = [
-            { name: i18n.tr('docs.approved-and-unapproved'), id: 1 },
-            { name: i18n.tr('docs.unapproved'), id: 2 },
-            { name: i18n.tr('docs.approved'), id: 3 }
-        ]
     }
 
     refresh_story(data) {
@@ -264,10 +257,6 @@ export class Docs {
         this.update_doc_list();
     }
 
-    handle_approval_state_change(event) {
-        this.update_doc_list();
-    }
-
     update_topic_list() {
         this.api.call_server_post('topics/get_topic_list', { params: this.params, usage: this.user.editing ? null : 'D' })
             .then(response => {
@@ -413,9 +402,8 @@ export class Docs {
             checked_doc_list: [],
             link_class: "basic",
             deleted_docs: false,
-            days_since_update: 0,
-            search_type: 'simple',
-            approval_state: 0
+            days_since_upload: 0,
+            search_type: 'simple'
         };
 
     }
