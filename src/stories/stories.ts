@@ -296,7 +296,7 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4PHOTO:
                 what = 'PHOTO';
-                this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story' });
+                this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4TERM:
                 what = "TERM";

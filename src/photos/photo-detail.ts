@@ -1,10 +1,11 @@
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
+import { highlight } from '../services/dom_utils';
 
 @autoinject()
 export class PhotoDetail {
@@ -30,6 +31,9 @@ export class PhotoDetail {
     MAX_HEIGHT = 750;
     dialog;
     router;
+    keywords;
+    advanced_search;
+    highlight_on = "highlight-on";
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -40,6 +44,8 @@ export class PhotoDetail {
     }
 
     activate(params, config) {
+        this.keywords = params.keywords;
+        this.advanced_search = params.search_type == 'advanced';
         this.api.getPhotoDetail({ photo_id: params.id, what: params.what })
             .then(response => {
                 this.photo_id = params.id;
@@ -106,6 +112,26 @@ export class PhotoDetail {
 
     go_back() {
         this.router.navigateBack();
+    }
+
+    @computedFrom('photo_story.story_text', 'story_changed')
+    get highlightedHtml() {
+        console.log("keywords: ", this.keywords);
+        if (!this.photo_story) {
+            return "";
+        }
+        console.log("keywords: ", this.keywords);
+        let highlighted_html = highlight(this.photo_story.story_text, this.keywords, this.advanced_search);
+        return highlighted_html;
+    }
+
+    toggle_highlight_on() {
+        if (this.highlight_on) {
+            this.highlight_on = ""
+        } else {
+            this.highlight_on = "highlight-on"
+        }
+        document.getElementById("word-highlighter").blur();
     }
 
 }
