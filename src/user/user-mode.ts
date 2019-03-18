@@ -134,8 +134,6 @@ export class UserMode {
     }
 
     customize() {
-        // this.dialog.open({viewModel: Customize})
-        let url = `${location.pathname}#/customize`;
-        this.popup.popup('CUSTOMIZE', url, "height=960,width=1800,left=50,top=50");
+        this.dialog.open({viewModel: Customize, lock: false})
     }
 }

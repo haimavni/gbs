@@ -1,18 +1,28 @@
 <template>
-    <require from="./admin.css"></require>
-    <div style="height:95%;margin-top:0px;">
-        <div style="width:400px;margin-left:auto;margin-right:auto">
-            <h2 class="center">${'user.customize' & t}</h2>
-        </div>
-        <div class="row" style="display:flex;padding-right:150px;padding-left:150px;font-size:120%;">
-            <div class="col-md-2">
-                ${'user.site-header' & t}
+    <ux-dialog css="direction:${theme.rtltr}">
+        <ux-dialog-header>
+            <div>
+                <h2 class="center">${'user.customize' & t}</h2>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <input type="text" class="form-control"  style="font-size:115%" placeholder="App Title" value.bind="app_title" change.delegate="set_app_title()">
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div style="height:95%;margin-top:0px;">
+                <div class="row" style="display:flex;font-size:120%;">
+                    <div class="col-md-4">
+                        ${'user.site-header' & t}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control" style="font-size:115%" placeholder="App Title"
+                                value.bind="app_title">
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </ux-dialog-body>
+        <ux-dialog-footer>
+            <button type="button" class="btn btn-primary" click.delegate="save()">${'members.save' & t}</button>
+            <button type="button" class="btn btn-info" click.delegate="cancel()">${'members.cancel' & t}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
 </template>

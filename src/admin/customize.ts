@@ -2,7 +2,7 @@ import { autoinject, computedFrom } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
 import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
-import { MemberGateway } from '../services/gateway';
+import { DialogController } from 'aurelia-dialog';
 
 @autoinject()
 export class Customize {
@@ -11,11 +11,13 @@ export class Customize {
     app_title;
     router;
     i18n;
+    controller;
 
-    constructor(theme: Theme, router: Router, i18n: I18N) {
+    constructor(theme: Theme, router: Router, i18n: I18N, controller: DialogController) {
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
+        this.controller = controller;
     }
 
     attached() {
@@ -33,7 +35,12 @@ export class Customize {
         this.app_title = this.i18n.tr('app-title');
     }
 
-    set_app_title() {
-        this.theme.set_locale_override('app-title', this.app_title)
+    save() {
+        this.theme.set_locale_override('app-title', this.app_title);
+        this.controller.ok();
+    }
+
+    cancel() {
+        this.controller.cancel();
     }
 }
