@@ -7,6 +7,7 @@ import { DialogService } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
 import { Popup } from '../services/popups';
 import { copy_to_clipboard } from '../services/dom_utils';
+import { Customize } from '../admin/customize';
 
 
 @autoinject()
@@ -130,5 +131,11 @@ export class UserMode {
 
     toggle_logo() {
         this.theme.changeLogoColor();
+    }
+
+    customize() {
+        // this.dialog.open({viewModel: Customize})
+        let url = `${location.pathname}#/customize`;
+        this.popup.popup('CUSTOMIZE', url, "height=960,width=1800,left=50,top=50");
     }
 }

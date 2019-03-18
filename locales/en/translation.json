@@ -176,7 +176,9 @@
         "font-size": "Select font size",
         "login-successful": "You have logged in successfuly",
         "share": "Copy the address",
-        "number-of-hits": "Number of entries"
+        "number-of-hits": "Number of entries",
+        "customize": "Customize",
+        "site-header": "Site header"
     },
     "chats": {
         "chats": "Chats",

@@ -165,6 +165,11 @@ export class Theme {
         });
     }
 
+    set_locale_override(key, value) {
+        this.api.call_server_post('default/set_locale_override', {lang: this.i18n.getLocale(), key: key, value: value})
+        .then (response => {this.get_locale_overrides()});
+    }
+
     changeLocale(locale) {
         this._locale = locale;
         //todo: merge with locale picker

@@ -67,6 +67,7 @@ export class App {
             { route: 'chats', name: 'chats', moduleId: './user/chats' },
             { route: 'adhoc-scripts', name: 'adhoc-scripts', moduleId: './admin/adhoc-scripts' },
             { route: 'show-logs', name: 'show-logs', moduleId: './admin/show-logs' },
+            { route: 'customize', name: 'customize', moduleId: './admin/customize' },
             { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment'},
             { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep'}
         ]);
