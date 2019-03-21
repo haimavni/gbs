@@ -216,8 +216,8 @@
         "save": "Save",
         "photos-were-selected": "Selected photos - ",
         "sharing": "In addition to upload from your PC, photos may be shared from smartphones, cloud services etc. by sending them to ",
-        "more": "More",
-        "less": "Less",
+        "more-smaller": "More smaller",
+        "larger": "Larger",
         "save-merges": "Save merges",
         "save-topic-group": "Save as compound topic",
         "apply-to-selected": "Apply to selected photos",
@@ -253,11 +253,13 @@
         "keywords": "Associatted topics",
         "photographer-name": "Photographer name",
         "photographer-has-photos": "Photographer has photos. <br/>Delete or assign another photographer",
-        "unknown-photographer": "Unknown"
+        "unknown-photographer": "Unknown",
+        "find-duplicates": "Display duplicates"
     },
     "videos": {
         "videos": "Video",
         "video-clips": "Video clips",
+        "photographers": "Photographers",
         "new": "New video",
         "add-video": "Add video",
         "paste-video-address": "Paste the video address you copied from Youtube",

@@ -136,7 +136,8 @@
                         ${story_0.name}
                     </h3>
                     <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;height:82%" ref="life_summary_content">
-                        <p class="${theme.font_size} ${highlight_on}" innerhtml.bind="biography ">
+                            <!-- <compose if.bind="story_text" view-model='./render-story' model.bind="story_text"></compose> -->
+                            <p class="${theme.font_size} ${highlight_on}" innerhtml.bind="biography ">
                         </p>
                     </div>
                 </div>

@@ -186,7 +186,7 @@
     },
     "photos": {
         "photos": "תמונות",
-        "photographers": "צלמים",
+        "photographers": "צלמים וציירים",
         "photographer": "הצלם",
         "photos-store": "מאגר התמונות",
         "filter": "חפש בכותרות התמונות",
@@ -214,8 +214,8 @@
         "save": "שלח",
         "photos-were-selected": " - תמונות שנבחרו",
         "sharing": " בנוסף להעלאה מהמחשב האישי, ניתן לשתף תמונות מסמרטפונים, שרותי ענן כדוגמת גוגל פוטוס וכדומה בכתובת ",
-        "more": "יותר",
-        "less": "פחות",
+        "more-smaller": "הקטן",
+        "larger": "הגדל",
         "save-merges": "שמור את המיזוגים",
         "save-topic-group": "שמור כנושא מְקֻבָּץ",
         "apply-to-selected": "יִשֵּׂם לתמונות שנבחרו",
@@ -251,11 +251,13 @@
         "keywords": "נושאים קשורים",
         "photographer-name": "שם הצלם",
         "photographer-has-photos": "יש צילומים או סרטים של צלם זה. </br>מחק או קשר צלם אחר.",
-        "unknown-photographer": "לא ידוע"
+        "unknown-photographer": "לא ידוע",
+        "find-duplicates": "הצג כפילויות"
     },
     "videos": {
         "videos": "סרטים",
         "video-clips": "סרטוני וידאו",
+        "photographers": "צלמים",
         "new": "סרטון חדש",
         "add-video": "הוסף וידאו",
         "paste-video-address": "הדבק את כתובת הוידאו שהעתקת מיוטיוב",

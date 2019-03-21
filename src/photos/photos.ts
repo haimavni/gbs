@@ -291,9 +291,9 @@ export class Photos {
     remove_photographer(event) {
         let photographer = event.detail.option;
         this.api.call_server_post('topics/remove_photographer', { photographer: photographer })
-        .then(() => {
-            this.update_topic_list();
-        });
+            .then(() => {
+                this.update_topic_list();
+            });
     }
 
     handle_change(event) {
@@ -492,7 +492,7 @@ export class Photos {
                 let front_photo = this.photo_list.find(item => item.photo_id == front_id);
                 front_photo.flipable = 'flipable';
                 let back_photo = this.photo_list.find(item => item.photo_id == back_id);
-                front_photo['back'] = {square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src};
+                front_photo['back'] = { square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src };
                 let idx = this.photo_list.findIndex(item => item.photo_id == back_id);
                 this.photo_list.splice(idx, 1)
                 this.clear_photo_group();
@@ -502,10 +502,10 @@ export class Photos {
     flip_sides(photo) {
         photo.side = (photo.side == 'front') ? 'back' : 'front';
         if (this.user.editing) {
-            this.api.call_server_post('photos/flip_photo', {front_id: photo.front.photo_id, back_id: photo.back.photo_id})
+            this.api.call_server_post('photos/flip_photo', { front_id: photo.front.photo_id, back_id: photo.back.photo_id })
         }
     }
-    
+
     photo_info_title(photo) {
         let title = `<h3>${photo.name}</h3>`
         return title;
@@ -529,5 +529,14 @@ export class Photos {
         return content;
     }
 
+    find_duplicates() {
+        this.api.call_server_post('photos/find_duplicates')
+            .then(result => {
+                this.photo_list = result.photo_list;
+                for (let photo of this.photo_list) {
+                    photo.title = '<span dir="rtl">' + photo.title + '</span>';
+                }
+            });
+    }
 
 }
