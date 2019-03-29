@@ -1,7 +1,10 @@
 <template>
     <div class="row" style="padding:15px;width:1800px;margin-left:auto;margin-right:auto;" dir="ltr">
-        <div class="col-md-5" style="margin-right:-52px">
+        <div class="col-md-5" style="margin-right:-52px position:relative">
             <h2 class="center">Script</h2>
+            <span class="loader" css="opacity:${working ? 1.0 : 0};position:absolute;left:650px;top:32px;">
+                <i class="fa fa-spinner fa-spin fa-3x" style="color:blue"></i>
+            </span>
             <div class="row toolbar">
                 <div class="col-md-10" style="padding-left:20px;">
                     <div class="btn-group" style="margin-bottom:15px;">

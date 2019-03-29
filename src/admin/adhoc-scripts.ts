@@ -16,6 +16,7 @@ export class Terms {
     next_enabled;
     results;
     like = "";
+    working = false;
 
     constructor(api: MemberGateway, user: User, theme: Theme, hj: HumanJson) {
         this.api = api;
@@ -40,12 +41,14 @@ export class Terms {
     }
 
     evaluate_script(code) {
+        this.working = true;
         this.api.call_server('plugin_scripts/evaluate_script', { code: this.code })
             .then((data) => {
                 this.results = data.results;
                 let node = this.hj.display(this.results);
                 this.output.innerHTML = "";
                 this.output.appendChild(node);
+                this.working = false;
             });
     }
 
