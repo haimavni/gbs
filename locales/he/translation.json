@@ -252,7 +252,8 @@
         "photographer-name": "שם הצלם",
         "photographer-has-photos": "יש צילומים או סרטים של צלם זה. </br>מחק או קשר צלם אחר.",
         "unknown-photographer": "לא ידוע",
-        "find-duplicates": "הצג כפילויות"
+        "find-duplicates": "הצג כפילויות",
+        "keep-selected-photos": "שמור התמונות שנבחרו"
     },
     "videos": {
         "videos": "סרטים",

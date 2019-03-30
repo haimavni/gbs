@@ -51,7 +51,7 @@
                             <div class="form-group" if.bind="phase=='photos-ready-to-edit'">
                                 <help topic="photos-ready-to-edit" position="bottom"></help>
                             </div>
-                            <div class="form-group" if.bind="phase=='applying-to-photos'">
+                            <div class="form-group" if.bind="phase=='applying-to-photos' && ! after_upload">
                                 <button 
                                     disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.photos_date_str == ''"
                                     class="btn btn-basic btn-md" 
@@ -82,11 +82,18 @@
                                     ${'photos.upload' & t}
                                 </a>
                             </div>
-                            <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type"  t="[title]photos." class="input-group">
+                            <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type && ! after_upload"  t="[title]photos." class="input-group">
                                 <button 
                                     click.trigger="find_duplicates()"
                                     class="btn btn-basic btn-md">
                                     ${'photos.find-duplicates' & t}
+                                </button>
+                            </div>
+                            <div if.bind="user.editing && ! caller_type && after_upload && selected_photos.size > 0"  t="[title]photos." class="input-group">
+                                <button 
+                                    click.trigger="replace_duplicate_photos()"
+                                    class="btn btn-basic btn-md">
+                                    ${'photos.keep-selected-photos' & t}
                                 </button>
                             </div>
                         </form>
@@ -99,7 +106,7 @@
                                 <info css="position:absolute;top:${7 - photo_size / 2}px;left:${photo_size-20}px;"
                                     title.bind="photo_info_title(photo)" content.bind="photo_info_content(photo)"></info>
                                 <img src="${photo[photo.side].square_src}"  width="${photo_size}" 
-                                    height="${photo_size}" style="margin:0;cursor:pointer;" class.bind="photo.flipable" 
+                                    height="${photo_size}" style="margin:0;cursor:pointer;" class.bind="photo.flipable + ' ' + photo.status" 
                                     draggable="false" />
                             </a>
                         </div>

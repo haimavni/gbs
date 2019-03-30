@@ -254,7 +254,8 @@
         "photographer-name": "Photographer name",
         "photographer-has-photos": "Photographer has photos. <br/>Delete or assign another photographer",
         "unknown-photographer": "Unknown",
-        "find-duplicates": "Display duplicates"
+        "find-duplicates": "Display duplicates",
+        "keep-selected-photos": "Keep selected photos"
     },
     "videos": {
         "videos": "Video",

@@ -67,6 +67,7 @@ export class Photos {
     anchor = -1; //for multiple selections
     download_url = "";
     can_pair_photos = false;
+    after_upload = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -177,6 +178,7 @@ export class Photos {
         this.params.user_id = this.user.id;
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
+                this.after_upload = false;
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
@@ -544,13 +546,21 @@ export class Photos {
     get_uploaded_info(photo_lists) {
         this.api.call_server_post('photos/get_uploaded_info', photo_lists)
             .then(result => {
-                //handle options: show uploaded / show existing / show similar
+                this.after_upload = true;
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }
             });
 
+    }
+
+    replace_duplicate_photos() {
+        let selected_photo_list = Array.from(this.selected_photos);
+        this.api.call_server_post('photos/replace_duplicate_photos', {photos_to_keep: selected_photo_list})
+        .then(result => {
+            //list of photos to delete
+        })
     }
 
 }
