@@ -160,12 +160,12 @@ export class MemberGateway {
                 payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result };
                 This.upload(payload, what)
                     .then(response => {
-                        if (response.upload_result == 'failed') {
+                        if (response.upload_result.failed) {
                             failed.push(file.name)
-                        } else if (response.upload_result == 'duplicate') {
-                            duplicates.push(file.name)
+                        } else if (response.upload_result.duplicate) {
+                            duplicates.push(response.upload_result.duplicate)
                         } else {
-                            uploaded_file_ids.push(response.upload_result)
+                            uploaded_file_ids.push(response.upload_result.photo_id)
                         }
                         n -= 1;
                         This.eventAggregator.publish('FileWasUploaded', { files_left: n });

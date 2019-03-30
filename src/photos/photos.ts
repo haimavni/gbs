@@ -110,7 +110,6 @@ export class Photos {
 
     created(params, config) {
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
-        this.ea.subscribe('PHOTOS_WERE_UPLOADED', () => { this.update_photo_list() });
         this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now they are linked...
         if (this.topic_list.length > 0) {
             return;
@@ -456,7 +455,10 @@ export class Photos {
     upload_files() {
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: UploadPhotos, lock: false })
-            .whenClosed(result => { this.theme.hide_title = false });
+            .whenClosed(result => {
+                this.get_uploaded_info({duplicates: result.output.duplicates, uploaded: result.output.uploaded});
+                this.theme.hide_title = false;
+            });
     }
 
     download_photos() {
@@ -530,13 +532,25 @@ export class Photos {
     }
 
     find_duplicates() {
-        this.api.call_server_post('photos/find_duplicates')
+        this.api.call_server_post('photos/find_duplicates', {selected_photos: this.params.selected_photo_list})
             .then(result => {
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }
             });
+    }
+
+    get_uploaded_info(photo_lists) {
+        this.api.call_server_post('photos/get_uploaded_info', photo_lists)
+            .then(result => {
+                //handle options: show uploaded / show existing / show similar
+                this.photo_list = result.photo_list;
+                for (let photo of this.photo_list) {
+                    photo.title = '<span dir="rtl">' + photo.title + '</span>';
+                }
+            });
+
     }
 
 }
