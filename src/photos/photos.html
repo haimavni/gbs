@@ -13,7 +13,7 @@
                             <div class="input-group" if.bind="user.privileges.ADVANCED">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
-                            <div class="form-group hide-if-small">
+                            <div if.bind="! got_duplicates" class="form-group hide-if-small">
                                 <button class="btn btn-basic btn-md" click.delegate="select_member($event)">
                                     ${with_a_member_text}
                                 </button>
@@ -51,7 +51,7 @@
                             <div class="form-group" if.bind="phase=='photos-ready-to-edit'">
                                 <help topic="photos-ready-to-edit" position="bottom"></help>
                             </div>
-                            <div class="form-group" if.bind="phase=='applying-to-photos' && ! after_upload">
+                            <div class="form-group" if.bind="phase=='applying-to-photos' && ! got_duplicates">
                                 <button 
                                     disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.photos_date_str == ''"
                                     class="btn btn-basic btn-md" 
@@ -76,24 +76,31 @@
                                     ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
-                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type" t="[title]user.upload-files" class="input-group">
+                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! working" t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'photos.upload' & t}
                                 </a>
                             </div>
-                            <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type && ! after_upload"  t="[title]photos." class="input-group">
+                            <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type && ! got_duplicates && ! working"  t="[title]photos." class="input-group">
                                 <button 
                                     click.trigger="find_duplicates()"
                                     class="btn btn-basic btn-md">
                                     ${'photos.find-duplicates' & t}
                                 </button>
                             </div>
-                            <div if.bind="user.editing && ! caller_type && after_upload && selected_photos.size > 0"  t="[title]photos." class="input-group">
+                            <div if.bind="user.editing && ! caller_type && ! working && got_duplicates && selected_photos.size > 0" class="input-group">
                                 <button 
                                     click.trigger="replace_duplicate_photos()"
                                     class="btn btn-basic btn-md">
                                     ${'photos.keep-selected-photos' & t}
+                                </button>
+                            </div>
+                            <div if.bind="user.editing && got_duplicates" class="input-group">
+                                <button 
+                                    click.trigger="show_all_photos()"
+                                    class="btn btn-basic btn-md">
+                                    ${'photos.show-all-photos' & t}
                                 </button>
                             </div>
                         </form>

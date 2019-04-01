@@ -67,7 +67,8 @@ export class Photos {
     anchor = -1; //for multiple selections
     download_url = "";
     can_pair_photos = false;
-    after_upload = false;
+    got_duplicates = false;
+    working = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -178,7 +179,7 @@ export class Photos {
         this.params.user_id = this.user.id;
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
-                this.after_upload = false;
+                this.got_duplicates = false;
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
@@ -359,7 +360,10 @@ export class Photos {
                     //this.params.selected_member_id = null;
                 });
         });
+    }
 
+    show_all_photos() {
+        this.update_photo_list();
     }
 
     apply_to_selected() {
@@ -458,7 +462,7 @@ export class Photos {
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: UploadPhotos, lock: false })
             .whenClosed(result => {
-                this.get_uploaded_info({duplicates: result.output.duplicates, uploaded: result.output.uploaded});
+                this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
                 this.theme.hide_title = false;
             });
     }
@@ -534,8 +538,12 @@ export class Photos {
     }
 
     find_duplicates() {
-        this.api.call_server_post('photos/find_duplicates', {selected_photos: this.params.selected_photo_list})
+        let selected_photos = Array.from(this.selected_photos);
+        this.working = true
+        this.api.call_server_post('photos/find_duplicates', { selected_photos: selected_photos })
             .then(result => {
+                this.working = false
+                this.got_duplicates = result.got_duplicates;
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
@@ -546,21 +554,64 @@ export class Photos {
     get_uploaded_info(photo_lists) {
         this.api.call_server_post('photos/get_uploaded_info', photo_lists)
             .then(result => {
-                this.after_upload = true;
+                this.got_duplicates = result.got_duplicates;
                 this.photo_list = result.photo_list;
+                this.selected_photos = new Set(result.candidates);
+                console.log("this selected photos: ", this.selected_photos);
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
+                    console.log()
+                    console.log("photo id: ", photo.id);
+                    if (this.selected_photos.has(photo.photo_id)) {
+                        photo.selected = 'photo-selected'
+                    }
                 }
             });
-
     }
 
     replace_duplicate_photos() {
         let selected_photo_list = Array.from(this.selected_photos);
-        this.api.call_server_post('photos/replace_duplicate_photos', {photos_to_keep: selected_photo_list})
-        .then(result => {
-            //list of photos to delete
-        })
+        this.working = true;
+        this.api.call_server_post('photos/replace_duplicate_photos', { photos_to_keep: selected_photo_list })
+            .then(result => {
+                this.working = false;
+                for (let photo of this.photo_list) {
+                    photo.selected = "";
+                    photo
+                }
+                this.selected_photos = new Set();
+                let photo_patches = result.photo_patches;
+                console.log("photo patches: ", photo_patches);
+                console.log("photo list is: ", this.photo_list);
+                for (let patch of photo_patches) {
+                    if (!patch) continue;
+                    console.log("patch target: ", patch.photo_to_patch);
+                    let new_photo = this.photo_list.find(photo => photo.photo_id == patch.photo_to_delete)
+                    let patch_target = this.photo_list.find(photo => photo.photo_id == patch.photo_to_patch);
+                    let patch_target_idx = this.photo_list.findIndex(photo => photo.photo_id == patch.photo_to_patch);
+                    console.log("patch target: ", patch_target, " patch target idx: ", patch_target_idx);
+                    if (patch_target) {
+                        console.log("patch target before patch", patch_target);
+                        //patch_target = Object.assign(patch_target, patch.data);
+                        for (let property of Object.keys(patch.data)) {
+                            patch_target[property] = patch.data[property]
+                        }
+                        patch_target.src = new_photo.src
+                        patch_target.square_src = new_photo.square_src 
+                        console.log("patch target after patch", patch_target);
+                        patch_target.status = 'regular';
+                    }
+                    let idx = this.photo_list.findIndex(photo => photo.photo_id == patch.photo_to_delete);
+                    console.log("idx is: ", idx);
+                    if (idx >= 0) {
+                        this.photo_list.splice(idx, 1);
+                    }
+                }
+                let dups = this.photo_list.filter(p => p.status == 'similar');
+                let uni = this.photo_list.filter(p => p.status != 'similar');
+                this.photo_list = dups.concat(uni);
+                this.photo_list = this.photo_list.splice(0);
+            })
     }
 
 }

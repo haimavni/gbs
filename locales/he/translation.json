@@ -253,7 +253,8 @@
         "photographer-has-photos": "יש צילומים או סרטים של צלם זה. </br>מחק או קשר צלם אחר.",
         "unknown-photographer": "לא ידוע",
         "find-duplicates": "הצג כפילויות",
-        "keep-selected-photos": "שמור התמונות שנבחרו"
+        "keep-selected-photos": "שמור התמונות שנבחרו",
+        "show-all-photos": "הצג את כל התמונות"
     },
     "videos": {
         "videos": "סרטים",
