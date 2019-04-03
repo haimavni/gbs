@@ -1,7 +1,7 @@
 <template>
     <require from="./full-size-photo.css"></require>
     <div class="slide" click.delegate="mark_face($event)" id="full-size-photo" style="z-index:0;margin-left:32px;cursor:default;">
-        <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide.height}px; width:${slide.width}px;">
+        <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide[slide.side].height}px; width:${slide[slide.side].width}px;">
             <img src="${slide[slide.side].src}" height="${slide[slide.side].height}" width="${slide[slide.side].width}" />
             <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help"></help>
             <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help"></help>

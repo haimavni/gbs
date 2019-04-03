@@ -60,9 +60,9 @@ export class FullSizePhoto {
     activate(model) {
         this.slide = model.slide;
         this.baseURL = environment.baseURL;
-        this.get_faces(this.slide.photo_id);
-        this.get_photo_info(this.slide.photo_id);
-        this.api.hit('PHOTO', this.slide.photo_id);
+        this.get_faces(this.slide[this.slide.side].photo_id);
+        this.get_photo_info(this.slide[this.slide.side].photo_id);
+        this.api.hit('PHOTO', this.slide[this.slide.side].photo_id);
         this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
             this.dialogController.ok();
         });
@@ -191,7 +191,7 @@ export class FullSizePhoto {
     jump_to_photo_page(event) {
         event.stopPropagation();
         this.dialogController.ok();
-        this.router.navigateToRoute('photo-detail', { id: this.slide.photo_id, keywords: "" });
+        this.router.navigateToRoute('photo-detail', { id: this.slide[this.slide.side].photo_id, keywords: "" });
     }
 
     mark_face(event) {
@@ -202,7 +202,7 @@ export class FullSizePhoto {
         if (this.marking_face_active) {
             return;
         }
-        let photo_id = this.slide.photo_id;
+        let photo_id = this.slide[this.slide.side].photo_id;
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
         this.current_face = face;
         this.faces.push(face);
