@@ -11,6 +11,7 @@ import { Theme } from '../services/theme';
 import { MemberPicker } from "../members/member-picker";
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { MyDate, format_date } from '../services/my-date';
+import * as download from 'downloadjs';
 
 @autoinject()
 @singleton()
@@ -65,7 +66,6 @@ export class Photos {
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
-    download_url = "";
     can_pair_photos = false;
     got_duplicates = false;
     working = false;
@@ -222,9 +222,9 @@ export class Photos {
         } else if (event.altKey) {
             this.selected_photos = new Set();
             if (slide.selected)
-                this.selected_photos.add(slide.photo_id);
+                this.selected_photos.add(slide[slide.side].photo_id);
             for (let photo of this.photo_list) {
-                if (photo.photo_id != slide.photo_id)
+                if (photo[photo.side].photo_id != slide[slide.side].photo_id)
                     photo.selected = "";
             }
             this.params.selected_photo_list = Array.from(this.selected_photos);
@@ -245,9 +245,9 @@ export class Photos {
                 if (photo) {
                     photo.selected = checked ? "photo-selected" : "";
                     if (checked) {
-                        this.selected_photos.add(photo.photo_id)
+                        this.selected_photos.add(photo[photo.side].photo_id)
                     } else {
-                        this.selected_photos.delete(photo.photo_id)
+                        this.selected_photos.delete(photo[photo.side].photo_id)
                     }
                 } else {
                     console.log("no itm. i is: ", i);
@@ -312,11 +312,11 @@ export class Photos {
     }
 
     toggle_selection(photo) {
-        if (this.selected_photos.has(photo.photo_id)) {
-            this.selected_photos.delete(photo.photo_id);
+        if (this.selected_photos.has(photo[photo.side].photo_id)) {
+            this.selected_photos.delete(photo[photo.side].photo_id);
             photo.selected = "";
         } else {
-            this.selected_photos.add(photo.photo_id);
+            this.selected_photos.add(photo[photo.side].photo_id);
             photo.selected = "photo-selected";
         }
         this.params.selected_photo_list = Array.from(this.selected_photos);
@@ -394,7 +394,7 @@ export class Photos {
             }
         }
         this.options_settings.update({
-            mergeable: result != "applying-to-photos" && result != "selecting-photos",
+            mergeable: result != "applying-to-photos",
             name_editable: result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
             can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
@@ -472,11 +472,14 @@ export class Photos {
     download_photos() {
         this.api.call_server_post('photos/download_files', this.params)
             .then(response => {
-                this.download_url = response.download_url;
-                setTimeout(() => {
-                    this.download_url = "";
-                    this.clear_photo_group();
-                }, 20000);
+                let download_url = response.download_url;
+                download(download_url);
+                for (let photo of this.photo_list) {
+                    if (this.selected_photos.has(photo[photo.side].photo_id)) {
+                        photo.selected = "";
+                    }
+                }
+                this.selected_photos = new Set();
             });
     }
 

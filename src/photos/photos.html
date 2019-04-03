@@ -33,9 +33,6 @@
                             <div class="form-group">
                                 <button if.bind="selected_photos.size > 0" t="[title]photos.download" class="btn btn-basic btn-md" click.delegate="download_photos()"><i class="fa fa-upload fa-rotate-180 fa-xs"></i></button>
                             </div>
-                            <div class="form-group" show.bind="download_url">
-                                <a class="btn btn-default" href.bind="download_url" id="download_url">${'photos.download-now' & t}</a>
-                            </div>
                             <div class="form-group">
                                 <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.delete" class="btn btn-basic btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
                             </div>
@@ -60,14 +57,6 @@
                                 </button>
                                 <help topic="apply-to-selected-photos" position="bottom"></help>
                             </div>
-                            <div class="form-group" if.bind="phase=='selecting-photos'">
-                                <button 
-                                    click.trigger="finish_selecting()"
-                                    class="btn btn-basic btn-md">
-                                    ${'photos.done-selecting' & t}
-                                </button>
-                                <help topic="done-selecting-photos" position="bottom"></help>
-                            </div>
                             <div class="input-group" if.bind="phase == 'selecting-photos-for-story'">
                                 <help topic.bind="phase" position="bottom"></help>
                             </div>
@@ -76,7 +65,7 @@
                                     ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
-                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! working && ! got_duplicates" t="[title]user.upload-files" class="input-group">
+                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! got_duplicates && ! working" t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'photos.upload' & t}
