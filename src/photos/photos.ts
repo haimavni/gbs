@@ -222,9 +222,9 @@ export class Photos {
         } else if (event.altKey) {
             this.selected_photos = new Set();
             if (slide.selected)
-                this.selected_photos.add(slide[slide.side].photo_id);
+                this.selected_photos.add(slide.photo_id);
             for (let photo of this.photo_list) {
-                if (photo[photo.side].photo_id != slide[slide.side].photo_id)
+                if (photo.photo_id != slide.photo_id)
                     photo.selected = "";
             }
             this.params.selected_photo_list = Array.from(this.selected_photos);
@@ -245,9 +245,9 @@ export class Photos {
                 if (photo) {
                     photo.selected = checked ? "photo-selected" : "";
                     if (checked) {
-                        this.selected_photos.add(photo[photo.side].photo_id)
+                        this.selected_photos.add(photo.photo_id)
                     } else {
-                        this.selected_photos.delete(photo[photo.side].photo_id)
+                        this.selected_photos.delete(photo.photo_id)
                     }
                 } else {
                     console.log("no itm. i is: ", i);
@@ -312,11 +312,11 @@ export class Photos {
     }
 
     toggle_selection(photo) {
-        if (this.selected_photos.has(photo[photo.side].photo_id)) {
-            this.selected_photos.delete(photo[photo.side].photo_id);
+        if (this.selected_photos.has(photo.photo_id)) {
+            this.selected_photos.delete(photo.photo_id);
             photo.selected = "";
         } else {
-            this.selected_photos.add(photo[photo.side].photo_id);
+            this.selected_photos.add(photo.photo_id);
             photo.selected = "photo-selected";
         }
         this.params.selected_photo_list = Array.from(this.selected_photos);
@@ -475,7 +475,7 @@ export class Photos {
                 let download_url = response.download_url;
                 download(download_url);
                 for (let photo of this.photo_list) {
-                    if (this.selected_photos.has(photo[photo.side].photo_id)) {
+                    if (this.selected_photos.has(photo.photo_id)) {
                         photo.selected = "";
                     }
                 }
@@ -545,7 +545,8 @@ export class Photos {
     find_duplicates() {
         let selected_photos = Array.from(this.selected_photos);
         this.working = true
-        this.api.call_server_post('photos/find_duplicates', { selected_photos: selected_photos })
+        let lst = (selected_photos.length > 0) ? selected_photos : null;
+        this.api.call_server_post('photos/find_duplicates', { selected_photos: lst })
             .then(result => {
                 this.working = false
                 this.got_duplicates = result.got_duplicates;

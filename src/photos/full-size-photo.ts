@@ -60,9 +60,14 @@ export class FullSizePhoto {
     activate(model) {
         this.slide = model.slide;
         this.baseURL = environment.baseURL;
-        this.get_faces(this.slide[this.slide.side].photo_id);
-        this.get_photo_info(this.slide[this.slide.side].photo_id);
-        this.api.hit('PHOTO', this.slide[this.slide.side].photo_id);
+        let pid =  this.slide[this.slide.side].photo_id;
+        if (! pid) {
+            pid = this.slide.photo_id;
+            console.log("no photo id in ", this.slide.side, " photo id: ", pid);
+        }
+        this.get_faces(pid);
+        this.get_photo_info(pid);
+        this.api.hit('PHOTO', pid);
         this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
             this.dialogController.ok();
         });
