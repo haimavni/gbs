@@ -256,7 +256,9 @@
         "unknown-photographer": "Unknown",
         "find-duplicates": "Display duplicates",
         "keep-selected-photos": "Keep selected photos",
-        "show-all-photos": "Show all photos"
+        "show-all-photos": "Show all photos",
+        "cancel": "Cancel",
+        "select-new-copies": "Select new copies"
     },
     "videos": {
         "videos": "Video",

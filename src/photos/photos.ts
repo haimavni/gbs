@@ -69,6 +69,7 @@ export class Photos {
     can_pair_photos = false;
     got_duplicates = false;
     working = false;
+    candidates = null;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -180,6 +181,7 @@ export class Photos {
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.got_duplicates = false;
+                this.candidates = null;
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
@@ -460,7 +462,7 @@ export class Photos {
 
     upload_files() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: UploadPhotos, lock: false })
+        this.dialog.open({ viewModel: UploadPhotos, lock: true })
             .whenClosed(result => {
                 this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
                 this.theme.hide_title = false;
@@ -474,7 +476,7 @@ export class Photos {
                 setTimeout(() => {
                     this.download_url = "";
                     this.clear_photo_group();
-                }, 7000);
+                }, 20000);
             });
     }
 
@@ -556,17 +558,21 @@ export class Photos {
             .then(result => {
                 this.got_duplicates = result.got_duplicates;
                 this.photo_list = result.photo_list;
-                this.selected_photos = new Set(result.candidates);
-                console.log("this selected photos: ", this.selected_photos);
+                this.candidates = new Set(result.candidates);
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
-                    console.log()
-                    console.log("photo id: ", photo.id);
-                    if (this.selected_photos.has(photo.photo_id)) {
-                        photo.selected = 'photo-selected'
-                    }
                 }
             });
+    }
+
+    select_new_copies() {
+        this.selected_photos = this.candidates;
+        for (let photo of this.photo_list) {
+            if (this.selected_photos.has(photo.photo_id)) {
+                photo.selected = 'photo-selected'
+            }
+        }
+        this.candidates = null;
     }
 
     replace_duplicate_photos() {
@@ -581,28 +587,20 @@ export class Photos {
                 }
                 this.selected_photos = new Set();
                 let photo_patches = result.photo_patches;
-                console.log("photo patches: ", photo_patches);
-                console.log("photo list is: ", this.photo_list);
                 for (let patch of photo_patches) {
                     if (!patch) continue;
-                    console.log("patch target: ", patch.photo_to_patch);
                     let new_photo = this.photo_list.find(photo => photo.photo_id == patch.photo_to_delete)
                     let patch_target = this.photo_list.find(photo => photo.photo_id == patch.photo_to_patch);
                     let patch_target_idx = this.photo_list.findIndex(photo => photo.photo_id == patch.photo_to_patch);
-                    console.log("patch target: ", patch_target, " patch target idx: ", patch_target_idx);
                     if (patch_target) {
-                        console.log("patch target before patch", patch_target);
-                        //patch_target = Object.assign(patch_target, patch.data);
                         for (let property of Object.keys(patch.data)) {
                             patch_target[property] = patch.data[property]
                         }
-                        patch_target.src = new_photo.src
-                        patch_target.square_src = new_photo.square_src 
-                        console.log("patch target after patch", patch_target);
+                        patch_target.front.src = new_photo.front.src
+                        patch_target.front.square_src = new_photo.front.square_src
                         patch_target.status = 'regular';
                     }
                     let idx = this.photo_list.findIndex(photo => photo.photo_id == patch.photo_to_delete);
-                    console.log("idx is: ", idx);
                     if (idx >= 0) {
                         this.photo_list.splice(idx, 1);
                     }

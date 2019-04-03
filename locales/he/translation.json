@@ -254,7 +254,9 @@
         "unknown-photographer": "לא ידוע",
         "find-duplicates": "הצג כפילויות",
         "keep-selected-photos": "שמור התמונות שנבחרו",
-        "show-all-photos": "הצג את כל התמונות"
+        "show-all-photos": "הצג את כל התמונות",
+        "cancel": "בטל",
+        "select-new-copies": "בחר בעותקים החדשים"
     },
     "videos": {
         "videos": "סרטים",

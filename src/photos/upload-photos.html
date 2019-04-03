@@ -6,12 +6,12 @@
                     <h1 class="panel-title text-center"><strong>${"photos.upload-files" & t}</strong>
                     </h1>
                 </div>
-                <div>
+                <!-- <div>
                     <p style="align-content: right;padding:20px;font-size:120%;" dir="rtl">
                         ${'photos.sharing' & t}
                         <strong>photos@${host_name}<strong>
                     </p>
-                </div>
+                </div> -->
                 <div class="panel-body">
                     <section class="container">
 
@@ -31,7 +31,10 @@
                                     <button style="margin-left:auto; margin-right:auto;width:150px;" type="submit" class="btn btn-success">${'photos.save' & t}</button>
                                 </div>
                             </div>
-                        </form>
+                        <div style="padding-left:175px;margin-top:16px;" if.bind="! working">
+                            <button style="margin-left:auto; margin-right:auto;width:150px;" click.delegate="cancel()" type="submit" class="btn btn-warning">${'photos.cancel' & t}</button>
+                        </div>
+                    </form>
                     </section>
                     <div if.bind="working">
                         <h3 style="display:flex;justify-content:center;">${'photos.upload-in-progress' & t}. ${photos_left} ${'photos.left' & t}</h3>

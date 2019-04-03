@@ -34,7 +34,7 @@
                                 <button if.bind="selected_photos.size > 0" t="[title]photos.download" class="btn btn-basic btn-md" click.delegate="download_photos()"><i class="fa fa-upload fa-rotate-180 fa-xs"></i></button>
                             </div>
                             <div class="form-group" show.bind="download_url">
-                                <a href.bind="download_url" id="download_url">${'photos.download-now' & t}</a>
+                                <a class="btn btn-default" href.bind="download_url" id="download_url">${'photos.download-now' & t}</a>
                             </div>
                             <div class="form-group">
                                 <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.delete" class="btn btn-basic btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
@@ -51,7 +51,7 @@
                             <div class="form-group" if.bind="phase=='photos-ready-to-edit'">
                                 <help topic="photos-ready-to-edit" position="bottom"></help>
                             </div>
-                            <div class="form-group" if.bind="phase=='applying-to-photos' && ! got_duplicates">
+                            <div class="form-group" if.bind="phase=='applying-to-photos' && ! got_duplicates && ! working">
                                 <button 
                                     disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.photos_date_str == ''"
                                     class="btn btn-basic btn-md" 
@@ -76,13 +76,13 @@
                                     ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
-                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! working" t="[title]user.upload-files" class="input-group">
+                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! working && ! got_duplicates" t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'photos.upload' & t}
                                 </a>
                             </div>
-                            <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type && ! got_duplicates && ! working"  t="[title]photos." class="input-group">
+                            <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type && ! got_duplicates && ! working" class="input-group">
                                 <button 
                                     click.trigger="find_duplicates()"
                                     class="btn btn-basic btn-md">
@@ -94,6 +94,13 @@
                                     click.trigger="replace_duplicate_photos()"
                                     class="btn btn-basic btn-md">
                                     ${'photos.keep-selected-photos' & t}
+                                </button>
+                            </div>
+                            <div if.bind="user.editing && ! caller_type && ! working && candidates" class="input-group">
+                                <button 
+                                    click.trigger="select_new_copies()"
+                                    class="btn btn-basic btn-md">
+                                    ${'photos.select-new-copies' & t}
                                 </button>
                             </div>
                             <div if.bind="user.editing && got_duplicates" class="input-group">

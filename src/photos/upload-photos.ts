@@ -34,6 +34,10 @@ export class UploadPhotos {
         this.host_name = window.location.hostname;
     }
 
+    cancel() {
+        this.dc.cancel();
+    }
+
     save() {
         this.working = true;
         this.ea.subscribe('FilesUploaded', response => {
