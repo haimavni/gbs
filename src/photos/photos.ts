@@ -486,9 +486,9 @@ export class Photos {
     delete_selected_photos() {
         this.api.call_server_post('photos/delete_selected_photos', this.params)
             .then(() => {
+                this.photo_list = this.photo_list.filter(photo => ! this.selected_photos.has(photo.photo_id));
                 this.params.selected_photo_list = [];
                 this.selected_photos = new Set();
-                this.update_photo_list();
             });
     }
 
@@ -587,7 +587,6 @@ export class Photos {
                 this.working = false;
                 for (let photo of this.photo_list) {
                     photo.selected = "";
-                    photo
                 }
                 this.selected_photos = new Set();
                 let photo_patches = result.photo_patches;
@@ -601,8 +600,10 @@ export class Photos {
                             patch_target[property] = patch.data[property]
                         }
                         patch_target.front.src = new_photo.front.src
-                        patch_target.front.square_src = new_photo.front.square_src
+                        patch_target.front.square_src = new_photo.front.square_src;
                         patch_target.status = 'regular';
+                        patch_target.front.width = new_photo.front.width
+                        patch_target.front.height = new_photo.front.height;
                     }
                     let idx = this.photo_list.findIndex(photo => photo.photo_id == patch.photo_to_delete);
                     if (idx >= 0) {
