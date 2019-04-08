@@ -44,8 +44,12 @@ export class Terms {
     }
 
     activate(params, config) {
-        if (this.term_list.length > 0) return;
-        this.api.call_server('terms/get_term_list', {})
+        this.update_term_list(false);
+    }
+
+    update_term_list(refresh) {
+        if (this.term_list.length > 0 && ! refresh) return;
+        this.api.call_server_post('terms/get_term_list', { params: this.params, usage: this.user.editing ? null : 'T' })
             .then(result => {
                 this.term_list = result.term_list;
                 //this.scroll_top = 0;
@@ -212,6 +216,11 @@ export class Terms {
             term.checked = false;
         }
         this.params.checked_term_list = [];
+    }
+
+    handle_topic_change(event) {
+        this.params.selected_topics = event.detail.selected_options;
+        this.update_term_list(true);
     }
 
 }
