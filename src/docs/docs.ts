@@ -265,15 +265,6 @@ export class Docs {
             });
     }
 
-    toggle_doc_selection(doc, event) {
-        let checked = event.checked;
-        if (checked) {
-            this.checked_docs.add(doc.story_id)
-        } else {
-            this.checked_docs.delete(doc.story_id)
-        }
-    }
-
     toggle_selection(doc, event, index) {
         if (this.anchor < 0) this.anchor = index;
         event = event.detail;
@@ -286,7 +277,6 @@ export class Docs {
                     d.story.checked = false;
             }
         } else if (event.keys.shiftKey) {
-            //this.toggle_doc_selection(doc, event);
             let checked = doc.story.checked;
             let i0, i1;
             if (this.anchor < index) {

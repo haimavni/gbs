@@ -308,6 +308,7 @@
     },
     "terms": {
         "terms": "Terms",
+        "apply-to-selected": "Tag the selected terms",
         "terms-lexicon": "Terms lexicon",
         "new": "New term",
         "filter": "Fast search in term titles"

@@ -2,34 +2,65 @@
     <section class="container content-area">
         <div class="row content-area" style="height:300px;width:100%;margin-top:20px;">
             <div class="row">
-                <div class="col-md-1">
-                </div>
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;">
-
-                        <div class="col-md-1 col-md-offset-5" if.bind="user.editing" style="padding-top:18px;">
-                            <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4TERM}" class="btn btn-success cl-create-btn">
-                                <i class="far fa-plus-square"></i>
-                                ${'terms.new' & t}
-                            </a>
-                        </div>
-                        <div class="col-md-1 col-md-offset-5" if.bind="!user.editing"></div>
-                        <div class="col-md-6">
-                            <div class="input-group" style="width:100%;margin-top:15px;">
-                                <search-input value.bind="filter" change.delegate="update_story_list()" placeholder="terms.filter" help_topic="terms-help" height="38"></search-input>
+                        <form class="form-inline">
+                            <div class="input-group" style="width:236px;">
+                                <search-input value.bind="filter" change.delegate="update_story_list()"
+                                    placeholder="terms.filter" help_topic="terms-help" height="38"></search-input>
                             </div>
-                        </div>
+                            <div class="input-group" if.bind="user.editing && checked_terms.size == 0">
+                                <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4TERM}"
+                                    class="btn btn-success cl-create-btn">
+                                    <i class="far fa-plus-square"></i>
+                                    ${'terms.new' & t}
+                                </a>
+                            </div>
+                            <div if.bind="phase=='can-merge-topics'" class="form-group">
+                                <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
+                                    ${'photos.save-merges' & t}
+                                </button>
+                                <help topic="photos.can-modify-tags" , position="bottom"></help>
+                            </div>
+                            <div if.bind="phase=='can-create-group'" class="form-group">
+                                <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
+                                    ${'photos.save-topic-group' & t}
+                                </button>
+                                <help topic="photos.can-create-group" , position="bottom"></help>
+                            </div>
+
+                            <div class="form-group" if.bind="user.editing && checked_terms.size>0">
+                                <button class="btn btn-warning btn-md" click.trigger="delete_checked_terms()">
+                                    <i class="far fa-trash-alt fa-xs"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button
+                                    if.bind="user.editing && checked_terms.size > 0 && params.selected_topics.length>0"
+                                    click.trigger="apply_topics_to_checked_terms()" class="btn btn-basic btn-md">
+                                    ${'terms.apply-to-selected' & t}
+                                </button>
+                            </div>
+                            <div class="form-group" if.bind="user.editing">
+                                <help topic="how-to-select-terms" position="bottom"></help>
+                            </div>
+                        </form>
                     </div>
                     <div class="row">
-                        <ul style="width:100%;padding:0;float:right;height:597px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area">
-                            <li repeat.for="term of term_list | filter: filter : 'name' : 'author'" 
-                                dir="rtl" style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;cursor:pointer;" 
-                                    click.delegate="jump_to_the_full_story($event, term)">
+                        <ul style="width:100%;padding:0;float:right;height:597px;overflow:auto;list-style-type: none;padding-left:20px;"
+                            ref="scroll_area" class="unselectable">
+                            <li repeat.for="term of term_list | filter: filter : 'name' : 'author'" dir="rtl"
+                                style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;cursor:pointer;"
+                                click.delegate="jump_to_the_full_story($event, term)">
                                 <div style="height:120px;overflow:hidden;" class="story-preview">
                                     <div style="margin-bottom: 10px;padding-right:0px;">
-                                        <editable settings.bind="{show_author:true, show_date:false, class:'story-section', no_expand: true, deletable: true}" 
-                                            story.bind="term" 
-                                            change.delegate="handle_event(term, $event)"></editable>
+                                        <editable
+                                            settings.bind="{show_author:true, show_date:false, class:'story-section', no_expand: true, deletable: true, checkable: true}"
+                                            story.bind="term.story"
+                                            change.delegate="toggle_selection(term, $event, $index)"
+                                            info_title.bind="term.name" info_content.bind="term.keywords"
+                                            class="story-body">
+                                        </editable>
                                     </div>
                                 </div>
                             </li>
@@ -38,6 +69,22 @@
                 </div>
 
                 <div class="col-md-3">
+                    <div class="row" style="position:relative;">
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
+                        <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
+                            style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="phase=='ready-to-edit'" topic="terms.ready-to-edit" position="bottom"
+                            style="position:absolute;left:0px;top:26px;"></help>
+                            <span show.bind="false">${user_editing}</span>
+                            <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"
+                            selected_options.bind="params.selected_topics" height.bind="220"
+                            settings.bind="options_settings" has_groups.bind="has_grouped_topics"
+                            option_groups.bind="topic_groups" ms-change.delegate="handle_topic_change($event)"
+                            new-name.delegate="add_topic($event)" name-changed.delegate="topic_name_changed($event)"
+                            remove-option.delegate="remove_topic($event)"
+                            clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
+                        </multi-select>
+                    </div>
                 </div>
             </div>
         </div>
