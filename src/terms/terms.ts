@@ -80,14 +80,6 @@ export class Terms {
         this.router.navigateToRoute('term-detail', { id: term.story_id, what: 'term' });
     }
 
-    handle_event(term, event) {
-        if (event.detail.action == 'delete') {
-            let idx = this.term_list.findIndex(trm => trm.id == term.id);
-            this.term_list.splice(idx, 1);
-            this.api.call_server('terms/delete_term', { term_id: term.id });
-        }
-    }
-
     @computedFrom('user.editing', 'has_grouped_topics', 'params.selected_topics', 'user.editing', 'params.checked_term_list', 'checked_terms')
     get phase() {
         let result = "not-editing";
@@ -221,6 +213,15 @@ export class Terms {
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
         this.update_term_list(true);
+    }
+
+    delete_checked_terms() {
+        this.api.call_server_post('terms/delete_checked_terms', { params: this.params })
+            .then(response => {
+                this.params.checked_term_list = [];
+                this.checked_terms = new Set();
+                this.update_term_list(true);
+            });
     }
 
 }

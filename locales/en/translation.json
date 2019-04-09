@@ -311,7 +311,8 @@
         "apply-to-selected": "Tag the selected terms",
         "terms-lexicon": "Terms lexicon",
         "new": "New term",
-        "filter": "Fast search in term titles"
+        "filter": "Fast search in term titles",
+        "delete-checked-terms": "Delete checked terms"
     },
     "consts": {
         "vis-never": "Never display!",
