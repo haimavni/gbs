@@ -45,8 +45,11 @@
                             <div class="form-group" if.bind="can_pair_photos">
                                 <button t="[title]photos.pair" class="btn btn-basic btn-md" click.delegate="pair_selected_photos()"><i class="far fa-yin-yang"></i></i></button>
                             </div>
-                            <div class="form-group" if.bind="phase=='photos-ready-to-edit'">
+                            <div class="form-group" if.bind="phase=='photos-ready-to-edit' && ! after_upload">
                                 <help topic="photos-ready-to-edit" position="bottom"></help>
+                            </div>
+                            <div class="form-group" if.bind="after_upload">
+                                <help topic="after-upload" position="bottom"></help>
                             </div>
                             <div class="form-group" if.bind="phase=='applying-to-photos' && ! got_duplicates && ! working">
                                 <button 

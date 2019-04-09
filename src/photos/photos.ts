@@ -12,6 +12,7 @@ import { MemberPicker } from "../members/member-picker";
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { MyDate, format_date } from '../services/my-date';
 import * as download from 'downloadjs';
+import { set_intersection } from '../services/set_utils';
 
 @autoinject()
 @singleton()
@@ -70,6 +71,7 @@ export class Photos {
     got_duplicates = false;
     working = false;
     candidates = null;
+    after_upload = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -182,6 +184,7 @@ export class Photos {
             .then(result => {
                 this.got_duplicates = false;
                 this.candidates = null;
+                this.after_upload = false;
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
@@ -560,6 +563,7 @@ export class Photos {
     get_uploaded_info(photo_lists) {
         this.api.call_server_post('photos/get_uploaded_info', photo_lists)
             .then(result => {
+                this.after_upload = true;
                 this.got_duplicates = result.got_duplicates;
                 this.photo_list = result.photo_list;
                 this.candidates = new Set(result.candidates);
@@ -580,7 +584,8 @@ export class Photos {
     }
 
     replace_duplicate_photos() {
-        let selected_photo_list = Array.from(this.selected_photos);
+        let spl = set_intersection(this.selected_photos, this.candidates)
+        let selected_photo_list = Array.from(spl);
         this.working = true;
         this.api.call_server_post('photos/replace_duplicate_photos', { photos_to_keep: selected_photo_list })
             .then(result => {
