@@ -580,7 +580,6 @@ export class Photos {
                 photo.selected = 'photo-selected'
             }
         }
-        this.candidates = null;
     }
 
     replace_duplicate_photos() {
