@@ -195,9 +195,11 @@ export class Terms {
 
     apply_topics_to_checked_terms() {
         this.api.call_server_post('terms/apply_to_checked_terms', { params: this.params })
-            .then(() => {
+            .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_checked_terms();
+                //if response.new_topic
+                this.update_topic_list();
             });
     }
 
@@ -221,6 +223,16 @@ export class Terms {
                 this.params.checked_term_list = [];
                 this.checked_terms = new Set();
                 this.update_term_list(true);
+            });
+    }
+
+    save_topic_group(event: Event) {
+        //todo: if event.ctrl create a super group rather than merge?
+        this.api.call_server_post('topics/add_topic_group', this.params)
+            .then(response => {
+                this.has_grouped_topics = false;
+                this.clear_selected_topics_now = true;
+                this.update_topic_list();
             });
     }
 
