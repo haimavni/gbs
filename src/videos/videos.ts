@@ -413,6 +413,7 @@ export class Videos {
                 if (response.new_topic_was_added) {
                     this.update_topic_list();
                 }
+                this.clear_selected_topics_now = true;
             });
     }
 

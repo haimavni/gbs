@@ -378,8 +378,20 @@ export class Photos {
                 if (response.new_topic_was_added) {
                     this.update_topic_list();
                 }
+                this.uncheck_checked_photos();
+                this.clear_selected_topics_now = true;
             });
     }
+
+    uncheck_checked_photos() {
+        this.params.selected_photo_list = [];
+        this.selected_photos = new Set();
+        for (let photo of this.photo_list) {
+            photo.checked = false;
+        }
+    }
+
+
 
     private jump_to_photo(slide) {
         let photo_id = slide.photo_id;
