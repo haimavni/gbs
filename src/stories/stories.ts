@@ -318,9 +318,12 @@ export class Stories {
     apply_topics_to_selected_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/apply_topics_to_selected_stories', { params: this.params, used_for: this.used_for })
-            .then(() => {
+            .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_selected_stories();
+                if (response.new_topic_was_added) {
+                    this.update_topic_list();
+                }
             });
     }
 

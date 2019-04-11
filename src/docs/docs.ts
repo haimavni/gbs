@@ -188,9 +188,12 @@ export class Docs {
 
     apply_topics_to_checked_docs() {
         this.api.call_server_post('docs/apply_to_checked_docs', { params: this.params })
-            .then(() => {
+            .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_checked_docs();
+                if (response.new_topic_was_added) {
+                    this.update_topic_list();
+                }
             });
     }
 

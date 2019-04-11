@@ -410,6 +410,9 @@ export class Videos {
         this.api.call_server_post('photos/apply_to_selected_videos', this.params)
             .then(response => {
                 this.clear_selected_videos();
+                if (response.new_topic_was_added) {
+                    this.update_topic_list();
+                }
             });
     }
 

@@ -198,8 +198,9 @@ export class Terms {
             .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_checked_terms();
-                //if response.new_topic
-                this.update_topic_list();
+                if (response.new_topic_was_added) {
+                    this.update_topic_list();
+                }
             });
     }
 

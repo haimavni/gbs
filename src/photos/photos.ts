@@ -375,6 +375,9 @@ export class Photos {
         this.api.call_server_post('photos/apply_to_selected_photos', this.params)
             .then(response => {
                 this.clear_photo_group();
+                if (response.new_topic_was_added) {
+                    this.update_topic_list();
+                }
             });
     }
 
