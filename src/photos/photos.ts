@@ -571,6 +571,7 @@ export class Photos {
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
+                this.candidates = new Set(result.candidates);
                 }
             });
     }
