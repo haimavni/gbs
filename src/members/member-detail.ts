@@ -344,6 +344,8 @@ export class MemberDetail {
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
             this.top_panel.style.height = `${tph}px`;
             this.bottom_panel.style.height = `${bph}px`;
+            this.bottom_panel.style.width = '1166px';
+            this.bottom_panel.style.marginRight = '0px'
         } else {
             this.top_panel.style.height = null;
             this.bottom_panel.style.height = null;

@@ -158,7 +158,10 @@ export class FullSizePhoto {
         .whenClosed(response => {
             this.marking_face_active = false;
             if (response.wasCancelled) {
-                this.remove_face(face);
+                if (! face.member_id) {
+                    this.hide_face(face);
+                }
+                //this.remove_face(face); !!! no!
                 return;
             }
             let old_member_id = face.member_id;
@@ -179,12 +182,16 @@ export class FullSizePhoto {
         });
     }
 
+    hide_face(face) {
+        let i = this.faces.indexOf(face);
+        this.faces.splice(i, 1);
+    }
+
     remove_face(face) {
         console.log("remove face!!!");
         this.api.call_server_post('photos/detach_photo_from_member', { member_id: face.member_id, photo_id: this.slide.photo_id })
             .then(() => {
-                let i = this.faces.indexOf(face);
-                this.faces.splice(i, 1);
+                this.hide_face(face);
             });
     }
 
