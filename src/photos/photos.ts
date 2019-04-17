@@ -13,6 +13,7 @@ import { MultiSelectSettings } from '../resources/elements/multi-select/multi-se
 import { MyDate, format_date } from '../services/my-date';
 import * as download from 'downloadjs';
 import { set_intersection } from '../services/set_utils';
+import * as toastr from 'toastr';
 
 @autoinject()
 @singleton()
@@ -568,6 +569,10 @@ export class Photos {
             .then(result => {
                 this.working = false
                 this.got_duplicates = result.got_duplicates;
+                if (! this.got_duplicates) {
+                    toastr.success("<p dir='rtl'>" + this.i18n.tr('photos.no-duplicates-found') + "</p>", '', 10000);
+                    return this.update_photo_list();
+                }
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
@@ -599,7 +604,7 @@ export class Photos {
     }
 
     replace_duplicate_photos() {
-        let spl = set_intersection(this.selected_photos, this.candidates)
+        let spl = set_intersection(this.selected_photos, this.candidates);
         let selected_photo_list = Array.from(spl);
         this.working = true;
         this.api.call_server_post('photos/replace_duplicate_photos', { photos_to_keep: selected_photo_list })

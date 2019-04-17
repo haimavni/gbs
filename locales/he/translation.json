@@ -256,7 +256,8 @@
         "keep-selected-photos": "שמור התמונות שנבחרו",
         "show-all-photos": "הצג את כל התמונות",
         "cancel": "בטל",
-        "select-new-copies": "בחר בעותקים החדשים"
+        "select-new-copies": "בחר בעותקים החדשים",
+        "no-duplicates-found": "לא נמצאו תמונות כפולות"
     },
     "videos": {
         "videos": "סרטים",

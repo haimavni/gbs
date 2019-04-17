@@ -258,7 +258,8 @@
         "keep-selected-photos": "Keep selected photos",
         "show-all-photos": "Show all photos",
         "cancel": "Cancel",
-        "select-new-copies": "Select new copies"
+        "select-new-copies": "Select new copies",
+        "no-duplicates-found": "No duplicates found"
     },
     "videos": {
         "videos": "Video",
