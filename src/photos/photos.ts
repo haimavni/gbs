@@ -41,6 +41,7 @@ export class Photos {
         selected_dates_option: "dated-or-not",
         photos_date_str: "",
         photos_date_span_size: 3,
+        photo_ids: [],
         selected_photo_list: [],
         user_id: null,
         selected_member_id: null,
@@ -48,7 +49,7 @@ export class Photos {
         last_year: 2021,
         base_year: 1925,
         num_years: 100,
-        max_photos_per_line: 8,
+        max_photos_per_line: 8
     };
     topic_list = [];
     topic_groups = [];
@@ -138,6 +139,10 @@ export class Photos {
             }
             this.selected_photos = new Set(arr);
             this.params.selected_photo_list = Array.from(this.selected_photos);
+        } else if (params.photo_ids) {
+            this.params.photo_ids = params.photo_ids;
+        } else {
+            this.params.photo_ids = [];
         }
         this.update_photo_list();
     }
@@ -369,6 +374,7 @@ export class Photos {
     }
 
     show_all_photos() {
+        this.params.photo_ids = [];
         this.update_photo_list();
     }
 

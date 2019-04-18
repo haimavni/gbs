@@ -257,7 +257,8 @@
         "show-all-photos": "הצג את כל התמונות",
         "cancel": "בטל",
         "select-new-copies": "בחר בעותקים החדשים",
-        "no-duplicates-found": "לא נמצאו תמונות כפולות"
+        "no-duplicates-found": "לא נמצאו תמונות כפולות",
+        "show-in-photo-page": "הצג בדף התמונות"
     },
     "videos": {
         "videos": "סרטים",

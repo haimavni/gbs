@@ -223,4 +223,9 @@ export class PhotoStripCustomElement {
         let el = document.getElementById("slide-list");
         el.classList.remove("dragging");
     }
+
+    goto_photo_table() {
+        let photo_ids = this.slides.map(slide => slide.photo_id);
+        this.eventAggregator.publish('GOTO-PHOTO-PAGE', {photo_ids: photo_ids});
+    }
 }

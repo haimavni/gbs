@@ -33,6 +33,9 @@ export class App {
         this.watcher = watcher;
         this.dialog = dialog;
         this.ea = ea;
+        this.ea.subscribe('GOTO-PHOTO-PAGE', payload => {
+            this.router.navigateToRoute('photos', payload);
+        });
     }
 
     attached() {
@@ -49,7 +52,7 @@ export class App {
             { route: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs' },
             { route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms' },
             { route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos' },
-            { route: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos' },
+            { route: 'photos/*', name: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos' },
             { route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories' },
             //{ route: 'stories-tool/*', name: 'stories', moduleId: './stories/stories', nav: false, title: 'stories.stories' },
             { route: 'members', name: 'members', moduleId: './members/members', nav: true, title: 'members.members' },
@@ -68,8 +71,8 @@ export class App {
             { route: 'adhoc-scripts', name: 'adhoc-scripts', moduleId: './admin/adhoc-scripts' },
             { route: 'show-logs', name: 'show-logs', moduleId: './admin/show-logs' },
             { route: 'customize', name: 'customize', moduleId: './admin/customize' },
-            { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment'},
-            { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep'}
+            { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment' },
+            { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep' }
         ]);
         this.router = router;
     }
