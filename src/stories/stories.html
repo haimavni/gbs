@@ -71,6 +71,9 @@
                             click.delegate="select_used_for(uf)">
                             <span style="font-size:70%;">${result_type_counters[uf]}</span>&nbsp;&nbsp;<span style="font-weight:bolder">${'result' + uf & t}</span>
                         </button>
+                        <button if.bind="used_for==3" class="btn btn-basic" click.delegate="goto_photos_page()">
+                            ${'photos.show-in-photo-page' & t}
+                        </button>
                     </form>
                     <ul ref="scroll_area" class="unselectable story-list">
                         <li repeat.for="story of story_list | filter: filter : '*selected' : 'name' : 'author' | take : 9999" dir="${theme.rtltr}"

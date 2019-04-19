@@ -527,6 +527,12 @@ export class Stories {
         this.scroll_area.scrollTop = this.scroll_top = 0;
     }
 
+    goto_photos_page() {
+        let photo_list = this.story_list.filter(itm => itm.used_for==3);
+        let photo_ids = photo_list.map(itm => itm.photo_id);
+        this.router.navigateToRoute('photos', {photo_ids: photo_ids});
+    }
+
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
         this.api.call_server_post('topics/save_tag_merges', this.params)
