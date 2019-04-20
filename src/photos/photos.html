@@ -39,7 +39,7 @@
                                 <button if.bind="selected_photos.size > 0" t="[title]photos.download" class="btn btn-basic btn-md" click.delegate="download_photos()"><i class="fa fa-upload fa-rotate-180 fa-xs"></i></button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.delete" class="btn btn-basic btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
+                                <button if.bind="user.privileges.ADMIN && user.editing && selected_photos.size > 0" t="[title]photos.delete" class="btn btn-basic btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
                             </div>
                             <div class="form-group">
                                 <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos()"><i class="fa fa-undo fa-xs"></i></button>
