@@ -5,7 +5,6 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
 import { computedFrom } from 'aurelia-framework';
 import { MemberPicker } from "./member-picker";
 import { MemberList } from '../services/member_list';

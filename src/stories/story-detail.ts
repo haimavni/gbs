@@ -129,7 +129,9 @@ export class StoryDetail {
             this.detach_photo_from_story(this.story.story_id, slide.photo_id, slide_list);
             return;
         }
+        document.body.classList.add('black-overlay');
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
+            document.body.classList.remove('black-overlay');
         });
     }
 

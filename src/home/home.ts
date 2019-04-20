@@ -71,7 +71,7 @@ export class Home {
         this.api.call_server_post('members/push_message_up', { story_id: story.story_id })
             .then(response => {
                 let idx = this.message_list.findIndex(item => item.story_id == story.story_id);
-                let msgs = this.message_list.slice(idx, idx+1);
+                let msgs = this.message_list.slice(idx, idx + 1);
                 this.message_list.splice(idx, 1);
                 this.message_list.splice(0, 0, msgs[0]);
                 this.scroll_area.scrollTop = 0;
@@ -121,7 +121,9 @@ export class Home {
 
     private openDialog(slide, event, slide_list) {
         event.stopPropagation();
+        document.body.classList.add('black-overlay');
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false }).whenClosed(response => {
+            document.body.classList.remove('black-overlay');
         });
     }
 

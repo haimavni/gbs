@@ -89,9 +89,11 @@ export class PhotoDetail {
     }
 
     private openDialog(slide) {
+        document.body.classList.add('black-overlay');
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
             .whenClosed(response => {
                 //do something?
+                document.body.classList.remove('black-overlay');
             });
     }
 

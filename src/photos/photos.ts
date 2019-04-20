@@ -211,10 +211,10 @@ export class Photos {
     }
 
     private openDialog(slide) {
-        //let title = this.theme.page_title;
-        //this.theme.page_title = "";
+        document.body.classList.add('black-overlay');
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
             .whenClosed(response => {
+                document.body.classList.remove('black-overlay');
                 //this.theme.page_title = title;
             });
     }
