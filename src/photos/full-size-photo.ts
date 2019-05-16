@@ -215,6 +215,9 @@ export class FullSizePhoto {
             return;
         }
         let photo_id = this.slide[this.slide.side].photo_id;
+        if (! photo_id) {
+            photo_id = this.slide.photo_id; //todo: ugly
+        }
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
         this.current_face = face;
         this.faces.push(face);
