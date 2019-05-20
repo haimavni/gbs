@@ -1,5 +1,5 @@
 @mixin mobile {
-    @media (max-width: 599px) {
+    @media (max-width: 1199px) {
         @content;
 
         .hide-if-small {
@@ -9,5 +9,5 @@
 }
 
 @mixin desktop {
-    @media (min-width: 600px) { @content; }
+    @media (min-width: 1200px) { @content; }
 }
