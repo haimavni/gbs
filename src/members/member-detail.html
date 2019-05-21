@@ -143,7 +143,7 @@
                 </div>
             </div>
             <!--member stories panel-->
-            <div id="stories" class="fr-view row ${theme.font-size}" ref="bottom_panel"
+            <div id="stories" class="fr-view row ${theme.font-size} unselectable" ref="bottom_panel"
                 show.bind="member.member_stories.length > 1 && ! (user.editing || life_summary_expanded)"
                 css="margin-left:-28px;margin-right:0px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">

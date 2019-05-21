@@ -154,13 +154,8 @@ export class MemberEdit {
     }
 
     remove_parent(who) {
-        let gender = (who == 'ma') ? 'F' : 'M';
-        if (who == 'ma')
-            this.member.member_info.mother_id = null
-        else if (who == 'pa') {
-            this.member.member_info.father_id = null;
-        }
-        this.eventAggregator.publish('ParentFound', {gender: gender, deleted: true});
+        this.member.family_connections.parents[who] = null;
+        this.api.call_server_post('members/remove_parent', {member_id: this.member.member_info.id, who: who});
     }
 
     get_member_data(member_id) {
