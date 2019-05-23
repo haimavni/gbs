@@ -47,7 +47,9 @@
                         </form>
                     </div>
                     <div class="row">
-                        <ul style="width:100%;padding:0;float:right;height:597px;overflow:auto;list-style-type: none;padding-left:20px;"
+                        <h3 if.bind="term_list.length==0" innerhtml.bind="'no-results' & t">
+                        </h3>
+                            <ul style="width:100%;padding:0;float:right;height:597px;overflow:auto;list-style-type: none;padding-left:20px;"
                             ref="scroll_area" class="unselectable">
                             <li repeat.for="term of term_list | filter: filter : 'Name' : 'author'" dir="rtl"
                                 style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;cursor:pointer;"

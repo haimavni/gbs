@@ -55,7 +55,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="video-panel" ref="scroll_area">
+                        <h3 if.bind="video_list.length==0" innerhtml.bind="'no-results' & t">
+                        </h3>
+                            <div class="video-panel" ref="scroll_area">
                             <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | keeplen : length_keeper | take : videos_per_page : first_index" class="fr-video fr-fvc fr-draggable fr-dvi"
                                 
                                 contenteditable="false" draggable="true">
