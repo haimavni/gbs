@@ -54,7 +54,7 @@
         <div>
             <span style="padding-top:2px;">
                 <span class="hidden-xs member-prefix">${member_prefix & t}</span>
-                <img class="member-image" src.bind="member_of_the_day.face_photo_url" />
+                <img class="member-image" src.bind="member_of_the_day.face_photo_url" if.bind="member_of_the_day.face_photo_url" />
                 <span class="member-name" css="direction:${theme.rtltr};">${member_of_the_day.name}</span>
             </span>
             <span class="hidden-xs hidden-sm member-text" css="direction:${theme.rtltr};">
