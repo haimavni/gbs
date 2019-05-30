@@ -22,6 +22,7 @@
     "bluebird": "^3.4.1",
     "bootstrap-sass": "^3.4.1",
     "calculate-pixel-size": "^1.0.0",
+    "deepmerge": "^3.2.0",
     "downloadjs": "^1.4.7",
     "froala-editor": "^2.8.1",
     "i18next": "^8.4.0",
