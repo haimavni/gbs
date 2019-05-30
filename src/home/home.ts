@@ -29,7 +29,6 @@ export class Home {
     dialog;
     eventAggregator;
     panel_height = 380;
-    photo_strip_height = 360;
     subscriber1;
     scroll_area;
 
