@@ -71,7 +71,7 @@ export function configure(aurelia: Aurelia) {
         aurelia.use.globalResources('./services/theme');
         aurelia.use.globalResources('./user/user-mode');
 
-        aurelia.use.plugin('aurelia-google-analytics', config => {
+        /*aurelia.use.plugin('aurelia-google-analytics', config => {
             config.init('UA-141128055-1');
             config.attach({
                 logging: {
@@ -109,7 +109,7 @@ export function configure(aurelia: Aurelia) {
                     enabled: ! environment.debug,
                 }
             });
-        });        
+        });*/        
 
         if (environment.debug) {
             aurelia.use.developmentLogging();
