@@ -83,7 +83,7 @@
                     <div class="col-md-6" style="padding-left:0;">
                         <selector dict.bind="api.constants.cause_of_death" 
                             selectedval.two-way="member.member_info.cause_of_death" 
-                            suffix.bind="member.member_info.gender">
+                            suffix.bind="member.member_info.gender || 'm'">
                         </selector>
                     </div>
                     <label class="control-label col-md-6" style="padding-right:0;" >${'members.cause-of-death' & t}</label>
