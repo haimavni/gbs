@@ -86,6 +86,7 @@
                                 <div style="margin-bottom: 10px;" class="story-preview" if.bind="used_for!=8">
                                     <div>
                                         <img if.bind="used_for==3" src.bind="story.photo_src" width="140" />
+                                        <img if.bind="used_for==9" src.bind="story.doc_jpg_url" width="140" />
                                     </div>
                                     <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                         story.bind="story" change.delegate="toggle_story_selection(story, $event, $index)"
