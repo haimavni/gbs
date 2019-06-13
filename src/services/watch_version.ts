@@ -32,6 +32,7 @@ export class WatchVersion {
         }
         THIS1.api.call_server('default/get_curr_version')
             .then(response => {
+                if (! response.version) return;
                 if (enversion && environment.version != response.version) {
                     let msg_head = THIS1.i18n.tr('please-update-head');
                     let msg_body = THIS1.i18n.tr('please-update-body');
