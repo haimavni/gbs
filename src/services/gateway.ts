@@ -214,7 +214,8 @@ export class MemberGateway {
     }
 
     handle_ws_message(msg) {
-        console.log("handle ws message");
+        if (msg.data.startsWith('+anonymous')) return;
+        if (msg.data.startsWith('-anonymous')) return;
         let obj;
         try {
             obj = JSON.parse(msg.data);
