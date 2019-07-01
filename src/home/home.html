@@ -43,10 +43,12 @@
             </ul>
         </div>
         <div class="panel-vid">
-            <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
-                <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
-                </iframe>
-            </span>
+            <div class="home-youtube-clips">
+                <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
+                    <iframe src.bind="video.src" frameborder="0" allowfullscreen="" style="width: 204px; height: 121px;">
+                    </iframe>
+                </span>
+            </div>
         </div>
     </div>
 

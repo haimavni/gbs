@@ -20,3 +20,24 @@
         height: 140px;
     }
 }
+
+
+@media (max-width: 767px){
+    
+    .home-youtube-clips{
+        // background-color: red;
+
+        iframe{
+            width: 100% !important;
+            height: 170px !important;
+        }
+    }
+
+    .panel-stories .panel-story-segments .panel-story-segment .story-preview{
+        padding: 10px;
+    }
+
+    .panel-stories .panel-story-segments .panel-story-segment{
+        max-height: 120px !important;
+    }
+}

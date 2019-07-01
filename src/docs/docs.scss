@@ -14,3 +14,12 @@ ul.doc-list {
         margin-bottom:16px;
     }
 }
+
+
+@media (max-width: 767px){
+    .row.content-area{
+        margin-top: 20px;
+        padding-right: 0;
+        margin-left: 0px;
+    }
+}

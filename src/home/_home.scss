@@ -155,3 +155,17 @@
         cursor: pointer;
     }
 }
+
+
+
+@media (max-width: 767px){
+    div.menu-items a {
+        float: left !important;
+        width: 130px !important;
+    }
+    
+    div.menu-items {
+        overflow: hidden;
+        display: block;
+    }
+}

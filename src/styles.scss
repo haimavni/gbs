@@ -247,3 +247,12 @@ ul.nav > li > a {
 @import '../node_modules/froala-editor/css/froala_style.min';
 @import '../node_modules/json.human/css/json.human';
 @import url(https://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+
+@media (max-width: 767px){
+
+    .top-head {
+        position: relative;
+        top: 110px;
+    }
+}

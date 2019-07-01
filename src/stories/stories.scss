@@ -10,6 +10,9 @@ ux-dialog>ux-dialog-body {
     max-height:600px;
     width:600px;
     overflow:auto;
+    @media (max-width: 767px){
+        width:100%;
+    }
 }
 
 div.big-story-panel {

@@ -5,6 +5,15 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-8">
+                    <style>
+                        @media (max-width: 767px){
+                            .row.content-area{
+                                margin-top: 20px;
+                                padding-right: 0 !important;
+                                margin-left: 0px;
+                            }
+                        }
+                    </style>
                     <div class="row" style="margin-bottom:15px;padding-right:32px;">
                         <form class="form-inline">
                             <div if.bind="phase=='can-merge-topics'" class="form-group">

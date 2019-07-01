@@ -2,6 +2,29 @@
     <require from="./stories.css"></require>
     <section class="container content-area">
         <div class="row content-area" style="width:100%;margin-top:16px;padding-right:36px;" dir="rtl">
+                <style>
+                    @media (max-width: 767px){
+                        .row.content-area{
+                            margin-top: 20px;
+                            padding-right: 0 !important;
+                            margin-left: 0px;
+                        }
+
+                        .multi-select div.options{
+                            width: 100%;
+                            padding-left: 50px;
+                        }
+
+                        div.video-page div.video-panel{
+                            text-align: center;
+                            padding-left: 30px;
+                        }
+                        .custom-change {
+                            padding-left: 40px;
+                            display: block;
+                        }
+                    }
+                </style>
             <div class="row" style="height:675px;">
                 <div class="col-md-1">
                 </div>
@@ -106,7 +129,7 @@
                     </ul>
 
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 custom-change">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase == 'not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>

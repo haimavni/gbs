@@ -2,6 +2,32 @@
     <require from="./videos.css"></require>
     <section class="container content-area photos" css="height: ${win_height-304}px;">
         <div class="video-page row content-area">
+                <style>
+                        @media (max-width: 767px){
+                            .row.content-area{
+                                margin-top: 20px;
+                                padding-right: 0;
+                                margin-left: 0px;
+                            }
+    
+                            .multi-select div.options{
+                                width: 100%;
+                                padding-left: 50px;
+                            }
+
+                            div.video-page div.video-panel{
+                                text-align: center;
+                                padding-left: 30px;
+                            }
+                            .custom-change {
+                                padding-left: 40px;
+                                display: block;
+                            }
+                            .input-group.row{
+                                width: 80% !important;
+                            }
+                        }
+                    </style>
             <div class="row">
                 <div class="col-md-9">
                     <div class="row" style="margin-bottom:15px;">
@@ -79,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 custom-change">
                     <span show.bind="false">${user_editing}</span>
                     <div class="row" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>

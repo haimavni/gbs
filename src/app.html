@@ -3,6 +3,11 @@
     <require from="toastr/build/toastr.min.css"></require>
 
     <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" dir="${theme.rtltr}">
+        
+        <div class="mobile-nav-btn">
+            <span class="lines"></span>
+        </div>
+        
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu">
             <div class="navbar-main">
                 <div class="nav-items">
