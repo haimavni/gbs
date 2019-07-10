@@ -260,7 +260,8 @@
         "cancel": "Cancel",
         "select-new-copies": "Select new copies",
         "no-duplicates-found": "No duplicates found",
-        "show-in-photo-page": "Show in photos page"
+        "show-in-photo-page": "Show in photos page",
+        "edit-filters": "Edit filters"
     },
     "videos": {
         "videos": "Video",

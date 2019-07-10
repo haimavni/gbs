@@ -258,7 +258,8 @@
         "cancel": "בטל",
         "select-new-copies": "בחר בעותקים החדשים",
         "no-duplicates-found": "לא נמצאו תמונות כפולות",
-        "show-in-photo-page": "הצג בדף התמונות"
+        "show-in-photo-page": "הצג בדף התמונות",
+        "edit-filters": "עריכת המסננים"
     },
     "videos": {
         "videos": "סרטים",

@@ -1,6 +1,6 @@
 <template>
     <section class="container content-area photos" css="height: ${win_height-323}px;">
-        <div class="row content-area" style="height:380px;width:100%;margin-bottom:24px;margin-top:20px;padding-right:24px;" dir="rtl">
+        <div class="row content-area" style="height:380px;width:100%;margin-bottom:24px;margin-top:20px;padding-right:24px;" dir="${theme.rtltr}">
             <div class="row" style="margin-right:0;margin-left:0;">
                 <div class="col-md-1 hide-if-small" css="padding-top: 40px;position:relative">
                     <span css="position:absolute"></help>${'photos.more-smaller' & t}<help topic="photos.slider" position="right"></span>
@@ -45,6 +45,7 @@
                                 <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos()"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
                             <div class="form-group" if.bind="phase=='photos-not-editing'">
+                                <button class="btn btn-basic btn-md" if.bind="theme.width<1200" click.delegate="show_filters_only()">${'photos.edit-filters' & t}</button>
                                 <help topic="photos-not-editing" position="bottom"></help>
                             </div>
                             <div class="form-group" if.bind="can_pair_photos">
@@ -109,9 +110,10 @@
                             </div>
                         </form>
                     </div>
-                    <h3 if.bind="photo_list.length==0" innerhtml.bind="'no-results' & t">
+                    <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                     </h3>
-                    <div class="row" id="photos-container" style="height:579px;overflow:auto;margin:0;padding:0;margin-bottom:16px;display:flex;flex-wrap:wrap;align-content:flex-start">
+                    <div class="row" id="photos-container" 
+                        if.bind="!editing_filters">
                         <div css="padding:0;margin:0;width:${photo_size}px;height:${photo_size}px;"
                             repeat.for="photo of photo_list | filter : filter : '*selected' : 'title' : name | take : 9999">
                             <a style="position:relative;width:100%" click.delegate="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.delegate="toggle_selection(photo)" 
@@ -125,11 +127,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3" style="padding-right:6px;">
+                <div class="col-md-3" style="padding-right:6px;" if.bind="theme.width>=1200 || editing_filters">
                     <div class="row multi-select-div" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                        <help if.bind="phase=='photos-not-editing'"topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="phase=='photos-not-editing'" topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
                             selected_options.bind="params.selected_topics"
                             settings.bind="options_settings"

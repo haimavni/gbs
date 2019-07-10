@@ -70,6 +70,7 @@ export class PhotoStripCustomElement {
             .subscribe(this.ready);
         this.ready_interval = setInterval(() => this.ready(), 100);
         this.ready();
+        this.height = Math.round(this.theme.height / 3);
         //this.subscription = this.bindingEngine.collectionObserver(this.slides).subscribe(this.ready);
     }
 

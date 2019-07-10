@@ -74,6 +74,8 @@ export class Photos {
     working = false;
     candidates = null;
     after_upload = false;
+    editing_filters = false;
+    empty = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -188,10 +190,12 @@ export class Photos {
         this.params.user_id = this.user.id;
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
+                this.editing_filters = false;
                 this.got_duplicates = false;
                 this.candidates = null;
                 this.after_upload = false;
                 this.photo_list = result.photo_list;
+                this.empty = this.photo_list.length == 0;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }
@@ -646,6 +650,10 @@ export class Photos {
                 this.photo_list = dups.concat(uni);
                 this.photo_list = this.photo_list.splice(0);
             })
+    }
+
+    show_filters_only() {
+        this.editing_filters = true;
     }
 
 }
