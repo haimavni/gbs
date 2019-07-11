@@ -14,9 +14,10 @@ $navbar-default-link-active-bg: inherit;
 /* Pages */
 @import 'app';
 @import 'home/home';
-@import 'photos/photos';
-@import 'terms/terms';
 @import 'members/members';
+@import 'photos/photos';
+@import 'stories.stories';
+@import 'terms/terms';
 
 /* Elements */
 @import 'resources/elements/photo-strip';

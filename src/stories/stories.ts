@@ -81,6 +81,7 @@ export class Stories {
     result_type_counters = {};
     anchor = -1; //for multiple selections
     story_items = [];
+    editing_filters = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -239,6 +240,7 @@ export class Stories {
         console.time('update-story-list');
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
+                this.editing_filters = false;
                 //this.story_list = result.story_list;
                 this.no_results = result.no_results;
                 if (this.no_results) {
@@ -597,8 +599,11 @@ export class Stories {
         this.api.call_server_post('topics/rename_topic', t);
     }
 
-}
+    show_filters_only() {
+        this.editing_filters = true;
+    }
 
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

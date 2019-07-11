@@ -50,7 +50,8 @@
                         <button class="btn btn-basic btn-md" 
                             if.bind="theme.width<1200" 
                             click.delegate="show_filters_only()"
-                            style="margin-bottom:12px">${'terms.edit-filters' & t}</button>
+                            style="margin-bottom:12px">${'terms.edit-filters' & t}
+                        </button>
                         <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                         </h3>
                         <ul id="term-list"

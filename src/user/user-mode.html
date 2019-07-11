@@ -7,7 +7,7 @@
         <i class="fa fa-play fa-rotate-180"></i>
         ${'user.logout' & t}
     </a>
-    <help topic="introduction" position="bottom" style="margin:0;padding:0;border-right:1px solid gray;">
+    <help topic="introduction" position="bottom" style="margin:0;padding:0;border-right:1px solid gray;" if.bind="theme.width > 498">
     </help>
     <div class="btn-group dropdown border-right hide-if-small" style="padding:0;margin-right:18px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
         <button class="btn btn-link btn-md dropdown-toggle" t="[title]user.font-size" style="text-decoration:none;position:relative"
@@ -27,7 +27,7 @@
         </ul>
     </div>
 
-    <div class="btn-group dropdown border-right" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" >
+    <div class="btn-group dropdown border-right" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.biind="theme.width>498" >
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
             <i class="far fa-lg fa-globe"></i>
             <span class="caret"></span>
