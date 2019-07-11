@@ -1,7 +1,14 @@
 ul.story-list {
-    margin-right: -36px;
+    width: 115%;
 }
 
-[dir="ltr"] ul.story-list {
-    margin-left: -36px;
+#story-filters {
+    margin-right: 32px;
 }
+
+div.big-story-panel {
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 0.95em;
+}
+

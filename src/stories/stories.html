@@ -4,8 +4,8 @@
             <div class="row" id="story-list">
                 <div class="col-md-1">
                 </div>
-                <div class="col-md-8" if.bind="! editing_filters">
-                    <div class="row" style="margin-bottom:15px;padding-right:32px;">
+                <div class="col-md-8 col-sm-12" if.bind="! editing_filters">
+                    <div class="row">
                         <form class="form-inline">
                             <!--<div class="input-group" style="width:400px;" if.bind="user.privileges.DEVELOPER">
                                 <search-input value.bind="filter"
@@ -64,7 +64,7 @@
                     </div>
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
                     </h3>
-                    <button class="btn btn-basic btn-md" 
+                    <button class="btn btn-basic btn-md btn-framed" 
                         if.bind="theme.width<1200" 
                         click.delegate="show_filters_only()"
                         style="margin-bottom:12px;margin-right:20px">${'photos.edit-filters' & t}
@@ -80,7 +80,7 @@
                             ${'photos.show-in-photo-page' & t}
                         </button>
                     </form>
-                    <ul ref="scroll_area" class="story-list unselectable" style="margin-right:-36px;margin-top:12px;">
+                    <ul ref="scroll_area" class="story-list unselectable" style="margin-top:12px;">
                         <li repeat.for="story of story_list | filter: filter : '*selected' : 'name' : 'author' | take : 9999" dir="${theme.rtltr}"
                             if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
@@ -111,7 +111,7 @@
                     </ul>
 
                 </div>
-                <div class="col-md-3" if.bind="theme.width >= 1200 || editing_filters">
+                <div class="col-md-3 col-sm-12" if.bind="theme.width >= 1200 || editing_filters" id="story-filters">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase == 'not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>

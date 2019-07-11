@@ -16,7 +16,7 @@ $navbar-default-link-active-bg: inherit;
 @import 'home/home';
 @import 'members/members';
 @import 'photos/photos';
-@import 'stories.stories';
+@import 'stories/stories';
 @import 'terms/terms';
 
 /* Elements */
@@ -241,6 +241,10 @@ ul.nav > li > a {
 }
 .font-size-180 {
     font-size: 180%;
+}
+
+button.btn-framed {
+    border: 1px solid gray;
 }
 
 /* Dependencies */
