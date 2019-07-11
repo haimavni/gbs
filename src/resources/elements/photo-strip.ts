@@ -1,4 +1,4 @@
-import { bindable, inject, DOM, bindingMode, BindingEngine } from 'aurelia-framework';
+import { bindable, inject, DOM, bindingMode, BindingEngine, computedFrom } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Theme } from '../../services/theme';
 
@@ -70,7 +70,9 @@ export class PhotoStripCustomElement {
             .subscribe(this.ready);
         this.ready_interval = setInterval(() => this.ready(), 100);
         this.ready();
-        this.height = Math.round(this.theme.height / 3);
+        if (this.theme.width < 1200)
+            this.height = Math.round(this.theme.height / 3);
+        else this.height = 220;
         //this.subscription = this.bindingEngine.collectionObserver(this.slides).subscribe(this.ready);
     }
 
@@ -80,6 +82,12 @@ export class PhotoStripCustomElement {
         this.ready_interval = 0;
         this.slideShow = 0;
         //this.subscription.dispose();
+    }
+
+    change_heights(new_height) {
+        this.height = new_height;
+        this.dispatch_height_change();
+        this.calculate_widths();
     }
 
     drag_photos(event) {
@@ -228,5 +236,14 @@ export class PhotoStripCustomElement {
     goto_photo_table() {
         let photo_ids = this.slides.map(slide => slide.photo_id);
         this.eventAggregator.publish('GOTO-PHOTO-PAGE', {photo_ids: photo_ids});
+    }
+
+    @computedFrom('theme.height')
+    get dummy () {
+        if (this.theme.width < 1200) {
+            let height = Math.round(this.theme.height / 3);
+            this.change_heights(height)
+        }
+        return "";
     }
 }

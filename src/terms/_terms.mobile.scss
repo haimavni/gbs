@@ -1,0 +1,12 @@
+#terms-list-header {
+    margin-right: 40px;
+}
+
+#term-topics {
+    &.rtl {
+        margin-right: 40px
+    }
+    &.ltr {
+        margin-left: 40px;
+    }
+}

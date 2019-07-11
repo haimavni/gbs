@@ -337,7 +337,10 @@ export class MemberDetail {
         let footer_height = 63;
         let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height;
         panel_height = Math.max(panel_height, 544);
-        this.member_detail_panel.style.height = `${panel_height}px`;
+        if (this.theme.width >= 1200) {
+            this.member_detail_panel.style.height = `${panel_height}px`;
+            this.member_detail_panel.style.marginRight = '-32px';
+        }
         let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
         let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin

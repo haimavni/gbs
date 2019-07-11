@@ -1,0 +1,10 @@
+@include mobile { @import 'terms.mobile'; }
+@include desktop { @import 'terms.desktop'; }
+
+#term-list {
+    width: 100%;
+    padding: 0;
+    float: right;
+    list-style-type: none;
+    padding-left: 20px;
+}

@@ -247,12 +247,12 @@ export class FullSizePhoto {
 
     public dragmove(face, customEvent: CustomEvent) {
         customEvent.stopPropagation();
+        let event = customEvent.detail;
         if (!this.user.editing) {
             return;
         }
         let el = document.getElementById('face-' + face.member_id);
         let current_face = this.current_face;
-        let event = customEvent.detail;
         if (face.action === "moving") {
             current_face.x += event.dx;
             current_face.y += event.dy;
@@ -272,6 +272,16 @@ export class FullSizePhoto {
             el.style.cursor = 'all-scroll';
         } else {
             el.style.cursor = 'se-resize';
+        }
+    }
+
+    public drag_move_photo(customEvent: CustomEvent) {
+        if (this.theme.width < 1200) {
+            let event = customEvent.detail;
+            let el = document.getElementById("full-size-photo");
+            let mls = el.style.marginLeft.replace('px', '');
+            let ml = Math.min(0, parseInt(mls) + event.dx);
+            el.style.marginLeft = `${ml}px`;
         }
     }
 

@@ -316,7 +316,8 @@
         "terms-lexicon": "Terms lexicon",
         "new": "New term",
         "filter": "Fast search in term titles",
-        "delete-checked-terms": "Delete checked terms"
+        "delete-checked-terms": "Delete checked terms",
+        "edit-filters": "Select topics"
     },
     "consts": {
         "vis-never": "Never display!",

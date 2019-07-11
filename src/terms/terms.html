@@ -1,12 +1,12 @@
 <template>
     <section class="container content-area">
-        <div class="row content-area" style="height:300px;width:100%;margin-top:20px;">
+        <div class="row content-area" style="width:100%;margin-top:20px;">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-8" id="terms-list-header">
                     <div class="row" style="margin-bottom:15px;">
                         <form class="form-inline">
                             <div class="input-group" style="width:236px;">
-                                <search-input value.bind="filter" change.delegate="update_story_list()"
+                                <search-input value.bind="filter" change.delegate="update_story_list()" if.bind="theme.width >= 1200"
                                     placeholder="terms.filter" help_topic="terms-help" height="38"></search-input>
                             </div>
                             <div class="input-group" if.bind="user.editing && checked_terms.size == 0">
@@ -46,10 +46,14 @@
                             </div>
                         </form>
                     </div>
-                    <div class="row">
-                        <h3 if.bind="term_list.length==0" innerhtml.bind="'no-results' & t">
+                    <div class="row" if.bind="! editing_filters">
+                        <button class="btn btn-basic btn-md" 
+                            if.bind="theme.width<1200" 
+                            click.delegate="show_filters_only()"
+                            style="margin-bottom:12px">${'terms.edit-filters' & t}</button>
+                        <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                         </h3>
-                            <ul style="width:100%;padding:0;float:right;height:597px;overflow:auto;list-style-type: none;padding-left:20px;"
+                        <ul id="term-list"
                             ref="scroll_area" class="unselectable">
                             <li repeat.for="term of term_list | filter: filter : 'Name' : 'author'" dir="rtl"
                                 style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;cursor:pointer;"
@@ -70,7 +74,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 ${theme.rtltr}" if.bind="theme.width>=1200 || editing_filters" id="term-topics">
                     <div class="row" style="position:relative;">
                         <!-- <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div> -->
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom"

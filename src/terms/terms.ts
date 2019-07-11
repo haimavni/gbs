@@ -34,6 +34,8 @@ export class Terms {
     has_grouped_topics: false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
+    editing_filters = false;
+    empty = false;
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router) {
         this.api = api;
@@ -52,6 +54,8 @@ export class Terms {
         this.api.call_server_post('terms/get_term_list', { params: this.params, usage: this.user.editing ? null : 'T' })
             .then(result => {
                 this.term_list = result.term_list;
+                this.empty = this.term_list.length == 0;
+                this.editing_filters = false;
                 //this.scroll_top = 0;
             });
     }
@@ -235,6 +239,10 @@ export class Terms {
                 this.clear_selected_topics_now = true;
                 this.update_topic_list();
             });
+    }
+
+    show_filters_only() {
+        this.editing_filters = true;
     }
 
 }

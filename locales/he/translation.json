@@ -316,7 +316,8 @@
         "terms-lexicon": "מילון מונחים",
         "new": "מונח חדש",
         "filter": "חפוש מהיר בשמות המונחים",
-        "delete-checked-terms": "מחק את המונחים המסומנים"
+        "delete-checked-terms": "מחק את המונחים המסומנים",
+        "edit-filters": "בחירת נושאים"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",
