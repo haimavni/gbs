@@ -80,5 +80,12 @@ $navbar-height: 78px;
     }
 }
 
+.navbar .loader {  //does not work. why?
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    font-size:5em;
+}
+
 
 

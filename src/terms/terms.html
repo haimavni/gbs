@@ -3,7 +3,7 @@
         <div class="row content-area" style="width:100%;margin-top:20px;">
             <div class="row">
                 <div class="col-md-8" id="terms-list-header">
-                    <div class="row" style="margin-bottom:15px;">
+                    <div class="row" style="margin-bottom:15px;" if.bind="theme.width >= 1200">
                         <form class="form-inline">
                             <div class="input-group" style="width:236px;">
                                 <search-input value.bind="filter" change.delegate="update_story_list()" if.bind="theme.width >= 1200"
@@ -47,7 +47,7 @@
                         </form>
                     </div>
                     <div class="row" if.bind="! editing_filters">
-                        <button class="btn btn-basic btn-md btn-framed" 
+                        <button class="btn btn-basic btn-sm btn-framed" 
                             if.bind="theme.width<1200" 
                             click.delegate="show_filters_only()"
                             style="margin-bottom:12px">${'terms.edit-filters' & t}

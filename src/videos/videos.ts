@@ -93,6 +93,8 @@ export class Videos {
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
+    empty = false;
+    editing_filters = false;
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
@@ -103,14 +105,43 @@ export class Videos {
         this.ea = ea;
     }
 
-    update_video_list() {
-        this.api.call_server_post('photos/get_video_list', this.params)
-            .then(response => this.set_video_list(response.video_list));
+    video_data(video_rec) {
+        switch (video_rec.video_type) {
+            case 'youtube':
+                video_rec.src = "//www.youtube.com/embed/" + video_rec.src + "?wmode=opaque";
+                break;
+            case 'vimeo':
+                //use the sample below 
+                // <iframe src="https://player.vimeo.com/video/38324835" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                // <p><a href="https://vimeo.com/38324835">צבעונים ונוריות בשמורת הבונים</a> from <a href="https://vimeo.com/user2289719">Haim Avni</a> on <a href="https://vimeo.com">Vimeo</a>.</p>            
+                video_rec.src = 'https://vimeo.com/' + video_rec.src;
+                break;
+        }
+        //video_rec.selected = false;
+        let photographer = this.photographer_list.find(p => p.id == video_rec.photographer_id);
+        let photographer_name = photographer ? photographer.name : this.i18n.tr('videos.unknown-photographer');
+        let vr = new Video(
+            photographer_name,
+            this.i18n.tr('videos.photographer-name'),
+            this.i18n.tr('videos.video-date-range'),
+            this.i18n.tr('videos.keywords'));
+        for (let key of Object.keys(vr)) {
+            if (video_rec[key])
+                vr[key] = video_rec[key];
+        }
+        return vr;
     }
 
     set_video_list(video_list) {
         this.video_list = video_list.map(v => this.video_data(v));
+        this.empty = this.video_list.length == 0;
         this.length_keeper.len = this.video_list.length;
+        this.editing_filters = false;
+    }
+
+    update_video_list() {
+        this.api.call_server_post('photos/get_video_list', this.params)
+            .then(response => this.set_video_list(response.video_list));
     }
 
     attached() {
@@ -179,33 +210,6 @@ export class Videos {
         for (let p of ['name', 'keywords', 'photographer_id', 'video_date_datestr', 'video_date_datespan']) {
             if (changes[p]) video[p] = changes[p]
         }
-    }
-
-    video_data(video_rec) {
-        switch (video_rec.video_type) {
-            case 'youtube':
-                video_rec.src = "//www.youtube.com/embed/" + video_rec.src + "?wmode=opaque";
-                break;
-            case 'vimeo':
-                //use the sample below 
-                // <iframe src="https://player.vimeo.com/video/38324835" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                // <p><a href="https://vimeo.com/38324835">צבעונים ונוריות בשמורת הבונים</a> from <a href="https://vimeo.com/user2289719">Haim Avni</a> on <a href="https://vimeo.com">Vimeo</a>.</p>            
-                video_rec.src = 'https://vimeo.com/' + video_rec.src;
-                break;
-        }
-        //video_rec.selected = false;
-        let photographer = this.photographer_list.find(p => p.id == video_rec.photographer_id);
-        let photographer_name = photographer ? photographer.name : this.i18n.tr('videos.unknown-photographer');
-        let vr = new Video(
-            photographer_name,
-            this.i18n.tr('videos.photographer-name'),
-            this.i18n.tr('videos.video-date-range'),
-            this.i18n.tr('videos.keywords'));
-        for (let key of Object.keys(vr)) {
-            if (video_rec[key])
-                vr[key] = video_rec[key];
-        }
-        return vr;
     }
 
     page(step, event) {
@@ -475,6 +479,10 @@ export class Videos {
         </ul>
         `
         return content;
+    }
+
+    show_filters_only() {
+        this.editing_filters = true;
     }
 
 }

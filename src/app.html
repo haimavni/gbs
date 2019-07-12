@@ -4,7 +4,7 @@
 
     <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" dir="${theme.rtltr}">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu">
-            <div class="navbar-main">
+            <div class="navbar-main" style="position: relative;">
                 <div class="nav-items">
                     <a class="navbar-logo" href="#" if.bind="theme.width>400">
                         <img if.bind="theme.files.app_logo" src="${theme.files.app_logo}" />
@@ -16,7 +16,7 @@
                         </a>
                     </div>
                 </div>
-                <span class="loader" css="opacity:${api.pending ? 1.0 : 0}">
+                <span class="loader ${theme.width < 1200 ? 'smaller' : 'bigger'}" css="opacity:${api.pending ? 1.0 : 0.3}">
                     <i class="fa fa-spinner fa-spin"></i>
                 </span>
             </div>

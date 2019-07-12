@@ -1,17 +1,21 @@
 <template>
-    <require from="./videos.css"></require>
     <section class="container content-area photos" css="height: ${win_height-304}px;">
         <div class="video-page row content-area">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-9" if.bind="! editing_filters">
                     <div class="row" style="margin-bottom:15px;">
                         <div class="col-md-1 paging-buttons" dir="ltr">
                             <button t="[title]videos.prev" class="btn btn-default" click.delegate="page(-1, $event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
                             <button t="[title]videos.next" class="btn btn-default" click.delegate="page(+1, $event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                         </div>
                         <div class="col-md-10 col-md-offset-1 ctrls-group">
-                            <div class="input-group row" style="width:40%;margin-left:20px;">
-                                <search-input value.bind="filter" placeholder="videos.filter" height="38"></search-input>
+                            <button class="btn btn-basic btn-sm btn-framed" 
+                                if.bind="theme.width<1200" 
+                                click.delegate="show_filters_only()"
+                                css="margin-${theme.other_dir}:6px;margin-${theme.same_dir}:-16px;">${'photos.edit-filters' & t}
+                            </button>
+                            <div class="input-group" style="width:240px;" >
+                                <search-input value.bind="filter" placeholder="videos.filter" height="30"></search-input>
                             </div>
                             <div if.bind="phase=='photos-ready-to-edit'" class="ctrl">
                                 <button click.delegate="new_video()" class="btn btn-success cl-create-btn">
@@ -19,7 +23,7 @@
                                     ${'videos.new' & t}
                                 </button>
                             </div>
-                            <div  if.bind="user.editing && selected_videos.size > 0 && user.privileges.ADMIN" class="ctrl">
+                            <div if.bind="user.editing && selected_videos.size > 0 && user.privileges.ADMIN" class="ctrl">
                                 <button
                                     class="btn btn-default btn-md" 
                                     click.trigger="promote_videos()">
@@ -55,7 +59,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <h3 if.bind="video_list.length==0" innerhtml.bind="'no-results' & t">
+                        <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                         </h3>
                             <div class="video-panel" ref="scroll_area">
                             <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | keeplen : length_keeper | take : videos_per_page : first_index" class="fr-video fr-fvc fr-draggable fr-dvi"
@@ -79,7 +83,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3" if.bind="theme.width > 1200 || editing_filters">
                     <span show.bind="false">${user_editing}</span>
                     <div class="row" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>

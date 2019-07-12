@@ -1,0 +1,53 @@
+$vid-height: 160px;
+$vid-width: 95%;
+div.video-page {
+    width:100%;
+    margin-bottom:24px;
+    margin-top:20px;
+    padding-right:24px;
+    div.video-panel {
+        display:flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: flex-start;
+        width: 100%;
+        span.fr-video {
+            width: $vid-width + 16px;
+            height: $vid-height + 20px;
+            margin-bottom: 16px;
+            .video-iframe {
+                width: $vid-width;
+                height: $vid-height;
+            }
+        }
+        span.video-name {
+            font-size: 14px;
+            span {
+                cursor: pointer;
+                i:hover {
+                    background-color: lightblue;
+                }
+            }
+        }
+    }
+    div.paging-buttons {
+        display: flex;
+        padding-left:36px;
+        margin-top: -12px;
+        button {
+            font-weight: bolder;
+            font-size: 215%;
+            border: none;
+        }
+    }
+
+    div.ctrls-group {
+         display:flex;
+         justify-content:flex-start;
+         align-items: flex-start;
+         div.ctrl>button {
+             height: 38px;
+         }
+    }
+}
