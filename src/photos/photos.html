@@ -1,6 +1,6 @@
 <template>
-    <section class="container content-area photos" css="height: ${win_height-323}px;">
-        <div class="row content-area" style="height:380px;width:100%;margin-bottom:24px;margin-top:20px;padding-right:24px;" dir="${theme.rtltr}">
+    <section class="container content-area photos" css="css_height()">
+        <div class="row content-area" if="photos-area" dir="${theme.rtltr}">
             <div class="row" style="margin-right:0;margin-left:0;">
                 <div class="col-md-1 hide-if-small" css="padding-top: 40px;position:relative">
                     <span css="position:absolute"></help>${'photos.more-smaller' & t}<help topic="photos.slider" position="right"></span>

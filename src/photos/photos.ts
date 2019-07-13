@@ -656,4 +656,9 @@ export class Photos {
         this.editing_filters = true;
     }
 
+    css_height() {
+        if (this.theme.width < 1200) return '';
+        return `height: ${this.win_height-323}px;`;
+    }
+
 }
