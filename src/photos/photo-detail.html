@@ -2,8 +2,8 @@
 
     <div class="content-area photo-detail">
         <div class="detail-header"> 
-            <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
-                <i class="far fa-share" t="[title]go-back" click.trigger="go_back()"></i>
+            <h3 style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.width >= 1200">
+                <i class="far fa-share" t="[title]go-back" click.trigger="go_back()" if.bind="theme.width >= 1200"></i>
             </h3>
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${photo_story.name}
@@ -13,8 +13,16 @@
             </button>
         </div>
         <div class="row">
-            <div class="col-md-7" click.trigger="open_full_size_photo()">
+            <div class="col-md-7" style="display:flex;flex-direction:column;" click.trigger="open_full_size_photo()">
                 <img src.bind="photo_src" width="${photo_width}" />
+                <span dir="${theme.rtltr}" style="float:left;" if.bind="photographer_name">${'photos.photographer-name' & t}: ${photographer_name}</span>
+                <date-range label="photos.photo-date" 
+                    base_date_str.bind="photo_date_str" 
+                    hide_label_if_no_date.bind="true"
+                    span_size.bind="photo_date_datespan"
+                    range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
+                    change.delegate="update_photo_date($event)">
+                </date-range>
             </div>
             <div class="col-md-5">
                 <div class="row">
@@ -35,13 +43,6 @@
                                 </div>
                             </div>
                             <editable if.bind="user.editing" settings.bind="{show_date:false, class:'story-section', checkable: false}" story.bind="photo_story"></editable>
-                            <date-range label="photos.photo-date" 
-                                base_date_str.bind="photo_date_str" 
-                                hide_label_if_no_date.bind="true"
-                                span_size.bind="photo_date_datespan"
-                                range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
-                                change.delegate="update_photo_date($event)">
-                            </date-range>
                         </div>
                     </div>
                 </div>

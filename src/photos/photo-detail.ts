@@ -34,6 +34,7 @@ export class PhotoDetail {
     keywords;
     advanced_search;
     highlight_on = "highlight-on";
+    photographer_name = '';
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -52,6 +53,7 @@ export class PhotoDetail {
                 this.photo_src = response.photo_src;
                 this.photo_story = response.photo_story;
                 this.photo_name = this.photo_story.name || response.photo_name;
+                this.photographer_name = response.photographer_name
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
                 if (this.photo_story.story_id == 'new') {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
