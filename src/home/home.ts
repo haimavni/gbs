@@ -137,9 +137,10 @@ export class Home {
     drag_end_panel(customEvent) {
         if (this.theme.width >= 1200) return;
         let event = customEvent.detail;
-        if (event.dx < 0 && this.active_part < 3) {
+        let dx = event.dx;
+        if (dx < -30 && this.active_part < 3) {
             this.active_part += 1
-        } else if (event.dx > 0 && this.active_part > 1) {
+        } else if (dx > 30 && this.active_part > 1) {
             this.active_part -= 1;
         }
     }

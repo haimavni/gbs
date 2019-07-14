@@ -6,7 +6,7 @@
             action_key="Zoom1" settings.bind="{arrows:true, slide_show: 4}" style="padding:0;"></photo-strip>
     </div>
 
-    <div class="panel main-panel" css="height:${panel_height}px;"
+    <div class="panel main-panel unselectable" css="height:${panel_height}px;"
         interact-draggable.bind="theme.interact_setting"
         interact-dragend.delegate="drag_end_panel($event)">
         <div class="panel-messages" css="direction:${theme.rtltr};position:relative;" ref="scroll_area" if.bind="theme.width >= 1200 || active_part== 3">
@@ -18,7 +18,7 @@
                 </span>
             </h2>
             <ul class="messages">
-                <li class="message" repeat.for="msg of message_list" dir="rtl">
+                <li class="message" repeat.for="msg of message_list" dir="rtl" draggable="false">
                     <editable story.bind="msg" settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true}" 
                         change.delegate="hande_story_change(msg, $event)"
                         pushup.delegate="push_story(msg, $event)">
@@ -37,7 +37,7 @@
                 </span>
             </h2>
             <ul class="panel-story-segments">
-                <li class="panel-story-segment" repeat.for="story of stories_sample" dir="${theme.rtltr}" click.delegate="jump_to_the_full_story(story)">
+                <li class="panel-story-segment" repeat.for="story of stories_sample" dir="${theme.rtltr}" draggable="false" click.delegate="jump_to_the_full_story(story)">
                     <div class="story-preview">
                         <h4 class="panel-story-header" dir="rtl">
                             ${story.name}
