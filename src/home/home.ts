@@ -9,6 +9,7 @@ import { MemberList } from '../services/member_list';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
+import { timingSafeEqual } from 'crypto';
 
 @autoinject
 export class Home {
@@ -31,6 +32,7 @@ export class Home {
     panel_height = 380;
     subscriber1;
     scroll_area;
+    active_part = 2;
 
     constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
@@ -130,6 +132,16 @@ export class Home {
         event.stopPropagation();
         let { new_height } = event.detail;
         this.panel_height = 680 - new_height;
+    }
+
+    drag_end_panel(customEvent) {
+        if (this.theme.width >= 1200) return;
+        let event = customEvent.detail;
+        if (event.dx < 0 && this.active_part < 3) {
+            this.active_part += 1
+        } else if (event.dx > 0 && this.active_part > 1) {
+            this.active_part -= 1;
+        }
     }
 
 }

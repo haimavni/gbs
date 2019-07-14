@@ -12,6 +12,9 @@
     width: 220px;
     align-items: flex-start;
     flex-direction: column;
+    iframe {
+        width: 204px;
+    }
 }
 
 .panel-messages {
