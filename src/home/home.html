@@ -9,7 +9,8 @@
     <div class="panel main-panel" css="height:${panel_height}px;"
         interact-draggable.bind="theme.interact_setting"
         interact-dragend.delegate="drag_end_panel($event)">
-        <div class="panel-messages" css="direction:${theme.rtltr};" ref="scroll_area" if.bind="theme.width >= 1200 || active_part== 3">
+        <div class="panel-messages" css="direction:${theme.rtltr};position:relative;" ref="scroll_area" if.bind="theme.width >= 1200 || active_part== 3">
+            <i class="fas fa-caret-right fa-4x" style="position:absolute;left: 0;top:0;color:lightblue;" if.bind="theme.width < 1200"></i>
             <h2 class="messages-header">
                 <span>${'home.messages' & t}</span>
                 <span class="is-link" if.bind="user.editing" click.delegate="add_message()">
@@ -25,8 +26,10 @@
                 </li>
             </ul>
         </div>
-        <div class="panel-stories" style="direction:rtl;" if.bind="theme.width >= 1200 || active_part== 2">
+        <div class="panel-stories" style="direction:rtl;position:relative;" if.bind="theme.width >= 1200 || active_part== 2">
             <h2 class="panel-stories-header">
+                <i class="fas fa-caret-right fa-2x" style="position:absolute;left: 0;top:-16px;color:lightblue;" if.bind="theme.width < 1200"></i>
+                <i class="fas fa-caret-left fa-2x" style="position:absolute;right: 0;top:-16px;color:lightblue;" if.bind="theme.width < 1200"></i>
                 <span class="expand">${'home.sample-stories' & t}</span>
                 <span class="full-collection-button" click.delegate="goto_full_collection()">
                     ${'home.full-collection' & t}
@@ -44,7 +47,8 @@
                 </li>
             </ul>
         </div>
-        <div class="panel-vid" if.bind="theme.width >= 1200 || active_part== 1">
+        <div class="panel-vid" if.bind="theme.width >= 1200 || active_part== 1" style="position:relative;">
+            <i class="fas fa-caret-left fa-4x" style="position:absolute;right: 0;top:-15px;color:lightblue;" if.bind="theme.width < 1200"></i>
             <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
                 <iframe src.bind="video.src" frameborder="0" allowfullscreen="">
                 </iframe>
