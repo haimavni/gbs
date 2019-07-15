@@ -18,7 +18,7 @@
 
 <body aurelia-app="main">
     <script>
-        CheckUrl("scripts/vendor-bundle.js");
+        CheckUrl("scripts/vendor-bundle-[VERSION].js");
         async function CheckUrl(url)
         {
             const response = await fetch(url, {
