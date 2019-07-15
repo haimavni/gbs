@@ -139,9 +139,10 @@ export class Home {
         let event = customEvent.detail;
         let dx = event.dx;
         let dy = event.dy;
-        if (dx < -30 && Math.abs(dy * 5) < -dx && this.active_part < 3) {
+        if (Math.abs(dy * 5) >= Math.abs(dx)) return true;
+        if (dx < -30 && this.active_part < 3) {
             this.active_part += 1
-        } else if (dx > 30 && Math.abs(dy * 5) < dx && this.active_part > 1) {
+        } else if (dx > 30 && this.active_part > 1) {
             this.active_part -= 1;
         }
     }
