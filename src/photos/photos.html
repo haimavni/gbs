@@ -1,6 +1,6 @@
 <template>
     <section class="container content-area photos" css="css_height()">
-        <div class="row content-area" if="photos-area" dir="${theme.rtltr}">
+        <div class="row content-area" id="photos-area" dir="${theme.rtltr}">
             <div class="row" style="margin-right:0;margin-left:0;">
                 <div class="col-md-1 hide-if-small" css="padding-top: 40px;position:relative">
                     <span css="position:absolute"></help>${'photos.more-smaller' & t}<help topic="photos.slider" position="right"></span>
@@ -44,9 +44,11 @@
                             <div class="form-group">
                                 <button if.bind="user.privileges.ADMIN && selected_photos.size > 0" t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos()"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
-                            <div class="form-group" if.bind="phase=='photos-not-editing'">
-                                <button class="btn btn-basic btn-sm btn-framed" if.bind="theme.width<1200" click.delegate="show_filters_only()">${'photos.edit-filters' & t}</button>
-                                <help topic="photos-not-editing" position="bottom"></help>
+                            <div class="form-group" if.bind="! editing_filters">
+                                <button class="btn btn-basic btn-sm btn-framed" 
+                                    if.bind="theme.width<1200" 
+                                    click.delegate="show_filters_only()">${'photos.edit-filters' & t}
+                                </button>
                             </div>
                             <div class="form-group" if.bind="can_pair_photos">
                                 <button t="[title]photos.pair" class="btn btn-basic btn-md" click.delegate="pair_selected_photos()"><i class="far fa-yin-yang"></i></i></button>
@@ -127,7 +129,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3" style="padding-right:6px;" if.bind="theme.width>=1200 || editing_filters">
+                <div id="photo-filters-panel" class="col-md-3 col-sm-12 ${theme.rtltr}" if.bind="theme.width>=1200 || editing_filters">
                     <div class="row multi-select-div" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>

@@ -1,3 +1,14 @@
 .photo-detail {
     width:100%;
 }
+
+#photo-filters-panel {
+    &.rtl {
+        padding-right: 30px;
+    }
+    &.ltr {
+        padding-left: 30px;
+    }
+    padding-bottom: 12px;
+}
+
