@@ -13,11 +13,25 @@
         try { (function (k) { localStorage.FEK = k; t = document.getElementById('fr-fek'); t.parentNode.removeChild(t); })('OF2C1B4B3nA16B10D8B4F2D4G3I2I3A8ayC-13sumqmc1uA6gB-11m==') } catch (e) { }
     </script>
     <link rel="stylesheet" href="https://gbstories.org/gbs__test/static/fontawesome/css/all.css"
-    crossorigin="anonymous">
+        crossorigin="anonymous">
 </head>
 
 <body aurelia-app="main">
-    <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+    <script>
+        CheckUrl("scripts/vendor-bundle.js");
+        async function CheckUrl(url)
+        {
+            const response = await fetch(url, {
+            method: "head",
+            mode: "no-cors"
+            });
+            if (response.status == 404) {
+                //alert("Plese refresh");
+                location.reload(true);
+            }
+        }
+    </script>
+    <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper" ></script>
 </body>
 
 </html>
