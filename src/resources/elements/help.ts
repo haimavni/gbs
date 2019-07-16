@@ -59,6 +59,7 @@ export class HelpCustomElement {
 
     edit_help_message(event) {
         event.stopPropagation();
+        if (this.theme.width < 1200) return;
         let edit = this.user.privileges.HELP_AUTHOR && event.ctrlKey;
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: edit }, lock: edit }).whenClosed(response => {
