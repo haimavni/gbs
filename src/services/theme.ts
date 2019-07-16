@@ -26,7 +26,7 @@ export class Theme {
     public rtltr;
     i18n;
     touchScreen = null;
-    interact_setting = {};
+    interact_setting = { interactable: { preventDefault: 'never' } };
     page_title = "";
     hide_title = false;
     hide_menu = false;

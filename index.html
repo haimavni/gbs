@@ -21,6 +21,7 @@
         CheckUrl("scripts/vendor-bundle-[VERSION].js");
         async function CheckUrl(url)
         {
+            if (url.findIndex('[') > 0) return;  //for developer
             const response = await fetch(url, {
             method: "head",
             mode: "no-cors"
