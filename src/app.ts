@@ -123,4 +123,13 @@ export class App {
         this.keywords = "";
     }
 
+    drag_menu_items(customEvent) {
+        let event = customEvent.detail;
+        let el = document.getElementById("nav-items");
+        let mrs = el.style.marginRight || "0px";
+        mrs = mrs.replace('px', '');
+        let mr = parseInt(mrs);
+        el.style.marginRight = `${mr - event.dx}px`;
+    }
+
 }

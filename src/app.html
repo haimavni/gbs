@@ -5,16 +5,22 @@
     <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" dir="${theme.rtltr}">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu">
             <div class="navbar-main" style="position: relative;">
-                <div class="nav-items">
-                    <a class="navbar-logo" href="#" if.bind="theme.width>400">
+                <div class="nav-items unselectable" 
+                    id="nav-items"
+                    interact-draggable.bind="theme.interact_setting"
+                    interact-dragmove.delegate="drag_menu_items($event)" >
+                    <a class="navbar-logo" href="#" >
                         <img if.bind="theme.files.app_logo" src="${theme.files.app_logo}" />
                         <span class="router-title">${router.title & t}</span>
                     </a>
                     <div class="menu-items">
-                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href">
+                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href" draggable="false">
                             ${row.title & t}.
                         </a>
                     </div>
+                    <!-- <div class="navbar-controls" if.bind="theme.width < 1200" >
+                        <user-mode></user-mode>
+                    </div> -->
                 </div>
                 <span class="loader ${theme.width < 1200 ? 'smaller' : 'bigger'}" css="opacity:${api.pending ? 1.0 : 0}">
                     <i class="fa fa-spinner fa-spin"></i>
