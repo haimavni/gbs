@@ -3,6 +3,7 @@
     ul.story-list {
         height:560px;
         overflow:auto;
+        width: 100%
     }
 }
 
@@ -17,5 +18,9 @@ ul.story-list {
 div.big-story-panel {
     padding-left: 12px;
     padding-right: 12px;
+}
+
+#story-filters {
+    padding-right: 36px;
 }
 

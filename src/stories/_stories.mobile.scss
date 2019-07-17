@@ -1,9 +1,5 @@
 ul.story-list {
-    width: 115%;
-}
-
-#story-filters {
-    margin-right: 32px;
+    margin-left: -16px;
 }
 
 div.big-story-panel {
@@ -12,3 +8,6 @@ div.big-story-panel {
     font-size: 0.95em;
 }
 
+#story-filters {
+    padding-right: 46px;
+}

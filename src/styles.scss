@@ -248,6 +248,12 @@ button.btn-framed {
     border: 1px solid gray;
 }
 
+.hide-scroll-bar {
+    -webkit-scrollbar: {width: 0 !important }
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+
 /* Dependencies */
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/froala-editor/css/froala_editor.pkgd.min';
