@@ -128,8 +128,9 @@ export class App {
         let el = document.getElementById("nav-items");
         let mrs = el.style.marginRight || "0px";
         mrs = mrs.replace('px', '');
-        let mr = parseInt(mrs);
-        el.style.marginRight = `${mr - event.dx}px`;
+        let mr = parseInt(mrs) - event.dx;
+        if (mr > 0) {mr = 0;}
+        el.style.marginRight = `${mr}px`;
     }
 
 }
