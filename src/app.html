@@ -32,11 +32,11 @@
                         <input type="text" 
                             class="search-box-input"
                             value.bind="keywords" t="[placeholder]enter-search-words" 
-                            keydown.delegate="go_search(event) & debounce:theme.search_debounce" />
+                            keydown.delegate="go_search($event)" />
                         <i class="far fa-times" click.trigger="clear_keywords()"></i>
                     </label>
                     <button class="search-box-button" 
-                        click.delegate="go_search()">
+                        click.delegate="go_search_btn()">
                         <i class="far fa-search"></i>
                     </button>
                 </div>

@@ -106,26 +106,37 @@ export class App {
         });
     }
 
-    go_search(ifempty: boolean, fromButton: boolean) {
+    go_search(event) {
         //if (ifempty && this.keywords) return; //not to duplicate on change. used only to display random list of stories
-        let keywords = this.keywords;
-        if (fromButton) {
-            //this.clear_keywords(); 
-            this.search_button_pressed = true;
-        } else {
-            if (this.search_button_pressed) {
-                this.search_button_pressed = false;
-                return;
-            }
+        if (this.clear_keywords_timeout) {
+            clearTimeout(this.clear_keywords_timeout);
+            this.clear_keywords_timeout = null;
         }
-        window.setTimeout(() => { this.clear_keywords(); }, 60000);  //if the user paused before he finished to enter the search string, he can still continue
-        this.theme.change_search_debounce(fromButton);
-        if (this.router.currentInstruction.config.name == 'stories') {
-            this.ea.publish("GO-SEARCH", { keywords: keywords });
-        } else {
-            this.router.navigateToRoute('stories', { keywords: keywords });
+        if (event.keyCode == 13) return this.invoke_search(true);
+        if (this.search_timeout) {
+            clearTimeout(this.search_timeout);
         }
+        this.search_timeout = setTimeout(() => {this.invoke_search(false)}, this.theme.search_debounce);
         return true;
+    }
+
+    go_search_btn() {
+        if (this.search_timeout) {
+            clearTimeout(this.search_timeout);
+            this.search_timeout = null;
+        }
+        this.invoke_search(true);
+    }
+
+    invoke_search(from_btn: boolean) {
+        this.theme.change_search_debounce(from_btn);
+        if (this.clear_keywords_timeout) clearTimeout(this.clear_keywords_timeout);
+        this.clear_keywords_timeout = setTimeout(() => {this.clear_keywords()}, 60000);
+        if (this.router.currentInstruction.config.name == 'stories') {
+            this.ea.publish("GO-SEARCH", { keywords: this.keywords });
+        } else {
+            this.router.navigateToRoute('stories', { keywords: this.keywords });
+        }
     }
 
     @computedFrom("user.isLoggedIn")

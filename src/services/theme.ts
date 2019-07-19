@@ -215,6 +215,7 @@ export class Theme {
         } else {
             this.search_debounce = 1500;
         }
+        console.log("search debounce ", this.search_debounce);
     }
 
 }
