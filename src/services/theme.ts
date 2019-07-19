@@ -37,6 +37,7 @@ export class Theme {
     _blue_logo = null;
     router_view;
     footer;
+    search_debounce = 5000;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -206,6 +207,14 @@ export class Theme {
     changeLogoColor() {
         this._blue_logo =  this._blue_logo == 'blue' ? 'grey' : 'blue'
         this.cookies.put('blue-logo', this._blue_logo);
+    }
+
+    change_search_debounce(fromButton: boolean) {
+        if (fromButton) {
+            this.search_debounce = 15000
+        } else {
+            this.search_debounce = 1500;
+        }
     }
 
 }

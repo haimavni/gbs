@@ -8,6 +8,7 @@ import { WatchVersion } from './services/watch_version';
 import { DialogService } from 'aurelia-dialog';
 import { Promote } from './user/promote';
 import { Feedback } from './user/feedback';
+import { NONAME } from 'dns';
 
 
 @autoinject
@@ -23,6 +24,9 @@ export class App {
     dialog: DialogService;
     keywords = "";
     ea;
+    search_button_pressed = false;
+    clear_keywords_timeout = null;
+    search_timeout = null;
 
     constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator) {
         this.baseURL = environment.baseURL;
@@ -102,10 +106,20 @@ export class App {
         });
     }
 
-    go_search(ifempty: boolean) {
-        if (ifempty && this.keywords) return; //not to duplicate on change. used only to display random list of stories
+    go_search(ifempty: boolean, fromButton: boolean) {
+        //if (ifempty && this.keywords) return; //not to duplicate on change. used only to display random list of stories
         let keywords = this.keywords;
+        if (fromButton) {
+            //this.clear_keywords(); 
+            this.search_button_pressed = true;
+        } else {
+            if (this.search_button_pressed) {
+                this.search_button_pressed = false;
+                return;
+            }
+        }
         window.setTimeout(() => { this.clear_keywords(); }, 60000);  //if the user paused before he finished to enter the search string, he can still continue
+        this.theme.change_search_debounce(fromButton);
         if (this.router.currentInstruction.config.name == 'stories') {
             this.ea.publish("GO-SEARCH", { keywords: keywords });
         } else {
