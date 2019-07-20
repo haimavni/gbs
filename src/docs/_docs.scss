@@ -1,10 +1,10 @@
+@include mobile {@import 'docs.mobile'; }
+@include desktop {@import 'docs.desktop'; }
+
 ul.doc-list {
     width:100%;
     padding:0;
-    height:560px;
-    overflow:auto;
     list-style-type: none;
-    padding-left:20px;
     li {
         float:right;
         border-bottom:2px solid lightgray;

@@ -129,7 +129,7 @@ export class App {
     }
 
     invoke_search(from_btn: boolean) {
-        this.theme.change_search_debounce(from_btn);
+        //this.theme.change_search_debounce(from_btn);
         if (this.clear_keywords_timeout) clearTimeout(this.clear_keywords_timeout);
         this.clear_keywords_timeout = setTimeout(() => {this.clear_keywords()}, 60000);
         if (this.router.currentInstruction.config.name == 'stories') {

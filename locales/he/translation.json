@@ -308,7 +308,8 @@
         "uploaded-this-year": "מסמכים שהועלו השנה",
         "approved-and-unapproved": "מסמכים שאושרו ושלא אושרו",
         "unapproved": "מסמכים שטרם אושרו",
-        "approved": "מסמכים שכבר אושרו"
+        "approved": "מסמכים שכבר אושרו",
+        "drag-left-and-right": "גרור כאן שמאלה וימינה"
     },
     "terms": {
         "terms": "מונחים",

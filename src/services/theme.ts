@@ -37,7 +37,7 @@ export class Theme {
     _blue_logo = null;
     router_view;
     footer;
-    search_debounce = 5000;
+    search_debounce = 15000;
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;

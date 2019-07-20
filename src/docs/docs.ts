@@ -75,6 +75,7 @@ export class Docs {
     has_grouped_topics: false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
+    editing_filters = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -169,6 +170,7 @@ export class Docs {
         return this.api.call_server_post('docs/get_doc_list', { params: this.params })
             .then(result => {
                 //this.doc_list = result.doc_list;
+                this.editing_filters = false;
                 this.no_results = result.no_results;
                 if (this.no_results) {
                     this.doc_list = [];
@@ -433,6 +435,11 @@ export class Docs {
             .whenClosed(response => {
                 //this.theme.page_title = title;
             });
+    }
+
+
+    show_filters_only() {
+        this.editing_filters = true;
     }
 
 }

@@ -4,9 +4,16 @@
             <div class="row" style="height:675px;">
                 <div class="col-md-1">
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8" if.bind="! editing_filters">
                     <div class="row" style="margin-bottom:15px;padding-right:32px;">
                         <form class="form-inline">
+                            <div class="form-group">
+                                <button class="btn btn-basic btn-sm btn-framed" 
+                                    if.bind="theme.width<1200" 
+                                    click.delegate="show_filters_only()"
+                                    style="margin-bottom:12px">${'photos.edit-filters' & t}
+                                </button>
+                            </div>
                             <div if.bind="phase=='can-merge-topics'" class="form-group">
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
@@ -46,13 +53,13 @@
                     </div>
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
                     </h3>
-                    <ul style="width:100%;padding:0;height:560px;overflow:auto;list-style-type: none;padding-left:20px;" ref="scroll_area" class="unselectable">
+                    <ul ref="scroll_area" class="unselectable doc-list">
                         <li repeat.for="doc of doc_list | filter: filter : 'name' : 'author' | take : 9999" dir="${theme.rtltr}"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
                             <div style="height:130px;overflow:hidden;padding-right:20px;padding-left:20px;padding-top:0px;cursor:pointer;"
                                 click.delegate="jump_to_the_full_doc($event, doc)" class="row">
                                 <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:doc.topics">-->
-                                <div style="margin-bottom: 10px;padding-right:30px;" class="story-preview col-md-10">
+                                <div style="margin-bottom: 10px;" class="story-preview col-md-10">
                                     <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                         story.bind="doc.story" change.delegate="toggle_selection(doc, $event, $index)"
                                         info_title.bind="doc.name" info_content.bind="doc.keywords"
@@ -67,7 +74,7 @@
                     </ul>
 
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" if.bind="editing_filters || theme.width >= 1200">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>

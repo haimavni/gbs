@@ -1,3 +1,8 @@
 <template>
-    <embed src.bind="doc_src + '#view=FitH'" width="1170px" height="780px" />
+    <div id="doc-area"
+        interact-draggable.bind="theme.interact_setting"
+        interact-dragmove.delegate="drag_move_doc($event)" >
+        <span if.bind="theme.width < 1200">${'docs.drag-left-and-right' & t}</span>
+        <embed src.bind="doc_src + '#view=FitH'" width="1170px" height="780px" />
+    </div>
 </template>
