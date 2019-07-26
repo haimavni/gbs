@@ -73,6 +73,7 @@ export class PhotoStripCustomElement {
         if (this.theme.width < 1200)
             this.height = Math.round(this.theme.height / 3);
         else this.height = 220;
+        this.dispatch_height_change();
         //this.subscription = this.bindingEngine.collectionObserver(this.slides).subscribe(this.ready);
     }
 
