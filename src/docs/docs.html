@@ -2,10 +2,8 @@
     <section class="container content-area">
         <div id="docs-content-area" class="content-area" dir="${theme.rtltr}">
             <div class="row" style="height:675px;">
-                <div class="col-md-1" if.bind="theme.width >= 1200">
-                </div>
-                <div class="col-md-8 col-sm-12" if.bind="! editing_filters">
-                    <div class="row" style="margin-bottom:15px;padding-right:32px;">
+                <div class="col-md-9 col-sm-12" if.bind="! editing_filters">
+                    <div class="row" style="margin-bottom:00px;padding-right:32px;">
                         <form class="form-inline">
                             <div class="form-group">
                                 <button class="btn btn-basic btn-sm btn-framed" 
@@ -55,7 +53,7 @@
                     </h3>
                     <ul ref="scroll_area" class="unselectable doc-list">
                         <li repeat.for="doc of doc_list | filter: filter : 'name' : 'author' | take : 9999" dir="${theme.rtltr}">
-                            <div click1.delegate="jump_to_the_full_doc($event, doc)" class="one-doc ${theme.rtltr}">
+                            <div class="one-doc ${theme.rtltr}">
                                 <div>
                                     <a if.bind="theme.width < 1200" href="${doc.doc_url}">
                                         <img src.bind="doc.doc_jpg_url" width="128px"/>
@@ -63,7 +61,8 @@
                                     <img if.bind="theme.width >= 1200" 
                                         click.delegate="jump_to_the_full_doc($event, doc)"
                                         src.bind="doc.doc_jpg_url" width="128px"/>
-                                    </div>
+                                </div>
+                                <div style="width:100%;">
                                     <div style="margin-bottom: 10px;width:100%;" class="story-preview ${theme.rtltr}">
                                         <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                             story.bind="doc.story" change.delegate="toggle_selection(doc, $event, $index)"
@@ -77,7 +76,7 @@
                     </ul>
 
                 </div>
-                <div class="col-md-3 col-sm-12" if.bind="editing_filters || theme.width >= 1200">
+                <div id="doc-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.width >= 1200">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>

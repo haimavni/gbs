@@ -9,11 +9,11 @@ ul.doc-list {
     }
     div.one-doc.rtl p {
         font-size:80%;
-        margin-left: 30px;
+        margin-left: 5px;
     }
     div.one-doc.ltr p {
-        font-size:80%;
-        margin-right: 30px;
+        font-size:86%;
+        margin-right:5px;
     }
 }
 
@@ -22,4 +22,9 @@ ul.doc-list {
     line-height:36px;
     color: white;
     margin-bottom: 12px;
+}
+
+#doc-filters {
+    margin-right: 20px;
+    margin-left: 20px;
 }

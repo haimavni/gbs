@@ -7,10 +7,12 @@ ul.doc-list {
     overflow: auto;
     padding-left: 20px;
     .story-preview {
-        padding-right: 30px;
+        margin-right: 10px;
     }
-    div.one-doc {
-        padding-right: 20px;
+    div.one-doc.rtl {
         padding-left: 20px;
+    }
+    div.one-doc.ltr {
+        padding-right: 20px;
     }
 }
