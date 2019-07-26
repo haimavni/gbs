@@ -55,7 +55,7 @@
                     </h3>
                     <ul ref="scroll_area" class="unselectable doc-list">
                         <li repeat.for="doc of doc_list | filter: filter : 'name' : 'author' | take : 9999" dir="${theme.rtltr}">
-                            <div click1.delegate="jump_to_the_full_doc($event, doc)" class="one-doc">
+                            <div click1.delegate="jump_to_the_full_doc($event, doc)" class="one-doc ${theme.rtltr}">
                                 <div>
                                     <a if.bind="theme.width < 1200" href="${doc.doc_url}">
                                         <img src.bind="doc.doc_jpg_url" width="128px"/>
@@ -64,12 +64,13 @@
                                         click.delegate="jump_to_the_full_doc($event, doc)"
                                         src.bind="doc.doc_jpg_url" width="128px"/>
                                     </div>
-                                    <div style="margin-bottom: 10px;" class="story-preview col-md-10xxx col-sm-10xxx">
-                                    <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
-                                        story.bind="doc.story" change.delegate="toggle_selection(doc, $event, $index)"
-                                        info_title.bind="doc.name" info_content.bind="doc.keywords"
-                                        class="story-body">
-                                    </editable>
+                                    <div style="margin-bottom: 10px;width:100%;" class="story-preview ${theme.rtltr}">
+                                        <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
+                                            story.bind="doc.story" change.delegate="toggle_selection(doc, $event, $index)"
+                                            info_title.bind="doc.name" info_content.bind="doc.keywords"
+                                            class="story-body">
+                                        </editable>
+                                    </div>
                                 </div>
                             </div>
                         </li>

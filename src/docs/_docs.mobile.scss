@@ -1,10 +1,19 @@
 ul.doc-list {
     .story-preview {
-        margin-right: -30px;
-        margin-left: -30px;
+        &.ltr {
+            margin-right: -30px;
+        }
+        &.rtl {
+            margin-left: -30px;
+        }
     }
-    div.one-doc p {
+    div.one-doc.rtl p {
         font-size:80%;
+        margin-left: 30px;
+    }
+    div.one-doc.ltr p {
+        font-size:80%;
+        margin-right: 30px;
     }
 }
 
