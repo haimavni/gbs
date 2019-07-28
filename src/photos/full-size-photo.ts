@@ -203,7 +203,7 @@ export class FullSizePhoto {
     jump_to_photo_page(event) {
         event.stopPropagation();
         this.dialogController.ok();
-        this.router.navigateToRoute('photo-detail', { id: this.slide[this.slide.side].photo_id, keywords: "" });
+        this.router.navigateToRoute('photo-detail', { id: this.slide[this.slide.side].photo_id || this.slide.photo_id, keywords: "" });
     }
 
     mark_face(event) {

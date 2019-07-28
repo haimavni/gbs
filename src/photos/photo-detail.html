@@ -13,8 +13,8 @@
             </button>
         </div>
         <div class="row">
-            <div class="col-md-7" style="display:flex;flex-direction:column;" click.trigger="open_full_size_photo()">
-                <img src.bind="photo_src" width="${photo_width}" />
+            <div class="col-md-7" style="display:flex;flex-direction:column;" id="photo-box">
+                <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" />
                 <span dir="${theme.rtltr}" if.bind="photographer_name">${'photos.photographer-name' & t}: ${photographer_name}</span>
                 <date-range label="photos.photo-date" 
                     base_date_str.bind="photo_date_str" 
