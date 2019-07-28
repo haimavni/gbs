@@ -3,10 +3,10 @@
         <div class="row content-area" style="width:100%;margin-top:20px;">
             <div class="row">
                 <div class="col-md-8" id="terms-list-header">
-                    <div class="row" style="margin-bottom:15px;" if.bind="theme.width >= 1200">
+                    <div class="row" style="margin-bottom:15px;" if.bind="theme.is_desktop">
                         <form class="form-inline">
                             <div class="input-group" style="width:236px;">
-                                <search-input value.bind="filter" change.delegate="update_story_list()" if.bind="theme.width >= 1200"
+                                <search-input value.bind="filter" change.delegate="update_story_list()" if.bind="theme.is_desktop"
                                     placeholder="terms.filter" help_topic="terms-help" height="38"></search-input>
                             </div>
                             <div class="input-group" if.bind="user.editing && checked_terms.size == 0">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="row" if.bind="! editing_filters">
                         <button class="btn btn-basic btn-sm btn-framed" 
-                            if.bind="theme.width<1200" 
+                            if.bind="! theme.is_desktop" 
                             click.delegate="show_filters_only()"
                             style="margin-bottom:12px">${'terms.edit-filters' & t}
                         </button>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 ${theme.rtltr}" if.bind="theme.width>=1200 || editing_filters" id="term-topics">
+                <div class="col-md-3 ${theme.rtltr}" if.bind="theme.is_desktop || editing_filters" id="term-topics">
                     <div class="row" style="position:relative;">
                         <!-- <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div> -->
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom"

@@ -2,8 +2,8 @@
 
     <div class="content-area photo-detail">
         <div class="detail-header"> 
-            <h3 style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.width >= 1200">
-                <i class="far fa-share" t="[title]go-back" click.trigger="go_back()" if.bind="theme.width >= 1200"></i>
+            <h3 style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+                <i class="far fa-share" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
             </h3>
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${photo_story.name}

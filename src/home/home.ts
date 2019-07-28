@@ -135,7 +135,7 @@ export class Home {
     }
 
     drag_end_panel(customEvent) {
-        if (this.theme.width >= 1200) return;
+        if (this.theme.is_desktop) return;
         let event = customEvent.detail;
         let dx = event.dx;
         let dy = event.dy;

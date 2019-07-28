@@ -70,7 +70,7 @@ export class PhotoStripCustomElement {
             .subscribe(this.ready);
         this.ready_interval = setInterval(() => this.ready(), 100);
         this.ready();
-        if (this.theme.width < 1200)
+        if (! this.theme.is_desktop)
             this.height = Math.round(this.theme.height / 3);
         else this.height = 220;
         this.dispatch_height_change();
@@ -241,7 +241,7 @@ export class PhotoStripCustomElement {
 
     @computedFrom('theme.height')
     get dummy () {
-        if (this.theme.width < 1200) {
+        if (! this.theme.is_desktop) {
             let height = Math.round(this.theme.height / 3);
             this.change_heights(height)
         }

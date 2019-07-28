@@ -276,7 +276,7 @@ export class FullSizePhoto {
     }
 
     public drag_move_photo(customEvent: CustomEvent) {
-        if (this.theme.width < 1200) {
+        if (! this.theme.is_desktop) {
             let event = customEvent.detail;
             let el = document.getElementById("full-size-photo");
             let mls = el.style.marginLeft.replace('px', '');

@@ -7,7 +7,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <button class="btn btn-basic btn-sm btn-framed" 
-                                    if.bind="theme.width<1200" 
+                                    if.bind="! theme.is_desktop" 
                                     click.delegate="show_filters_only()"
                                     style="margin-bottom:12px">${'docs.edit-filters' & t}
                                 </button>
@@ -55,10 +55,10 @@
                         <li repeat.for="doc of doc_list | filter: filter : 'name' : 'author' | take : 9999" dir="${theme.rtltr}">
                             <div class="one-doc ${theme.rtltr}">
                                 <div>
-                                    <a if.bind="theme.width < 1200" href="${doc.doc_url}">
+                                    <a if.bind="! theme.is_desktop" href="${doc.doc_url}">
                                         <img src.bind="doc.doc_jpg_url" width="128px"/>
                                     </a>
-                                    <img if.bind="theme.width >= 1200" 
+                                    <img if.bind="theme.is_desktop" 
                                         click.delegate="jump_to_the_full_doc($event, doc)"
                                         src.bind="doc.doc_jpg_url" width="128px"/>
                                 </div>
@@ -76,7 +76,7 @@
                     </ul>
 
                 </div>
-                <div id="doc-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.width >= 1200">
+                <div id="doc-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.is_desktop">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>

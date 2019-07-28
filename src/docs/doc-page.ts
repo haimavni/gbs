@@ -15,7 +15,7 @@ export class DocPage {
     }
 
     drag_move_doc(customEvent) {
-        if (this.theme.width < 1200) {
+        if (! this.theme.is_desktop) {
             let event = customEvent.detail;
             let el = document.getElementById("doc-area");
             let mls = el.style.marginLeft || "0px";

@@ -63,7 +63,7 @@
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t" style="width:90%;margin-right:auto;margin-left:auto;">
                     </h3>
                     <button class="btn btn-basic btn-sm btn-framed" 
-                        if.bind="theme.width<1200" 
+                        if.bind="! theme.is_desktop" 
                         click.delegate="show_filters_only()"
                         style="margin-bottom:12px;margin-right:20px">${'stories.edit-filters' & t}
                     </button>
@@ -109,7 +109,7 @@
                     </ul>
 
                 </div>
-                <div class="col-md-4 col-sm-12" if.bind="theme.width >= 1200 || editing_filters" id="story-filters">
+                <div class="col-md-4 col-sm-12" if.bind="theme.is_desktop || editing_filters" id="story-filters">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase == 'not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>

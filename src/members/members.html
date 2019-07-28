@@ -8,7 +8,7 @@
                         <div id="members-filter" class="input-group">
                             <search-input value.bind="filter" placeholder="members.filter" height="38" help_topic="members-help"></search-input>
                         </div>
-                        <div class="input-group members-selector" if.bind="theme.width >= 1200 && ! relatives_mode">
+                        <div class="input-group members-selector" if.bind="theme.is_desktop && ! relatives_mode">
                             <select value.bind="order" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.trigger="order_changed($event)">
                                 <option repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
                             </select>

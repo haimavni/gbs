@@ -205,7 +205,7 @@ export class MemberDetail {
     }
 
     num_displayed_stories() {
-        return this.theme.width >= 1200 ? 4 : this.theme.width >= 992 ? 3 : this.theme.width >= 768 ? 2 : 1;
+        return this.theme.is_desktop ? 4 : this.theme.width >= 992 ? 3 : this.theme.width >= 768 ? 2 : 1;
     }
 
     get stories_scroll() {
@@ -337,7 +337,7 @@ export class MemberDetail {
         let footer_height = 63;
         let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height;
         panel_height = Math.max(panel_height, 544);
-        if (this.theme.width >= 1200) {
+        if (this.theme.is_desktop) {
             this.member_detail_panel.style.height = `${panel_height}px`;
             this.member_detail_panel.style.marginRight = '-32px';
         }
@@ -358,7 +358,7 @@ export class MemberDetail {
         if (this.photo_strip_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
         this.story_box_height = bph - 2;
         this.life_summary_box.style.height = '90%'// `${lsb}px`;
-        if (this.theme.width >= 1200) {
+        if (this.theme.is_desktop) {
             this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
     }

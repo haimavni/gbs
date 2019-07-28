@@ -216,7 +216,7 @@ export class Photos {
 
     @computedFrom('_photo_size', 'theme.width')
     get photo_size() {
-        if (this.theme.width < 1200) {
+        if (! this.theme.is_desktop) {
             let ppl = Math.floor(this.theme.width / 96)
             this._photo_size = Math.floor(this.theme.width / ppl)
         }
@@ -666,7 +666,7 @@ export class Photos {
     }
 
     css_height() {
-        if (this.theme.width < 1200) return '';
+        if (! this.theme.is_desktop) return '';
         return `height: ${this.win_height-323}px;`;
     }
 

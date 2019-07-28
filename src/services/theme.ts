@@ -218,5 +218,10 @@ export class Theme {
         console.log("search debounce ", this.search_debounce);
     }
 
+    @computedFrom('width')
+    get is_desktop() {
+        return this.width >= 1200;
+    }
+
 }
 

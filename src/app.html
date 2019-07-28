@@ -18,11 +18,11 @@
                             ${row.title & t}.
                         </a>
                     </div>
-                    <!-- <div class="navbar-controls" if.bind="theme.width < 1200" >
+                    <!-- <div class="navbar-controls" if.bind="! theme.is_desktop" >
                         <user-mode></user-mode>
                     </div> -->
                 </div>
-                <span class="loader ${theme.width < 1200 ? 'smaller' : 'bigger'}" css="opacity:${api.pending ? 1.0 : 0}">
+                <span class="loader ${theme.is_desktop ? 'bigger' : 'smaller'}" css="opacity:${api.pending ? 1.0 : 0}">
                     <i class="fa fa-spinner fa-spin"></i>
                 </span>
             </div>
