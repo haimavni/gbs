@@ -80,8 +80,8 @@
         "unknown-source": "Unknown source",
         "updated-by": "Updated by",
         "topic-already-exists": "Topic already exists",
-        "push-up": "Place at the top"
-
+        "push-up": "Place at the top",
+        "edit-filters": "Topics and keywords"
     },
     "members": {
         "members": "Members",
@@ -261,7 +261,7 @@
         "select-new-copies": "Select new copies",
         "no-duplicates-found": "No duplicates found",
         "show-in-photo-page": "Show in photos page",
-        "edit-filters": "Edit filters"
+        "edit-filters": "Topics and artists"
     },
     "videos": {
         "videos": "Video",
@@ -283,7 +283,8 @@
         "photographer-name": "Photographer name",
         "unknown-photographer": "Unknown",
         "promote-selected-videos": "Promote selected videos",
-        "filter": "Fast search in video titles"
+        "filter": "Fast search in video titles",
+        "edit-filters": "Topics and keywords"
     },
     "docs": {
         "docs": "Docs",
@@ -309,7 +310,8 @@
         "approved-and-unapproved": "Both approved and unapproved",
         "unapproved": "Unapproved Documents",
         "approved": "Approved Documents",
-        "drag-left-and-right": "Drag here left or right"
+        "drag-left-and-right": "Drag here left or right",
+        "edit-filters": "Topics and keywords"
     },
     "terms": {
         "terms": "Terms",

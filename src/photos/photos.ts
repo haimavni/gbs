@@ -20,7 +20,7 @@ import * as toastr from 'toastr';
 export class Photos {
     filter = "";
     photos_per_line: number = 8;
-    photo_size = 128;
+    _photo_size = 128;
     photo_list = [];
     photos_margin = 0;
     api;
@@ -206,12 +206,21 @@ export class Photos {
     slider_changed() {
         let el = document.getElementById("photos-container");
         let width = el.offsetWidth;
-        this.photo_size = Math.floor((width - 60) / this.photos_per_line);
+        this._photo_size = Math.floor((width - 60) / this.photos_per_line);
         if (Number(this.photos_per_line) > this.params.max_photos_per_line) {
             this.params.max_photos_per_line = Number(this.photos_per_line);
             this.update_photo_list();
         }
         this.photo_list = this.photo_list.splice(0);
+    }
+
+    @computedFrom('_photo_size', 'theme.width')
+    get photo_size() {
+        if (this.theme.width < 1200) {
+            let ppl = Math.floor(this.theme.width / 96)
+            this._photo_size = Math.floor(this.theme.width / ppl)
+        }
+        return this._photo_size;
     }
 
     private openDialog(slide) {
@@ -224,7 +233,7 @@ export class Photos {
     }
 
     maximize_photo(slide, event, index) {
-        let distance_from_right = this.photo_size - event.offsetX;
+        let distance_from_right = this._photo_size - event.offsetX;
         if (slide.flipable && distance_from_right <= 12) {
             this.flip_sides(slide);
             return;

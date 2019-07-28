@@ -79,7 +79,8 @@
         "unknown-source": "מקור בלתי ידוע",
         "updated-by": "עודכן על ידי",
         "topic-already-exists": "יש כבר נושא כזה",
-        "push-up": "העלה לראש הרשימה"
+        "push-up": "העלה לראש הרשימה",
+        "edit-filters": "נושאים ומילות מפתח"
     },
     "members": {
         "members": "חברים",
@@ -259,7 +260,7 @@
         "select-new-copies": "בחר בעותקים החדשים",
         "no-duplicates-found": "לא נמצאו תמונות כפולות",
         "show-in-photo-page": "הצג בדף התמונות",
-        "edit-filters": "עריכת המסננים"
+        "edit-filters": "נושאים, צלמים וציירים "
     },
     "videos": {
         "videos": "סרטים",
@@ -281,7 +282,8 @@
         "photographer-name": "שם הצלם",
         "unknown-photographer": "לא ידוע",
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
-        "filter": "חפוש מהיר בשמות הסרטונים"
+        "filter": "חפוש מהיר בשמות הסרטונים",
+        "edit-filters": "נושאים וצלמים"
     },
     "docs": {
         "docs": "מסמכים",
@@ -309,7 +311,8 @@
         "approved-and-unapproved": "מסמכים שאושרו ושלא אושרו",
         "unapproved": "מסמכים שטרם אושרו",
         "approved": "מסמכים שכבר אושרו",
-        "drag-left-and-right": "גרור כאן שמאלה וימינה"
+        "drag-left-and-right": "גרור כאן שמאלה וימינה",
+        "edit-filters": "נושאים ומילות מפתח"
     },
     "terms": {
         "terms": "מונחים",
