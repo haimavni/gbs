@@ -4,12 +4,13 @@
 
 #photo-filters-panel {
     &.rtl {
-        padding-right: 30px;
+        padding-right: 50px;
     }
     &.ltr {
-        padding-left: 30px;
+        padding-left: 50px;
     }
     padding-bottom: 12px;
+    width: 100vw;
 }
 
 .content-area.photos {

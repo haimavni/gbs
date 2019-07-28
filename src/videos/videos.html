@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-9" if.bind="! editing_filters">
                     <div class="row" style="margin-bottom:15px;">
-                        <div class="col-md-1 paging-buttons" dir="ltr">
+                        <div class="col-md-1 paging-buttons" dir="ltr" if.bind="theme.width>= 1200">
                             <button t="[title]videos.prev" class="btn btn-default" click.delegate="page(-1, $event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
                             <button t="[title]videos.next" class="btn btn-default" click.delegate="page(+1, $event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                         </div>
@@ -14,8 +14,12 @@
                                 click.delegate="show_filters_only()"
                                 css="margin-${theme.other_dir}:6px;margin-${theme.same_dir}:-16px;">${'videos.edit-filters' & t}
                             </button>
-                            <div class="input-group" style="width:240px;" >
+                            <div class="input-group" id="videos-name-search" >
                                 <search-input value.bind="filter" placeholder="videos.filter" height="30"></search-input>
+                            </div>
+                            <div class="paging-buttons" dir="ltr" if.bind="theme.width < 1200">
+                                <button t="[title]videos.prev" class="btn btn-default" click.delegate="page(-1, $event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
+                                <button t="[title]videos.next" class="btn btn-default" click.delegate="page(+1, $event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                             </div>
                             <div if.bind="phase=='photos-ready-to-edit'" class="ctrl">
                                 <button click.delegate="new_video()" class="btn btn-success cl-create-btn">
@@ -83,12 +87,12 @@
                     </div>
                 </div>
 
-                <div class="col-md-3" if.bind="theme.width > 1200 || editing_filters">
+                <div id="video-filters" class="col-md-3" if.bind="theme.width > 1200 || editing_filters">
                     <span show.bind="false">${user_editing}</span>
                     <div class="row" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                        <help if.bind="phase=='photos-not-editing'"topic="tags" position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="phase=='photos-not-editing'" id="video-help" topic="tags" position="${theme.width < 1200 ? 'right' : 'bottom'}"></help>
                         <multi-select options.bind="topic_list"
                             selected_options.bind="params.selected_topics"
                             settings.bind="options_settings"
