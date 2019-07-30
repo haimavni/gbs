@@ -224,13 +224,15 @@ export class Members {
     save_member_group(group_id) {
         let member_ids = Array.from(this.selected_members);
         //member_ids = member_ids.map(m => Number(m));
+        let caller_type = this.caller_type;
+        this.caller_type = '';
         this.api.call_server_post('members/save_group_members',
-            { user_id: this.user.id, caller_id: this.caller_id, caller_type: this.caller_type, member_ids: member_ids })
+            { user_id: this.user.id, caller_id: this.caller_id, caller_type: caller_type, member_ids: member_ids })
             .then(response => {
                 this.clear_member_group();
-                if (this.caller_type=='story') {
+                if (caller_type=='story') {
                     this.router.navigateToRoute('story-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4EVENT });
-                } if (this.caller_type=='term') {
+                } if (caller_type=='term') {
                     this.router.navigateToRoute('term-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4TERM });
                 }
             });

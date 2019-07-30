@@ -478,13 +478,15 @@ export class Photos {
     save_photo_group() {
         let photo_ids = Array.from(this.selected_photos);
         //member_ids = member_ids.map(m => Number(m));
+        let caller_type = this.caller_type;
+        this.caller_type = '';
         this.api.call_server_post('members/save_photo_group',
-            { user_id: this.user.id, caller_id: this.caller_id, caller_type: this.caller_type, photo_ids: photo_ids })
+            { user_id: this.user.id, caller_id: this.caller_id, caller_type: caller_type, photo_ids: photo_ids })
             .then(response => {
                 this.clear_photo_group();
-                if (this.caller_type == 'story') {
+                if (caller_type == 'story') {
                     this.router.navigateToRoute('story-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4EVENT });
-                } if (this.caller_type == 'term') {
+                } if (caller_type == 'term') {
                     this.router.navigateToRoute('term-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4TERM });
                 }
             });
