@@ -168,6 +168,7 @@ export class FullSizePhoto {
             let mi =  (response.output && response.output.new_member) ? response.output.new_member.member_info : null;
             if (mi) {
                 face.name = mi.first_name + ' ' + mi.last_name;
+                face.member_id = response.output.new_member.member_info.id;
                 return;
             }
             face.member_id = response.output.member_id;
