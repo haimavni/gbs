@@ -116,7 +116,7 @@ export class App {
         if (this.search_timeout) {
             clearTimeout(this.search_timeout);
         }
-        this.search_timeout = setTimeout(() => {this.invoke_search(false)}, this.theme.search_debounce);
+        //this.search_timeout = setTimeout(() => {this.invoke_search(false)}, this.theme.search_debounce);
         return true;
     }
 
