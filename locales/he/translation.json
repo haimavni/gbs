@@ -260,7 +260,10 @@
         "select-new-copies": "בחר בעותקים החדשים",
         "no-duplicates-found": "לא נמצאו תמונות כפולות",
         "show-in-photo-page": "הצג בדף התמונות",
-        "edit-filters": "נושאים, צלמים וציירים "
+        "edit-filters": "נושאים, צלמים וציירים",
+        "crop": "חיתוך",
+        "save-crop": "שמור את החיתוך",
+        "cancel-crop": "בטל את החיתוך"
     },
     "videos": {
         "videos": "סרטים",

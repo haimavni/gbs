@@ -261,7 +261,10 @@
         "select-new-copies": "Select new copies",
         "no-duplicates-found": "No duplicates found",
         "show-in-photo-page": "Show in photos page",
-        "edit-filters": "Topics and artists"
+        "edit-filters": "Topics and artists",
+        "crop": "Crop",
+        "save-crop": "Save crop",
+        "cancel-crop": "Cancel crop"
     },
     "videos": {
         "videos": "Video",

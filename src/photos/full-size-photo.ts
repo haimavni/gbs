@@ -34,6 +34,15 @@ export class FullSizePhoto {
     copy_photo_url_text;
     flip_text;
     navEvent;
+    cropping = false;
+    crop_height;
+    crop_width;
+    crop_top;
+    crop_left;
+    crop;
+    save_crop;
+    cancel_crop;
+    crop_sides;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -52,6 +61,9 @@ export class FullSizePhoto {
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
         this.highlight_all = this.i18n.tr('photos.highlight-all');
+        this.crop = this.i18n.tr('photos.crop');
+        this.save_crop = this.i18n.tr('photos.save-crop');
+        this.cancel_crop = this.i18n.tr('photos.cancel-crop');
         this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
         this.copy_photo_url_text = this.i18n.tr('photos.copy-photo-url');
         this.flip_text = this.i18n.tr('photos.flip');
@@ -60,8 +72,8 @@ export class FullSizePhoto {
     activate(model) {
         this.slide = model.slide;
         this.baseURL = environment.baseURL;
-        let pid =  this.slide[this.slide.side].photo_id;
-        if (! pid) {
+        let pid = this.slide[this.slide.side].photo_id;
+        if (!pid) {
             pid = this.slide.photo_id;
             console.log("no photo id in ", this.slide.side, " photo id: ", pid);
         }
@@ -72,7 +84,7 @@ export class FullSizePhoto {
             this.dialogController.ok();
         });
         this.theme.hide_title = true;
-    } 
+    }
 
     deactivate() {
         this.navEvent.dispose();
@@ -147,40 +159,42 @@ export class FullSizePhoto {
             this.jump_to_member(face.member_id);
             return;
         }
-        this.dialogService.open({ 
-            viewModel: MemberPicker, 
+        this.dialogService.open({
+            viewModel: MemberPicker,
             model: {
-                face_identifier: true, 
-                member_id: face.member_id, 
-                candidates: this.candidates, 
+                face_identifier: true,
+                member_id: face.member_id,
+                candidates: this.candidates,
                 slide: this.slide,
-                current_face: this.current_face }, lock: false })
-        .whenClosed(response => {
-            this.marking_face_active = false;
-            if (response.wasCancelled) {
-                if (! face.member_id) {
-                    this.hide_face(face);
+                current_face: this.current_face
+            }, lock: false
+        })
+            .whenClosed(response => {
+                this.marking_face_active = false;
+                if (response.wasCancelled) {
+                    if (!face.member_id) {
+                        this.hide_face(face);
+                    }
+                    //this.remove_face(face); !!! no!
+                    return;
                 }
-                //this.remove_face(face); !!! no!
-                return;
-            }
-            let old_member_id = face.member_id;
-            let mi =  (response.output && response.output.new_member) ? response.output.new_member.member_info : null;
-            if (mi) {
-                face.name = mi.first_name + ' ' + mi.last_name;
-                face.member_id = response.output.new_member.member_info.id;
-                return;
-            }
-            face.member_id = response.output.member_id;
-            let make_profile_photo = response.output.make_profile_photo;
-            this.api.call_server_post('photos/save_face', { face: face, make_profile_photo: make_profile_photo, old_member_id: old_member_id })
-                .then(response => {
-                    let idx = this.candidates.findIndex(m => m.member_id == face.member_id);
-                    this.candidates.splice(idx, 1);
-                    face.name = response.member_name;
-                    this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
-                });
-        });
+                let old_member_id = face.member_id;
+                let mi = (response.output && response.output.new_member) ? response.output.new_member.member_info : null;
+                if (mi) {
+                    face.name = mi.first_name + ' ' + mi.last_name;
+                    face.member_id = response.output.new_member.member_info.id;
+                    return;
+                }
+                face.member_id = response.output.member_id;
+                let make_profile_photo = response.output.make_profile_photo;
+                this.api.call_server_post('photos/save_face', { face: face, make_profile_photo: make_profile_photo, old_member_id: old_member_id })
+                    .then(response => {
+                        let idx = this.candidates.findIndex(m => m.member_id == face.member_id);
+                        this.candidates.splice(idx, 1);
+                        face.name = response.member_name;
+                        this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
+                    });
+            });
     }
 
     hide_face(face) {
@@ -216,7 +230,7 @@ export class FullSizePhoto {
             return;
         }
         let photo_id = this.slide[this.slide.side].photo_id;
-        if (! photo_id) {
+        if (!photo_id) {
             photo_id = this.slide.photo_id; //todo: ugly
         }
         let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
@@ -277,7 +291,7 @@ export class FullSizePhoto {
     }
 
     public drag_move_photo(customEvent: CustomEvent) {
-        if (! this.theme.is_desktop) {
+        if (!this.theme.is_desktop) {
             let event = customEvent.detail;
             let el = document.getElementById("full-size-photo");
             let mls = el.style.marginLeft.replace('px', '');
@@ -316,5 +330,70 @@ export class FullSizePhoto {
         el.blur();
     }
 
+    public crop_photo() {
+        this.crop_height = this.slide[this.slide.side].height;
+        this.crop_width = this.slide[this.slide.side].width;
+        this.crop_top = 0;
+        this.crop_left = 0;
+        this.cropping = true;
+    }
+
+    public save_photo_crop() {
+        //call server to crop and refresh
+        this.cropping = false;
+    }
+
+    public cancel_photo_crop() {
+        //restore crop-width etc. to their initial values
+        this.cropping = false;
+    }
+
+    public do_crop(customEvent: CustomEvent) {
+        let event = customEvent.detail;
+        let height = this.slide[this.slide.side].height;
+        let width = this.slide[this.slide.side].width;
+        if (this.crop_sides == 'nw' || this.crop_sides == 'sw') {
+            let crop_left = Math.max(this.crop_left + event.dx, 0)
+            let dx = crop_left - this.crop_left;
+            this.crop_width -= dx;
+            this.crop_left = crop_left;
+        }
+        if (this.crop_sides == 'nw' || this.crop_sides == 'ne') {
+            let crop_top = Math.max(this.crop_top + event.dy, 0)
+            let dy = crop_top - this.crop_top;
+            this.crop_height -= dy;
+            this.crop_top = crop_top;
+        }
+        if (this.crop_sides == 'ne' || this.crop_sides == 'se') {
+            this.crop_width += event.dx;
+            this.crop_width = Math.min(this.crop_width, width - this.crop_left);
+        }
+        if (this.crop_sides == 'sw' || this.crop_sides == 'se') {
+            this.crop_height += event.dy;
+            this.crop_height = Math.min(this.crop_height, height - this.crop_top);
+        }
+    }
+
+    public start_crop(customEvent: CustomEvent) {
+        let el = document.getElementById('full-size-photo');
+        let corner = getOffset(el);
+        customEvent.stopPropagation();
+        let event = customEvent.detail;
+        let x = event.pageX - corner.left;
+        let y = event.pageY - corner.top;
+        let height = this.slide[this.slide.side].height;
+        let width = this.slide[this.slide.side].width;
+        if (x * 2 < width) {
+            if (y * 2 < height) {
+                this.crop_sides = 'nw'
+            } else {
+                this.crop_sides = 'sw'
+            }
+        } else if (y * 2 < height) {
+            this.crop_sides = 'ne'
+        } else {
+            this.crop_sides = 'se'
+        }
+    }
 }
 
