@@ -235,7 +235,7 @@ export class Photos {
     maximize_photo(slide, event, index) {
         let distance_from_right = this._photo_size - event.offsetX;
         if (slide.flipable && distance_from_right <= 12) {
-            this.flip_sides(slide);
+            this.flip_sides(slide, event);
             return;
         }
         if (this.anchor < 0) this.anchor = index;
@@ -545,17 +545,22 @@ export class Photos {
                 let front_photo = this.photo_list.find(item => item.photo_id == front_id);
                 front_photo.flipable = 'flipable';
                 let back_photo = this.photo_list.find(item => item.photo_id == back_id);
-                front_photo['back'] = { square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src };
+                front_photo['back'] = { square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src, width: back_photo.width, height: back_photo.height };
                 let idx = this.photo_list.findIndex(item => item.photo_id == back_id);
                 this.photo_list.splice(idx, 1)
                 this.clear_photo_group();
             })
     }
 
-    flip_sides(photo) {
+    flip_sides(photo, event) {
         photo.side = (photo.side == 'front') ? 'back' : 'front';
         if (this.user.editing) {
-            this.api.call_server_post('photos/flip_photo', { front_id: photo.front.photo_id, back_id: photo.back.photo_id })
+            this.api.call_server_post('photos/flip_photo', { front_id: photo.front.photo_id, back_id: photo.back.photo_id, to_unpair: event.ctrlKey })
+            .then(response => {
+                if (response.to_unpair) {
+                    this.update_photo_list();
+                }
+            })
         }
     }
 
