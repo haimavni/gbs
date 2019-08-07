@@ -1,6 +1,6 @@
 export function getOffset(el) {
     if (!el) {
-        return { left: 0, right: 0 };
+        return { left: 0, top: 0 };
     }
     let r = el.getBoundingClientRect();
     return {
