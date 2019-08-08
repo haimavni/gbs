@@ -343,10 +343,9 @@ export class FullSizePhoto {
         let photo_data = this.slide[this.slide.side];
         this.api.call_server('photos/crop_photo', { photo_id: photo_data.photo_id, crop_left: this.crop_left, crop_top: this.crop_top, crop_width: this.crop_width, crop_height: this.crop_height })
             .then((data) => {
-                photo_data.src = data.new_path;   //temporaray!!!!!
+                photo_data.src = photo_data.src + '?' + data.file_mod_time;   //to ensure refresh
                 photo_data.width = this.crop_width;
                 photo_data.height = this.crop_height;
-                console.log("photo data: ", photo_data);
                 for (let face of this.faces) {
                     if (! face.x) continue;
                     face.x -= this.crop_left;
