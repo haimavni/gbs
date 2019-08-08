@@ -5,7 +5,7 @@
         interact-dragmove.delegate="drag_move_photo($event)" >
         <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide[slide.side].height}px; width:${slide[slide.side].width}px;position:relative;">
             <div show.bind="cropping" 
-                css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;opacity:0.5;background-color:grey;"
+                css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
                 interact-draggable.bind="theme.interact_setting"
                 interact-dragmove.delegate="do_crop($event)"
                 interact-dragstart.delegate="start_crop($event)"
