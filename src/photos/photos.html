@@ -97,7 +97,7 @@
                                     ${'photos.keep-selected-photos' & t}
                                 </button>
                             </div>
-                            <div if.bind="user.editing && ! caller_type && ! working && candidates" class="input-group">
+                            <div if.bind="user.editing && ! caller_type && ! working && candidates.size > 0" class="input-group">
                                 <button 
                                     click.trigger="select_new_copies()"
                                     class="btn btn-basic btn-md">

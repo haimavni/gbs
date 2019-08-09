@@ -72,7 +72,7 @@ export class Photos {
     can_pair_photos = false;
     got_duplicates = false;
     working = false;
-    candidates = null;
+    candidates = new Set();
     after_upload = false;
     editing_filters = false;
     empty = false;
@@ -192,7 +192,7 @@ export class Photos {
             .then(result => {
                 this.editing_filters = false;
                 this.got_duplicates = false;
-                this.candidates = null;
+                this.candidates = new Set();
                 this.after_upload = false;
                 this.photo_list = result.photo_list;
                 this.empty = this.photo_list.length == 0;
