@@ -10,6 +10,9 @@ export class ShowLogs {
     displayed_log_file = "";
     log_html = "";
     pageSize = 15;
+    filters = [
+        { value: '', keys: ['fn'] }
+    ];
 
     constructor(api: MemberGateway, theme: Theme) {
         this.api = api;

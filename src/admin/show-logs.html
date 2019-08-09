@@ -2,12 +2,21 @@
     <div class="row" style="padding:5px;height:750px;width:1500px;margin-left:auto;margin-right:auto;" dir="ltr">
         <div class="col-sm-3" style="height:100%;">
             <h3 class="center">Log Files</h3>
+            <div class="form-inline">
+                <div class="form-group" style="margin-bottom:14px;">
+                    <input type="text" value.bind="filters[0].value" placeholder="Enter filter text"
+                        class="form-control" />
+                </div>
+            </div>
             <table class="table table-striped" aurelia-table="data.bind: log_files; display-data.bind: $displayData; 
                 current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;
                 filters.bind:filters;">
                 <thead>
                     <tr>
-                        <th aut-sort="key:fn" display-name="File Name"></th>
+                        <th aut-sort="key:fn">File Name</th>
+                        <th>Delete</th>
+                        <th>Download</th>
+                        <th>Show</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,13 +26,13 @@
                         </td>
                         <td class="center">
                             <a href="#" title="Delete" click.delegate="delete_log_file(item.fn)">
-                            <i class="far fa-trash"></i>
-                        </a>
+                                <i class="far fa-trash"></i>
+                            </a>
                         </td>
                         <td class="center">
                             <a href="#" title="Download" click.delegate="download_log_file(item.fn)">
-                            <i class="far fa-download"></i>
-                        </a>
+                                <i class="far fa-download"></i>
+                            </a>
                         </td>
                         <td class="border-right center">
                             <a href="" click.delegate="show_log_file(item.fn)">
@@ -44,8 +53,12 @@
 
         <div class="row" style="margin-right:0;">
             <div class="col-md-9">
-                <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems" pagination-size.bind="15"
-                    boundary-links.bind="true"> </aut-pagination>
+                <aut-pagination current-page.bind="currentPage" 
+                    page-size.bind="pageSize" 
+                    total-items.bind="totalItems"
+                    pagination-size.bind="15" 
+                    boundary-links.bind="true"> 
+                </aut-pagination>
             </div>
 
             <div class="col-md-3">
