@@ -106,7 +106,8 @@ export class PhotoDetail {
             front: {
                 src: this.photo_src,
                 width: this.orig_photo_width,
-                height: this.orig_photo_height
+                height: this.orig_photo_height,
+                photo_id: this.true_photo_id
             },
             name: this.photo_name,
             photo_id: this.true_photo_id

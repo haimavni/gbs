@@ -341,7 +341,8 @@ export class FullSizePhoto {
     public save_photo_crop() {
         //call server to crop and refresh
         let photo_data = this.slide[this.slide.side];
-        this.api.call_server('photos/crop_photo', { photo_id: photo_data.photo_id, crop_left: this.crop_left, crop_top: this.crop_top, crop_width: this.crop_width, crop_height: this.crop_height })
+        let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
+        this.api.call_server('photos/crop_photo', { photo_id: photo_id, crop_left: this.crop_left, crop_top: this.crop_top, crop_width: this.crop_width, crop_height: this.crop_height })
             .then((data) => {
                 photo_data.src = photo_data.src + '?' + data.file_mod_time;   //to ensure refresh
                 photo_data.width = this.crop_width;
