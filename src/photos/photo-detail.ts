@@ -28,7 +28,7 @@ export class PhotoDetail {
     orig_photo_height = 0;
     photo_width = 600;
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
-    MAX_HEIGHT = 750;
+    MAX_HEIGHT = 700;
     dialog;
     router;
     keywords;
