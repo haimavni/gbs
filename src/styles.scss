@@ -255,6 +255,17 @@ button.btn-framed {
     -ms-overflow-style: none;
 }
 
+button.chat-button {
+    margin-left: 30px;
+    margin-right: 30px;
+    background-color:rgba(0,0,0,0);
+    border: none;
+    margin-top: 2px;
+    font-size: 140%;
+    color:white ;
+    cursor: pointer;
+}
+
 /* Dependencies */
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/froala-editor/css/froala_editor.pkgd.min';

@@ -8,7 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { AddVideo } from './add-video';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import { MyDate, format_date } from '../services/my-date';
+import { format_date } from '../services/my-date';
 
 @autoinject
 class Video {

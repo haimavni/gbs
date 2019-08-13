@@ -13,6 +13,7 @@ export class ChatroomCustomElement {
     ea: EventAggregator;
     @bindable room_number;
     @bindable room_index;
+    @bindable readonly = false;
     messages = [];
     chatroom_name;
     user_message = "";

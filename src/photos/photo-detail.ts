@@ -35,6 +35,7 @@ export class PhotoDetail {
     advanced_search;
     highlight_on = "highlight-on";
     photographer_name = '';
+    chatroom_id = null;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -63,6 +64,7 @@ export class PhotoDetail {
                 this.photo_date_datespan = response.photo_date_datespan;
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
+                this.chatroom_id = response.chatroom_id;
                 /*if (! this.photo_story) {
                     this.photo_story = {story_text: this.i18n.tr('stories.no-story')};
                 }*/
@@ -137,6 +139,10 @@ export class PhotoDetail {
             this.highlight_on = "highlight-on"
         }
         document.getElementById("word-highlighter").blur();
+    }
+
+    create_chatroom() {
+        this.chatroom_id = 1;  //tempo!!!
     }
 
 }
