@@ -1,4 +1,4 @@
-import { bindable, autoinject, singleton, bindingMode } from 'aurelia-framework';
+import { bindable, autoinject, singleton, bindingMode, computedFrom } from 'aurelia-framework';
 import { User } from '../../../services/user';
 import { Theme } from '../../../services/theme';
 import { MemberGateway } from '../../../services/gateway';
@@ -13,7 +13,6 @@ export class ChatroomCustomElement {
     ea: EventAggregator;
     @bindable room_number;
     @bindable room_index;
-    @bindable readonly = false;
     messages = [];
     chatroom_name;
     user_message = "";
@@ -96,6 +95,11 @@ export class ChatroomCustomElement {
         this.edited_message_id = 0;
         msg.message = msg.message.replace(/\n/g, '<br/>');
         this.api.call_server('chats/update_message', { user_message: msg.message, user_id: this.user.id | 2 , msg_id: msg.id});
+    }
+
+    @computedFrom('user.isLoggedIn')
+    get readonly() {
+        return ! this.user.isLoggedIn;
     }
 }
 

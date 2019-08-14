@@ -1,4 +1,4 @@
-import { bindable, inject, computedFrom, DOM } from 'aurelia-framework';
+import { bindable, inject, computedFrom, DOM, bindingMode } from 'aurelia-framework';
 import { User } from '../../../services/user';
 import { DialogService } from 'aurelia-dialog';
 import { Chat } from '../../../user/chat';
@@ -6,7 +6,7 @@ import { timingSafeEqual } from 'crypto';
 
 @inject(DOM.Element, User, DialogService, Chat)
 export class ChatButtonCustomElement {
-    @bindable chatroom_id;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) chatroom_id;
     user;
     dialog;
     element;
@@ -17,17 +17,22 @@ export class ChatButtonCustomElement {
         this.element = element;
     }
 
-    @computedFrom('user.isLoggedIn')
+    @computedFrom('user.isLoggedIn', 'chatroom_id')
     get can_chat() {
         return this.user.privileges.EDITOR && this.user.isLoggedIn || this.chatroom_id;
     }
 
-    chat() {
+    async chat() {
+        let n = 0;
         if (!this.chatroom_id) {
             this.dispatch_new_chatroom_event();
-            //sleep until this.chatroom_id is not null
+            while (! this.chatroom_id && n < 50) {
+                await sleep(100);
+                n += 1;
+            }
         }
-        this.dialog.open({ viewModel: Chat, model: { chatroom_number: this.chatroom_id }, lock: false })
+        if (!this.chatroom_id) return;
+        this.dialog.open({ viewModel: Chat, model: { chatroom_id: this.chatroom_id }, lock: false })
     }
 
     dispatch_new_chatroom_event() {
@@ -41,3 +46,8 @@ export class ChatButtonCustomElement {
     }
 
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  

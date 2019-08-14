@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" if.bind="! readonly">
             <div class="col-md-12">
                 <form role="form" style="padding:12px;">
                     <textarea rows="3" t="[placeholder]chats.enter-your-message" css="direction:${theme.rtltr};width:100%;" dir="${theme.rtltr}" value.bind="user_message" ></textarea>

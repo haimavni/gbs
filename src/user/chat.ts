@@ -1,5 +1,9 @@
 export class Chat {
+    chatroom_id;
     constructor() {
-        console.log("construct chats");
+    }
+
+    activate(model) {
+        this.chatroom_id = model.chatroom_id;
     }
 }
