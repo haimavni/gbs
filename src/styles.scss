@@ -117,6 +117,12 @@ ux-dialog-container.active {
     }
 }
 
+body.edged-dialog ux-dialog-container.active {
+    > div {
+        margin-left:0;
+    }
+}
+
 ux-dialog>ux-dialog-header>button {
     display: none !important;
 }

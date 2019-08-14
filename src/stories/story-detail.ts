@@ -35,6 +35,7 @@ export class StoryDetail {
     advanced_search;
     story_changed = false;
     story_box;
+    chatroom_id;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -84,6 +85,7 @@ export class StoryDetail {
             .then(response => {
                 this.api.hit(what, params.id);
                 this.story = response.story;
+                this.chatroom_id = this.story.chatroom_id;
                 let html = this.story.story_text;
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
@@ -192,5 +194,15 @@ export class StoryDetail {
         }
         this.story_box.scrollTop = t;
     }
+
+    create_chatroom() {
+        this.api.call_server('chats/add_chatroom', { new_chatroom_name: this.i18n.tr('user.chats') })
+            .then((data) => {
+                this.chatroom_id = data.chatroom_id;
+                this.api.call_server('stories/save_chatroom_id', {story_id: this.story.story_id, chatroom_id: this.chatroom_id});
+            });
+    }
+
+
 
 }

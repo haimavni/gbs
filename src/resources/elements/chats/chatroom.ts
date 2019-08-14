@@ -5,7 +5,7 @@ import { MemberGateway } from '../../../services/gateway';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject()
-@singleton()
+//@singleton()
 export class ChatroomCustomElement {
     user: User;
     theme: Theme;
@@ -19,6 +19,8 @@ export class ChatroomCustomElement {
     messages_filter = "";
     scroll_area;
     edited_message_id = 0;
+    subscription;
+    listener;
 
     constructor(user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
         this.user = user;
@@ -34,6 +36,13 @@ export class ChatroomCustomElement {
 
     attached() {
         this.read_chatroom();
+    }
+
+    detached() {
+        this.subscription.dispose();
+        this.listener.then((data) => {
+            data.close();
+        });
     }
 
     send_message() {
@@ -53,8 +62,8 @@ export class ChatroomCustomElement {
                 this.messages = data.messages;
             });
         let info = { user_message: '' };
-        this.api.listen('CHATROOM' + this.room_number);
-        this.ea.subscribe('INCOMING_MESSAGE' + this.room_number, (msg) => {
+        this.listener = this.api.listen('CHATROOM' + this.room_number);
+        this.subscription = this.ea.subscribe('INCOMING_MESSAGE' + this.room_number, (msg) => {
             this.handle_incoming_message(msg);
         })
     }

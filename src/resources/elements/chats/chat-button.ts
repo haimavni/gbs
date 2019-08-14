@@ -6,7 +6,7 @@ import { timingSafeEqual } from 'crypto';
 
 @inject(DOM.Element, User, DialogService, Chat)
 export class ChatButtonCustomElement {
-    @bindable ({ defaultBindingMode: bindingMode.twoWay }) chatroom_id;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) chatroom_id;
     user;
     dialog;
     element;
@@ -26,13 +26,15 @@ export class ChatButtonCustomElement {
         let n = 0;
         if (!this.chatroom_id) {
             this.dispatch_new_chatroom_event();
-            while (! this.chatroom_id && n < 50) {
+            while (!this.chatroom_id && n < 50) {
                 await sleep(100);
                 n += 1;
             }
         }
         if (!this.chatroom_id) return;
+        document.body.classList.add('edged-dialog');
         this.dialog.open({ viewModel: Chat, model: { chatroom_id: this.chatroom_id }, lock: false })
+            .whenClosed(result => { document.body.classList.remove('edged-dialog'); });
     }
 
     dispatch_new_chatroom_event() {
@@ -49,5 +51,4 @@ export class ChatButtonCustomElement {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
-  
+}

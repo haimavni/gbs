@@ -197,11 +197,13 @@ export class MemberGateway {
             });
     }
 
-    listen(group) {
-        this.call_server('default/get_tornado_host', { group: group })
+    async listen(group) {
+        let listener;
+        await this.call_server('default/get_tornado_host', { group: group })
             .then(data => {
                 let ws = data.ws;
-                if (!this.web2py_websocket(ws, this.handle_ws_message)) {
+                listener = this.web2py_websocket(ws, this.handle_ws_message);
+                if (! listener) {
                     alert("html5 websocket not supported by your browser, try Google Chrome");
                 };
                 if (group == this.constants.ptp_key) {
@@ -210,7 +212,7 @@ export class MemberGateway {
                 }
                 console.log("listening to ", group);
             });
-
+        return listener;
     }
 
     handle_ws_message(msg) {
@@ -237,7 +239,7 @@ export class MemberGateway {
             ws.onopen = onopen ? onopen : (function () { });
             ws.onmessage = onmessage;
             ws.onclose = onclose ? onclose : (function () { });
-            return true; // supported
+            return ws; // supported
         } else return false; // not supported
     }
 
