@@ -13,7 +13,7 @@
             <div class="row" >
                 <div class="col-sm-12" scroll-glue css="padding:10px;height:${theme.height-411}px;overflow:auto;direction:${theme.rtltr};" ref="scroll_area">
                     <ul class="${theme.rtltr}">
-                        <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'" style="margin-bottom: 15px;">
+                        <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'" class="chat-message">
                             <span style="font-weight:bold;">${msg.timestamp}: ${msg.sender_name}
                                 <span if.bind="user.privileges.CHAT_MODERATOR" style="float:left;margin-left:30px;cursor:pointer;">
                                     <i class="far fa-pencil" click.delegate="edit_message(msg, $index)" ></i>

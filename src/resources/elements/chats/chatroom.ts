@@ -29,9 +29,17 @@ export class ChatroomCustomElement {
         this.ea = ea;
     }
 
-    scroll_to_bottom() {
-        let el = document.getElementById("scroll-area");
-        el.scrollTop = 10000; //el.scrollHeight - el.scrollTop;
+    async scroll_to_bottom() {
+        let div = null;
+        for (let i = 0; i < 10; i++) {
+            div = this.scroll_area;
+            if (div) break;
+            await sleep(10);
+        }
+        if (! div) return;
+        setTimeout(() => {
+            div.scrollTop = div.scrollHeight; // - div.clientHeight + 150
+        }, 10);
     }
 
     attached() {
@@ -60,6 +68,7 @@ export class ChatroomCustomElement {
             .then((data) => {
                 this.chatroom_name = data.chatroom_name;
                 this.messages = data.messages;
+                this.scroll_to_bottom();
             });
         let info = { user_message: '' };
         this.listener = this.api.listen('CHATROOM' + this.room_number);
@@ -70,9 +79,9 @@ export class ChatroomCustomElement {
 
     handle_incoming_message(msg) {
         console.log("scroll area ", this.scroll_area.scrollTop);
-        let div = this.scroll_area;
         this.messages.push(msg);
         //this.scroll_area.scrollTop = 5000;
+        let div = this.scroll_area;
         setTimeout(() => {
             div.scrollTop = div.scrollHeight; // - div.clientHeight + 150
         }, 10);
@@ -111,4 +120,9 @@ export class ChatroomCustomElement {
         return ! this.user.isLoggedIn;
     }
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 

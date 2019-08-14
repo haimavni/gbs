@@ -203,6 +203,4 @@ export class StoryDetail {
             });
     }
 
-
-
 }

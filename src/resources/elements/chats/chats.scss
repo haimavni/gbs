@@ -12,9 +12,19 @@ a:disabled {
 
 ul.rtl {
     direction: rtl;
+    padding-right: 24px;
+    padding-left: 12px;
 }
 
 ul.ltr {
     direction: ltr;
+    padding-right: 12px;
+    padding-left: 24px;
+}
+
+li.chat-message {
+    padding-bottom: 8px;
+    border-bottom: solid 2px white;
+    margin-bottom: 8px;
 }
 
