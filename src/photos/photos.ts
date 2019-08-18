@@ -623,6 +623,7 @@ export class Photos {
         let kw_label = this.i18n.tr('photos.keywords')
         let content = `
         <ul>
+            <li>id:&nbsp;${photo.photo_id}</li>
             <li>${pn}:&nbsp;${photographer_name}</li>
             <li>${vdr}:&nbsp;${date_range}</li>
             <li>${kw_label}:&nbsp;${keywords}</li>

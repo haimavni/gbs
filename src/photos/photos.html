@@ -13,7 +13,7 @@
                             <div class="input-group" if.bind="user.privileges.ADVANCED  && params.selected_order_option == 'random-order'">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
-                            <div class="input-group" if.bind="user.privileges.EDITOR">
+                            <div class="input-group" if.bind="user.privileges.EDITOR" style="width:130px;">
                                 <select value.bind="params.selected_order_option" style="height:32px;width:90%;" change.delegate="handle_order_change($event)">
                                     <option repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
                                 </select>
