@@ -10,10 +10,19 @@
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;padding-right:15px;">
                         <form class="form-inline">
-                            <div class="input-group" if.bind="user.privileges.ADVANCED">
+                            <div class="input-group" if.bind="user.privileges.ADVANCED  && params.selected_order_option == 'random-order'">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
-                            <div if.bind="(! got_duplicates) && params.photo_ids.length == 0" class="form-group hide-if-small">
+                            <div class="input-group" if.bind="user.privileges.EDITOR">
+                                <select value.bind="params.selected_order_option" style="height:32px;width:90%;" change.delegate="handle_order_change($event)">
+                                    <option repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
+                                </select>
+                            </div>
+                            <div class="input-group" if.bind="params.selected_order_option != 'random-order'">
+                                <button t="[title]videos.next" class="btn btn-default" click.delegate="next($event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
+                                <button t="[title]videos.prev" class="btn btn-default" click.delegate="prev($event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
+                            </div>
+                            <div if.bind="(! got_duplicates) && params.photo_ids.length == 0 && params.selected_order_option == 'random-order'" class="form-group hide-if-small">
                                 <button class="btn btn-basic btn-md" click.delegate="select_member($event)">
                                     ${with_a_member_text}
                                 </button>

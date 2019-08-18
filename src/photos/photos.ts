@@ -39,6 +39,8 @@ export class Photos {
         selected_days_since_upload: 0,
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
+        selected_order_option: "random-order",
+        last_photo_time: null,
         photos_date_str: "",
         photos_date_span_size: 3,
         photo_ids: [],
@@ -57,6 +59,7 @@ export class Photos {
     days_since_upload_options = [];
     uploader_options = [];
     dates_options = [];
+    order_options = [];
     i18n: I18N;
     selected_photos = new Set([]);
     router: Router;
@@ -76,6 +79,8 @@ export class Photos {
     after_upload = false;
     editing_filters = false;
     empty = false;
+    upload_date_stops = [];
+    upload_date_stops_index = 0;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
         this.api = api;
@@ -103,6 +108,10 @@ export class Photos {
             { value: "dated-or-not", name: this.i18n.tr('photos.dated-or-not') },
             { value: "dated", name: this.i18n.tr('photos.dated') },
             { value: "undated", name: this.i18n.tr('photos.undated') }
+        ];
+        this.order_options = [
+            { value: "random-order", name: this.i18n.tr('photos.random-order') },
+            { value: "upload-time-order", name: this.i18n.tr('photos.upload-time-order') }
         ];
         this.options_settings = new MultiSelectSettings({
             clear_filter_after_select: false,
@@ -195,6 +204,10 @@ export class Photos {
                 this.candidates = new Set();
                 this.after_upload = false;
                 this.photo_list = result.photo_list;
+                this.params.last_photo_time = result.last_photo_time;
+                if (this.upload_date_stops_index == this.upload_date_stops.length) {
+                    this.upload_date_stops.push(result.last_photo_time)
+                }
                 this.empty = this.photo_list.length == 0;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
@@ -323,6 +336,37 @@ export class Photos {
     }
 
     handle_change(event) {
+        this.update_photo_list();
+    }
+
+    handle_order_change(event) {
+        if (this.params.selected_order_option == 'by-upload-time') {
+            this.params.last_photo_time = null;
+        }
+        this.update_photo_list();
+    }
+
+    @computedFrom('upload_date_stops_index')
+    get prev_disabled() {
+        return this.upload_date_stops_index < 1;
+    }
+
+    prev(event) {
+        if (this.upload_date_stops_index < 1) return; //don't trust disabling...
+        this.upload_date_stops_index -= 1;
+        this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
+        this.update_photo_list();
+    }
+
+    get next_disabled() {
+        return false; //todo: handle the unlikely bottom case
+    }
+
+    next(event) {
+        this.upload_date_stops_index  += 1;
+        if (this.upload_date_stops_index < this.upload_date_stops.length) {
+            this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
+        }
         this.update_photo_list();
     }
 
