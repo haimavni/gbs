@@ -229,7 +229,7 @@ export class Photos {
 
     @computedFrom('_photo_size', 'theme.width')
     get photo_size() {
-        if (! this.theme.is_desktop) {
+        if (!this.theme.is_desktop) {
             let ppl = Math.floor(this.theme.width / 96)
             this._photo_size = Math.floor(this.theme.width / ppl)
         }
@@ -340,9 +340,8 @@ export class Photos {
     }
 
     handle_order_change(event) {
-        if (this.params.selected_order_option == 'by-upload-time') {
-            this.params.last_photo_time = null;
-        }
+        this.params.last_photo_time = null;
+        this.upload_date_stops = [];
         this.update_photo_list();
     }
 
@@ -363,7 +362,7 @@ export class Photos {
     }
 
     next(event) {
-        this.upload_date_stops_index  += 1;
+        this.upload_date_stops_index += 1;
         if (this.upload_date_stops_index < this.upload_date_stops.length) {
             this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
         }
@@ -570,7 +569,7 @@ export class Photos {
     delete_selected_photos() {
         this.api.call_server_post('photos/delete_selected_photos', this.params)
             .then(() => {
-                this.photo_list = this.photo_list.filter(photo => ! this.selected_photos.has(photo.photo_id));
+                this.photo_list = this.photo_list.filter(photo => !this.selected_photos.has(photo.photo_id));
                 this.params.selected_photo_list = [];
                 this.selected_photos = new Set();
             });
@@ -600,11 +599,11 @@ export class Photos {
         photo.side = (photo.side == 'front') ? 'back' : 'front';
         if (this.user.editing) {
             this.api.call_server_post('photos/flip_photo', { front_id: photo.front.photo_id, back_id: photo.back.photo_id, to_unpair: event.ctrlKey })
-            .then(response => {
-                if (response.to_unpair) {
-                    this.update_photo_list();
-                }
-            })
+                .then(response => {
+                    if (response.to_unpair) {
+                        this.update_photo_list();
+                    }
+                })
         }
     }
 
@@ -640,14 +639,14 @@ export class Photos {
             .then(result => {
                 this.working = false
                 this.got_duplicates = result.got_duplicates;
-                if (! this.got_duplicates) {
+                if (!this.got_duplicates) {
                     toastr.success("<p dir='rtl'>" + this.i18n.tr('photos.no-duplicates-found') + "</p>", '', 10000);
                     return this.update_photo_list();
                 }
                 this.photo_list = result.photo_list;
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
-                this.candidates = new Set(result.candidates);
+                    this.candidates = new Set(result.candidates);
                 }
             });
     }
@@ -718,8 +717,8 @@ export class Photos {
     }
 
     css_height() {
-        if (! this.theme.is_desktop) return '';
-        return `height: ${this.win_height-323}px;`;
+        if (!this.theme.is_desktop) return '';
+        return `height: ${this.win_height - 323}px;`;
     }
 
 }
