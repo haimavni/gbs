@@ -122,6 +122,7 @@ export class Photos {
         this.photographers_settings = new MultiSelectSettings({
             clear_filter_after_select: true,
             can_set_sign: false,
+            can_group: false,
             empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
     }

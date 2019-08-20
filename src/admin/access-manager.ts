@@ -66,7 +66,8 @@ export class AccessManager {
             DATA_AUDITOR: 'fa-thumbs-up',
             HELP_AUTHOR: 'fa-life-saver fa-pencil',
             ADVANCED: 'fa-user-md',
-            MAIL_WATCHER: 'fa-envelope'
+            MAIL_WATCHER: 'fa-envelope',
+            ARCHIVER: 'fa-archive'
         }
         return class_of_role[r.role];
     }

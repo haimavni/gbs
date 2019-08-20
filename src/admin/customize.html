@@ -19,6 +19,12 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="row multi-select-div">
+                    <multi-select options.bind="key_value_list" settings.bind="options_settings"></multi-select>
+                    </multi-select>
+                </div>
+            </div>
         </ux-dialog-body>
         <ux-dialog-footer>
             <button type="button" class="btn btn-primary" click.delegate="save()">${'members.save' & t}</button>
