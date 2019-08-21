@@ -179,6 +179,8 @@
         "share": "Copy the address",
         "number-of-hits": "Number of entries",
         "customize": "Customize",
+        "customize-dictionary": "Customize any text",
+        "enter-text-to-replace": "Enter text to be replaced, then click on it",
         "site-header": "Site header"
     },
     "chats": {

@@ -10,10 +10,10 @@
         "female-was-born-in": "נולדה ב",
         "male-died-in": "נפטר ב-",
         "female-died-in": "נפטרה ב-",
-        "to-the-page-of": "לדף החבר של ",
+        "to-the-page-of": "לדף של ",
         "new-message": "הודעה חדשה"
     },
-    "app-title": "סִפּוּרֵי גִּבְעַת בְּרֶנֶר",
+    "app-title": "סִפּוּרֵי",
     "stories": {
         "stories": "ספורים",
         "place-stories": "ספורי המקום",
@@ -178,6 +178,8 @@
         "number-of-hits": "מספרי הכניסות באתר",
         "hit-counts": "מונה הכניסות לאתר",
         "customize": "התאמות",
+        "customize-dictionary": "התאם טקסט כלשהו",
+        "enter-text-to-replace": "הקלד את הטקסט שברצונך להחליף ואז הקלק עליו",
         "site-header": "כותרת האתר"
     },
     "chats": {

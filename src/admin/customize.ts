@@ -52,22 +52,34 @@ export class Customize {
         }
     }
 
-detached() {
-    this.theme.hide_title = false;
-    this.theme.hide_menu = false;
-    this.key_value_list = [];
-}
+    detached() {
+        this.theme.hide_title = false;
+        this.theme.hide_menu = false;
+        this.key_value_list = [];
+    }
 
-activate() {
-    this.app_title = this.i18n.tr('app-title');
-}
+    activate() {
+        this.app_title = this.i18n.tr('app-title');
+    }
 
-save() {
-    this.theme.set_locale_override('app-title', this.app_title);
-    this.controller.ok();
-}
+    save() {
+        this.theme.set_locale_override('app-title', this.app_title);
+        this.controller.ok();
+    }
 
-cancel() {
-    this.controller.cancel();
-}
+    save_app_title() {
+        this.theme.set_locale_override('app-title', this.app_title);
+    }
+
+    cancel() {
+        this.controller.cancel();
+    }
+
+    dic_item_changed(event) {
+        let p = event.detail.option;
+        console.log("p is ", p);
+        this.theme.set_locale_override(p.id, p.name);
+    }
+
+
 }
