@@ -145,7 +145,6 @@ export class PhotoDetail {
         this.api.call_server('chats/add_chatroom', { new_chatroom_name: this.i18n.tr('user.chats') })
             .then((data) => {
                 this.chatroom_id = data.chatroom_id;
-                this.api.call_server('photos/save_chatroom_id', {photo_id: this.photo_id, chatroom_id: this.chatroom_id});
             });
     }
 

@@ -45,7 +45,8 @@ export class Stories {
         deleted_stories: false,
         days_since_update: 0,
         search_type: 'simple',
-        approval_state: 0
+        approval_state: 0,
+        order_option: 0
     };
     prev_keywords;
     help_data = {
@@ -57,6 +58,7 @@ export class Stories {
     checked_stories = new Set();
     days_since_update_options;
     approval_state_options;
+    order_options;
     i18n;
     num_of_stories = 0;
     no_results = false;
@@ -107,7 +109,14 @@ export class Stories {
             { name: i18n.tr('stories.approved-and-unapproved'), id: 1 },
             { name: i18n.tr('stories.unapproved'), id: 2 },
             { name: i18n.tr('stories.approved'), id: 3 }
-        ]
+        ];
+
+        this.order_options = [
+            { name: i18n.tr('stories.random-order'), value: 'normal' },
+            //{ name: i18n.tr('stories.new-to-old'), value: 'new-to-old' },
+            //{ name: i18n.tr('stories.old-to-new'), value: 'old-to-new' },
+            { name: i18n.tr('stories.by-chats'), value: 'by-chats' }
+        ];
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
@@ -240,6 +249,7 @@ export class Stories {
         console.time('update-story-list');
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
+                //this.params.by_last_chat_time = false;
                 this.editing_filters = false;
                 //this.story_list = result.story_list;
                 this.no_results = result.no_results;
@@ -456,6 +466,10 @@ export class Stories {
         this.update_story_list('other');
     }
 
+    handle_order_change() {
+        this.update_story_list('other')
+    }
+
     delete_checked_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/delete_checked_stories', { params: this.params })
@@ -530,9 +544,9 @@ export class Stories {
     }
 
     goto_photos_page() {
-        let photo_list = this.story_list.filter(itm => itm.used_for==3);
+        let photo_list = this.story_list.filter(itm => itm.used_for == 3);
         let photo_ids = photo_list.map(itm => itm.photo_id);
-        this.router.navigateToRoute('photos', {photo_ids: photo_ids});
+        this.router.navigateToRoute('photos', { photo_ids: photo_ids });
     }
 
     save_merges(event: Event) {
@@ -577,7 +591,8 @@ export class Stories {
             deleted_stories: false,
             days_since_update: 0,
             search_type: 'simple',
-            approval_state: 0
+            approval_state: 0,
+            order_option: 0
         };
 
     }

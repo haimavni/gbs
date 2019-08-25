@@ -4,7 +4,7 @@
             <div class="row" id="story-list">
                 <div class="col-md-8 col-sm-12" if.bind="! editing_filters">
                     <div class="row">
-                        <form class="form-inline">
+                        <form class="form-inline" style="margin-bottom:8px;margin-right:34px;">
                             <!--<div class="input-group" style="width:400px;" if.bind="user.privileges.DEVELOPER">
                                 <search-input value.bind="filter"
                                     placeholder="stories.filter" height="38"
@@ -150,6 +150,14 @@
                             settings.bind="words_settings">
                         </multi-select>
                     </div>
+                    <div class="row" style="margin-top: 20px;" if.bind="user.isLoggedIn">
+                            <form role="form">
+                                <select value.bind="params.order_option" style="height:32px;width:90%;" change.delegate="handle_order_change($event)">
+                                    <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
+                                </select>
+                            </form>
+                        </div>
+    
                     <div class="row" style="margin-top: 20px;" if.bind="user.editing">
                         <form role="form">
                             <select value.bind="params.days_since_update" style="height:32px;width:90%;" change.delegate="handle_age_change($event)">
