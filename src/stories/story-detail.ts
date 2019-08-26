@@ -196,7 +196,7 @@ export class StoryDetail {
     }
 
     create_chatroom() {
-        this.api.call_server('chats/add_chatroom', { new_chatroom_name: this.i18n.tr('user.chats') })
+        this.api.call_server('chats/add_chatroom', { story_id: this.story.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
             .then((data) => {
                 this.chatroom_id = data.chatroom_id;
             });
