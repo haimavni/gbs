@@ -59,6 +59,14 @@ button.face:hover {
         top: 192px;
         color: white;
     }
+    &.next-slide {
+        top: 224px;
+        color: white;
+    }
+    &.prev-slide {
+        top: 256px;
+        color: white;
+    }
 }
 
 .full-size-photo .highlighted-face {

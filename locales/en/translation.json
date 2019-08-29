@@ -83,7 +83,8 @@
         "updated-by": "Updated by",
         "topic-already-exists": "Topic already exists",
         "push-up": "Place at the top",
-        "edit-filters": "Topics and keywords"
+        "edit-filters": "Topics and keywords",
+        "date": "Date"
     },
     "members": {
         "members": "Members",
@@ -271,7 +272,9 @@
         "edit-filters": "Topics and artists",
         "crop": "Crop",
         "save-crop": "Save crop",
-        "cancel-crop": "Cancel crop"
+        "cancel-crop": "Cancel crop",
+        "next-slide": "Next photo",
+        "prev-slide": "Prev photo"
     },
     "videos": {
         "videos": "Video",

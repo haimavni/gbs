@@ -23,6 +23,8 @@ export class FullSizePhoto {
     user;
     theme;
     slide;
+    slide_list = [];
+    slide_index = 0;
     photo_info = { name: "", photo_date_str: "", photo_date_datespan: 0, photographer: "" };
     router;
     highlighting = false;
@@ -43,6 +45,8 @@ export class FullSizePhoto {
     save_crop;
     cancel_crop;
     crop_sides;
+    next_slide_txt;
+    prev_slide_txt;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -64,6 +68,8 @@ export class FullSizePhoto {
         this.crop = this.i18n.tr('photos.crop');
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
+        this.next_slide_txt = this.i18n.tr('photos.next-slide')
+        this.prev_slide_txt = this.i18n.tr('photos.prev-slide')
         this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
         this.copy_photo_url_text = this.i18n.tr('photos.copy-photo-url');
         this.flip_text = this.i18n.tr('photos.flip');
@@ -71,6 +77,7 @@ export class FullSizePhoto {
 
     activate(model) {
         this.slide = model.slide;
+        this.slide_list = model.slide_list;
         this.baseURL = environment.baseURL;
         let pid = this.slide[this.slide.side].photo_id;
         if (!pid) {
@@ -159,6 +166,11 @@ export class FullSizePhoto {
             this.jump_to_member(face.member_id);
             return;
         }
+        if (event.altKey && event.shiftKey) {
+            this.remove_face(face);
+            return;
+        }
+
         this.dialogService.open({
             viewModel: MemberPicker,
             model: {
@@ -407,6 +419,27 @@ export class FullSizePhoto {
             this.crop_sides = 'ne'
         } else {
             this.crop_sides = 'se'
+        }
+    }
+
+    public next_slide(event) {
+        let idx = this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
+        if (idx < this.slide_list.length - 1) {
+            idx += 1;
+            this.slide = this.slide_list[idx];
+            let pid = this.slide.photo_id;
+            this.get_faces(pid);
+            this.get_photo_info(pid);
+            }
+    }
+    public prev_slide(event) {
+        let idx = this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
+        if (idx > 0) {
+            idx -= 1;
+            this.slide = this.slide_list[idx];
+            let pid = this.slide.photo_id;
+            this.get_faces(pid);
+            this.get_photo_info(pid);
         }
     }
 }

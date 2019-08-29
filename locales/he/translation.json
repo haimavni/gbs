@@ -82,7 +82,8 @@
         "updated-by": "עודכן על ידי",
         "topic-already-exists": "יש כבר נושא כזה",
         "push-up": "העלה לראש הרשימה",
-        "edit-filters": "נושאים ומילות מפתח"
+        "edit-filters": "נושאים ומילות מפתח",
+        "date": "תאריך"
     },
     "members": {
         "members": "חברים",
@@ -270,7 +271,9 @@
         "edit-filters": "נושאים, צלמים וציירים",
         "crop": "חיתוך",
         "save-crop": "שמור את החיתוך",
-        "cancel-crop": "בטל את החיתוך"
+        "cancel-crop": "בטל את החיתוך",
+        "next-slide": "התמונה הבאה",
+        "prev-slide": "התמונה הקודמת"
     },
     "videos": {
         "videos": "סרטים",

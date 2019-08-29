@@ -92,9 +92,9 @@ export class PhotoDetail {
         this.api.call_server('photos/update_photo_date', { photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id });
     }
 
-    private openDialog(slide) {
+    private openDialog(slide, slide_list) {
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list }, lock: false })
             .whenClosed(response => {
                 //do something?
                 document.body.classList.remove('black-overlay');
@@ -114,7 +114,8 @@ export class PhotoDetail {
             name: this.photo_name,
             photo_id: this.true_photo_id
         };
-        this.openDialog(slide)
+        let slide_list = [];  //temporary. the true list must be passed by the caller
+        this.openDialog(slide, slide_list);
     }
 
     go_back() {

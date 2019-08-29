@@ -239,7 +239,7 @@ export class Photos {
 
     private openDialog(slide) {
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide }, lock: false })
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list }, lock: false })
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
                 //this.theme.page_title = title;

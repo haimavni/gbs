@@ -24,6 +24,8 @@
             <button show.bind="user.editing && ! cropping" aubs-tooltip="text.bind:crop" class="side-tool crop" click.delegate="crop_photo()"><i class="fa fa-lg fa-crop-alt"></i></button>
             <button show.bind="cropping" aubs-tooltip="text.bind:save_crop" class="side-tool crop" click.delegate="save_photo_crop()"><i class="fa fa-lg fa-save"></i></button>
             <button show.bind="cropping" aubs-tooltip="text.bind:cancel_crop" class="side-tool cancel-crop" click.delegate="cancel_photo_crop()"><i class="fa fa-lg fa-undo-alt"></i></button>
+            <button show.bind="slide_list.length > 1" aubs-tooltip="text.bind:next_slide_txt" class="side-tool next-slide" click.delegate="next_slide($event)"><i class="far fa-lg fa-arrow-alt-right"></i></button>
+            <button show.bind="slide_list.length > 1" aubs-tooltip="text.bind:prev_slide_txt" class="side-tool prev-slide" click.delegate="prev_slide($event)"><i class="far fa-lg fa-arrow-alt-left"></i></button>
             <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable.bind="theme.interact_setting"
                 class="face" 
                 id.bind="'face-' + face.member_id"
