@@ -84,7 +84,7 @@ export class StoryWindow {
     }
 
     beforeUpdate(images) {
-        alert('hi')
+        console.log("before update. images: ", images, " this: ", this);
     }
 
 }
