@@ -83,4 +83,8 @@ export class StoryWindow {
 
     }
 
+    beforeUpdate(images) {
+        alert('hi')
+    }
+
 }

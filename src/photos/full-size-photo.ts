@@ -91,7 +91,14 @@ export class FullSizePhoto {
             this.dialogController.ok();
         });
         this.theme.hide_title = true;
-    }
+        window.setTimeout(() => {
+            let el = document.getElementById("next-slide-button");
+            console.log("el is ", el);
+            if (el) {
+                el.focus();
+            }
+        }, 300);
+}
 
     deactivate() {
         this.navEvent.dispose();
