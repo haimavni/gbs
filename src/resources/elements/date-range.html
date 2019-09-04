@@ -1,5 +1,5 @@
 <template>
-    <form class="form-inline date-range" dir="${theme.rtltr}" style="position:relative;height:34px;">
+    <form class="form-inline date-range" dir="${theme.rtltr}" style="position:relative;height:34px;" onsubmit="return false;">
         <label if.bind="show_label" style="padding-right:6px;">${label & t}</label>
         <div if.bind="show_edit_end_date" class="form-group" style="margin-right:0px;position:absolute;top:0;left:87px; ">
             <select value.bind="span_size" style="height:1.8em;color:black;width:74px;" change.delegate="span_size_changed($event)">

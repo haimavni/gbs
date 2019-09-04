@@ -1,3 +1,4 @@
+import { MyDate } from './../services/my-date';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
@@ -626,6 +627,12 @@ export class Stories {
     @computedFrom('user.editing', 'checked_stories.size')
     get can_set_dates() {
         return this.user.editing && this.checked_stories.size > 0
+    }
+
+    @computedFrom('params.stories_date_str')
+    get date_is_valid() {
+        let date = new MyDate(this.params.stories_date_str);
+        return date.is_valid()
     }
 
 }

@@ -118,7 +118,7 @@ export class DateRangeCustomElement {
         return m != null;
     }
 
-    @computedFrom("user.editing", "partial", "is_valid")
+    @computedFrom("user.editing", "partial", "is_valid", "range_options")
     get show_edit_end_date() {
         return this.base_date_str && this.is_valid && this.user.editing && this.partial && this.range_options.length > 1;
     }

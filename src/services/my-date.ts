@@ -48,6 +48,7 @@ export class MyDate {
     }
 
     validate() {
+        if (this._year < 1000) return;
         let d = new Date(this._year, this._month || 1, this._day || 1);
         this._year = d.getFullYear();
         if (this._month != undefined) this._month = d.getMonth();
