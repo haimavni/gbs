@@ -49,7 +49,11 @@ export class Stories {
         days_since_update: 0,
         search_type: 'simple',
         approval_state: 0,
-        order_option: 0
+        order_option: 0,
+        first_year: 1928,
+        last_year: 2021,
+        base_year: 1925,
+        num_years: 100
     };
     prev_keywords;
     help_data = {
@@ -598,7 +602,11 @@ export class Stories {
             days_since_update: 0,
             search_type: 'simple',
             approval_state: 0,
-            order_option: 0
+            order_option: 0,
+            first_year: 1928,
+            last_year: 2021,
+            base_year: 1925,
+            num_years: 100
         };
 
     }
@@ -633,6 +641,13 @@ export class Stories {
     get date_is_valid() {
         let date = new MyDate(this.params.stories_date_str);
         return date.is_valid()
+    }
+
+    time_range_changed(event) {
+        this.params.first_year = event.detail.first_year;
+        this.params.last_year = event.detail.last_year;
+        this.params.base_year = event.detail.base_year;
+        this.update_story_list('other');
     }
 
 }
