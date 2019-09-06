@@ -63,7 +63,7 @@ export class DateRangeCustomElement {
             return;
         }
         this.end_date_options = [];
-        let i0 = 1;
+        let i0 = 0;
         for (let i of arr) {
             let dif = date._year - cur_year;
             if (dif >= 0) {  //not future dates!
@@ -118,7 +118,7 @@ export class DateRangeCustomElement {
         return m != null;
     }
 
-    @computedFrom("user.editing", "partial", "is_valid", "range_options")
+    @computedFrom("user.editing", "partial", "is_valid", "range_options", "base_date_str")
     get show_edit_end_date() {
         return this.base_date_str && this.is_valid && this.user.editing && this.partial && this.range_options.length > 1;
     }

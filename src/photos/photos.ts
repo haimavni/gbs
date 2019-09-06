@@ -42,7 +42,7 @@ export class Photos {
         selected_order_option: "random-order",
         last_photo_time: null,
         photos_date_str: "",
-        photos_date_span_size: 3,
+        photos_date_span_size: 1,
         photo_ids: [],
         selected_photo_list: [],
         user_id: null,

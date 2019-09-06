@@ -41,7 +41,7 @@ export class Stories {
         from_date: "",
         to_date: "",
         stories_date_str: "",
-        stories_date_size: 3,
+        stories_date_span_size: 1,
         selected_stories: [],  //stories that match currently selected words
         checked_story_list: [], //stores that were checked by the user. needs to be calculated from the set this.checked_stories before calling the server
         link_class: "basic",
@@ -590,7 +590,7 @@ export class Stories {
             from_date: "",
             to_date: "",
             stories_date_str: "",
-            stories_date_size: 3,
+            stories_date_span_size: 1,
             selected_stories: [],
             checked_story_list: [],
             link_class: "basic",
