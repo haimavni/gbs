@@ -1,11 +1,7 @@
 @include mobile { @import 'photos.mobile'; }
 @include desktop { @import 'photos.desktop'; }
+@include desktop { @import 'range'; }
 
-#range {
-    -webkit-appearance: slider-vertical;
-    width: 20px;
-    height: 128px;
-}
 a.photo-selected img{
     border: 8px solid lightblue;
 }
