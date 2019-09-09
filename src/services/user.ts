@@ -27,6 +27,13 @@ export class User {
             EDITOR: true
         }
         this.readPrivileges();
+        this.eventAggregator.subscribe('ROLE_CHANGED', payload => { this.handle_role_change(payload) });
+    }
+
+    handle_role_change(payload) {
+        if (this.id == parseInt(payload.user_id)) {
+            this.privileges[payload.role] = payload.active;
+        }
     }
 
     toggle_edit_mode() {
