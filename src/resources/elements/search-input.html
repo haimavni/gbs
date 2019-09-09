@@ -3,7 +3,7 @@
     <div class="search-input input-group" dir="rtl">
         <div class="spyglass-div">
             <!--i class="fa fa-search search"></i-->
-            <help topic.bind="help_topic" class="search" position="bottom" css="position:absolute;top:${(height-30)/2}px;right:4px;"></help>
+            <help topic.bind="help_topic" class="search" position="bottom" style="padding-right:2px;"></help>
         </div>
         <input type="search" value.bind="value" t="[placeholder]${placeholder}" css="height:${height}px;" 
             keydown.delegate="input_changed($event) & debounce: 3000">

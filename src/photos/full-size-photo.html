@@ -3,7 +3,7 @@
     <div class="slide unselectable" click.delegate="mark_face($event)" id="full-size-photo" style="z-index:0;margin-left:32px;cursor:default;"
         interact-draggable.bind="theme.interact_setting"
         interact-dragmove.delegate="drag_move_photo($event)" >
-        <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide[slide.side].height}px; width:${slide[slide.side].width}px;position:relative;">
+        <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width,640)}px;position:relative;">
             <div show.bind="cropping" 
                 css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
                 interact-draggable.bind="theme.interact_setting"
@@ -40,13 +40,13 @@
                     </span>
                 </span>
             </button>
-            <span css="position:absolute;color:white;direction:rtl;width:${slide[slide.side].width}px;diretion:rtl;">
-                <span if.bind="!user.editing">
+            <span class="full-size-photo-info ${theme.rtltr}" css="width:${Math.max(slide[slide.side].width)}px;">
+                <span if.bind="!user.editing" class="photo-info-names">
                     ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
                 </span>
                 <span if.bind="user.editing">
                     <form class="form-inline">
-                        <input type="text" value.bind="photo_info.name" style="color:black;width:600px;" change.delegate="save_photo_caption($event)">
+                        <input type="text" value.bind="photo_info.name" style="color:black;width:400px;" change.delegate="save_photo_caption($event)">
                         <button style="border:none;background-color:black">
                             <i class="fa fa-save"></i>
                         </button>

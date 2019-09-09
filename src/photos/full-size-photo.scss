@@ -76,6 +76,8 @@ button.face:hover {
     opacity:1.0;
     position:absolute;
     font-size:70%;
+    display: flex;
+    flex-direction:column;
 }
 
 
@@ -87,8 +89,27 @@ body.black-overlay ux-dialog-overlay.active {
 .full-size-photo .date-range label {
     margin-right:-6px;
     padding:4px;
+    margin-left:12px;
     width:100px;
 }
+
+.full-size-photo-info {
+    color:white;
+    display: flex;
+    flex-direction: row;
+    &.rtl {
+        direction: rtl;
+        .photo-info-names {
+            margin-left: 10px;
+        }
+    }
+    &.ltr {
+        direction: ltr;
+        .photo-info-names {
+            margin-right: 10px;
+        }
+    }
+} 
 
 button.prev-slide:focus {
     color: yellow;

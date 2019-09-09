@@ -1,34 +1,23 @@
 div.search-input {
-    position: relative;
+    display: flex;
     width: 98%;
     i.remove {
-        position: absolute;
         top: 12px;
         left: 10px;
         color: gray;
     }
     div.spyglass-div {
-        //height: 32px;
         width: 40px;
         background-color: #eaeaea;
-        //padding: 8px;
-        height:100%;
         border: 1px solid gray;
-        padding-top: 6px;
-        padding-right:10px;
-        position: absolute;
-        //top: 8px;
-        //right: -6px;
+        padding-top: 1px;
     }
     i.search {
-        //position: absolute;
-        //top: 8px;
-        //right: -6px;
         color: gray;
     }
     input {
         padding-left:24px;
-        padding-right:44px;
+        padding-right:6px;
         width: 100%;
         height: 38px;
     }

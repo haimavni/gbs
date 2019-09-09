@@ -25,19 +25,26 @@ div.panel.panel-default {
 }
 
 .photos .date-range label {
-    margin-right:-6px;
-    padding:4px;
-    width:120px;
+    margin-right: -3px;
+    padding: 4px;
+    float: right;
+    font-size:90%;
 }
 
 .photo-detail {
     margin-left:auto;
     margin-right:auto;
     min-height:755px;
-    .date-range label {
-        margin-right:-6px;
-        padding:4px;
-        width:100px;
+    .date-range { 
+        label {
+            margin-right:-6px;
+            margin-left: 10px;
+            padding:4px;
+            width:100px;
+        }
+        input {
+            width: 322px;
+        }
     }
     img {
         cursor: pointer;
