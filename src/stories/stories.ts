@@ -271,6 +271,7 @@ export class Stories {
                 //this.used_for = result.active_result_types[0];
                 console.timeEnd('update-story-list');
                 this.scroll_top = 0;
+                this.params.keywords_str = "";
             });
     }
 
