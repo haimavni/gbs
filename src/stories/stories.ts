@@ -236,6 +236,9 @@ export class Stories {
 
     async update_story_list(search_type) {
         //if (this.checked_stories.size > 0) return;
+        if (search_type != 'simple' && search_type != 'menu') {
+            this.params.keywords_str = "";
+        }
         this.params.checked_story_list = Array.from(this.checked_stories);
         let cnt = 0;
         while (!this.api.ptp_connected) {
@@ -271,7 +274,6 @@ export class Stories {
                 //this.used_for = result.active_result_types[0];
                 console.timeEnd('update-story-list');
                 this.scroll_top = 0;
-                this.params.keywords_str = "";
             });
     }
 
