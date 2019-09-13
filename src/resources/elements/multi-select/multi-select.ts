@@ -151,7 +151,7 @@ export class MultiSelectCustomElement {
         } else {
             this.open_group = group_number;
         }
-        this.calc_moveable();
+        this.sort_items();
     }
 
     toggle_sign(option, event) {
@@ -255,14 +255,14 @@ export class MultiSelectCustomElement {
             item.group_number = i;
         }
         this.selected_options[n - 1].last = true;
-        this.calc_moveable();
+        this.calc_moveable(i);
         this.dispatch_event();
         this.has_groups = has_groups;
     }
 
-    calc_moveable() {
+    calc_moveable(i) {
         for (let item of this.selected_options) {
-            item.moveable = this.can_move_item(item);
+            item.moveable = i > 1 && this.can_move_item(item);
         }
     }
 
