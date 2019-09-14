@@ -41,6 +41,21 @@
         </ul>
     </div>
 
+    <div class="btn-group dropdown border-right" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458" >
+        <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
+            <i class="far fa-lg fa-share-alt"></i>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
+            <li>
+                <!-- Sharingbutton Facebook -->
+                <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=${current_url}" target="_blank" rel="noopener">
+                    <i class="far fa-facebook-f"><</i>Facebook
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <div class="btn-group dropdown border-right hide-if-small" 
         aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" 
         t="[title]palettes.select-colors"

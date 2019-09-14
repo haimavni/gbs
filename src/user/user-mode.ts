@@ -1,5 +1,5 @@
 import { autoinject, computedFrom } from "aurelia-framework";
-import { Router } from "aurelia-router";
+import { Router} from "aurelia-router";
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { Login } from '../user/login';
@@ -8,6 +8,7 @@ import { MemberGateway } from '../services/gateway';
 import { Popup } from '../services/popups';
 import { copy_to_clipboard } from '../services/dom_utils';
 import { Customize } from '../admin/customize';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 
 @autoinject()
@@ -23,14 +24,23 @@ export class UserMode {
     selectedLocale;
     locales = ['en', 'he'];
     isChangingLocale = false;
+    current_url = "https%3A%2F%2Fgbstories.org";
+    ea;
 
-    constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup) {
+    constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator) {
         this.user = user;
         this.theme = theme;
         this.router = router;
         this.api = api;
         this.dialog = dialog;
         this.popup = popup;
+        this.ea = ea;
+        this.ea.subscribe('router:navigation:complete', response => {
+            let url = `${location.host}${location.pathname}${location.hash}`
+            if (url.endsWith('*')) url += '/';
+            url = encodeURIComponent(url);
+            this.current_url = url;
+        });
     }
 
     share() {
