@@ -25,6 +25,7 @@ export class UserMode {
     locales = ['en', 'he'];
     isChangingLocale = false;
     current_url = "https%3A%2F%2Fgbstories.org";
+    sharing_subject = "Sharing";
     ea;
 
     constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator) {
