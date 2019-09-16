@@ -25,8 +25,8 @@ export class UserMode {
     selectedLocale;
     locales = ['en', 'he'];
     isChangingLocale = false;
-    current_url = "https%3A%2F%2Fgbstories.org";
-    sharing_subject = "Sharing";
+    current_url = "";
+    sharing_subject;
     ea;
 
     constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
@@ -38,13 +38,25 @@ export class UserMode {
         this.dialog = dialog;
         this.popup = popup;
         this.ea = ea;
+    }
+
+    attached() {
+        console.log("enter attached");
+        this.calc_current_info();
         this.ea.subscribe('router:navigation:complete', response => {
-            let url = `${location.host}${location.pathname}${location.hash}`
-            if (url.endsWith('*')) url += '/';
-            url = encodeURIComponent(url);
-            this.current_url = url;
-            document.title = this.i18n.tr('app-title');
+            this.calc_current_info();
         });
+    }
+
+    calc_current_info() {
+        document.title = this.i18n.tr('app-title');
+        console.log("calc current info. document.title: ", document.title);
+        this.sharing_subject = encodeURIComponent(document.title);
+        let url = `${location.host}${location.pathname}${location.hash}`
+        if (url.endsWith('*')) url += '/';
+        url = encodeURIComponent(url);
+        this.current_url = url;
+        console.log("sharing subject: ", this.sharing_subject);
     }
 
     toggle_edit_mode() {

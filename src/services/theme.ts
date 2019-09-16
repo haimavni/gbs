@@ -38,6 +38,7 @@ export class Theme {
     router_view;
     footer;
     search_debounce = 15000;
+    document_title = "";
 
     constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
         this.api = api;
@@ -161,8 +162,10 @@ export class Theme {
             for (let lang of langs) {
                 this.customize(lang, obj[lang]);
                 this.i18n.setLocale(this.locale);
-                document.title = this.i18n.tr('app-title');
             } 
+            document.title = this.i18n.tr('app-title');
+            console.log("in get locale overides, document.title: ", document.title);
+            this.document_title = document.title;
         });
     }
 
