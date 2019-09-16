@@ -55,6 +55,8 @@ export class UserMode {
         let url = `${location.host}${location.pathname}${location.hash}`
         if (url.endsWith('*')) url += '/';
         url = encodeURIComponent(url);
+        url = url.replace('*', '%2A')
+        console.log("encoded url: ", url);
         this.current_url = url;
         console.log("sharing subject: ", this.sharing_subject);
     }
