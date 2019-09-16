@@ -183,6 +183,10 @@
         "number-of-hits": "Number of entries",
         "customize": "Customize",
         "customize-dictionary": "Customize any text",
+        "personalize": "Personalize",
+        "select_langauage": "Select language",
+        "select-colors": "Select colors",
+        "sharing": "Sharing",
         "enter-text-to-replace": "Enter text to be replaced, then click on it",
         "site-header": "Site header"
     },

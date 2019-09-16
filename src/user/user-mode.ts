@@ -44,12 +44,6 @@ export class UserMode {
         });
     }
 
-    share() {
-        let url = `${location.host}${location.pathname}${location.hash}`
-        if (url.endsWith('*')) url += '/';
-        copy_to_clipboard(url);
-    }
-
     toggle_edit_mode() {
         this.user.toggle_edit_mode();
     }
