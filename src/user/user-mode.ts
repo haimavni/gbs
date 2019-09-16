@@ -53,8 +53,12 @@ export class UserMode {
         console.log("calc current info. document.title: ", document.title);
         this.sharing_subject = encodeURIComponent(document.title);
         let url = `${location.host}${location.pathname}${location.hash}`
-        if (url.endsWith('*')) url += '/';
         url = encodeURIComponent(url);
+        let i = url.indexOf('*')
+        if (i >= 0) {
+            url = url.slice(0, i + 1);
+        }
+        if (url.endsWith('*')) url += '/';
         url = url.replace('*', '%2A')
         console.log("encoded url: ", url);
         this.current_url = url;
