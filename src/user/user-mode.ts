@@ -9,7 +9,7 @@ import { Popup } from '../services/popups';
 import { copy_to_clipboard } from '../services/dom_utils';
 import { Customize } from '../admin/customize';
 import { EventAggregator } from 'aurelia-event-aggregator';
-
+import { I18N } from 'aurelia-i18n';
 
 @autoinject()
 export class UserMode {
@@ -19,6 +19,7 @@ export class UserMode {
     api;
     dialog;
     router;
+    i18n;
     popup: Popup;
     loginData = { email: '', password: '' };
     selectedLocale;
@@ -28,10 +29,11 @@ export class UserMode {
     sharing_subject = "Sharing";
     ea;
 
-    constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator) {
+    constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
         this.user = user;
         this.theme = theme;
         this.router = router;
+        this.i18n = i18n;
         this.api = api;
         this.dialog = dialog;
         this.popup = popup;
@@ -41,6 +43,7 @@ export class UserMode {
             if (url.endsWith('*')) url += '/';
             url = encodeURIComponent(url);
             this.current_url = url;
+            document.title = this.i18n.tr('app-title');
         });
     }
 
@@ -98,8 +101,6 @@ export class UserMode {
         let url = `${location.pathname}#/chats`;
         this.popup.popup('CHAT-ROOMS', url, "height=800,width=1800,left=50,top=50");
     }
-
-
 
     adhoc_scripts() {
         let url = `${location.pathname}#/adhoc-scripts`;
