@@ -17,7 +17,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
             <li style="border-bottom:solid 1px gray;width:170px;margin-bottom:8px;padding-top:6px;">
-                <div class="btn-group dropdown border-right hide-if-small" style="padding:0;margin-right:18px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
                     <button class="btn btn-link btn-md dropdown-toggle" style="text-decoration:none;position:relative;margin-bottom:10px;"
                         aubs-dropdown-toggle>
                         <span style="position:absolute;left:20px;top:-8px;" class="font-size-150">${'a' & t}</span>
@@ -51,7 +51,7 @@
                 </div>
             </li>
             <li style="width:170px;padding-bottom:4px;padding-top:6px;">
-                <div class="btn-group dropdown border-right hide-if-small" 
+                <div class="btn-group dropdown border-right" 
                     aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" 
                     if.bind="true || user.privileges.DEVELOPER">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
