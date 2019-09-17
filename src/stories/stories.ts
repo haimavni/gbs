@@ -120,8 +120,8 @@ export class Stories {
 
         this.order_options = [
             { name: i18n.tr('stories.random-order'), value: 'normal' },
-            //{ name: i18n.tr('stories.new-to-old'), value: 'new-to-old' },
-            //{ name: i18n.tr('stories.old-to-new'), value: 'old-to-new' },
+            { name: i18n.tr('stories.new-to-old'), value: 'new-to-old' },
+            { name: i18n.tr('stories.old-to-new'), value: 'old-to-new' },
             { name: i18n.tr('stories.by-chats'), value: 'by-chats' }
         ];
 
