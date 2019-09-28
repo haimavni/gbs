@@ -77,8 +77,8 @@
                                     </span>
                                     <span if.bind="user.editing">
                                         <i class="fa${video.selected ? 's' : 'r'} fa-circle" click.delegate="toggle_selection(video, $event, $index)"></i>
-                                        <i class="far fa-trash-alt" click.delegate="delete_video(video)"></i>
-                                        <i class="far fa-pencil" click.delegate="edit_video_info(video)"></i>
+                                        <i class="fas fa-trash-alt" click.delegate="delete_video(video)"></i>
+                                        <i class="fas fa-pencil" click.delegate="edit_video_info(video)"></i>
                                     </span>
                                     ${video.name}
                                 </span>
