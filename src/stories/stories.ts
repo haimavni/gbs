@@ -486,8 +486,8 @@ export class Stories {
         this.api.call_server_post('members/delete_checked_stories', { params: this.params })
             .then(response => {
                 //this.params.checked_story_list = [];
+                this.story_list = this.story_list.filter(story => ! this.checked_stories.has(story.story_id));
                 this.checked_stories = new Set();
-                this.story_list = [];
             });
     }
 
