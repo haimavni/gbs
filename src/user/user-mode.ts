@@ -51,7 +51,10 @@ export class UserMode {
     calc_current_info() {
         document.title = this.i18n.tr('app-title');
         console.log("calc current info. document.title: ", document.title);
-        this.sharing_subject = encodeURIComponent(document.title);
+        setTimeout(() => {  //if too early, overridden title is till not in effect
+            this.sharing_subject = encodeURIComponent(document.title);
+        }, 4000);
+        
         let url = `${location.host}${location.pathname}${location.hash}`
         url = encodeURIComponent(url);
         let i = url.indexOf('*')
