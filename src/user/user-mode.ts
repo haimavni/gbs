@@ -58,14 +58,11 @@ export class UserMode {
         let url = `${location.host}${location.pathname}${location.hash}`
         let i = url.indexOf('*')
         if (i >= 0) {
-            url = url.slice(0, i);
+            url = url.slice(0, i + 1) + '/';
         }
-        //if (url.endsWith('*')) url += '/';
         url = encodeURIComponent(url);
-        //url = url.replace('*', '%2A')
-        console.log("encoded url: ", url);
+        url = url.replace('*', '%2A')
         this.current_url = url;
-        console.log("sharing subject: ", this.sharing_subject);
     }
 
     toggle_edit_mode() {
