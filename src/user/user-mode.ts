@@ -56,13 +56,13 @@ export class UserMode {
         }, 4000);
         
         let url = `${location.host}${location.pathname}${location.hash}`
-        url = encodeURIComponent(url);
         let i = url.indexOf('*')
         if (i >= 0) {
-            url = url.slice(0, i + 1);
+            url = url.slice(0, i);
         }
-        if (url.endsWith('*')) url += '/';
-        url = url.replace('*', '%2A')
+        //if (url.endsWith('*')) url += '/';
+        url = encodeURIComponent(url);
+        //url = url.replace('*', '%2A')
         console.log("encoded url: ", url);
         this.current_url = url;
         console.log("sharing subject: ", this.sharing_subject);
