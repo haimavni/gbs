@@ -10,6 +10,7 @@ import { copy_to_clipboard } from '../services/dom_utils';
 import { Customize } from '../admin/customize';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
+import { link } from "fs";
 
 @autoinject()
 export class UserMode {
@@ -26,6 +27,7 @@ export class UserMode {
     locales = ['en', 'he'];
     isChangingLocale = false;
     current_url = "";
+    link_to_current_url;
     sharing_subject;
     ea;
 
@@ -60,9 +62,15 @@ export class UserMode {
         if (i >= 0) {
             url = url.slice(0, i + 1) + '/';
         }
+        let link_to_url = '<a href="' + url + '">Link to the site</a>';
+        console.log("link to url: ", link_to_url);
         url = encodeURIComponent(url);
+        link_to_url = encodeURIComponent(link_to_url);
+        console.log("encoded link to url: ", link_to_url);
         url = url.replace('*', '%2A')
         this.current_url = url;
+        this.link_to_current_url = link_to_url;
+
     }
 
     toggle_edit_mode() {
