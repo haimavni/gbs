@@ -27,9 +27,10 @@ export class UserMode {
     locales = ['en', 'he'];
     isChangingLocale = false;
     current_url = "";
-    link_to_current_url;
+    current_url4mail;
     sharing_subject;
     ea;
+    handle_star_text;
 
     constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
         this.user = user;
@@ -40,6 +41,7 @@ export class UserMode {
         this.dialog = dialog;
         this.popup = popup;
         this.ea = ea;
+        this.handle_star_text = this.i18n.tr('user.handle-star-text')
     }
 
     attached() {
@@ -58,19 +60,14 @@ export class UserMode {
         }, 4000);
         
         let url = `${location.host}${location.pathname}${location.hash}`
+        let url4mail = url;
         let i = url.indexOf('*')
         if (i >= 0) {
             url = url.slice(0, i + 1) + '/';
+            url4mail = '"' + url + '"';
         }
-        let link_to_url = '<a href="' + url + '">Link to the site</a>';
-        console.log("link to url: ", link_to_url);
-        url = encodeURIComponent(url);
-        link_to_url = encodeURIComponent(link_to_url);
-        console.log("encoded link to url: ", link_to_url);
-        url = url.replace('*', '%2A')
-        this.current_url = url;
-        this.link_to_current_url = link_to_url;
-
+        this.current_url = encodeURIComponent(url);
+        this.current_url4mail = encodeURIComponent(url4mail);
     }
 
     toggle_edit_mode() {
