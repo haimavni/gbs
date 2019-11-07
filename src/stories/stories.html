@@ -78,7 +78,8 @@
                             ${'photos.show-in-photo-page' & t}
                         </button>
                     </form>
-                    <ul ref="scroll_area" class="story-list unselectable" style="margin-top:12px;">
+                    <ul ref="scroll_area" class="story-list unselectable ${no_results ? 'empty-stories' : ''}" 
+                        style="margin-top:12px;">
                         <li repeat.for="story of story_list | filter: filter : '*selected' : 'name' : 'author' | take : 9999" dir="${theme.rtltr}"
                             if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">

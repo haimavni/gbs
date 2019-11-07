@@ -12,9 +12,11 @@ div.video-page {
         flex-direction: row;
         justify-content: flex-start;
         align-content: flex-start;
-        height: 600px;
         width: 100%;
         height: 640px;
+        &.empty-videos {
+            height: 500px;
+        }
         overflow: auto;
         span.fr-video {
             width: $vid-width + 16px;

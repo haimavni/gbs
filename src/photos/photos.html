@@ -127,7 +127,7 @@
                     </div>
                     <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                     </h3>
-                    <div class="row" id="photos-container" 
+                    <div class="row ${empty ? 'empty-photos' : ''}" id="photos-container"
                         if.bind="!editing_filters">
                         <div css="padding:0;margin:0;width:${photo_size}px;height:${photo_size}px;"
                             repeat.for="photo of photo_list | filter : filter : '*selected' : 'title' : name | take : 9999">

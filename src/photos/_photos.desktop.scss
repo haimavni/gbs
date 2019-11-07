@@ -6,6 +6,9 @@ div.multi-select-div {
 }
 #photos-container {
     height: 579px;
+    &.empty-photos {
+        height: 512px;
+    }
     overflow: auto;
 }
 

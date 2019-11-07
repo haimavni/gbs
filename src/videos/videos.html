@@ -65,7 +65,7 @@
                     <div class="row">
                         <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                         </h3>
-                            <div class="video-panel" ref="scroll_area">
+                            <div class="video-panel ${empty ? 'empty-videos' : ''}" ref="scroll_area">
                             <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | keeplen : length_keeper | take : videos_per_page : first_index" class="fr-video fr-fvc fr-draggable fr-dvi"
                                 
                                 contenteditable="false" draggable="true">

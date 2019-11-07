@@ -4,6 +4,9 @@
 
 ul.doc-list {
     height: 675px;
+    &.empty-docs {
+        height: 500px;
+    }
     overflow: auto;
     padding-left: 20px;
     .story-preview {

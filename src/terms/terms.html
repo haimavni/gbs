@@ -54,7 +54,7 @@
                         </button>
                         <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                         </h3>
-                        <ul id="term-list"
+                        <ul id="term-list" class="${empty ? 'empty-terms' : ''}"
                             ref="scroll_area" class="unselectable">
                             <li repeat.for="term of term_list | filter: filter : 'Name' : 'author'" dir="rtl"
                                 style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;cursor:pointer;"

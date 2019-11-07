@@ -51,7 +51,7 @@
                     </div>
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
                     </h3>
-                    <ul ref="scroll_area" class="unselectable doc-list">
+                    <ul ref="scroll_area" class="unselectable doc-list ${no_results ? 'empty-docs' : ''}">
                         <li repeat.for="doc of doc_list | filter: filter : 'name' : 'author' | take : 9999" dir="${theme.rtltr}">
                             <div class="one-doc ${theme.rtltr}">
                                 <div>
