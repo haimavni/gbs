@@ -1,6 +1,5 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
-import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
 import { MemberGateway } from '../services/gateway';
 import { DialogService } from 'aurelia-dialog';
@@ -11,7 +10,6 @@ import * as toastr from 'toastr';
 export class AccessManager {
     api;
     i18n;
-    router;
     theme;
     authorized_users = [];
     curr_user;

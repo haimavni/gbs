@@ -3,6 +3,7 @@ import { Router} from "aurelia-router";
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { Login } from '../user/login';
+import { AddCustomer } from '../admin/add_customer';
 import { DialogService } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
 import { Popup } from '../services/popups';
@@ -164,5 +165,9 @@ export class UserMode {
 
     customize() {
         this.dialog.open({viewModel: Customize, lock: false})
+    }
+
+    create_new_app() {
+        this.dialog.open({viewModel: AddCustomer, lock: true)
     }
 }

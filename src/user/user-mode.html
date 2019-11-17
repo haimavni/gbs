@@ -130,6 +130,7 @@
             <li if.bind="user.privileges.ADMIN" t="[title]user.customize"><a class="dropdown-item" href="#" click.trigger="customize()">Customize</a></li>
             <li if.bind="user.privileges.ADMIN" t="[title]user.hit-counts"><a class="dropdown-item" href="#" click.trigger="show_hit_counts()">Page hit counts</a></li>
             <li if.bind="user.privileges.ADMIN" t="[title]feedback.feedback"><a class="dropdown-item" href="#" click.trigger="show_feedbacks()">Show Feedbacks</a></li>
+            <li if.bind="user.privileges.DEVELOPER" t="[title]user.create-new-app"><a class="dropdown-item" href="#" click.trigger="create_new_app()">Create new app</a></li>
         </ul>
     </div>
 

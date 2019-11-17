@@ -390,6 +390,13 @@
         "message-successful": "Your message was succesfully sent",
         "device-details": "Device details"
     },
+    "admin": {
+        "duplicate-app-name": "Name is alrady in use!",
+        "new-app-requested": "Your request is being processed",
+        "app-name": "New site ID",
+        "customer-info": "Site manager info",
+        "fields-missing": "All fields must be filled!"
+    },
     "feedbacks": "משוב",
     "go-back": "Back",
     "parents": "Parents",
