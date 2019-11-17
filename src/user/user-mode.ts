@@ -1,5 +1,5 @@
 import { autoinject, computedFrom } from "aurelia-framework";
-import { Router} from "aurelia-router";
+import { Router } from "aurelia-router";
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { Login } from '../user/login';
@@ -59,12 +59,12 @@ export class UserMode {
         setTimeout(() => {  //if too early, overridden title is till not in effect
             this.sharing_subject = encodeURIComponent(document.title);
         }, 4000);
-        
+
         let url = `${location.host}${location.pathname}${location.hash}`
         let url4mail = url;
-        let i = url.indexOf('*')
-        if (i >= 0) {
-            url = url.slice(0, i + 1) + '/';
+        let i = url.indexOf('*');
+        if (i == url.length - 1) {
+            url += '/';
             url4mail = '"' + url + '"';
         }
         this.current_url = encodeURIComponent(url);
@@ -118,7 +118,7 @@ export class UserMode {
 
     manage_users() {
         let url = `${location.pathname}#/access-manager`;
-        this.popup.popup('OLD_SITE',  url, "height=860,width=1700,left=100,top=100");
+        this.popup.popup('OLD_SITE', url, "height=860,width=1700,left=100,top=100");
     }
 
     chat_rooms() {
@@ -145,7 +145,7 @@ export class UserMode {
         let url = `${location.pathname}#/feedbacks`;
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
-    
+
 
     set_font_size(size) {
         this.theme.font_size = "font-size-" + size;
@@ -164,10 +164,10 @@ export class UserMode {
     }
 
     customize() {
-        this.dialog.open({viewModel: Customize, lock: false})
+        this.dialog.open({ viewModel: Customize, lock: false })
     }
 
     create_new_app() {
-        this.dialog.open({viewModel: AddCustomer, lock: true)
+        this.dialog.open({ viewModel: AddCustomer, lock: true})
     }
 }
