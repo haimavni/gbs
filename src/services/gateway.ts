@@ -133,10 +133,6 @@ export class MemberGateway {
         return this.httpClient.fetch('members/member_list')
     }
 
-    getMemberDetails(memberId) {
-        return this.httpClient.fetch(`members/get_member_details?${params(memberId)}`)
-    }
-
     getStoryDetail(story) {
         return this.call_server('members/get_story_detail', story);
     }

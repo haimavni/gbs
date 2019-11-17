@@ -99,7 +99,7 @@ export class MemberDetail {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
-        this.api.getMemberDetails({ member_id: params.id, what: params.what })
+        this.api.call_server_post('members/get_member_details', { member_id: params.id, what: params.what })
             .then(member => {
                 this.member = member;
                 let life_story = this.member.member_stories[0];
