@@ -64,7 +64,9 @@ export class MemberPicker {
         this.candidates = model.candidates ? model.candidates : [];
         /*this.filter = this.memberList.member_name(model.member_id)*/
         this.memberList.get_member_by_id(model.member_id)
-            .then(result => this.filter = result.name)
+            .then(result => {
+                this.filter = result.first_name + ' ' + result.last_name;
+            })
     }
 
     reorder_members_candidates_first() {
