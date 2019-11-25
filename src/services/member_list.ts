@@ -63,7 +63,7 @@ export class MemberList {
 
     get_member_by_id(member_id) {
         if (!member_id) {
-            return new Promise(resolve => resolve({ name: "" }))
+            return new Promise(resolve => resolve({ name: "", first_name:" ", last_name: "" }))
         }
         return this.getMemberList()
             .then(members => {
