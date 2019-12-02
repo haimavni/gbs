@@ -12,7 +12,7 @@ export class DateRangeCustomElement {
     theme;
     i18n;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) base_date_str = "";
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 0;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 1;
     @bindable label;
     @bindable range_options: any = [];
     @bindable hide_label_if_no_date = false;
@@ -63,8 +63,9 @@ export class DateRangeCustomElement {
             return;
         }
         this.end_date_options = [];
-        let i0 = 0;
+        let i0 = 1;
         for (let i of arr) {
+            if (i == 1) continue;
             let dif = date._year - cur_year;
             if (dif >= 0) {  //not future dates!
                 i0 -= dif;
