@@ -170,4 +170,8 @@ export class UserMode {
     create_new_app() {
         this.dialog.open({ viewModel: AddCustomer, lock: true})
     }
+
+    show_gallery() {
+        this.router.navigateToRoute('gallery', {})
+    }
 }
