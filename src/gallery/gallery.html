@@ -1,10 +1,11 @@
 <template>
     <section class="container content-area">
         <h2>Gallery</h2>
-        <div class="scaled-frame flex">
-            <!-- <div class="wrap" repeat.for="frm of frame_urls"> -->
-                <iframe repeat.for="frm of frame_urls" src="frm.url" class="framexxx" width="300" height="195"></iframe>
-            <!-- </div> -->
+        <div class="scaled-frame">
+            <div class="wrap" repeat.for="frm of frame_urls">
+                <iframe src.bind="frm.url" class="frame" width="1200" height="780"allow="fullscreen"></iframe>
+                <!-- <iframe repeat.for="frm of frame_urls" src.bind="frm.url" class="frame" width="1200" height="780"></iframe> -->
+            </div>
         </div>
     </section>s
 

@@ -19,23 +19,30 @@
         transform: scale(0.25);
     }
 }*/
+
+div.scaled-frame {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .wrap {
-    width: 320px;
-    height: 192px;
+    width: 300px;
+    height: 195px;
     padding: 0;
     overflow: hidden;
     border: 1px solid lightgray;
     float: left;
 }
 .frame {
-    width: 1280px;
-    height: 786px;
+    width: 1200px;
+    height: 780px;
     border: 0;
+    float: left;
     /*-ms-transform: scale(0.25);
     -moz-transform: scale(0.25);
     -o-transform: scale(0.25);
     -webkit-transform: scale(0.25);*/
-    transform: scale(0.25);
+    transform: scale(0.3);
     
     -ms-transform-origin: 0 0;
     -moz-transform-origin: 0 0;
