@@ -37,6 +37,9 @@ export class Members {
     only_unapproved = "";
     approval_options;
     max_members_displayed = 1000;
+    scroll_area;
+    scroll_top = 0;
+
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -101,6 +104,7 @@ export class Members {
     attached() {
         this.theme.display_header_background = true;
         this.theme.page_title = (this.caller_type) ?  'members.' + this.caller_type : "members.members";
+        this.scroll_area.scrollTop = this.scroll_top;
     }
 
     detached() {
@@ -217,6 +221,7 @@ export class Members {
             this.toggle_selection(member, event);
         } else {
             event.stopPropagation();
+            this.scroll_top = this.scroll_area.scrollTop;
             this.router.navigateToRoute('member-details', { id: member.id, keywords: "" });
         }
     }
