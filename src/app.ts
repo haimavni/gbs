@@ -77,8 +77,7 @@ export class App {
             { route: 'customize', name: 'customize', moduleId: './admin/customize' },
             { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment' },
             { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep' },
-            { route: 'gbrenner/*', name: 'gbrenner', moduleId: './gbrenner/gbrenner'},
-            { route: 'gallery', name: 'gallery', moduleId: './gallery/gallery'}
+            { route: 'gbrenner/*', name: 'gbrenner', moduleId: './gbrenner/gbrenner'}
         ]);
         this.router = router;
     }
