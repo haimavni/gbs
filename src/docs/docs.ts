@@ -13,6 +13,7 @@ import { UploadDocs } from './upload-docs';
 import { Popup } from '../services/popups';
 import { DocPage } from './doc-page';
 import { copy_to_clipboard } from '../services/dom_utils';
+import * as toastr from 'toastr';
 
 @autoinject
 @singleton()
@@ -425,6 +426,8 @@ export class Docs {
         if (event.ctrlKey) {
             let link = `<a href="${doc.doc_url}"><img src="${doc.doc_jpg_url}"/><span>${doc.story.name}</span></a>`
             copy_to_clipboard(link);
+            let msg = this.i18n.tr("docs.link-to-doc-created");
+            toastr.success(msg);
             return
         }
         this.openDialog(doc);

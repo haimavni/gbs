@@ -4,22 +4,30 @@ import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
 import { DialogController } from 'aurelia-dialog';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MemberGateway } from '../services/gateway';
+import { User } from '../services/user';
 
 @autoinject()
 export class Customize {
 
     theme;
+    api;
     app_title;
     router;
     i18n;
     controller;
     key_value_list = [];
     options_settings: MultiSelectSettings;
+    auto_reg_options = ['user.auto-reg', 'user.by-invitation'];
+    auto_reg_option = 'user.by-invitation';
+    user;
 
-    constructor(theme: Theme, router: Router, i18n: I18N, controller: DialogController) {
+    constructor(theme: Theme, router: Router, i18n: I18N, controller: DialogController, api: MemberGateway, user: User) {
         this.theme = theme;
         this.router = router;
+        this.user = user;
         this.i18n = i18n;
+        this.api = api;
         this.controller = controller;
         this.options_settings = new MultiSelectSettings({
             clear_filter_after_select: false,
@@ -36,6 +44,7 @@ export class Customize {
         let lang = this.i18n.getLocale();
         let data = this.i18n.i18next.store.data[lang].translation;
         this.create_key_value_list('', data);
+        this.auto_reg_option = this.user.config.enable_auto_registration ? 'user.auto-reg' : 'user.by-invitation';
     }
 
     create_key_value_list(prefix, data) {
@@ -79,6 +88,11 @@ export class Customize {
         let p = event.detail.option;
         console.log("p is ", p);
         this.theme.set_locale_override(p.id, p.name);
+    }
+
+    auto_reg_option_selected(option) {
+        this.auto_reg_option = option;
+        this.api.call_server('admin/set_user_registration_options', {option: this.auto_reg_option});
     }
 
 

@@ -101,7 +101,7 @@ export class AccessManager {
         this.api.call_server('admin/unlock_user', { user_id: uid }).
             then(
             (result) => {
-                toastr.pop('success', '', 'The user can now login');
+                toastr.success('The user can now login');
             });
     }
 
@@ -109,7 +109,7 @@ export class AccessManager {
         this.api.call_server('admin/resend_verification_email', { user_id: uid }).
             then(
             (result) => {
-                toastr.pop('success', '', 'Verification email was sent');
+                toastr.success('Verification email was sent');
             });
     }
 

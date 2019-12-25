@@ -189,7 +189,10 @@
         "select-colors": "בחירת צבעים",
         "sharing": "שיתוף",
         "enter-text-to-replace": "הקלד את הטקסט שברצונך להחליף ואז הקלק עליו",
-        "site-header": "כותרת האתר"
+        "site-header": "כותרת האתר",
+        "config": "הגדרות מערכת",
+        "by-invitation": "צרוף עורכים בהזמנה בלבד",
+        "auto-reg": "אפשר הרשמה עצמית"
     },
     "chats": {
         "chats": "קבוצות דיון",
@@ -331,7 +334,8 @@
         "unapproved": "מסמכים שטרם אושרו",
         "approved": "מסמכים שכבר אושרו",
         "drag-left-and-right": "גרור כאן שמאלה וימינה",
-        "edit-filters": "נושאים ומילות מפתח"
+        "edit-filters": "נושאים ומילות מפתח",
+        "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך"
     },
     "terms": {
         "terms": "מונחים",

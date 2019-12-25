@@ -190,7 +190,10 @@
         "select-colors": "Select colors",
         "sharing": "Sharing",
         "enter-text-to-replace": "Enter text to be replaced, then click on it",
-        "site-header": "Site header"
+        "site-header": "Site header",
+        "config": "System definitions",
+        "by-invitation": "Only manager adds editors",
+        "auto-reg": "Enable auto registration"
     },
     "chats": {
         "chats": "Chats",
@@ -330,7 +333,8 @@
         "unapproved": "Unapproved Documents",
         "approved": "Approved Documents",
         "drag-left-and-right": "Drag here left or right",
-        "edit-filters": "Topics and keywords"
+        "edit-filters": "Topics and keywords",
+        "link-to-doc-created": "Link to the document is ready for pasting in the editor"
     },
     "terms": {
         "terms": "Terms",
