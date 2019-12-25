@@ -12,7 +12,8 @@ export class User {
     public eventAggregator: EventAggregator;
     public editing: boolean;
     public user_name;
-    public privileges;
+    public privileges = { EDITOR: true };
+    public config = {};
     public id;
     private api;
     private i18n;
@@ -23,9 +24,6 @@ export class User {
         this.i18n = i18n;
         this.isLoggedIn = false;
         this.editing = false;
-        this.privileges = {
-            EDITOR: true
-        }
         this.readPrivileges();
         this.eventAggregator.subscribe('ROLE_CHANGED', payload => { this.handle_role_change(payload) });
     }
@@ -47,6 +45,7 @@ export class User {
                 this.isLoggedIn = result.user_id > 0;
                 this.privileges = result.privileges;
                 this.user_name = result.user_name;
+                this.config = result.config;
             });
     }
 

@@ -34,7 +34,7 @@
                         <button if.bind="! registering" id="login" name="login" class="btn btn-primary btn-block" click.trigger="do_login()">
                             ${"user.login" & t}
                         </button>
-                        <button id="register" if.bind="registering < REGISTERING_DONE" name="register" click.trigger="do_register()" class="btn btn-info btn-block">
+                        <button id="register" if.bind="user.config.enable_auto_registration && registering < REGISTERING_DONE" name="register" click.trigger="do_register()" class="btn btn-info btn-block">
                             ${"user.register" & t}
                         </button>
                         <button id="gotit" if.bind="registering == REGISTERING_DONE" name="gotit" click.trigger="finish_registration()" class="btn btn-info btn-block">
