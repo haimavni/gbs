@@ -22,7 +22,7 @@
                         value.bind="customer_data.password">
                 </div>
                 <div class="form-group" style="margin-left:0;margin-right:0;">
-                    <input type="text" class="form-control" id="inputAppName" t="[placeholder]admin.app-name"
+                    <input type="text" class="form-control" keypress.trigger="keep_only_valid_domain_chars($event)" id="inputAppName" t="[placeholder]admin.app-name"
                         value.bind="customer_data.app_name">
                 </div>
                 <div if.bind="message" class.bind="message_type" style="margin-top:8px;margin-bottom:12px;padding:8px;">

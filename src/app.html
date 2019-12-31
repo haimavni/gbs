@@ -59,6 +59,7 @@
                 <span class="footer-item"><button class="btn btn-default footer-button" click.delegate="contact_us()">Built by Lifestone</button></span>
                 <span style="direction:ltr" class="footer-item">${curr_version}</span>
                 <span class="footer-item"><button class="btn btn-default footer-button" click.delegate="feedback()">${'feedback.feedback' & t}</button></span>
+                <span if.bind="user.privileges.TESTER" class="footer-item"><button class="btn btn-default footer-button" click.delegate="create_new_app()">${'user.create-new-app' & t}</button></span>
             </div>
         </footer>
     </div>

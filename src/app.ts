@@ -9,7 +9,7 @@ import { DialogService } from 'aurelia-dialog';
 import { Promote } from './user/promote';
 import { Feedback } from './user/feedback';
 import { NONAME } from 'dns';
-
+import { AddCustomer } from './admin/add_customer';
 
 @autoinject
 export class App {
@@ -157,6 +157,10 @@ export class App {
         let mr = parseInt(mrs) - event.dx;
         if (mr > 0) {mr = 0;}
         el.style.marginRight = `${mr}px`;
+    }
+
+    create_new_app() {
+        this.dialog.open({ viewModel: AddCustomer, lock: true})
     }
 
 }
