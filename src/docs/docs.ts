@@ -424,7 +424,7 @@ export class Docs {
 
     jump_to_the_full_doc(event, doc) {
         if (event.ctrlKey) {
-            let link = `<a href="${doc.doc_url}"><img src="${doc.doc_jpg_url}"/><span>${doc.story.name}</span></a>`
+            let link = `<a href="${doc.doc_url}"><img src="${doc.doc_jpg_url}" width="64px" /><span>${doc.story.name}</span></a>`
             copy_to_clipboard(link);
             let msg = this.i18n.tr("docs.link-to-doc-created");
             toastr.success(msg);
