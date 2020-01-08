@@ -150,7 +150,8 @@
         "compress-life-summary": "Compress life summary",
         "pa-of": "Father of",
         "ma-of": "Mother of",
-        "default-name": "New member"
+        "default-name": "New member",
+        "filters": "Filters"
     },
     "user": {
         "hit-counts": "מונה הכניסות",
@@ -160,7 +161,8 @@
         "email-address": "Email address",
         "password": "Password",
         "register": "Sign up",
-        "reset-password": "I forgot the password",
+        "forgot-password": "I forgot the password",
+        "reset-password": "Reset the password",
         "confirm-password": "Confirm password",
         "first-name": "First Name",
         "last-name": "Last Name",

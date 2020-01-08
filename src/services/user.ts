@@ -90,8 +90,8 @@ export class User {
         this.privileges = privileges;
     }
 
-    reset_password() {
-        alert('reset password not ready')
+    reset_password(loginData) {
+        return this.api.call_server('default/reset_password', {email: loginData.email, password: loginData.password});
     }
 
     register(loginData) {

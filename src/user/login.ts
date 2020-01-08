@@ -20,6 +20,7 @@ export class Login {
     NOT_REGISTERING = 0;
     REGISTERING = 1;
     REGISTERING_DONE = 2;
+    PASSWORD_RESET = 3;
     registering = this.NOT_REGISTERING;
 
     constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, i18n: I18N) {
@@ -65,7 +66,12 @@ export class Login {
     }
 
     do_reset_password() {
-        this.user.reset_password()
-            .then(() => { this.controller.ok('good') });
+        if (this.registering == this.PASSWORD_RESET) {
+            this.user.reset_password(this.loginData);
+        } else {
+            this.registering = this.PASSWORD_RESET;
+            this.message = 'user.howto-reset-password';
+            this.message_type = 'info';
+        }
     }
 }

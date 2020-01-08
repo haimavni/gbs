@@ -149,7 +149,8 @@
         "compress-life-summary": "צמצם",
         "pa-of": "אבא של",
         "ma-of": "אמא של",
-        "default-name": "חבר חדש"
+        "default-name": "חבר חדש",
+        "filters": "מסננים"
     },
     "user": {
         "login": "התחבר כעורך ",
@@ -158,7 +159,8 @@
         "email-address": "כתובת דואר אלקטרוני",
         "password": "סיסמה",
         "register": "הרשם",
-        "reset-password": "שכחתי את הסיסמה",
+        "forgot-password": "שכחתי את הסיסמה",
+        "reset-password": "הכנס סיסמה חדשה",
         "confirm-password": "אישור סיסמה",
         "first-name": "שם פרטי",
         "last-name": "שם משפחה",

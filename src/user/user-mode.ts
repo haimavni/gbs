@@ -11,7 +11,6 @@ import { copy_to_clipboard } from '../services/dom_utils';
 import { Customize } from '../admin/customize';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
-import { link } from "fs";
 
 @autoinject()
 export class UserMode {

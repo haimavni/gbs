@@ -4,26 +4,33 @@
         <div>
             <div class="row">
                 <div class="col-md-10 col-md-offset-2" style="padding-right:50px;">
-                    <div class="inputs-inline" >
+                    <div class="inputs-inline">
                         <div id="members-filter" class="input-group">
-                            <search-input value.bind="filter" placeholder="members.filter" height="38" help_topic="members-help"></search-input>
+                            <search-input value.bind="filter" placeholder="members.filter" height="38"
+                                help_topic="members-help"></search-input>
                         </div>
                         <div class="input-group members-selector" if.bind="theme.is_desktop && ! relatives_mode">
-                            <select value.bind="order" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.trigger="order_changed($event)">
-                                <option repeat.for="option of sorting_options" model.bind="option.value">${option.name}</option>
+                            <select value.bind="order"
+                                style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl"
+                                change.trigger="order_changed($event)">
+                                <option repeat.for="option of sorting_options" model.bind="option.value">${option.name}
+                                </option>
                             </select>
                         </div>
-                        <div class="input-group members-selector" 
+                        <div class="input-group members-selector"
                             if.bind="user.privileges.DATA_AUDITOR &&! relatives_mode">
-                            <select value.bind="only_unapproved" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl">
-                                <option dir="rtl" repeat.for="option of approval_options" model.bind="option.value">${option.name}</option>
+                            <select value.bind="only_unapproved"
+                                style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl">
+                                <option dir="rtl" repeat.for="option of approval_options" model.bind="option.value">
+                                    ${option.name}</option>
                             </select>
                         </div>
                         <div class="input-group" style="padding-top:16px;" if.bind="! relatives_mode">
                             <help topic.bind="topic_members" position="bottom"></help>
                         </div>
                         <div if.bind="user.editing && ! caller_type" class="input-group" style="padding-top:16px;">
-                            <a route-href="route: member-details; params.bind: {id:'new'}" class="btn btn-success cl-create-btn">
+                            <a route-href="route: member-details; params.bind: {id:'new'}"
+                                class="btn btn-success cl-create-btn">
                                 <i class="far fa-plus-square"></i>
                                 ${'members.new' & t}
                             </a>
@@ -33,29 +40,56 @@
                                 ${'members.back-to-' + caller_type & t}
                             </button>
                         </div>
-                        <div if.bind="selected_members.size == 1 && !caller_type" class="input-group" style="padding-top:16px;" >
+                        <div if.bind="selected_members.size == 1 && !caller_type" class="input-group"
+                            style="padding-top:16px;">
                             <button class="btn btn-primary" click.trigger="toggle_relatives_mode()">
                                 ${ (relatives_mode ? 'members.all-members' : 'members.family-only') & t}
                             </button>
                         </div>
                         <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
                             <help topic="family-connections" position="bottom"></help>
-`                        </div>
+                        </div>
+                        <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
+                            <help topic="family-connections" position="bottom"></help>
+                        </div>
+                        <div class="btn-group dropdown"
+                            aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                            <button class="btn btn-basic btn-lg dropdown-toggle"
+                                style="padding:5px;height:36px;font-size:90%;margin-top:16px;margin-right:5px;border:solid 1px lightgray;"
+                                aubs-dropdown-toggle t="[title]members.filters">
+                                ${'members.filters' & t}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-left">
+                                <li class="dropdown-item">
+                                    <select value.bind="order"
+                                        style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray"
+                                        dir="rtl" change.trigger="order_changed($event)">
+                                        <option repeat.for="option of sorting_options" model.bind="option.value">
+                                            ${option.name}
+                                        </option>
+                                    </select>
+                                </li>
+                                <li class="dropdown-item">
+                                    dead or alive
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="member-list" class="member-list content-area unselectable" 
-                css="min-height:${theme.min_height-320}px;max-height:590px;"
-                ref="scroll_area">
+            <div id="member-list" class="member-list content-area unselectable"
+                css="min-height:${theme.min_height-320}px;max-height:590px;" ref="scroll_area">
                 <ul class="list-group">
                     <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : max_members_displayed | filtervisibility : 0 "
                         if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || !member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         dir="rtl">
-                        <a click.trigger="member_clicked(member, $event)" tapandhold="500" longtouch.delegate="toggle_selection(member, $event)" 
-                            disabled.bind="not_ready(member)" style="color:black;cursor:pointer;">
-                            <img src.bind="member.facePhotoURL" 
+                        <a click.trigger="member_clicked(member, $event)" tapandhold="500"
+                            longtouch.delegate="toggle_selection(member, $event)" disabled.bind="not_ready(member)"
+                            style="color:black;cursor:pointer;">
+                            <img src.bind="member.facePhotoURL"
                                 css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" />
                             <h6 class="list-group-item-heading">${member.name}</h6>
                         </a>

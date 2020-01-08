@@ -21,10 +21,10 @@
                                     value.bind="loginData.confirm_password"
                                     t="[placeholder]user.confirm-password">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" if.bind="registering != PASSWORD_RESET">
                                 <input type="text" name="first_name" id="first_name" class="form-control input-sm" value.bind="loginData.first_name" t="[placeholder]user.first-name">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" if.bind="registering != PASSWORD_RESET">
                                 <input type="text" name="last_name" id="last_name" class="form-control input-sm" value.bind="loginData.last_name" t="[placeholder]user.last-name">
                             </div>
                         </div>
@@ -40,10 +40,13 @@
                         <button id="gotit" if.bind="registering == REGISTERING_DONE" name="gotit" click.trigger="finish_registration()" class="btn btn-info btn-block">
                             ${"user.register-done" & t}
                         </button>
-                        <button if.bind="login_failed" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">
+                        <button if.bind="login_failed && registering != PASSWORD_RESET" id="forgot_password" click.trigger="do_reset_password()" name="forgot_password" class="btn btn-info btn-block">
+                            ${"user.forgot-password" & t}
+                        </button>
+                        <button if.bind="registering == PASSWORD_RESET" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">
                             ${"user.reset-password" & t}
                         </button>
-
+    
                     </form>
                 </div>
             </div>
