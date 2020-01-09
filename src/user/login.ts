@@ -67,10 +67,16 @@ export class Login {
 
     do_reset_password() {
         if (this.registering == this.PASSWORD_RESET) {
-            this.user.reset_password(this.loginData);
+            if (this.loginData.password != this.loginData.confirm_password) {
+                this.message = "Passwords are different";
+                this.message_type = 'error';
+                return;
+            }
+            this.user.reset_password(this.loginData)
+                .then(() => { this.finish_registration(); });
         } else {
             this.registering = this.PASSWORD_RESET;
-            this.message = 'user.howto-reset-password';
+            this.message = 'user.howto-complete-reset-password';
             this.message_type = 'info';
         }
     }

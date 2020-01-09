@@ -43,7 +43,7 @@
                         <button if.bind="login_failed && registering != PASSWORD_RESET" id="forgot_password" click.trigger="do_reset_password()" name="forgot_password" class="btn btn-info btn-block">
                             ${"user.forgot-password" & t}
                         </button>
-                        <button if.bind="registering == PASSWORD_RESET" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">
+                        <button if.bind="registering == PASSWORD_RESET" disabled.bind="loginData.password != loginData.confirm_password" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">
                             ${"user.reset-password" & t}
                         </button>
     
