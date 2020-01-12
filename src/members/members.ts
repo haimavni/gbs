@@ -413,7 +413,7 @@ export class Members {
     check_if_cr(item, event) {
         if (event.keyCode == 13) {
             item.editing_mode = false;
-            return false;
+            //return false;
         }
         return true;
     }
