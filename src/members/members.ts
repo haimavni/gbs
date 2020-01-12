@@ -7,6 +7,57 @@ import { sort_array } from '../services/sort_array';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
+import { Misc } from '../services/misc';
+
+class Answer {
+    text = "";
+    aid = 0;
+    checked = false;
+    input_mode = false;
+
+    constructor(text, aid) {
+        this.text = text;
+        this.aid = aid;
+    }
+}
+
+class Question {
+    question = "";
+    qid = 0;
+    checked = false;
+    input_mode = false;
+    editable = false;
+    answers: Answer[];
+
+    constructor(question, qid, editable, answers=[]) {
+        this.question = question,
+        this.qid = qid,
+        this.editable = editable;
+        for (let answer of answers) {
+            this.answers.push(new Answer(answer.text, answer.aid))
+        }
+    }
+
+    add_answer(text, id) {
+        this.answers.push(new Answer(text , id));
+    }
+}
+
+class Questionaire {
+    name: string = "";
+    questions: Question[] = [];
+
+    constructor(name, questions: Question[] = []) {
+        this.name = name;
+        for (let question of questions) {
+            this.questions.push(question);
+        }
+    }
+
+    add_question(question) {
+        this.questions.push(question);
+    }
+}
 
 @autoinject()
 @singleton()
@@ -39,7 +90,22 @@ export class Members {
     max_members_displayed = 1000;
     scroll_area;
     scroll_top = 0;
-
+    questions = [
+        {
+            question: 'שאלה ראשונה', qid: 0, input_mode: false, is_open: false,
+            answers: [{ text: 'answer11', aid: 0, checked: true, input_mode: false }, { text: 'answer12', aid: 1, checked: false, input_mode: false }, { text: 'answer13', aid: 2, checked: false, input_mode: false }]
+        },
+        {
+            question: 'שאלה שניה', qid: 1, input_mode: false, is_open: false,
+            answers: [{ text: 'answer21', aid: 3, checked: false, input_mode: false }, { text: 'answer22', aid: 4, checked: true, input_mode: false }, { text: 'answer23', aid: 5, checked: false, input_mode: false }]
+        },
+        {
+            question: 'שאלה שלישית', qid: 2, input_mode: false, is_open: false,
+            answers: [{ text: 'answer31', aid: 6, checked: false, input_mode: false }, { text: 'answer32', aid: 7, checked: false, input_mode: false }, { text: 'answer33', aid: 8, checked: true, input_mode: false }]
+        }
+    ];
+    autoClose = 'disabled';
+    filter_menu_open = false;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -65,8 +131,8 @@ export class Members {
             this.sorting_options.push({ value: "has_profile_photo", name: this.i18n.tr('members.profile-missing-first') });
         }
         this.approval_options = [
-            {value: '', name: this.i18n.tr('members.all-members')},
-            {value: 'x', name: this.i18n.tr('members.unapproved-only')}
+            { value: '', name: this.i18n.tr('members.all-members') },
+            { value: 'x', name: this.i18n.tr('members.unapproved-only') }
         ];
 
     }
@@ -103,7 +169,7 @@ export class Members {
 
     attached() {
         this.theme.display_header_background = true;
-        this.theme.page_title = (this.caller_type) ?  'members.' + this.caller_type : "members.members";
+        this.theme.page_title = (this.caller_type) ? 'members.' + this.caller_type : "members.members";
         this.scroll_area.scrollTop = this.scroll_top;
     }
 
@@ -235,9 +301,9 @@ export class Members {
             { user_id: this.user.id, caller_id: this.caller_id, caller_type: caller_type, member_ids: member_ids })
             .then(response => {
                 this.clear_member_group();
-                if (caller_type=='story') {
+                if (caller_type == 'story') {
                     this.router.navigateToRoute('story-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4EVENT });
-                } if (caller_type=='term') {
+                } if (caller_type == 'term') {
                     this.router.navigateToRoute('term-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4TERM });
                 }
             });
@@ -271,6 +337,85 @@ export class Members {
 
     toggled(state) {
         console.log("state: ", state);
+    }
+
+    @computedFrom('user.editing', 'selected_members')
+    get q_state() {
+        if (this.user.editing) {
+            if (this.selected_members.size > 0) return 'applying-q';
+            return 'editing-q'
+        } else return 'using-q'
+    }
+
+    alive(what) {
+
+    }
+
+    filter_gender(gender) {
+
+    }
+
+    apply_answer(question, answer) {
+        if (this.q_state == 'applying-q') {
+            for (let ans of question.answers) {
+                ans.checked = ans.aid == answer.aid;
+            }
+        } else if (this.q_state == 'using-q') {
+            answer.checked = !answer.checked;
+        }
+    }
+
+    q_toggled(question, event) {
+        for (let q of this.questions) {
+            if (q.qid != question.qid) {
+                q.is_open = false;
+            }
+        }
+        if (this.q_state == 'editing-q') {
+            if (question.answers.length == 0 || Misc.last(question.answers).text) {
+                question.answers.push({text: "", aid: 0, checked: false, input_mode: false})
+            }
+        }
+    }
+
+    main_filter_toggled() {
+        this.filter_menu_open = !this.filter_menu_open;
+        if (this.q_state == 'editing-q') {
+            for (let question of this.questions) {
+                question.is_open = false;
+            }
+            if (this.filter_menu_open) {
+                //create new empty question for adding
+                if (this.questions.length == 0 || Misc.last(this.questions).question) {
+                    let q_empty = { question: "", qid: 0, input_mode: true, is_open: false, answers: [] };
+                    this.questions.push(q_empty);
+                    this.questions = this.questions.splice(0);
+                }
+            } else {
+                //remove the extra empty question
+                if (this.questions.length > 0 && !Misc.last(this.questions).question) {
+                    this.questions.pop();
+                }
+            }
+        }
+    }
+
+    edit_question(question) {
+        question.editing_mode = true;
+        return false;
+    }
+
+    edit_answer(answer) {
+        answer.editing_mode = true;
+        return false;
+    }
+
+    check_if_cr(item, event) {
+        if (event.keyCode == 13) {
+            item.editing_mode = false;
+            return false;
+        }
+        return true;
     }
 
 }

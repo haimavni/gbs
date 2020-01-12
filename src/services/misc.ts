@@ -79,4 +79,8 @@ export class Misc {
         return s;
     }
 
+    static last(array) {
+        return array[array.length - 1];
+    }
+
 }

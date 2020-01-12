@@ -266,3 +266,36 @@ div.inputs-inline {
     padding-top: 16px;
 }
 
+ul.filters {
+    padding-bottom: 16px;
+    margin-right: 6px;
+    li {
+        height: 20px;
+        div {
+            display: flex;
+        }
+        button {
+            padding-right: 0px;
+        }
+        a {
+            &.checked {
+                background-color: lightblue;
+            }
+        }
+        ul {
+            background-color: #ffffff;
+            margin-top: -30px;
+            padding-right: 12px;
+            margin-right:100px;
+            li>div {
+                display: flex;
+            }
+        }
+        i {
+            margin-top: 6px;
+            margin-left: 5px;
+            margin-right:5px;
+        }
+    }
+}
+

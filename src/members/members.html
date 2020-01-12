@@ -53,25 +53,113 @@
                             <help topic="family-connections" position="bottom"></help>
                         </div>
                         <div class="btn-group dropdown"
-                            aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                            aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled(); is-open.bind: filter_menu_open">
                             <button class="btn btn-basic btn-lg dropdown-toggle"
                                 style="padding:5px;height:36px;font-size:90%;margin-top:16px;margin-right:5px;border:solid 1px lightgray;"
                                 aubs-dropdown-toggle t="[title]members.filters">
                                 ${'members.filters' & t}
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-left">
-                                <li class="dropdown-item">
-                                    <select value.bind="order"
-                                        style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray"
-                                        dir="rtl" change.trigger="order_changed($event)">
-                                        <option repeat.for="option of sorting_options" model.bind="option.value">
-                                            ${option.name}
-                                        </option>
-                                    </select>
+                            <ul class="dropdown-menu dropdown-menu-right filters">
+                                <li class="dropdown-item" if.bind="q_state != 'editing-q'">
+                                    <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;"
+                                        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                                        <button class="btn btn-link btn-md dropdown-toggle"
+                                            style="text-decoration:none;position:relative;margin-bottom:10px;"
+                                            aubs-dropdown-toggle>
+                                            ${'members.dead-or-alive' & t}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" style="margin-left:100px;">
+                                            <li>
+                                                <div>
+                                                    <a class="dropdown-item" href="#" click.trigger="alive(true)">
+                                                        ${'members.alive' & t}
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <a class="dropdown-item" href="#" click.trigger="alive(false)">
+                                                        ${'members.dead' & t}
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
-                                <li class="dropdown-item">
-                                    dead or alive
+                                <li class="dropdown-item" if.bind="q_state != 'editing-q'">
+                                    <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;"
+                                        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                                        <button class="btn btn-link btn-md dropdown-toggle"
+                                            style="text-decoration:none;position:relative;margin-bottom:10px;"
+                                            aubs-dropdown-toggle>
+                                            ${'members.which-gender' & t}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" style="margin-left:100px;">
+                                            <li>
+                                                <div>
+                                                    <a class="dropdown-item" href="#"
+                                                        click.trigger="filter_gender('female')"
+                                                        click.delegate="apply_gender('female')">
+                                                        ${'members.members-f' & t}
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <a class="dropdown-item" href="#" click.trigger="filter_gender('male')"
+                                                        click.delegate="apply_gender('male')">
+                                                        ${'members.members-m' & t}
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li if.bind="q_state == 'applying-q'">
+                                                <div>
+                                                    <a class="dropdown-item" href="#" click.trigger="filter_gender('no-gender')"
+                                                        click.delegate="apply_gender('no-gender')">
+                                                        ${'members.no-gender' & t}
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item" repeat.for="question of questions">
+                                    <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;"
+                                        aubs-dropdown="auto-close.bind: autoClose; is-open.bind: question.is_open; on-toggle.call: q_toggled(question, $event)">
+                                        <button class="btn btn-link btn-md dropdown-toggle"
+                                            if.bind="!question.editing_mode"
+                                            style="text-decoration:none;position:relative;margin-bottom:10px;"
+                                            aubs-dropdown-toggle>
+                                            <span>
+                                                <i if.bind="q_state=='editing-q'" class="fas fa-sm fa-pencil"
+                                                    click.trigger="edit_question(question)"></i>
+                                                ${question.question || 'members.new-question' & t}
+                                            </span>
+                                        </button>
+                                        <input if.bind="question.editing_mode" type="text"
+                                            value.bind="question.question" t="[placeholder]members.enter-question"
+                                            blur.trigger="question.editing_mode=false"
+                                            keydown.delegate="check_if_cr(question, $event)" />
+                                        <ul class="dropdown-menu dropdown-menu-right" style="margin-right:100px;">
+                                            <li repeat.for="answer of question.answers">
+                                                <div style="display:flex">
+                                                    <i if.bind="q_state=='editing-q' && ! answer.editing_mode" class="fas fa-sm fa-pencil"
+                                                        style="float:right"
+                                                        click.trigger="edit_answer(answer)">
+                                                    </i>
+                                                    <a if.bind="! answer.editing_mode"
+                                                        class="dropdown-item ${answer.checked ? 'checked' : ''}" href="#"
+                                                        click.trigger="apply_answer(question, answer)">
+                                                        ${answer.text || 'members.new-option' & t }
+                                                    </a>
+                                                    <input if.bind="answer.editing_mode" type="text"
+                                                        value.bind="answer.text" blur.trigger="answer.editing_mode=false"
+                                                        keydown.delegate="check_if_cr(question, $event)" />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -86,7 +174,7 @@
                         if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || !member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         dir="rtl">
-                        <a click.trigger="member_clicked(member, $event)" tapandhold="500"
+                        <a click.delegate="member_clicked(member, $event)" tapandhold="500"
                             longtouch.delegate="toggle_selection(member, $event)" disabled.bind="not_ready(member)"
                             style="color:black;cursor:pointer;">
                             <img src.bind="member.facePhotoURL"
