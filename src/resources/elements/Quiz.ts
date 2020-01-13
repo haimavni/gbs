@@ -27,17 +27,17 @@ class Question {
     editable = false;
     answers: Answer[];
 
-    constructor(question, qid, editable, answers=[]) {
+    constructor(question, qid, editable, answers = []) {
         this.question = question,
-        this.qid = qid,
-        this.editable = editable;
+            this.qid = qid,
+            this.editable = editable;
         for (let answer of answers) {
             this.answers.push(new Answer(answer.text, answer.aid))
         }
     }
 
     add_answer(text, id) {
-        this.answers.push(new Answer(text , id));
+        this.answers.push(new Answer(text, id));
     }
 }
 
@@ -56,9 +56,15 @@ class Questionaire {
     }
 }
 
+export enum QState {
+    USING,
+    APPLYING,
+    EDITING
+}
+
 @inject(DOM.Element, I18N, DialogService, User)
-export class Quiz {
-    @bindable ready_to_apply: boolean;
+export class QuizCustomElement {
+    @bindable q_state: QState;
     user;
     questions = [
         {
@@ -77,7 +83,6 @@ export class Quiz {
     autoClose = 'disabled';
     filter_menu_open = false;
 
-
     constructor(user: User) {
         this.user = user;
     }
@@ -86,21 +91,22 @@ export class Quiz {
         console.log("state: ", state);
     }
 
-    @computedFrom('user.editing', 'selected_members')
-    get q_state() {
-        if (this.user.editing) {
-            //ready_to_apply may be, for example, this.selected_members.size > 0
-            if (this.ready_to_apply) return 'applying-q';
-            return 'editing-q'
-        } else return 'using-q'
-    }
+    // below is a how q_state is computed in members.ts:
+    // @computedFrom('user.editing', 'selected_members')
+    // get q_state() {
+    //     if (this.user.editing) {
+    //         this.selected_members.size > 0
+    //         if (this.ready_to_apply) return 'applying-q';
+    //         return 'editing-q'
+    //     } else return 'using-q'
+    // }
 
     apply_answer(question, answer) {
-        if (this.q_state == 'applying-q') {
+        if (this.q_state == QState.APPLYING) {
             for (let ans of question.answers) {
                 ans.checked = ans.aid == answer.aid;
             }
-        } else if (this.q_state == 'using-q') {
+        } else if (this.q_state == QState.USING) {
             answer.checked = !answer.checked;
         }
     }
@@ -111,16 +117,16 @@ export class Quiz {
                 q.is_open = false;
             }
         }
-        if (this.q_state == 'editing-q') {
+        if (this.q_state == QState.EDITING) {
             if (question.answers.length == 0 || Misc.last(question.answers).text) {
-                question.answers.push({text: "", aid: 0, checked: false, input_mode: false})
+                question.answers.push({ text: "", aid: 0, checked: false, input_mode: false })
             }
         }
     }
 
     main_filter_toggled() {
         this.filter_menu_open = !this.filter_menu_open;
-        if (this.q_state == 'editing-q') {
+        if (this.q_state == QState.EDITING) {
             for (let question of this.questions) {
                 question.is_open = false;
             }

@@ -24,6 +24,7 @@ export function configure(config) {
     './elements/locale-picker',
     './elements/chats/chatroom-group',
     './elements/chats/chatroom',
-    './elements/chats/chat-button'
+    './elements/chats/chat-button',
+    './elements/quiz'
   ]);
 }

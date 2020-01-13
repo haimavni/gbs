@@ -52,6 +52,7 @@
                         <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
                             <help topic="family-connections" position="bottom"></help>
                         </div>
+                        <quiz q_state.bind="q_state"></quiz>
                         <div class="btn-group dropdown"
                             aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled(); is-open.bind: filter_menu_open">
                             <button class="btn btn-basic btn-lg dropdown-toggle"

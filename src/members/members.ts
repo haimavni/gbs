@@ -8,6 +8,7 @@ import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
 import { Misc } from '../services/misc';
+import { QState } from '../resources/elements/quiz';
 
 class Answer {
     text = "";
@@ -342,9 +343,9 @@ export class Members {
     @computedFrom('user.editing', 'selected_members')
     get q_state() {
         if (this.user.editing) {
-            if (this.selected_members.size > 0) return 'applying-q';
-            return 'editing-q'
-        } else return 'using-q'
+            if (this.selected_members.size > 0) return QState.APPLYING;
+            return QState.EDITING
+        } else return QState.USING
     }
 
     alive(what) {
@@ -356,11 +357,11 @@ export class Members {
     }
 
     apply_answer(question, answer) {
-        if (this.q_state == 'applying-q') {
+        if (this.q_state == QState.APPLYING) {
             for (let ans of question.answers) {
                 ans.checked = ans.aid == answer.aid;
             }
-        } else if (this.q_state == 'using-q') {
+        } else if (this.q_state == QState.USING) {
             answer.checked = !answer.checked;
         }
     }
@@ -371,7 +372,7 @@ export class Members {
                 q.is_open = false;
             }
         }
-        if (this.q_state == 'editing-q') {
+        if (this.q_state == QState.EDITING) {
             if (question.answers.length == 0 || Misc.last(question.answers).text) {
                 question.answers.push({text: "", aid: 0, checked: false, input_mode: false})
             }
@@ -380,7 +381,7 @@ export class Members {
 
     main_filter_toggled() {
         this.filter_menu_open = !this.filter_menu_open;
-        if (this.q_state == 'editing-q') {
+        if (this.q_state == QState.EDITING) {
             for (let question of this.questions) {
                 question.is_open = false;
             }
