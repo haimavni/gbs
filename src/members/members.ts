@@ -335,12 +335,7 @@ export class Members {
             return 'members'
         }
     }
-
-    toggled(state) {
-        console.log("state: ", state);
-    }
-
-    @computedFrom('user.editing', 'selected_members')
+    @computedFrom('user.editing', 'selected_members.size')
     get q_state() {
         if (this.user.editing) {
             if (this.selected_members.size > 0) return QState.APPLYING;
@@ -354,69 +349,6 @@ export class Members {
 
     filter_gender(gender) {
 
-    }
-
-    apply_answer(question, answer) {
-        if (this.q_state == QState.APPLYING) {
-            for (let ans of question.answers) {
-                ans.checked = ans.aid == answer.aid;
-            }
-        } else if (this.q_state == QState.USING) {
-            answer.checked = !answer.checked;
-        }
-    }
-
-    q_toggled(question, event) {
-        for (let q of this.questions) {
-            if (q.qid != question.qid) {
-                q.is_open = false;
-            }
-        }
-        if (this.q_state == QState.EDITING) {
-            if (question.answers.length == 0 || Misc.last(question.answers).text) {
-                question.answers.push({text: "", aid: 0, checked: false, input_mode: false})
-            }
-        }
-    }
-
-    main_filter_toggled() {
-        this.filter_menu_open = !this.filter_menu_open;
-        if (this.q_state == QState.EDITING) {
-            for (let question of this.questions) {
-                question.is_open = false;
-            }
-            if (this.filter_menu_open) {
-                //create new empty question for adding
-                if (this.questions.length == 0 || Misc.last(this.questions).question) {
-                    let q_empty = { question: "", qid: 0, input_mode: true, is_open: false, answers: [] };
-                    this.questions.push(q_empty);
-                    this.questions = this.questions.splice(0);
-                }
-            } else {
-                //remove the extra empty question
-                if (this.questions.length > 0 && !Misc.last(this.questions).question) {
-                    this.questions.pop();
-                }
-            }
-        }
-    }
-
-    edit_question(question) {
-        question.editing_mode = true;
-        return false;
-    }
-
-    edit_answer(answer) {
-        answer.editing_mode = true;
-        return false;
-    }
-
-    check_if_cr(item, event) {
-        if (event.keyCode == 13) {
-            item.editing_mode = false;
-            //return false;
-        }
-        return true;
     }
 
 }

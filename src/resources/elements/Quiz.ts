@@ -86,25 +86,21 @@ export class QuizCustomElement {
     constructor(user: User) {
         this.user = user;
     }
+    EDITING = QState.EDITING;
 
     toggled(state) {
         console.log("state: ", state);
     }
 
-    // below is a how q_state is computed in members.ts:
-    // @computedFrom('user.editing', 'selected_members')
-    // get q_state() {
-    //     if (this.user.editing) {
-    //         this.selected_members.size > 0
-    //         if (this.ready_to_apply) return 'applying-q';
-    //         return 'editing-q'
-    //     } else return 'using-q'
-    // }
-
     apply_answer(question, answer) {
+        console.log("apply answer. state: ", this.q_state);
         if (this.q_state == QState.APPLYING) {
             for (let ans of question.answers) {
-                ans.checked = ans.aid == answer.aid;
+                if (ans.aid == answer.aid) {
+                    ans.checked = !ans.checked;
+                } else {
+                    ans.checked = false;
+                }
             }
         } else if (this.q_state == QState.USING) {
             answer.checked = !answer.checked;
