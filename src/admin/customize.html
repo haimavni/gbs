@@ -35,14 +35,23 @@
                         name-changed.delegate="dic_item_changed($event)" place_holder_text="user.enter-text-to-replace">
                     </multi-select>
                 </div>
-                <div class="row">
-                    <h3>${'user.config' & t}</h3>
-                    <button repeat.for="uf of auto_reg_options" style="margin-left:8px"
-                        class="btn btn-${uf==auto_reg_option ? 'primary' : 'default'}" click.delegate="auto_reg_option_selected(uf)">
-                        <span style="font-weight:bolder">${uf & t}</span>
-                    </button>
+                <h3>${'user.config' & t}</h3>
+                <div style="display:flex">
+                    <div class="row">
+                        <button repeat.for="uf of auto_reg_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${uf==auto_reg_option ? 'primary' : 'default'} customization"
+                            click.delegate="auto_reg_option_selected(uf)">
+                            <span style="font-weight:bolder">${uf & t}</span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button repeat.for="na of new_app_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${na==new_app_option ? 'primary' : 'default'} customization"
+                            click.delegate="new_app_option_selected(na)">
+                            <span style="font-weight:bolder">${na & t}</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
         </ux-dialog-body>
         <!-- <ux-dialog-footer>
             <button type="button" class="btn btn-primary" click.delegate="save()">${'members.save' & t}</button>

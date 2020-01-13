@@ -207,7 +207,9 @@
         "config": "הגדרות מערכת",
         "by-invitation": "צרוף עורכים בהזמנה בלבד",
         "auto-reg": "אפשר הרשמה עצמית",
-        "create-new-app": "ליצירת האתר שלי"
+        "create-new-app": "ליצירת האתר שלי",
+        "new-app-enabled": "אפשר יצירת אתר חדש",
+        "new-app-disabled": "ללא יצירת אתר חדש"
     },
     "chats": {
         "chats": "קבוצות דיון",

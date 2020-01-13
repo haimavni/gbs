@@ -208,7 +208,9 @@
         "config": "System definitions",
         "by-invitation": "Only manager adds editors",
         "auto-reg": "Enable auto registration",
-        "create-new-app": "Create my own site"
+        "create-new-app": "Create my own site",
+        "new-app-enabled": "Expose new app button",
+        "new-app-disabled": "No new app button"
     },
     "chats": {
         "chats": "Chats",
