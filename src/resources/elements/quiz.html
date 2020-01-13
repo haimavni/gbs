@@ -1,0 +1,48 @@
+<template>
+    <div class="btn-group dropdown"
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled(); is-open.bind: filter_menu_open">
+        <button class="btn btn-basic btn-lg dropdown-toggle"
+            style="padding:5px;height:36px;font-size:90%;margin-top:16px;margin-right:5px;border:solid 1px lightgray;"
+            aubs-dropdown-toggle t="[title]members.filters">
+            ${'members.filters' & t}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right filters">
+            <li class="dropdown-item" repeat.for="question of questions">
+                <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;"
+                    aubs-dropdown="auto-close.bind: autoClose; is-open.bind: question.is_open; on-toggle.call: q_toggled(question, $event)">
+                    <button class="btn btn-link btn-md dropdown-toggle" if.bind="!question.editing_mode"
+                        style="text-decoration:none;position:relative;margin-bottom:10px;width:100%;" aubs-dropdown-toggle>
+                        <span style="float:right;display:flex;width:100%;">
+                            <i if.bind="q_state==EDITING" class="fas fa-sm fa-pencil"
+                                click.trigger="edit_question(question)"></i>
+                            ${question.question || 'members.new-question' & t}
+                        </span>
+                        <span class="caret"></span>
+                    </button>
+                    <input if.bind="question.editing_mode" type="text" value.bind="question.question"
+                        t="[placeholder]members.enter-question" blur.trigger="question.editing_mode=false"
+                        keydown.delegate="check_if_cr(question, $event)" />
+                    <ul class="dropdown-menu dropdown-menu-right" style="margin-right:100px;">
+                        <li repeat.for="answer of question.answers">
+                            <div style="display:flex">
+                                <i if.bind="q_state==EDITING && ! answer.editing_mode" class="fas fa-sm fa-pencil"
+                                    style="float:right" click.trigger="edit_answer(answer)">
+                                </i>
+                                <a if.bind="! answer.editing_mode"
+                                    class="dropdown-item ${answer.checked ? 'checked' : ''}" href="#"
+                                    click.trigger="apply_answer(question, answer)">
+                                    ${answer.text || 'members.new-option' & t }
+                                </a>
+                                <input if.bind="answer.editing_mode" type="text" value.bind="answer.text"
+                                    blur.trigger="answer.editing_mode=false"
+                                    keydown.delegate="check_if_cr(question, $event)" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</template>
