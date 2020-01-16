@@ -150,14 +150,16 @@
         "pa-of": "אבא של",
         "ma-of": "אמא של",
         "default-name": "חבר חדש",
-        "filters": "מסננים",
         "dead-or-alive": "עדיין אתנו?",
         "dead": "כבר לא איתנו",
         "alive": "איתנו",
         "which-gender": "איזה מין?",
         "members-f": "חברות",
         "members-m": "חברים",
-        "no-gender": "טרם הוגדר",
+        "no-gender": "טרם הוגדר"
+    },
+    "quiz": {
+        "filters": "מסננים",
         "new-question": "שאלה חדשה",
         "new-option": "תשובה חדשה",
         "enter-question": "הקלד שאלה חדשה",

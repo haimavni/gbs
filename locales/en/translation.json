@@ -151,14 +151,16 @@
         "pa-of": "Father of",
         "ma-of": "Mother of",
         "default-name": "New member",
-        "filters": "Filters",
         "dead-or-alive": "Alive members?",
         "dead": "deceased",
         "alive": "alive",
         "which-gender": "Which gender?",
         "members-f": "Females",
         "members-m": "Males",
-        "no-gender": "Gender unknown",
+        "no-gender": "Gender unknown"
+    },
+    "quiz": {
+        "filters": "Filters",
         "new-question": "New question",
         "new-option": "New option",
         "enter-question": "Enter new question",
