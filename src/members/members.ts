@@ -3,62 +3,10 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
-import { sort_array } from '../services/sort_array';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
-import { Misc } from '../services/misc';
-import { QState } from '../resources/elements/quiz';
-
-class Answer {
-    text = "";
-    aid = 0;
-    checked = false;
-    input_mode = false;
-
-    constructor(text, aid) {
-        this.text = text;
-        this.aid = aid;
-    }
-}
-
-class Question {
-    question = "";
-    qid = 0;
-    checked = false;
-    input_mode = false;
-    editable = false;
-    answers: Answer[];
-
-    constructor(question, qid, editable, answers=[]) {
-        this.question = question,
-        this.qid = qid,
-        this.editable = editable;
-        for (let answer of answers) {
-            this.answers.push(new Answer(answer.text, answer.aid))
-        }
-    }
-
-    add_answer(text, id) {
-        this.answers.push(new Answer(text , id));
-    }
-}
-
-class Questionaire {
-    name: string = "";
-    questions: Question[] = [];
-
-    constructor(name, questions: Question[] = []) {
-        this.name = name;
-        for (let question of questions) {
-            this.questions.push(question);
-        }
-    }
-
-    add_question(question) {
-        this.questions.push(question);
-    }
-}
+import { QState, Question, Answer } from '../resources/elements/quiz';
 
 @autoinject()
 @singleton()
@@ -91,22 +39,8 @@ export class Members {
     max_members_displayed = 1000;
     scroll_area;
     scroll_top = 0;
-    questions = [
-        {
-            question: 'שאלה ראשונה', qid: 0, input_mode: false, is_open: false,
-            answers: [{ text: 'answer11', aid: 0, checked: true, input_mode: false }, { text: 'answer12', aid: 1, checked: false, input_mode: false }, { text: 'answer13', aid: 2, checked: false, input_mode: false }]
-        },
-        {
-            question: 'שאלה שניה', qid: 1, input_mode: false, is_open: false,
-            answers: [{ text: 'answer21', aid: 3, checked: false, input_mode: false }, { text: 'answer22', aid: 4, checked: true, input_mode: false }, { text: 'answer23', aid: 5, checked: false, input_mode: false }]
-        },
-        {
-            question: 'שאלה שלישית', qid: 2, input_mode: false, is_open: false,
-            answers: [{ text: 'answer31', aid: 6, checked: false, input_mode: false }, { text: 'answer32', aid: 7, checked: false, input_mode: false }, { text: 'answer33', aid: 8, checked: true, input_mode: false }]
-        }
-    ];
-    autoClose = 'disabled';
-    filter_menu_open = false;
+    questions: Question[]= [];
+    checked_answers: Answer[] = [];
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -349,6 +283,10 @@ export class Members {
 
     filter_gender(gender) {
 
+    }
+
+    questions_changed() {
+        console.log("questions changed: ", this.questions, " checked answers: ", this.checked_answers);
     }
 
 }

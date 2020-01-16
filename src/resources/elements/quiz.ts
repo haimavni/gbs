@@ -3,7 +3,7 @@ import { MemberGateway } from '../../services/gateway';
 import { I18N } from 'aurelia-i18n';
 import { Misc } from '../../services/misc';
 
-class Answer {
+export class Answer {
     text = "";
     aid = 0;
     qid = 0;
@@ -18,7 +18,7 @@ class Answer {
     }
 }
 
-class Question {
+export class Question {
     prompt = "";
     qid = 0;
     checked = false;
@@ -68,21 +68,24 @@ export enum QState {
     EDITING
 }
 
-@autoinject()
+@inject(DOM.Element, MemberGateway, I18N)
 export class QuizCustomElement {
     @bindable q_state: QState;
     @bindable name;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) checked_answers: Answer[] = [];
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) questions: Question[] = [];
     api;
     i18n;
-    questions: Question[] = [];
     autoClose = 'disabled';
     filter_menu_open = false;
     EDITING;
+    element;
 
-    constructor(api: MemberGateway, i18n: I18N) {
+    constructor(element, api: MemberGateway, i18n: I18N) {
         this.api = api;
         this.i18n = i18n;
         this.EDITING = QState.EDITING;
+        this.element = element;
     }
 
     attached() {
@@ -98,6 +101,13 @@ export class QuizCustomElement {
             })
     }
 
+    question_array_to_questions(questions_arr) {
+        let questions: Question[] = [];
+        for (let q of questions_arr) {
+            questions.push(new Question(q.prompt, q.qid, false, q.answers))
+        }
+        return questions;
+    }
 
     toggled(state) {
         //console.log("state: ", state);
@@ -115,6 +125,7 @@ export class QuizCustomElement {
         } else if (this.q_state == QState.USING) {
             answer.checked = !answer.checked;
         }
+        this.dispatch_event();
     }
 
     q_toggled(question: Question, event) {
@@ -216,6 +227,27 @@ export class QuizCustomElement {
                     this.questions.push(new Question());
                 }
             })
+    }
+
+    dispatch_event() {
+        this.calc_checked_answers();
+        let changeEvent = new CustomEvent('q-change', {
+            detail: {
+                q_state: this.q_state,
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(changeEvent);
+    }
+
+    calc_checked_answers() {
+        this.checked_answers = [];
+        for (let question of this.questions) {
+            for (let answer of question.answers) {
+                this.checked_answers.push(answer)
+            }
+        }
+        console.log("in quiz. checked answers: ", this.checked_answers);
     }
 
 }
