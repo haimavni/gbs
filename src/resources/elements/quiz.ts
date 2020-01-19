@@ -128,6 +128,22 @@ export class QuizCustomElement {
         this.dispatch_event();
     }
 
+    get main_button_text() {
+        let txt;
+        switch(this.q_state) {
+            case QState.APPLYING:
+                txt = 'quiz.fill-questions';
+                break;
+            case QState.USING:
+                txt = 'quiz.filters';
+                break;
+            case QState.EDITING:
+                txt = 'quiz.edit-questions';
+                break;
+        }
+        return this.i18n.tr(txt);
+    }
+
     q_toggled(question: Question, event) {
         for (let q of this.questions) {
             if (q.qid != question.qid) {

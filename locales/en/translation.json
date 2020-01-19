@@ -161,6 +161,8 @@
     },
     "quiz": {
         "filters": "Filters",
+        "fill-questions": "Fill questions",
+        "edit-questions": "Edit questions",
         "new-question": "New question",
         "new-option": "New option",
         "enter-question": "Enter new question",
