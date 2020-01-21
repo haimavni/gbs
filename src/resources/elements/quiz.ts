@@ -46,22 +46,6 @@ export class Question {
     }
 }
 
-class Questionaire {
-    name: string = "";
-    questions: Question[] = [];
-
-    constructor(name, questions: Question[] = []) {
-        this.name = name;
-        for (let question of questions) {
-            this.questions.push(question);
-        }
-    }
-
-    add_question(question) {
-        this.questions.push(question);
-    }
-}
-
 export enum QState {
     USING,
     APPLYING,
@@ -72,8 +56,8 @@ export enum QState {
 export class QuizCustomElement {
     @bindable q_state: QState;
     @bindable name;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) checked_answers: Answer[] = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) questions: Question[] = [];
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) checked_answers = [];
     api;
     i18n;
     autoClose = 'disabled';
@@ -92,6 +76,7 @@ export class QuizCustomElement {
         this.api.call_server('quiz/read_menu', { name: this.name })
             .then(response => {
                 this.questions = [];
+                this.checked_answers = [];
                 for (let q of response.questions) {
                     this.questions.push(new Question(q.prompt, q.qid, true, q.answers))
                 }
@@ -125,12 +110,13 @@ export class QuizCustomElement {
         } else if (this.q_state == QState.USING) {
             answer.checked = !answer.checked;
         }
+        this.calc_checked_answers();
         this.dispatch_event();
     }
 
     get main_button_text() {
         let txt;
-        switch(this.q_state) {
+        switch (this.q_state) {
             case QState.APPLYING:
                 txt = 'quiz.fill-questions';
                 break;
@@ -246,10 +232,10 @@ export class QuizCustomElement {
     }
 
     dispatch_event() {
-        this.calc_checked_answers();
         let changeEvent = new CustomEvent('q-change', {
             detail: {
                 q_state: this.q_state,
+                checked_answers: this.checked_answers
             },
             bubbles: true
         });
@@ -260,10 +246,25 @@ export class QuizCustomElement {
         this.checked_answers = [];
         for (let question of this.questions) {
             for (let answer of question.answers) {
-                this.checked_answers.push(answer)
+                if (answer.checked) {
+                    this.checked_answers.push(answer.aid)
+                }
             }
         }
-        console.log("in quiz. checked answers: ", this.checked_answers);
+    }
+
+    @computedFrom('q_state')
+    get dummy() {
+        this.questions = this.questions.filter(q=>q.prompt);
+        for (let q of this.questions) {
+            q.is_open = false;
+            q.answers = q.answers.filter(a=>a.text);
+            for (let a of q.answers) {
+                a.checked = false;
+            }
+        }
+        this.filter_menu_open = false;
+        return "";
     }
 
 }

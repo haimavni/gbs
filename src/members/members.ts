@@ -6,7 +6,7 @@ import { MemberList } from '../services/member_list';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
-import { QState, Question, Answer } from '../resources/elements/quiz';
+import { QState, Question } from '../resources/elements/quiz';
 
 @autoinject()
 @singleton()
@@ -39,8 +39,9 @@ export class Members {
     max_members_displayed = 1000;
     scroll_area;
     scroll_top = 0;
-    questions: Question[]= [];
-    checked_answers: Answer[] = [];
+    questions: Question[] = [];
+    checked_answers = [];
+    qualified_members = new Set();
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -285,8 +286,17 @@ export class Members {
 
     }
 
-    questions_changed() {
-        console.log("questions changed: ", this.questions, " checked answers: ", this.checked_answers);
+    questions_changed(event) {
+        this.checked_answers = event.detail.checked_answers;  //for some reason it is not synced with the element, unlike questions
+        if (this.q_state == QState.USING) {
+            this.api.call_server_post('members/qualified_members', { checked_answers: this.checked_answers })
+                .then(response => {
+                    this.qualified_members = new Set(response.qualified_members);
+                });
+        } else if (this.q_state == QState.APPLYING) {
+            let item_list = Array.from(this.selected_members);
+            this.api.call_server_post('quiz/apply_answers', { item_list: item_list, checked_answers: this.checked_answers })
+        }
     }
 
 }
