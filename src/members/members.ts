@@ -41,7 +41,7 @@ export class Members {
     scroll_top = 0;
     questions: Question[] = [];
     checked_answers = [];
-    qualified_members = new Set();
+    qualified_members = null;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -289,6 +289,10 @@ export class Members {
     questions_changed(event) {
         this.checked_answers = event.detail.checked_answers;  //for some reason it is not synced with the element, unlike questions
         if (this.q_state == QState.USING) {
+            if (this.checked_answers.length == 0) {
+                this.qualified_members = null;
+                return;
+            }
             this.api.call_server_post('members/qualified_members', { checked_answers: this.checked_answers })
                 .then(response => {
                     this.qualified_members = new Set(response.qualified_members);

@@ -160,8 +160,8 @@
     },
     "quiz": {
         "filters": "מסננים",
-        "fill-questions": "מלא שאלון",
-        "edit-questions": "ערוך שאלון",
+        "fill-questions": "סמן תשובות",
+        "edit-questions": "ערוך שאלות",
         "new-question": "שאלה חדשה",
         "new-option": "תשובה חדשה",
         "enter-question": "הקלד שאלה חדשה",

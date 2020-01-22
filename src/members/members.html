@@ -66,8 +66,8 @@
             <div id="member-list" class="member-list content-area unselectable"
                 css="min-height:${theme.min_height-320}px;max-height:590px;" ref="scroll_area">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | take : max_members_displayed | filtervisibility : 0 "
-                        if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || !member.approved"
+                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | filterBySet : qualified_members : 'include' : 'id' | take : max_members_displayed | filtervisibility : 0 "
+                        if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || ! member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         dir="rtl">
                         <a click.delegate="member_clicked(member, $event)" tapandhold="500"
