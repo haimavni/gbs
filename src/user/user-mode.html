@@ -1,42 +1,56 @@
 <template dir="ltr" class="toolbar">
-    <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right hide-if-small" style="text-decoration:none;color:black">
+    <a href if.bind="! user.isLoggedIn" click.trigger="login()" class="border-right hide-if-small"
+        style="text-decoration:none;color:black">
         <i class="fa fa-play"></i>
         ${'user.login' & t}
     </a>
-    <a href if.bind="user.isLoggedIn" click.trigger="logout()" class="border-right" style="text-decoration:none;color:black">
+    <a href if.bind="user.isLoggedIn" click.trigger="logout()" class="border-right"
+        style="text-decoration:none;color:black">
         <i class="fa fa-play fa-rotate-180"></i>
         ${'user.logout' & t}
     </a>
     <help topic="introduction" position="bottom" style="margin:0;padding:0;" if.bind="theme.width > 498">
     </help>
 
-    <div class="btn-group dropdown border-right" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458" >
-        <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle t="[title]user.personalize" >
+    <div class="btn-group dropdown border-right"
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458">
+        <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle
+            t="[title]user.personalize">
             <i class="fas fa-user-cog"></i>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
             <li style="border-bottom:solid 1px gray;width:170px;margin-bottom:8px;padding-top:6px;">
-                <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
-                    <button class="btn btn-link btn-md dropdown-toggle" style="text-decoration:none;position:relative;margin-bottom:10px;"
-                        aubs-dropdown-toggle>
+                <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                    <button class="btn btn-link btn-md dropdown-toggle"
+                        style="text-decoration:none;position:relative;margin-bottom:10px;" aubs-dropdown-toggle>
                         <span style="position:absolute;left:20px;top:-8px;" class="font-size-150">${'a' & t}</span>
                         <span style="position:absolute;left:13px;top:0px" class="font-size-100">${'a' & t}</span>
                         <span style="position:absolute; left:40px;top:0px;">${'user.font-size' & t}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left">
-                        <li class="font-size-100"><a class="dropdown-item" href="#" click.trigger="set_font_size(100)">${'abcde' & t}</a></li>
-                        <li class="font-size-110"><a class="dropdown-item" href="#" click.trigger="set_font_size(110)">${'abcde' & t}</a></li>
-                        <li class="font-size-120"><a class="dropdown-item" href="#" click.trigger="set_font_size(120)">${'abcde' & t}</a></li>
-                        <li class="font-size-130"><a class="dropdown-item" href="#" click.trigger="set_font_size(130)">${'abcde' & t}</a></li>
-                        <li class="font-size-140"><a class="dropdown-item" href="#" click.trigger="set_font_size(140)">${'abcde' & t}</a></li>
-                        <li class="font-size-150"><a class="dropdown-item" href="#" click.trigger="set_font_size(150)">${'abcde' & t}</a></li>
-                        <li class="font-size-180"><a class="dropdown-item" href="#" click.trigger="set_font_size(180)">${'abcde' & t}</a></li>
+                        <li class="font-size-100"><a class="dropdown-item" href="#"
+                                click.trigger="set_font_size(100)">${'abcde' & t}</a></li>
+                        <li class="font-size-110"><a class="dropdown-item" href="#"
+                                click.trigger="set_font_size(110)">${'abcde' & t}</a></li>
+                        <li class="font-size-120"><a class="dropdown-item" href="#"
+                                click.trigger="set_font_size(120)">${'abcde' & t}</a></li>
+                        <li class="font-size-130"><a class="dropdown-item" href="#"
+                                click.trigger="set_font_size(130)">${'abcde' & t}</a></li>
+                        <li class="font-size-140"><a class="dropdown-item" href="#"
+                                click.trigger="set_font_size(140)">${'abcde' & t}</a></li>
+                        <li class="font-size-150"><a class="dropdown-item" href="#"
+                                click.trigger="set_font_size(150)">${'abcde' & t}</a></li>
+                        <li class="font-size-180"><a class="dropdown-item" href="#"
+                                click.trigger="set_font_size(180)">${'abcde' & t}</a></li>
                     </ul>
                 </div>
             </li>
             <li style="border-bottom:solid 1px gray;width:170px;padding-bottom:5px;">
-                <div class="btn-group dropdown border-right" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458" >
+                <div class="btn-group dropdown border-right"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+                    if.bind="theme.width>458">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-lg fa-globe" style="margin-left:10px;"></i>
                         <span style="position:absolute; left:40px;top:0px;">${'user.select-language' & t}</span>
@@ -51,21 +65,23 @@
                 </div>
             </li>
             <li style="width:170px;padding-bottom:4px;padding-top:6px;">
-                <div class="btn-group dropdown border-right" 
-                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" 
+                <div class="btn-group dropdown border-right"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
                     if.bind="true || user.privileges.DEVELOPER">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-tint" style="margin-left:12px;"></i>
                         <span style="position:absolute; left:40px;top:0px;">${'user.select-colors' & t}</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-left palette-selector" >
+                    <ul class="dropdown-menu dropdown-menu-left palette-selector">
                         <li repeat.for="palette of theme.palettes" class="${palette}" style="height:24px;">
-                            <a class="dropdown-item" href="#" click.trigger="change_palette(palette)" css="float:${theme.same_dir};">
+                            <a class="dropdown-item" href="#" click.trigger="change_palette(palette)"
+                                css="float:${theme.same_dir};">
                                 ${'palettes.' + palette & t}
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#" click.trigger="toggle_logo()" css="float:${theme.same_dir}">
+                            <a class="dropdown-item" href="#" click.trigger="toggle_logo()"
+                                css="float:${theme.same_dir}">
                                 <img if.bind="! theme.blue_logo" src="${theme.files.gb_logo_blue}" width="20" />
                                 <img if.bind="theme.blue_logo" src="${theme.files.gb_logo_png}" width="20" />
                             </a>
@@ -76,7 +92,8 @@
         </ul>
     </div>
 
-    <div class="btn-group dropdown border-right" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458" >
+    <div class="btn-group dropdown border-right"
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458">
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle t="[title]user.sharing">
             <i class="fas fa-share-alt"></i>
             <span class="caret"></span>
@@ -84,20 +101,23 @@
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
             <li style="border-bottom:solid 1px gray;">
                 <!-- Sharingbutton Facebook -->
-                <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=${current_url}" target="_blank" rel="noopener">
+                <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=${current_url}"
+                    target="_blank" rel="noopener">
                     <i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
                 </a>
             </li>
             <li style="border-bottom:solid 1px gray;">
-                    <!-- Sharingbutton Twitter -->
-                 <a class="resp-sharing-button__link" 
-                    href="https://twitter.com/intent/tweet/?text=${sharing_subject}%0A%0D${current_url4mail}" target="_blank" rel="noopener">
+                <!-- Sharingbutton Twitter -->
+                <a class="resp-sharing-button__link"
+                    href="https://twitter.com/intent/tweet/?text=${sharing_subject}%0A%0D${current_url4mail}"
+                    target="_blank" rel="noopener">
                     <i class="fab fa-twitter"></i>&nbsp;&nbsp;Twitter
                 </a>
             </li>
             <li>
                 <!-- Sharingbutton E-Mail -->
-                <a class="resp-sharing-button__link" href="mailto:?subject=${sharing_subject}&body=${current_url4mail}" target="_blank" rel="noopener">
+                <a class="resp-sharing-button__link" href="mailto:?subject=${sharing_subject}&body=${current_url4mail}"
+                    target="_blank" rel="noopener">
                     <i class="far fa-envelope"></i>&nbsp;&nbsp;Mail
                 </a>
             </li>
@@ -105,33 +125,75 @@
     </div>
 
 
-    <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()" title="${user.editing ? 'user.no-edit' : 'user.can-edit' & t}"
+    <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()"
+        title="${user.editing ? 'user.no-edit' : 'user.can-edit' & t}"
         class="border-right ${user.editing ? 'highlight' : ''}" style="border-left:1px solid gray;padding-left:10px;">
         <i class="fas ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>
     </a>
 
-    <a if.bind="user.privileges.CHATTER" href click.trigger="chat_rooms()" t="[title]user.chat-rooms" class="border-right">
+    <a if.bind="user.privileges.CHATTER" href click.trigger="chat_rooms()" t="[title]user.chat-rooms"
+        class="border-right">
         <i class="fas fa-comments"></i>
     </a>
 
-    <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="user.privileges.HELP_AUTHOR ||user.privileges.ADMIN || user.privileges.DEVELOPER || user.privileges.ACCESS_MANAGER">
+    <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+        if.bind="user.privileges.HELP_AUTHOR ||user.privileges.ADMIN || user.privileges.DEVELOPER || user.privileges.ACCESS_MANAGER">
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
             <i class="fas fa-cog"></i>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left">
-            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#" click.trigger="save_help_messages()">Save help messages</a></li>
-            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#" click.trigger="load_help_messages()">Load help messages</a></li>
+            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+                    click.trigger="save_help_messages()">Save help messages</a></li>
+            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+                    click.trigger="load_help_messages()">Load help messages</a></li>
             <li if.bind="user.privileges.HELP_AUTHOR" class="divider"></li>
-            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="reindex_words()">Reindex Words</a></li>
-            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="adhoc_scripts()">Ad Hoc Scripts</a></li>
-            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="show_logs()">Show Log Files</a></li>
-            <li if.bind="user.privileges.ACCESS_MANAGER" t="[title]user.manage-users"><a class="dropdown-item" href="#" click.trigger="manage_users()">Manage Users</a></li>
-            <li if.bind="user.privileges.ADMIN" t="[title]user.customize"><a class="dropdown-item" href="#" click.trigger="customize()">Customize</a></li>
-            <li if.bind="user.privileges.ADMIN" t="[title]user.hit-counts"><a class="dropdown-item" href="#" click.trigger="show_hit_counts()">Page hit counts</a></li>
-            <li if.bind="user.privileges.ADMIN" t="[title]feedback.feedback"><a class="dropdown-item" href="#" click.trigger="show_feedbacks()">Show Feedbacks</a></li>
-            <li if.bind="user.privileges.DEVELOPER" t="[title]user.create-new-app"><a class="dropdown-item" href="#" click.trigger="create_new_app()">Create new app</a></li>
-            <li if.bind="user.privileges.DEVELOPER" t="[title]user.gallery"><a class="dropdown-item" href="#" click.trigger="show_gallery()">Gallery</a></li>
+            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#"
+                    click.trigger="reindex_words()">Reindex Words</a></li>
+            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="adhoc_scripts()">Ad
+                    Hoc Scripts</a></li>
+            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="show_logs()">Show
+                    Log Files</a></li>
+            <li if.bind="user.privileges.ACCESS_MANAGER" t="[title]user.manage-users">
+                <a class="dropdown-item" href="#" click.trigger="manage_users()">
+                    <span class="${theme.rtltr}">
+                        ${'user.manage-users' & t}
+                    </span>
+                </a>
+            </li>
+            <li if.bind="user.privileges.ADMIN" t="[title]user.customize">
+                <a class="dropdown-item" href="#" click.trigger="customize()">
+                    <span class="${theme.rtltr}">
+                        ${'user.customize' & t}
+                    </span> </a> </li>
+            <li if.bind="user.privileges.ADMIN" t="[title]user.hit-counts"><a class="dropdown-item" href="#"
+                    click.trigger="show_hit_counts()">
+                    <span class="${theme.rtltr}">
+                        ${'user.hit-counts' & t}
+                    </span>
+                </a>
+            </li>
+            <li if.bind="user.privileges.ADMIN" t="[title]feedback.feedback">
+                <a class="dropdown-item" href="#" click.trigger="show_feedbacks()">
+                    <span class="${theme.rtltr}">
+                        ${'feedback.feedback' & t}
+                    </span>
+                </a>
+            </li>
+            <li if.bind="user.privileges.DEVELOPER" t="[title]user.create-new-app">
+                <a class="dropdown-item" href="#" click.trigger="create_new_app()">
+                    <span class="${theme.rtltr}">
+                        ${'user.create-new-app' & t}
+                    </span>
+                </a>
+            </li>
+            <li if.bind="user.privileges.DEVELOPER" t="[title]user.gallery">
+                <a class="dropdown-item" href="#" click.trigger="show_gallery()">
+                    <span class="${theme.rtltr}">
+                        ${'user.gallery' & t}
+                    </span>
+                </a>
+            </li>
         </ul>
     </div>
 

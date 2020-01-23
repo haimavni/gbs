@@ -214,7 +214,8 @@
         "auto-reg": "Enable auto registration",
         "create-new-app": "Create my own site",
         "new-app-enabled": "Expose new app button",
-        "new-app-disabled": "No new app button"
+        "new-app-disabled": "No new app button",
+        "gallery": "Gallery"
     },
     "chats": {
         "chats": "Chats",
@@ -416,11 +417,23 @@
         "device-details": "Device details"
     },
     "admin": {
+        "access-manager": "Access Manager",
         "duplicate-app-name": "Name is alrady in use!",
         "new-app-requested": "Your request is being processed",
         "app-name": "New site ID",
         "customer-info": "Site manager info",
-        "fields-missing": "All fields must be filled!"
+        "fields-missing": "All fields must be filled!",
+        "add-user": "Add User",
+        "enter-filter-text": "Enter search text",
+        "email": "Email",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "privileges": "Roles",
+        "edit": "Edit",
+        "delete": "Delete",
+        "all-users": "All users",
+        "registered-users": "Registered users",
+        "unregistered-users": "Unregistered users"
     },
     "feedbacks": "משוב",
     "go-back": "Back",

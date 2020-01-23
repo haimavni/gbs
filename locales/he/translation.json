@@ -213,7 +213,8 @@
         "auto-reg": "אפשר הרשמה עצמית",
         "create-new-app": "ליצירת האתר שלי",
         "new-app-enabled": "אפשר יצירת אתר חדש",
-        "new-app-disabled": "ללא יצירת אתר חדש"
+        "new-app-disabled": "ללא יצירת אתר חדש",
+        "gallery": "גלריה"
     },
     "chats": {
         "chats": "קבוצות דיון",
@@ -417,11 +418,23 @@
         "device-details": "פרטי המכשיר"
     },
     "admin": {
+        "access-manager": "ניהול משתמשים",
         "duplicate-app-name": "מזהה האתר כבר תפוס!",
         "new-app-requested": "בקשתך בטיפול. אנא בדוק את תיבת הדואל שלך. אם לא קבלת הודעה תוך מספר דקות, בדוק את תיבת דואר הזבל.",
         "app-name": "מזהה האתר שלך (באותיות לועזיות)",
         "customer-info": "פרטי מנהל האתר",
-        "fields-missing": "יש למלא את כל הפרטים!"
+        "fields-missing": "יש למלא את כל הפרטים!",
+        "add-user": "הוסף משתמש",
+        "enter-filter-text": "הקלד טקסט חיפוש",
+        "email": "Email",
+        "first-name": "שם פרטי",
+        "last-name": "שם משפחה",
+        "privileges": "תפקידים",
+        "edit": "עריכה",
+        "delete": "מחיקה",
+        "all-users": "כל המשתמשים",
+        "registered-users": "משתמשים שנרשמו בהצלחה",
+        "unregistered-users": "משתמשים שהרשמתם לא הושלמה"
     },
     "go-back": "חזור",
     "parents": "הורים",

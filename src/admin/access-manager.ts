@@ -19,9 +19,9 @@ export class AccessManager {
     pageSize = 15;
     filters = [
         { value: '', keys: ['first_name', 'last_name', 'email'] },
-        { value: 'all', custom: this.statusFilter }
+        { value: 'all-users', custom: this.statusFilter }
     ];
-    statuses = ['all', 'registered', 'unregistered'];
+    statuses =  ['all-users', 'registered-users', 'unregistered-users'];
 
     constructor(api: MemberGateway, dialog: DialogService, theme: Theme, i18n: I18N) {
         this.api = api;
@@ -149,11 +149,11 @@ export class AccessManager {
         let r = user.registration_key;
         if (!r) r = "";
         switch (filterValue) {
-            case "all":
+            case "all-users":
                 return true;
-            case "registered":
+            case "registered-users":
                 return r == "";
-            case "unregistered":
+            case "unregistered-users":
                 return r != "";
         }
         return true;
