@@ -1,0 +1,30 @@
+quiz {
+    div.quiz>button {
+        padding:5px;
+        height:36px;
+        font-size:90%;
+        margin-top:16px;
+        margin-right:5px;
+        border:solid 1px lightgray;
+    }
+    div.quiz {
+        ul.filters {
+             min-width: 180px;
+             >li>div {
+                padding:0;
+                margin-right:6px;
+                >button>span {
+                    display:flex;
+                    width:100%; 
+                    border: 0;   
+                    &.open {
+                        background-color: yellow;
+                    }
+                }
+             }
+        }
+    }
+    span.checked {
+        font-weight: bolder;
+    }
+}

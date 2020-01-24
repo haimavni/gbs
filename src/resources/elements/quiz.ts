@@ -21,7 +21,6 @@ export class Answer {
 export class Question {
     prompt = "";
     qid = 0;
-    checked = false;
     input_mode = false;
     is_open = false;
     editing_mode = false;
@@ -43,6 +42,13 @@ export class Question {
 
     add_answer(text, aid) {
         this.answers.push(new Answer(this.qid, text, aid));
+    }
+
+    get checked() {
+        for (let ans of this.answers) {
+            if (ans.checked) return 'checked'
+        }
+        return '';
     }
 }
 
