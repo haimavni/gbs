@@ -156,40 +156,40 @@
                     Log Files</a></li>
             <li if.bind="user.privileges.ACCESS_MANAGER" t="[title]user.manage-users">
                 <a class="dropdown-item" href="#" click.trigger="manage_users()">
-                    <span class="${theme.rtltr}">
+                    <span class="${theme.rtltr} float">
                         ${'user.manage-users' & t}
                     </span>
                 </a>
             </li>
             <li if.bind="user.privileges.ADMIN" t="[title]user.customize">
                 <a class="dropdown-item" href="#" click.trigger="customize()">
-                    <span class="${theme.rtltr}">
+                    <span class="${theme.rtltr} float">
                         ${'user.customize' & t}
                     </span> </a> </li>
             <li if.bind="user.privileges.ADMIN" t="[title]user.hit-counts"><a class="dropdown-item" href="#"
                     click.trigger="show_hit_counts()">
-                    <span class="${theme.rtltr}">
+                    <span class="${theme.rtltr} float">
                         ${'user.hit-counts' & t}
                     </span>
                 </a>
             </li>
             <li if.bind="user.privileges.ADMIN" t="[title]feedback.feedback">
                 <a class="dropdown-item" href="#" click.trigger="show_feedbacks()">
-                    <span class="${theme.rtltr}">
+                    <span class="${theme.rtltr} float">
                         ${'feedback.feedback' & t}
                     </span>
                 </a>
             </li>
             <li if.bind="user.privileges.DEVELOPER" t="[title]user.create-new-app">
                 <a class="dropdown-item" href="#" click.trigger="create_new_app()">
-                    <span class="${theme.rtltr}">
+                    <span class="${theme.rtltr} float">
                         ${'user.create-new-app' & t}
                     </span>
                 </a>
             </li>
             <li if.bind="user.privileges.DEVELOPER" t="[title]user.gallery">
                 <a class="dropdown-item" href="#" click.trigger="show_gallery()">
-                    <span class="${theme.rtltr}">
+                    <span class="${theme.rtltr} float">
                         ${'user.gallery' & t}
                     </span>
                 </a>
