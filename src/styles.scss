@@ -134,7 +134,6 @@ ux-dialog>ux-dialog-header>button {
 
 .rtl {
     direction: rtl;
-    display: flex;
     &.float {
         float: right;
         &.anti {
@@ -145,7 +144,6 @@ ux-dialog>ux-dialog-header>button {
 
 .ltr {
     direction: ltr;
-    display: flex;
     &.float {
         float: left;
         &.anti {

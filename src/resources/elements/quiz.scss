@@ -13,10 +13,10 @@ quiz {
              >li>div {
                 padding:0;
                 margin-right:6px;
-                >button>span {
+                >button>span.question {
+                    float:right;
                     display:flex;
-                    width:100%; 
-                    border: 0;   
+                    width:100%;
                     &.open {
                         background-color: yellow;
                     }
