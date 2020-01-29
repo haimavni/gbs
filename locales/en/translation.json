@@ -158,7 +158,8 @@
         "which-gender": "Which gender?",
         "members-f": "Females",
         "members-m": "Males",
-        "no-gender": "Gender unknown"
+        "no-gender": "Gender unknown",
+        "apply-answers": "Apply"
     },
     "quiz": {
         "filters": "Filters",

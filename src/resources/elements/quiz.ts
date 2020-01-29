@@ -64,12 +64,14 @@ export class QuizCustomElement {
     @bindable name;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) questions: Question[] = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) checked_answers = [];
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) to_clear_now = false;
     api;
     i18n;
     autoClose = 'disabled';
     filter_menu_open = false;
     EDITING;
     element;
+    dirty;
 
     constructor(element, api: MemberGateway, i18n: I18N) {
         this.api = api;
@@ -118,6 +120,7 @@ export class QuizCustomElement {
         }
         this.calc_checked_answers();
         this.dispatch_event();
+        this.dirty = this.is_dirty() ? 'dirty' : '';
     }
 
     get main_button_text() {
@@ -157,6 +160,10 @@ export class QuizCustomElement {
                 }
             }
         }
+    }
+
+    answer_blurred(question: Question, answer: Answer) {
+        answer.editing_mode = false;
     }
 
     main_filter_toggled() {
@@ -248,6 +255,16 @@ export class QuizCustomElement {
         this.element.dispatchEvent(changeEvent);
     }
 
+    clear_all_answers() {
+        this.checked_answers = [];
+        for (let question of this.questions) {
+            for (let answer of question.answers) {
+                answer.checked = false;
+            }
+        }
+        this.checked_answers = [];
+    }
+
     calc_checked_answers() {
         this.checked_answers = [];
         for (let question of this.questions) {
@@ -261,15 +278,37 @@ export class QuizCustomElement {
 
     @computedFrom('q_state')
     get dummy() {
-        this.questions = this.questions.filter(q=>q.prompt);
+        this.questions = this.questions.filter(q => q.prompt);
         for (let q of this.questions) {
             q.is_open = false;
-            q.answers = q.answers.filter(a=>a.text);
+            q.answers = q.answers.filter(a => a.text);
             for (let a of q.answers) {
                 a.checked = false;
             }
         }
+        this.dirty = "";
+        this.checked_answers = [];
         this.filter_menu_open = false;
+        return "";
+    }
+
+    is_dirty() {
+        let drt;
+        for (let question of this.questions) {
+            for (let ans of question.answers) {
+                if (ans.checked) return true;
+            }
+        }
+        return false;
+    }
+
+    @computedFrom('to_clear_now')
+    get clear_now() {
+        if (this.to_clear_now) {
+            this.clear_all_answers();
+            this.to_clear_now = false;
+            this.dirty = false;
+        }
         return "";
     }
 

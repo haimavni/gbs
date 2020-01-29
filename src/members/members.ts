@@ -42,6 +42,7 @@ export class Members {
     questions: Question[] = [];
     checked_answers = [];
     qualified_members = null;
+    to_clear_now = false;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -275,7 +276,7 @@ export class Members {
         if (this.user.editing) {
             if (this.selected_members.size > 0) return QState.APPLYING;
             return QState.EDITING
-        } else return QState.USING
+        } else return QState.USING;
     }
 
     alive(what) {
@@ -284,6 +285,23 @@ export class Members {
 
     filter_gender(gender) {
 
+    }
+
+    get changes_pending() {
+        if (this.q_state == QState.APPLYING && this.checked_answers.length > 0 && this.selected_members.size > 0) {
+            return true
+        }
+        return false;
+    }
+
+    apply_changes() {
+        let item_list = Array.from(this.selected_members);
+        this.api.call_server_post('quiz/apply_answers', { item_list: item_list, checked_answers: this.checked_answers })
+        this.to_clear_now = true;
+        for (let member of this.members) {
+            member.selected = false;
+        }
+        this.selected_members = new Set();
     }
 
     questions_changed(event) {
@@ -298,8 +316,6 @@ export class Members {
                     this.qualified_members = new Set(response.qualified_members);
                 });
         } else if (this.q_state == QState.APPLYING) {
-            let item_list = Array.from(this.selected_members);
-            this.api.call_server_post('quiz/apply_answers', { item_list: item_list, checked_answers: this.checked_answers })
         }
     }
 

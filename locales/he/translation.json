@@ -157,7 +157,8 @@
         "which-gender": "איזה מין?",
         "members-f": "חברות",
         "members-m": "חברים",
-        "no-gender": "טרם הוגדר"
+        "no-gender": "טרם הוגדר",
+        "apply-answers": "ישם"
     },
     "quiz": {
         "filters": "מסננים",

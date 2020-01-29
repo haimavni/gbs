@@ -23,8 +23,14 @@ quiz {
                 }
              }
         }
+        div.checked {
+            background: lightblue;
+        }
     }
     span.checked {
         font-weight: bolder;
+    }
+    button.dirty {
+        background-color: orange;
     }
 }

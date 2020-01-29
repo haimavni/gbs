@@ -5,6 +5,7 @@ import { DialogService } from 'aurelia-dialog';
 import * as Collections from 'typescript-collections';
 import { I18N } from 'aurelia-i18n';
 import { User } from '../../../services/user';
+import { Theme } from '../../../services/theme';
 
 export class MultiSelectSettings {
     clear_filter_after_select = false;
@@ -33,7 +34,7 @@ export class MultiSelectSettings {
     }
 };
 
-@inject(DOM.Element, I18N, DialogService, User)
+@inject(DOM.Element, I18N, DialogService, User, Theme)
 export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
@@ -58,13 +59,15 @@ export class MultiSelectCustomElement {
     lineHeight = 20;
     scroll_area;
     user;
+    theme;
 
-    constructor(element, i18n: I18N, dialogService: DialogService, user: User) {
+    constructor(element, i18n: I18N, dialogService: DialogService, user: User, theme: Theme) {
         this.element = element;
         this.dialogService = dialogService;
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title');
         this.user = user;
+        this.theme = theme;
     }
 
     attached() {

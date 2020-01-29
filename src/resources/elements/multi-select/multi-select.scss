@@ -11,6 +11,9 @@
     div.search-filter input {
         font-size: inherit;
     }
+    div.search-filter.ltr input {
+        direction: ltr;
+    }
     div.option-item {
         margin-left: 0;
         padding: 0;
@@ -36,6 +39,9 @@
     div.selected {
         ul {
             padding-right:16px;
+            &.ltr {
+                padding-left: 20px;
+            }
         }
         i {
             float: left;
@@ -134,6 +140,9 @@
 
     div.unselected {
         max-height: 120px;
+        ul.ltr {
+            padding-left:20px;
+        }
         a {
             cursor: pointer;
             //color:black;
