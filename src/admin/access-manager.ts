@@ -70,6 +70,11 @@ export class AccessManager {
         return class_of_role[r.role];
     }
 
+    role_title(r) {
+        let role = 'admin.' + r.role.toLowerCase();
+        return this.i18n.tr(role)
+    }
+
     toggle_membership(r, id) {
         r.id = id
         this.api.call_server('admin/toggle_membership', r)

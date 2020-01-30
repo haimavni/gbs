@@ -42,7 +42,7 @@
                         <td>${item.last_name}</td>
                         <td class="center">
                             <span repeat.for="r of item.roles">
-                                <a href title="${r.role_title}" click.delegate="toggle_membership(r, item.id)">
+                                <a href title="${role_title(r)}" click.delegate="toggle_membership(r, item.id)">
                                     <i class="far ${role_class(r)} ${r.active ? 'is_active' : ''}"></i>
                                 </a>
                             </span>
