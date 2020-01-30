@@ -29,6 +29,7 @@ export class QuizCustomElement {
         this.api = api;
         this.i18n = i18n;
         this.EDITING = QState.EDITING;
+        this.USING = QState.USING;
         this.element = element;
         this.dialog = dialog;
     }
