@@ -1,64 +1,13 @@
 import { bindable, inject, DOM, bindingMode, computedFrom, autoinject } from 'aurelia-framework';
-import { MemberGateway } from '../../services/gateway';
+import { MemberGateway } from '../../../services/gateway';
 import { I18N } from 'aurelia-i18n';
-import { Misc } from '../../services/misc';
+import { Misc } from '../../../services/misc';
+import { DialogService } from 'aurelia-dialog';
+import { EditQuestion } from './edit-question';
+import { EditAnswer } from './edit-answer';
+import { Question, Answer, QState } from './quiz-model';
 
-export class Answer {
-    text = "";
-    aid = 0;
-    qid = 0;
-    checked = false;
-    input_mode = false;
-    editing_mode = false;
-
-    constructor(qid, text = "", aid = 0) {
-        this.qid = qid;
-        this.text = text;
-        this.aid = aid;
-    }
-}
-
-export class Question {
-    prompt = "";
-    qid = 0;
-    input_mode = false;
-    is_open = false;
-    editing_mode = false;
-    editable = false;
-    answers: Answer[] = [];
-
-    constructor(prompt = "", qid = 0, editable = true, answers = []) {
-        this.prompt = prompt;
-        this.qid = qid;
-        this.editable = editable;
-        this.answers = [];
-        for (let answer of answers) {
-            this.answers.push(new Answer(this.qid, answer.text, answer.aid))
-        }
-        if (!prompt) {
-            this.input_mode = true;
-        }
-    }
-
-    add_answer(text, aid) {
-        this.answers.push(new Answer(this.qid, text, aid));
-    }
-
-    get checked() {
-        for (let ans of this.answers) {
-            if (ans.checked) return 'checked'
-        }
-        return '';
-    }
-}
-
-export enum QState {
-    USING,
-    APPLYING,
-    EDITING
-}
-
-@inject(DOM.Element, MemberGateway, I18N)
+@inject(DOM.Element, MemberGateway, I18N, DialogService)
 export class QuizCustomElement {
     @bindable q_state: QState;
     @bindable name;
@@ -72,12 +21,14 @@ export class QuizCustomElement {
     EDITING;
     element;
     dirty;
+    dialog: DialogService;
 
-    constructor(element, api: MemberGateway, i18n: I18N) {
+    constructor(element, api: MemberGateway, i18n: I18N, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
         this.EDITING = QState.EDITING;
         this.element = element;
+        this.dialog = dialog;
     }
 
     attached() {
@@ -188,38 +139,29 @@ export class QuizCustomElement {
             }
         }
     }
-
     edit_question(question: Question, event) {
-        question.editing_mode = true;
-        question.is_open = false;
+        this.dialog.open({ viewModel: EditQuestion, model: question, lock: true })
+            .whenClosed(response => {
+                console.log('response: ', response);
+                if (!response.wasCancelled) {
+                    this.save_question(question);
+                }
+            });
+        event.preventDefault();
+        event.stopPropagation();
         return false;
     }
 
-    edit_answer(answer) {
-        answer.editing_mode = true;
+    edit_answer(question, answer) {
+        this.dialog.open({ viewModel: EditAnswer, model: answer, lock: true })
+            .whenClosed(response => {
+                if (!response.wasCancelled) {
+                    this.save_answer(question, answer);
+                }
+            });
+        event.preventDefault();
+        event.stopPropagation();
         return false;
-    }
-
-    answer_check_if_cr(question, answer, event) {
-        if (event.keyCode == 13 || event.keyCode == 27) {
-            answer.editing_mode = false;
-            if (event.keyCode == 13) {
-                this.save_answer(question, answer);
-            }
-            return false;
-        }
-        return true;
-    }
-
-    question_check_if_cr(question, event) {
-        if (event.keyCode == 13 || event.keyCode == 27) {
-            question.editing_mode = false;
-            if (event.keyCode == 13) {
-                this.save_question(question);
-            }
-            return false;
-        }
-        return true;
     }
 
     save_answer(question, answer) {

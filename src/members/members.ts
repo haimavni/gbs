@@ -6,7 +6,7 @@ import { MemberList } from '../services/member_list';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
-import { QState, Question } from '../resources/elements/quiz';
+import { QState, Question } from '../resources/elements/quiz/quiz-model';
 
 @autoinject()
 @singleton()

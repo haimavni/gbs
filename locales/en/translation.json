@@ -168,7 +168,11 @@
         "new-question": "New question",
         "new-option": "New option",
         "enter-question": "Enter new question",
-        "enter-option": "Enter new option"
+        "enter-option": "Enter new option",
+        "edit-question": "Edit question",
+        "edit-answer": "Edit option text",
+        "prompt": "Prompt",
+        "description": "Description"
     },
     "user": {
         "hit-counts": "מונה הכניסות",

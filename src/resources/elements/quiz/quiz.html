@@ -19,24 +19,17 @@
                         </span>
                         <span class="caret" class="${theme.rtltr} anti"></span>
                     </button>
-                    <input if.bind="question.editing_mode" type="text" value.bind="question.prompt"
-                        t="[placeholder]quiz.enter-question" blur.delegate="question.editing_mode=false"
-                        keydown.delegate="question_check_if_cr(question, $event)" />
                     <ul class="dropdown-menu dropdown-menu-right answers" style="padding-right:6px;min-width:180px;" if.bind="question.qid">
                         <li repeat.for="answer of question.answers">
                             <div style="display:flex" class="${answer.checked ? 'checked' : ''}">
                                 <i if.bind="q_state==EDITING && ! answer.editing_mode" class="fas fa-sm fa-pencil"
-                                    style="float:right" click.trigger="edit_answer(answer)">
+                                    style="float:right" click.trigger="edit_answer(question, answer)">
                                 </i>
                                 <a if.bind="! answer.editing_mode"
                                     class="dropdown-item" href="#"
                                     click.trigger="apply_answer(question, answer)">
                                     ${answer.text || i18n.tr('quiz.new-option') }
                                 </a>
-                                <input if.bind="answer.editing_mode" type="text" value.bind="answer.text"
-                                    t="[placeholder]quiz.enter-option"
-                                    blur.delegate="answer_blurred(question, answer)"
-                                    keydown.delegate="answer_check_if_cr(question, answer, $event)" />
                             </div>
                         </li>
                     </ul>

@@ -167,7 +167,11 @@
         "new-question": "שאלה חדשה",
         "new-option": "תשובה חדשה",
         "enter-question": "הקלד שאלה חדשה",
-        "enter-option": "הקלד תשובה חדשה"
+        "enter-option": "הקלד תשובה חדשה",
+        "edit-question": "עריכת השאלה",
+        "edit-answer": "עריכת תשובה",
+        "prompt": "השאלה",
+        "description": "הסבר"
     },
     "user": {
         "login": "התחבר כעורך ",
