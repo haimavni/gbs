@@ -171,7 +171,8 @@
         "edit-question": "עריכת השאלה",
         "edit-answer": "עריכת תשובה",
         "prompt": "השאלה",
-        "description": "הסבר"
+        "description": "הסבר",
+        "answer-text": "הקלידו את התשובה"
     },
     "user": {
         "login": "התחבר כעורך ",

@@ -19,6 +19,8 @@ export class QuizCustomElement {
     autoClose = 'disabled';
     filter_menu_open = false;
     EDITING;
+    USING;
+
     element;
     dirty;
     dialog: DialogService;
@@ -37,18 +39,23 @@ export class QuizCustomElement {
                 this.questions = [];
                 this.checked_answers = [];
                 for (let q of response.questions) {
-                    this.questions.push(new Question(q.prompt, q.qid, true, q.answers))
+                    this.questions.push(new Question(q.prompt, q.description, q.qid, true, q.answers))
                 }
                 if (this.questions.length == 0) {
-                    this.questions.push(new Question('', 0, true, []))
+                    this.questions.push(new Question('', '', 0, true, []))
                 }
             })
     }
 
+    get to_show_menu() {
+        if (this.q_state != QState.USING) return true;
+        if (this.questions.length == 0) return false;
+        return (this.questions.length > 1 || this.questions[0].qid > 0);
+    }
     question_array_to_questions(questions_arr) {
         let questions: Question[] = [];
         for (let q of questions_arr) {
-            questions.push(new Question(q.prompt, q.qid, false, q.answers))
+            questions.push(new Question(q.prompt, q.description, q.qid, false, q.answers))
         }
         return questions;
     }
@@ -126,7 +133,7 @@ export class QuizCustomElement {
             if (this.filter_menu_open) {
                 //create new empty question for adding
                 if (this.questions.length == 0 || Misc.last(this.questions).prompt) {
-                    let q_empty = new Question("", 0, true, []);
+                    let q_empty = new Question("", "", 0, true, []);
                     q_empty.input_mode = true;
                     this.questions.push(q_empty);
                     this.questions = this.questions.splice(0);
@@ -142,7 +149,6 @@ export class QuizCustomElement {
     edit_question(question: Question, event) {
         this.dialog.open({ viewModel: EditQuestion, model: question, lock: true })
             .whenClosed(response => {
-                console.log('response: ', response);
                 if (!response.wasCancelled) {
                     this.save_question(question);
                 }
@@ -166,7 +172,7 @@ export class QuizCustomElement {
 
     save_answer(question, answer) {
         answer.editing_mode = false;
-        this.api.call_server_post('quiz/save_answer', { question_id: question.qid, answer_id: answer.aid, text: answer.text })
+        this.api.call_server_post('quiz/save_answer', { question_id: question.qid, answer_id: answer.aid, text: answer.text, description: answer.description })
             .then(response => {
                 answer.aid = response.answer_id;
                 if ((Misc.last(question.answers).text)) {
@@ -177,7 +183,7 @@ export class QuizCustomElement {
 
     save_question(question) {
         question.editing_mode = false;
-        this.api.call_server_post('quiz/save_question', { name: this.name, question_id: question.qid, prompt: question.prompt })
+        this.api.call_server_post('quiz/save_question', { name: this.name, question_id: question.qid, prompt: question.prompt, description: question.description })
             .then(response => {
                 question.qid = response.question_id;
                 if (Misc.last(this.questions).prompt) {

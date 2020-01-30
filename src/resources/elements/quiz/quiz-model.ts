@@ -7,9 +7,10 @@ export class Answer {
     editing_mode = false;
     description = "";
 
-    constructor(qid, text = "", aid = 0) {
+    constructor(qid, text = "", description = "", aid = 0) {
         this.qid = qid;
         this.text = text;
+        this.description = description;
         this.aid = aid;
     }
 }
@@ -24,21 +25,18 @@ export class Question {
     editable = false;
     answers: Answer[] = [];
 
-    constructor(prompt = "", qid = 0, editable = true, answers = []) {
+    constructor(prompt = "", description = "", qid = 0, editable = true, answers = []) {
         this.prompt = prompt;
+        this.description = description;
         this.qid = qid;
         this.editable = editable;
         this.answers = [];
         for (let answer of answers) {
-            this.answers.push(new Answer(this.qid, answer.text, answer.aid))
+            this.answers.push(new Answer(this.qid, answer.text, answer.description, answer.aid))
         }
         if (!prompt) {
             this.input_mode = true;
         }
-    }
-
-    add_answer(text, aid) {
-        this.answers.push(new Answer(this.qid, text, aid));
     }
 
     get checked() {

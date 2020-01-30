@@ -2,6 +2,7 @@
     <div class="btn-group dropdown quiz"
         aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled(); is-open.bind: filter_menu_open">
         <button class="btn btn-basic btn-lg dropdown-toggle ${dirty}"
+            if.bind="to_show_menu"
             aubs-dropdown-toggle t="[title]quiz.filters">
             ${main_button_text}
             <span class="caret"></span>

@@ -172,7 +172,8 @@
         "edit-question": "Edit question",
         "edit-answer": "Edit option text",
         "prompt": "Prompt",
-        "description": "Description"
+        "description": "Description",
+        "answer-text": "Answer text"
     },
     "user": {
         "hit-counts": "מונה הכניסות",
