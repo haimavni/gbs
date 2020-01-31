@@ -14,6 +14,7 @@ export class QuizCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) questions: Question[] = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) checked_answers = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) to_clear_now = false;
+    @bindable help_data;
     api;
     i18n;
     autoClose = 'disabled';

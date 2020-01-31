@@ -43,6 +43,7 @@ export class Members {
     checked_answers = [];
     qualified_members = null;
     to_clear_now = false;
+    quiz_help_data;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -71,7 +72,7 @@ export class Members {
             { value: '', name: this.i18n.tr('members.all-members') },
             { value: 'x', name: this.i18n.tr('members.unapproved-only') }
         ];
-
+        this.quiz_help_data = {items: this.i18n.tr('members.members')};
     }
 
     activate(params, routeConfig) {

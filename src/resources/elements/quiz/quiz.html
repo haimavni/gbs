@@ -8,8 +8,8 @@
                 ${main_button_text}
                 <span class="caret"></span>
             </button>
-            <help topic="using-quiz" style="margin-top:18px;" if.bind="q_state==USING"></help>
-            <help topic="editing-quiz" style="margin-top:18px;" if.bind="q_state!=USING"></help>
+            <help topic="using-quiz" style="margin-top:18px;" if.bind="q_state==USING" params.bind="help_data" position="bottom"></help>
+            <help topic="editing-quiz" style="margin-top:18px;" if.bind="q_state!=USING" params.bind="help_data" position="bottom"></help>
         </div>
         <ul class="dropdown-menu dropdown-menu-right filters" >
             <li class="dropdown-item" repeat.for="question of questions" title.bind="question.description">

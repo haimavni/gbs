@@ -21,6 +21,7 @@ export class HelpCustomElement {
     dialog;
     eventAggregator;
     blue = 999;
+    editing = false;
 
     constructor(user: User, api: MemberGateway, dialog: DialogService, eventAggregator: EventAggregator, theme: Theme) {
         this.user = user;
@@ -37,11 +38,9 @@ export class HelpCustomElement {
             .then(response => {
                 this.story_info = response.story_info;
                 this.story_text = this.story_info.story_text;
-                //this.story_info.story = text.replace(/\$\{.+\}/g, x => eval(x.substr(2,x.length-3)));
-                if (!this.user.editing) {
-                    this.story_text = this.story_text.replace(/\$\{.+\}/g, x => this.evaluate(x.substr(2, x.length - 3))).slice(0);
+                if (!this.editing) {
+                    this.story_text = this.story_text.replace(/\$\{.+?\}/g, x => this.evaluate(x.substr(2, x.length - 3))).slice(0);
                 }
-                //this.story_info.story_text = text;
             })
     }
 
@@ -49,8 +48,7 @@ export class HelpCustomElement {
         if (!this.params) {
             return s;
         }
-        return eval('this.params.' + s);
-        //return s.toUpperCase();
+        return this.params[s];
     }
 
     attached() {
@@ -59,6 +57,7 @@ export class HelpCustomElement {
 
     edit_help_message(event) {
         event.stopPropagation();
+        this.editing = true;
         if (! this.theme.is_desktop) return;
         let edit = this.user.privileges.HELP_AUTHOR && event.ctrlKey;
         this.theme.hide_title = true;
@@ -66,6 +65,7 @@ export class HelpCustomElement {
             this.theme.hide_title = false;
             this.story_text = this.story_info.story_text;
             this.story_text = this.story_text.replace(/\$\{.+\}/g, x => this.evaluate(x.substr(2, x.length - 3))).slice(0);
+            this.editing = false;
         });
     }
 

@@ -57,7 +57,8 @@
                             questions.bind="questions" 
                             to_clear_now.bind="to_clear_now"
                             checked_answers.bind="checked_answers" 
-                            name="members" 
+                            name="members"
+                            help_data.bind="quiz_help_data" 
                             q-change.delegate="questions_changed($event)">
                         </quiz>
                         <button if.bind="changes_pending" class="btn btn-basic btn-lg" click.delegate="apply_changes()" 
