@@ -61,7 +61,7 @@
                             help_data.bind="quiz_help_data" 
                             q-change.delegate="questions_changed($event)">
                         </quiz>
-                        <button if.bind="changes_pending" class="btn btn-basic btn-lg" click.delegate="apply_changes()" 
+                        <button if.bind="changes_pending" class="btn btn-primary btn-lg" click.delegate="apply_changes()" 
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray">
                             ${'members.apply-answers' & t}
                         </button>

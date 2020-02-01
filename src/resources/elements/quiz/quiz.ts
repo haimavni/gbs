@@ -122,10 +122,6 @@ export class QuizCustomElement {
         }
     }
 
-    answer_blurred(question: Question, answer: Answer) {
-        answer.editing_mode = false;
-    }
-
     main_filter_toggled() {
         this.filter_menu_open = !this.filter_menu_open;
         if (this.q_state == QState.EDITING) {

@@ -4,7 +4,6 @@ export class Answer {
     qid = 0;
     checked = false;
     input_mode = false;
-    editing_mode = false;
     description = "";
 
     constructor(qid, text = "", description = "", aid = 0) {
@@ -21,7 +20,6 @@ export class Question {
     qid = 0;
     input_mode = false;
     is_open = false;
-    editing_mode = false;
     editable = false;
     answers: Answer[] = [];
 

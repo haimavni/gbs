@@ -10,6 +10,9 @@ quiz {
     div.quiz {
         ul.filters {
              min-width: 180px;
+             li {
+                 height: 20px;
+             }
              >li>div {
                 padding:0;
                 margin-right:6px;
@@ -26,11 +29,26 @@ quiz {
         div.checked {
             background: lightblue;
         }
+        button.checked {
+            background: lightblue;
+        }
+        li.answer.checked {
+            background: lightblue;
+        }
+        button:focus,
+        span:focus {
+            outline: none;
+        }
     }
     span.checked {
         font-weight: bolder;
     }
     button.dirty {
         background-color: orange;
+    }
+
+    li a {
+        display: block;
+        padding: 5px;
     }
 }
