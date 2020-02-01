@@ -25,21 +25,20 @@
                         </span>
                         <span class="caret" class="${theme.rtltr} anti"></span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-right answers" style="padding-right:6px;padding-left:5px;min-width:180px;"
-                        if.bind="question.qid">
+                    <ul class="dropdown-menu dropdown-menu-right answers"
+                        style="padding-right:6px;padding-left:5px;min-width:180px;" if.bind="question.qid">
                         <li repeat.for="answer of question.answers" title.bind="answer.description"
                             stylexx="padding: 5px;height:38px;padding-right:0;padding-left:5px;"
-                            style="margin-bottom:5px;"
-                            class="answer ${answer.checked ? 'checked' : ''}">
-                            <div class="btn-group dropdown border-right">
-                                <!-- aubs-dropdown="auto-close.bind: autoClose; is-open.bind: question.is_open;"> -->
-                                <i if.bind="q_state==EDITING" class="fas fa-sm fa-pencil" style="float:right"
-                                    click.trigger="edit_answer(question, answer)">
-                                </i>
+                            style="margin-bottom:5px;" class="answer ${answer.checked ? 'checked' : ''}">
+                            <div class="btn-group dropdown border-right"
+                                aubs-dropdown="auto-close.bind: autoClose;">
                                 <button style="float:right;text-decoration:none;padding:0;width:100%;"
                                     class="dropdown-item btn btn-link btn-md " href="#"
                                     click.trigger="apply_answer(question, answer)">
                                     <span class="answer ${answer.checked ? 'checked' : ''}" style="float:right">
+                                        <i if.bind="q_state==EDITING" class="fas fa-sm fa-pencil" style="float:right"
+                                            click.trigger="edit_answer(question, answer)">
+                                        </i>
                                         ${answer.text || i18n.tr('quiz.new-option') }
                                     </span>
                                 </button>

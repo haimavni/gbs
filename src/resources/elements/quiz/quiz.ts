@@ -235,6 +235,8 @@ export class QuizCustomElement {
         this.dirty = "";
         this.checked_answers = [];
         this.filter_menu_open = false;
+        //bug: the menu closes even though q_state is editing
+        //this.autoClose = (this.q_state == QState.EDITING) ? 'disabled' : 'outside';
         return "";
     }
 
