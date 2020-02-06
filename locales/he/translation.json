@@ -221,7 +221,9 @@
         "create-new-app": "ליצירת האתר שלי",
         "new-app-enabled": "אפשר יצירת אתר חדש",
         "new-app-disabled": "ללא יצירת אתר חדש",
-        "gallery": "גלריה"
+        "gallery": "גלריה",
+        "audio-enabled": "אפשר הקלטות",
+        "audio-disabled": "ללא הקלטות"
     },
     "chats": {
         "chats": "קבוצות דיון",
@@ -312,6 +314,9 @@
         "cancel-crop": "בטל את החיתוך",
         "next-slide": "התמונה הבאה",
         "prev-slide": "התמונה הקודמת"
+    },
+    "audios": {
+        "audios": "הקלטות"
     },
     "videos": {
         "videos": "סרטים",

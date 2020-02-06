@@ -44,6 +44,7 @@ export class Members {
     qualified_members = null;
     to_clear_now = false;
     quiz_help_data;
+    old_editing_mode = false;
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -272,12 +273,19 @@ export class Members {
             return 'members'
         }
     }
+
     @computedFrom('user.editing', 'selected_members.size')
     get q_state() {
+        if (this.old_editing_mode != this.user.editing) {
+            this.qualified_members = null;
+            this.old_editing_mode = this.user.editing;
+        }
         if (this.user.editing) {
             if (this.selected_members.size > 0) return QState.APPLYING;
             return QState.EDITING
-        } else return QState.USING;
+        } else {
+            return QState.USING;
+        }
     }
 
     alive(what) {

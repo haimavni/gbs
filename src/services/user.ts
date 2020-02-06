@@ -2,7 +2,6 @@ import { autoinject, singleton, noView } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
-import environment from '../environment';
 
 @autoinject()
 @singleton()
@@ -13,7 +12,7 @@ export class User {
     public editing: boolean;
     public user_name;
     public privileges;
-    public config = {};
+    public config = {enable_auto_registration: false, expose_new_app_button: false, support_audio: false};
     public id;
     private api;
     private i18n;

@@ -222,7 +222,9 @@
         "create-new-app": "Create my own site",
         "new-app-enabled": "Expose new app button",
         "new-app-disabled": "No new app button",
-        "gallery": "Gallery"
+        "gallery": "Gallery",
+        "audio-enabled": "Audio supported",
+        "audio-disabled": "Audio not supported"
     },
     "chats": {
         "chats": "Chats",
@@ -336,6 +338,9 @@
         "promote-selected-videos": "Promote selected videos",
         "filter": "Fast search in video titles",
         "edit-filters": "Topics and keywords"
+    },
+    "audios": {
+        "audios": "Audios"
     },
     "docs": {
         "docs": "Docs",

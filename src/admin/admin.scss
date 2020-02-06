@@ -10,7 +10,6 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.aut-sortable::before{
     content: "\f0dc";
 }
 
@@ -33,5 +32,10 @@ th {
 .error {
     background-color: red;
     color: white;
+}
+
+div.custom-options { 
+    display: flex;
+    flex-direction: column;
 }
 

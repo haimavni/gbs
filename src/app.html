@@ -14,8 +14,8 @@
                         <span class="router-title">${router.title & t}</span>
                     </a>
                     <div class="menu-items">
-                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href" draggable="false">
-                            ${row.title & t}.
+                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href" draggable="false" if.bind="row.title!='audios.audios' || user.config.support_audio">
+                            ${row.title & t}. ${row.nav}
                         </a>
                     </div>
                     <!-- <div class="navbar-controls" if.bind="! theme.is_desktop" >

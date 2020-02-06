@@ -227,11 +227,9 @@
           "tether",
           {
             "name": "aurelia-bootstrap",
-            "path": "../node_modules/aurelia-bootstrap/dist/amd",
             "main": "index",
-            "resources": [
-              "**/*.html"
-            ]
+            "path": "../node_modules/aurelia-bootstrap/dist/amd",
+            "resources": []
           },
           {
             "name": "typescript-collections",
@@ -273,9 +271,9 @@
           },
           "deepmerge",
           {
-              "name": "aurelia-google-analytics",
-              "path": "../node_modules/aurelia-google-analytics/dist/amd",
-              "main": "index"
+            "name": "aurelia-google-analytics",
+            "path": "../node_modules/aurelia-google-analytics/dist/amd",
+            "main": "index"
           }
         ]
       }

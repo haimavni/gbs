@@ -19,9 +19,11 @@ export class Customize {
     key_value_list = [];
     options_settings: MultiSelectSettings;
     auto_reg_options = ['user.auto-reg', 'user.by-invitation'];
-    new_app_options = ['user.new-app-enabled', 'user.new-app-disabled']
+    new_app_options = ['user.new-app-enabled', 'user.new-app-disabled'];
+    audio_options = ['user.audio-enabled', 'user.audio-disabled'];
     auto_reg_option = 'user.by-invitation';
     new_app_option = 'user.new-app-disabled';
+    audio_option = 'user.audio-disabled'
     user;
 
     constructor(theme: Theme, router: Router, i18n: I18N, controller: DialogController, api: MemberGateway, user: User) {
@@ -48,6 +50,7 @@ export class Customize {
         this.create_key_value_list('', data);
         this.auto_reg_option = this.user.config.enable_auto_registration ? 'user.auto-reg' : 'user.by-invitation';
         this.new_app_option = this.user.config.expose_new_app_button ? 'user.new-app-enabled' : 'user.new-app-disabled';
+        this.audio_option = this.user.config.support_audio ? 'user.audio-enabled' : 'user.audio-disabled';
     }
 
     create_key_value_list(prefix, data) {
@@ -101,6 +104,11 @@ export class Customize {
     new_app_option_selected(option) {
         this.new_app_option = option;
         this.api.call_server('admin/set_new_app_options', {option: this.new_app_option});
+    }
+
+    audio_option_selected(option) {
+        this.audio_option = option;
+        this.api.call_server('admin/set_audio_option', {option: this.audio_option})
     }
 
 }

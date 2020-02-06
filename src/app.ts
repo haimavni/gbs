@@ -55,6 +55,7 @@ export class App {
             { route: 'home', moduleId: './home/home', nav: false, title: '' },
             { route: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs' },
             { route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms' },
+            { route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios' },
             { route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos' },
             { route: 'photos/*', name: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos' },
             { route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories' },
