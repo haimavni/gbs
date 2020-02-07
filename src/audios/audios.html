@@ -1,8 +1,40 @@
 <template>
-    <section class="container content-area audios" css="height: ${win_height-304}px;">
-        <div class="audio-page row content-area">
-            <div class="row">
+    <section class="container content-area audios">
+        <div class="audio-page row content-area" dir="${theme.rtltr" css="height: ${win_height-350}px;overflow:auto;">
+            <div class="row" style="width:100%;">
+                <div class="col-md-9 col-sm-12">
+                    <div class="row" style="margin-bottom:15px;padding-right:15px;">
+                        <form style="display:flex;height:34px;">
+                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! got_duplicates && ! working"
+                                t="[title]user.upload-files" class="input-group">
+                                <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
+                                    <i class="far fa-plus-square"></i>
+                                    ${'audios.upload' & t}
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                    <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
+                    </h3>
+                    <ul ref="scroll_area" class="unselectable audio-list ${no_results ? 'empty-audios' : ''}">
+                        <li repeat.for="audio of audio_list | filter: filter : 'name' : 'author' | take : 9999"
+                            dir="${theme.rtltr}">
+                            <div class="one-audio story-preview"
+                                style="height:120px;margin-bottom:10px;width:100%;display:flex;">
+                                <div style="border-left:solid 3px lightgray;width:40%;">
+                                    <audio controls>
+                                        <source src="${audio.audio_path}" type="audio/mpeg">
+                                    </audio>
+                                </div>
+                                <editable style="width: 60%;"
+                                    settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
+                                    story.bind="audio.story" change.delegate="toggle_selection(audio, $event, $index)"
+                                    info_title.bind="audio.name" info_content.bind="audio.keywords" class="story-body">
+                                </editable>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
     </section>
 </template>

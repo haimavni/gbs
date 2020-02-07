@@ -340,7 +340,15 @@
         "edit-filters": "Topics and keywords"
     },
     "audios": {
-        "audios": "Audios"
+        "audios": "Audios",
+        "upload": "Add audios",
+        "upload-files": "Upload audios",
+        "select-audios": "Select photos",
+        "save": "Save",
+        "cancel": "Cancel",
+        "audios-were-selected": "audios were selected",
+        "upload-in-progress": "Audios are uploading...",
+        "left": "left"
     },
     "docs": {
         "docs": "Docs",

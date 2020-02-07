@@ -181,6 +181,8 @@ export class MemberGateway {
             return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload })
         else if (what == 'DOCS')
             return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
+        else if (what== 'AUDIOS')
+            return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload })
     }
 
     get_constants() {

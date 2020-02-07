@@ -316,7 +316,15 @@
         "prev-slide": "התמונה הקודמת"
     },
     "audios": {
-        "audios": "הקלטות"
+        "audios": "הקלטות",
+        "upload": "הוסף הקלטות",
+        "upload-files": "העלאת הקלטות",
+        "select-audios": "בחר הקלטות",
+        "save": "שלח",
+        "cancel": "בטל",
+        "audios-were-selected": "הקלטות נבחרו",
+        "upload-in-progress": "...ההקלטות נשלחות לשרת",
+        "left": "נותרו"
     },
     "videos": {
         "videos": "סרטים",

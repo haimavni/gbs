@@ -10,49 +10,17 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { format_date } from '../services/my-date';
 
-@autoinject
-class Audio {
-    artist_name = "";
-    artist_name_label = "";
-    audio_date_label = "";
-    keywords_label = "";
-    name = "";
-    src = "";
-    id = 0;
-    keywords = "";
-    audio_date_datestr = "";
-    audio_date_datespan = 0;
-    selected: boolean = false;
-
-    constructor(artist_name, artist_name_label, audio_date_label, keywords_label) {
-        this.artist_name = artist_name;
-        this.artist_name_label = artist_name_label;
-        this.audio_date_label = audio_date_label;
-        this.keywords_label = keywords_label;
-    }
-
-    get audio_info_content() {
-        let date_range = format_date(this.audio_date_datestr, this.audio_date_datespan);
-        let content = `
-        <ul>
-            <li>${this.artist_name_label}:&nbsp;${this.artist_name}</li>
-            <li>${this.audio_date_label}:&nbsp;${date_range}</li>
-            <li>${this.keywords_label}:&nbsp;${this.keywords}</li>
-        </ul>
-        `
-        return content;
-    }
-
-}
 
 @autoinject
 @singleton()
 export class Audios {
     filter = "";
-    audio_list: Audio[] = [];
+    audio_list = [];
     api;
     user;
     theme;
+    win_width;
+    win_height;
     i18n;
     router;
     scroll_area;
@@ -68,7 +36,7 @@ export class Audios {
     has_grouped_artists = false;
     has_grouped_topics = false;
     params = {
-        kind: "V",
+        kind: "A",
         selected_topics: [],
         selected_artists: [],
         selected_days_since_upload: 0,
@@ -93,7 +61,7 @@ export class Audios {
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
-    empty = false;
+    no_results = false;
     editing_filters = false;
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
@@ -105,49 +73,27 @@ export class Audios {
         this.ea = ea;
     }
 
-    audio_data(audio_rec) {
-        switch (audio_rec.audio_type) {
-            case 'youtube':
-                audio_rec.src = "//www.youtube.com/embed/" + audio_rec.src + "?wmode=opaque";
-                break;
-            case 'vimeo':
-                //use the sample below 
-                // <iframe src="https://player.vimeo.com/audio/38324835" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                // <p><a href="https://vimeo.com/38324835">צבעונים ונוריות בשמורת הבונים</a> from <a href="https://vimeo.com/user2289719">Haim Avni</a> on <a href="https://vimeo.com">Vimeo</a>.</p>            
-                audio_rec.src = 'https://vimeo.com/' + audio_rec.src;
-                break;
-        }
-        //audio_rec.selected = false;
-        let artist = this.artist_list.find(p => p.id == audio_rec.artist_id);
-        let artist_name = artist ? artist.name : this.i18n.tr('audios.unknown-artist');
-        let vr = new Audio(
-            artist_name,
-            this.i18n.tr('audios.artist-name'),
-            this.i18n.tr('audios.audio-date-range'),
-            this.i18n.tr('audios.keywords'));
-        for (let key of Object.keys(vr)) {
-            if (audio_rec[key])
-                vr[key] = audio_rec[key];
-        }
-        return vr;
-    }
-
     set_audio_list(audio_list) {
-        this.audio_list = audio_list.map(v => this.audio_data(v));
-        this.empty = this.audio_list.length == 0;
+        console.log("audio list: ", audio_list);
+        this.no_results = audio_list.length == 0;
+        this.audio_list = audio_list; //.map(v => this.audio_data(v));
         this.length_keeper.len = this.audio_list.length;
         this.editing_filters = false;
     }
 
     update_audio_list() {
-        this.api.call_server_post('photos/get_audio_list', this.params)
+        this.api.call_server_post('audios/get_audio_list', this.params)
             .then(response => this.set_audio_list(response.audio_list));
     }
 
     attached() {
         this.theme.display_header_background = true;
         this.theme.page_title = "audios.audios";
-    }
+        this.win_height = window.outerHeight;
+        this.win_width = window.outerWidth;
+        this.theme.display_header_background = true;
+        this.scroll_area.scrollTop = this.scroll_top;
+   }
 
     async created(params, config) {
         await this.update_topic_list();
@@ -198,7 +144,6 @@ export class Audios {
     }
 
     add_audio(new_audio_rec) {
-        new_audio_rec = this.audio_data(new_audio_rec);
         this.audio_list.push(new_audio_rec);
         let n = this.audio_list.length;
         let r = n % this.audios_per_page
@@ -326,7 +271,7 @@ export class Audios {
     }
 
     delete_audio(audio) {
-        this.api.call_server('photos/delete_audio', { audio_id: audio.id })
+        this.api.call_server('audios/delete_audio', { audio_id: audio.id })
             .then(() => {
                 let idx = this.audio_list.findIndex(v => v.id == audio.id);
                 this.audio_list.splice(idx, 1);
@@ -343,7 +288,7 @@ export class Audios {
     @computedFrom('user.editing', 'params.selected_audio_list', 'params.selected_topics', 'params.selected_artists', 'params.audios_date_datestr', 'params.audios_date_datespan', 'selected_audios',
         'has_grouped_artists', 'has_grouped_topics')
     get phase() {
-        let result = "photos-not-editing";
+        let result = "audios-not-editing";
         if (this.user.editing) {
             if (this.selected_audios.size > 0) {
                 result = "audios-were-selected";
@@ -453,13 +398,6 @@ export class Audios {
         this.update_audio_list();
     }
 
-    promote_audios() {
-        this.api.call_server_post('photos/promote_audios', { params: this.params })
-            .then(response => {
-                this.clear_selected_audios();
-            });
-    }
-
     audio_info_title(audio) {
         let title = `<h3>${audio.name}</h3>`
         return title;
@@ -484,5 +422,16 @@ export class Audios {
     show_filters_only() {
         this.editing_filters = true;
     }
+
+    upload_files() {
+        this.theme.hide_title = true;
+        this.dialog.open({ viewModel: UploadAudios, lock: true })
+            .whenClosed(result => {
+                //this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
+                this.theme.hide_title = false;
+            });
+    }
+
+
 
 }
