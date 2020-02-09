@@ -27,12 +27,13 @@ export class Audios {
     scroll_top = 0;
     dialog;
     ea;
+    working = false;
     first_index = 0;
     audios_per_page = 9;
     artist_list = [];
     topic_list = [];
     topic_groups = [];
-    selected_audios = new Set();
+    checked_audios = new Set();
     has_grouped_artists = false;
     has_grouped_topics = false;
     params = {
@@ -44,7 +45,7 @@ export class Audios {
         selected_dates_option: "dated-or-not",
         audios_date_datestr: "",
         audios_date_span_size: 3,
-        selected_audio_list: [],
+        checked_audio_list: [],
         user_id: null,
     };
     options_settings = new MultiSelectSettings({
@@ -117,7 +118,7 @@ export class Audios {
     }
 
     update_topic_list() {
-        let usage = this.user.editing ? {} : { usage: 'V' };
+        let usage = this.user.editing ? {} : { usage: 'A' };
         this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -218,12 +219,12 @@ export class Audios {
     toggle_selection(audio, event, index) {
         if (this.anchor < 0) this.anchor = index;
         if (event.altKey) {
-            this.selected_audios = new Set();
+            this.checked_audios = new Set();
             if (audio.selected)
-                this.selected_audios.add(audio.id);
-            for (let vid of this.audio_list) {
-                if (vid.id != audio.id)
-                    vid.selected = false;
+                this.checked_audios.add(audio.story_id);
+            for (let aid of this.audio_list) {
+                if (aid.story_id != audio.story_id)
+                    aid.selected = false;
             }
         } else if (event.shiftKey) {
             this.toggle_audio_selection(audio);
@@ -241,9 +242,9 @@ export class Audios {
                 if (audio) {
                     audio.selected = checked;
                     if (checked) {
-                        this.selected_audios.add(audio.id)
+                        this.checked_audios.add(audio.story_id)
                     } else {
-                        this.selected_audios.delete(audio.id)
+                        this.checked_audios.delete(audio.story_id)
                     }
                 } else {
                     console.log("no itm. i is: ", i);
@@ -251,23 +252,23 @@ export class Audios {
             }
         } else if (audio.selected) {
             audio.selected = false;
-            this.selected_audios.delete(audio.id);
+            this.checked_audios.delete(audio.story_id);
         } else {
             audio.selected = true;
-            this.selected_audios.add(audio.id);
+            this.checked_audios.add(audio.story_id);
         }
-        this.params.selected_audio_list = Array.from(this.selected_audios);
+        this.params.checked_audio_list = Array.from(this.checked_audios);
     }
 
     toggle_audio_selection(audio) {
-        if (this.selected_audios.has(audio.id)) {
-            this.selected_audios.delete(audio.id);
+        if (this.checked_audios.has(audio.story_id)) {
+            this.checked_audios.delete(audio.story_id);
             audio.selected = false;
         } else {
-            this.selected_audios.add(audio.id);
+            this.checked_audios.add(audio.story_id);
             audio.selected = true;
         }
-        this.params.selected_audio_list = Array.from(this.selected_audios);
+        this.params.checked_audio_list = Array.from(this.checked_audios);
     }
 
     delete_audio(audio) {
@@ -285,12 +286,12 @@ export class Audios {
         });
     }
 
-    @computedFrom('user.editing', 'params.selected_audio_list', 'params.selected_topics', 'params.selected_artists', 'params.audios_date_datestr', 'params.audios_date_datespan', 'selected_audios',
+    @computedFrom('user.editing', 'params.checked_audio_list', 'params.selected_topics', 'params.selected_artists', 'params.audios_date_datestr', 'params.audios_date_datespan', 'checked_audios',
         'has_grouped_artists', 'has_grouped_topics')
     get phase() {
-        let result = "audios-not-editing";
+        let result = "not-editing";
         if (this.user.editing) {
-            if (this.selected_audios.size > 0) {
+            if (this.checked_audios.size > 0) {
                 result = "audios-were-selected";
             } else {
                 result = this.topics_action();
@@ -298,21 +299,21 @@ export class Audios {
         }
         this.options_settings.update({
             mergeable: result != "audios-were-selected",
-            name_editable: result == "photos-ready-to-edit",
-            can_set_sign: true, //result == "photos-ready-to-edit",
-            can_add: result == "photos-ready-to-edit",
-            can_delete: result == "photos-ready-to-edit",
+            name_editable: result == "audios-ready-to-edit",
+            can_set_sign: true, //result == "audios-ready-to-edit",
+            can_add: result == "audios-ready-to-edit",
+            can_delete: result == "audios-ready-to-edit",
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
-            hide_higher_options: this.selected_audios.size > 0 && this.user.editing,
+            hide_higher_options: this.checked_audios.size > 0 && this.user.editing,
             help_topic: 'topics-help'
         });
         this.artists_settings.update({
-            mergeable: result == "can-modify-tags" || result == "ready-to-edit",
-            name_editable: result == "photos-ready-to-edit",
-            can_add: result == "photos-ready-to-edit",
-            can_delete: result == "photos-ready-to-edit",
+            mergeable: result == "can-modify-tags" || result == "audios-ready-to-edit",
+            name_editable: result == "audios-ready-to-edit",
+            can_add: result == "audios-ready-to-edit",
+            can_delete: result == "audios-ready-to-edit",
             can_group: this.user.editing,
-            empty_list_message: this.i18n.tr('photos.no-artists-yet'),
+            empty_list_message: this.i18n.tr('audios.no-artists-yet'),
             help_topic: 'artists-help'
         });
         return result;
@@ -323,7 +324,7 @@ export class Audios {
         let has_group_candidate = false;
         for (let topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
-                if (topic_item.option.topic_kind == 2) return 'photos-ready-to-edit';
+                if (topic_item.option.topic_kind == 2) return 'audios-ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
@@ -333,7 +334,7 @@ export class Audios {
         if (has_group_candidate && n_groups == 1) return 'can-create-group';
         if (n_groups == 1) return 'can-merge-topics';
         if (n_groups == 0 && this.has_grouped_artists) return 'can-merge-topics'
-        return 'photos-ready-to-edit';
+        return 'audios-ready-to-edit';
     }
 
     save_merges(event: Event) {
@@ -356,7 +357,7 @@ export class Audios {
     }
 
     apply_to_selected() {
-        this.api.call_server_post('photos/apply_to_selected_audios', this.params)
+        this.api.call_server_post('audios/apply_to_selected_audios', this.params)
             .then(response => {
                 this.clear_selected_audios();
                 if (response.new_topic_was_added) {
@@ -370,8 +371,8 @@ export class Audios {
         for (let audio of this.audio_list) {
             audio.selected = false;
         }
-        this.selected_audios = new Set();
-        this.params.selected_audio_list = [];
+        this.checked_audios = new Set();
+        this.params.checked_audio_list = [];
     }
 
     add_artist(event) {
@@ -432,6 +433,23 @@ export class Audios {
             });
     }
 
+    apply_topics_to_checked_audios() {
+        this.api.call_server_post('audios/apply_to_checked_audios', { params: this.params })
+            .then(response => {
+                this.clear_selected_topics_now = true;
+                this.uncheck_checked_audios();
+                if (response.new_topic_was_added) {
+                    this.update_topic_list();
+                }
+            });
+    } 
 
+    uncheck_checked_audios() {
+        this.params.checked_audio_list = [];
+        this.checked_audios = new Set();
+        for (let audio of this.audio_list) {
+            audio.checked = false;
+        }
+    }
 
 }

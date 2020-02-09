@@ -5,12 +5,27 @@
                 <div class="col-md-9 col-sm-12">
                     <div class="row" style="margin-bottom:15px;padding-right:15px;">
                         <form style="display:flex;height:34px;">
-                            <div if.bind="phase == 'photos-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! got_duplicates && ! working"
+                            <div if.bind="phase == 'audios-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! got_duplicates && ! working"
                                 t="[title]user.upload-files" class="input-group">
                                 <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'audios.upload' & t}
                                 </a>
+                            </div>
+                            <div class="form-group" if.bind="user.editing && checked_audios.size>0">
+                                <button class="btn btn-warning btn-md" click.trigger="delete_checked_audios()">
+                                    <i class="far fa-trash-alt fa-xs"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button if.bind="user.editing && checked_audios.size > 0 && params.selected_topics.length>0"
+                                    click.trigger="apply_topics_to_checked_audios()"
+                                    class="btn btn-basic btn-md">
+                                    ${'audios.apply-to-selected' & t}
+                                </button>
+                            </div>
+                            <div class="form-group" if.bind="user.editing">
+                                <help topic="how-to-select-audios" position="bottom"></help>
                             </div>
                         </form>
                     </div>
@@ -35,6 +50,50 @@
                         </li>
                     </ul>
                 </div>
+                <div id="audio-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.is_desktop">
+                    <div style="position:relative;">
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
+                        <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
+                            style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="phase=='ready-to-edit'" topic="audios.ready-to-edit" position="bottom"
+                            style="position:absolute;left:0px;top:26px;"></help>
+                        <span show.bind="false">${user_editing}</span>
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"
+                            selected_options.bind="params.selected_topics" height.bind="220"
+                            settings.bind="options_settings" has_groups.bind="has_grouped_topics"
+                            option_groups.bind="topic_groups" ms-change.delegate="handle_topic_change($event)"
+                            new-name.delegate="add_topic($event)" name-changed.delegate="topic_name_changed($event)"
+                            remove-option.delegate="remove_topic($event)"
+                            clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
+                        </multi-select>
+                    </div>
+                    <!-- <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
+                        <button class="btn btn-xs ${params.deleted_audios ? 'active' : ''}"
+                            click.trigger="toggle_deleted_audios()" t="[title]stories.undelete">
+                            <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
+                        </button>
+                    </div>
+                    <div class="row" style="position:relative;">
+                        <span if.bind="num_of_audios">${num_of_audios} ${'audios.matching-audios' & t}</span>
+                        <span if.bind="! num_of_audios">&nbsp;</span>
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
+                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;"
+                            params.bind="help_data"></help>
+                        <multi-select options.bind="audios_index" selected_options.bind="params.selected_words"
+                            keywords.two-way="keywords" place_holder_text="audios.word-index" height="201"
+                            ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
+                        </multi-select>
+                    </div>
+                    <div class="row" style="margin-top: 20px;" if.bind="user.editing">
+                        <form role="form">
+                            <select value.bind="params.days_since_upload" style="height:32px;width:90%;"
+                                change.delegate="handle_age_change($event)">
+                                <option repeat.for="option of days_since_upload_options" model.bind="option">
+                                    ${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
+                </div> -->
             </div>
     </section>
 </template>

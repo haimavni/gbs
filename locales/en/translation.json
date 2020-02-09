@@ -343,12 +343,13 @@
         "audios": "Audios",
         "upload": "Add audios",
         "upload-files": "Upload audios",
-        "select-audios": "Select photos",
+        "select-audios": "Select audios",
         "save": "Save",
         "cancel": "Cancel",
-        "audios-were-selected": "audios were selected",
+        "audios-were-selected": "Audios were selected",
         "upload-in-progress": "Audios are uploading...",
-        "left": "left"
+        "left": "left",
+        "apply-to-selected": "Tag the selected audios"
     },
     "docs": {
         "docs": "Docs",
@@ -504,5 +505,6 @@
     "result3": "Photos",
     "result4": "Terms",
     "result8": "Video",
-    "result9": "Document"
+    "result9": "Document",
+    "result10": "Audio"
 }
