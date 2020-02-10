@@ -349,7 +349,8 @@
         "audios-were-selected": "Audios were selected",
         "upload-in-progress": "Audios are uploading...",
         "left": "left",
-        "apply-to-selected": "Tag the selected audios"
+        "apply-to-selected": "Tag the selected audios",
+        "word-index": "Search words in audio-stories"
     },
     "docs": {
         "docs": "Docs",

@@ -4,12 +4,13 @@ import { Theme } from "../services/theme";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
+import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { DialogService } from 'aurelia-dialog';
 import { UploadAudios } from './upload-audios';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { format_date } from '../services/my-date';
-
+import { WordIndex } from "../services/word_index";
 
 @autoinject
 @singleton()
@@ -26,6 +27,10 @@ export class Audios {
     scroll_area;
     scroll_top = 0;
     dialog;
+    word_index;
+    audios_index;
+    search_words = [];
+    keywords = [];
     ea;
     working = false;
     first_index = 0;
@@ -36,18 +41,28 @@ export class Audios {
     checked_audios = new Set();
     has_grouped_artists = false;
     has_grouped_topics = false;
+    num_of_audios = 0;
     params = {
-        kind: "A",
+        keywords_str: "",
         selected_topics: [],
+        selected_words: [],
+        selected_uploader: "",
         selected_artists: [],
-        selected_days_since_upload: 0,
-        selected_uploader: "anyone",
-        selected_dates_option: "dated-or-not",
-        audios_date_datestr: "",
-        audios_date_span_size: 3,
+        from_date: "",
+        to_date: "",
+        selected_audios: [],
+        //selected_days_since_upload: 0,
+        //selected_dates_option: "dated-or-not",
+        //audios_date_datestr: "",
+        //audios_date_span_size: 3,
         checked_audio_list: [],
+        link_class: 'basic',
+        deleted_audios: false,
+        days_since_upload: 0,
+        search_type: 'simple',
         user_id: null,
     };
+    prev_keywords;
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
         can_group: true
@@ -59,17 +74,27 @@ export class Audios {
     length_keeper = {
         len: 0
     }
+    words_settings = new MultiSelectSettings({
+        clear_filter_after_select: false,
+        name_editable: false,
+        can_add: false,
+        can_delete: false,
+        can_group: true,
+        show_only_if_filter: true
+    });
     clear_selected_phototgraphers_now = false;
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
     no_results = false;
     editing_filters = false;
 
-    constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
+    constructor(api: MemberGateway, user: User, i18n: I18N, word_index: WordIndex, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
         this.user = user;
         this.i18n = i18n;
         this.theme = theme;
+        this.router = router;
+        this.word_index = word_index;
         this.dialog = dialog;
         this.ea = ea;
     }
@@ -83,7 +108,7 @@ export class Audios {
     }
 
     update_audio_list() {
-        this.api.call_server_post('audios/get_audio_list', this.params)
+        this.api.call_server_post('audios/get_audio_list', {params: this.params})
             .then(response => this.set_audio_list(response.audio_list));
     }
 
@@ -98,6 +123,25 @@ export class Audios {
 
     async created(params, config) {
         await this.update_topic_list();
+        this.word_index.get_word_index()
+            .then(response => {
+                this.audios_index = response;
+                this.params.selected_words = [];
+                let g = 0;
+                for (let wrd of this.search_words) {
+                    let iw = this.audios_index.find(w => w.name == wrd);
+                    if (iw) {
+                        g += 1;
+                        iw.sign = 'plus'
+                        let item = { group_number: g, first: true, last: true, option: iw };
+                        this.params.selected_words.push(item);
+                    } else { //no such word in the vocabulary.
+                        let idx = this.search_words.findIndex(itm => itm == wrd);
+                        this.search_words = this.search_words.splice(idx, 1);
+                        this.keywords = this.search_words;
+                    }
+                }
+            });
         this.update_audio_list();
         this.ea.subscribe('NEW-AUDIO', msg => {
             this.add_audio(msg.new_audio_rec)
@@ -117,6 +161,19 @@ export class Audios {
         this.theme.page_title = "";
     }
 
+    activate(params, config) {
+        if (this.router.isExplicitNavigationBack) return;
+        if (this.audio_list && this.audio_list.length > 0 && !params.keywords) return;
+        if (params.keywords == this.params.keywords_str && this.audio_list && this.audio_list.length > 0) return;
+        if (params.keywords && params.keywords == this.prev_keywords) return;
+        this.prev_keywords = params.keywords;
+        this.init_params();
+        this.params.keywords_str = params.keywords;
+        this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
+        this.keywords = this.search_words;
+        this.update_audio_list();
+    }
+
     update_topic_list() {
         let usage = this.user.editing ? {} : { usage: 'A' };
         this.api.call_server('topics/get_topic_list', usage)
@@ -125,6 +182,21 @@ export class Audios {
                 this.topic_groups = result.topic_groups;
                 this.artist_list = result.artist_list;
             });
+    }
+
+    init_params() {
+            this.params.keywords_str = "";
+            this.params.selected_topics = [];
+            this.params.selected_words =[];
+            this.params.selected_uploader = "";
+            this.params.from_date = "";
+            this.params.to_date = "";
+            this.params.selected_audios = [];
+            this.params.checked_audio_list = [];
+            this.params.link_class = "basic";
+            this.params.deleted_audios = false;
+            this.params.days_since_upload = 0;
+            this.params.search_type = 'simple';
     }
 
     apply_changes(changes) {
@@ -307,6 +379,11 @@ export class Audios {
             hide_higher_options: this.checked_audios.size > 0 && this.user.editing,
             help_topic: 'topics-help'
         });
+        this.words_settings.update({
+            mergeable: result != "applying-to-audios" && result != "selecting-audios",
+            can_set_sign: result == "not-editing",
+            empty_list_message: this.i18n.tr('photos.no-words-yet')
+        });
         this.artists_settings.update({
             mergeable: result == "can-modify-tags" || result == "audios-ready-to-edit",
             name_editable: result == "audios-ready-to-edit",
@@ -391,6 +468,55 @@ export class Audios {
     handle_artist_change(event) {
         this.params.selected_artists = event.detail.selected_options;
         this.update_audio_list();
+    }
+
+    handle_words_change(event) {
+        let result = null;
+        if (!event.detail) {
+            return;
+        }
+        this.params.keywords_str = "";
+        this.params.selected_words = event.detail.selected_options;
+        let uni = new Set<number>();
+        let group_sign;
+        for (let sign of ['plus', 'minus']) {
+            this.params.selected_words.forEach(element => {
+                if (element.first) {
+                    group_sign = element.option.sign
+                    uni = new Set<number>();
+                }
+                if (group_sign == sign) {
+                    uni = set_union(uni, new Set(element.option.story_ids));
+                    if (element.last) {
+                        if (result) {
+                            if (sign == 'plus') {
+                                result = set_intersection(result, uni);
+                            } else {
+                                result = set_diff(result, uni)
+                            }
+                        } else {
+                            result = uni;
+                        }
+                    }
+                }
+            });
+        };
+        if (result && result.size > 0) {
+            let audio_list = Array.from(result);
+            this.num_of_audios = audio_list.length;
+            if (audio_list.length == 0) return;
+            this.params.selected_audios = audio_list;
+            this.update_audio_list();
+        } else if (result) {
+            this.num_of_audios = 0;
+            this.no_results = true;
+            this.audio_list = Array.from(result);
+        } else {
+            this.params.selected_audios = [];
+            this.update_audio_list();
+            this.num_of_audios = 0;
+        }
+        this.keywords = this.params.selected_words.map(item => item.option.name);
     }
 
     handle_topic_change(event) {

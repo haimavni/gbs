@@ -325,7 +325,8 @@
         "audios-were-selected": "הקלטות נבחרו",
         "upload-in-progress": "...ההקלטות נשלחות לשרת",
         "left": "נותרו",
-        "apply-to-selected": "יִשֵּׂם להקלטות שנבחרו"
+        "apply-to-selected": "יִשֵּׂם להקלטות שנבחרו",
+        "word-index": "חפש מילים בסיפורי ההקלטות"
     },
     "videos": {
         "videos": "סרטים",

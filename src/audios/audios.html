@@ -1,8 +1,8 @@
 <template>
     <section class="container content-area audios">
-        <div class="audio-page row content-area" dir="${theme.rtltr" css="height: ${win_height-350}px;overflow:auto;">
+        <div class="audio-page row content-area" dir="${theme.rtltr">
             <div class="row" style="width:100%;">
-                <div class="col-md-9 col-sm-12">
+                <div class="col-md-8 col-sm-12" style="padding:0;">
                     <div class="row" style="margin-bottom:15px;padding-right:15px;">
                         <form style="display:flex;height:34px;">
                             <div if.bind="phase == 'audios-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! got_duplicates && ! working"
@@ -31,17 +31,19 @@
                     </div>
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
                     </h3>
-                    <ul ref="scroll_area" class="unselectable audio-list ${no_results ? 'empty-audios' : ''}">
+                    <ul ref="scroll_area" 
+                        css="height: ${win_height-400}px;overflow:auto;"
+                        class="unselectable audio-list ${no_results ? 'empty-audios' : ''}">
                         <li repeat.for="audio of audio_list | filter: filter : 'name' : 'author' | take : 9999"
                             dir="${theme.rtltr}">
                             <div class="one-audio story-preview"
                                 style="height:120px;margin-bottom:10px;width:100%;display:flex;">
-                                <div style="border-left:solid 3px lightgray;width:40%;">
+                                <div style="border-left:solid 3px lightgray;width:43%;">
                                     <audio controls>
                                         <source src="${audio.audio_path}" type="audio/mpeg">
                                     </audio>
                                 </div>
-                                <editable style="width: 60%;"
+                                <editable style="width: 57%;"
                                     settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                     story.bind="audio.story" change.delegate="toggle_selection(audio, $event, $index)"
                                     info_title.bind="audio.name" info_content.bind="audio.keywords" class="story-body">
@@ -50,7 +52,7 @@
                         </li>
                     </ul>
                 </div>
-                <div id="audio-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.is_desktop">
+                <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop">
                     <div style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
@@ -67,13 +69,13 @@
                             clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
                         </multi-select>
                     </div>
-                    <!-- <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
+                    <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
                         <button class="btn btn-xs ${params.deleted_audios ? 'active' : ''}"
                             click.trigger="toggle_deleted_audios()" t="[title]stories.undelete">
                             <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
                         </button>
                     </div>
-                    <div class="row" style="position:relative;">
+                    <div style="position:relative;">
                         <span if.bind="num_of_audios">${num_of_audios} ${'audios.matching-audios' & t}</span>
                         <span if.bind="! num_of_audios">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
@@ -84,7 +86,7 @@
                             ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
                         </multi-select>
                     </div>
-                    <div class="row" style="margin-top: 20px;" if.bind="user.editing">
+                    <!-- <div class="row" style="margin-top: 20px;" if.bind="user.editing">
                         <form role="form">
                             <select value.bind="params.days_since_upload" style="height:32px;width:90%;"
                                 change.delegate="handle_age_change($event)">
