@@ -35,11 +35,11 @@ export class Audios {
     working = false;
     first_index = 0;
     audios_per_page = 9;
-    artist_list = [];
+    recorder_list = [];
     topic_list = [];
     topic_groups = [];
     checked_audios = new Set();
-    has_grouped_artists = false;
+    has_grouped_recorders = false;
     has_grouped_topics = false;
     num_of_audios = 0;
     params = {
@@ -47,7 +47,7 @@ export class Audios {
         selected_topics: [],
         selected_words: [],
         selected_uploader: "",
-        selected_artists: [],
+        selected_recorders: [],
         from_date: "",
         to_date: "",
         selected_audios: [],
@@ -67,9 +67,10 @@ export class Audios {
         clear_filter_after_select: false,
         can_group: true
     });
-    artists_settings = new MultiSelectSettings({
+    recorders_settings = new MultiSelectSettings({
         clear_filter_after_select: true,
-        can_set_sign: false
+        can_set_sign: false,
+        can_group: false,
     });
     length_keeper = {
         len: 0
@@ -117,7 +118,7 @@ export class Audios {
     }
 
     update_audio_list() {
-        this.api.call_server_post('audios/get_audio_list', {params: this.params})
+        this.api.call_server_post('audios/get_audio_list', { params: this.params })
             .then(response => this.set_audio_list(response.audio_list));
     }
 
@@ -128,10 +129,11 @@ export class Audios {
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
         this.scroll_area.scrollTop = this.scroll_top;
-   }
+    }
 
     async created(params, config) {
         await this.update_topic_list();
+        this.update_recorder_list();
         this.word_index.get_word_index()
             .then(response => {
                 this.audios_index = response;
@@ -151,6 +153,7 @@ export class Audios {
                     }
                 }
             });
+        this.ea.subscribe('RECORDER_ADDED', () => { this.update_topic_list() });  //for now they are linked...
         this.update_audio_list();
         this.ea.subscribe('NEW-AUDIO', msg => {
             this.add_audio(msg.new_audio_rec)
@@ -159,7 +162,7 @@ export class Audios {
             this.refresh_audio(msg.changes)
         });
         this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
-        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now topics and photogaphers are handled together...
+        this.ea.subscribe('RECORDER_ADDED', () => { this.update_topic_list() });  //for now topics and photogaphers are handled together...
         this.ea.subscribe('AUDIO-TAGS-CHANGED', response => {
             this.apply_changes(response.changes)
         });
@@ -189,30 +192,36 @@ export class Audios {
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
-                this.artist_list = result.artist_list;
+            });
+    }
+
+    update_recorder_list() {
+        this.api.call_server('audios/get_recorder_list')
+            .then(result => {
+                this.recorder_list = result.recorder_list;
             });
     }
 
     init_params() {
-            this.params.keywords_str = "";
-            this.params.selected_topics = [];
-            this.params.selected_words =[];
-            this.params.selected_uploader = "";
-            this.params.from_date = "";
-            this.params.to_date = "";
-            this.params.selected_audios = [];
-            this.params.checked_audio_list = [];
-            this.params.link_class = "basic";
-            this.params.deleted_audios = false;
-            this.params.days_since_upload = 0;
-            this.params.search_type = 'simple';
+        this.params.keywords_str = "";
+        this.params.selected_topics = [];
+        this.params.selected_words = [];
+        this.params.selected_uploader = "";
+        this.params.from_date = "";
+        this.params.to_date = "";
+        this.params.selected_audios = [];
+        this.params.checked_audio_list = [];
+        this.params.link_class = "basic";
+        this.params.deleted_audios = false;
+        this.params.days_since_upload = 0;
+        this.params.search_type = 'simple';
     }
 
     apply_changes(changes) {
         for (let change of changes) {
             let audio = this.audio_list.find(v => v.id == change.audio_id);
-            if (change.artist_name) {
-                audio.artist_name = change.artist_name;
+            if (change.recorder_name) {
+                audio.recorder_name = change.recorder_name;
             }
             audio.keywords = change.keywords;
         }
@@ -234,7 +243,7 @@ export class Audios {
 
     refresh_audio(changes) {
         let audio = this.audio_list.find(vid => vid.id == changes.id);
-        for (let p of ['name', 'keywords', 'artist_id', 'audio_date_datestr', 'audio_date_datespan']) {
+        for (let p of ['name', 'keywords', 'recorder_id', 'audio_date_datestr', 'audio_date_datespan']) {
             if (changes[p]) audio[p] = changes[p]
         }
     }
@@ -277,6 +286,7 @@ export class Audios {
     @computedFrom('user.editing')
     get user_editing() {
         this.update_topic_list();
+        this.update_recorder_list();
         return this.user.editing;
     }
 
@@ -367,8 +377,8 @@ export class Audios {
         });
     }
 
-    @computedFrom('user.editing', 'params.checked_audio_list', 'params.selected_topics', 'params.selected_artists', 'params.audios_date_datestr', 'params.audios_date_datespan', 'checked_audios',
-        'has_grouped_artists', 'has_grouped_topics')
+    @computedFrom('user.editing', 'params.checked_audio_list', 'params.selected_topics', 'params.selected_recorders', 'params.audios_date_datestr', 'params.audios_date_datespan', 'checked_audios',
+        'has_grouped_recorders', 'has_grouped_topics')
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -393,14 +403,14 @@ export class Audios {
             can_set_sign: result == "not-editing",
             empty_list_message: this.i18n.tr('photos.no-words-yet')
         });
-        this.artists_settings.update({
+        this.recorders_settings.update({
             mergeable: result == "can-modify-tags" || result == "audios-ready-to-edit",
             name_editable: result == "audios-ready-to-edit",
             can_add: result == "audios-ready-to-edit",
             can_delete: result == "audios-ready-to-edit",
             can_group: this.user.editing,
-            empty_list_message: this.i18n.tr('audios.no-artists-yet'),
-            help_topic: 'artists-help'
+            empty_list_message: this.i18n.tr('audios.no-recorders-yet'),
+            help_topic: 'recorders-help'
         });
         return result;
     }
@@ -419,7 +429,7 @@ export class Audios {
         }
         if (has_group_candidate && n_groups == 1) return 'can-create-group';
         if (n_groups == 1) return 'can-merge-topics';
-        if (n_groups == 0 && this.has_grouped_artists) return 'can-merge-topics'
+        if (n_groups == 0 && this.has_grouped_recorders) return 'can-merge-topics'
         return 'audios-ready-to-edit';
     }
 
@@ -461,21 +471,24 @@ export class Audios {
         this.params.checked_audio_list = [];
     }
 
-    add_artist(event) {
-        let new_artist_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_artist', { artist_name: new_artist_name, kind: 'V' });
-    }
-
-    remove_artist(event) {
-        let artist = event.detail.option;
-        this.api.call_server_post('topics/remove_artist', { artist: artist })
-        .then(() => {
-            this.update_topic_list();
+    add_recorder(event) {
+        let new_recorder_name = event.detail.new_name;
+        this.api.call_server_post('audios/add_recorder', { recorder_name: new_recorder_name })
+        .then(result => {
+            this.update_recorder_list();
         });
     }
 
-    handle_artist_change(event) {
-        this.params.selected_artists = event.detail.selected_options;
+    remove_recorder(event) {
+        let recorder = event.detail.option;
+        this.api.call_server_post('topics/remove_recorder', { recorder: recorder })
+            .then(() => {
+                this.update_topic_list();
+            });
+    }
+
+    handle_recorder_change(event) {
+        this.params.selected_recorders = event.detail.selected_options;
         this.update_audio_list();
     }
 
@@ -540,14 +553,14 @@ export class Audios {
     }
 
     audio_info_content(audio) {
-        let pn = this.i18n.tr('audios.artist-name');
+        let pn = this.i18n.tr('audios.recorder-name');
         let vdr = this.i18n.tr('audios.audio-date-range');
         let date_range = format_date(audio.audio_date_datestr, audio.audio_date_datespan);
         let keywords = audio.keywords ? audio.keywords : "";
         let kw_label = this.i18n.tr('audios.keywords')
         let content = `
         <ul>
-            <li>${pn}:&nbsp;${audio.artist_name}</li>
+            <li>${pn}:&nbsp;${audio.recorder_name}</li>
             <li>${vdr}:&nbsp;${date_range}</li>
             <li>${kw_label}:&nbsp;${keywords}</li>
         </ul>
@@ -577,7 +590,7 @@ export class Audios {
                     this.update_topic_list();
                 }
             });
-    } 
+    }
 
     uncheck_checked_audios() {
         this.params.checked_audio_list = [];

@@ -18,7 +18,7 @@
                                 </button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && checked_audios.size > 0 && params.selected_topics.length>0"
+                                <button if.bind="user.editing && checked_audios.size > 0 && (params.selected_topics.length>0 || params.selected_recorders.length > 0)"
                                     click.trigger="apply_topics_to_checked_audios()"
                                     class="btn btn-basic btn-md">
                                     ${'audios.apply-to-selected' & t}
@@ -52,7 +52,7 @@
                         </li>
                     </ul>
                 </div>
-                <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop">
+                <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop" css="height: ${win_height-340}px;overflow:auto;"">
                     <div style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
@@ -70,17 +70,17 @@
                         </multi-select>
                     </div>
                     <div class="row multi-select-div">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'audios.artists' & t}</div>
-                        <multi-select options.bind="artist_list"
-                            place_holder_text="audios.click-artist"
-                            selected_options.bind="params.selected_artists"
-                            settings.bind="artists_settings"
-                            has_groups.bind="has_grouped_artists"
-                            new-name.delegate="add_artist($event)"
-                            remove-option.delegate="remove_artist($event)"
-                            name-changed.delegate="artist_name_changed($event)"
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'audios.recorders' & t}</div>
+                        <multi-select options.bind="recorder_list"
+                            place_holder_text="audios.click-recorder"
+                            selected_options.bind="params.selected_recorders"
+                            settings.bind="recorders_settings"
+                            has_groups.bind="has_grouped_recorders"
+                            new-name.delegate="add_recorder($event)"
+                            remove-option.delegate="remove_recorder($event)"
+                            name-changed.delegate="recorder_name_changed($event)"
                             clear_selections_now.bind="clear_selected_phototgraphers_now"
-                            ms-change.delegate="handle_artist_change($event)">
+                            ms-change.delegate="handle_recorder_change($event)">
                         </multi-select>
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.editing" class="row">

@@ -333,9 +333,9 @@
         "uploaded-this-month": "הקלטות שהועלו החודש",
         "uploaded-this-quarter": "הקלטות שהועלו ברבעון זה",
         "uploaded-this-year": "הקלטות שהועלו השנה",
-        "click-artist": "מצא את יוצר ההקלטה והקלק עליו",
-        "no-artists-yet": "אין עדיין יוצרי קלטות",
-        "artists": "יוצרי קלטות"
+        "click-recorder": "מצא את יוצר ההקלטה והקלק עליו",
+        "no-recorders-yet": "אין עדיין יוצרי קלטות",
+        "recorders": "יוצרי קלטות"
     },
     "videos": {
         "videos": "סרטים",
