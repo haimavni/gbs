@@ -32,18 +32,18 @@
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
                     </h3>
                     <ul ref="scroll_area" 
-                        css="height: ${win_height-400}px;overflow:auto;"
+                        css="height: ${win_height-400}px;overflow:auto;margin-right:-40px;padding-left:6px;"
                         class="unselectable audio-list ${no_results ? 'empty-audios' : ''}">
                         <li repeat.for="audio of audio_list | filter: filter : 'name' : 'author' | take : 9999"
                             dir="${theme.rtltr}">
                             <div class="one-audio story-preview"
                                 style="height:120px;margin-bottom:10px;width:100%;display:flex;">
-                                <div style="border-left:solid 3px lightgray;width:43%;">
+                                <div style="border-left:solid 3px lightgray;width:42%;">
                                     <audio controls>
                                         <source src="${audio.audio_path}" type="audio/mpeg">
                                     </audio>
                                 </div>
-                                <editable style="width: 57%;"
+                                <editable style="width: 58%;"
                                     settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
                                     story.bind="audio.story" change.delegate="toggle_selection(audio, $event, $index)"
                                     info_title.bind="audio.name" info_content.bind="audio.keywords" class="story-body">
@@ -69,6 +69,20 @@
                             clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
                         </multi-select>
                     </div>
+                    <div class="row multi-select-div">
+                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'audios.artists' & t}</div>
+                        <multi-select options.bind="artist_list"
+                            place_holder_text="audios.click-artist"
+                            selected_options.bind="params.selected_artists"
+                            settings.bind="artists_settings"
+                            has_groups.bind="has_grouped_artists"
+                            new-name.delegate="add_artist($event)"
+                            remove-option.delegate="remove_artist($event)"
+                            name-changed.delegate="artist_name_changed($event)"
+                            clear_selections_now.bind="clear_selected_phototgraphers_now"
+                            ms-change.delegate="handle_artist_change($event)">
+                        </multi-select>
+                    </div>
                     <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
                         <button class="btn btn-xs ${params.deleted_audios ? 'active' : ''}"
                             click.trigger="toggle_deleted_audios()" t="[title]stories.undelete">
@@ -86,16 +100,16 @@
                             ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
                         </multi-select>
                     </div>
-                    <!-- <div class="row" style="margin-top: 20px;" if.bind="user.editing">
+                    <div style="margin-top: 20px;" if.bind="user.editing">
                         <form role="form">
-                            <select value.bind="params.days_since_upload" style="height:32px;width:90%;"
+                            <select value.bind="params.days_since_upload" style="height:32px;width:87%;"
                                 change.delegate="handle_age_change($event)">
                                 <option repeat.for="option of days_since_upload_options" model.bind="option">
                                     ${option.name}</option>
                             </select>
                         </form>
                     </div>
-                </div> -->
+                </div>
             </div>
     </section>
 </template>

@@ -326,7 +326,16 @@
         "upload-in-progress": "...ההקלטות נשלחות לשרת",
         "left": "נותרו",
         "apply-to-selected": "יִשֵּׂם להקלטות שנבחרו",
-        "word-index": "חפש מילים בסיפורי ההקלטות"
+        "word-index": "חפש מילים בסיפורי ההקלטות",
+        "uploaded-any-time": "הקלטות שהועלו בזמן כלשהו",
+        "uploaded-today": "הקלטות שהועלו היום",
+        "uploaded-this-week": "הקלטות שהועלו השבוע",
+        "uploaded-this-month": "הקלטות שהועלו החודש",
+        "uploaded-this-quarter": "הקלטות שהועלו ברבעון זה",
+        "uploaded-this-year": "הקלטות שהועלו השנה",
+        "click-artist": "מצא את יוצר ההקלטה והקלק עליו",
+        "no-artists-yet": "אין עדיין יוצרי קלטות",
+        "artists": "יוצרי קלטות"
     },
     "videos": {
         "videos": "סרטים",

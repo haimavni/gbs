@@ -350,7 +350,16 @@
         "upload-in-progress": "Audios are uploading...",
         "left": "left",
         "apply-to-selected": "Tag the selected audios",
-        "word-index": "Search words in audio-stories"
+        "word-index": "Search words in audio-stories",
+        "uploaded-any-time": "Audios uploaded any time",
+        "uploaded-today": "Audios uploaded today",
+        "uploaded-this-week": "Audios uploaded this week",
+        "uploaded-this-month": "Audios uploaded this month",
+        "uploaded-this-quarter": "Audios uploaded this quarter",
+        "uploaded-this-year": "Audios uploaded this year",
+        "click-artist": "Search author and click on it",
+        "no-artists-yet": "No audio authors yet",
+        "artists": "Audio authors"
     },
     "docs": {
         "docs": "Docs",

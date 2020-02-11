@@ -87,6 +87,7 @@ export class Audios {
     anchor = -1; //for multiple selections
     no_results = false;
     editing_filters = false;
+    days_since_upload_options;
 
     constructor(api: MemberGateway, user: User, i18n: I18N, word_index: WordIndex, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
@@ -97,6 +98,14 @@ export class Audios {
         this.word_index = word_index;
         this.dialog = dialog;
         this.ea = ea;
+        this.days_since_upload_options = [
+            { value: 0, name: this.i18n.tr('audios.uploaded-any-time') },
+            { value: 1, name: this.i18n.tr('audios.uploaded-today') },
+            { value: 7, name: this.i18n.tr('audios.uploaded-this-week') },
+            { value: 30, name: this.i18n.tr('audios.uploaded-this-month') },
+            { value: 91, name: this.i18n.tr('audios.uploaded-this-quarter') },
+            { value: 365, name: this.i18n.tr('audios.uploaded-this-year') }
+        ];
     }
 
     set_audio_list(audio_list) {
@@ -576,6 +585,10 @@ export class Audios {
         for (let audio of this.audio_list) {
             audio.checked = false;
         }
+    }
+
+    handle_age_change() {
+        this.update_audio_list();
     }
 
 }
