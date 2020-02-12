@@ -173,7 +173,8 @@
         "edit-answer": "Edit option text",
         "prompt": "Prompt",
         "description": "Description",
-        "answer-text": "Answer text"
+        "answer-text": "Answer text",
+        "clear-all": "Clear"
     },
     "user": {
         "hit-counts": "מונה הכניסות",

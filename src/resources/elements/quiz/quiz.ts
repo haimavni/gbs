@@ -253,11 +253,17 @@ export class QuizCustomElement {
     @computedFrom('to_clear_now')
     get clear_now() {
         if (this.to_clear_now) {
-            this.clear_all_answers();
-            this.to_clear_now = false;
-            this.dirty = false;
+            this.clear_all();
         }
         return "";
+    }
+
+    clear_all(){
+        this.clear_all_answers();
+        this.to_clear_now = false;
+        this.dirty = false;
+        this.filter_menu_open = false;
+        this.dispatch_event();
     }
 
 }

@@ -142,10 +142,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="photo-filters-panel" class="col-md-3 col-sm-12 ${theme.rtltr}" if.bind="theme.is_desktop || editing_filters">
+                <div id="photo-filters-panel" class="col-md-3 col-sm-12 ${theme.rtltr}" if.bind="theme.is_desktop || editing_filters" style="height:600px;overflow:auto;">
                     <div class="row multi-select-div" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="phase=='applying-to-photos'" topic="apply-to-selected-photos", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <help if.bind="phase=='photos-not-editing'" topic="tags" position="${theme.is_desktop ? 'bottom' : 'right'}" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
                             selected_options.bind="params.selected_topics"

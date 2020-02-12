@@ -172,7 +172,8 @@
         "edit-answer": "עריכת תשובה",
         "prompt": "השאלה",
         "description": "הסבר",
-        "answer-text": "הקלידו את התשובה"
+        "answer-text": "הקלידו את התשובה",
+        "clear-all": "נקה"
     },
     "user": {
         "login": "התחבר כעורך ",
