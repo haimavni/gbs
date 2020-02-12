@@ -227,9 +227,11 @@
           "tether",
           {
             "name": "aurelia-bootstrap",
-            "main": "index",
             "path": "../node_modules/aurelia-bootstrap/dist/amd",
-            "resources": []
+            "main": "index",
+            "resources": [
+              "**/*.html"
+            ]
           },
           {
             "name": "typescript-collections",
