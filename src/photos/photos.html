@@ -142,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="photo-filters-panel" class="col-md-3 col-sm-12 ${theme.rtltr}" if.bind="theme.is_desktop || editing_filters" style="height:600px;overflow:auto;">
+                <div id="photo-filters-panel" class="col-md-3 col-sm-12 ${theme.rtltr}" if.bind="theme.is_desktop || editing_filters" style="height:630px;overflow:auto;">
                     <div class="row multi-select-div" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
@@ -208,7 +208,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row hide-if-small" style="width:100%;margin-right:-10px;" if.bind="!can_set_dates">
+            <div class="row hide-if-small" style="width:100%;margin-right:-10px;">
                 <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.delegate="time_range_changed($event)"></timeline>
             </div>
         </div>
