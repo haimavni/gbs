@@ -76,8 +76,11 @@ export class MultiSelectCustomElement {
     }
 
     expand(option) {
-        this.options = this.options.filter(opt => ! opt.is_child)
+        console.log("option is ", option);
+        this.options = this.options.filter(opt => ! opt.is_child);
+        for (let opt of this.options) {opt.expanded = false};
         let sub_options = this.get_sub_options(option);
+        sub_options = deepClone(sub_options);
         let idx = this.options.findIndex(item => item.name == option.name);
         for (let opt of sub_options) {
             opt.is_child = true;
@@ -87,22 +90,12 @@ export class MultiSelectCustomElement {
     } 
 
     collapse(option) {
+        this.options = this.options.filter(opt => ! opt.is_child);
         option.expanded = false;
         //filter out all children
     }
 
-    select_option(option, event) {
-        if ((option.topic_kind == 1) && !this.user.editing && event.ctrlKey) {
-            this.expand(option); 
-            // this.options = this.options.filter(opt => ! opt.is_child)
-            // let sub_options = this.get_sub_options(option);
-            // let idx = this.options.findIndex(item => item.name == option.name);
-            // for (let opt of sub_options) {
-            //     opt.is_child = true;
-            // }
-            // this.options.splice(idx+1, 0, ...sub_options);
-            return;
-        }
+    select_option(option) {
         let g;
         if (this.user.editing && option.topic_kind == 0) {  //ready to add sub topics to new topic
             g = 1;
@@ -149,7 +142,7 @@ export class MultiSelectCustomElement {
         //if option was entered automatically from search box, it is not in the set, so:
         if (this.selected_options.find(item => item.option.name == option.name)) return;
         if (option && option.name.length > 2) {
-            this.select_option(option, null);
+            this.select_option(option);
         }
     }
 
@@ -367,4 +360,9 @@ function clean(obj) {
             delete obj[propName];
         }
     }
+}
+
+function deepClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+    //use Object.assign({}, obj) if you don't need a deep clone
 }

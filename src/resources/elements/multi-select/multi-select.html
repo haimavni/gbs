@@ -71,8 +71,12 @@
             if.bind="options && options.length > 0 && (filter.length > 0 || (! settings.show_only_if_filter)) ">
             <ul css="width:${width}px;padding-left:20px;" if.bind="true || unselected_options===[]">
                 <li repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999">
-                    <div class="option-item" css="margin:0;padding:0;padding-right:${option.is_child ? 12 : 2}px;width:${inner_width}px" if.bind="option.topic_kind!=1 || ! hide_higher">
-                        <a click.delegate="select_option(option, $event)" class.bind="'option-kind-' + option.topic_kind">${option.name}</a>
+                    <div class="option-item" 
+                        css="margin:0;padding:0;padding-right:${option.is_child ? 18 : 2}px;width:${inner_width}px" 
+                        if.bind="option.topic_kind!=1 || ! hide_higher">
+                        <i if.bind="option.topic_kind==1 && ! option.expanded" click.delegate="expand(option)" class="fa fa-play fa-xs fa-rotate-90"></i> 
+                        <i if.bind="option.topic_kind==1 && option.expanded" click.delegate="collapse(option)" class="fa fa-play fa-xs fa-rotate-180"></i> 
+                        <a click.delegate="select_option(option)" class.bind="'option-kind-' + option.topic_kind">${option.name}</a>
                     </div>
                 </li>
             </ul>
