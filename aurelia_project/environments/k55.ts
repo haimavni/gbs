@@ -1,8 +1,8 @@
 export default {
     debug: true,
     testing: false,
-    baseURL: "https://gbstories.com:8000",
-    app: 'kesher55',
+    baseURL: "http://gbstories:8000",
+    app: 'k55',
     version: "",
     i18n_ver: ''
 };
