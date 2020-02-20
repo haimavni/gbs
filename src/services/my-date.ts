@@ -88,12 +88,12 @@ export class MyDate {
     }
 }
 
-export function format_date(date_str, span=0) {
+export function format_date(date_str, span=1) {
     let date = new MyDate(date_str);
     let s = date.toString();
     if (s.length < 4) return "";
-    if (span) {
-        date.incr(span);
+    if (span > 1) {
+        date.incr(span - 1);
         s += '-' + date.toString();
     }
     return s;
