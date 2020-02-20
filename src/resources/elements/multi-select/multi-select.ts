@@ -76,21 +76,27 @@ export class MultiSelectCustomElement {
     }
 
     expand(option) {
+        for (let opt of this.options) {
+            if (! opt.level)
+                opt.level = 0;
+        }
         console.log("option is ", option);
-        this.options = this.options.filter(opt => ! opt.is_child);
+        this.options = this.options.filter(opt => opt.level <= option.level);
         for (let opt of this.options) {opt.expanded = false};
         let sub_options = this.get_sub_options(option);
         sub_options = deepClone(sub_options);
-        let idx = this.options.findIndex(item => item.name == option.name);
+        let idx = this.options.findIndex(item => (item.name == option.name) && (item.level == option.level));
+        let level = option.level ? option.level + 1 : 1;
         for (let opt of sub_options) {
-            opt.is_child = true;
+            opt.level = level;
+            opt.parent = option.id
         }
         this.options.splice(idx+1, 0, ...sub_options);
         option.expanded = true;
     } 
 
     collapse(option) {
-        this.options = this.options.filter(opt => ! opt.is_child);
+        this.options = this.options.filter(opt => opt.level < option.level);
         option.expanded = false;
         //filter out all children
     }
