@@ -80,7 +80,6 @@ export class MultiSelectCustomElement {
             if (! opt.level)
                 opt.level = 0;
         }
-        console.log("option is ", option);
         this.options = this.options.filter(opt => opt.level <= option.level);
         for (let opt of this.options) {opt.expanded = false};
         let sub_options = this.get_sub_options(option);
