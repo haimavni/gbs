@@ -95,7 +95,7 @@ export class MultiSelectCustomElement {
     } 
 
     collapse(option) {
-        this.options = this.options.filter(opt => opt.level < option.level);
+        this.options = this.options.filter(opt => opt.level <= option.level);
         option.expanded = false;
         //filter out all children
     }
