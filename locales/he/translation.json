@@ -314,7 +314,10 @@
         "save-crop": "שמור את החיתוך",
         "cancel-crop": "בטל את החיתוך",
         "next-slide": "התמונה הבאה",
-        "prev-slide": "התמונה הקודמת"
+        "prev-slide": "התמונה הקודמת",
+        "recognized": "תמונות שזוהו",
+        "unrecognized": "תמונות שלא זוהו",
+        "recognized-or-not": "תמונות שזוהו ושלא זוהו"
     },
     "audios": {
         "audios": "הקלטות",

@@ -315,7 +315,10 @@
         "save-crop": "Save crop",
         "cancel-crop": "Cancel crop",
         "next-slide": "Next photo",
-        "prev-slide": "Prev photo"
+        "prev-slide": "Prev photo",
+        "recognized": "Recognized photos",
+        "unrecognized": "Unrecognized photos",
+        "recognized-or-not": "Both recognized and unrecognized"
     },
     "videos": {
         "videos": "Video",

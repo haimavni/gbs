@@ -14,6 +14,7 @@ import { MyDate, format_date } from '../services/my-date';
 import * as download from 'downloadjs';
 import { set_intersection } from '../services/set_utils';
 import * as toastr from 'toastr';
+import {Misc} from '../services/misc';
 
 @autoinject()
 @singleton()
@@ -28,6 +29,7 @@ export class Photos {
     user;
     theme;
     dialog;
+    misc: Misc;
     win_width;
     win_height;
     has_grouped_photographers = false;
@@ -40,6 +42,7 @@ export class Photos {
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
         selected_order_option: "random-order",
+        selected_recognition: 'recognized-and-not',
         last_photo_time: null,
         photos_date_str: "",
         photos_date_span_size: 1,
@@ -59,6 +62,7 @@ export class Photos {
     days_since_upload_options = [];
     uploader_options = [];
     dates_options = [];
+    recognition_options = [];
     order_options = [];
     i18n: I18N;
     selected_photos = new Set([]);
@@ -82,7 +86,7 @@ export class Photos {
     upload_date_stops = [];
     upload_date_stops_index = 0;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
         this.user = user;
         this.theme = theme;
@@ -91,6 +95,7 @@ export class Photos {
         this.with_a_member_text = this.i18n.tr('photos.search-member');
         this.router = router;
         this.ea = ea;
+        this.misc = misc;
         this.days_since_upload_options = [
             { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('photos.uploaded-today') },
@@ -109,6 +114,7 @@ export class Photos {
             { value: "dated", name: this.i18n.tr('photos.dated') },
             { value: "undated", name: this.i18n.tr('photos.undated') }
         ];
+        this.recognition_options = this.misc.make_selection('photos', ['recognized', 'unrecognized', 'recognized-or-not']);
         this.order_options = [
             { value: "random-order", name: this.i18n.tr('photos.random-order') },
             { value: "upload-time-order", name: this.i18n.tr('photos.upload-time-order') }

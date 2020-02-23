@@ -198,6 +198,13 @@
                             </select>
                         </form>
                     </div>
+                    <div class="row" style="margin-top: 10px;" if.bind="user.editing">
+                        <form role="form">
+                            <select value.bind="params.selected_recognition" style="height:32px;width:90%;" change.delegate="handle_change($event)">
+                                <option repeat.for="option of recognition_options" model.bind="option.value">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
                     <div class="row" style="margin-top: 10px;margin-left:14px;" if.bind="can_set_dates">
                         <date-range 
                             label="photos.photos-date" 

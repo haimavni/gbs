@@ -83,4 +83,13 @@ export class Misc {
         return array[array.length - 1];
     }
 
+    make_selection(section, option_names) {
+        let result = [];
+        for (let opt of option_names) {
+            let option = { value: opt, name: this.i18n.tr(section + '.' + opt)};
+            result.push(option)
+        }
+        return result;
+    }
+
 }
