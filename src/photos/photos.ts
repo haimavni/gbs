@@ -42,7 +42,7 @@ export class Photos {
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
         selected_order_option: "random-order",
-        selected_recognition: 'recognized-and-not',
+        selected_recognition: 'recognized',
         last_photo_time: null,
         photos_date_str: "",
         photos_date_span_size: 1,
