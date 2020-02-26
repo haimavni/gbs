@@ -77,10 +77,12 @@ export class StoryDetail {
         if (used_for) {
             used_for = parseInt(used_for)
         } else {
-            used_for = (params.what && params.what == 'term') ? this.api.constants.story_type.STORY4TERM : this.api.constants.story_type.STORY4EVEMT;
+            used_for = (params.what && params.what == 'term') ? 
+            this.api.constants.story_type.STORY4TERM : (params.what && params.what == 'help') ? 
+            this.api.constants.story_type.STORY4HELP : this.api.constants.story_type.STORY4EVEMT;
         }
-        this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : 'story';
-        let what = this.story_type == 'story' ? 'EVENT' : 'TERM';
+        this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : (used_for == this.api.constants.story_type.STORY4ELP) ? 'help' : 'story';
+        let what = this.story_type == 'story' ? 'EVENT' : this.story_type == 'help' ? 'HELP' : 'TERM';
         this.api.getStoryDetail({ story_id: params.id })
             .then(response => {
                 this.api.hit(what, params.id);
@@ -101,7 +103,8 @@ export class StoryDetail {
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
                 }
-            });
+            });  
+        if (params.what == 'help') return;
         this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id, story_type: this.story_type });
         this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
     }

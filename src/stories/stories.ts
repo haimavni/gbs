@@ -305,25 +305,23 @@ export class Stories {
         this.scroll_top = this.scroll_area.scrollTop;
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
-        let what;
         let kws = this.params.keywords_str ? [this.params.keywords_str] : null;
         let keywords = story.exact ? kws : this.keywords;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
-                what = 'EVENT';
                 this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4MEMBER:
-                what = 'MEMBER';
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4PHOTO:
-                what = 'PHOTO';
                 this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4TERM:
-                what = "TERM";
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type });
+                break;
+            case this.api.constants.story_type.STORY4HELP:
+                this.router.navigateToRoute('help-detail', { id: story.story_id, what: 'help', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4DOC:
                 this.openDialog(story.doc_url);
