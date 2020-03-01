@@ -224,7 +224,9 @@
         "new-app-disabled": "ללא יצירת אתר חדש",
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
-        "audio-disabled": "ללא הקלטות"
+        "audio-disabled": "ללא הקלטות",
+        "site-title": "כותרת האתר",
+        "site-description": "תאור האתר"
     },
     "chats": {
         "chats": "קבוצות דיון",

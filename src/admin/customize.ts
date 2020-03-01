@@ -13,6 +13,7 @@ export class Customize {
     theme;
     api;
     app_title;
+    app_description;
     router;
     i18n;
     controller;
@@ -84,6 +85,10 @@ export class Customize {
 
     save_app_title() {
         this.theme.set_locale_override('app-title', this.app_title);
+    }
+
+    save_app_description() {
+        alert(this.app_description + ' - save not ready')
     }
 
     cancel() {

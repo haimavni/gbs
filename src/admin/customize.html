@@ -8,17 +8,36 @@
         <ux-dialog-body>
             <div style="height:95%;margin-top:0px;">
                 <div class="row" style="display:flex;font-size:120%;">
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-3">
                         ${'user.site-header' & t}
-                    </div>
-                    <div class="col-md-7">
+                    </div> -->
+                    <div class="col-md-12">
                         <form class="form-inline">
-                            <div class="form-group">
-                                <input type="text" class="form-control" style="font-size:115%" placeholder="App Title"
+                            <div class="form-group" style="width:90%;">
+                                <input type="text" class="form-control" style="font-size:115%;width:100%;" placeholder="${'user.site-title' & t}"
                                     value.bind="app_title">
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success" click.delegate="save_app_title()">
+                                    <i class="fas fa-save"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" style="display:flex;font-size:100%;">
+                    <!-- <div class="col-md-3">
+                        ${'user.site-description' & t}
+                    </div> -->
+                    <div class="col-md-12">
+                        <form class="form-inline">
+                            <div class="form-group" style="width:90%;">
+                                <input type="text" class="form-control" style="font-size:100%;width:100%;" placeholder="${'user.site-description' & t }"
+                                    value.bind="app_description"
+                                    change.delegate="save_app_description()">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success" click.delegate="save_app_description()">
                                     <i class="fas fa-save"></i>
                                 </button>
                             </div>
