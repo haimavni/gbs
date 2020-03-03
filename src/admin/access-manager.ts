@@ -45,7 +45,6 @@ export class AccessManager {
         this.api.call_server('admin/get_authorized_users').
             then((data) => {
                 this.authorized_users = data.authorized_users;
-                console.log("authorized users: ", this.authorized_users);
             });
     }
 

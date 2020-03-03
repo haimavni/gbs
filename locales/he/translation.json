@@ -405,6 +405,19 @@
         "delete-checked-terms": "מחק את המונחים המסומנים",
         "edit-filters": "בחירת נושאים"
     },
+    "groups": {
+        "groups-manager": "ניהול קבוצות",
+        "group-details": "פרטי הקבוצה",
+        "add-group": "הוסף קבוצה",
+        "enter-filter-text":  "הקלד טקסט לחיפוש",
+        "title": "שם הקבוצה",
+        "description": "תיאור",
+        "logo": "לוגו",
+        "edit": "עריכה",
+        "delete": "מחיקה",
+        "save": "שמירה",
+        "cancel": "ביטול"
+    },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",
         "vis-not-ready": "לא מוכן עדיין",

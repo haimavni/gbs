@@ -120,6 +120,11 @@ export class UserMode {
         this.popup.popup('OLD_SITE', url, "height=860,width=1700,left=100,top=100");
     }
 
+    manage_groups() {
+        let url = `${location.pathname}#/groups-manager`;
+        this.popup.popup('OLD_SITE', url, "height=860,width=1700,left=100,top=100");
+    }
+
     chat_rooms() {
         let url = `${location.pathname}#/chats`;
         this.popup.popup('CHAT-ROOMS', url, "height=800,width=1800,left=50,top=50");

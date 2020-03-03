@@ -404,6 +404,19 @@
         "delete-checked-terms": "Delete checked terms",
         "edit-filters": "Select topics"
     },
+    "groups": {
+        "groups-manager": "Groups manager",
+        "group-details": "Group details",
+        "add-group": "Add group",
+        "enter-filter-text":  "Enter search text",
+        "title": "Title",
+        "description": "Description",
+        "logo": "Logo",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
     "consts": {
         "vis-never": "Never display!",
         "vis-not-ready": "Not ready yet",

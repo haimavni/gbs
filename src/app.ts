@@ -71,6 +71,7 @@ export class App {
             { route: 'members/:id/edit', name: 'member-edit', moduleId: './members/member-edit', title: 'members.editMember' },
             { route: 'photos/:id/*', name: 'photo-detail', moduleId: './photos/photo-detail' },
             { route: 'access-manager', name: 'access-manager', moduleId: './admin/access-manager' },
+            { route: 'groups-manager', name: 'groups-manager', moduleId: './admin/groups-manager' },
             { route: 'hit-counts', name: 'hit-counts', moduleId: './admin/hit-counts' },
             { route: 'feedbacks', name: 'feedbacks', moduleId: './admin/show-feedbacks' },
             { route: 'chats', name: 'chats', moduleId: './user/chats' },

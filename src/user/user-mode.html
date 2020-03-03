@@ -161,6 +161,13 @@
                     </span>
                 </a>
             </li>
+            <li if.bind="user.privileges.ACCESS_MANAGER" t="[title]groups.groups-manager">
+                <a class="dropdown-item" href="#" click.trigger="manage_groups()">
+                    <span class="${theme.rtltr} float">
+                        ${'groups.groups-manager' & t}
+                    </span>
+                </a>
+            </li>
             <li if.bind="user.privileges.ADMIN" t="[title]user.customize">
                 <a class="dropdown-item" href="#" click.trigger="customize()">
                     <span class="${theme.rtltr} float">
