@@ -20,7 +20,6 @@ export class GroupManager {
     filters = [
         { value: '', keys: ['first_name', 'last_name', 'email'] },
     ];
-    logo_images: FileList;
     user;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
@@ -46,6 +45,10 @@ export class GroupManager {
         this.api.call_server('groups/get_group_list').
             then((data) => {
                 this.group_list = data.group_list;
+                for (let g of this.group_list) {
+                    let logo_images: FileList;
+                    g.logo_images = logo_images;
+                }
             });
     }
 
@@ -63,13 +66,14 @@ export class GroupManager {
         });
     }
 
-    upload_logo(group_id) {
-        console.log("upload logo ", this.logo_images);
-        return;
+    upload_logo(group) {
+        console.log("upload logo. images: ", group.logo_images);
+        if (! group.logo_images) return;
         this.api.uploadFiles(
             this.user.id,
-            this.logo_images,
-            'LOGO-' + group_id
+            group.logo_images,
+            'LOGO',
+            {group_id: group.id}
         )
     }
 

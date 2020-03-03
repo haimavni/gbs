@@ -141,7 +141,7 @@ export class MemberGateway {
         return this.call_server('photos/get_photo_detail', photo);
     }
 
-    uploadFiles(user_id, fileList, what) {
+    uploadFiles(user_id, fileList, what, info={}) {
         let This = this;
         let n = fileList.length;
         let uploaded_file_ids = [];
@@ -153,7 +153,7 @@ export class MemberGateway {
             fr.readAsBinaryString(file);
             let payload = { user_id: user_id }
             fr.onload = function () {
-                payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result };
+                payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result, info: info };
                 This.upload(payload, what)
                     .then(response => {
                         if (response.upload_result.failed) {
@@ -181,8 +181,11 @@ export class MemberGateway {
             return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload })
         else if (what == 'DOCS')
             return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
-        else if (what== 'AUDIOS')
+        else if (what == 'AUDIOS')
             return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload })
+        else if (what == 'LOGO') {
+            return this.httpClient.fetch(`groups/upload_logo`, { method: 'POST', body: payload})
+        }
     }
 
     get_constants() {
