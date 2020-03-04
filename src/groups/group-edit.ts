@@ -28,7 +28,6 @@ export class GroupEdit {
     save() {
         this.api.call_server_post('groups/add_or_update_group', this.curr_group)
             .then((data) => {
-                let new_group = false;
                 if (data.error || data.user_error) {
                     this.error_message = data.user_error;
                     return;

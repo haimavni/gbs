@@ -5,6 +5,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { DialogService } from 'aurelia-dialog';
 import { GroupEdit } from './group-edit';
+import { copy_to_clipboard } from '../services/dom_utils';
 import * as toastr from 'toastr';
 
 @autoinject()
@@ -67,7 +68,6 @@ export class GroupManager {
     }
 
     upload_logo(group) {
-        console.log("upload logo. images: ", group.logo_images);
         if (! group.logo_images) return;
         this.api.uploadFiles(
             this.user.id,
@@ -75,6 +75,20 @@ export class GroupManager {
             'LOGO',
             {group_id: group.id}
         )
+    }
+
+    delete_group(group) {
+        this.api.call_server('groups/delete_group', {group_id: group.id})
+        .then(result => {
+            let idx = this.group_list.findIndex(grp => grp.id==group.id);
+            this.group_list.splice(idx, 1);
+        })
+    }
+
+    copy_link(group) {
+        let url = 'not ready';
+        copy_to_clipboard(url);
+        toastr.success(this.i18n.tr('groups.link-copied'))
     }
 
 }

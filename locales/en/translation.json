@@ -415,7 +415,9 @@
         "edit": "Edit",
         "delete": "Delete",
         "save": "Save",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "link": "Link",
+        "link-copied": "Link was copied"
     },
     "consts": {
         "vis-never": "Never display!",
