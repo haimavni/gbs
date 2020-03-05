@@ -417,7 +417,8 @@
         "save": "Save",
         "cancel": "Cancel",
         "link": "Link",
-        "link-copied": "Link was copied"
+        "link-copied": "Link was copied",
+        "upload-logo": "Upload"
     },
     "consts": {
         "vis-never": "Never display!",

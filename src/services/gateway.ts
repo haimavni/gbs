@@ -183,9 +183,12 @@ export class MemberGateway {
             return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
         else if (what == 'AUDIOS')
             return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload })
-        else if (what == 'LOGO') {
+        else if (what == 'LOGO')
             return this.httpClient.fetch(`groups/upload_logo`, { method: 'POST', body: payload})
-        }
+        else if (what == 'APPLOGO')
+            return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload})
+        else if (what == 'PHOTO')
+            return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload})
     }
 
     get_constants() {

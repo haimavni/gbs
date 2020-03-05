@@ -418,7 +418,8 @@
         "save": "שמירה",
         "cancel": "ביטול",
         "link": "קישור",
-        "link-copied": "הקישור הועתק"
+        "link-copied": "הקישור הועתק",
+        "upload-logo": "שלח"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

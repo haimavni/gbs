@@ -17,8 +17,7 @@
                 </div>
             </div>
             <table class="table table-striped" aurelia-table="data.bind: group_list; display-data.bind: $displayData; 
-                current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">
-                <!-- filters.bind:filters;"> -->
+                current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;filters.bind:filters;">
                 <thead>
                     <tr>
                         <th aut-sort="key: id">ID</th>
@@ -40,14 +39,14 @@
                             <form class="form-inline" submit.delegate="upload_logo(item)">
                                 <div class="form-group">
                                     <label for="logo-image-${item.id}" style="margin:0;">
-                                        <img width="32" src.bind="item.logo_url" style="padding:0;" />
+                                        <img width="32" src.bind="item.logo_url" style="padding:0;cursor:pointer;" />
                                     </label>
                                     <input style="display:none" type="file" id="logo-image-${item.id}"
                                         accept="image/jpeg" files.bind="item.logo_images">
                                 </div>
                                 <div class="form-group" if.bind="item.logo_images">
                                     <button type="submit">
-                                        Upload Logo
+                                        ${'groups.upload-logo' & t}
                                     </button>
                             </form>
                         </td>
