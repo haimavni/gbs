@@ -1,0 +1,26 @@
+div.uploader-page {
+    display:flex;
+    flex-direction: column;
+    div.upload-header {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        div.titles {
+            display: flex;
+            flex-direction: column;
+            align-self: flex-start;
+        }
+    }
+    div.upload-body {
+        display:flex;
+        flex-direction: row;
+        border: 1px solid gray;
+        div.user-panel {
+            width: 33.33%;
+        }
+        div.photo-panel {
+            width: 66.66%;
+        }
+    }
+}

@@ -1,8 +1,22 @@
 <template>
-    <require from="../admin/admin.css"></require>
-    <div dir='ltr' class="content-area">
-        Logo ${group_id}
-        <img src="${logo_url}" />
+    <div class="content-area uploader-page">
+        <div class="upload-header">
+            <div>
+                <img src="${logo_url}" width="128" />
+            </div>
+            <div class="titles">
+                <h2>${title}</h1>
+                <h3>${description}</h3>
+            </div>
+        </div>
+        <div class="upload-body">
+            <div class="user-panel">
+user data here
+            </div>
+            <div class="photo-panel">
+photo here
+            </div>
+        </div>
     </div>
 
 </template>
