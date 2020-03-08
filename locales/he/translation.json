@@ -419,7 +419,8 @@
         "cancel": "ביטול",
         "link": "קישור",
         "link-copied": "הקישור הועתק",
-        "upload-logo": "שלח"
+        "upload-logo": "שלח",
+        "select-photo": "בחר תמונה"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

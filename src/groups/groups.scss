@@ -1,26 +1,61 @@
-div.uploader-page {
-    display:flex;
-    flex-direction: column;
-    div.upload-header {
-        margin-top: 10px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        div.titles {
-            display: flex;
-            flex-direction: column;
-            align-self: flex-start;
+.logo-area {
+    grid-area: logo;
+    //height: 150px;
+    margin-top: 12px;
+    justify-self: end;
+}
+.header-area {
+    grid-area: header;
+    margin-top: 12px;
+}
+.info-area {
+    grid-area: info;
+    height: 600px;
+    border: solid 3px blue;
+}
+.photo-area {
+    grid-area: photo;
+    .buttons {
+        height: 500px;
+        border: 3px solid lightblue;
+        padding-right:360px;
+        padding-top: 160px;
+        button {
+            font-size:150%;
+            height:150px;
+            width: 150px; 
+        }
+        label {
+            width:150px;
+            height:150px;
+            font-size:150%;
+            background-color:lightgray;
+            border:solid 2px darkgray;
+            border-radius:5px;
+            text-align:center;
+            padding:6px;
+            padding-top: 50px;
+            cursor: pointer;
         }
     }
-    div.upload-body {
-        display:flex;
-        flex-direction: row;
-        border: 1px solid gray;
-        div.user-panel {
-            width: 33.33%;
-        }
-        div.photo-panel {
-            width: 66.66%;
-        }
+    .picture {
+        height: 500px;
     }
 }
+.footer-area1 {
+    grid-area: footer;
+    border: 3px solid green;
+    height: 90px;
+}
+.uploader-page {
+    display: grid;
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    //width: 1200px;
+    //height: 800px;
+    grid-template-areas: 
+        'header header header header header header header header header header logo logo'
+        'photo photo photo photo photo photo photo photo photo photo info info'
+        'footer footer footer footer footer footer footer footer footer footer info info';
+}
+

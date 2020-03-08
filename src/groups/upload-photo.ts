@@ -8,7 +8,7 @@ import { I18N } from 'aurelia-i18n';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
-import { timingSafeEqual } from 'crypto';
+import { Login } from '../user/login';
 
 @autoinject
 export class UploadPhoto {
@@ -22,8 +22,12 @@ export class UploadPhoto {
     misc;
     group_id;
     logo_url;
+    photo_url;
+    duplicate;
     title;
     description;
+    photos = [];
+    subscriber;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -36,6 +40,18 @@ export class UploadPhoto {
         this.misc = misc;
     }
 
+    attached() {
+        this.subscriber = this.ea.subscribe('GROUP-PHOTO-UPLOADED', msg => {
+            this.photos = [];
+            this.photo_url = msg.photo_url;
+            this.duplicate=msg.duplicate;
+        });
+    }
+
+    detached() {
+        this.subscriber.dispose();
+    }
+
     activate(params, config) {
         this.group_id = params.group;
         this.api.call_server('groups/get_group_info', { group_id: this.group_id })
@@ -46,6 +62,22 @@ export class UploadPhoto {
             })
         this.theme.hide_title = true;
         this.theme.hide_menu = true;
+    }
+
+    save() {
+        this.api.uploadFiles(
+            this.user.id,
+            this.photos,
+            'PHOTO',
+            { group_id: this.group_id, ptp_key: this.api.constants.ptp_key }
+        )
+    }
+
+    @computedFrom('photos', 'photo_url')
+    get phase() {
+        if (this.photos.length > 0) return 'ready-to-save';
+        if (this.photo_url) return 'photo-uploaded';
+        return 'ready-to-select';
     }
 
 }

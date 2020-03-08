@@ -418,7 +418,8 @@
         "cancel": "Cancel",
         "link": "Link",
         "link-copied": "Link was copied",
-        "upload-logo": "Upload"
+        "upload-logo": "Upload",
+        "select-photo": "Select photo"
     },
     "consts": {
         "vis-never": "Never display!",

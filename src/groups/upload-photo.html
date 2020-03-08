@@ -1,21 +1,39 @@
 <template>
-    <div class="content-area uploader-page">
-        <div class="upload-header">
-            <div>
-                <img src="${logo_url}" width="128" />
-            </div>
+    <div class="uploader-page container">
+        <div class="logo-area">
+            <img src="${logo_url}" height="128" class="logo-image" />
+        </div>
+        <div class="header-area">
             <div class="titles">
-                <h2>${title}</h1>
+                <h1>${title}</h1>
                 <h3>${description}</h3>
             </div>
         </div>
-        <div class="upload-body">
-            <div class="user-panel">
-user data here
+        <div class="info-area">
+            <compose view-model="../user/login"></compose>
+        </div>
+        <div class="photo-area">
+            <div class="buttons" if.bind="phase != 'photo-uploaded'">
+                <form submit.delegate="save()">
+                    <div class="form-group" if.bind="phase=='ready-to-select'">
+                        <label class="control-label" for="photos">
+                            ${'groups.select-photo' & t}
+                        </label>
+                        <div>
+                            <input style="display:none" type="file" id="photos" accept="image/*" files.bind="photos">
+                        </div>
+                    </div>
+                    <div class="form-group" if.bind="phase == 'ready-to-save'">
+                        <button type="submit" class="btn btn-success">${'photos.save' & t}</button>
+                    </div>
+                </form>
             </div>
-            <div class="photo-panel">
-photo here
+            <div if.bind="phase=='photo-uploaded'" class="picture">
+                <img src.bind="photo_url" height="500" />
             </div>
+        </div>
+        <div class="footer-area1">
+            phase: ${phase} ${duplicate ? 'duplicate' : ''}
         </div>
     </div>
 
