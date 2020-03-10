@@ -420,7 +420,11 @@
         "link": "קישור",
         "link-copied": "הקישור הועתק",
         "upload-logo": "שלח",
-        "select-photo": "בחר תמונה"
+        "select-photo": "בחר תמונה",
+        "photo-story": "ספר על התמונה שהעלית",
+        "info-header": "פרטי השולח והתמונה",
+        "explain-registratin": "כדי להעלות תמונות יש לבצע הרשמה חד-פעמית",
+        "login": "התחבר"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="info-area">
-            <compose view-model="../user/login"></compose>
+            <compose view-model="./user-info" model.bind="status_record"></compose>
         </div>
         <div class="photo-area">
             <div class="buttons" if.bind="phase != 'photo-uploaded'">

@@ -124,11 +124,9 @@ export class PhotoDetail {
 
     @computedFrom('photo_story.story_text', 'story_changed')
     get highlightedHtml() {
-        console.log("keywords: ", this.keywords);
         if (!this.photo_story) {
             return "";
         }
-        console.log("keywords: ", this.keywords);
         let highlighted_html = highlight(this.photo_story.story_text, this.keywords, this.advanced_search);
         return highlighted_html;
     }

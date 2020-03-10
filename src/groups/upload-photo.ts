@@ -8,7 +8,7 @@ import { I18N } from 'aurelia-i18n';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
-import { Login } from '../user/login';
+import { UserInfo } from './user-info';
 
 @autoinject
 export class UploadPhoto {
@@ -22,12 +22,17 @@ export class UploadPhoto {
     misc;
     group_id;
     logo_url;
-    photo_url;
+    photo_url = '';
     duplicate;
     title;
     description;
     photos = [];
     subscriber;
+    photo_story;
+    status_record = {
+        photo_loaded: false,
+        is_logged_in: false
+    }
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -75,8 +80,12 @@ export class UploadPhoto {
 
     @computedFrom('photos', 'photo_url')
     get phase() {
+        this.status_record.photo_loaded = this.photo_url != '';
         if (this.photos.length > 0) return 'ready-to-save';
-        if (this.photo_url) return 'photo-uploaded';
+        if (this.photo_url) {
+            this.status_record.photo_loaded = true;
+            return 'photo-uploaded';
+        }
         return 'ready-to-select';
     }
 
