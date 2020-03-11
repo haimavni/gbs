@@ -16,6 +16,9 @@
         width: 100%;
         padding: 6px;
     }
+    .warning {
+        border: solid 1px #aa00;
+    }
 }
 .photo-area {
     grid-area: photo;
@@ -42,6 +45,9 @@
             padding:6px;
             padding-top: 50px;
             cursor: pointer;
+            &.disabled {
+                cursor: no-drop;
+            }
             background-color: #eeeeee;
         }
     }

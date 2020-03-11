@@ -5,14 +5,14 @@
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">${"groups.info-header" & t}</h3>
                 </div>
-                <div class="panel-body" style="max-width:300px;">
+                <div class="panel-body">
                     <form role="form">
                         <div class="form-group">
                             <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
                                 value.bind="loginData.email" t="[placeholder]user.email-address">
                         </div>
                         <button if.bind="login_phase=='attempting'" class="btn btn-primary btn-block"
-                            click.trigger="do_login()">
+                            click.trigger="attempt_login()">
                             ${"groups.login" & t}
                         </button>
                         <div if.bind="login_phase=='registering'">
@@ -23,9 +23,9 @@
                                 <input type="password" name="password" id="password" class="form-control input-sm"
                                     value.bind="loginData.password" t="[placeholder]user.password">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
                                 <input type="password" name="confirm_password" id="password"
-                                    class="form-control input-sm ${loginData.password != loginData.confirm_password ? 'warning' : ''}"
+                                    class="form-control input-sm"
                                     value.bind="loginData.confirm_password" t="[placeholder]user.confirm-password">
                             </div>
                             <div class="form-group">
@@ -36,7 +36,7 @@
                                 <input type="text" name="last_name" id="last_name" class="form-control input-sm"
                                     value.bind="loginData.last_name" t="[placeholder]user.last-name">
                             </div>
-                            <button name="register" click.trigger="do_register()" class="btn btn-info btn-block">
+                            <button name="register" click.trigger="do_register()" class="btn btn-info btn-block" disabled.bind="missing_fields">
                                 ${"user.register" & t}
                             </button>
                         </div>

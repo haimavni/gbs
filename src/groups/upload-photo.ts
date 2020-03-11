@@ -1,7 +1,6 @@
 import { MemberGateway } from '../services/gateway';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { User } from '../services/user';
 import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
 import { I18N } from 'aurelia-i18n';
@@ -13,7 +12,6 @@ import { UserInfo } from './user-info';
 @autoinject
 export class UploadPhoto {
     api;
-    user;
     theme;
     dialog;
     i18n;
@@ -31,12 +29,12 @@ export class UploadPhoto {
     photo_story;
     status_record = {
         photo_loaded: false,
+        user_id: -1,
         is_logged_in: false
     }
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
+    constructor(api: MemberGateway, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
-        this.user = user;
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
@@ -71,7 +69,7 @@ export class UploadPhoto {
 
     save() {
         this.api.uploadFiles(
-            this.user.id,
+            this.status_record.user_id,
             this.photos,
             'PHOTO',
             { group_id: this.group_id, ptp_key: this.api.constants.ptp_key }

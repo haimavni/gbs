@@ -22,6 +22,7 @@ export class UserInfo {
     REGISTERING = 1;
     REGISTERING_DONE = 2;
     registering = this.NOT_REGISTERING;
+    user_id = -1;
     new_user = false;
     photo_story;
 
@@ -38,41 +39,36 @@ export class UserInfo {
         this.status_record = params;
     }
 
-    do_login() {
-        this.user.login(this.loginData)
-            .then(() => {
-                this.controller.ok('good');
-                toastr.success("<p dir='rtl'>" + this.i18n.tr('user.login-successful') + "</p>", '', 6000);
+    attempt_login() {
+        this.api.call_server('groups/attempt_login', { email: this.loginData.email })
+            .then(response => {
+                this.user_id = response.user_id;
+                this.new_user = this.user_id == 0;
             })
-            .catch((reason) => {
-                this.login_failed = true;
-                this.message = 'user.' + reason;
-                this.message_type = "error";
-            });
     }
 
     do_register() {
-        if (this.registering) {
-            this.user.register(this.loginData)
-                .then(() => {
-                    this.registering = this.REGISTERING_DONE;
-                    this.message = 'user.howto-finalize-registration';
-                    this.message_type = 'success';
-                })
-                .catch((reason) => {
-                    this.message = 'user.' + reason;
-                    this.message_type = 'error';
-                });
-        } else {
-            this.registering = this.REGISTERING;
-        }
+        this.api.call_server('groups/register_user', this.loginData)
+            .then(response => {
+                this.user_id = response.user_id;
+                this.new_user = false;
+                //this.status_record.is_logged_in = true;
+            })
     }
 
-    @computedFrom('user.isLoggedIn', 'loginData.email')
+    @computedFrom('loginData.first_name', 'loginData.last_name', 'loginData.password', 'loginData.confirm_password')
+    get missing_fields() {
+        if (this.loginData.first_name && this.loginData.last_name && this.loginData.password && (this.loginData.password==this.loginData.confirm_password))
+            return ''
+        return 'disabled'
+    }
+
+    @computedFrom('user_id', 'loginData.email', 'new_user')
     get login_phase() {
         if (this.loginData.email) {
-            if (this.user.isLoggedIn) {
+            if (this.user_id > 0) {
                 this.status_record.is_logged_in = true;
+                this.status_record.user_id = this.user_id;
                 return 'is_logged-in';
             } else {
                 if (this.new_user) return 'registering';
@@ -80,7 +76,6 @@ export class UserInfo {
             }
         }
         return 'init';
-
     }
 
 }

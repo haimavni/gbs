@@ -16,11 +16,11 @@
             <div class="buttons" if.bind="phase != 'photo-uploaded'">
                 <form submit.delegate="save()">
                     <div class="form-group" if.bind="phase=='ready-to-select'">
-                        <label class="control-label" for="photos">
+                        <label class="control-label ${status_record.user_id <= 0 ? 'disabled' : ''}" for="photos">
                             ${'groups.select-photo' & t}
                         </label>
                         <div>
-                            <input style="display:none" type="file" id="photos" accept="image/*" files.bind="photos">
+                            <input style="display:none" type="file" id="photos" accept="image/*" files.bind="photos"  disabled="${status_record.user_id <= 0 ? 'disabled' : ''}">
                         </div>
                     </div>
                     <div class="form-group" if.bind="phase == 'ready-to-save'">
