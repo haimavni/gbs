@@ -37,6 +37,7 @@ export class Photos {
     params = {
         kind: "P",
         selected_topics: [],
+        show_untagged: false,
         selected_photographers: [],
         selected_days_since_upload: 0,
         selected_uploader: "anyone",
@@ -123,7 +124,8 @@ export class Photos {
             clear_filter_after_select: false,
             can_set_sign: true,
             can_group: true,
-            empty_list_message: this.i18n.tr('photos.no-topics-yet')
+            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            show_untagged: this.user.editing
         });
         this.photographers_settings = new MultiSelectSettings({
             clear_filter_after_select: true,
@@ -305,6 +307,7 @@ export class Photos {
     handle_topic_change(event) {
         if (!event.detail) return;
         this.params.selected_topics = event.detail.selected_options
+        this.params.show_untagged = event.detail.show_untagged; 
         this.update_photo_list();
     }
 
@@ -488,6 +491,7 @@ export class Photos {
             can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
             can_delete: result == "photos-ready-to-edit",
             hide_higher_options: this.selected_photos.size > 0 && this.user.editing,
+            show_untagged: this.user.editing,
             help_topic: 'topics-help'
         });
         this.photographers_settings.update({

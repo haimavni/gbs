@@ -423,8 +423,7 @@
         "photo-story": "Tell the story of the photo",
         "info-header": "Photo and sender details",
         "explain-registration": "One-time registration is needed to upload photos",
-        "login": "Log in",
-        
+        "login": "Log in"
     },
     "consts": {
         "vis-never": "Never display!",
@@ -448,7 +447,8 @@
         "unselect": "Unselect",
         "change-group": "Change group",
         "edit-item": "Edit the name",
-        "remove-item": "Remove the item"
+        "remove-item": "Remove the item",
+        "show-untagged": "--Show untagged--"
     },
     "locales": {
         "he": "Hebrew",

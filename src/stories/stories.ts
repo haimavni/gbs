@@ -36,6 +36,7 @@ export class Stories {
     params = {
         keywords_str: "",
         selected_topics: [],
+        show_untagged: false,
         selected_words: [],
         selected_uploader: "",
         from_date: "",
@@ -407,6 +408,7 @@ export class Stories {
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
+        this.params.show_untagged = event.detail.show_untagged;
         this.update_story_list('other');
     }
 
@@ -520,7 +522,8 @@ export class Stories {
             can_delete: result == "ready-to-edit",
             hide_higher_options: this.checked_stories.size > 0 && this.user.editing,
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
-            help_topic: 'topics-help'
+            help_topic: 'topics-help',
+            show_untagged: this.user.editing
         });
         this.words_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
@@ -590,6 +593,7 @@ export class Stories {
         this.params = {
             keywords_str: "",
             selected_topics: [],
+            show_untagged: false,
             selected_words: [],
             selected_uploader: "",
             from_date: "",

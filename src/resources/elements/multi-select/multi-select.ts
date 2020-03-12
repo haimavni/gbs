@@ -21,6 +21,7 @@ export class MultiSelectSettings {
     hide_higher_options = false;  //hide options that are collections of lower level options
     empty_list_message = 'Empty list of options';
     help_topic = 'search-input';
+    to_show_untagged = false;
 
     constructor(obj) {
         this.update(obj);
@@ -60,6 +61,7 @@ export class MultiSelectCustomElement {
     scroll_area;
     user;
     theme;
+    to_show_untagged = false;
 
     constructor(element, i18n: I18N, dialogService: DialogService, user: User, theme: Theme) {
         this.element = element;
@@ -101,6 +103,7 @@ export class MultiSelectCustomElement {
     }
 
     select_option(option) {
+        this.to_show_untagged = false;
         let g;
         if (this.user.editing && option.topic_kind == 0) {  //ready to add sub topics to new topic
             g = 1;
@@ -327,10 +330,19 @@ export class MultiSelectCustomElement {
         let changeEvent = new CustomEvent('ms-change', {
             detail: {
                 selected_options: this.selected_options,
+                show_untagged: this.to_show_untagged
             },
             bubbles: true
         });
         this.element.dispatchEvent(changeEvent);
+    }
+
+    show_untagged() {
+        //clear all selected options
+        this.to_show_untagged = ! this.to_show_untagged;
+        if (this.to_show_untagged)
+            this.clear_all_selections();
+        this.dispatch_event();
     }
 
     @computedFrom('settings.mergeable')
@@ -356,6 +368,11 @@ export class MultiSelectCustomElement {
     @computedFrom('settings.can_delete')
     get can_delete() {
         return this.settings.can_delete;
+    }
+
+    @computedFrom('settings.show_untagged')
+    get can_show_untagged() {
+        return this.settings.show_untagged;
     }
 }
 
