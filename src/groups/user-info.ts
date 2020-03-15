@@ -78,7 +78,9 @@ export class UserInfo {
         return 'init';
     }
 
+    next_photo() {
+        this.status_record.photo_uploaded = false;
+        this.status_record.photo_url = '';
+    }
+
 }
-
-
-

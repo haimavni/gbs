@@ -29,7 +29,7 @@
                 </form>
             </div>
             <div if.bind="phase=='photo-uploaded'" class="picture">
-                <img src.bind="photo_url" height="500" />
+                <img src.bind="status_record.photo_url" height="500" click.delegate="openDialog()"/>
             </div>
         </div>
         <div class="footer-area1">

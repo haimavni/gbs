@@ -428,7 +428,8 @@
         "explain-registration": "One-time registration is needed to upload photos",
         "login": "Log in",
         "click": "To upload your photos, link this link",
-        "regards": "Regards"
+        "regards": "Regards",
+        "next-photo": "Next photo"
     },
     "consts": {
         "vis-never": "Never display!",

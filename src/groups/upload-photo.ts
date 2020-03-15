@@ -20,7 +20,6 @@ export class UploadPhoto {
     misc;
     group_id;
     logo_url;
-    photo_url = '';
     duplicate;
     title;
     description;
@@ -28,9 +27,10 @@ export class UploadPhoto {
     subscriber;
     photo_story;
     status_record = {
-        photo_loaded: false,
+        photo_uploaded: false,
         user_id: -1,
-        is_logged_in: false
+        is_logged_in: false,
+        photo_url: ''
     }
 
     constructor(api: MemberGateway, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
@@ -46,7 +46,7 @@ export class UploadPhoto {
     attached() {
         this.subscriber = this.ea.subscribe('GROUP-PHOTO-UPLOADED', msg => {
             this.photos = [];
-            this.photo_url = msg.photo_url;
+            this.status_record.photo_url = msg.photo_url;
             this.duplicate=msg.duplicate;
         });
     }
@@ -76,15 +76,26 @@ export class UploadPhoto {
         )
     }
 
-    @computedFrom('photos', 'photo_url')
+    @computedFrom('photos', 'status_record.photo_url')
     get phase() {
-        this.status_record.photo_loaded = this.photo_url != '';
+        this.status_record.photo_uploaded = this.status_record.photo_url != '';
         if (this.photos.length > 0) return 'ready-to-save';
-        if (this.photo_url) {
-            this.status_record.photo_loaded = true;
+        if (this.status_record.photo_url) {
+            this.status_record.photo_uploaded = true;
             return 'photo-uploaded';
         }
         return 'ready-to-select';
     }
+
+    openDialog() {
+        document.body.classList.add('black-overlay');
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: [] }, lock: false })
+            .whenClosed(response => {
+                document.body.classList.remove('black-overlay');
+                //this.theme.page_title = title;
+            });
+    }
+
+
 
 }

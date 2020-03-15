@@ -23,10 +23,11 @@
                                 <input type="password" name="password" id="password" class="form-control input-sm"
                                     value.bind="loginData.password" t="[placeholder]user.password">
                             </div>
-                            <div class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
+                            <div
+                                class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
                                 <input type="password" name="confirm_password" id="password"
-                                    class="form-control input-sm"
-                                    value.bind="loginData.confirm_password" t="[placeholder]user.confirm-password">
+                                    class="form-control input-sm" value.bind="loginData.confirm_password"
+                                    t="[placeholder]user.confirm-password">
                             </div>
                             <div class="form-group">
                                 <input type="text" name="first_name" id="first_name" class="form-control input-sm"
@@ -36,14 +37,22 @@
                                 <input type="text" name="last_name" id="last_name" class="form-control input-sm"
                                     value.bind="loginData.last_name" t="[placeholder]user.last-name">
                             </div>
-                            <button name="register" click.trigger="do_register()" class="btn btn-info btn-block" disabled.bind="missing_fields">
+                            <button name="register" click.trigger="do_register()" class="btn btn-info btn-block"
+                                disabled.bind="missing_fields">
                                 ${"user.register" & t}
                             </button>
                         </div>
-                        <div class="form-group" if.bind="status_record.photo_loaded">
+                        <div class="form-group" if.bind="status_record.photo_uploaded">
                             <textarea t="[placeholder]groups.photo-story" rows="6" value.bind="photo_story"
-                                id="photo-story" name="photo-story" style="background-color: lightblue;" />
-                            </div>
+                                id="photo-story" name="photo-story" style="background-color: lightblue;">
+                            </textarea>
+                        </div>
+                        <div class="form-group" if.bind="status_record.photo_uploaded">
+                            <button name="next" click.trigger="next_photo()" class="btn btn-info btn-block">
+                                <!-- disabled.bind="missing_fields"> -->
+                                    ${"groups.next-photo" & t}
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
