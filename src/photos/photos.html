@@ -13,7 +13,7 @@
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;padding-right:15px;">
                         <form style="display:flex;height:34px;">
-                            <div class="input-group" if.bind="user.privileges.ADVANCED  && params.selected_order_option == 'random-order'">
+                            <div class="input-group" if.bind="user.privileges.ADVANCED && params.selected_order_option == 'random-order'">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
                             <div class="input-group" if.bind="user.privileges.EDITOR" style="width:130px;">
@@ -127,9 +127,10 @@
                     </div>
                     <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                     </h3>
-                    <div class="row ${empty ? 'empty-photos' : ''}" id="photos-container"
+                    <div class="row ${empty ? 'empty-photos' : ''}" id="photos-container" ref="scroll_area"
                         if.bind="!editing_filters">
-                        <div css="padding:0;margin:0;width:${photo_size}px;height:${photo_size}px;"
+                        <div css="width:${photo_size}px;height:${photo_size}px;"
+                            class="${photo.photo_id==curr_photo_id ? 'current-photo' : ''}"
                             repeat.for="photo of photo_list | filter : filter : '*selected' : 'title' : name | take : 9999">
                             <a style="position:relative;width:100%" click.delegate="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.delegate="toggle_selection(photo)" 
                                 class.bind="photo.selected" >

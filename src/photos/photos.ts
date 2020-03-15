@@ -86,6 +86,9 @@ export class Photos {
     empty = false;
     upload_date_stops = [];
     upload_date_stops_index = 0;
+    scroll_area;
+    scroll_top = 0;
+    curr_photo_id = 0;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -164,7 +167,8 @@ export class Photos {
         } else {
             this.params.photo_ids = [];
         }
-        this.update_photo_list();
+        if (this.photo_list.length == 0)
+            this.update_photo_list();
     }
 
     @computedFrom('user.editing')
@@ -189,13 +193,13 @@ export class Photos {
             .then(() => this.update_topic_list());
     }
 
-
-
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
         this.theme.page_title = (this.caller_type) ? 'photos.' + this.caller_type : "photos.photos-store";
+        if (this.scroll_area)
+            this.scroll_area.scrollTop = this.scroll_top;
     }
 
     detached() {
@@ -204,6 +208,8 @@ export class Photos {
     }
 
     update_photo_list() {
+        this.scroll_top = 0;
+        this.curr_photo_id = 0;
         console.time('get_photo_list');
         this.params.user_id = this.user.id;
         return this.api.call_server_post('photos/get_photo_list', this.params)
@@ -255,6 +261,7 @@ export class Photos {
     }
 
     maximize_photo(slide, event, index) {
+        this.scroll_top = this.scroll_area.scrollTop;
         let distance_from_right = this._photo_size - event.offsetX;
         if (slide.flipable && distance_from_right <= 12) {
             this.flip_sides(slide, event);
@@ -299,6 +306,7 @@ export class Photos {
             }
             this.params.selected_photo_list = Array.from(this.selected_photos);
         } else {
+            this.curr_photo_id = slide.photo_id;
             event.stopPropagation();
             this.openDialog(slide);
         }
@@ -464,11 +472,10 @@ export class Photos {
         }
     }
 
-
-
     private jump_to_photo(slide) {
-        let photo_id = slide.photo_id;
-        this.router.navigateToRoute('photo-detail', { id: photo_id, keywords: "" });
+        this.curr_photo_id = slide.photo_id;
+        this.scroll_top = this.scroll_area.scrollTop;
+        this.router.navigateToRoute('photo-detail', { id: this.curr_photo_id, keywords: "" });
     }
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str',

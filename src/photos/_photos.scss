@@ -79,3 +79,15 @@ img.similar {
     margin-top: 20px;
     padding-right: 24px;
 }
+
+div.current-photo {
+    border: 3px solid yellow;
+    img {
+        border-radius: 25%;
+    }
+}
+
+div#photo-container>div {
+    padding: 0;
+    margin: 0;
+}
