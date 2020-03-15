@@ -25,6 +25,7 @@ export class GroupManager {
     ];
     user;
     subscriber;
+    group_mail_url;
 
     constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
         this.api = api;
@@ -96,9 +97,21 @@ export class GroupManager {
     }
 
     copy_link(group) {
-        let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`
+        let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`;
         copy_to_clipboard(url);
         toastr.success(this.i18n.tr('groups.link-copied'))
     }
 
+    email_link(group) {
+        alert('one');
+        let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`;
+        this.group_mail_url = url;
+    }
+
+    prepare_mail(group) {
+        alert('two')
+        let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`;
+        this.group_mail_url = encodeURIComponent(url);
+    }
+   
 }

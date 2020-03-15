@@ -79,7 +79,7 @@ export class StoryDetail {
         } else {
             used_for = (params.what && params.what == 'term') ? 
             this.api.constants.story_type.STORY4TERM : (params.what && params.what == 'help') ? 
-            this.api.constants.story_type.STORY4HELP : this.api.constants.story_type.STORY4EVEMT;
+            this.api.constants.story_type.STORY4HELP : this.api.constants.story_type.STORY4EVENT;
         }
         this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : (used_for == this.api.constants.story_type.STORY4ELP) ? 'help' : 'story';
         let what = this.story_type == 'story' ? 'EVENT' : this.story_type == 'help' ? 'HELP' : 'TERM';

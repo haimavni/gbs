@@ -16,7 +16,8 @@
                         class="form-control" />
                 </div>
             </div>
-            <table class="table table-striped" aurelia-table="data.bind: group_list; display-data.bind: $displayData; 
+            <table class="table table-striped"
+                aurelia-table="data.bind: group_list; display-data.bind: $displayData; 
                 current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;filters.bind:filters;">
                 <thead>
                     <tr>
@@ -28,6 +29,7 @@
                         <th>${'groups.edit' & t}</th>
                         <th>${'groups.delete' & t}</th>
                         <th>${'groups.link' & t}</th>
+                        <th>${'groups.send-email' & t}</th>
                     </tr>
                 </thead>
                 <tbody style="height:600px;overflow:auto;">
@@ -41,8 +43,8 @@
                                     <label for="logo-image-${item.id}" style="margin:0;">
                                         <img width="32" src.bind="item.logo_url" style="padding:0;cursor:pointer;" />
                                     </label>
-                                    <input style="display:none" type="file" id="logo-image-${item.id}"
-                                        accept="image/*" files.bind="item.logo_images">
+                                    <input style="display:none" type="file" id="logo-image-${item.id}" accept="image/*"
+                                        files.bind="item.logo_images">
                                 </div>
                                 <div class="form-group" if.bind="item.logo_images">
                                     <button type="submit">
@@ -62,8 +64,15 @@
                             </a>
                         </td>
                         <td class="center">
-                            <a href title="Delete" click.delegate="copy_link(item)">
+                            <a href title="Copy link" click.delegate="copy_link(item)">
                                 <i class="far fa-link"></i>
+                            </a>
+                        </td>
+                        <td class="center" focus.delegate="prepare_mail(item)">
+                            <a class="resp-sharing-button__link"
+                                href="mailto:?subject=${item.title}&body=${group_mail_url}" target="_blank"
+                                rel="noopener">
+                                <i class="far fa-envelope"></i>
                             </a>
                         </td>
                     </tr>
