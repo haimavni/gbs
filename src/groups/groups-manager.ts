@@ -60,6 +60,7 @@ export class GroupManager {
                 for (let g of this.group_list) {
                     let logo_images: FileList;
                     g.logo_images = logo_images;
+                    g.mail_url = this.email_link(g);
                 }
             });
     }
@@ -103,15 +104,13 @@ export class GroupManager {
     }
 
     email_link(group) {
-        alert('one');
         let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`;
-        this.group_mail_url = url;
+        let click = this.i18n.tr('groups.click')
+        let to_upload = this.i18n.tr('groups.to-upload')
+        let regards = this.i18n.tr('groups.regards')
+        let a =`${url} :${click}\n\n${regards}`
+        a = encodeURIComponent(a);
+        return a;
     }
 
-    prepare_mail(group) {
-        alert('two')
-        let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`;
-        this.group_mail_url = encodeURIComponent(url);
-    }
-   
 }
