@@ -28,8 +28,10 @@
                     </div>
                 </form>
             </div>
-            <div if.bind="phase=='photo-uploaded'" class="picture">
-                <img src.bind="status_record.photo_url" height="500" click.delegate="openDialog()"/>
+            <div if.bind="phase=='photo-uploaded'" class="picture ${photo_list.length > 0 ? 'photos-ready' : 'photos-not-ready'}">
+                <a click.delegate="openDialog()" >
+                    <img src.bind="status_record.photo_url" height="500" />
+                </a>
             </div>
         </div>
         <div class="footer-area1">

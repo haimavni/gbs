@@ -3,6 +3,7 @@ import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
+import { User } from '../services/user';
 import { I18N } from 'aurelia-i18n';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
@@ -13,6 +14,7 @@ import { UserInfo } from './user-info';
 export class UploadPhoto {
     api;
     theme;
+    user;
     dialog;
     i18n;
     router;
@@ -32,9 +34,17 @@ export class UploadPhoto {
         is_logged_in: false,
         photo_url: ''
     }
+    params = {
+        selected_uploader: "mine",
+        selected_order_option: "upload-time-order",
+        user_id: null,
+        count_limit: 10
+    };
+    photo_list = [];
 
-    constructor(api: MemberGateway, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
+        this.user = user;
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
@@ -48,7 +58,22 @@ export class UploadPhoto {
             this.photos = [];
             this.status_record.photo_url = msg.photo_url;
             this.duplicate=msg.duplicate;
+            console.log("about to update photo list");
+            this.update_photo_list();
         });
+    }
+
+    update_photo_list() {
+        this.params.user_id = this.status_record.user_id;
+        return this.api.call_server_post('photos/get_photo_list', this.params)
+        .then(result => {
+            //this.after_upload = false;
+            this.photo_list = result.photo_list;
+            for (let photo of this.photo_list) {
+                photo.title = '<span dir="rtl">' + photo.title + '</span>';
+            }
+        });
+
     }
 
     detached() {
@@ -88,14 +113,15 @@ export class UploadPhoto {
     }
 
     openDialog() {
+        if (this.photo_list.length == 0) return;
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: [] }, lock: false })
+        this.user.editing = true;
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: this.photo_list[0], slide_list: this.photo_list }, lock: false })
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
+                this.user.editing = false;
                 //this.theme.page_title = title;
             });
     }
-
-
 
 }
