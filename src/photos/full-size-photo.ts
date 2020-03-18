@@ -98,7 +98,7 @@ export class FullSizePhoto {
                 el.focus();
             }
         }, 300);
-}
+    }
 
     deactivate() {
         this.navEvent.dispose();
@@ -367,7 +367,7 @@ export class FullSizePhoto {
                 photo_data.width = this.crop_width;
                 photo_data.height = this.crop_height;
                 for (let face of this.faces) {
-                    if (! face.x) continue;
+                    if (!face.x) continue;
                     face.x -= this.crop_left;
                     face.y -= this.crop_top;
                 }
@@ -437,7 +437,7 @@ export class FullSizePhoto {
             let pid = this.slide.photo_id;
             this.get_faces(pid);
             this.get_photo_info(pid);
-            }
+        }
     }
     public prev_slide(event) {
         let idx = this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);

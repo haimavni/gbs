@@ -83,4 +83,8 @@ export class UserInfo {
         this.status_record.photo_url = '';
     }
 
+    save_photo_story() {
+        alert('not ready')
+    }
+
 }

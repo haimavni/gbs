@@ -429,7 +429,11 @@
         "login": "Log in",
         "click": "To upload your photos, link this link",
         "regards": "Regards",
-        "next-photo": "Next photo"
+        "next-photo": "Next photo",
+        "save-photo-story": "Save photo story",
+        "ready-to-select": "",
+        "photo-uploaded": "Click on photo to identify people",
+        "ready-to-save": "Ready to save the selected photo"
     },
     "consts": {
         "vis-never": "Never display!",

@@ -32,7 +32,8 @@ export class UploadPhoto {
         photo_uploaded: false,
         user_id: -1,
         is_logged_in: false,
-        photo_url: ''
+        photo_url: '',
+        photo_id: 0
     }
     params = {
         selected_uploader: "mine",
@@ -57,6 +58,7 @@ export class UploadPhoto {
         this.subscriber = this.ea.subscribe('GROUP-PHOTO-UPLOADED', msg => {
             this.photos = [];
             this.status_record.photo_url = msg.photo_url;
+            this.status_record.photo_id = msg.photo_id;
             this.duplicate=msg.duplicate;
             console.log("about to update photo list");
             this.update_photo_list();

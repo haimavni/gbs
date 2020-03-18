@@ -35,7 +35,10 @@
             </div>
         </div>
         <div class="footer-area1">
-            phase: ${phase} ${duplicate ? 'duplicate' : ''}
+            <span>${('groups.' + phase) & t}</span>
+            <br>
+            <span if.bind="duplicate">${'groups.duplicate' & t}</span>
+            <!-- phase: ${phase} ${duplicate ? 'duplicate' : ''} -->
         </div>
     </div>
 

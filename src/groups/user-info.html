@@ -47,10 +47,15 @@
                                 id="photo-story" name="photo-story" style="background-color: lightblue;">
                             </textarea>
                         </div>
-                        <div class="form-group" if.bind="status_record.photo_uploaded">
+                        <button name="save-story" click.trigger="save_photo_story()" class="btn btn-info btn-block"
+                            if.bind="status_record.photo_uploaded"
+                            disabled.bind="! photo_story">
+                            ${"groups.save-photo-story" & t}
+                        </button>
+                        <div class="form-group" if.bind="status_record.photo_uploaded" style="margin-top:12px;">
                             <button name="next" click.trigger="next_photo()" class="btn btn-info btn-block">
                                 <!-- disabled.bind="missing_fields"> -->
-                                    ${"groups.next-photo" & t}
+                                ${"groups.next-photo" & t}
                             </button>
                         </div>
                     </form>
