@@ -430,13 +430,16 @@
         "click": "To upload your photos, link this link",
         "regards": "Regards",
         "next-photo": "Next photo",
-        "save-photo-story": "Save photo story",
+        "save-photo-story": "Save photo details",
         "ready-to-select": "",
         "photo-uploaded": "Click on photo to identify people",
         "ready-to-save": "Ready to save the selected photo",
         "photo-name": "Photo caption",
         "duplicate": "Photo already uploaded",
-        "not-logged-in": "To continue, you must log in"
+        "not-logged-in": "To continue, you must log in",
+        "cancel-changes": "Cancel changes",
+        "unknown-photographer-name": "Unknown photographer",
+        "photographer-name": "Photographer name"
     },
     "consts": {
         "vis-never": "Never display!",

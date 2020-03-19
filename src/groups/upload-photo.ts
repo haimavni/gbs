@@ -31,10 +31,16 @@ export class UploadPhoto {
         user_id: -1,
         photo_url: '',
         photo_id: 0,
-        photo_name: '',
-        photo_story: '',
         duplicate: false,
-        photo_details_saved: false
+        photo_details_saved: false,
+        old_data: '',
+        photo_info: {
+            photo_name: '',
+            photo_story: '',
+            photo_date_str: '',
+            photo_date_datespan: 0,
+            photographer_name: ''
+        }
     }
     params = {
         selected_uploader: "mine",
@@ -43,6 +49,7 @@ export class UploadPhoto {
         count_limit: 10
     };
     photo_list = [];
+    unknown_photographer;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -53,6 +60,7 @@ export class UploadPhoto {
         this.router = router;
         this.ea = ea;
         this.misc = misc;
+        this.unknown_photographer = this.i18n.tr('groups.unknown-photographer-name')
     }
 
     attached() {
@@ -60,9 +68,13 @@ export class UploadPhoto {
             this.photos = [];
             this.status_record.photo_url = msg.photo_url;
             this.status_record.photo_id = msg.photo_id;
-            this.status_record.photo_name = msg.photo_name;
-            this.status_record.photo_story = msg.photo_story;
-            this.status_record.duplicate=msg.duplicate;
+            this.status_record.photo_info.photo_name = msg.photo_name;
+            this.status_record.photo_info.photo_story = msg.photo_story;
+            this.status_record.photo_info.photo_date_str = msg.photo_date_str;
+            this.status_record.photo_info.photo_date_datespan = msg.photo_date_datespan;
+            this.status_record.photo_info.photographer_name = msg.photographer_name || this.unknown_photographer;
+            this.status_record.duplicate = msg.duplicate;
+            this.status_record.old_data = deepClone(this.status_record.photo_info);
             this.update_photo_list();
         });
     }
@@ -121,7 +133,8 @@ export class UploadPhoto {
         if (this.photo_list.length == 0) return;
         document.body.classList.add('black-overlay');
         this.user.editing = true;
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: this.photo_list[0], slide_list: this.photo_list }, lock: false })
+        let slide = this.photo_list.find(photo => photo.photo_id==this.status_record.photo_id);
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list }, lock: false })
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
                 this.user.editing = false;
@@ -129,4 +142,9 @@ export class UploadPhoto {
             });
     }
 
+}
+
+function deepClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+    //use Object.assign({}, obj) if you don't need a deep clone
 }

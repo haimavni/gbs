@@ -16,6 +16,7 @@ export class DateRangeCustomElement {
     @bindable label;
     @bindable range_options: any = [];
     @bindable hide_label_if_no_date = false;
+    @bindable enable_days_range = false;
     _end_date_str="";
     end_date_options = [];
     partial;
@@ -59,7 +60,8 @@ export class DateRangeCustomElement {
             return;
         }
         this.partial = date.detail_level() != 'D';
-        if (! this.partial) {
+        console.log("enable days range ", this.enable_days_range);
+        if (! this.partial && ! this.enable_days_range) {
             return;
         }
         this.end_date_options = [];
@@ -121,7 +123,7 @@ export class DateRangeCustomElement {
 
     @computedFrom("user.editing", "partial", "is_valid", "range_options", "base_date_str")
     get show_edit_end_date() {
-        return this.base_date_str && this.is_valid && this.user.editing && this.partial && this.range_options.length > 1;
+        return this.base_date_str && this.is_valid && this.user.editing && (this.partial || this.enable_days_range) && this.range_options.length > 1;
     }
 
     @computedFrom("user.editing", "partial", "is_valid")

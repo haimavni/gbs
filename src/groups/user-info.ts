@@ -1,3 +1,4 @@
+import { PhotoDetail } from './../photos/photo-detail';
 import { DialogController } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { autoinject, computedFrom } from 'aurelia-framework';
@@ -5,6 +6,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import * as toastr from 'toastr';
+import { Cookies } from '../services/cookies';
 
 @autoinject()
 export class UserInfo {
@@ -24,17 +26,23 @@ export class UserInfo {
     registering = this.NOT_REGISTERING;
     user_id = -1;
     new_user = false;
+    cookies: Cookies;
 
-    constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, i18n: I18N) {
+    constructor(controller: DialogController, api: MemberGateway, user: User, 
+        theme: Theme, cookies: Cookies, i18n: I18N) {
         this.controller = controller;
         this.api = api;
         this.user = user;
         this.theme = theme;
         this.i18n = i18n;
+        this.cookies = cookies;
     }
 
     activate(params) {
         this.status_record = params;
+        this.user.editing = true;
+        this.loginData.email = this.cookies.get('USER-EMAIL');
+
     }
 
     attempt_login() {
@@ -42,6 +50,7 @@ export class UserInfo {
             .then(response => {
                 this.user_id = response.user_id;
                 this.new_user = this.user_id == 0;
+                this.cookies.put('USER-EMAIL', this.loginData.email);
             })
     }
 
@@ -79,16 +88,41 @@ export class UserInfo {
     next_photo() {
         this.status_record.photo_uploaded = false;
         this.status_record.photo_url = '';
-        this.status_record.photo_story = '';
+        this.status_record.photo_info.photo_story = '';
         this.status_record.duplicate = false;
         this.status_record.photo_details_saved = false;
     }
 
-    save_photo_story() {
-       this.api.call_server_post('groups/save_photo_story', {photo_id: this.status_record.photo_id, story_text: this.status_record.photo_story, photo_name: this.status_record.photo_name})
+    save_photo_info() {
+       this.api.call_server_post('groups/save_photo_info', {photo_id: this.status_record.photo_id, photo_info: this.status_record.photo_info})
        .then(result => {
            this.status_record.photo_details_saved = true;
+           this.status_record.old_data = deepClone(this.status_record.photo_info);
        })
     }
 
+    cancel_changes() {
+        this.status_record.photo_info = deepClone(this.status_record.old_data);
+    }
+
+    @computedFrom('status_record.old_data', 'status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 'status_record.photo_info.photographer_name', 
+                  'status_record.photo_info.photo_date_str', 'status_record.photo_info.photo_date_datespan')
+    get dirty() {
+        let _dirty = JSON.stringify(this.status_record.photo_info) != JSON.stringify(this.status_record.old_data);
+        return _dirty;
+    }
+
+    get missing_photo_info() {
+        let keys = Object.keys(this.status_record.photo_info);
+        for (let key of keys) {
+            if (! this.status_record.photo_info[key]) return true;
+        }
+        return false;
+    }
+
+}
+
+function deepClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+    //use Object.assign({}, obj) if you don't need a deep clone
 }
