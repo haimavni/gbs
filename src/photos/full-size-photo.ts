@@ -252,7 +252,7 @@ export class FullSizePhoto {
         if (!photo_id) {
             photo_id = this.slide.photo_id; //todo: ugly
         }
-        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: "unknown", member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
+        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: this.i18n.tr("photos.unknown"), member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
         this.current_face = face;
         this.faces.push(face);
         this.marking_face_active = true;

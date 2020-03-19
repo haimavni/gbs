@@ -22,19 +22,19 @@ export class UploadPhoto {
     misc;
     group_id;
     logo_url;
-    duplicate;
     title;
     description;
     photos = [];
     subscriber;
-    photo_story;
     status_record = {
         photo_uploaded: false,
         user_id: -1,
-        is_logged_in: false,
         photo_url: '',
         photo_id: 0,
-        photo_name: ''
+        photo_name: '',
+        photo_story: '',
+        duplicate: false,
+        photo_details_saved: false
     }
     params = {
         selected_uploader: "mine",
@@ -61,7 +61,8 @@ export class UploadPhoto {
             this.status_record.photo_url = msg.photo_url;
             this.status_record.photo_id = msg.photo_id;
             this.status_record.photo_name = msg.photo_name;
-            this.duplicate=msg.duplicate;
+            this.status_record.photo_story = msg.photo_story;
+            this.status_record.duplicate=msg.duplicate;
             this.update_photo_list();
         });
     }
@@ -104,8 +105,9 @@ export class UploadPhoto {
         )
     }
 
-    @computedFrom('photos', 'status_record.photo_url')
+    @computedFrom('photos', 'status_record.photo_url', 'status_record.user_id')
     get phase() {
+        if (this.status_record.user_id < 1) return 'not-logged-in';
         this.status_record.photo_uploaded = this.status_record.photo_url != '';
         if (this.photos.length > 0) return 'ready-to-save';
         if (this.status_record.photo_url) {

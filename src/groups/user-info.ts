@@ -24,8 +24,6 @@ export class UserInfo {
     registering = this.NOT_REGISTERING;
     user_id = -1;
     new_user = false;
-    photo_story;
-
 
     constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, i18n: I18N) {
         this.controller = controller;
@@ -81,12 +79,16 @@ export class UserInfo {
     next_photo() {
         this.status_record.photo_uploaded = false;
         this.status_record.photo_url = '';
+        this.status_record.photo_story = '';
+        this.status_record.duplicate = false;
+        this.status_record.photo_details_saved = false;
     }
 
     save_photo_story() {
-       this.api.call_server_post('groups/save_photo_story', {story_text: this.photo_story, name: this.status_record.photo_name}
-
-       )
+       this.api.call_server_post('groups/save_photo_story', {photo_id: this.status_record.photo_id, story_text: this.status_record.photo_story, photo_name: this.status_record.photo_name})
+       .then(result => {
+           this.status_record.photo_details_saved = true;
+       })
     }
 
 }

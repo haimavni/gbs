@@ -35,9 +35,9 @@
             </div>
         </div>
         <div class="footer-area1">
-            <span>${('groups.' + phase) & t}</span>
+            <span style="font-size: 150%;padding:6px;">${('groups.' + phase) & t}</span>
             <br>
-            <span if.bind="duplicate">${'groups.duplicate' & t}</span>
+            <span if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' & t}</span>
             <!-- phase: ${phase} ${duplicate ? 'duplicate' : ''} -->
         </div>
     </div>

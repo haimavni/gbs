@@ -40,7 +40,7 @@
         "dutch": "Dutch",
         "romanian": "Rumanian",
         "russian": "Russian",
-        "UNKNOWN": "UNKNOWN",
+        "unknown": "UNKNOWN",
         "new": "Add a new story",
         "new-story-content": "New Story",
         "new-story": "Untitled",
@@ -435,7 +435,8 @@
         "photo-uploaded": "Click on photo to identify people",
         "ready-to-save": "Ready to save the selected photo",
         "photo-name": "Photo caption",
-        "duplicate": "Photo already uploaded"
+        "duplicate": "Photo already uploaded",
+        "not-logged-in": "To continue, you must log in"
     },
     "consts": {
         "vis-never": "Never display!",
