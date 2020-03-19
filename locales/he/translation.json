@@ -434,7 +434,9 @@
         "save-photo-story": "שמור את ספורה של התמונה",
         "ready-to-select": "",
         "photo-uploaded": "הקלק על התמונה כדי לזהות בה אנשים",
-        "ready-to-save": "מוכן להעלאת התמונה"
+        "ready-to-save": "מוכן להעלאת התמונה",
+        "photo-name": "כתובית מתחת לתמונה",
+        "duplicate": "התמונה כבר הועלתה בעבר"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

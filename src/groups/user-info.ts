@@ -84,7 +84,9 @@ export class UserInfo {
     }
 
     save_photo_story() {
-        alert('not ready')
+       this.api.call_server_post('groups/save_photo_story', {story_text: this.photo_story, name: this.status_record.photo_name}
+
+       )
     }
 
 }

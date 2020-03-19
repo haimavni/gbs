@@ -433,7 +433,9 @@
         "save-photo-story": "Save photo story",
         "ready-to-select": "",
         "photo-uploaded": "Click on photo to identify people",
-        "ready-to-save": "Ready to save the selected photo"
+        "ready-to-save": "Ready to save the selected photo",
+        "photo-name": "Photo caption",
+        "duplicate": "Photo already uploaded"
     },
     "consts": {
         "vis-never": "Never display!",

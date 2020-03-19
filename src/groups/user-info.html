@@ -42,14 +42,17 @@
                                 ${"user.register" & t}
                             </button>
                         </div>
+                        <div class="form-group" if.bind="status_record.photo_uploaded" style="margin-bottom: 12px;">
+                            <input type="text" name="photo_name" id="photo_name" class="form-control input-sm"
+                                value.bind="status_record.photo_name" t="[placeholder]groups.photo-name">
+                        </div>
                         <div class="form-group" if.bind="status_record.photo_uploaded">
                             <textarea t="[placeholder]groups.photo-story" rows="6" value.bind="photo_story"
                                 id="photo-story" name="photo-story" style="background-color: lightblue;">
                             </textarea>
                         </div>
                         <button name="save-story" click.trigger="save_photo_story()" class="btn btn-info btn-block"
-                            if.bind="status_record.photo_uploaded"
-                            disabled.bind="! photo_story">
+                            if.bind="status_record.photo_uploaded" disabled.bind="! photo_story">
                             ${"groups.save-photo-story" & t}
                         </button>
                         <div class="form-group" if.bind="status_record.photo_uploaded" style="margin-top:12px;">
