@@ -440,7 +440,7 @@
         "not-logged-in": "כדי להמשיך, עליך להתחבר",
         "cancel-changes": "בטל את השינויים",
         "unknown-photographer-name": "צלם לא ידוע",
-        "photographer-name": "שם הצלם"
+        "photographer-name": "שם הצלם (אם ידוע לך)"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

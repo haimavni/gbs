@@ -105,7 +105,7 @@ export class UserInfo {
         this.status_record.photo_info = deepClone(this.status_record.old_data);
     }
 
-    @computedFrom('status_record.old_data', 'status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 'status_record.photo_info.photographer_name', 
+    @computedFrom('status_record.old_data', 'status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 
                   'status_record.photo_info.photo_date_str', 'status_record.photo_info.photo_date_datespan')
     get dirty() {
         let _dirty = JSON.stringify(this.status_record.photo_info) != JSON.stringify(this.status_record.old_data);
@@ -115,6 +115,7 @@ export class UserInfo {
     get missing_photo_info() {
         let keys = Object.keys(this.status_record.photo_info);
         for (let key of keys) {
+            if (key == 'photographer_name') continue;
             if (! this.status_record.photo_info[key]) return true;
         }
         return false;

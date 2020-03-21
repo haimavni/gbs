@@ -439,7 +439,7 @@
         "not-logged-in": "To continue, you must log in",
         "cancel-changes": "Cancel changes",
         "unknown-photographer-name": "Unknown photographer",
-        "photographer-name": "Photographer name"
+        "photographer-name": "Photographer name (if you know)"
     },
     "consts": {
         "vis-never": "Never display!",
