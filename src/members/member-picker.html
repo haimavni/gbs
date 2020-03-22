@@ -1,13 +1,14 @@
 <template>
-    <div style="padding: 15px;padding-top:0;background:lightgray;cursor:default;">
-        <div class="row" style="background-color:gray;height:60px;padding-top:13px;">
-            <div class="col-md-3">
+    <require from="./member-picker.css"></require>
+    <div id="member-picker">
+        <div class="header">
+            <div>
                 <button click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)">
                     <i class="far fa-plus-square"></i>
                     ${'members.new' & t}
                 </button>
             </div>
-            <div if.bind="face_identifier" class="col-md-3" style="padding-left:0px;">
+            <div if.bind="face_identifier && member_id" class="colxxx-md-3" style="padding-left:0px;">
                 <div class="checkbox">
                     <label t="[title]members.make-profile-photo" for="set-as-profile-photo">
                     <input id="set-as-profile-photo" type="checkbox" value.bind="make_profile_photo" checked.bind="make_profile_photo">
@@ -15,10 +16,9 @@
                  </label>
                 </div>
             </div>
-            <!--div if.bind="!face_identifier" class="col-md-1"></div-->
-            <div class="col-md-6">
+            <div>
                 <div class="input-group">
-                    <input dir="rtl" type="search" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float:right;width:240px;">
+                    <input dir="rtl" type="search" class="form-control" t="[placeholder]members.filter" value.bind="filter & debounce" style="float:right;width:350px;">
                 </div>
             </div>
         </div>
@@ -27,11 +27,10 @@
             <div style="padding-right:75px;">
                 <ul class="list-group">
                     <li repeat.for="member of members | filter : filter : 'first_name':'last_name' : 'nick_name' : 'former_last_name' | take : 500" 
-                        class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}"
-                        style="width:65px;float:right;min-height:88px;font-size:9px;vertical-align: text-bottom;">
+                        class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}">
 
                         <a click.delegate="select(member)" style="vertical-align: text-bottom;align-content: center;cursor:pointer;" aubs-tooltip="text.bind:member.name">
-                            <img style="width:50px;height:50px;border-radius:50%;" src.bind="member.facePhotoURL" />
+                            <img src.bind="member.facePhotoURL" />
                             <h6 dir="rtl" class="list-group-item-heading" style="text-align: center;">${member.name}</h6>
                         </a>
                     </li>

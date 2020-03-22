@@ -24,9 +24,11 @@ export class MemberPicker {
     make_profile_photo = false;
     router;
     candidates = [];
+    excluded = new Set();
     api;
     child_name;
     child_id;
+    member_id;
     i18n;
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
@@ -51,6 +53,7 @@ export class MemberPicker {
             if (this.candidates) {
                 this.reorder_members_candidates_first();
             }
+            this.members = this.members.filter(member => member.id == this.member_id || ! this.excluded.has(member.id))
         })
     }
 
@@ -62,11 +65,15 @@ export class MemberPicker {
         this.face = model.current_face;
         this.slide = model.slide;
         this.candidates = model.candidates ? model.candidates : [];
-        /*this.filter = this.memberList.member_name(model.member_id)*/
-        this.memberList.get_member_by_id(model.member_id)
-            .then(result => {
-                this.filter = result.first_name + ' ' + result.last_name;
-            })
+        this.excluded = model.excluded ? model.excluded : new Set();
+        this.filter = '';
+        this.member_id = model.member_id;
+        if (model.member_id) {
+            this.memberList.get_member_by_id(model.member_id)
+                .then(result => {
+                    this.filter = result.first_name + ' ' + result.last_name;
+                })
+        }
     }
 
     reorder_members_candidates_first() {
@@ -84,17 +91,19 @@ export class MemberPicker {
 
     create_new_member() {
         if (this.gender) {
-            let parent_of = (this.gender == 'M') ?  this.i18n.tr('members.pa-of') : this.i18n.tr('members.ma-of');
+            let parent_of = (this.gender == 'M') ? this.i18n.tr('members.pa-of') : this.i18n.tr('members.ma-of');
             this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name, child_id: this.child_id, parent_of: parent_of })
                 .then(response => {
-                    this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
-                });
-            })
+                    this.dialogController.ok({
+                        member_id: response.member_id, new_member: response.member
+                    });
+                })
         } else {
             let default_name = this.i18n.tr('members.default-name');
-            this.api.call_server('members/create_new_member', {photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name})
+            this.api.call_server('members/create_new_member', { photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name })
                 .then(response => {
-                        this.dialogController.ok({ member_id: response.member_id, new_member: response.member 
+                    this.dialogController.ok({
+                        member_id: response.member_id, new_member: response.member
                     });
                 });
         }

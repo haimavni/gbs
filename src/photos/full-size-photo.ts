@@ -19,6 +19,7 @@ export class FullSizePhoto {
     faces = [];
     current_face;
     candidates = [];
+    already_identified = new Set();
     api;
     user;
     theme;
@@ -116,6 +117,7 @@ export class FullSizePhoto {
                 this.faces = data.faces;
                 for (let face of this.faces) {
                     face.name = '<span dir="rtl">' + face.name + '</span>';
+                    this.already_identified.add(face.member_id);
                 }
                 this.candidates = data.candidates;
             });
@@ -184,6 +186,7 @@ export class FullSizePhoto {
                 face_identifier: true,
                 member_id: face.member_id,
                 candidates: this.candidates,
+                excluded: this.already_identified,
                 slide: this.slide,
                 current_face: this.current_face
             }, lock: false
@@ -210,6 +213,7 @@ export class FullSizePhoto {
                     .then(response => {
                         let idx = this.candidates.findIndex(m => m.member_id == face.member_id);
                         this.candidates.splice(idx, 1);
+                        this.already_identified.add(face.member_id)
                         face.name = response.member_name;
                         this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
                     });
