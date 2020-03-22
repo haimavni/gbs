@@ -17,6 +17,7 @@ export class ChatroomGroupCustomElement {
     chats_per_page = 4;
     new_chatroom_name_visible = false;
     new_chatroom_name = '';
+    subscriber;
 
     constructor(user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
         this.user = user;
@@ -29,13 +30,29 @@ export class ChatroomGroupCustomElement {
         this.api.call_server('chats/read_chatrooms')
             .then((data) => {
                 this.chatrooms = data.chatrooms;
+                //this.user.privileges.CHAT_MODERATOR = true;  //temporary!!!
+                this.user.isLoggedIn = true;
             });
     };
 
-    created() {
+    attached() {
         this.theme.hide_menu = true;
         this.theme.hide_title = true;
         this.read_chatrooms();
+        //this.user.privileges.CHAT_MODERATOR = true;  //temporary!!!
+        this.user.isLoggedIn = true;
+        this.subscriber = this.ea.subscribe('DELETE_CHATROOM',(data)  => {
+            this.remove_chatroom(data.room_number)
+        });
+    }
+
+    detached() {
+        this.subscriber.dispose();
+    }
+
+    remove_chatroom(room_number) {
+        let idx = this.chatrooms.findIndex(cr => cr.room_number == room_number);
+        this.chatrooms.splice(idx, 1);
     }
 
     add_chatroom() {

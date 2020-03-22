@@ -21,6 +21,7 @@ export class ChatroomCustomElement {
     edited_message_id = 0;
     subscription;
     listener;
+    editing = false;
 
     constructor(user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
         this.user = user;
@@ -118,6 +119,22 @@ export class ChatroomCustomElement {
     @computedFrom('user.isLoggedIn')
     get readonly() {
         return ! this.user.isLoggedIn;
+    }
+
+    delete_chatroom() {
+        this.api.call_server('chats/delete_chatroom', {room_number: this.room_number})
+        .then(response => {
+            //notify chatroom group to remove it from the list
+        })
+    }
+
+    edit_chatroom_name() {
+        this.editing = true;
+    }
+
+    save_chatroom_name() {
+        this.editing = false;
+        this.api.call_server('chats/rename_chatroom', {new_chatroom_name: this.chatroom_name, room_number: this.room_number});
     }
 }
 
