@@ -322,7 +322,8 @@
         "unrecognized": "Unrecognized photos",
         "recognized-or-not": "Both recognized and unrecognized",
         "story": "Select photos associated with the story",
-        "term": "Select photos associated with the term"
+        "term": "Select photos associated with the term",
+        "cancel-indentification": "Cancel the identification"
     },
     "videos": {
         "videos": "Video",

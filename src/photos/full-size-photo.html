@@ -27,6 +27,7 @@
             <button id="next-slide-button" show.bind="slide_list.length > 1" aubs-tooltip="text.bind:next_slide_txt" class="side-tool next-slide" click.delegate="next_slide($event)"><i class="far fa-lg fa-arrow-alt-right"></i></button>
             <button show.bind="slide_list.length > 1" aubs-tooltip="text.bind:prev_slide_txt" class="side-tool prev-slide" click.delegate="prev_slide($event)"><i class="far fa-lg fa-arrow-alt-left"></i></button>
             <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable.bind="theme.interact_setting"
+                contextmenu.delegate="handle_context_menu(face, $event)"
                 class="face" 
                 id.bind="'face-' + face.member_id"
                 interact-dragmove.delegate="dragmove(face, $event)" 
@@ -36,7 +37,7 @@
                 aubs-tooltip="text.bind:face.name">
                 <span style="position:relative">
                     <span class="highlighted-face" if.bind="highlighting" innerhtml.bind="face.name" 
-                        css="top:${face.r}px;left:${-face.r}px;width:${2*face.r}px;"
+                        css="top:${face.r}px;left:${-face.r}px;width:${2*face.r}px;">
                     </span>
                 </span>
             </button>
@@ -61,6 +62,7 @@
                 </date-range>
             </span>
         </div>
+        <div show.bind="false" class.bind="face_moved"></div>
     </div>
 
 </template>

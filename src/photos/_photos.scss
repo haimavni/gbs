@@ -91,3 +91,22 @@ div#photo-container>div {
     padding: 0;
     margin: 0;
 }
+
+div.slide {
+    div.centered-form {
+        background-color: rgba(0,0,0,0);
+        font-size: 130%;
+    }
+    ux-dialog-body {
+         width: 100%;
+    }
+
+    div.face-movers {
+        display:flex;
+        justify-content:space-between;
+        margin-top: 12px;
+        i {
+            cursor: pointer;
+        }
+    }
+}

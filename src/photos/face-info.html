@@ -1,0 +1,24 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            <div class="centered-form" dir="${theme.rtltr}" style="background-color:rgba(0,0,0,0);padding-top:0px;"
+                innerHtml="${face.name}">
+            </div>
+        </ux-dialog-header>
+        <ux-dialog-body style="width:100%">
+            <button class="btn btn-warning" style="width:100%;" click.delegate="cancel_identification()">
+                ${'photos.cancel-indentification' & t}
+            </button>
+            <div class="face-movers">
+                <i class="fas fa-play fa-rotate-270" click.delegate="move_face('up')"></i>
+                <i class="fas fa-play fa-rotate-180" click.delegate="move_face('left')"></i>
+                <i class="fas fa-play fa-rotate-90" click.delegate="move_face('down')"></i>
+                <i class="fas fa-play" click.delegate="move_face('right')"></i>
+            </div>
+            <div class="face-movers">
+                <i class="fas fa-expand-arrows-alt" click.delegate="change_radius('bigger')"></i>
+                <i class="fas fa-compress-arrows-alt" click.delegate="change_radius('smaller')"></i>
+            </div>
+        </ux-dialog-body>
+    </ux-dialog>
+</template>

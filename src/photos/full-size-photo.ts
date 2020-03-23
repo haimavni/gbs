@@ -1,7 +1,7 @@
 import { MemberGateway } from '../services/gateway';
 import { Router } from 'aurelia-router';
 import { DialogController, DialogService } from 'aurelia-dialog';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { MemberPicker } from "../members/member-picker";
@@ -10,6 +10,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { getOffset } from "../services/dom_utils";
 import { I18N } from 'aurelia-i18n';
 import { copy_to_clipboard } from '../services/dom_utils';
+import { FaceInfo } from './face-info';
 
 @autoinject()
 export class FullSizePhoto {
@@ -48,6 +49,7 @@ export class FullSizePhoto {
     crop_sides;
     next_slide_txt;
     prev_slide_txt;
+    no_new_faces = false;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -245,6 +247,7 @@ export class FullSizePhoto {
     }
 
     mark_face(event) {
+        if (this.no_new_faces) return;
         event.stopPropagation();
         if (!this.user.editing) {
             return;
@@ -452,6 +455,50 @@ export class FullSizePhoto {
             this.get_faces(pid);
             this.get_photo_info(pid);
         }
+    }
+
+    handle_context_menu(face, event) {
+        if (!this.user.editing) {
+            return;
+        }
+        if (! this.highlighting) {
+            this.toggle_highlighting(event);
+        }
+        this.no_new_faces = true;
+        this.current_face = face;
+        document.body.classList.add('semi-black-overlay');
+        this.dialogService.open({
+            viewModel: FaceInfo,
+            host: document.getElementById('full-size-photo'),
+            model: {
+                face: face
+            }, lock: false
+        }).whenClosed(response => {
+            document.body.classList.remove('semi-black-overlay');
+            this.no_new_faces = false;
+            if (! response.wasCancelled) {
+                let command = response.output.command;
+                if (command  == 'cancel-identification') {
+                    this.remove_face(face)
+                }
+            }
+        })
+
+    }
+
+    @computedFrom("current_face.x", "current_face.y", "current_face.r")
+    get face_moved() {
+        if (! this.user.editing) return;
+        let current_face = this.current_face;
+        if (!current_face) return;
+        let el = document.getElementById('face-' + current_face.member_id);
+        if (!el) return;
+        let face_location = this.face_location(current_face);
+        el.style.left = face_location.left;
+        el.style.top = face_location.top;
+        el.style.width = face_location.width;
+        el.style.height = face_location.height;
+        return 'bla';
     }
 }
 
