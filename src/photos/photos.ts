@@ -122,7 +122,7 @@ export class Photos {
         this.order_options = [
             { value: "random-order", name: this.i18n.tr('photos.random-order') },
             { value: "upload-time-order", name: this.i18n.tr('photos.upload-time-order') },
-            { value: "chronological-time-order", name: this.i18n.tr('photos.chronological-time-order') }
+            { value: "chronological-order", name: this.i18n.tr('photos.chronological-order') }
         ];
         this.options_settings = new MultiSelectSettings({
             clear_filter_after_select: false,

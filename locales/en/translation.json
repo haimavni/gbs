@@ -324,7 +324,7 @@
         "story": "Select photos associated with the story",
         "term": "Select photos associated with the term",
         "cancel-indentification": "Cancel the identification",
-        "chronological-time-order": "Chronological time order"
+        "chronological-order": "Chronological order"
     },
     "videos": {
         "videos": "Video",
