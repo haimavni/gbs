@@ -106,7 +106,7 @@ export class UserInfo {
     }
 
     @computedFrom('status_record.old_data', 'status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 
-                  'status_record.photo_info.photo_date_str', 'status_record.photo_info.photo_date_datespan')
+                  'status_record.photo_info.photographer_name', 'status_record.photo_info.photo_date_str', 'status_record.photo_info.photo_date_datespan')
     get dirty() {
         let _dirty = JSON.stringify(this.status_record.photo_info) != JSON.stringify(this.status_record.old_data);
         return _dirty;

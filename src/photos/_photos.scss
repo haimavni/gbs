@@ -97,8 +97,16 @@ div.slide {
         background-color: rgba(0,0,0,0);
         font-size: 130%;
     }
-    ux-dialog-body {
+    ux-dialog-container>div {
+        margin-left: 0;
+    }
+    ux-dialog-header {
+        width: 100%;
+        background-color: rgba(255,255,255,0.5);
+   }
+   ux-dialog-body {
          width: 100%;
+         }
     }
 
     div.face-movers {
@@ -109,4 +117,12 @@ div.slide {
             cursor: pointer;
         }
     }
-}
+    table {
+        margin-top: 10px;
+        i {
+            font-size:200%;
+            margin-right: 22px;
+            margin-left: 22px;
+            cursor: pointer;
+        }
+    }

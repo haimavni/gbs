@@ -50,6 +50,7 @@ export class FullSizePhoto {
     next_slide_txt;
     prev_slide_txt;
     no_new_faces = false;
+    settings = {};
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -81,6 +82,7 @@ export class FullSizePhoto {
     activate(model) {
         this.slide = model.slide;
         this.slide_list = model.slide_list;
+        this.settings = model.settings || {};
         this.baseURL = environment.baseURL;
         let pid = this.slide[this.slide.side].photo_id;
         if (!pid) {
@@ -478,8 +480,10 @@ export class FullSizePhoto {
             this.no_new_faces = false;
             if (! response.wasCancelled) {
                 let command = response.output.command;
-                if (command  == 'cancel-identification') {
+                if (command == 'cancel-identification') {
                     this.remove_face(face)
+                } else if (command == 'save-face-location') {
+                    this.api.call_server_post('photos/save_face', { face: face});
                 }
             }
         })

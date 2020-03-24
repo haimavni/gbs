@@ -121,7 +121,8 @@ export class Photos {
         this.recognition_options = this.misc.make_selection('photos', ['recognized', 'unrecognized', 'recognized-or-not']);
         this.order_options = [
             { value: "random-order", name: this.i18n.tr('photos.random-order') },
-            { value: "upload-time-order", name: this.i18n.tr('photos.upload-time-order') }
+            { value: "upload-time-order", name: this.i18n.tr('photos.upload-time-order') },
+            { value: "chronological-time-order", name: this.i18n.tr('photos.chronological-time-order') }
         ];
         this.options_settings = new MultiSelectSettings({
             clear_filter_after_select: false,

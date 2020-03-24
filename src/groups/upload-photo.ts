@@ -134,7 +134,8 @@ export class UploadPhoto {
         document.body.classList.add('black-overlay');
         this.user.editing = true;
         let slide = this.photo_list.find(photo => photo.photo_id==this.status_record.photo_id);
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list }, lock: false })
+        let settings = {no_jump: true, no_photo_info: true};
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list, settings: settings }, lock: false })
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
                 this.user.editing = false;

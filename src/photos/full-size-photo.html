@@ -18,7 +18,7 @@
                 click.trigger="toggle_highlighting($event)">
                 <i class="fa${highlighting ? '' :'r'} fa-lg fa-circle"></i>
             </button>
-            <button aubs-tooltip="text.bind:jump_to_story_page" class="side-tool story" click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
+            <button aubs-tooltip="text.bind:jump_to_story_page" if.bind="! settings.no_jump" class="side-tool story" click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
             <button aubs-tooltip="text.bind:copy_photo_url_text" class="side-tool copy-to-clipboard" click.delegate="copy_photo_url()"><i class="fa fa-lg fa-link"></i></button>
             <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text" class="side-tool flip-sides" click.delegate="flip_photo()"><i class="fa fa-lg fa-sync"></i></button>
             <button show.bind="user.editing && ! cropping" aubs-tooltip="text.bind:crop" class="side-tool crop" click.delegate="crop_photo()"><i class="fa fa-lg fa-crop-alt"></i></button>
@@ -41,7 +41,7 @@
                     </span>
                 </span>
             </button>
-            <span class="full-size-photo-info ${theme.rtltr}" css="width:${Math.max(slide[slide.side].width)}px;">
+            <span if.bind="! settings.no_photo_info" class="full-size-photo-info ${theme.rtltr}" css="width:${Math.max(slide[slide.side].width)}px;">
                 <span if.bind="!user.editing" class="photo-info-names">
                     ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
                 </span>

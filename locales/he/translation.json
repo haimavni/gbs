@@ -322,7 +322,8 @@
         "recognized-or-not": "תמונות שזוהו ושלא זוהו",
         "story": "בחירת תמונות הקשורות לסיפור",
         "term": "בחירת תמונות הקשורות למונח",
-        "cancel-indentification": "בטל את הזיהוי"
+        "cancel-indentification": "בטל את הזיהוי",
+        "chronological-time-order": "סדר כרונולוגי"
     },
     "audios": {
         "audios": "הקלטות",

@@ -34,6 +34,10 @@ export class FaceInfo {
         this.controller.ok({ command: 'cancel-identification' });
     }
 
+    save_face_location() {
+        this.controller.ok({command: 'save-face-location'});
+    }
+
     move_face(dir) {
         switch (dir) {
             case 'up':

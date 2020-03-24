@@ -9,16 +9,23 @@
             <button class="btn btn-warning" style="width:100%;" click.delegate="cancel_identification()">
                 ${'photos.cancel-indentification' & t}
             </button>
-            <div class="face-movers">
-                <i class="fas fa-play fa-rotate-270" click.delegate="move_face('up')"></i>
-                <i class="fas fa-play fa-rotate-180" click.delegate="move_face('left')"></i>
-                <i class="fas fa-play fa-rotate-90" click.delegate="move_face('down')"></i>
-                <i class="fas fa-play" click.delegate="move_face('right')"></i>
-            </div>
-            <div class="face-movers">
-                <i class="fas fa-expand-arrows-alt" click.delegate="change_radius('bigger')"></i>
-                <i class="fas fa-compress-arrows-alt" click.delegate="change_radius('smaller')"></i>
-            </div>
+            <table style="width:100%;margin-left:auto;margin-right:auto;">
+                <tr>
+                  <td><i class="fas fa-expand-alt" click.delegate="change_radius('bigger')"></i></td>
+                  <td><i class="fas fa-play fa-rotate-270" click.delegate="move_face('up')"></i></td>
+                  <td><i class="fas fa-compress-alt fa-rotate-90" click.delegate="change_radius('smaller')"></i></td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-play" click.delegate="move_face('right')"></i></td>
+                  <td><i class="fas fa-save" click.delegate="save_face_location()"></i></td>
+                  <td><i class="fas fa-play fa-rotate-180" click.delegate="move_face('left')"></i></td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-compress-alt fa-rotate-90" click.delegate="change_radius('smaller')"></i></td>
+                  <td><i class="fas fa-play fa-rotate-90" click.delegate="move_face('down')"></i></td>
+                  <td><i class="fas fa-expand-alt" click.delegate="change_radius('bigger')"></i></td>
+                </tr>
+              </table>
         </ux-dialog-body>
     </ux-dialog>
 </template>

@@ -15,6 +15,10 @@
     textarea {
         width: 100%;
         padding: 6px;
+        background-color: rgba(173, 216, 230, 0.4);
+        &:focus {
+            background-color: lightblue;
+        }
     }
     .warning {
         border: solid 1px #aa00;
