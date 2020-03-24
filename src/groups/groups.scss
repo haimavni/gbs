@@ -33,26 +33,25 @@
         padding-top: 160px;
         button {
             font-size:150%;
-            height:150px;
+            height:65px;
             width: 150px; 
             border-radius:25px;
             background-color: green;
         }
         label {
             width:150px;
-            height:150px;
+            height:65px;
             font-size:150%;
-            background-color:lightgray;
+            background-color:orange;
             border:solid 2px darkgray;
             border-radius:25px;
             text-align:center;
             padding:6px;
-            padding-top: 50px;
+            padding-top: 16px;
             cursor: pointer;
             &.disabled {
                 cursor: no-drop;
             }
-            background-color: #eeeeee;
         }
     }
     .picture {

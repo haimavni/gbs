@@ -7,7 +7,7 @@
                 </div>
                 <div class="panel-body">
                     <form role="form">
-                        <div class="form-group">
+                        <div class="form-group" if.bind="user_id < 0">
                             <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
                                 value.bind="loginData.email" t="[placeholder]user.email-address">
                         </div>
@@ -74,7 +74,7 @@
                                 ${"groups.cancel-changes" & t}
                             </button>
                         </div>
-                        <div class="form-group" if.bind="status_record.photo_details_saved" style="margin-top:12px;"
+                        <div class="form-group" if.bind="status_record.photo_details_saved || (status_record.duplicate && ! dirty)" style="margin-top:12px;"
                             disabled.bind="dirty ? 'diabled' : ''">
                             <button name="next" click.trigger="next_photo()" class="btn btn-info btn-block">
                                 <!-- disabled.bind="missing_fields"> -->
