@@ -72,7 +72,7 @@ export class UploadPhoto {
             this.status_record.photo_info.photo_story = msg.photo_story;
             this.status_record.photo_info.photo_date_str = msg.photo_date_str;
             this.status_record.photo_info.photo_date_datespan = msg.photo_date_datespan;
-            this.status_record.photo_info.photographer_name = msg.photographer_name || this.unknown_photographer;
+            this.status_record.photo_info.photographer_name = msg.photographer_name || '';
             this.status_record.duplicate = msg.duplicate;
             this.status_record.old_data = deepClone(this.status_record.photo_info);
             this.update_photo_list();
