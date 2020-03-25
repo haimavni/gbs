@@ -10,6 +10,7 @@ import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { UserInfo } from './user-info';
 import { Popup } from '../services/popups';
+import * as toastr from 'toastr';
 
 @autoinject
 export class UploadPhoto {
@@ -48,9 +49,10 @@ export class UploadPhoto {
         selected_uploader: "mine",
         selected_order_option: "upload-time-order",
         user_id: null,
-        count_limit: 10
+        count_limit: 100
     };
     photo_list = [];
+    photo_height = 620;
     unknown_photographer;
     explain_gallery = "The full site will be openedin a separate window."
 
@@ -81,6 +83,10 @@ export class UploadPhoto {
             this.status_record.photo_info.photographer_name = msg.photographer_name || '';
             this.status_record.duplicate = msg.duplicate;
             this.status_record.old_data = deepClone(this.status_record.photo_info);
+            let el = document.getElementById('group-photo-area');
+            console.log("photo_area width: ", el.offsetWidth, el.getBoundingClientRect().width);
+            console.log("photo_area height: ", el.offsetHeight, el.getBoundingClientRect().height);
+            this.photo_height = el.offsetHeight;
             this.update_photo_list();
         });
     }
@@ -135,11 +141,22 @@ export class UploadPhoto {
         return 'ready-to-select';
     }
 
+    @computedFrom('phase')
+    get help_message() {
+        let key = 'groups.' + this.phase;
+        return this.i18n.tr(key);
+    }
+
     openDialog() {
         if (this.photo_list.length == 0) return;
+        let slide = this.photo_list.find(photo => photo.photo_id==this.status_record.photo_id);
+        if (!slide) {
+            let warning = this.i18n.tr('groups.old-photo-not-found');
+            toastr.warning(warning, 20000);
+            return;
+        }
         document.body.classList.add('black-overlay');
         this.user.editing = true;
-        let slide = this.photo_list.find(photo => photo.photo_id==this.status_record.photo_id);
         let settings = {no_jump: true, no_photo_info: true};
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list, settings: settings }, lock: false })
             .whenClosed(response => {

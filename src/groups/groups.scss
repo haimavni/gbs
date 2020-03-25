@@ -26,11 +26,17 @@
 }
 .photo-area {
     grid-area: photo;
+    background-color: lightgrey;
+    img {
+        //height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
     .buttons {
         height: calc(100vh - 320px);
         border: 3px solid white;
-        padding-right:360px;
-        padding-top: 160px;
+        padding-right:330px;
+        padding-top: 290px;
         button {
             font-size:150%;
             height:50px;
@@ -64,6 +70,7 @@
     grid-area: footer;
     border: 3px solid white;
     height: 90px;
+    background-color: lightseagreen;
 }
 .gallery-area {
     grid-area: gallery;

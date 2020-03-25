@@ -433,7 +433,7 @@
         "regards": "Regards",
         "next-photo": "Next photo",
         "save-photo-story": "Save photo details",
-        "ready-to-select": "",
+        "ready-to-select": "Press the button to select a photo",
         "photo-uploaded": "Click on photo to identify people",
         "ready-to-save": "Ready to save the selected photo",
         "photo-name": "Photo caption",
@@ -444,7 +444,8 @@
         "photographer-name": "Photographer name (if you know)",
         "upload": "Upload the photo",
         "view-gallery": "View in the full site",
-        "explain-gallery": "The full site will be openedin a separate window."
+        "explain-gallery": "The full site will be openedin a separate window.",
+        "old-photo-not-found": "Photo not accessible from here<br>Watch it in the full site"
     },
     "consts": {
         "vis-never": "Never display!",

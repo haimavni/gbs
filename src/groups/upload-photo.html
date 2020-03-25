@@ -12,7 +12,7 @@
         <div class="info-area">
             <compose view-model="./user-info" model.bind="status_record"></compose>
         </div>
-        <div class="photo-area">
+        <div class="photo-area" id="group-photo-area">
             <div class="buttons" if.bind="phase != 'photo-uploaded'">
                 <form submit.delegate="save()">
                     <div class="form-group" if.bind="phase=='ready-to-select'">
@@ -33,12 +33,12 @@
             <div if.bind="phase=='photo-uploaded'"
                 class="picture ${photo_list.length > 0 ? 'photos-ready' : 'photos-not-ready'}">
                 <a click.delegate="openDialog()">
-                    <img src.bind="status_record.photo_url" height="500" />
+                    <img src.bind="status_record.photo_url" height.bind="photo_height" />
                 </a>
             </div>
         </div>
         <div class="footer-area1">
-            <span style="font-size: 150%;padding:6px;">${('groups.' + phase) & t}</span>
+            <span style="font-size: 150%;padding:6px;" innerhtml.bind="help_message"></span>
             <br>
             <span if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' &
                 t}</span>
