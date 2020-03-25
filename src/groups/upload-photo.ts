@@ -9,6 +9,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { UserInfo } from './user-info';
+import { Popup } from '../services/popups';
 
 @autoinject
 export class UploadPhoto {
@@ -19,6 +20,7 @@ export class UploadPhoto {
     i18n;
     router;
     ea;
+    popup: Popup;
     misc;
     group_id;
     logo_url;
@@ -50,17 +52,21 @@ export class UploadPhoto {
     };
     photo_list = [];
     unknown_photographer;
+    explain_gallery = "The full site will be openedin a separate window."
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
+    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, 
+        i18n: I18N, router: Router, popup: Popup, theme: Theme, misc: Misc) {
         this.api = api;
         this.user = user;
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
         this.router = router;
+        this.popup = popup;
         this.ea = ea;
         this.misc = misc;
-        this.unknown_photographer = this.i18n.tr('groups.unknown-photographer-name')
+        this.unknown_photographer = this.i18n.tr('groups.unknown-photographer-name');
+        this.explain_gallery = this.i18n.tr('groups.explain-gallery');
     }
 
     attached() {
@@ -141,6 +147,11 @@ export class UploadPhoto {
                 this.user.editing = false;
                 //this.theme.page_title = title;
             });
+    }
+
+    view_gallery() {
+        let url = `${location.pathname}#/photos/*`;
+        this.popup.popup('GALLERY', url, "height=860,width=1700,left=100,top=100");
     }
 
 }

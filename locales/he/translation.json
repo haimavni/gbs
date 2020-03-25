@@ -442,7 +442,10 @@
         "not-logged-in": "כדי להמשיך, עליך להתחבר",
         "cancel-changes": "בטל את השינויים",
         "unknown-photographer-name": "צלם לא ידוע",
-        "photographer-name": "שם הצלם (אם ידוע לך)"
+        "photographer-name": "שם הצלם (אם ידוע לך)",
+        "upload": "העלה את התמונה",
+        "view-gallery": "צפה באתר המלא",
+        "explain-gallery": "האתר המלא יפתח בחלון נפרד. החלון הנוכחי יחכה לך."
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

@@ -17,19 +17,22 @@
                 <form submit.delegate="save()">
                     <div class="form-group" if.bind="phase=='ready-to-select'">
                         <label class="control-label ${status_record.user_id <= 0 ? 'disabled' : ''}" for="photos">
-                            ${'groups.select-photo' & t}
+                            <i class="far fa-browser fa-sm">&nbsp;&nbsp;</i>${'groups.select-photo' & t}
                         </label>
                         <div>
-                            <input style="display:none" type="file" id="photos" accept="image/*" files.bind="photos"  disabled="${status_record.user_id <= 0 ? 'disabled' : ''}">
+                            <input style="display:none" type="file" id="photos" accept="image/*" files.bind="photos"
+                                disabled="${status_record.user_id <= 0 ? 'disabled' : ''}">
                         </div>
                     </div>
                     <div class="form-group" if.bind="phase == 'ready-to-save'">
-                        <button type="submit" class="btn btn-success">${'photos.save' & t}</button>
+                        <button type="submit" class="btn btn-success"><i
+                                class="fas fa-upload fa-sm">&nbsp;&nbsp;</i>${'groups.upload' & t}</i></button>
                     </div>
                 </form>
             </div>
-            <div if.bind="phase=='photo-uploaded'" class="picture ${photo_list.length > 0 ? 'photos-ready' : 'photos-not-ready'}">
-                <a click.delegate="openDialog()" >
+            <div if.bind="phase=='photo-uploaded'"
+                class="picture ${photo_list.length > 0 ? 'photos-ready' : 'photos-not-ready'}">
+                <a click.delegate="openDialog()">
                     <img src.bind="status_record.photo_url" height="500" />
                 </a>
             </div>
@@ -37,8 +40,16 @@
         <div class="footer-area1">
             <span style="font-size: 150%;padding:6px;">${('groups.' + phase) & t}</span>
             <br>
-            <span if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' & t}</span>
+            <span if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' &
+                t}</span>
             <!-- phase: ${phase} ${duplicate ? 'duplicate' : ''} -->
+        </div>
+        <div class="gallery-area">
+            <p innerhtml.bind="explain_gallery"></p>
+            <button class="btn btn-primary btn-block"
+                click.delegate="view_gallery()">
+                ${"groups.view-gallery" & t}
+            </button>
         </div>
     </div>
 

@@ -441,7 +441,10 @@
         "not-logged-in": "To continue, you must log in",
         "cancel-changes": "Cancel changes",
         "unknown-photographer-name": "Unknown photographer",
-        "photographer-name": "Photographer name (if you know)"
+        "photographer-name": "Photographer name (if you know)",
+        "upload": "Upload the photo",
+        "view-gallery": "View in the full site",
+        "explain-gallery": "The full site will be openedin a separate window."
     },
     "consts": {
         "vis-never": "Never display!",

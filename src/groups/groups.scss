@@ -10,7 +10,7 @@
 }
 .info-area {
     grid-area: info;
-    height: 620px;
+    height: calc(100vh - 320px);
     border: solid 3px white;
     textarea {
         width: 100%;
@@ -27,22 +27,18 @@
 .photo-area {
     grid-area: photo;
     .buttons {
-        height: 500px;
+        height: calc(100vh - 320px);
         border: 3px solid white;
         padding-right:360px;
         padding-top: 160px;
         button {
             font-size:150%;
             height:50px;
-            width: 150px; 
+            width: 250px; 
             border-radius:25px;
-            background-color: rgba(0, 128, 0, 0.8);
-            &:hover {
-                background-color: green;
-            }
         }
         label {
-            width:150px;
+            width:250px;
             height:50px;
             font-size:150%;
             background-color:rgba(255, 165, 0, 0.8);
@@ -69,18 +65,23 @@
     border: 3px solid white;
     height: 90px;
 }
+.gallery-area {
+    grid-area: gallery;
+    border: 3px solid white;
+    height: 90px;
+    padding: 12px;
+}
 .uploader-page {
     display: grid;
     grid-row-gap: 10px;
     grid-column-gap: 10px;
     //width: 1200px;
-    height: 820px;
+    height: calc(100vh - 200px);
     grid-template-areas: 
-        'header header header header header header header header header header logo logo'
+        'header header header header header header header header header header header logo'
         'photo photo photo photo photo photo photo photo photo photo info info'
-        'footer footer footer footer footer footer footer footer footer footer info info';
+        'footer footer footer footer footer footer footer footer footer footer gallery gallery';
 }
 div.photos-ready {
     cursor: pointer;
 }
-
