@@ -655,6 +655,11 @@ export class Stories {
         this.update_story_list('other');
     }
 
+    @computedFrom('theme.height')
+    get panel_height() {
+        return this.theme.height - 350;
+    }
+
 }
 
 function sleep(ms) {

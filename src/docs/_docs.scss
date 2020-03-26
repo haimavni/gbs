@@ -4,6 +4,9 @@
 #docs-content-area {
     width: 100%;
     margin-top: 16px;
+    >div {
+        height: calc(100vh - 250px);
+    }
 }
 
 ul.doc-list {

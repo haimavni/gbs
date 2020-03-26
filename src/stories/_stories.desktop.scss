@@ -1,9 +1,9 @@
 #story-list {
-    height: 647px;
+    height: calc(100vh - 300px);
     ul.story-list {
-        height:560px;
+        height: calc(100vh - 390px);
         &.empty-stories {
-            height: 500px;
+            height: calc(100vh - 500px);
         }
         overflow:auto;
         width: 100%
