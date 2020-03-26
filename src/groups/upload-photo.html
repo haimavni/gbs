@@ -47,6 +47,7 @@
         <div class="gallery-area">
             <p innerhtml.bind="explain_gallery"></p>
             <button class="btn btn-primary btn-block"
+                disabled="${status_record.user_id < 1 ? 'disabled' : ''}"
                 click.delegate="view_gallery()">
                 ${"groups.view-gallery" & t}
             </button>

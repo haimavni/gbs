@@ -7,7 +7,7 @@ const WAIT = 50;
 export class PhotoStripCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable source;
-    @bindable height = 300;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) height = 300;
     @bindable action_key = null;
     @bindable settings = { height: 300, arrows: false, slide_show: 0 };
     @bindable id = 0;

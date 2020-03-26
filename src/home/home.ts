@@ -29,10 +29,10 @@ export class Home {
     i18n;
     dialog;
     eventAggregator;
-    panel_height = 380;
     subscriber1;
     scroll_area;
     active_part = 2;
+    photo_strip_height = 220;
 
     constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
@@ -98,6 +98,8 @@ export class Home {
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';
         });
         this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.photo_strip_height = Math.round(this.theme.height / 5);
+        //this.panel_height = this.theme.height - 700;
     }
 
     get member_of_the_day_life_cycle_text() {
@@ -131,7 +133,11 @@ export class Home {
     on_height_change(event) {
         event.stopPropagation();
         let { new_height } = event.detail;
-        this.panel_height = 680 - new_height;
+    }
+
+    @computedFrom('theme.height', 'photo_strip_height')
+    get panel_height() {
+        return this.theme.height - this.photo_strip_height - 205;
     }
 
     drag_end_panel(customEvent) {

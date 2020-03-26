@@ -168,6 +168,12 @@ export class Photos {
         } else {
             this.params.photo_ids = [];
         }
+        if (params.user_id) {
+            this.params.user_id = params.user_id;
+            this.params.selected_uploader = "mine";
+            this.params.selected_order_option = 'upload-time-order';
+            this.photo_list = [];
+        }
         if (this.photo_list.length == 0)
             this.update_photo_list();
     }
@@ -212,7 +218,8 @@ export class Photos {
         this.scroll_top = 0;
         this.curr_photo_id = 0;
         console.time('get_photo_list');
-        this.params.user_id = this.user.id;
+        if (! this.params.user_id)
+            this.params.user_id = this.user.id;
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.editing_filters = false;
