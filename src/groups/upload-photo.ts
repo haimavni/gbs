@@ -161,8 +161,6 @@ export class UploadPhoto {
         this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list, settings: settings }, lock: false })
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
-                this.user.editing = false;
-                //this.theme.page_title = title;
             });
     }
 
