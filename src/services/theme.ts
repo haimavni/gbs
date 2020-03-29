@@ -47,7 +47,6 @@ export class Theme {
         this.api.call_server('photos/get_theme_data')
             .then(response => {
                 this.files = response.files;
-                console.log("theme files: ", this.files);
             });
         window.addEventListener('resize', () => {
             this.handle_content_resize();

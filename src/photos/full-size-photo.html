@@ -1,68 +1,85 @@
 <template>
     <require from="./full-size-photo.css"></require>
-    <div class="slide unselectable" click.delegate="mark_face($event)" id="full-size-photo" style="z-index:0;margin-left:32px;cursor:default;"
-        interact-draggable.bind="theme.interact_setting"
-        interact-dragmove.delegate="drag_move_photo($event)" >
-        <div class="slide full-size-photo" click.delegate="mark_face($event)" css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width,640)}px;position:relative;">
-            <div show.bind="cropping" 
-                css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
-                interact-draggable.bind="theme.interact_setting"
-                interact-dragmove.delegate="do_crop($event)"
-                interact-dragstart.delegate="start_crop($event)"
-                >
-            </div>
-            <img src="${slide[slide.side].src}" height="${slide[slide.side].height}" width="${slide[slide.side].width}" />
-            <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help"></help>
-            <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help"></help>
-            <button aubs-tooltip="text.bind:highlight_all" class="side-tool highlighter" id="side-tool highlighter" 
-                click.trigger="toggle_highlighting($event)">
-                <i class="fa${highlighting ? '' :'r'} fa-lg fa-circle"></i>
-            </button>
-            <button aubs-tooltip="text.bind:jump_to_story_page" if.bind="! settings.no_jump" class="side-tool story" click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
-            <button aubs-tooltip="text.bind:copy_photo_url_text" class="side-tool copy-to-clipboard" click.delegate="copy_photo_url()"><i class="fa fa-lg fa-link"></i></button>
-            <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text" class="side-tool flip-sides" click.delegate="flip_photo()"><i class="fa fa-lg fa-sync"></i></button>
-            <button show.bind="user.editing && ! cropping" aubs-tooltip="text.bind:crop" class="side-tool crop" click.delegate="crop_photo()"><i class="fa fa-lg fa-crop-alt"></i></button>
-            <button show.bind="cropping" aubs-tooltip="text.bind:save_crop" class="side-tool crop" click.delegate="save_photo_crop()"><i class="fa fa-lg fa-save"></i></button>
-            <button show.bind="cropping" aubs-tooltip="text.bind:cancel_crop" class="side-tool cancel-crop" click.delegate="cancel_photo_crop()"><i class="fa fa-lg fa-undo-alt"></i></button>
-            <button id="next-slide-button" show.bind="slide_list.length > 1" aubs-tooltip="text.bind:next_slide_txt" class="side-tool next-slide" click.delegate="next_slide($event)"><i class="far fa-lg fa-arrow-alt-right"></i></button>
-            <button show.bind="slide_list.length > 1" aubs-tooltip="text.bind:prev_slide_txt" class="side-tool prev-slide" click.delegate="prev_slide($event)"><i class="far fa-lg fa-arrow-alt-left"></i></button>
-            <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)" interact-draggable.bind="theme.interact_setting"
-                contextmenu.delegate="handle_context_menu(face, $event)"
-                class="face" 
-                id.bind="'face-' + face.member_id"
-                interact-dragmove.delegate="dragmove(face, $event)" 
-                interact-dragstart.delegate="dragstart(face, $event)" 
-                interact-dragend.delegate="dragend(face, $event)"
-                style.bind="face_location(face)" 
-                aubs-tooltip="text.bind:face.name">
-                <span style="position:relative">
-                    <span class="highlighted-face" if.bind="highlighting" innerhtml.bind="face.name" 
-                        css="top:${face.r}px;left:${-face.r}px;width:${2*face.r}px;">
+    <div class="slide unselectable" click.delegate="mark_face($event)" id="full-size-photo"
+        style="z-index:0;margin-left:32px;cursor:default;display:flex;flex-direction:column;"
+        interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="drag_move_photo($event)">
+        <div style="display:flex;flex-direction:row-reverse;">
+            <div class="slide full-size-photo" click.delegate="mark_face($event)"
+                css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;">
+                <img src="${slide[slide.side].src}" height="${slide[slide.side].height}"
+                    width="${slide[slide.side].width}" />
+                <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)"
+                    interact-draggable.bind="theme.interact_setting"
+                    contextmenu.delegate="handle_context_menu(face, $event)" class="face"
+                    id.bind="'face-' + face.member_id" interact-dragmove.delegate="dragmove(face, $event)"
+                    interact-dragstart.delegate="dragstart(face, $event)"
+                    interact-dragend.delegate="dragend(face, $event)" style.bind="face_location(face)"
+                    aubs-tooltip="text.bind:face.name">
+                    <span style="position:relative">
+                        <span class="highlighted-face" if.bind="highlighting" innerhtml.bind="face.name"
+                            css="position:absolute;top:${face.r}px;left:${-face.r}px;width:${2*face.r}px;">
+                        </span>
                     </span>
-                </span>
-            </button>
-            <span if.bind="! settings.no_photo_info" class="full-size-photo-info ${theme.rtltr}" css="width:${Math.max(slide[slide.side].width)}px;">
+                </button>
+            </div>
+            <div style="display:flex;flex-direction:column;width:32px;position:absolutexxx;top:0;left:-32px;">
+                <div show.bind="cropping"
+                    css="height:${crop_height}px;width:${crop_width}px;position:absolutexxx;top:${crop_top}px;left:${crop_left}px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
+                    interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="do_crop($event)"
+                    interact-dragstart.delegate="start_crop($event)">
+                </div>
+                <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help">
+                </help>
+                <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help">
+                </help>
+                <button aubs-tooltip="text.bind:highlight_all" class="side-tool highlighter" id="side-tool highlighter"
+                    click.trigger="toggle_highlighting($event)">
+                    <i class="fa${highlighting ? '' :'r'} fa-lg fa-circle"></i>
+                </button>
+                <button aubs-tooltip="text.bind:jump_to_story_page" if.bind="! settings.no_jump" class="side-tool story"
+                    click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
+                <button aubs-tooltip="text.bind:copy_photo_url_text" class="side-tool copy-to-clipboard"
+                    click.delegate="copy_photo_url()"><i class="fa fa-lg fa-link"></i></button>
+                <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text" class="side-tool flip-sides"
+                    click.delegate="flip_photo()"><i class="fa fa-lg fa-sync"></i></button>
+                <button show.bind="user.editing && ! cropping" aubs-tooltip="text.bind:crop" class="side-tool crop"
+                    click.delegate="crop_photo()"><i class="fa fa-lg fa-crop-alt"></i></button>
+                <button show.bind="cropping" aubs-tooltip="text.bind:save_crop" class="side-tool crop"
+                    click.delegate="save_photo_crop()"><i class="fa fa-lg fa-save"></i></button>
+                <button show.bind="cropping" aubs-tooltip="text.bind:cancel_crop" class="side-tool cancel-crop"
+                    click.delegate="cancel_photo_crop()"><i class="fa fa-lg fa-undo-alt"></i></button>
+                <button id="next-slide-button" show.bind="slide_list.length > 1" aubs-tooltip="text.bind:next_slide_txt"
+                    class="side-tool next-slide" click.delegate="next_slide($event)"><i
+                        class="far fa-lg fa-arrow-alt-right"></i></button>
+                <button show.bind="slide_list.length > 1" aubs-tooltip="text.bind:prev_slide_txt"
+                    class="side-tool prev-slide" click.delegate="prev_slide($event)"><i
+                        class="far fa-lg fa-arrow-alt-left"></i></button>
+            </div>
+        </div>
+        <div>
+            <span if.bind="! settings.no_photo_info" class="full-size-photo-info ${theme.rtltr}"
+                css="width:${Math.max(slide[slide.side].width)}px;">
                 <span if.bind="!user.editing" class="photo-info-names">
-                    ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
+                    ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' &
+                    t}:&nbsp;${photo_info.photographer}.
                 </span>
                 <span if.bind="user.editing">
                     <form class="form-inline">
-                        <input type="text" value.bind="photo_info.name" style="color:black;width:400px;" change.delegate="save_photo_caption($event)">
+                        <input type="text" value.bind="photo_info.name" style="color:black;width:400px;"
+                            change.delegate="save_photo_caption($event)">
                         <button style="border:none;background-color:black">
                             <i class="fa fa-save"></i>
                         </button>
                     </form>
                 </span>
-                <date-range label="photos.photo-date" 
-                    range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
-                    change.delegate="save_photo_info($event)"
-                    base_date_str.bind="photo_info.photo_date_str" 
-                    hide_label_if_no_date.bind="true"
-                    span_size.bind="photo_info.photo_date_datespan">
+                <date-range label="photos.photo-date" range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
+                    change.delegate="save_photo_info($event)" base_date_str.bind="photo_info.photo_date_str"
+                    hide_label_if_no_date.bind="true" span_size.bind="photo_info.photo_date_datespan">
                 </date-range>
             </span>
         </div>
-        <div show.bind="false" class.bind="face_moved"></div>
+    </div>
+    <div show.bind="false" class.bind="face_moved"></div>
     </div>
 
 </template>

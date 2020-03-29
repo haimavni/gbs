@@ -10,6 +10,7 @@
 }
 .info-area {
     grid-area: info;
+    min-width: 275px;
     height: calc(100vh - 320px);
     border: solid 3px white;
     textarea {
