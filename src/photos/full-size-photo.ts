@@ -183,7 +183,10 @@ export class FullSizePhoto {
             this.remove_face(face);
             return;
         }
+        this.assign_member(face);
+    }
 
+    assign_member(face) {
         this.dialogService.open({
             viewModel: MemberPicker,
             model: {
@@ -222,6 +225,16 @@ export class FullSizePhoto {
                         this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
                     });
             });
+
+    }
+
+    @computedFrom('marking_face_active')
+    get instruction() {
+        if (this.marking_face_active) {
+            return this.i18n.tr('photos.edit-face-location')
+        } else {
+            return this.i18n.tr('photos.click-to-identify')
+        }
     }
 
     hide_face(face) {
@@ -488,7 +501,10 @@ export class FullSizePhoto {
                 if (command == 'cancel-identification') {
                     this.remove_face(face)
                 } else if (command == 'save-face-location') {
-                    this.api.call_server_post('photos/save_face', { face: face });
+                    if (face.member_id)
+                        this.api.call_server_post('photos/save_face', { face: face });
+                    else
+                        this.assign_member(face);
                 }
             }
         })

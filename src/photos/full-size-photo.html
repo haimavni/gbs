@@ -77,6 +77,10 @@
                     hide_label_if_no_date.bind="true" span_size.bind="photo_info.photo_date_datespan">
                 </date-range>
             </span>
+            <span if.bind="settings.no_photo_info" class="full-size-photo-info ${theme.rtltr}"
+                css="width:${Math.max(slide[slide.side].width)}px;font-size:150%;">
+                ${instruction}
+            </span>
         </div>
     </div>
     <div show.bind="false" class.bind="face_moved"></div>

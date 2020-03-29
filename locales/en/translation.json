@@ -326,7 +326,9 @@
         "story": "Select photos associated with the story",
         "term": "Select photos associated with the term",
         "cancel-indentification": "Cancel the identification",
-        "chronological-order": "Chronological order"
+        "chronological-order": "Chronological order",
+        "edit-face-location": "Edit face location",
+        "click-to-identify": "Click on a face to identify a person"
     },
     "videos": {
         "videos": "Video",
