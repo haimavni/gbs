@@ -16,6 +16,10 @@ export class FaceInfo {
     //----------------
     face;
     step = 2;
+    ux_dialog;
+    photo_x;
+    photo_width;
+    face_x;
 
     constructor(controller: DialogController, service: DialogService, api: MemberGateway, user: User, theme: Theme, i18n: I18N) {
         this.controller = controller;
@@ -28,6 +32,26 @@ export class FaceInfo {
 
     activate(model) {
         this.face = model.face;
+        this.photo_x = model.photo_x;
+        this.photo_width = model.photo_width;
+        this.face_x = model.face_x;
+    }
+
+    async attached() {
+        await sleep(100);
+        if (this.ux_dialog) {
+            let parent = this.ux_dialog.parentNode;
+            if (parent) {
+                let grand = parent.parentNode;
+                let rect = grand.getBoundingClientRect();
+                let x;
+                if (this.face_x - this.photo_x > this.photo_width / 2)
+                    x = this.photo_x
+                else
+                    x = this.photo_x + this.photo_width - rect.width + 32;
+                grand.style.marginLeft = `${x}px`;
+            }
+        }
     }
 
     cancel_identification() {
@@ -63,5 +87,9 @@ export class FaceInfo {
         }
     }
 
-
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+

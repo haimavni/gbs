@@ -9,7 +9,6 @@ import { MemberList } from '../services/member_list';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
-import { timingSafeEqual } from 'crypto';
 
 @autoinject
 export class Home {

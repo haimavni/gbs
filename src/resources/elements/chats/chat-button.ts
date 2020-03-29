@@ -2,7 +2,6 @@ import { bindable, inject, computedFrom, DOM, bindingMode } from 'aurelia-framew
 import { User } from '../../../services/user';
 import { DialogService } from 'aurelia-dialog';
 import { Chat } from '../../../user/chat';
-import { timingSafeEqual } from 'crypto';
 
 @inject(DOM.Element, User, DialogService, Chat)
 export class ChatButtonCustomElement {
