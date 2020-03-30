@@ -39,9 +39,7 @@
         </div>
         <div class="footer-area1">
             <span style="font-size: 150%;padding:6px;" innerhtml.bind="help_message"></span>
-            <br>
-            <span if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' &
-                t}</span>
+            <p if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' & t}</p>
             <!-- phase: ${phase} ${duplicate ? 'duplicate' : ''} -->
         </div>
         <div class="gallery-area">

@@ -27,6 +27,9 @@ export class UserInfo {
     user_id = -1;
     new_user = false;
     cookies: Cookies;
+    consent;
+    explain_dates_range;
+    show_explain_dates = false;
 
     constructor(controller: DialogController, api: MemberGateway, user: User, 
         theme: Theme, cookies: Cookies, i18n: I18N) {
@@ -36,6 +39,8 @@ export class UserInfo {
         this.theme = theme;
         this.i18n = i18n;
         this.cookies = cookies;
+        this.consent = this.i18n.tr("groups.consent");
+        this.explain_dates_range = this.i18n.tr("groups.explain-dates-range");
     }
 
     activate(params) {
@@ -119,6 +124,10 @@ export class UserInfo {
             if (! this.status_record.photo_info[key]) return true;
         }
         return false;
+    }
+
+    explain_dates(what) {
+        this.show_explain_dates = what;
     }
 
 }

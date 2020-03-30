@@ -10,7 +10,7 @@
 }
 .info-area {
     grid-area: info;
-    min-width: 275px;
+    width: 275px;
     height: calc(100vh - 320px);
     border: solid 3px white;
     textarea {
@@ -28,6 +28,7 @@
 .photo-area {
     grid-area: photo;
     background-color: lightgrey;
+    width: 915px;
     img {
         //height: 100%;
         width: 100%;
@@ -78,6 +79,7 @@
     border: 3px solid white;
     height: 90px;
     padding: 12px;
+    width: 275px;
 }
 .uploader-page {
     display: grid;

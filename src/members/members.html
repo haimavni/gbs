@@ -11,7 +11,7 @@
                         </div>
                         <div class="input-group members-selector" if.bind="theme.is_desktop && ! relatives_mode">
                             <select value.bind="order"
-                                style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl"
+                                style="height:33px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl"
                                 change.trigger="order_changed($event)">
                                 <option repeat.for="option of sorting_options" model.bind="option.value">${option.name}
                                 </option>
@@ -20,7 +20,7 @@
                         <div class="input-group members-selector"
                             if.bind="user.privileges.DATA_AUDITOR &&! relatives_mode">
                             <select value.bind="only_unapproved"
-                                style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl">
+                                style="height:33px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl">
                                 <option dir="rtl" repeat.for="option of approval_options" model.bind="option.value">
                                     ${option.name}</option>
                             </select>

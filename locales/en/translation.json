@@ -449,7 +449,9 @@
         "upload": "Upload the photo",
         "view-gallery": "View in the full site",
         "explain-gallery": "The full site will be openedin a separate window.",
-        "old-photo-not-found": "Photo not accessible from here<br>Watch it in the full site"
+        "old-photo-not-found": "Photo not accessible from here<br>Watch it in the full site",
+        "consent": "By uploading photos and related information I agree to have them published in the site",
+        "explain-dates-range": "<b>Date ranges: </b>Dates resolution may be years, months or days. Enter base date as accurate as you know, then select the end date from the drop down menu."
     },
     "consts": {
         "vis-never": "Never display!",

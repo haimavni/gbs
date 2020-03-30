@@ -5,7 +5,7 @@
             <!--i class="fa fa-search search"></i-->
             <help topic.bind="help_topic" class="search" position="bottom" style="padding-right:2px;"></help>
         </div>
-        <input type="search" value.bind="value" t="[placeholder]${placeholder}" css="height:${height}px;" 
+        <input type="search" value.bind="value" t="[placeholder]${placeholder}" 
             keydown.delegate="input_changed($event) & debounce: 3000">
         <i class="far fa-times fa-sm remove" if.bind="value" click.trigger="clear_text()" css="top:${(height-14)/2}px;"></i>
     </div>
