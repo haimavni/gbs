@@ -35,6 +35,7 @@ export class FullSizePhoto {
     marking_face_active = false;
     i18n;
     highlight_all;
+    fullscreen;
     jump_to_story_page;
     copy_photo_url_text;
     flip_text;
@@ -78,6 +79,7 @@ export class FullSizePhoto {
         this.next_slide_txt = this.i18n.tr('photos.next-slide')
         this.prev_slide_txt = this.i18n.tr('photos.prev-slide')
         this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
+        this.fullscreen = this.i18n.tr('photos.fullscreen');
         this.copy_photo_url_text = this.i18n.tr('photos.copy-photo-url');
         this.flip_text = this.i18n.tr('photos.flip');
     }
@@ -469,12 +471,12 @@ export class FullSizePhoto {
 
     rotate_photo(event) {
         event.stopPropagation();
-        this.api.call_server('photos/rotate_selected_photos', {selected_photo_list: [this.slide.photo_id]})
-        .then(result => {
-            this.model.final_rotation += 90;
-            let el = document.getElementById('photo_image');
-            el.style.transform = `rotate(-${this.model.final_rotation}deg)`;
-        })
+        this.api.call_server('photos/rotate_selected_photos', { selected_photo_list: [this.slide.photo_id] })
+            .then(result => {
+                this.model.final_rotation += 90;
+                let el = document.getElementById('photo-image');
+                el.style.transform = `rotate(-${this.model.final_rotation}deg)`;
+            })
         return false;
     }
 
@@ -555,6 +557,17 @@ export class FullSizePhoto {
         el.style.width = face_location.width;
         el.style.height = face_location.height;
         return 'bla';
+    }
+
+    makeFullScreen() {
+        let el = document.getElementById("photo-image");
+        //Use the specification method before using prefixed versions
+        if (el.requestFullscreen) {
+            el.requestFullscreen();
+        } else {
+            console.log("Fullscreen API is not supported");
+        }
+
     }
 }
 

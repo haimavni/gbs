@@ -6,7 +6,7 @@
         <div style="display:flex;flex-direction:row-reverse;">
             <div class="slide full-size-photo" click.delegate="mark_face($event)"
                 css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;">
-                <img src="${slide[slide.side].src}" height="${slide[slide.side].height}" id="photo_image"
+                <img src="${slide[slide.side].src}" height="${slide[slide.side].height}" id="photo-image"
                     width="${slide[slide.side].width}" />
                 <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)"
                     interact-draggable.bind="theme.interact_setting"
@@ -42,6 +42,8 @@
                     click.delegate="copy_photo_url($event)"><i class="fa fa-lg fa-link"></i></button>
                 <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text" class="side-tool flip-sides"
                     click.delegate="flip_photo($event)"><i class="fa fa-lg fa-yin-yang"></i></button>
+                <button aubs-tooltip="text.bind:fullscreen" class="side-tool full-screen"
+                    click.delegate="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
                 <button show.bind="user.editing && ! cropping" aubs-tooltip="text.bind:crop" class="side-tool crop"
                     click.delegate="crop_photo($event)"><i class="fa fa-lg fa-crop-alt"></i></button>
                 <button show.bind="cropping" aubs-tooltip="text.bind:save_crop" class="side-tool crop"

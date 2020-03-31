@@ -117,6 +117,7 @@ export class UserInfo {
         return _dirty;
     }
 
+    @computedFrom('status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 'status_record.photo_info.photo_date_str')
     get missing_photo_info() {
         let keys = Object.keys(this.status_record.photo_info);
         for (let key of keys) {
