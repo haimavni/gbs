@@ -11,7 +11,8 @@
                             <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
                                 value.bind="loginData.email" t="[placeholder]user.email-address">
                         </div>
-                        <button if.bind="login_phase=='attempting'" class="btn btn-primary btn-block"
+                        <button id="login-button" if.bind="user_id < 0" class="btn btn-primary btn-block ${login_phase}"
+                            disabled="${loginData.email ? '' : 'disabled'}"
                             click.trigger="attempt_login()">
                             ${"groups.login" & t}
                         </button>
