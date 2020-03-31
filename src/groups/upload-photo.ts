@@ -158,9 +158,14 @@ export class UploadPhoto {
         document.body.classList.add('black-overlay');
         this.user.editing = true;
         let settings = {no_jump: true, no_photo_info: true};
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list, settings: settings }, lock: false })
+        let model = { slide: slide, slide_list: this.photo_list, settings: settings, final_rotation: 0 }
+        this.dialog.open({ viewModel: FullSizePhoto, model: model, lock: false })
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
+                if (model.final_rotation) {
+                    let el = document.getElementById("uploaded-photo");
+                    el.style.transform = `rotate(-${model.final_rotation}deg)`;                
+                }
             });
     }
 

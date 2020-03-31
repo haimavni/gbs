@@ -24,6 +24,7 @@ export class FullSizePhoto {
     api;
     user;
     theme;
+    model;
     slide;
     slide_list = [];
     slide_index = 0;
@@ -47,6 +48,7 @@ export class FullSizePhoto {
     save_crop;
     cancel_crop;
     crop_sides;
+    rotate;
     next_slide_txt;
     prev_slide_txt;
     no_new_faces = false;
@@ -70,6 +72,7 @@ export class FullSizePhoto {
         this.i18n = i18n;
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.crop = this.i18n.tr('photos.crop');
+        this.rotate = this.i18n.tr('photos.rotate');
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
         this.next_slide_txt = this.i18n.tr('photos.next-slide')
@@ -80,6 +83,8 @@ export class FullSizePhoto {
     }
 
     activate(model) {
+        this.model = model;
+        model.final_rotation = 0;
         this.slide = model.slide;
         this.slide_list = model.slide_list;
         this.settings = model.settings || {};
@@ -142,10 +147,12 @@ export class FullSizePhoto {
     }
 
     save_photo_info(event) {
+        event.stopPropagation();
         let pi = event.detail;
         this.photo_info.photo_date_str = pi.date_str;
         this.photo_info.photo_date_datespan = pi.date_span;
         this.api.call_server_post('photos/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
+        return false;
     }
 
     save_photo_caption(event) {
@@ -165,12 +172,16 @@ export class FullSizePhoto {
         };
     }
 
-    copy_photo_url() {
+    copy_photo_url(event) {
+        event.stopPropagation();
         copy_to_clipboard(this.slide.src);
+        return false;
     }
 
-    flip_photo() {
+    flip_photo(event) {
+        event.stopPropagation();
         this.slide.side = (this.slide.side == 'front') ? 'back' : 'front';
+        return false;
     }
 
     handle_face(face, event, index) {
@@ -269,6 +280,9 @@ export class FullSizePhoto {
         if (this.marking_face_active) {
             return;
         }
+        if (event.offsetX < 15) {
+            return;
+        }
         let photo_id = this.slide[this.slide.side].photo_id;
         if (!photo_id) {
             photo_id = this.slide.photo_id; //todo: ugly
@@ -277,6 +291,7 @@ export class FullSizePhoto {
         this.current_face = face;
         this.faces.push(face);
         this.marking_face_active = true;
+        return false;
     }
 
     private distance(face, pt) {
@@ -379,8 +394,9 @@ export class FullSizePhoto {
         this.cropping = true;
     }
 
-    public save_photo_crop() {
+    public save_photo_crop(event) {
         //call server to crop and refresh
+        event.stopPropagation();
         let photo_data = this.slide[this.slide.side];
         let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
         this.api.call_server('photos/crop_photo', { photo_id: photo_id, crop_left: this.crop_left, crop_top: this.crop_top, crop_width: this.crop_width, crop_height: this.crop_height })
@@ -451,7 +467,19 @@ export class FullSizePhoto {
         }
     }
 
+    rotate_photo(event) {
+        event.stopPropagation();
+        this.api.call_server('photos/rotate_selected_photos', {selected_photo_list: [this.slide.photo_id]})
+        .then(result => {
+            this.model.final_rotation += 90;
+            let el = document.getElementById('photo_image');
+            el.style.transform = `rotate(-${this.model.final_rotation}deg)`;
+        })
+        return false;
+    }
+
     public next_slide(event) {
+        event.stopPropagation();
         let idx = this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
         if (idx < this.slide_list.length - 1) {
             idx += 1;
@@ -461,7 +489,9 @@ export class FullSizePhoto {
             this.get_photo_info(pid);
         }
     }
+
     public prev_slide(event) {
+        event.stopPropagation();
         let idx = this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
         if (idx > 0) {
             idx -= 1;
@@ -473,6 +503,7 @@ export class FullSizePhoto {
     }
 
     handle_context_menu(face, event) {
+        event.stopPropagation();
         if (!this.user.editing) {
             return;
         }

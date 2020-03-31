@@ -6,7 +6,7 @@
         <div style="display:flex;flex-direction:row-reverse;">
             <div class="slide full-size-photo" click.delegate="mark_face($event)"
                 css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;">
-                <img src="${slide[slide.side].src}" height="${slide[slide.side].height}"
+                <img src="${slide[slide.side].src}" height="${slide[slide.side].height}" id="photo_image"
                     width="${slide[slide.side].width}" />
                 <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)"
                     interact-draggable.bind="theme.interact_setting"
@@ -39,15 +39,17 @@
                 <button aubs-tooltip="text.bind:jump_to_story_page" if.bind="! settings.no_jump" class="side-tool story"
                     click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
                 <button aubs-tooltip="text.bind:copy_photo_url_text" class="side-tool copy-to-clipboard"
-                    click.delegate="copy_photo_url()"><i class="fa fa-lg fa-link"></i></button>
+                    click.delegate="copy_photo_url($event)"><i class="fa fa-lg fa-link"></i></button>
                 <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text" class="side-tool flip-sides"
-                    click.delegate="flip_photo()"><i class="fa fa-lg fa-sync"></i></button>
+                    click.delegate="flip_photo($event)"><i class="fa fa-lg fa-yin-yang"></i></button>
                 <button show.bind="user.editing && ! cropping" aubs-tooltip="text.bind:crop" class="side-tool crop"
-                    click.delegate="crop_photo()"><i class="fa fa-lg fa-crop-alt"></i></button>
+                    click.delegate="crop_photo($event)"><i class="fa fa-lg fa-crop-alt"></i></button>
                 <button show.bind="cropping" aubs-tooltip="text.bind:save_crop" class="side-tool crop"
-                    click.delegate="save_photo_crop()"><i class="fa fa-lg fa-save"></i></button>
+                    click.delegate="save_photo_crop($event)"><i class="fa fa-lg fa-save"></i></button>
                 <button show.bind="cropping" aubs-tooltip="text.bind:cancel_crop" class="side-tool cancel-crop"
-                    click.delegate="cancel_photo_crop()"><i class="fa fa-lg fa-undo-alt"></i></button>
+                    click.delegate="cancel_photo_crop($event)"><i class="fa fa-lg fa-undo-alt"></i></button>
+                <button show.bind="user.editing" aubs-tooltip="text.bind:rotate" class="side-tool rotate"
+                    click.delegate="rotate_photo($event)"><i class="fa fa-lg fa-undo"></i></button>
                 <button id="next-slide-button" show.bind="slide_list.length > 1" aubs-tooltip="text.bind:next_slide_txt"
                     class="side-tool next-slide" click.delegate="next_slide($event)"><i
                         class="far fa-lg fa-arrow-alt-right"></i></button>

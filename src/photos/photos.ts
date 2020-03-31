@@ -163,8 +163,10 @@ export class Photos {
             }
             this.selected_photos = new Set(arr);
             this.params.selected_photo_list = Array.from(this.selected_photos);
+            this.photo_list = [];
         } else if (params.photo_ids) {
             this.params.photo_ids = params.photo_ids;
+            this.photo_list = [];
         } else {
             this.params.photo_ids = [];
         }
