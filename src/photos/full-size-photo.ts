@@ -54,6 +54,7 @@ export class FullSizePhoto {
     prev_slide_txt;
     no_new_faces = false;
     settings = {};
+    fullscreen_mode = false;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -274,6 +275,15 @@ export class FullSizePhoto {
     }
 
     mark_face(event) {
+        if (this.fullscreen_mode) {
+            let width = this.theme.width;
+            if (event.offsetX < width / 4) {
+                this.prev_slide(event)
+            } else if (event.offsetX > width * 3 / 4) {
+                this.next_slide(event)
+            }
+            return;
+        }
         if (this.no_new_faces) return;
         event.stopPropagation();
         if (!this.user.editing) {
@@ -532,8 +542,10 @@ export class FullSizePhoto {
             if (!response.wasCancelled) {
                 let command = response.output.command;
                 if (command == 'cancel-identification') {
+                    this.marking_face_active = false;
                     this.remove_face(face)
                 } else if (command == 'save-face-location') {
+                    this.marking_face_active = false;
                     if (face.member_id)
                         this.api.call_server_post('photos/save_face', { face: face });
                     else
@@ -560,14 +572,18 @@ export class FullSizePhoto {
     }
 
     makeFullScreen() {
+        this.fullscreen_mode = false;
         let el = document.getElementById("photo-image");
-        //Use the specification method before using prefixed versions
         if (el.requestFullscreen) {
             el.requestFullscreen();
         } else {
             console.log("Fullscreen API is not supported");
         }
-
     }
+
+    fullscreen_change(event) {
+        this.fullscreen_mode = !this.fullscreen_mode;
+    }
+
 }
 
