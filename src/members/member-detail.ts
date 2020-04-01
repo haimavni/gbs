@@ -364,7 +364,6 @@ export class MemberDetail {
     }
 
     life_summary_contentChanged() {
-        console.log("life summary con changed");
         this.set_heights();
     }
 

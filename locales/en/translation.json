@@ -521,6 +521,7 @@
         "mail_watcher": "Mail watcher", 
         "archiver": "Archiver", 
         "tester": "Tester",
+        "restricted": "Restricted",
         "duplicate-app-name": "Name is alrady in use!",
         "new-app-requested": "Your request is being processed",
         "app-name": "New site ID",

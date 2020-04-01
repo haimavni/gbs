@@ -183,6 +183,9 @@ export class Photos {
     @computedFrom('user.editing')
     get user_editing() {
         this.update_topic_list();
+        if (this.user.editing && this.user.privileges.RESTRICTED) {
+            this.update_photo_list(); 
+        }
         return this.user.editing;
     }
 
@@ -222,6 +225,9 @@ export class Photos {
         console.time('get_photo_list');
         if (! this.params.user_id)
             this.params.user_id = this.user.id;
+        if (this.user.editing && this.user.privileges.RESTRICTED) {
+            this.params.selected_uploader = 'mine';
+        }
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.editing_filters = false;
