@@ -55,6 +55,12 @@ export class FullSizePhoto {
     no_new_faces = false;
     settings = {};
     fullscreen_mode = false;
+    fullscreen_height = 0;
+    fullscreen_width = 0;
+    fullscreen_margin = 0;
+    fullscreen_top_margin = 0;
+    can_go_forward = false;
+    can_go_backward = false;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -90,6 +96,9 @@ export class FullSizePhoto {
         model.final_rotation = 0;
         this.slide = model.slide;
         this.slide_list = model.slide_list;
+        let idx = this.slide_idx();
+        this.can_go_forward = idx + 1 < this.slide_list.length;
+        this.can_go_backward = idx > 0;
         this.settings = model.settings || {};
         this.baseURL = environment.baseURL;
         let pid = this.slide[this.slide.side].photo_id;
@@ -490,27 +499,40 @@ export class FullSizePhoto {
         return false;
     }
 
+    slide_idx() {
+        return this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
+    }
+
+    public has_next(step) {
+        let idx = this.slide_idx();
+        return 0 <= (idx + step) && (idx + step) < this.slide_list.length;
+    }
+
+    get_slide_by_idx(idx) {
+        this.slide = this.slide_list[idx];
+        let pid = this.slide.photo_id;
+        this.get_faces(pid);
+        this.get_photo_info(pid);
+        this.calc_percents();
+    }
+
     public next_slide(event) {
         event.stopPropagation();
-        let idx = this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
-        if (idx < this.slide_list.length - 1) {
-            idx += 1;
-            this.slide = this.slide_list[idx];
-            let pid = this.slide.photo_id;
-            this.get_faces(pid);
-            this.get_photo_info(pid);
+        let idx = this.slide_idx();
+        if (idx + 1 < this.slide_list.length) {
+            this.get_slide_by_idx(idx + 1);
+            this.can_go_forward = idx + 2 < this.slide_list.length;
+            this.can_go_backward = true;
         }
     }
 
     public prev_slide(event) {
         event.stopPropagation();
-        let idx = this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
+        let idx = this.slide_idx();
         if (idx > 0) {
-            idx -= 1;
-            this.slide = this.slide_list[idx];
-            let pid = this.slide.photo_id;
-            this.get_faces(pid);
-            this.get_photo_info(pid);
+            this.get_slide_by_idx(idx - 1)
+            this.can_go_forward = true;
+            this.can_go_backward = idx > 1;
         }
     }
 
@@ -571,7 +593,7 @@ export class FullSizePhoto {
         return 'bla';
     }
 
-    makeFullScreen() {
+    async makeFullScreen() {
         this.fullscreen_mode = false;
         let el = document.getElementById("photo-image");
         if (el.requestFullscreen) {
@@ -579,11 +601,40 @@ export class FullSizePhoto {
         } else {
             console.log("Fullscreen API is not supported");
         }
+        await sleep(100);
+        this.calc_percents();
     }
 
     fullscreen_change(event) {
         this.fullscreen_mode = !this.fullscreen_mode;
     }
 
+    calc_percents() {
+        let ph = this.slide[this.slide.side].height;
+        let pw = this.slide[this.slide.side].width;
+        let sh = this.theme.height;
+        let sw = this.theme.width;
+        let w;
+        let h;
+        if (ph * sw > pw * sh) {
+            this.fullscreen_height = 100;
+            w = Math.round(pw * sh / ph);
+            h = sh;
+            this.fullscreen_width = Math.round(100 * pw * sh / ph / sw);
+        } else {
+            w = sw;
+            h = Math.round(ph * sw / pw);
+            this.fullscreen_width = 100;
+            this.fullscreen_height = Math.round(100 * ph * sw / pw / sh);
+        }
+        this.fullscreen_margin = Math.round((sw - w) / 2);
+        this.fullscreen_top_margin = Math.round((sh - h) / 2);
+    }
+
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 

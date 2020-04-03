@@ -3,7 +3,7 @@
     <div id="member-picker">
         <div class="header">
             <div>
-                <button click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)">
+                <button click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)" if.bind="user.editing">
                     <i class="far fa-plus-square"></i>
                     ${'members.new' & t}
                 </button>
