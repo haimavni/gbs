@@ -1,6 +1,6 @@
 <template>
-    <form role="form">
-        <select if.bind="user.editing" value.bind="selectedval" style="width:100%">
+    <form role="form" id="selector">
+        <select if.bind="user.editing" value.bind="selectedval" css="width:${width}">
             <option repeat.for="option of options" model.bind="option.value" >${option.name}</option>
         </select>
     </form>

@@ -15,16 +15,17 @@
                                 <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
-                                <help topic="photos.can-modify-tags", position="bottom"></help>
+                                <help topic="photos.can-modify-tags" , position="bottom"></help>
                             </div>
                             <div if.bind="phase=='can-create-group'" class="form-group">
                                 <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
                                     ${'photos.save-topic-group' & t}
                                 </button>
-                                <help topic="photos.can-create-group", position="bottom"></help>
+                                <help topic="photos.can-create-group" , position="bottom"></help>
                             </div>
                             <div class="form-group" if.bind="user.editing && checked_stories.size == 0">
-                                <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4EVENT}" class="btn btn-success cl-create-btn">
+                                <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4EVENT}"
+                                    class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
                                     ${'stories.new' & t}
                                 </a>
@@ -35,23 +36,21 @@
                                 </button>
                             </div>
                             <div class="form-group">
-                                <button if.bind="user.editing && checked_stories.size > 0 && (params.selected_topics.length>0 || date_is_valid)"
-                                    click.trigger="apply_topics_to_selected_stories()"
-                                    class="btn btn-basic btn-md">
+                                <button
+                                    if.bind="user.editing && checked_stories.size > 0 && (params.selected_topics.length>0 || date_is_valid || params.selected_story_visibility)"
+                                    click.trigger="apply_topics_to_selected_stories()" class="btn btn-basic btn-md">
                                     ${'stories.apply-to-selected' & t}
                                 </button>
                             </div>
                             <div class="form-group">
                                 <button if.bind="user.editing && checked_stories.size > 1 && user.privileges.DEVELOPER"
-                                    class="btn btn-basic btn-md"
-                                    click.trigger="consolidate_stories()">
+                                    class="btn btn-basic btn-md" click.trigger="consolidate_stories()">
                                     ${'stories.consolidate-selected-story' & t}
                                 </button>
                             </div>
                             <div class="form-group">
                                 <button if.bind="user.editing && checked_stories.size > 0 && user.privileges.ADMIN"
-                                    class="btn btn-basic btn-md"
-                                    click.trigger="promote_stories()">
+                                    class="btn btn-basic btn-md" click.trigger="promote_stories()">
                                     ${'stories.promote-selected-stories' & t}
                                 </button>
                             </div>
@@ -60,10 +59,10 @@
                             </div>
                         </form>
                     </div>
-                    <h3 if.bind="no_results" innerhtml.bind="'no-results' & t" style="width:90%;margin-right:auto;margin-left:auto;">
+                    <h3 if.bind="no_results" innerhtml.bind="'no-results' & t"
+                        style="width:90%;margin-right:auto;margin-left:auto;">
                     </h3>
-                    <button class="btn btn-basic btn-sm btn-framed" 
-                        if.bind="! theme.is_desktop" 
+                    <button class="btn btn-basic btn-sm btn-framed" if.bind="! theme.is_desktop"
                         click.delegate="show_filters_only()"
                         style="margin-bottom:12px;margin-right:20px">${'stories.edit-filters' & t}
                     </button>
@@ -72,20 +71,19 @@
                         <button repeat.for="uf of active_result_types"
                             class="btn btn-${uf==used_for ? 'primary' : 'default'}"
                             click.delegate="select_used_for(uf)">
-                            <span style="font-size:70%;">${result_type_counters[uf]}</span>&nbsp;&nbsp;<span style="font-weight:bolder">${'result' + uf & t}</span>
+                            <span style="font-size:70%;">${result_type_counters[uf]}</span>&nbsp;&nbsp;<span
+                                style="font-weight:bolder">${'result' + uf & t}</span>
                         </button>
                         <button if.bind="used_for==3" class="btn btn-basic" click.delegate="goto_photos_page()">
                             ${'photos.show-in-photo-page' & t}
                         </button>
                     </form>
-                    <ul ref="scroll_area" class="story-list unselectable ${no_results ? 'empty-stories' : ''}" 
+                    <ul ref="scroll_area" class="story-list unselectable ${no_results ? 'empty-stories' : ''}"
                         style="margin-top:12px;">
-                        <li repeat.for="story of story_list | filter: filter : '*selected' : 'name' : 'author' | take : 9999" dir="${theme.rtltr}"
-                            if.bind="story.used_for==used_for"
+                        <li repeat.for="story of story_list | filter: filter : '*selected' : 'name' : 'author' | take : 9999"
+                            dir="${theme.rtltr}" if.bind="story.used_for==used_for"
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
-                            <div class="outer-story-preview"
-                                
-                                click.delegate="jump_to_the_full_story($event, story)">
+                            <div class="outer-story-preview" click.delegate="jump_to_the_full_story($event, story)">
                                 <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">-->
                                 <div class="story-preview" style="margin-bottom: 10px;" if.bind="used_for!=8">
                                     <div>
@@ -95,14 +93,17 @@
                                             <source src="${story.audio_path}" type="audio/mpeg">
                                         </audio>
                                     </div>
-                                    <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
-                                        story.bind="story" change.delegate="toggle_story_selection(story, $event, $index)"
+                                    <editable
+                                        settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
+                                        story.bind="story"
+                                        change.delegate="toggle_story_selection(story, $event, $index)"
                                         info_title.bind="story.name" info_content.bind="story.topics"
                                         class="story-body">
                                     </editable>
                                 </div>
                                 <div class="video-panel" if.bind="used_for==8" style="position:relative">
-                                    <iframe class="video-iframe" src.bind="story.video_src" frameborder="0" allowfullscreen="">
+                                    <iframe class="video-iframe" src.bind="story.video_src" frameborder="0"
+                                        allowfullscreen="">
                                     </iframe>
                                     <span class="video-name" style="position:absolute;padding-right:20px;">
                                         ${story.name}
@@ -113,25 +114,23 @@
                     </ul>
 
                 </div>
-                <div class="col-md-4 col-sm-12" if.bind="theme.is_desktop || editing_filters" id="story-filters" css="height:${panel_height}px;overflow:auto;">
+                <div class="col-md-4 col-sm-12" if.bind="theme.is_desktop || editing_filters" id="story-filters"
+                    css="height:${panel_height}px;overflow:auto;">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help if.bind="phase == 'not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
-                        <help if.bind="phase == 'selecting-stories'" topic="selecting-stories" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
-                        <help if.bind="phase=='ready-to-edit'" topic="topics.ready-to-edit", position="bottom" style="position:absolute;left:0px;top:26px;"></help>
-                        <multi-select options.bind="topic_list"
-                            place_holder_text="photos.click-topic"
-                            selected_options.bind="params.selected_topics"
-                            height.bind="220"
-                            settings.bind="options_settings"
-                            has_groups.bind="has_grouped_topics"
-                            option_groups.bind="topic_groups"
-                            ms-change.delegate="handle_topic_change($event)"
-                            new-name.delegate="add_topic($event)"
-                            name-changed.delegate="topic_name_changed($event)"
+                        <help if.bind="phase == 'not-editing'" topic="tags" position="bottom"
+                            style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="phase == 'selecting-stories'" topic="selecting-stories" position="bottom"
+                            style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="phase=='ready-to-edit'" topic="topics.ready-to-edit" , position="bottom"
+                            style="position:absolute;left:0px;top:26px;"></help>
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"
+                            selected_options.bind="params.selected_topics" height.bind="220"
+                            settings.bind="options_settings" has_groups.bind="has_grouped_topics"
+                            option_groups.bind="topic_groups" ms-change.delegate="handle_topic_change($event)"
+                            new-name.delegate="add_topic($event)" name-changed.delegate="topic_name_changed($event)"
                             remove-option.delegate="remove_topic($event)"
-                            clear_selections_now.bind="clear_selected_topics_now"
-                            style="margin-top:5px;">
+                            clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
                         </multi-select>
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.privileges.ADMIN && user.editing" class="row">
@@ -144,51 +143,57 @@
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' & t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
-                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
-                        <multi-select
-                            options.bind="stories_index"
-                            selected_options.bind="params.selected_words"
-                            keywords.two-way="keywords"
-                            place_holder_text="stories.word-index"
-                            height="201"
-                            ms-change.trigger="handle_words_change($event)"
-                            settings.bind="words_settings">
+                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;"
+                            params.bind="help_data"></help>
+                        <multi-select options.bind="stories_index" selected_options.bind="params.selected_words"
+                            keywords.two-way="keywords" place_holder_text="stories.word-index" height="201"
+                            ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
                         </multi-select>
                     </div>
+                    <div class="row" if.bind="user.editing && user.privileges.ADMIN && checked_stories.size > 0">
+                        <selector dict.bind="api.constants.story_visibility"
+                            width.bind="visibility_width"
+                            selectedval.two-way="params.selected_story_visibility">
+                        </selector>
+                    </div>
                     <div class="row" style="margin-top: 20px;" if.bind="user.isLoggedIn">
-                            <form role="form">
-                                <select value.bind="params.order_option" style="height:32px;width:90%;" change.delegate="handle_order_change($event)">
-                                    <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
-                                </select>
-                            </form>
-                        </div>
-    
+                        <form role="form">
+                            <select value.bind="params.order_option" style="height:32px;width:90%;"
+                                change.delegate="handle_order_change($event)">
+                                <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
+
                     <div class="row" style="margin-top: 20px;" if.bind="user.editing">
                         <form role="form">
-                            <select value.bind="params.days_since_update" style="height:32px;width:90%;" change.delegate="handle_age_change($event)">
-                                <option repeat.for="option of days_since_update_options" model.bind="option">${option.name}</option>
+                            <select value.bind="params.days_since_update" style="height:32px;width:90%;"
+                                change.delegate="handle_age_change($event)">
+                                <option repeat.for="option of days_since_update_options" model.bind="option">
+                                    ${option.name}</option>
                             </select>
                         </form>
                     </div>
                     <div class="row" style="margin-top: 20px;" if.bind="user.privileges.TEXT_AUDITOR && user.editing">
                         <form role="form">
-                            <select value.bind="params.approval_state" style="height:32px;width:90%;" change.delegate="handle_approval_state_change($event)">
-                                <option repeat.for="option of approval_state_options" model.bind="option">${option.name}</option>
+                            <select value.bind="params.approval_state" style="height:32px;width:90%;"
+                                change.delegate="handle_approval_state_change($event)">
+                                <option repeat.for="option of approval_state_options" model.bind="option">${option.name}
+                                </option>
                             </select>
                         </form>
                     </div>
                     <div class="row" style="margin-top: 20px;margin-left:23px;" if.bind="can_set_dates">
-                        <date-range 
-                            label="stories.date" 
-                            base_date_str.bind="params.stories_date_str"
-                            range_options.bind="[1,2,3,4,5,10, 20, 50, 100, 120]" 
+                        <date-range label="stories.date" base_date_str.bind="params.stories_date_str"
+                            range_options.bind="[1,2,3,4,5,10, 20, 50, 100, 120]"
                             span_size.bind="params.stories_date_span_size">
                         </date-range>
                     </div>
                 </div>
             </div>
             <div class="row hide-if-small" style="width:100%;margin-right:5px;" if.bind="!can_set_dates">
-                <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.delegate="time_range_changed($event)"></timeline>
+                <timeline first_year.bind="params.first_year" last_year.bind="params.last_year"
+                    change.delegate="time_range_changed($event)"></timeline>
             </div>
         </div>
     </section>

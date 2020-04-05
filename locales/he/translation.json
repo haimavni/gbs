@@ -467,7 +467,12 @@
         "dc-killed-m": "נהרג",
         "dc-died-m": "נפטר",
         "dc-fell-m": "נפל",
-        "dc-murdered-m": "נרצח"
+        "dc-murdered-m": "נרצח",
+        "sv-public": "כולם יכולים לראות",
+        "sv-admin": "רק לעיני מנהלי האתר",
+        "sv-archiver": "רק לעיני הארכיונאים",
+        "sv-loggedin": "למשתמשים מחוברים בלבד",
+        "sv-no-change": "החשיפה ללא שינוי"
     },
     "multi-select": {
         "new-item-placeholder": "הכנס שם חדש",

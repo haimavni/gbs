@@ -466,7 +466,12 @@
         "dc-killed-m": "killed",
         "dc-died-m": "died",
         "dc-fell-m": "fell",
-        "dc-murdered-m": "murdered"
+        "dc-murdered-m": "murdered",
+        "sv-public": "Public",
+        "sv-admin": "For admins only",
+        "sv-archiver": "For archivers only",
+        "sv-loggedin": "For logged in users only",
+        "sv-no-change": "No visibility change"
     },
     "multi-select": {
         "new-item-placeholder": "Enter new name",

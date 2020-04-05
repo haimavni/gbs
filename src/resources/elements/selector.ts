@@ -7,6 +7,7 @@ export class SelectorCustomElement {
     @bindable dict;
     @bindable selectedval;
     @bindable suffix;
+    @bindable width = "100%";
     selected;
     //options;
     i18n;
@@ -30,6 +31,8 @@ export class SelectorCustomElement {
             options.push(selected);
         }
         options.sort((option1, option2) => option1.value - option2.value);
+        let el = document.getElementById("selector");
+        if (el) el.style.width = this.width;
         return options;
     }
 

@@ -39,6 +39,7 @@ export class Stories {
         show_untagged: false,
         selected_words: [],
         selected_uploader: "",
+        selected_story_visibility: 0,
         from_date: "",
         to_date: "",
         stories_date_str: "",
@@ -92,6 +93,7 @@ export class Stories {
     anchor = -1; //for multiple selections
     story_items = [];
     editing_filters = false;
+    visibility_width = "90%";
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -140,6 +142,7 @@ export class Stories {
     }
 
     activate(params, config) {
+        this.params.selected_story_visibility = 0;
         if (this.router.isExplicitNavigationBack) return;
         if (this.story_list && this.story_list.length > 0 && !params.keywords) return;
         if (params.keywords == this.params.keywords_str && this.story_list && this.story_list.length > 0) return;
@@ -343,6 +346,7 @@ export class Stories {
             .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_selected_stories();
+                this.params.selected_story_visibility = 0;
                 if (response.new_topic_was_added) {
                     this.update_topic_list();
                 }
@@ -596,6 +600,7 @@ export class Stories {
             show_untagged: false,
             selected_words: [],
             selected_uploader: "",
+            selected_story_visibility: 0,
             from_date: "",
             to_date: "",
             stories_date_str: "",
