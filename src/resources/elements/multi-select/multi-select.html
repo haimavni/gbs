@@ -76,8 +76,8 @@
                 <li repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999">
                     <div class="option-item" 
                         css="margin:0;padding:0;padding-right:${(option.level || 0) * 16 + 2}px;width:${inner_width}px" 
-                        if.bind="option.topic_kind!=1 || ! hide_higher">
-                        <i if.bind="option.topic_kind==1 && ! option.expanded" click.delegate="expand(option)" class="fa fa-play fa-xs fa-rotate-90"></i> 
+                        if.bind="option.topic_kind==2 || option.topic_kind == 0 && user.editing || option.topic_kind  == 1 && ! hide_higher">
+                        <i if.bind="option.topic_kind==1 && ! hide_higher && ! option.expanded" click.delegate="expand(option)" class="fa fa-play fa-xs fa-rotate-90"></i> 
                         <i if.bind="option.topic_kind==1 && option.expanded" click.delegate="collapse(option)" class="fa fa-play fa-xs fa-rotate-180"></i> 
                         <a click.delegate="select_option(option)" class.bind="'option-kind-' + option.topic_kind">${option.name}</a>
                     </div>
