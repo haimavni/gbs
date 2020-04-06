@@ -62,6 +62,7 @@ export class MultiSelectCustomElement {
     user;
     theme;
     to_show_untagged = false;
+    agent = {size: 9999};
 
     constructor(element, i18n: I18N, dialogService: DialogService, user: User, theme: Theme) {
         this.element = element;
@@ -373,6 +374,11 @@ export class MultiSelectCustomElement {
     @computedFrom('settings.show_untagged')
     get can_show_untagged() {
         return this.settings.show_untagged;
+    }
+
+    @computedFrom('agent.size')
+    get filter_size() {
+        return this.agent.size;
     }
 
     is_visible(option) {

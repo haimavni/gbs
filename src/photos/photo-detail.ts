@@ -6,13 +6,13 @@ import { User } from '../services/user';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { highlight } from '../services/dom_utils';
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 @autoinject()
 export class PhotoDetail {
     api;
     user;
     i18n;
-    story;
     members;
     photos;
     curr_photo;
@@ -27,8 +27,9 @@ export class PhotoDetail {
     orig_photo_width = 0;
     orig_photo_height = 0;
     photo_width = 600;
+    photo_margin = 0;
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
-    MAX_HEIGHT = 700;
+    MAX_HEIGHT = 550;
     dialog;
     router;
     keywords;
@@ -36,6 +37,10 @@ export class PhotoDetail {
     highlight_on = "highlight-on";
     photographer_name = '';
     chatroom_id = null;
+    options_settings: MultiSelectSettings;
+    photographers_settings;
+    topic_list = [];
+    photographer_list = [];
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -43,6 +48,19 @@ export class PhotoDetail {
         this.user = user;
         this.dialog = dialog;
         this.router = router;
+        this.options_settings = new MultiSelectSettings({
+            clear_filter_after_select: false,
+            can_set_sign: true,
+            can_group: true,
+            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            show_untagged: this.user.editing
+        });
+        this.photographers_settings = new MultiSelectSettings({
+            clear_filter_after_select: true,
+            can_set_sign: false,
+            can_group: false,
+            empty_list_message: this.i18n.tr('photos.no-photographers-yet')
+        });
     }
 
     activate(params, config) {
@@ -54,7 +72,8 @@ export class PhotoDetail {
                 this.photo_src = response.photo_src;
                 this.photo_story = response.photo_story;
                 this.photo_name = this.photo_story.name || response.photo_name;
-                this.photographer_name = response.photographer_name
+                this.photographer_name = response.photographer_name;
+                this.keywords = response.keywords;
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
                 if (this.photo_story.story_id == 'new') {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
@@ -65,19 +84,22 @@ export class PhotoDetail {
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
-                /*if (! this.photo_story) {
-                    this.photo_story = {story_text: this.i18n.tr('stories.no-story')};
-                }*/
-                let pw = this.orig_photo_width / this.MAX_WIDTH;
-                let ph = this.orig_photo_height / this.MAX_HEIGHT;
-                if (pw >= ph) {
-                    this.photo_width = this.MAX_WIDTH;
-                } else {
-                    this.photo_width = this.orig_photo_width / ph;
-                }
-
-                //also: associated members, name, photographer, time, story
+                this.calc_photo_width();
             });
+            this.update_topic_list();
+    }
+
+    calc_photo_width() {
+        let pw = this.orig_photo_width / this.MAX_WIDTH;
+        let ph = this.orig_photo_height / this.MAX_HEIGHT;
+        if (pw >= ph) {
+            this.photo_width = this.MAX_WIDTH;
+        } else {
+            this.photo_width = this.orig_photo_width / ph;
+        }
+        let el = document.getElementById('photo-box');
+        let width = el.clientWidth;
+        el.style.paddingRight = `${width - this.photo_width - 15}px`;
     }
 
     update_photo_caption(event) {
@@ -144,6 +166,15 @@ export class PhotoDetail {
         this.api.call_server('chats/add_chatroom', { story_id: this.photo_story.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
             .then((data) => {
                 this.chatroom_id = data.chatroom_id;
+            });
+    }
+
+    update_topic_list() {
+        this.api.call_server('topics/get_topic_list', 'P')
+            .then(result => {
+                this.topic_list = result.topic_list;
+                //this.topic_groups = result.topic_groups;
+                this.photographer_list = result.photographer_list;
             });
     }
 

@@ -69,7 +69,7 @@ export class Photos {
     selected_photos = new Set([]);
     router: Router;
     options_settings: MultiSelectSettings;
-    photographers_settings;
+    photographers_settings: MultiSelectSettings;
     caller_type;
     caller_id: number;
     with_a_member = false;
@@ -358,7 +358,10 @@ export class Photos {
 
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' });
+        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' })
+        .then(() => {
+            this.update_topic_list();
+        });
     }
 
     remove_photographer(event) {

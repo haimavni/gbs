@@ -90,7 +90,7 @@
     },
     "members": {
         "members": "Members",
-        "new": "Add Member",
+        "new": "Add ",
         "filter": "Enter first or last name or nick name, or name of new member",
         "clear": "Clear",
         "family-connections": "Family Connections",
@@ -482,7 +482,8 @@
         "change-group": "Change group",
         "edit-item": "Edit the name",
         "remove-item": "Remove the item",
-        "show-untagged": "--Show untagged--"
+        "show-untagged": "--Show untagged--",
+        "add-item": "Add item "
     },
     "locales": {
         "he": "Hebrew",

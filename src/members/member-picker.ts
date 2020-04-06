@@ -30,6 +30,7 @@ export class MemberPicker {
     child_id;
     member_id;
     i18n;
+    agent = {size: 9999}
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;

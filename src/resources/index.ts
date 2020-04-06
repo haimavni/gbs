@@ -4,6 +4,7 @@ export function configure(config) {
     './value-converters/filter',
     './value-converters/filter-by-set',
     './value-converters/take',
+    './value-converters/spy',
     './value-converters/filter-visibility',
     './value-converters/filter-gender',
     './value-converters/sort',

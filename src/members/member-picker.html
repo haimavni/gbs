@@ -3,9 +3,8 @@
     <div id="member-picker">
         <div class="header">
             <div>
-                <button click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)" if.bind="user.editing">
-                    <i class="far fa-plus-square"></i>
-                    ${'members.new' & t}
+                <button if.bind="agent.size==0" click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)" if.bind="user.editing">
+                    ${'members.new' & t} ${filter}
                 </button>
             </div>
             <div if.bind="face_identifier && member_id" class="colxxx-md-3" style="padding-left:0px;">
@@ -26,7 +25,7 @@
         <div class="member-list popup">
             <div style="padding-right:75px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 'first_name':'last_name' : 'nick_name' : 'former_last_name' | take : 500" 
+                    <li repeat.for="member of members | filter : filter : 'first_name':'last_name' : 'nick_name' : 'former_last_name' | take : 500 | spy : agent" 
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}">
 
                         <a click.delegate="select(member)" style="vertical-align: text-bottom;align-content: center;cursor:pointer;" aubs-tooltip="text.bind:member.name">

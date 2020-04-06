@@ -4,18 +4,12 @@
     <div class="input-group search-filter" if.bind="options.length > 0">
         <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32" help_topic.bind="settings.help_topic" filter-change.delegate="enter_word($event)"></search-input>
     </div>
-
+    <button if.bind="filter_size == 0 && can_add" class="btn btn-success btn-sm cl-create-btn" 
+        click.delegate="dispatch_new_item_event(filter)"
+        style="width:88%;font-size:110%;">
+        ${'multi-select.add-item' & t} ${filter}
+    </button>
     <div class="ms-container">
-        <button if.bind="can_add  && ! filter" 
-            style="position:absolute;top:60px;left:140px;padding:0;" 
-            class="btn btn-success btn-xs cl-create-btn">
-            <dlg-string str.bind="new_item_name" 
-                placeholder.bind="new_item_placeholder" 
-                anchor.bind="anchor"
-                str-change.delegate="handle_new_item($event)"
-                title.bind="new_item_title">
-            </dlg-string>
-        </button>
         <!-- list of selected options -->
         <div class="row options selected">
             <div show.bind="clear_selections" ></div>
@@ -73,7 +67,7 @@
                 <li if.bind="can_show_untagged" class="${to_show_untagged ? 'active' : ''}">
                     <a click.delegate="show_untagged()">${'multi-select.show-untagged' & t}</a>
                 </li>
-                <li repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999">
+                <li repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999 | spy : agent">
                     <div class="option-item" 
                         css="margin:0;padding:0;padding-right:${(option.level || 0) * 16 + 2}px;width:${inner_width}px" 
                         if.bind="is_visible(option)">
