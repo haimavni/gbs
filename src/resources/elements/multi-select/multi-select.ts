@@ -374,6 +374,14 @@ export class MultiSelectCustomElement {
     get can_show_untagged() {
         return this.settings.show_untagged;
     }
+
+    is_visible(option) {
+        if (option.topic_kind == undefined) return true;
+        if (option.topic_kind==2) return true;
+        if (option.topic_kind == 0 && this.user.editing) return true;
+        if (option.topic_kind  == 1 && ! this.hide_higher) return true;
+        return false;
+    }
 }
 
 function clean(obj) {
