@@ -23,7 +23,7 @@
                     hide_label_if_no_date.bind="true" span_size.bind="photo_date_datespan"
                     range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]" change.delegate="update_photo_date($event)">
                 </date-range>
-                <span if.bind="keywords">${'photos.keywords' & t}: ${keywords}</span>
+                <span if.bind="topic_names">${'photos.keywords' & t}: ${topic_names}</span>
             </div>
             <div class="col-md-5">
                 <div class="row">
@@ -33,10 +33,10 @@
                 </div>
                 <div class="row" style="padding-right:15px;margin-top:16px;">
                     <div class="fr-view" dir="rtl">
-                        <div class="big-story-panel" style="padding-right:0">
+                        <div style="padding-right:0">
                             <div if.bind="! user.editing" class="row photo-story">
                                 <div class="fr-view" dir="${story_dir}">
-                                    <div class="big-story-panel ${theme.font_size}" style="position:relative;height:220px;">
+                                    <div class="${theme.font_size}" style="position:relative;height:220px;margin-right:16px;">
                                         <p class="${story_dir} ${highlight_on}">
                                             <compose if.bind="photo_story.story_text"
                                                 view-model='../stories/render-story' model.bind="highlightedHtml">
@@ -63,6 +63,7 @@
                                             style="position:absolute;left:2px;top:2px;"></help>
                                         <multi-select options.bind="topic_list"
                                             selected_options.bind="params.selected_topics"
+                                            option_groups.bind="topic_groups"
                                             settings.bind="options_settings" has_groups.bind="has_grouped_topics"
                                             place_holder_text="photos.click-topic"
                                             ms-change.delegate="handle_topic_change($event) ">
