@@ -5,7 +5,7 @@
         <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32" help_topic.bind="settings.help_topic" filter-change.delegate="enter_word($event)"></search-input>
     </div>
     <button if.bind="filter_size == 0 && can_add" class="btn btn-success btn-sm cl-create-btn" 
-        click.delegate="dispatch_new_item_event(filter)"
+        click.delegate="dispatch_new_item_event($event)"
         style="width:88%;font-size:110%;">
         ${'multi-select.add-item' & t} ${filter}
     </button>
@@ -70,8 +70,8 @@
                 <li repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999 | spy : agent">
                     <div class="option-item" 
                         css="margin:0;padding:0;padding-right:${(option.level || 0) * 16 + 2}px;width:${inner_width}px" 
-                        if.bind="is_visible(option)">
-                        <i if.bind="option.topic_kind==1 && ! hide_higher && ! option.expanded" click.delegate="expand(option)" class="fa fa-play fa-xs fa-rotate-90"></i> 
+                        if.bind="option.topic_kind > 0 || user.editing">
+                        <i if.bind="option.topic_kind==1 && ! option.expanded" click.delegate="expand(option)" class="fa fa-play fa-xs fa-rotate-90"></i> 
                         <i if.bind="option.topic_kind==1 && option.expanded" click.delegate="collapse(option)" class="fa fa-play fa-xs fa-rotate-180"></i> 
                         <a click.delegate="select_option(option)" class.bind="'option-kind-' + option.topic_kind">${option.name}</a>
                     </div>

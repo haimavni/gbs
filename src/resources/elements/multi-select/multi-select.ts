@@ -63,6 +63,7 @@ export class MultiSelectCustomElement {
     theme;
     to_show_untagged = false;
     agent = {size: 9999};
+    group_selected = false;
 
     constructor(element, i18n: I18N, dialogService: DialogService, user: User, theme: Theme) {
         this.element = element;
@@ -104,11 +105,17 @@ export class MultiSelectCustomElement {
     }
 
     select_option(option) {
+        if (option.topic_kind == 1 && this.hide_higher) {
+            this.expand(option);
+            return;
+        }
         this.to_show_untagged = false;
         let g;
         if (this.user.editing && option.topic_kind == 0) {  //ready to add sub topics to new topic
             g = 1;
             this.open_group = 2;
+        } else if (this.group_selected) {
+            g = 2;  // add it to the sub options
         } else {
             g = this.assign_group_number();
         }
@@ -116,6 +123,7 @@ export class MultiSelectCustomElement {
         let item = { option: option, group_number: g };
         this.selected_options.push(item);
         if (this.user.editing && (option.topic_kind == 1) && (this.selected_options.length == 1)) {
+            this.group_selected = true;
             let sub_options = this.get_sub_options(option);
             for (let opt of sub_options) {
                 item = {option: opt, group_number: 2}
@@ -156,14 +164,21 @@ export class MultiSelectCustomElement {
     }
 
     unselect_item(item, index) {
-        this.selected_options.splice(index, 1);
-        let arr = this.selected_options.map((item) => item.option.name);
-        this.selected_options_set = new Set(arr);
+        if (this.group_selected && item.option.topic_kind == 1) {  //removing the top clears all selected
+            this.group_selected = false;
+            this.selected_options = [];
+            this.selected_options_set = new Set();
+        } else {
+            this.selected_options.splice(index, 1);
+            let arr = this.selected_options.map((item) => item.option.name);
+            this.selected_options_set = new Set(arr);
+        }
         this.sort_items();
         //this.selected_options_set.delete(item.option.name); like the above
     }
 
     clear_all_selections() {
+        this.group_selected = false;
         this.selected_options = [];
         this.selected_options_set = new Set();
         this.sort_items();
@@ -219,14 +234,16 @@ export class MultiSelectCustomElement {
     }
 
 
-    dispatch_new_item_event(new_name) {
+    dispatch_new_item_event(event) {
+        event.stopPropagation();
         let customEvent = new CustomEvent('new-name', {
             detail: {
-                new_name: new_name
+                new_name: this.filter
             },
             bubbles: true
         });
         this.element.dispatchEvent(customEvent);
+        return false;
     }
 
     handle_new_item(event) {

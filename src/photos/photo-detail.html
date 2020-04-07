@@ -19,7 +19,7 @@
                 <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" />
                 <span dir="${theme.rtltr}" if.bind="photographer_name">${'photos.photographer-name' & t}:
                     ${photographer_name}</span>
-                <date-range label="photos.photo-date" if.bind="photo_date_str" base_date_str.bind="photo_date_str"
+                <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing" base_date_str.bind="photo_date_str"
                     hide_label_if_no_date.bind="true" span_size.bind="photo_date_datespan"
                     range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]" change.delegate="update_photo_date($event)">
                 </date-range>
@@ -31,7 +31,7 @@
                         <span style="float:right;direction:rtl">${photo_story.source}:</span>
                     </div>
                 </div>
-                <div class="row" style="padding-right:15px;margin-top:16x;">
+                <div class="row" style="padding-right:15px;margin-top:16px;">
                     <div class="fr-view" dir="rtl">
                         <div class="big-story-panel" style="padding-right:0">
                             <div if.bind="! user.editing" class="row photo-story">
