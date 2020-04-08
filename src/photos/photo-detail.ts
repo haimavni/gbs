@@ -68,6 +68,7 @@ export class PhotoDetail {
             clear_filter_after_select: true,
             can_set_sign: false,
             can_group: false,
+            single: true,
             empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
     }
@@ -232,8 +233,15 @@ export class PhotoDetail {
     }
 
     handle_photographer_change(event) {
-        console.log(" topic change. event detail: ", event.detail, " selected photographers: ", this.params.selected_photographers);
         this.params.selected_photographers = event.detail.selected_options;
+        if (this.params.selected_photographers.length==1) {
+            this.photographer_name = this.params.selected_photographers[0].option.name;
+            this.photographer_id = this.params.selected_photographers[0].option.id;
+        } else {
+            this.photographer_name = '';
+            this.photographer_id = null;
+        } 
+        this.api.call_server_post('photos/assign_photo_photographer', {photo_id: this.true_photo_id, photographer_id: this.photographer_id});
     }
 
 }

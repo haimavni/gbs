@@ -22,6 +22,7 @@ export class MultiSelectSettings {
     empty_list_message = 'Empty list of options';
     help_topic = 'search-input';
     to_show_untagged = false;
+    single = false;
 
     constructor(obj) {
         this.update(obj);
@@ -62,7 +63,7 @@ export class MultiSelectCustomElement {
     user;
     theme;
     to_show_untagged = false;
-    agent = {size: 9999};
+    agent = { size: 9999 };
     group_selected = false;
 
     constructor(element, i18n: I18N, dialogService: DialogService, user: User, theme: Theme) {
@@ -81,11 +82,11 @@ export class MultiSelectCustomElement {
 
     expand(option) {
         for (let opt of this.options) {
-            if (! opt.level)
+            if (!opt.level)
                 opt.level = 0;
         }
         this.options = this.options.filter(opt => opt.level <= option.level);
-        for (let opt of this.options) {opt.expanded = false};
+        for (let opt of this.options) { opt.expanded = false };
         let sub_options = this.get_sub_options(option);
         sub_options = deepClone(sub_options);
         let idx = this.options.findIndex(item => (item.name == option.name) && (item.level == option.level));
@@ -94,9 +95,9 @@ export class MultiSelectCustomElement {
             opt.level = level;
             opt.parent = option.id
         }
-        this.options.splice(idx+1, 0, ...sub_options);
+        this.options.splice(idx + 1, 0, ...sub_options);
         option.expanded = true;
-    } 
+    }
 
     collapse(option) {
         this.options = this.options.filter(opt => opt.level <= option.level);
@@ -106,8 +107,16 @@ export class MultiSelectCustomElement {
 
     select_option(option) {
         if (option.topic_kind == 1 && this.hide_higher) {
-            this.expand(option);
+            if (option.expanded) {
+                this.collapse(option)
+            } else {
+                this.expand(option);
+            }
             return;
+        }
+        if (this.settings.single) {
+            this.selected_options = [];
+            this.selected_options_set = new Set();
         }
         this.to_show_untagged = false;
         let g;
@@ -126,7 +135,7 @@ export class MultiSelectCustomElement {
             this.group_selected = true;
             let sub_options = this.get_sub_options(option);
             for (let opt of sub_options) {
-                item = {option: opt, group_number: 2}
+                item = { option: opt, group_number: 2 }
                 this.selected_options.push(item);
             }
         }
@@ -142,7 +151,7 @@ export class MultiSelectCustomElement {
 
     get_sub_options(option) {
         let idx = option.id;
-        let itm = this.option_groups.find((opt) => opt[0]==idx);
+        let itm = this.option_groups.find((opt) => opt[0] == idx);
         let sub_option_indexes = itm[1];
         let result = [];
         for (let i of sub_option_indexes) {
@@ -154,7 +163,7 @@ export class MultiSelectCustomElement {
 
     enter_word(event) {
         let option = this.options.find(opt => opt.name == event.detail.value);
-        if (! option) return;
+        if (!option) return;
         if (this.selected_options_set.has(option.name)) return;
         //if option was entered automatically from search box, it is not in the set, so:
         if (this.selected_options.find(item => item.option.name == option.name)) return;
@@ -186,7 +195,7 @@ export class MultiSelectCustomElement {
 
     @computedFrom('clear_selections_now')
     get clear_selections() {
-        if (! this.clear_selections_now) return false;
+        if (!this.clear_selections_now) return false;
         this.clear_all_selections();
         this.clear_selections_now = false;
         return false;
@@ -219,7 +228,7 @@ export class MultiSelectCustomElement {
     }
 
     edit_option(item, event) {
-        item.editing = ! item.editing;
+        item.editing = !item.editing;
     }
 
     name_changed(item, event) {
@@ -326,14 +335,14 @@ export class MultiSelectCustomElement {
     @computedFrom('selected_options_set.size', 'filter')
     get total_size() {
         let h = this.selected_options_set.size * this.lineHeight;
-        if (this.filter || ! this.settings.show_only_if_filter) {
+        if (this.filter || !this.settings.show_only_if_filter) {
             h += this.settings.height_unselected;
         }
         return h;
     }
 
     @computedFrom('settings.hide_higher_options')
-    get hide_higher(){
+    get hide_higher() {
         return this.settings.hide_higher_options;
     }
 
@@ -357,7 +366,7 @@ export class MultiSelectCustomElement {
 
     show_untagged() {
         //clear all selected options
-        this.to_show_untagged = ! this.to_show_untagged;
+        this.to_show_untagged = !this.to_show_untagged;
         if (this.to_show_untagged)
             this.clear_all_selections();
         this.dispatch_event();
@@ -400,9 +409,9 @@ export class MultiSelectCustomElement {
 
     is_visible(option) {
         if (option.topic_kind == undefined) return true;
-        if (option.topic_kind==2) return true;
+        if (option.topic_kind == 2) return true;
         if (option.topic_kind == 0 && this.user.editing) return true;
-        if (option.topic_kind  == 1 && ! this.hide_higher) return true;
+        if (option.topic_kind == 1 && !this.hide_higher) return true;
         return false;
     }
 }
