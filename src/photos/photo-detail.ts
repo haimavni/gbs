@@ -36,6 +36,7 @@ export class PhotoDetail {
     advanced_search;
     highlight_on = "highlight-on";
     photographer_name = '';
+    photographer_id = null;
     chatroom_id = null;
     options_settings: MultiSelectSettings;
     photographers_settings;
@@ -57,9 +58,10 @@ export class PhotoDetail {
         this.dialog = dialog;
         this.router = router;
         this.options_settings = new MultiSelectSettings({
+            hide_higher_options: true,
             clear_filter_after_select: false,
-            can_set_sign: true,
-            can_group: true,
+            can_set_sign: false,
+            can_group: false,
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
         });
         this.photographers_settings = new MultiSelectSettings({
@@ -80,6 +82,7 @@ export class PhotoDetail {
                 this.photo_story = response.photo_story;
                 this.photo_name = this.photo_story.name || response.photo_name;
                 this.photographer_name = response.photographer_name;
+                this.photographer_id = response.photographer_id;
                 this.photo_topics = response.photo_topics;
                 this.topic_list = response.topic_list;
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
@@ -92,20 +95,32 @@ export class PhotoDetail {
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
-                this.init_selected_topics();
                 this.calc_photo_width();
+                this.update_topic_list();
             });
-            this.update_topic_list();
+    }
+
+    attached() {
+        //this.update_topic_list();
+        console.log("enter attached");
     }
 
     init_selected_topics() {
         this.params.selected_topics = [];
         let i = 0;
         for (let opt of this.photo_topics) {
-            opt.sign = 'plus';
-            let itm = {option: opt, first: i == 0, last: i == this.photo_topics.length - 1}
+            opt.sign = '';
+            let itm = {option: opt, first: i == 0, last: i == this.photo_topics.length - 1, group_number: i+1}
             this.params.selected_topics.push(itm);
             i += 1;
+        }
+    }
+
+    init_photographer() {
+        this.params.selected_photographers = [];
+        if (this.photographer_id) {
+            let itm = {option: {id: this.photographer_id, name: this.photographer_name}};
+            this.params.selected_photographers.push(itm)
         }
     }
 
@@ -117,7 +132,6 @@ export class PhotoDetail {
     }
 
     async calc_photo_width() {
-        console.log("tinofet 1");
         let pw = this.orig_photo_width / this.MAX_WIDTH;
         let ph = this.orig_photo_height / this.MAX_HEIGHT;
         if (pw >= ph) {
@@ -125,10 +139,8 @@ export class PhotoDetail {
         } else {
             this.photo_width = this.orig_photo_width / ph;
         }
-        console.log("tinofet 2");
         await sleep(100);
         let el = document.getElementById('photo-box');
-        console.log("el is: ", el);
         let width = el.clientWidth;
         el.style.paddingRight = `${width - this.photo_width - 15}px`;
     }
@@ -206,6 +218,8 @@ export class PhotoDetail {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
                 this.photographer_list = result.photographer_list;
+                this.init_selected_topics();
+                this.init_photographer();
             });
     }
 

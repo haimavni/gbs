@@ -60,7 +60,6 @@ export class DateRangeCustomElement {
             return;
         }
         this.partial = date.detail_level() != 'D';
-        console.log("enable days range ", this.enable_days_range);
         if (! this.partial && ! this.enable_days_range) {
             return;
         }

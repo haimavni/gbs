@@ -192,11 +192,9 @@ export class MemberGateway {
     }
 
     get_constants() {
-        console.log('get constants');
         this.call_server_post('members/get_constants')
             .then(response => {
                 this.constants = response;
-                console.log('will listen to ', this.constants.ptp_key)
                 this.listen(this.constants.ptp_key);
             });
     }
@@ -212,9 +210,7 @@ export class MemberGateway {
                 };
                 if (group == this.constants.ptp_key) {
                     this.ptp_connected = true;
-                    console.log("ptp is listened to");
                 }
-                console.log("listening to ", group);
             });
         return listener;
     }
@@ -232,7 +228,6 @@ export class MemberGateway {
         }
 
         let key = obj.key;
-        console.log("message key: ", key);
         let data = obj.data;
         THIS.eventAggregator.publish(key, data);
     }

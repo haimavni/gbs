@@ -45,7 +45,6 @@ export class UserMode {
     }
 
     attached() {
-        console.log("enter attached");
         this.calc_current_info();
         this.ea.subscribe('router:navigation:complete', response => {
             this.calc_current_info();
@@ -54,7 +53,6 @@ export class UserMode {
 
     calc_current_info() {
         document.title = this.i18n.tr('app-title');
-        console.log("calc current info. document.title: ", document.title);
         setTimeout(() => {  //if too early, overridden title is till not in effect
             this.sharing_subject = encodeURIComponent(document.title);
         }, 4000);
@@ -100,7 +98,7 @@ export class UserMode {
     }
 
     toggled(state) {
-        console.log("state: ", state);
+        //console.log("state: ", state);
     }
 
     save_help_messages() {

@@ -1,6 +1,6 @@
 <template>
     <form class="form-inline date-range" dir="${theme.rtltr}" style="height:34px;font-size:90%;" onsubmit="return false;">
-        <label if.bind="show_label" style="font-size:12px;padding-top:3px;">${label & t}</label>
+        <label if.bind="show_label" style="padding-top:3px;">${label & t}</label>
         <div if.bind="show_edit_end_date" class="form-group" style="margin-right:0px;top:0;left:87px;float:left; ">
             <select value.bind="span_size" style="height:1.8em;color:black;width:80px;" change.delegate="span_size_changed($event)">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
@@ -20,7 +20,7 @@
                 keypress.trigger="keep_only_good_chars($event)" />
         </div>
 
-        <div class="form-group" if.bind="show_date" style="width:18em;float:right">
+        <div class="form-group" if.bind="show_date" style="width:18em;float:right;margin-top:5px;">
             <span css="padding-top:0.6em;direction:${theme.rtltr};">${label & t}: ${show_date}</span>
         </div>
         <div if.bind="build_now"></div><!--to activate the variable get-->

@@ -139,16 +139,10 @@ export class Theme {
                 this._locale = this.i18n.getLocale();
             }
         }
-        //let rb = this.i18n.i18next.getResourceBundle('he', 'translation');
-        //console.log('rb: ', rb);
-        //let overrides = {gbstories: 'פלוגת הקשר'};
-        //this.customize('he', overrides);
-        //get overrides from the server, then customize
         return this._locale;
     }
 
     customize(lang, overrides) {
-        console.log("customize. lang: ", lang, " overrides: ", overrides);
         this.i18n.i18next.addResourceBundle(lang, 'translation', overrides, true, true);
     }
 
@@ -156,14 +150,12 @@ export class Theme {
         this.api.call_server('default/get_locale_overrides')
         .then(response => {
             let obj = response.locale_overrides;
-            console.log("lang overrides: ", obj);
             let langs = Object.keys(obj);
             for (let lang of langs) {
                 this.customize(lang, obj[lang]);
                 this.i18n.setLocale(this.locale);
             } 
             document.title = this.i18n.tr('app-title');
-            console.log("in get locale overides, document.title: ", document.title);
             this.document_title = document.title;
         });
     }
@@ -217,7 +209,6 @@ export class Theme {
         } else {
             this.search_debounce = 1500;
         }
-        console.log("search debounce ", this.search_debounce);
     }
 
     @computedFrom('width')

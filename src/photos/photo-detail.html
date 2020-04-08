@@ -36,7 +36,7 @@
                         <div style="padding-right:0">
                             <div if.bind="! user.editing" class="row photo-story">
                                 <div class="fr-view" dir="${story_dir}">
-                                    <div class="${theme.font_size}" style="position:relative;height:220px;margin-right:16px;">
+                                    <div class="${theme.font_size}" style="position:relative;height:70vh;margin-right:16px;overflow:auto;">
                                         <p class="${story_dir} ${highlight_on}">
                                             <compose if.bind="photo_story.story_text"
                                                 view-model='../stories/render-story' model.bind="highlightedHtml">
@@ -46,11 +46,11 @@
                                 </div>
                             </div>
                             <div if.bind="user.editing" style="display:flex;flex-direction:column;">
-                                <editable if.bind="user.editing" style="height:180px;background-color:beige;margin-bottom:12px;"
+                                <editable if.bind="user.editing" style="background-color:beige;margin-bottom:12px;"
                                     settings.bind="{show_date:false, class:'story-section', checkable: false}"
                                     story.bind="photo_story"></editable>
-                                <div class="row multi-select-div" style="margin-bottom:15px;position:relative;width:300px;margin-right:20px;">
-                                    <div class="row multi-select-div" style="margin-bottom:15px;position:relative;">
+                                <div class="multi-select-div" style="margin-bottom:0px;position:relative;width:80%;height:60vh;overflow:auto;">
+                                    <div class="multi-select-div" style="margin-bottom:15px;position:relative;">
                                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
                                             ${'stories.categories'
                                             & t}</div>
@@ -69,7 +69,7 @@
                                             ms-change.delegate="handle_topic_change($event) ">
                                         </multi-select>
                                     </div>
-                                    <div class="row multi-select-div">
+                                    <div class="multi-select-div">
                                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
                                             ${'photos.photographers' & t}</div>
                                         <multi-select options.bind="photographer_list"
