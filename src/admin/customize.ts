@@ -60,7 +60,7 @@ export class Customize {
             let v = data[key];
             let p = prefix ? prefix + '.' : ''
             if (typeof v == 'string') {
-                let itm = { id: p + key, name: v }
+                let itm = { id: p + key, name: v, topic_kind: 2 }
                 this.key_value_list.push(itm)
             } else {
                 this.create_key_value_list(p + key, v)
