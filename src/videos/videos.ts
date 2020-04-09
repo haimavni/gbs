@@ -69,6 +69,7 @@ export class Videos {
     has_grouped_topics = false;
     params = {
         kind: "V",
+        editing: false,
         selected_topics: [],
         selected_photographers: [],
         selected_days_since_upload: 0,
@@ -140,6 +141,7 @@ export class Videos {
     }
 
     update_video_list() {
+        this.params.editing = this.user.editing;
         this.api.call_server_post('photos/get_video_list', this.params)
             .then(response => this.set_video_list(response.video_list));
     }

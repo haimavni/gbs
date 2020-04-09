@@ -37,6 +37,7 @@ export class Docs {
     scroll_top = 0;
     params = {
         keywords_str: "",
+        editing: false,
         selected_topics: [],
         selected_words: [],
         selected_uploader: "",
@@ -169,6 +170,7 @@ export class Docs {
 
     update_doc_list() {
         this.no_results = false;
+        this.params.editing = this.user.editing;
         return this.api.call_server_post('docs/get_doc_list', { params: this.params })
             .then(result => {
                 //this.doc_list = result.doc_list;

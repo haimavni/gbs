@@ -44,6 +44,7 @@ export class Audios {
     num_of_audios = 0;
     params = {
         keywords_str: "",
+        editing: false,
         selected_topics: [],
         selected_words: [],
         selected_uploader: "",
@@ -118,6 +119,7 @@ export class Audios {
     }
 
     update_audio_list() {
+        this.params.editing = this.user.editing;
         this.api.call_server_post('audios/get_audio_list', { params: this.params })
             .then(response => this.set_audio_list(response.audio_list));
     }

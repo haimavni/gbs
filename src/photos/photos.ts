@@ -36,6 +36,7 @@ export class Photos {
     has_grouped_topics = false;
     params = {
         kind: "P",
+        editing: false,
         selected_topics: [],
         show_untagged: false,
         selected_photographers: [],
@@ -228,6 +229,7 @@ export class Photos {
         if (this.user.editing && this.user.privileges.RESTRICTED) {
             this.params.selected_uploader = 'mine';
         }
+        this.params.editing = this.user.editing
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.editing_filters = false;

@@ -35,6 +35,7 @@ export class Stories {
     scroll_top = 0;
     params = {
         keywords_str: "",
+        editing: false,
         selected_topics: [],
         show_untagged: false,
         selected_words: [],
@@ -261,6 +262,7 @@ export class Stories {
             used_for = 2;
         }
         console.time('update-story-list');
+        this.params.editing = this.user.editing;
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
                 //this.params.by_last_chat_time = false;
@@ -596,6 +598,7 @@ export class Stories {
     init_params() {
         this.params = {
             keywords_str: "",
+            editing: false,
             selected_topics: [],
             show_untagged: false,
             selected_words: [],
