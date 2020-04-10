@@ -59,8 +59,10 @@ export class Photos {
         max_photos_per_line: 8
     };
     topic_list = [];
+    no_topics_yet = false;
     topic_groups = [];
     photographer_list = [];
+    no_photographers_yet = false;
     days_since_upload_options = [];
     uploader_options = [];
     dates_options = [];
@@ -197,6 +199,8 @@ export class Photos {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
                 this.photographer_list = result.photographer_list;
+                this.no_topics_yet = this.topic_list.length == 0;
+                this.no_photographers_yet = this.photographer_list.length == 0;
             });
     }
 
@@ -482,6 +486,7 @@ export class Photos {
                 }
                 this.uncheck_checked_photos();
                 this.clear_selected_topics_now = true;
+                this.update_photo_list();
             });
     }
 

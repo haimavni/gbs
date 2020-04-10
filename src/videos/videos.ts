@@ -96,6 +96,8 @@ export class Videos {
     anchor = -1; //for multiple selections
     empty = false;
     editing_filters = false;
+    no_topics_yet = false;
+    no_photographers_yet = false;
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
@@ -179,6 +181,8 @@ export class Videos {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
                 this.photographer_list = result.photographer_list;
+                this.no_topics_yet = this.topic_list.length == 0;
+                this.no_photographers_yet = this.photographer_list.length == 0;
             });
     }
 

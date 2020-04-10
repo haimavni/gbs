@@ -42,7 +42,8 @@ export class PhotoDetail {
     photographers_settings;
     topic_list = [];
     photographer_list = [];
-    has_grouped_topics = false;
+    no_topics_yet = false;
+    no_photographers_yet = false;
     topic_groups = [];
     photo_topics;
     params = {
@@ -61,11 +62,13 @@ export class PhotoDetail {
             hide_higher_options: true,
             clear_filter_after_select: false,
             can_set_sign: false,
+            can_add: true,
             can_group: false,
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
         });
         this.photographers_settings = new MultiSelectSettings({
             clear_filter_after_select: true,
+            can_add: true,
             can_set_sign: false,
             can_group: false,
             single: true,
@@ -221,6 +224,8 @@ export class PhotoDetail {
                 this.photographer_list = result.photographer_list;
                 this.init_selected_topics();
                 this.init_photographer();
+                this.no_topics_yet = this.topic_list.length == 0;
+                this.no_photographers_yet = this.photographer_list.length == 0;
             });
     }
 
@@ -242,6 +247,12 @@ export class PhotoDetail {
             this.photographer_id = null;
         } 
         this.api.call_server_post('photos/assign_photo_photographer', {photo_id: this.true_photo_id, photographer_id: this.photographer_id});
+    }
+
+    add_topic(event) {
+        let new_topic_name = event.detail.new_name;
+        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
+            .then(() => this.update_topic_list());
     }
 
 }

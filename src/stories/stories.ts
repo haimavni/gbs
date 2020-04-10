@@ -63,6 +63,7 @@ export class Stories {
         num_words: 65056
     }
     topic_list = [];
+    no_topics_yet = false;
     topic_groups = [];
     authors_list = [];
     checked_stories = new Set();
@@ -162,7 +163,7 @@ export class Stories {
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
-                console.log("topic groups: ", this.topic_groups);
+                this.no_topics_yet = this.topic_list.length == 0;
             });
         this.api.call_server('members/get_used_languages')
             .then(response => {

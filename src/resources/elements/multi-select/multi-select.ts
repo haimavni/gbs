@@ -47,6 +47,7 @@ export class MultiSelectCustomElement {
     @bindable place_holder_text = "";
     @bindable can_edit = true;
     @bindable option_groups = [];  // list looks like [(parent, children)...]
+    @bindable first_time = false;
     selected_options_set = new Set();
     open_group = 0;
     element;
@@ -387,9 +388,9 @@ export class MultiSelectCustomElement {
         return this.settings.can_set_sign;
     }
 
-    @computedFrom('settings.can_add')
+    @computedFrom('settings.can_add', 'filter_size', 'selected_options',)
     get can_add() {
-        return this.settings.can_add;
+        return this.settings.can_add && this.filter_size == 0 && this.selected_options.length == 0;
     }
 
     @computedFrom('settings.can_delete')
