@@ -392,6 +392,7 @@ export class Docs {
     init_params() {
         this.params = {
             keywords_str: "",
+            editing: false,
             selected_topics: [],
             selected_words: [],
             selected_uploader: "",
