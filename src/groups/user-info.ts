@@ -119,11 +119,9 @@ export class UserInfo {
 
     @computedFrom('status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 'status_record.photo_info.photo_date_str')
     get missing_photo_info() {
-        let keys = Object.keys(this.status_record.photo_info);
-        for (let key of keys) {
-            if (key == 'photographer_name') continue;
-            if (! this.status_record.photo_info[key]) return true;
-        }
+        if (! this.status_record.photo_info.photo_name) return true;
+        if (! this.status_record.photo_info.photo_story) return true;
+        if (! this.status_record.photo_info.photo_date_str) return true;
         return false;
     }
 
