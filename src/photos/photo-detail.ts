@@ -51,6 +51,10 @@ export class PhotoDetail {
         selected_photographers: [],
         photo_ids: [],
     };
+    photo_ids = [];
+    what = '';
+    can_go_forward = false;
+    can_go_backward = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -58,14 +62,16 @@ export class PhotoDetail {
         this.user = user;
         this.dialog = dialog;
         this.router = router;
-        this.options_settings = new MultiSelectSettings({
-            hide_higher_options: true,
-            clear_filter_after_select: false,
-            can_set_sign: false,
-            can_add: true,
-            can_group: false,
-            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
-        });
+        this.options_settings = new MultiSelectSettings
+
+            ({
+                hide_higher_options: true,
+                clear_filter_after_select: false,
+                can_set_sign: false,
+                can_add: true,
+                can_group: false,
+                empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            });
         this.photographers_settings = new MultiSelectSettings({
             clear_filter_after_select: true,
             can_add: true,
@@ -78,10 +84,16 @@ export class PhotoDetail {
 
     activate(params, config) {
         this.keywords = params.keywords;
+        this.photo_ids = params.photo_ids;
         this.advanced_search = params.search_type == 'advanced';
-        this.api.getPhotoDetail({ photo_id: params.id, what: params.what })
+        this.what = params.what;
+        this.get_photo_info(params.id, this.what)
+    }
+
+    get_photo_info(photo_id, what) {
+        return this.api.getPhotoDetail({ photo_id: photo_id, what })
             .then(response => {
-                this.photo_id = params.id;
+                this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
                 this.photo_story = response.photo_story;
                 this.photo_name = this.photo_story.name || response.photo_name;
@@ -104,17 +116,12 @@ export class PhotoDetail {
             });
     }
 
-    attached() {
-        //this.update_topic_list();
-        console.log("enter attached");
-    }
-
     init_selected_topics() {
         this.params.selected_topics = [];
         let i = 0;
         for (let opt of this.photo_topics) {
             opt.sign = '';
-            let itm = {option: opt, first: i == 0, last: i == this.photo_topics.length - 1, group_number: i+1}
+            let itm = { option: opt, first: i == 0, last: i == this.photo_topics.length - 1, group_number: i + 1 }
             this.params.selected_topics.push(itm);
             i += 1;
         }
@@ -123,7 +130,7 @@ export class PhotoDetail {
     init_photographer() {
         this.params.selected_photographers = [];
         if (this.photographer_id) {
-            let itm = {option: {id: this.photographer_id, name: this.photographer_name}};
+            let itm = { option: { id: this.photographer_id, name: this.photographer_name } };
             this.params.selected_photographers.push(itm)
         }
     }
@@ -217,7 +224,7 @@ export class PhotoDetail {
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', {usage: 'P'})
+        this.api.call_server_post('topics/get_topic_list', { usage: 'P' })
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
@@ -234,25 +241,70 @@ export class PhotoDetail {
         this.params.selected_topics = event.detail.selected_options
         let topics = this.params.selected_topics.map(top => top.option);
         this.photo_topics = topics;
-        this.api.call_server_post('photos/apply_topics_to_photo', {photo_id: this.true_photo_id, topics: this.photo_topics});
+        this.api.call_server_post('photos/apply_topics_to_photo', { photo_id: this.true_photo_id, topics: this.photo_topics });
     }
 
     handle_photographer_change(event) {
         this.params.selected_photographers = event.detail.selected_options;
-        if (this.params.selected_photographers.length==1) {
+        if (this.params.selected_photographers.length == 1) {
             this.photographer_name = this.params.selected_photographers[0].option.name;
             this.photographer_id = this.params.selected_photographers[0].option.id;
         } else {
             this.photographer_name = '';
             this.photographer_id = null;
-        } 
-        this.api.call_server_post('photos/assign_photo_photographer', {photo_id: this.true_photo_id, photographer_id: this.photographer_id});
+        }
+        this.api.call_server_post('photos/assign_photo_photographer', { photo_id: this.true_photo_id, photographer_id: this.photographer_id });
     }
 
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
         this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
             .then(() => this.update_topic_list());
+    }
+
+    slide_idx() {
+        return this.photo_ids.findIndex(pid => pid == this.photo_id);
+    }
+
+    public has_next(step) {
+        let idx = this.slide_idx();
+        return 0 <= (idx + step) && (idx + step) < this.photo_ids.length;
+    }
+
+    @computedFrom('photo_id')
+    get prev_class() {
+        if (this.has_next(-1)) return '';
+        return 'disabled'
+    }
+
+    @computedFrom('photo_id')
+    get next_class() {
+        if (this.has_next(+1))  return '';
+        return 'disabled'
+    }
+    get_slide_by_idx(idx) {
+        let pid = this.photo_ids[idx];
+        this.get_photo_info(pid, this.what);
+    }
+
+    public go_next(event) {
+        event.stopPropagation();
+        let idx = this.slide_idx();
+        if (idx + 1 < this.photo_ids.length) {
+            this.get_slide_by_idx(idx + 1);
+            this.can_go_forward = idx + 2 < this.photo_ids.length;
+            this.can_go_backward = true;
+        }
+    }
+
+    public go_prev(event) {
+        event.stopPropagation();
+        let idx = this.slide_idx();
+        if (idx > 0) {
+            this.get_slide_by_idx(idx - 1)
+            this.can_go_forward = true;
+            this.can_go_backward = idx > 1;
+        }
     }
 
 }

@@ -322,7 +322,9 @@ export class Stories {
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4PHOTO:
-                this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+                let photo_list = this.story_list.filter(itm => itm.used_for == 3);
+                let photo_ids = photo_list.map(itm => itm.story_id);
+                this.router.navigateToRoute('photo-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type, photo_ids: photo_ids });
                 break;
             case this.api.constants.story_type.STORY4TERM:
                 this.router.navigateToRoute('term-detail', { id: story.story_id, what: 'term', keywords: keywords, search_type: this.params.search_type });
@@ -493,7 +495,7 @@ export class Stories {
         this.api.call_server_post('members/delete_checked_stories', { params: this.params })
             .then(response => {
                 //this.params.checked_story_list = [];
-                this.story_list = this.story_list.filter(story => ! this.checked_stories.has(story.story_id));
+                this.story_list = this.story_list.filter(story => !this.checked_stories.has(story.story_id));
                 this.checked_stories = new Set();
             });
     }

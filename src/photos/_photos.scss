@@ -137,6 +137,11 @@ div.slide {
     }
 }
 
+i.disabled {
+    color: gray;
+    cursor: no-drop;
+}
+
 div.photo-story {
     padding-top:8px;
     width:100%;

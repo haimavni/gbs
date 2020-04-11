@@ -280,7 +280,8 @@ export class FullSizePhoto {
     jump_to_photo_page(event) {
         event.stopPropagation();
         this.dialogController.ok();
-        this.router.navigateToRoute('photo-detail', { id: this.slide[this.slide.side].photo_id || this.slide.photo_id, keywords: "" });
+        let photo_ids = this.slide_list.map(slide => slide[slide.side].photo_id);
+        this.router.navigateToRoute('photo-detail', { id: this.slide[this.slide.side].photo_id || this.slide.photo_id, keywords: "", photo_ids: photo_ids });
     }
 
     mark_face(event) {
