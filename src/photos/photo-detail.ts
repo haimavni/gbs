@@ -87,7 +87,15 @@ export class PhotoDetail {
         this.photo_ids = params.photo_ids;
         this.advanced_search = params.search_type == 'advanced';
         this.what = params.what;
-        this.get_photo_info(params.id, this.what)
+        this.update_topic_list();
+        this.get_photo_info(params.id, this.what);
+    }
+
+    async set_story(story) {
+        //black magic to force story text change
+        this.photo_story = "";
+        await sleep(10);
+        this.photo_story = story;
     }
 
     get_photo_info(photo_id, what) {
@@ -95,12 +103,13 @@ export class PhotoDetail {
             .then(response => {
                 this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
-                this.photo_story = response.photo_story;
+                this.set_story(response.photo_story)
                 this.photo_name = this.photo_story.name || response.photo_name;
                 this.photographer_name = response.photographer_name;
                 this.photographer_id = response.photographer_id;
                 this.photo_topics = response.photo_topics;
-                this.topic_list = response.topic_list;
+                this.init_selected_topics();
+                this.init_photographer();
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
                 if (this.photo_story.story_id == 'new') {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
@@ -112,7 +121,6 @@ export class PhotoDetail {
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
                 this.calc_photo_width();
-                this.update_topic_list();
             });
     }
 
@@ -198,7 +206,7 @@ export class PhotoDetail {
         this.router.navigateBack();
     }
 
-    @computedFrom('photo_story.story_text', 'story_changed')
+    @computedFrom('photo_story.story_text', 'story_changed', 'keywords', 'advanced_search')
     get highlightedHtml() {
         if (!this.photo_story) {
             return "";
@@ -229,8 +237,6 @@ export class PhotoDetail {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
                 this.photographer_list = result.photographer_list;
-                this.init_selected_topics();
-                this.init_photographer();
                 this.no_topics_yet = this.topic_list.length == 0;
                 this.no_photographers_yet = this.photographer_list.length == 0;
             });
@@ -279,7 +285,7 @@ export class PhotoDetail {
 
     @computedFrom('photo_id')
     get next_class() {
-        if (this.has_next(+1))  return '';
+        if (this.has_next(+1)) return '';
         return 'disabled'
     }
     get_slide_by_idx(idx) {
