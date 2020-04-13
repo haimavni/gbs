@@ -12,6 +12,7 @@
     grid-area: info;
     width: 275px;
     height: calc(100vh - 320px);
+    overflow: auto;
     border: solid 3px white;
     button#login-button {
         color: black;
@@ -31,6 +32,9 @@
     }
     .warning {
         border: solid 1px #aa00;
+    }
+    div.options, div.search-filter {
+        width: 100%;
     }
 }
 .photo-area {

@@ -42,7 +42,9 @@ export class UploadPhoto {
             photo_story: '',
             photo_date_str: '',
             photo_date_datespan: 0,
-            photographer_name: ''
+            photographer_name: '',
+            photographer_id: 0,
+            photo_topics: []
         }
     }
     params = {
@@ -56,7 +58,7 @@ export class UploadPhoto {
     unknown_photographer;
     explain_gallery = "The full site will be openedin a separate window."
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, 
+    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator,
         i18n: I18N, router: Router, popup: Popup, theme: Theme, misc: Misc) {
         this.api = api;
         this.user = user;
@@ -81,11 +83,11 @@ export class UploadPhoto {
             this.status_record.photo_info.photo_date_str = msg.photo_date_str;
             this.status_record.photo_info.photo_date_datespan = msg.photo_date_datespan;
             this.status_record.photo_info.photographer_name = msg.photographer_name || '';
+            this.status_record.photo_info.photo_topics = msg.photo_topics;
+            this.status_record.photo_info.photographer_id = msg.photographer_id;
             this.status_record.duplicate = msg.duplicate;
             this.status_record.old_data = deepClone(this.status_record.photo_info);
             let el = document.getElementById('group-photo-area');
-            console.log("photo_area width: ", el.offsetWidth, el.getBoundingClientRect().width);
-            console.log("photo_area height: ", el.offsetHeight, el.getBoundingClientRect().height);
             this.photo_height = el.offsetHeight;
             this.update_photo_list();
         });
@@ -94,17 +96,15 @@ export class UploadPhoto {
     update_photo_list() {
         this.params.user_id = this.status_record.user_id;
         return this.api.call_server_post('photos/get_photo_list', this.params)
-        .then(result => {
-            //this.after_upload = false;
-            this.photo_list = result.photo_list;
-            for (let photo of this.photo_list) {
-                photo.title = '<span dir="rtl">' + photo.title + '</span>';
-            }
-        });
-
+            .then(result => {
+                this.photo_list = result.photo_list;
+                for (let photo of this.photo_list) {
+                    photo.title = '<span dir="rtl">' + photo.title + '</span>';
+                }
+            });
     }
 
-    detached() {
+   detached() {
         this.subscriber.dispose();
     }
 
@@ -149,7 +149,7 @@ export class UploadPhoto {
 
     openDialog() {
         if (this.photo_list.length == 0) return;
-        let slide = this.photo_list.find(photo => photo.photo_id==this.status_record.photo_id);
+        let slide = this.photo_list.find(photo => photo.photo_id == this.status_record.photo_id);
         if (!slide) {
             let warning = this.i18n.tr('groups.old-photo-not-found');
             toastr.warning(warning, 20000);
@@ -157,14 +157,14 @@ export class UploadPhoto {
         }
         document.body.classList.add('black-overlay');
         this.user.editing = true;
-        let settings = {no_jump: true, no_photo_info: true};
+        let settings = { no_jump: true, no_photo_info: true };
         let model = { slide: slide, slide_list: this.photo_list, settings: settings, final_rotation: 0 }
         this.dialog.open({ viewModel: FullSizePhoto, model: model, lock: false })
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
                 if (model.final_rotation) {
                     let el = document.getElementById("uploaded-photo");
-                    el.style.transform = `rotate(-${model.final_rotation}deg)`;                
+                    el.style.transform = `rotate(-${model.final_rotation}deg)`;
                 }
             });
     }

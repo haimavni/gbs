@@ -39,7 +39,7 @@ export class PhotoDetail {
     photographer_id = null;
     chatroom_id = null;
     options_settings: MultiSelectSettings;
-    photographers_settings;
+    photographers_settings: MultiSelectSettings;
     topic_list = [];
     photographer_list = [];
     no_topics_yet = false;

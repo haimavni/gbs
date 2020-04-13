@@ -12,8 +12,7 @@
                                 value.bind="loginData.email" t="[placeholder]user.email-address">
                         </div>
                         <button id="login-button" if.bind="user_id < 0" class="btn btn-primary btn-block ${login_phase}"
-                            disabled="${loginData.email ? '' : 'disabled'}"
-                            click.trigger="attempt_login()">
+                            disabled="${loginData.email ? '' : 'disabled'}" click.trigger="attempt_login()">
                             ${"groups.login" & t}
                         </button>
                         <div if.bind="login_phase=='registering'">
@@ -44,7 +43,7 @@
                             </button>
                         </div>
                         <div if.bind="status_record.user_id > 0">
-                            <p dir="${theme.rtltr}" innerhtml.bind="consent" >
+                            <p dir="${theme.rtltr}" innerhtml.bind="consent">
                         </div>
                         <div class="form-group" if.bind="status_record.photo_uploaded" style="margin-bottom: 12px;">
                             <input type="text" class="form-control input-sm"
@@ -55,18 +54,31 @@
                             <input type="text" name="photo_name" id="photo_name" class="form-control input-sm"
                                 value.bind="status_record.photo_info.photo_name" t="[placeholder]groups.photo-name">
                         </div>
-                        <div if.bind="status_record.photo_uploaded" mouseenter.trigger="explain_dates(true)" mouseleave.trigger="explain_dates(false)">
-                            <p dir="${theme.rtltr}" innerhtml.bind="explain_dates_range" if.bind="show_explain_dates"></p>
-                            <date-range label="photos.photo-date" range_options.bind="[1,2,3,5,6,7,10,14,30]"
+                        <div if.bind="status_record.photo_uploaded" aubs-popover="body.bind:explain_dates_range">
+                            <p dir="${theme.rtltr}" innerhtml.bind="explain_dates_range" if.bind="show_explain_dates">
+                            </p>
+                            <date-range label="stories.date" range_options.bind="[1,2,3,5,6,7,10,14,30]"
                                 base_date_str.bind="status_record.photo_info.photo_date_str"
                                 hide_label_if_no_date.bind="false" enable_days_range.bind="true"
                                 span_size.bind="status_record.photo_info.photo_date_datespan">
                             </date-range>
                         </div>
-                        <div class="form-group" if.bind="status_record.photo_uploaded">
-                            <textarea t="[placeholder]groups.photo-story" rows="8"
+                        <div if.bind="status_record.photo_uploaded">
+                            <textarea t="[placeholder]groups.photo-story" rows="${num_text_rows}"
                                 value.bind="status_record.photo_info.photo_story" id="photo-story" name="photo-story">
                             </textarea>
+                        </div>
+                        <div if.bind="status_record.photo_uploaded" >
+                            <div style="margin-top: 0px;margin-bottom:2px;">
+                                ${'stories.categories' & t}
+                            </div>
+                            <multi-select options.bind="topic_list" 
+                                selected_options.bind="selected_topics"
+                                first_time.bind="no_topics_yet" option_groups.bind="topic_groups"
+                                new-name.delegate="add_topic($event)" settings.bind="options_settings"
+                                has_groups.bind="has_grouped_topics" place_holder_text="photos.click-topic"
+                                ms-change.delegate="handle_topic_change($event) ">
+                            </multi-select>
                         </div>
                         <div style="display:flex;justify-content:space-between">
                             <button name="save-story" click.trigger="save_photo_info()" class="btn btn-sm btn-info"
@@ -78,9 +90,8 @@
                                 ${"groups.cancel-changes" & t}
                             </button>
                         </div>
-                        <div class="form-group"
-                            if.bind="status_record.photo_details_saved || (status_record.duplicate && ! dirty)"
-                            style="margin-top:12px;" disabled.bind="dirty ? 'diabled' : ''">
+                        <div class="form-group" if.bind="status_record.photo_uploaded" style="margin-top:12px;"
+                            disabled.bind="dirty ? 'diabled' : ''">
                             <button name="next" click.trigger="next_photo()" class="btn btn-info btn-block"
                                 disabled.bind="missing_photo_info">
                                 ${"groups.next-photo" & t}
@@ -90,6 +101,7 @@
                 </div>
             </div>
         </div>
+        <div show.bind="dummy"></div>
     </div>
 
 </template>
