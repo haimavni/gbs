@@ -83,6 +83,7 @@
                         <help if.bind="phase=='ready-to-edit'" topic="docs.ready-to-edit" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
                         <span show.bind="false">${user_editing}</span>
                         <multi-select options.bind="topic_list"
+                            category="topic"
                             place_holder_text="photos.click-topic"
                             selected_options.bind="params.selected_topics"
                             height.bind="220"

@@ -2,84 +2,74 @@
     <require from="./multi-select.css">
     </require>
     <div class="input-group search-filter" if.bind="options.length > 0 || first_time">
-        <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32" help_topic.bind="settings.help_topic" filter-change.delegate="enter_word($event)"></search-input>
+        <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"
+            help_topic.bind="settings.help_topic" filter-change.delegate="enter_word($event)"></search-input>
     </div>
-    <button if.bind="can_add" class="btn btn-success btn-sm cl-create-btn" 
-        click.delegate="dispatch_new_item_event($event)"
-        style="width:88%;font-size:110%;">
+    <button if.bind="can_add" class="btn btn-success btn-sm cl-create-btn"
+        click.delegate="dispatch_new_item_event($event)" style="width:88%;font-size:110%;">
         ${'multi-select.add-item' & t} ${filter}
     </button>
     <div class="ms-container">
         <!-- list of selected options -->
         <div class="row options selected">
-            <div show.bind="clear_selections" ></div>
-            <ul css="padding-right:0;max-height:${settings.height_selected}px;overflow:auto;" ref="scroll_area" class="${theme.rtltr}">
+            <div show.bind="clear_selections"></div>
+            <ul css="padding-right:0;max-height:${settings.height_selected}px;overflow:auto;" ref="scroll_area"
+                class="${theme.rtltr}">
                 <li repeat.for="item of selected_options" class="${item.group_number % 2 ? 'odd-group' : 'even-group'}">
-                    <div class="option-item" css="margin:0;padding:0;width:${inner_width}px;width:100%;height:24px;position:relative;">
+                    <div class="option-item"
+                        css="margin:0;padding:0;width:${inner_width}px;width:100%;height:24px;display:flex;flex-direction:row-reverse;justify-content:space-between;">
                         <!-- lock/unlock button -->
-                        <i class="far fa-${item.group_number==open_group ? 'lock-open-alt' : 'lock-alt'} tool" 
-                            if.bind="settings.can_group && item.first"
-                            t="[title]multi-select.lock-unlock" 
-                            style="position:absolute;left:10px;top:4px;"
-                            click.delegate="toggle_group(item.group_number)">
-                        </i>
-                        <i class="far fa-${item.option.sign}-square fa-rotate-180 tool"
-                            if.bind="settings.can_set_sign && item.first" 
-                            t="[title]multi-select.change-sign"
-                            style="position:absolute;left:30px;top:4px;"
-                            click.delegate="toggle_sign(item.option, $event)">
-                        </i>
-                        <i class="far fa-times-circle tool"
-                            t="[title]multi-select.unselect"
-                            style="position:absolute;left:50px;top:4px;"
-                            click.delegate="unselect_item(item, $index)">
-                        </i>
-                        <i class="far fa-exchange-alt tool"
-                            t="[title]multi-select.change-group"
-                            show.bind="item.moveable"
-                            style="position:absolute;left:70px;top:4px;"
-                            click.delegate="move_item(item, $index)">
-                        </i>
-                        <i class="far fa-pencil fa-rotate-180 fa-rotate-180 tool"
-                            if.bind="can_edit_name"
-                            t="[title]multi-select.edit-item"
-                            style="position:absolute;left:90px;top:4px;"
-                            click.trigger="edit_option(item, $event)">
-                        </i>
-                        <i class="far fa-trash-alt tool"
-                            if.bind="can_delete"
-                            t="[title]multi-select.remove-item"
-                            style="position:absolute;left:110px;top:4px;"
-                            click.delegate="remove_option(item, $event, $index)">
-                        </i>
-                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;" class.bind="'option-kind-' + item.option.topic_kind">${item.option.name}</span>
-                        <input type="text" if.bind="item.editing" value.bind="item.option.name" change.delegate="name_changed(item, $event)" style="width:55%" >
+                        <div style="display:flex;flex-direction:row-reverse;align-items:center;">
+                            <i class="far fa-${item.group_number==open_group ? 'lock-open-alt' : 'lock-alt'} tool"
+                                if.bind="settings.can_group && item.first" t="[title]multi-select.lock-unlock"
+                                click.delegate="toggle_group(item.group_number)">
+                            </i>
+                            <i class="far fa-${item.option.sign}-square fa-rotate-180 tool"
+                                if.bind="settings.can_set_sign && item.first" t="[title]multi-select.change-sign"
+                                click.delegate="toggle_sign(item.option, $event)">
+                            </i>
+                            <i class="far fa-times-circle tool" t="[title]multi-select.unselect"
+                                css="margin-left:${item.first ? 0 : settings.can_set_sign ? 36 : 20}px"
+                                click.delegate="unselect_item(item, $index)">
+                            </i>
+                            <i class="far fa-exchange-alt tool" t="[title]multi-select.change-group"
+                                show.bind="item.moveable" 
+                                click.delegate="move_item(item, $index)">
+                            </i>
+                        </div>
+                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;"
+                            class.bind="'option-kind-' + item.option.topic_kind">${item.option.name}</span>
+                        <input type="text" if.bind="item.editing" value.bind="item.option.name"
+                            change.delegate="name_changed(item, $event)" style="width:55%">
                     </div>
                 </li>
             </ul>
         </div>
 
         <!-- unselected options -->
-        <div class="row options unselected ${theme.rtltr}" 
-            css="max-height:${option_list_height}px;min-height:132px;" 
+        <div class="row options unselected ${theme.rtltr}" css="max-height:${option_list_height}px;min-height:132px;"
             if.bind="options && options.length > 0 && (filter.length > 0 || (! settings.show_only_if_filter)) ">
             <ul css="width:${width}px;padding-left:20px;" if.bind="true || unselected_options===[]">
                 <li if.bind="can_show_untagged" class="${to_show_untagged ? 'active' : ''}">
                     <a click.delegate="show_untagged()">${'multi-select.show-untagged' & t}</a>
                 </li>
-                <li repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999 | spy : agent">
-                    <div class="option-item" 
-                        css="margin:0;padding:0;padding-right:${(option.level || 0) * 16 + 2}px;width:${inner_width}px" 
+                <li
+                    repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999 | spy : agent">
+                    <div class="option-item"
+                        contextmenu.delegate="edit_option_dialog(option, $event)"
+                        css="margin:0;padding:0;padding-right:${(option.level || 0) * 16 + 2}px;width:${inner_width}px"
                         if.bind="option.topic_kind > 0 || user.editing">
-                        <i if.bind="option.topic_kind==1 && ! option.expanded" click.delegate="expand(option)" class="fa fa-play fa-xs fa-rotate-90"></i> 
-                        <i if.bind="option.topic_kind==1 && option.expanded" click.delegate="collapse(option)" class="fa fa-play fa-xs fa-rotate-180"></i> 
-                        <a click.delegate="select_option(option)" class.bind="'option-kind-' + option.topic_kind">${option.name}</a>
+                        <i if.bind="option.topic_kind==1 && ! option.expanded" click.delegate="expand(option)"
+                            class="fa fa-play fa-xs fa-rotate-90"></i>
+                        <i if.bind="option.topic_kind==1 && option.expanded" click.delegate="collapse(option)"
+                            class="fa fa-play fa-xs fa-rotate-180"></i>
+                        <a click.delegate="select_option(option)"
+                            class.bind="'option-kind-' + option.topic_kind">${option.name}</a>
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="row options unselected" 
-            css="max-height:${option_list_height}px;min-height:132px;" 
+        <div class="row options unselected" css="max-height:${option_list_height}px;min-height:132px;"
             if.bind="!options || options.length == 0">
             ${settings.empty_list_message}
         </div>

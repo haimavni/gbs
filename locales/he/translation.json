@@ -482,10 +482,20 @@
         "change-sign": "שלילי או חיובי",
         "unselect": "בטל את בחירת המילה",
         "change-group": "העבר לקבוצה אחרת",
-        "edit-item": "ערוך את שם הפריט",
-        "remove-item": "בטל לגמרי את הפריט",
+        "edit-item": "ערוך את שם ותיאור הנושא",
+        "remove-item": "בטל לגמרי את הנושא",
         "show-untagged": "--הצג בלתי מתויגים--",
-        "add-item": "הוסף את "
+        "add-item": "הוסף את ",
+        "duplicate": "שם הנושא כבר בשימוש",
+        "topic-name": "שם הנושא",
+        "topic-description": "תיאור הנושא",
+        "topic-title": "ערוך את שם ותיאור הנושא",
+        "photographer-name": "שם הצלם",
+        "photographer-title": "ערוך את שם הצלם",
+        "terminology-name": "",
+        "terminology-title": "עריכה של ממשק המשתמש",
+        "recorder-name": "",
+        "recorder-title": "ערוך את שם המקליט"
     },
     "locales": {
         "he": "עברית",

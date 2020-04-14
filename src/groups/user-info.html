@@ -73,6 +73,7 @@
                                 ${'stories.categories' & t}
                             </div>
                             <multi-select options.bind="topic_list" 
+                                category="topic"
                                 selected_options.bind="selected_topics"
                                 first_time.bind="no_topics_yet" option_groups.bind="topic_groups"
                                 new-name.delegate="add_topic($event)" settings.bind="options_settings"

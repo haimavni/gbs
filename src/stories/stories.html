@@ -125,6 +125,7 @@
                         <help if.bind="phase=='ready-to-edit'" topic="topics.ready-to-edit" , position="bottom"
                             style="position:absolute;left:0px;top:26px;"></help>
                         <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"
+                            category="topic"
                             selected_options.bind="params.selected_topics" height.bind="220"
                             first_time.bind="no_topics_yet"
                             settings.bind="options_settings" has_groups.bind="has_grouped_topics"

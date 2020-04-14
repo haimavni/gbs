@@ -1,11 +1,9 @@
 import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
-import { set_intersection, set_union, set_diff } from '../../../services/set_utils';
-import { CustomDialog } from '../../../services/custom-dialog';
 import { DialogService } from 'aurelia-dialog';
-import * as Collections from 'typescript-collections';
 import { I18N } from 'aurelia-i18n';
 import { User } from '../../../services/user';
 import { Theme } from '../../../services/theme';
+import { EditTopic } from './edit-topic';
 
 export class MultiSelectSettings {
     clear_filter_after_select = false;
@@ -48,10 +46,11 @@ export class MultiSelectCustomElement {
     @bindable can_edit = true;
     @bindable option_groups = [];  // list looks like [(parent, children)...]
     @bindable first_time = false;
+    @bindable category = '';
     selected_options_set = new Set();
     open_group = 0;
     element;
-    dialogService;
+    dialog;
     new_item_placeholder;
     new_item_title;
     filter = "";
@@ -67,9 +66,9 @@ export class MultiSelectCustomElement {
     agent = { size: 9999 };
     group_selected = false;
 
-    constructor(element, i18n: I18N, dialogService: DialogService, user: User, theme: Theme) {
+    constructor(element, i18n: I18N, dialog: DialogService, user: User, theme: Theme) {
         this.element = element;
-        this.dialogService = dialogService;
+        this.dialog = dialog;
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title');
         this.user = user;
@@ -216,9 +215,7 @@ export class MultiSelectCustomElement {
         this.dispatch_event();
     }
 
-    remove_option(item, event, index) {
-        let option = item.option
-        this.unselect_item(item, index);
+    remove_option(option) {
         let customEvent = new CustomEvent('remove-option', {
             detail: {
                 option: option
@@ -232,11 +229,10 @@ export class MultiSelectCustomElement {
         item.editing = !item.editing;
     }
 
-    name_changed(item, event) {
-        item.editing = false;
+    name_changed(option) {
         let customEvent = new CustomEvent('name-changed', {
             detail: {
-                option: item.option
+                option: option
             },
             bubbles: true
         });
@@ -388,7 +384,7 @@ export class MultiSelectCustomElement {
         return this.settings.can_set_sign;
     }
 
-    @computedFrom('settings.can_add', 'filter_size', 'selected_options',)
+    @computedFrom('settings.can_add', 'filter_size', 'selected_options')
     get can_add() {
         return this.settings.can_add && this.filter_size == 0 && this.selected_options.length == 0;
     }
@@ -414,6 +410,24 @@ export class MultiSelectCustomElement {
         if (option.topic_kind == 0 && this.user.editing) return true;
         if (option.topic_kind == 1 && !this.hide_higher) return true;
         return false;
+    }
+
+    edit_option_dialog(option, event) {
+        event.stopPropagation();
+        if (! this.category) return false;
+        if (this.category != 'terminology') {
+            if (! this.user.editing || ! this.user.privileges.ADMIN) return false;
+        }
+        this.dialog.open({
+            viewModel: EditTopic, model: { topic: option, can_delete: this.can_delete, category: this.category }, lock: true
+        }).whenClosed(result => {
+            if (result.wasCancelled) return;
+            if (result.output.command == "remove-topic") {
+                this.remove_option(option);
+            } else if (result.output.command == "rename") {
+                this.name_changed(option)
+            }
+        });
     }
 }
 

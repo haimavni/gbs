@@ -94,6 +94,7 @@
                         <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <help if.bind="phase=='photos-not-editing'" id="video-help" topic="tags" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
                         <multi-select options.bind="topic_list"
+                            category="topic"
                             selected_options.bind="params.selected_topics"
                             settings.bind="options_settings"
                             first_time.bind="no_topics_yet"
@@ -111,6 +112,7 @@
                     <div class="row">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'videos.photographers' & t}</div>
                         <multi-select options.bind="photographer_list"
+                            topic.bind="photographer"
                             place_holder_text="photos.click-photographer"
                             selected_options.bind="params.selected_photographers"
                             first_time.bind="no_photographers_yet"

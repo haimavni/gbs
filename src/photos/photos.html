@@ -150,6 +150,7 @@
                         <help if.bind="phase=='applying-to-photos'" topic="apply-to-selected-photos", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <help if.bind="phase=='photos-not-editing'" topic="tags" position="${theme.is_desktop ? 'bottom' : 'right'}" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
+                            category="topic"
                             selected_options.bind="params.selected_topics"
                             settings.bind="options_settings"
                             has_groups.bind="has_grouped_topics"
@@ -167,6 +168,7 @@
                     <div class="row multi-select-div">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'photos.photographers' & t}</div>
                         <multi-select options.bind="photographer_list"
+                            category="photographer"
                             place_holder_text="photos.click-photographer"
                             selected_options.bind="params.selected_photographers"
                             first_time.bind="no_photographers_yet"

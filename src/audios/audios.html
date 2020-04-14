@@ -52,7 +52,7 @@
                         </li>
                     </ul>
                 </div>
-                <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop" css="height: ${win_height-340}px;overflow:auto;"">
+                <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop" css="height: ${win_height-340}px;overflow:auto;">
                     <div style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
@@ -60,7 +60,7 @@
                         <help if.bind="phase=='ready-to-edit'" topic="audios.ready-to-edit" position="bottom"
                             style="position:absolute;left:0px;top:26px;"></help>
                         <span show.bind="false">${user_editing}</span>
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" category="topic"
                             selected_options.bind="params.selected_topics" height.bind="220"
                             settings.bind="options_settings" has_groups.bind="has_grouped_topics"
                             option_groups.bind="topic_groups" ms-change.delegate="handle_topic_change($event)"
@@ -72,6 +72,7 @@
                     <div class="row multi-select-div">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'audios.recorders' & t}</div>
                         <multi-select options.bind="recorder_list"
+                            category="recorder"
                             place_holder_text="audios.click-recorder"
                             selected_options.bind="params.selected_recorders"
                             settings.bind="recorders_settings"

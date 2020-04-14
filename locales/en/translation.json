@@ -481,10 +481,20 @@
         "change-sign": "Change sign",
         "unselect": "Unselect",
         "change-group": "Change group",
-        "edit-item": "Edit the name",
+        "edit-item": "Edit the topic",
         "remove-item": "Remove the item",
         "show-untagged": "--Show untagged--",
-        "add-item": "Add item "
+        "add-item": "Add item ",
+        "duplicate": "Name already exists",
+        "topic-name": "Topic name",
+        "topic-description": "Topic description",
+        "topic-title": "Edit topic name and description",
+        "photographer-name": "Photographer name",
+        "photographer-title": "Edit photographer name",
+        "terminology-name": "",
+        "terminology-title": "Edit user interface terminology",
+        "recorder-name": "",
+        "recorder-title": "Name of recording creator"
     },
     "locales": {
         "he": "Hebrew",
