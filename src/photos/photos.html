@@ -16,12 +16,12 @@
                             <div class="input-group" if.bind="user.privileges.ADVANCED && params.selected_order_option == 'random-order'">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
-                            <div class="input-group" if.bind="user.privileges.EDITOR" style="width:130px;">
+                            <div class="input-group" if.bind="user.privileges.EDITOR" style="width:144px;">
                                 <select value.bind="params.selected_order_option" style="height:32px;width:90%;" change.delegate="handle_order_change($event)">
                                     <option repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
                                 </select>
                             </div>
-                            <div class="input-group" if.bind="params.selected_order_option != 'random-order'">
+                            <div class="input-group" if.bind="params.selected_order_option == 'upload-time-order'">
                                 <button t="[title]videos.next" class="btn btn-default" click.delegate="next($event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                                 <button t="[title]videos.prev" class="btn btn-default" click.delegate="prev($event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
                             </div>
