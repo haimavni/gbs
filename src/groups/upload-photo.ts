@@ -48,10 +48,10 @@ export class UploadPhoto {
         }
     }
     params = {
-        selected_uploader: "mine",
         selected_order_option: "upload-time-order",
         user_id: null,
-        count_limit: 100
+        count_limit: 100,
+        editing: false
     };
     photo_list = [];
     photo_height = 620;
@@ -95,6 +95,7 @@ export class UploadPhoto {
 
     update_photo_list() {
         this.params.user_id = this.status_record.user_id;
+        this.params.editing = this.user.editing;
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.photo_list = result.photo_list;

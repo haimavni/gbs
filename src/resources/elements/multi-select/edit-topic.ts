@@ -28,8 +28,8 @@ export class EditTopic {
         this.topic = params.topic;
         this.can_delete = params.can_delete;
         this.old_data = deepClone(this.topic);
-        this.has_description = this.topic.hasOwnProperty("description");
         this.category = params.category;
+        this.has_description = this.category == 'topic';
         let key = 'multi-select.' + this.category + '-title';
         this.title = this.i18n.tr(key);
         key = 'multi-select.' + this.category + '-name';

@@ -97,7 +97,6 @@ export class Customize {
 
     dic_item_changed(event) {
         let p = event.detail.option;
-        console.log("p is ", p);
         this.theme.set_locale_override(p.id, p.name);
     }
 
