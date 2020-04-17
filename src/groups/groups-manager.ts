@@ -6,6 +6,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { User } from '../services/user';
 import { DialogService } from 'aurelia-dialog';
 import { GroupEdit } from './group-edit';
+import { ContactEdit } from './contact-edit';
 import { copy_to_clipboard } from '../services/dom_utils';
 import * as toastr from 'toastr';
 
@@ -17,6 +18,8 @@ export class GroupManager {
     theme;
     group_list = [];
     curr_group;
+    curr_group_id: null;
+    curr_contact;
     dialog;
     user_to_delete;
     pageSize = 15;
@@ -26,6 +29,7 @@ export class GroupManager {
     user;
     subscriber;
     group_mail_url;
+    contact_list = [];
 
     constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
         this.api = api;
@@ -38,6 +42,7 @@ export class GroupManager {
 
     attached() {
         this.get_group_list();
+        this.get_contact_list();
         this.theme.hide_title = true;
         this.theme.hide_menu = true;
         this.subscriber = this.ea.subscribe('GROUP-LOGO-UPLOADED', msg => {
@@ -54,8 +59,8 @@ export class GroupManager {
     }
 
     get_group_list() {
-        this.api.call_server('groups/get_group_list').
-            then((data) => {
+        this.api.call_server('groups/get_group_list')
+            .then((data) => {
                 this.group_list = data.group_list;
                 for (let g of this.group_list) {
                     let logo_images: FileList;
@@ -65,7 +70,13 @@ export class GroupManager {
             });
     }
 
-    add_or_update(group_data) {
+    get_contact_list() {
+        this.api.call_server('groups/get_contact_list')
+            .then(data => this.contact_list = data.contact_list);
+    }
+
+
+    add_or_update_group(group_data) {
         let new_group = false;
         if (group_data) {
             this.curr_group = group_data;
@@ -76,6 +87,22 @@ export class GroupManager {
         }
         this.dialog.open({
             viewModel: GroupEdit, model: { curr_group: this.curr_group, new_group: new_group, group_list: this.group_list }, lock: true
+        });
+    }
+
+    add_or_update_contact(contact_data) {
+        console.log("enter add or update contact. contact_data: ", contact_data);
+        let new_contact = false;
+        if (contact_data) {
+            this.curr_contact = contact_data;
+        }
+        else {
+            this.curr_contact = { email: "", first_name: "", last_name: "", group_id: this.curr_group_id };
+            new_contact = true;
+        }
+        console.log("jsut before dialog")
+        this.dialog.open({
+            viewModel: ContactEdit, model: { curr_contact: this.curr_contact, new_contact: new_contact, contact_list: this.contact_list }, lock: true
         });
     }
 
@@ -108,9 +135,18 @@ export class GroupManager {
         let click = this.i18n.tr('groups.click')
         let to_upload = this.i18n.tr('groups.to-upload')
         let regards = this.i18n.tr('groups.regards')
-        let a =`${url} :${click}\n\n${regards}`
+        let a = `${url} :${click}\n\n${regards}`
         a = encodeURIComponent(a);
         return a;
     }
+
+    expose_contacts(group) {
+        this.curr_group_id = group.id
+    }
+
+    mail_contacts() {
+        this.api.call_server('groups/mail_contacts', {group_id: this.curr_group_id});
+    }
+
 
 }

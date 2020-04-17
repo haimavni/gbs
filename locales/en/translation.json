@@ -453,7 +453,11 @@
         "explain-gallery": "The full site will be openedin a separate window.",
         "old-photo-not-found": "Photo not accessible from here<br>Watch it in the full site",
         "consent": "By uploading photos and related information I agree to have them published in the site",
-        "explain-dates-range": "<b>Date ranges: </b>Dates resolution may be years, months or days. Enter base date as accurate as you know, then select the end date from the drop down menu."
+        "explain-dates-range": "<b>Date ranges: </b>Dates resolution may be years, months or days. Enter base date as accurate as you know, then select the end date from the drop down menu.",
+        "contacts": "Cotacts",
+        "add-contact": "Add contact",
+        "contact-details": "Contact details",
+        "mail-contacts": "Send email to group contacts"
     },
     "consts": {
         "vis-never": "Never display!",
