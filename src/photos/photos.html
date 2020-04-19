@@ -131,7 +131,7 @@
                         if.bind="!editing_filters">
                         <div css="width:${photo_size}px;height:${photo_size}px;"
                             class="${photo.photo_id==curr_photo_id ? 'current-photo' : ''}"
-                            repeat.for="photo of photo_list | filter : filter : '*selected' : 'title' : name | take : 9999">
+                            repeat.for="photo of photo_list | filter : filter : '*selected' : 'name' | take : 9999">
                             <a style="position:relative;width:100%" click.delegate="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.delegate="toggle_selection(photo)" 
                                 class.bind="photo.selected" >
                                 <info css="position:absolute;top:${7 - photo_size / 2}px;left:${photo_size-20}px;"

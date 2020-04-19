@@ -145,7 +145,11 @@ export class GroupManager {
     }
 
     mail_contacts() {
-        this.api.call_server('groups/mail_contacts', {group_id: this.curr_group_id});
+        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id });
+    }
+
+    edit_letter() {
+
     }
 
 
