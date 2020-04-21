@@ -6,22 +6,18 @@
         </div>
         <div style="display:flex;margin-left:auto;margin-right:auto;width:1200px;">
             <div style="height:730px;width:700px;overflow:auto;">
-                <div class="form-inline">
+                <div class="form-inline" style="margin-bottom:10px;">
                     <div class="form-group">
-                        <a href class="btn btn-success" click.delegate="add_or_update_group(null)"
-                            style="margin-bottom:1em;">
+                        <a href class="btn btn-success" click.delegate="add_or_update_group(null)">
                             ${'groups.add-group' & t}
                         </a>
                     </div>
-                    <div class="form-group" style="margin-bottom:14px;">
+                    <div class="form-group">
                         <input type="text" value.bind="filters[0].value" placeholder="${'groups.enter-filter-text' & t}"
                             class="form-control" />
                     </div>
-                    <div class="form-group" if.bind="user.privileges.DEVELOPER">
-                        <a href class="btn btn-primary" click.delegate="edit_letter()"
-                            style="margin-bottom:1em;">
-                            ${'groups.edit-letter' & t}
-                        </a>
+                    <div class="form-group">
+                        <letter topic="invitation-to-contribute"></letter>
                     </div>
                 </div>
                 <table class="table table-striped"
@@ -116,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <div style="width:300px;height:600px;margin-left:12px;background-color:lightblue;margin-top:8px;"
+            <div style="width:300px;height:80vh;margin-left:12px;background-color:lightblue;margin-top:8px;"
                 if.bind="curr_group_id">
                 <button type="button" class="btn btn-primary" click.delegate="mail_contacts()"
                     style="width:100%;">${'groups.mail-contacts' & t}</button>
@@ -133,7 +129,7 @@
                 </div>
                 <ul style="padding:0">
                     <li repeat.for="contact of contact_list" if.bind="curr_group_id==contact.group_id"
-                        style="border-bottom:solid 4px white;padding:5px;display:flex;justify-content:space-between;">
+                        style="border-bottom:solid 4px white;padding:5px 10px;display:flex;justify-content:space-between;">
                         <span>
                             ${contact.email}
                         </span>
@@ -141,6 +137,8 @@
                             ${contact.first_name} ${contact.last_name}
                             <i class="fa fa-pencil" style="cursor:pointer;"
                                 click.delegate="add_or_update_contact(contact)"></i>
+                            <i class="fa fa-trash" style="cursor:pointer;"
+                                click.delegate="remove_contact(contact)"></i>
                         </span>
                     </li>
 

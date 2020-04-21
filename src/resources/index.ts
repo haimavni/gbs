@@ -19,6 +19,7 @@ export function configure(config) {
     './elements/date-range',
     './elements/help',
     './elements/info',
+    './elements/letter',
     './elements/timeline',
     './elements/search-input',
     './elements/dlg-string',

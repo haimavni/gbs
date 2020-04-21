@@ -26,6 +26,7 @@
                     ${photographer_name}</span>
                 <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing"
                     base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true"
+                    enable_days_range.bind="true"
                     span_size.bind="photo_date_datespan" range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
                     change.delegate="update_photo_date($event)">
                 </date-range>

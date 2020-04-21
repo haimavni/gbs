@@ -106,6 +106,13 @@ export class GroupManager {
         });
     }
 
+    remove_contact(contact_data) {
+        this.api.call_server('groups/remove_contact', {group_id: this.curr_group_id, contact_id: contact_data.id})
+        .then(result => {
+            this.contact_list = this.contact_list.filter(contact => contact.id != contact_data.id || contact.group_id != this.curr_group_id);
+        })
+    }
+
     upload_logo(group) {
         if (!group.logo_images) return;
         this.api.uploadFiles(
