@@ -26,7 +26,7 @@
             <div class="fr-view" dir="rtl" if.bind="show">
                 <div class="justified-story">
                     <p class="${theme.font_size}" if.bind="! user.editing">
-                        <compose if.bind="story_text" view-model='./render-story' model.bind="story_text"></compose>
+                        <compose if.bind="story_text" view-model='./render-story' model.bind="{html:story_text,raw:raw}"></compose>
                     </p>
                 </div>
             </div>

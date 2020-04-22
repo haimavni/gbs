@@ -86,10 +86,18 @@ export class Misc {
     make_selection(section, option_names) {
         let result = [];
         for (let opt of option_names) {
-            let option = { value: opt, name: this.i18n.tr(section + '.' + opt)};
+            let option = { value: opt, name: this.i18n.tr(section + '.' + opt) };
             result.push(option)
         }
         return result;
     }
 
+    empty_object(obj) {
+        let keys = Object.keys(obj);
+        return keys.length == 0;
+    }
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 }

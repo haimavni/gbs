@@ -18,7 +18,7 @@ export class GroupManager {
     theme;
     group_list = [];
     curr_group;
-    curr_group_id: null;
+    curr_group_id = 0;
     curr_contact;
     dialog;
     user_to_delete;
@@ -91,7 +91,6 @@ export class GroupManager {
     }
 
     add_or_update_contact(contact_data) {
-        console.log("enter add or update contact. contact_data: ", contact_data);
         let new_contact = false;
         if (contact_data) {
             this.curr_contact = contact_data;
@@ -100,17 +99,16 @@ export class GroupManager {
             this.curr_contact = { email: "", first_name: "", last_name: "", group_id: this.curr_group_id };
             new_contact = true;
         }
-        console.log("jsut before dialog")
         this.dialog.open({
             viewModel: ContactEdit, model: { curr_contact: this.curr_contact, new_contact: new_contact, contact_list: this.contact_list }, lock: true
         });
     }
 
     remove_contact(contact_data) {
-        this.api.call_server('groups/remove_contact', {group_id: this.curr_group_id, contact_id: contact_data.id})
-        .then(result => {
-            this.contact_list = this.contact_list.filter(contact => contact.id != contact_data.id || contact.group_id != this.curr_group_id);
-        })
+        this.api.call_server('groups/remove_contact', { group_id: this.curr_group_id, contact_id: contact_data.id })
+            .then(result => {
+                this.contact_list = this.contact_list.filter(contact => contact.id != contact_data.id || contact.group_id != this.curr_group_id);
+            })
     }
 
     upload_logo(group) {
@@ -148,16 +146,34 @@ export class GroupManager {
     }
 
     expose_contacts(group) {
-        this.curr_group_id = group.id
+        if (this.curr_group_id == group.id) {
+            this.curr_group_id = 0
+        } else {
+            this.curr_group_id = group.id
+            this.curr_group = group;
+        }
     }
 
     mail_contacts() {
         this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id });
     }
 
-    edit_letter() {
-
+    @computedFrom('curr_group_id')
+    get button_text() {
+        if (this.curr_group_id) return 'groups.edit-letter';
+        return 'groups.edit-letter-template';
     }
 
+    @computedFrom('curr_group_id')
+    get mail_params() {
+        if (this.curr_group_id) {
+            let url = `${location.host}${location.pathname}#/upload-photo/${this.curr_group_id}/*`;
+            let link = `<a href="${url}">Link</a>`
+            return {group_name: this.curr_group.title, group_description: this.curr_group.description, link:link }
+        } else {
+            return {};
+        }
+    }    
 
 }
+

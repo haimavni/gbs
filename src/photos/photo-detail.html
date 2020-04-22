@@ -49,7 +49,7 @@
                                         style="position:relative;height:70vh;margin-right:16px;overflow:auto;">
                                         <p class="${story_dir} ${highlight_on}">
                                             <compose if.bind="photo_story.story_text"
-                                                view-model='../stories/render-story' model.bind="highlightedHtml">
+                                                view-model='../stories/render-story' model.bind="{html:highlightedHtml}">
                                             </compose>
                                         </p>
                                     </div>

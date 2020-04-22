@@ -457,7 +457,9 @@
         "contacts": "Cotacts",
         "add-contact": "Add contact",
         "contact-details": "Contact details",
-        "mail-contacts": "Send email to group contacts"
+        "mail-contacts": "Send email to group contacts",
+        "edit-letter": "Edit letter",
+        "edit-letter-template": "Edit letter template"
     },
     "consts": {
         "vis-never": "Never display!",

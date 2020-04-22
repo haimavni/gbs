@@ -458,7 +458,9 @@
         "contacts": "מכותבים",
         "add-contact": "הוסף מכותב",
         "contact-details": "פרטי המכותב",
-        "mail-contacts": "שלח הודעות למכותבים"
+        "mail-contacts": "שלח הודעות למכותבים",
+        "edit-letter": "ערוך את המכתב",
+        "edit-letter-template": "ערוך את תבנית המכתב"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

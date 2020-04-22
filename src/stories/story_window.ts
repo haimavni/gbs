@@ -17,6 +17,8 @@ export class StoryWindow {
     story_name_orig;
     story_source_orig;
     story_text;
+    dont_save = false;
+    raw: false;
 
     constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme) {
         this.dialogController = dialogController;
@@ -26,8 +28,9 @@ export class StoryWindow {
     }
 
     activate(model) {
-        console.debug("enter activate of story window");
         this.story = model.story;
+        this.dont_save = model.dont_save;
+        this.raw = model.raw
         this.story_text = this.story.editable_preview ? this.story.preview : this.story.story_text
         if (! this.story_text) {
              this.story_text = "";
@@ -52,6 +55,7 @@ export class StoryWindow {
         if (! this.dirty_story) {
             return;
         }
+        if (this.dont_save) return;
         let data = { user_id: this.user.id };
         if (this.story.editable_preview) {
             this.story.preview = this.story_text
