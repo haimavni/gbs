@@ -5,6 +5,7 @@ import { Theme } from '../../services/theme';
 import { StoryWindow } from '../../stories/story_window';
 import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Misc } from '../../services/misc';
 
 @autoinject()
 @singleton()
@@ -13,6 +14,7 @@ export class HelpCustomElement {
     user;
     api;
     theme;
+    misc;
     @bindable position = 'top';
     @bindable({ defaultBindingMode: bindingMode.twoWay }) params;
     @bindable icon = 'question';
@@ -23,10 +25,11 @@ export class HelpCustomElement {
     blue = 999;
     editing = false;
 
-    constructor(user: User, api: MemberGateway, dialog: DialogService, eventAggregator: EventAggregator, theme: Theme) {
+    constructor(user: User, api: MemberGateway, dialog: DialogService, eventAggregator: EventAggregator, theme: Theme, misc: Misc) {
         this.user = user;
         this.api = api;
         this.theme = theme;
+        this.misc = misc;
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
         this.eventAggregator.subscribe('EditModeChange', payload => this.refresh())
@@ -39,16 +42,9 @@ export class HelpCustomElement {
                 this.story_info = response.story_info;
                 this.story_text = this.story_info.story_text;
                 if (!this.editing) {
-                    this.story_text = this.story_text.replace(/\$\{.+?\}/g, x => this.evaluate(x.substr(2, x.length - 3))).slice(0);
+                    this.story_text = this.misc.extrapolate(this.story_text, this.params);
                 }
             })
-    }
-
-    evaluate(s) {
-        if (!this.params) {
-            return s;
-        }
-        return this.params[s];
     }
 
     attached() {
@@ -64,7 +60,7 @@ export class HelpCustomElement {
         this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: edit }, lock: edit }).whenClosed(response => {
             this.theme.hide_title = false;
             this.story_text = this.story_info.story_text;
-            this.story_text = this.story_text.replace(/\$\{.+\}/g, x => this.evaluate(x.substr(2, x.length - 3))).slice(0);
+            this.story_text = this.misc.extrapolate(this.story_text, this.params);
             this.editing = false;
         });
     }

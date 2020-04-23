@@ -1,5 +1,5 @@
 
-import { autoinject, singleton, noView, computedFrom } from "aurelia-framework";
+import { autoinject, singleton, noView, computedFrom, subscriberCollection } from "aurelia-framework";
 import { MemberGateway } from "./gateway";
 import { I18N } from 'aurelia-i18n';
 
@@ -99,5 +99,12 @@ export class Misc {
 
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    extrapolate(s, params) {
+        if (!params) return s;
+        //in rtl the $ might be on the right
+        s = s.replace(/\{.+?\}\$/g, x => '${' + x.substr(1, x.length-3) + '}')
+        return s.replace(/\$\{.+?\}/g, x => params[x.substr(2, x.length - 3)]).slice(0);
     }
 }

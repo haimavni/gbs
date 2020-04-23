@@ -168,7 +168,8 @@ export class GroupManager {
     get mail_params() {
         if (this.curr_group_id) {
             let url = `${location.host}${location.pathname}#/upload-photo/${this.curr_group_id}/*`;
-            let link = `<a href="${url}">Link</a>`
+            let label = this.i18n.tr('groups.the-link')
+            let link = `<a href="${url}" target="_blank">${label}</a>`
             return {group_name: this.curr_group.title, group_description: this.curr_group.description, link:link }
         } else {
             return {};

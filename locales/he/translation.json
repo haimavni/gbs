@@ -460,7 +460,8 @@
         "contact-details": "פרטי המכותב",
         "mail-contacts": "שלח הודעות למכותבים",
         "edit-letter": "ערוך את המכתב",
-        "edit-letter-template": "ערוך את תבנית המכתב"
+        "edit-letter-template": "ערוך את תבנית המכתב",
+        "the-link": "הקישור"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

@@ -39,7 +39,7 @@ export class LetterCustomElement {
                 this.story_info = response.story_info;
                 if (this.misc.empty_object(this.params)) return;
                 let story_text = this.story_info.story_text;
-                story_text = story_text.replace(/\$\{.+?\}\$/g, x => this.params[x.substr(2, x.length - 4)]).slice(0);
+                story_text = this.misc.extrapolate(story_text, this.params);
                 this.story_info.story_text = story_text;
             })
     }
