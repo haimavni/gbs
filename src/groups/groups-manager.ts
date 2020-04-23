@@ -30,6 +30,8 @@ export class GroupManager {
     subscriber;
     group_mail_url;
     contact_list = [];
+    mail_body = "";
+    need_to_show = "";
 
     constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
         this.api = api;
@@ -38,6 +40,7 @@ export class GroupManager {
         this.theme = theme;
         this.i18n = i18n;
         this.user = user;
+        this.need_to_show = this.i18n.tr('groups.need-to-show');
     }
 
     attached() {
@@ -155,7 +158,11 @@ export class GroupManager {
     }
 
     mail_contacts() {
-        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id });
+        if (!this.mail_body) return;
+        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id, mail_body: this.mail_body })
+        .then(response => {
+            console.log("response from sending email ", response);
+        });
     }
 
     @computedFrom('curr_group_id')

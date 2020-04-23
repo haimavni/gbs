@@ -56,6 +56,10 @@
             height:50px;
             width: 250px; 
             border-radius:25px;
+            &.disabled {
+                cursor: no-drop;
+                background-color: #5e9bc8;
+            }
         }
         label {
             width:250px;

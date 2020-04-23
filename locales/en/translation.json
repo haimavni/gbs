@@ -458,9 +458,10 @@
         "add-contact": "Add contact",
         "contact-details": "Contact details",
         "mail-contacts": "Send email to group contacts",
-        "edit-letter": "Edit letter",
+        "edit-letter": "Display / edit the letter",
         "edit-letter-template": "Edit letter template",
-        "the-link": "the link"
+        "the-link": "the link",
+        "need-to-show": "Display or edit before sending"
     },
     "consts": {
         "vis-never": "Never display!",

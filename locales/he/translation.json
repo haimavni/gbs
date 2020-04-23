@@ -459,9 +459,10 @@
         "add-contact": "הוסף מכותב",
         "contact-details": "פרטי המכותב",
         "mail-contacts": "שלח הודעות למכותבים",
-        "edit-letter": "ערוך את המכתב",
+        "edit-letter": "הצג / ערוך את המכתב",
         "edit-letter-template": "ערוך את תבנית המכתב",
-        "the-link": "הקישור"
+        "the-link": "הקישור",
+        "need-to-show": "יש להציג או לערוך לפני המשלוח"
     },
     "consts": {
         "vis-never": "לא ניתן לתצוגה!",

@@ -30,7 +30,7 @@ export class Home {
     eventAggregator;
     subscriber1;
     scroll_area;
-    active_part = 2;
+    active_part = 3;
     photo_strip_height = 220;
 
     constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator, misc: Misc) {

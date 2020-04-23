@@ -17,6 +17,7 @@ export class LetterCustomElement {
     @bindable position = 'top';
     @bindable params = {};
     @bindable button_text = 'groups.edit-letter';
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) mail_body;
     story_info;
     dialog;
     eventAggregator;
@@ -41,11 +42,8 @@ export class LetterCustomElement {
                 let story_text = this.story_info.story_text;
                 story_text = this.misc.extrapolate(story_text, this.params);
                 this.story_info.story_text = story_text;
+                this.mail_body = story_text;
             })
-    }
-
-    evaluate(s) {
-        return this.params[s];
     }
 
     attached() {
@@ -60,6 +58,7 @@ export class LetterCustomElement {
             this.theme.hide_title = true;
             let no_params = this.misc.empty_object(this.params);
             this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: edit, dont_save: !no_params, raw: true }, lock: edit }).whenClosed(response => {
+                this.mail_body = this.story_info.story_text;
                 this.theme.hide_title = false;
             });
         });
