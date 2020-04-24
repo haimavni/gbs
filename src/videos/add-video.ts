@@ -6,6 +6,7 @@ import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import * as toastr from 'toastr';
 import { User } from '../services/user';
+import { Misc } from '../services/misc';
 
 @autoinject()
 export class AddVideo {
@@ -17,11 +18,13 @@ export class AddVideo {
     header_text;
     params;
     old_params;
+    misc;
 
-    constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N, user: User) {
+    constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N, user: User, misc: Misc) {
         this.controller = controller;
         this.api = api;
         this.theme = theme;
+        this.misc = misc;
         this.i18n = i18n;
         this.header_text = 'videos.header-text';
         this.user = user;
@@ -35,7 +38,7 @@ export class AddVideo {
                 name: '',
             }
         }
-        this.old_params = deepClone(this.params);
+        this.old_params = this.misc.deepClone(this.params);
     }
 
     send() {
@@ -51,7 +54,7 @@ export class AddVideo {
     }
 
     cancel() {
-        this.params = deepClone(this.old_params);
+        this.params = this.misc.deepClone(this.old_params);
         this.controller.cancel();
     }
 
@@ -61,10 +64,5 @@ export class AddVideo {
         return dirty;
     }
 
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }
 

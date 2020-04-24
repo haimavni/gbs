@@ -107,4 +107,8 @@ export class Misc {
         s = s.replace(/\{.+?\}\$/g, x => '${' + x.substr(1, x.length-3) + '}')
         return s.replace(/\$\{.+?\}/g, x => params[x.substr(2, x.length - 3)]).slice(0);
     }
+
+    deepClone(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
 }

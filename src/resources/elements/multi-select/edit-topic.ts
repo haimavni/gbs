@@ -2,6 +2,7 @@ import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../../../services/gateway';
 import { I18N, TCustomAttribute } from 'aurelia-i18n';
+import { Misc } from '../../../services/misc';
 
 @autoinject
 export class EditTopic {
@@ -17,17 +18,19 @@ export class EditTopic {
     title;
     name_placeholder = "";
     description_placeholder = "";
+    misc;
 
-    constructor(controller: DialogController, api: MemberGateway, i18n: I18N) {
+    constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc) {
         this.controller = controller;
         this.api = api;
         this.i18n = i18n;
+        this.misc = misc;
     }
 
     activate(params) {
         this.topic = params.topic;
         this.can_delete = params.can_delete;
-        this.old_data = deepClone(this.topic);
+        this.old_data = this.misc.deepClone(this.topic);
         this.category = params.category;
         this.has_description = this.category == 'topic';
         let key = 'multi-select.' + this.category + '-title';
@@ -72,9 +75,4 @@ export class EditTopic {
         return true;
     }
 
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }

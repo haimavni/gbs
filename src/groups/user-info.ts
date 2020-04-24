@@ -5,6 +5,7 @@ import { autoinject, computedFrom } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
+import { Misc } from '../services/misc';
 import * as toastr from 'toastr';
 import { Cookies } from '../services/cookies';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
@@ -39,13 +40,15 @@ export class UserInfo {
     photographers_settings: MultiSelectSettings;
     num_text_rows = 3;
     selected_topics = [];
+    misc;
 
     constructor(controller: DialogController, api: MemberGateway, user: User,
-        theme: Theme, cookies: Cookies, i18n: I18N) {
+        theme: Theme, cookies: Cookies, i18n: I18N, misc: Misc) {
         this.controller = controller;
         this.api = api;
         this.user = user;
         this.theme = theme;
+        this.misc = misc;
         this.i18n = i18n;
         this.cookies = cookies;
         this.consent = this.i18n.tr("groups.consent");
@@ -140,12 +143,12 @@ export class UserInfo {
         this.api.call_server_post('groups/save_photo_info', { photo_id: this.status_record.photo_id, photo_info: this.status_record.photo_info })
             .then(result => {
                 this.status_record.photo_details_saved = true;
-                this.status_record.old_data = deepClone(this.status_record.photo_info);
+                this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
             })
     }
 
     cancel_changes() {
-        this.status_record.photo_info = deepClone(this.status_record.old_data);
+        this.status_record.photo_info = this.misc.deepClone(this.status_record.old_data);
     }
 
     @computedFrom('status_record.old_data', 'status_record.photo_info.photo_name', 'status_record.photo_info.photo_story',
@@ -197,9 +200,4 @@ export class UserInfo {
         //     this.params.selected_photographers.push(itm)
         // }
     }
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }

@@ -159,7 +159,11 @@ export class GroupManager {
 
     mail_contacts() {
         if (!this.mail_body) return;
-        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id, mail_body: this.mail_body })
+        let mail_body = this.mail_body;
+        if (this.theme.rtltr == 'rtl') {
+            mail_body = '<div dir="rtl">' + mail_body + '</div>';
+        }
+        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id, mail_body:  mail_body, from_name: this.curr_group.title })
         .then(response => {
             console.log("response from sending email ", response);
         });
@@ -175,6 +179,8 @@ export class GroupManager {
     get mail_params() {
         if (this.curr_group_id) {
             let url = `${location.host}${location.pathname}#/upload-photo/${this.curr_group_id}/*`;
+            if (url.startsWith('localhost'))
+                url = `https://gbstories.org/gbs_crossing/static/aurelia//index-gbs_crossing.html#/upload-photo/${this.curr_group_id}/*`
             let label = this.i18n.tr('groups.the-link')
             let link = `<a href="${url}" target="_blank">${label}</a>`
             return {group_name: this.curr_group.title, group_description: this.curr_group.description, link:link }

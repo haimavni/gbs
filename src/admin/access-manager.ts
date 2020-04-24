@@ -1,6 +1,7 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
 import { Theme } from '../services/theme';
+import { Misc } from '../services/misc';
 import { MemberGateway } from '../services/gateway';
 import { DialogService } from 'aurelia-dialog';
 import { EditUser } from './edit-user';
@@ -22,11 +23,13 @@ export class AccessManager {
         { value: 'all-users', custom: this.statusFilter }
     ];
     statuses =  ['all-users', 'registered-users', 'unregistered-users'];
+    misc;
 
-    constructor(api: MemberGateway, dialog: DialogService, theme: Theme, i18n: I18N) {
+    constructor(api: MemberGateway, dialog: DialogService, theme: Theme, i18n: I18N, misc: Misc) {
         this.api = api;
         this.dialog = dialog;
         this.theme = theme;
+        this.misc = misc;
         this.i18n = i18n;
     }
 
@@ -88,7 +91,7 @@ export class AccessManager {
 
     add_or_update(user_data) {
         if (user_data) {
-            this.curr_user_orig = deepClone(user_data);
+            this.curr_user_orig = this.misc.deepClone(user_data);
             this.curr_user = user_data;
         }
         else {
@@ -164,9 +167,4 @@ export class AccessManager {
         return true;
     }
 
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }

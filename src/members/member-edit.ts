@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
+import { Misc } from '../services/misc';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { computedFrom } from 'aurelia-framework';
@@ -23,13 +24,15 @@ export class MemberEdit {
     life_story_orig;
     dialog;
     update_info = '';
+    misc;
 
-    constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList) {
+    constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.router = router;
         this.i18n = i18n;
+        this.misc = misc;
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.eventAggregator.subscribe('EditorContentChanged', () => { this.handle_editor_changed() });
         this.dialog = dialog;
@@ -42,7 +45,7 @@ export class MemberEdit {
     activate(member) {
         this.member = member;
         let m = this.member.member_info
-        this.member_info_orig = deepClone(m);
+        this.member_info_orig = this.misc.deepClone(m);
         if (this.user.privileges.DATA_AUDITOR)
             m.approved = true;
         this.life_story_orig = this.member.story_info.story_text.slice();
@@ -83,7 +86,7 @@ export class MemberEdit {
     }
 
     cancel_edit_mode() {
-        this.member.member_info = deepClone(this.member_info_orig);
+        this.member.member_info = this.misc.deepClone(this.member_info_orig);
     }
 
     save_edited_data() {
@@ -96,10 +99,10 @@ export class MemberEdit {
         let id = this.member.member_info.id;
         this.api.call_server_post('members/save_member_info', data)
             .then(response => {
-                this.member_info_orig = deepClone(this.member.member_info);
+                this.member_info_orig = this.misc.deepClone(this.member.member_info);
 
                 this.life_story_orig = this.member.story_info.story_text;
-                this.member = deepClone(this.member);
+                this.member = this.misc.deepClone(this.member);
             });
     }
 
@@ -171,9 +174,4 @@ export class MemberEdit {
     setup(modalContainer: Element, modalOverlay: Element) {
     }
 
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }

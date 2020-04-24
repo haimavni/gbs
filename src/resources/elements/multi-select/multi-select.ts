@@ -3,6 +3,7 @@ import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { User } from '../../../services/user';
 import { Theme } from '../../../services/theme';
+import { Misc } from '../../../services/misc';
 import { EditTopic } from './edit-topic';
 
 export class MultiSelectSettings {
@@ -65,14 +66,16 @@ export class MultiSelectCustomElement {
     to_show_untagged = false;
     agent = { size: 9999 };
     group_selected = false;
+    misc;
 
-    constructor(element, i18n: I18N, dialog: DialogService, user: User, theme: Theme) {
+    constructor(element, i18n: I18N, dialog: DialogService, user: User, theme: Theme, misc: Misc) {
         this.element = element;
         this.dialog = dialog;
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title');
         this.user = user;
         this.theme = theme;
+        this.misc = misc;
     }
 
     attached() {
@@ -88,7 +91,7 @@ export class MultiSelectCustomElement {
         this.options = this.options.filter(opt => opt.level <= option.level);
         for (let opt of this.options) { opt.expanded = false };
         let sub_options = this.get_sub_options(option);
-        sub_options = deepClone(sub_options);
+        sub_options = this.misc.deepClone(sub_options);
         let idx = this.options.findIndex(item => (item.name == option.name) && (item.level == option.level));
         let level = option.level ? option.level + 1 : 1;
         for (let opt of sub_options) {
@@ -435,9 +438,4 @@ function clean(obj) {
             delete obj[propName];
         }
     }
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }

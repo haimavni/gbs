@@ -1,6 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
+import { Misc } from '../services/misc';
 
 @autoinject
 export class GroupEdit {
@@ -11,10 +12,12 @@ export class GroupEdit {
     error_message = "";
     group_list;
     curr_group_orig = {};
+    misc;
 
-    constructor(controller: DialogController, api: MemberGateway) {
+    constructor(controller: DialogController, api: MemberGateway, misc: Misc) {
         this.controller = controller;
         this.api = api;
+        this.misc = misc;
     }
 
     activate(params) {
@@ -22,7 +25,7 @@ export class GroupEdit {
         this.curr_group = params.curr_group;
         this.group_list = params.group_list;
         if (this.new_group) return;
-        this.curr_group_orig = deepClone(this.curr_group)
+        this.curr_group_orig = this.misc.deepClone(this.curr_group)
     }
 
     save() {
@@ -48,9 +51,4 @@ export class GroupEdit {
         this.controller.cancel();
     }
 
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }

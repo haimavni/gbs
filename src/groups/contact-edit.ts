@@ -1,6 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
+import { Misc } from '../services/misc';
 
 @autoinject
 export class ContactEdit {
@@ -11,10 +12,12 @@ export class ContactEdit {
     error_message = "";
     contact_list;
     curr_contact_orig = {};
+    misc;
 
-    constructor(controller: DialogController, api: MemberGateway) {
+    constructor(controller: DialogController, api: MemberGateway, misc: Misc) {
         this.controller = controller;
         this.api = api;
+        this.misc = misc;
     }
 
     activate(params) {
@@ -22,7 +25,7 @@ export class ContactEdit {
         this.curr_contact = params.curr_contact;
         this.contact_list = params.contact_list;
         if (this.new_contact) return;
-        this.curr_contact_orig = deepClone(this.curr_contact)
+        this.curr_contact_orig = this.misc.deepClone(this.curr_contact)
     }
 
     save() {
@@ -50,6 +53,3 @@ export class ContactEdit {
 
 }
 
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-}

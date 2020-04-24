@@ -86,7 +86,7 @@ export class UploadPhoto {
             this.status_record.photo_info.photo_topics = msg.photo_topics;
             this.status_record.photo_info.photographer_id = msg.photographer_id;
             this.status_record.duplicate = msg.duplicate;
-            this.status_record.old_data = deepClone(this.status_record.photo_info);
+            this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
             let el = document.getElementById('group-photo-area');
             this.photo_height = el.offsetHeight;
             this.update_photo_list();
@@ -175,9 +175,4 @@ export class UploadPhoto {
         this.popup.popup('GALLERY', url, "height=860,width=1700,left=100,top=100");
     }
 
-}
-
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-    //use Object.assign({}, obj) if you don't need a deep clone
 }
