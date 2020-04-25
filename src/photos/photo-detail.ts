@@ -198,8 +198,7 @@ export class PhotoDetail {
             name: this.photo_name,
             photo_id: this.true_photo_id
         };
-        let slide_list = [];  //temporary. the true list must be passed by the caller
-        this.openDialog(slide, slide_list);
+        this.openDialog(slide, this.photo_ids);
     }
 
     go_back() {
