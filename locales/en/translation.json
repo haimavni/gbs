@@ -91,7 +91,8 @@
     "members": {
         "members": "Members",
         "new": "Add ",
-        "filter": "Enter first or last name or nick name, or name of new member",
+        "filter": "Enter first or last name or nick name",
+        "filter-can-add": "Enter first or last name or nick name, or name of new member",
         "clear": "Clear",
         "family-connections": "Family Connections",
         "life-summary": "Life summary of ",

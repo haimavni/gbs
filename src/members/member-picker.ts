@@ -1,4 +1,4 @@
-import { autoinject, inject } from "aurelia-framework";
+import { autoinject, inject, computedFrom } from "aurelia-framework";
 import { User } from "../services/user";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
@@ -30,7 +30,7 @@ export class MemberPicker {
     child_id;
     member_id;
     i18n;
-    agent = {size: 9999}
+    agent = {size: 9999};
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -108,6 +108,13 @@ export class MemberPicker {
                     });
                 });
         }
+    }
+
+    @computedFrom('user.editing')
+    get place_holder() {
+        let key = 'members.filter';
+        if (this.user.editing) key += '-can-add';
+        return this.i18n.tr(key);
     }
 
 }
