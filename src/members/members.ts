@@ -255,7 +255,7 @@ export class Members {
         this.selected_members = new Set();
     }
 
-    @computedFrom('_members', 'relative_list', 'relatives_path')
+    @computedFrom('_members', 'relative_list', 'relatives_path', 'order')
     get members() {
         if (this.relatives_path) {
             return { ignore: true, arr: this.relatives_path }
@@ -263,6 +263,10 @@ export class Members {
         if (this.relative_list) {
             return this.relative_list
         }
+        if (this.order == 'selected;birth_date' || this.order == 'selected;-birth_date') {
+            return this._members.filter(member => member.birth_date != '0001-01-01');
+        }
+
         return this._members;
     }
 
