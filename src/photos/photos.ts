@@ -132,6 +132,7 @@ export class Photos {
             clear_filter_after_select: false,
             can_set_sign: true,
             can_group: true,
+            hide_higher_options: this.selected_photos.size > 0 && this.user.editing,
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             show_untagged: this.user.editing
         });

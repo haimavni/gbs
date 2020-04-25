@@ -35,7 +35,7 @@ export class MultiSelectSettings {
     }
 };
 
-@inject(DOM.Element, I18N, DialogService, User, Theme)
+@inject(DOM.Element, I18N, DialogService, User, Theme, Misc)
 export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];

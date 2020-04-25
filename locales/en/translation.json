@@ -91,6 +91,7 @@
     "members": {
         "members": "Members",
         "new": "Add ",
+        "add-new-member": "Add a new member",
         "filter": "Enter first or last name or nick name",
         "filter-can-add": "Enter first or last name or nick name, or name of new member",
         "clear": "Clear",
