@@ -150,7 +150,7 @@ export class FullSizePhoto {
                 this.photo_info.name = data.name;
                 this.photo_info.photographer = data.photographer;
                 if (!this.photo_info.photographer) {
-                    this.photo_info.photographer = this.i18n.tr('photos.unknown');
+                    this.photo_info.photographer = this.i18n.tr('photos.unknown-photographer');
                 }
                 this.photo_info.photo_date_datespan = data.photo_date_datespan;
                 this.photo_info.photo_date_str = data.photo_date_str;

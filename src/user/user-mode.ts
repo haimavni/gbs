@@ -109,6 +109,10 @@ export class UserMode {
         this.api.call_server('help/load_help_messages_from_csv');
     }
 
+    print_help_messages() {
+        this.api.call_server('help/print_all_messages');
+    }
+
     reindex_words() {
         this.api.call_server('admin/reindex_words');
     }
