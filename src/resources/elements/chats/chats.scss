@@ -1,6 +1,12 @@
 
 div.chatroom {
-
+    width: 320px;
+    &.rtl {
+        direction: rtl;
+    }
+    &.ltr {
+        direction: ltr;
+    }
     div.box {
         overflow-y: auto;
         max-height: 780px;
@@ -35,4 +41,9 @@ div.chatroom {
         margin:0;
     }
 
+}
+
+i.disabled {
+    opacity: 0.5;
+    cursor: no-drop;
 }

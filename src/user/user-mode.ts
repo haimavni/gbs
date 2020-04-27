@@ -102,11 +102,17 @@ export class UserMode {
     }
 
     save_help_messages() {
-        this.api.call_server('help/save_help_messages_to_csv');
+        let target = this.user.privileges.DEVELOPER ? 'system' : '';
+        this.api.call_server('help/save_help_messages_to_csv', { target: target });
     }
 
     load_help_messages() {
-        this.api.call_server('help/load_help_messages_from_csv');
+        this.api.call_server('help/load_help_messages_from_csv')
+            .then(result => this.handle_help_diffs(result));
+    }
+
+    handle_help_diffs(load_response) {
+        //display list of conflicts and let the user enter dual editor to resolve
     }
 
     print_help_messages() {
@@ -174,7 +180,7 @@ export class UserMode {
     }
 
     create_new_app() {
-        this.dialog.open({ viewModel: AddCustomer, lock: true})
+        this.dialog.open({ viewModel: AddCustomer, lock: true })
     }
 
     show_gallery() {

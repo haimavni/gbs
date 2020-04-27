@@ -1,47 +1,49 @@
 <template>
     <require from="./chats.css"></require>
-    <div class="rowxx" dir="${theme.rtltr}" >
+    <div class="row" style="margin:0;" dir="${theme.rtltr}">
         <div class="col-md-4">
         </div>
         <div class="col-md-1" style="padding-top:5px;">
-            <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_left()" disabled.bind="! can_move_left()">
-                <i class="fa fa-chevron-left fa-lg"></i>
+            <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_left()">
+                <i class="fa fa-chevron-left fa-lg ${can_move_left ? '' : 'disabled'}"></i>
             </a>
         </div>
         <div class="col-md-2" style="text-align:center">
             <h3 style="margin-top: 0">${'chats.chats' & t}</h3>
         </div>
-        <div class="col-md-1" if.bind="user.privileges.CHAT_MODERATOR" style="padding-top:5px;">
-            <a href style="padding:0;margin:0;height:32px;float:left;" click.trigger="add_chatroom()">
-                <i class="far fa-2x ${new_chatroom_name_visible ? 'fa-save' : 'fa-plus'}"></i>
+        <div class="col-md-1" style="padding-top:5px;">
+            <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_right()" style="float:left;">
+                <i class="fa fa-chevron-right fa-lg ${can_move_right ? '' : 'disabled'}"></i>
             </a>
         </div>
-        <div class="col-md-2" style="text-align:center" show.bind="new_chatroom_name_visible">
-            <form class="form-horizontal" role="form">
-                <div class="col-md-3" style="margin:5px;">
-                    <input style="font-size: 95%;margin-bottom:3px;float: left;width: 200px;height:28px;" dir="rtl" 
-                        type="text" value.bind="new_chatroom_name" placeholder="enter chatroom name" 
+        <div class="col-md-4" style="text-align:center">
+            <form class="form-horizontal" role="form" onsubmit="return false;">
+                <div if.bind="user.privileges.CHAT_MODERATOR" style="padding-top:0px;margin-right:10px;">
+                    <a href style="padding:0;margin:0;height:32px;float:left;margin-right:6px;padding-top:5px;" click.trigger="add_chatroom()">
+                        <i class="far fa-lg ${new_chatroom_name_visible ? 'fa-save' : 'fa-plus'}"></i>
+                    </a>
+                    <a href style="padding:0;margin:0;height:32px;float:left;padding-top:5px;" 
+                        if.bind="new_chatroom_name_visible"
+                        click.trigger="cancel_add_chatroom()">
+                        <i class="far fa-lg fa-times-circle"></i>
+                    </a>
+                </div>
+                <div style="margin:5px;" show.bind="new_chatroom_name_visible">
+                    <input
+                        style="font-size: 95%;margin-bottom:3px;margin-left:16px;float:left;width: 240px;height:28px;"
+                        dir="rtl" type="text" value.bind="new_chatroom_name" placeholder="enter chatroom name"
                         class="form-control input-small" />
-               </div>
+                </div>
             </form>
         </div>
-        <div class="col-md-1" style="padding-top:5px;">
-            <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_right()" disabled.bind="! can_move_right()" >
-                <i class="fa fa-chevron-right fa-lg"></i>
-            </a>
-        </div>
     </div>
-    <div class="row messages-area" style="margin-left:0px;margin-right:0px;">
-        <div class="col-md-12">
-            <div repeat.for="chatroom of chatrooms">
-                <chatroom 
-                    room_index.bind="$index"
-                    room_number.bind="chatroom.id"
-                    show.bind="first_chatroom_number <= $index && $index < first_chatroom_number + chats_per_page"
-                    onload="room_number=chatroom.id;room_index=$index;read_chatroom()"
-                    class="col-md-3" >
-                </chatroom>
-            </div>
+    <div class="messages-area" style="margin:0px 0px;display:flex;justify-content:flex-start;">
+        <div repeat.for="chatroom of chatrooms">
+            <chatroom room_index.bind="$index" room_number.bind="chatroom.id"
+                show.bind="first_chatroom_number <= $index && $index < first_chatroom_number + chats_per_page"
+                onload="room_number=chatroom.id;room_index=$index;read_chatroom()" class="col-md-3"
+                style="width:inherit;">
+            </chatroom>
         </div>
     </div>
 </template>
