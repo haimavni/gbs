@@ -1,0 +1,37 @@
+<template>
+    <div class="row">
+        Header
+    </div>
+    <div class="row">
+        <div class="col-md-6" innerhtml.bind="fixed_str">
+
+        </div>
+        <div class="col-md-6">
+            <div class="big-story-panel fr-view">
+                <froala-editor value.two-way="story_text" config.bind="{
+                                iconsTemplate: 'font_awesome_5',
+                                toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
+                                        'color', 'fontSize', 'align', 'html'],
+                                fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
+                                imageDefaultDisplay: 'inline',
+                                imageDefaultAlign: 'right',
+                                imageDefaultWidth: 100,
+                                videoDefaultDisplay: 'inline',
+                                videoDefaultAlign: 'left',
+                                VideoDefaultWidth: 160,
+                                charCounterCount: false,
+                                linkAlwaysBlank: true,
+                                language: 'he', heightMin: 400, heightMax: 400,
+                                imageUploadRemoteUrls: false
+                            }">
+                </froala-editor>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        Control buttons
+    </div>
+
+</template>
