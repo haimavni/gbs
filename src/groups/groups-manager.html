@@ -5,7 +5,7 @@
             <h3 class="center" style="margin-left:auto;margin-right:auto;">${'groups.groups-manager' & t}</h3>
         </div>
         <div style="display:flex;margin-left:auto;margin-right:auto;width:1200px;">
-            <div style="height:730px;width:700px;overflow:auto;">
+            <div style="height:730px;width:800px;overflow:auto;">
                 <div class="form-inline" style="margin-bottom:10px;">
                     <div class="form-group">
                         <a href class="btn btn-success" click.delegate="add_or_update_group(null)">
@@ -17,7 +17,7 @@
                             class="form-control" />
                     </div>
                     <div class="form-group">
-                        <letter topic="invitation-to-contribute" mail_body.bind="mail_body" button_text.bind="button_text" params.bind="mail_params"></letter>
+                        <letter topic="invitation-to-contribute" mail_body.bind="params.mail_body" button_text.bind="button_text" params.bind="mail_params"></letter>
                     </div>
                 </div>
                 <table class="table table-striped"
@@ -26,14 +26,12 @@
                     <thead>
                         <tr>
                             <th aut-sort="key: id">ID</th>
-                            <th aut-sort="key: email">${'groups.title' & t}</th>
-                            <th aut-sort="key: first_name">${'groups.description' & t}</th>
+                            <th style="width: 200px;" aut-sort="key: title">${'groups.title' & t}</th>
+                            <th style="width: 250px;" aut-sort="key: description">${'groups.description' & t}</th>
                             <th>${'groups.logo' & t}</th>
-                            <!--<th>Created></th>-->
                             <th>${'groups.edit' & t}</th>
                             <th>${'groups.delete' & t}</th>
                             <th>${'groups.link' & t}</th>
-                            <th>${'groups.send-email' & t}</th>
                             <th>${'groups.contacts' & t}</th>
                         </tr>
                     </thead>
@@ -46,8 +44,8 @@
                                 <form class="form-inline" submit.delegate="upload_logo(item)">
                                     <div class="form-group">
                                         <label for="logo-image-${item.id}" style="margin:0;">
-                                            <img width="32" src.bind="item.logo_url"
-                                                style="padding:0;cursor:pointer;" />
+                                            <img height="20" src.bind="item.logo_url"
+                                                style="padding:0;cursor:pointer;margin-top:6px;" />
                                         </label>
                                         <input style="display:none" type="file" id="logo-image-${item.id}"
                                             accept="image/*" files.bind="item.logo_images">
@@ -58,7 +56,6 @@
                                         </button>
                                 </form>
                             </td>
-                            <!--<td>${item.created}</td>-->
                             <td class="center">
                                 <a href click.delegate="add_or_update_group(item)">
                                     <i class="fas fa-pencil" title="Edit group Data"></i>
@@ -72,13 +69,6 @@
                             <td class="center">
                                 <a href title="Copy link" click.delegate="copy_link(item)">
                                     <i class="far fa-link"></i>
-                                </a>
-                            </td>
-                            <td class="center">
-                                <a class="resp-sharing-button__link"
-                                    href="mailto:?subject=${item.title}&body=${item.mail_url}" target="_blank"
-                                    rel="noopener">
-                                    <i class="far fa-envelope"></i>
                                 </a>
                             </td>
                             <td class="center">
@@ -114,9 +104,9 @@
             </div>
             <div style="width:300px;height:80vh;margin-left:12px;background-color:lightblue;margin-top:8px;"
                 if.bind="curr_group_id">
-                <button type="button" class="btn btn-primary ${mail_body ? '' : 'disabled'}" click.delegate="mail_contacts()"
-                    aubs-tooltip="text.bind:need_to_show;position:top;disabled.bind:mail_body;"
-                    style="width:100%;">${'groups.mail-contacts' & t}</button>
+                <button type="button" class="btn btn-${mail_sent ? 'success' : 'primary'} ${params.mail_body && ! mail_sent ? '' : 'disabled'}" click.delegate="mail_contacts()"
+                    aubs-tooltip="text.bind:need_to_show;position:top;disabled.bind:params.mail_body;"
+                    style="width:100%;">${mail_contacts_caption}</button>
                 <div class="form-inline" style="display:flex;justify-content:space-between;padding: 8px;">
                     <div class="form-group">
                         <a href class="btn btn-success" click.delegate="add_or_update_contact(null)"

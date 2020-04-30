@@ -9,6 +9,7 @@ import { GroupEdit } from './group-edit';
 import { ContactEdit } from './contact-edit';
 import { copy_to_clipboard } from '../services/dom_utils';
 import * as toastr from 'toastr';
+import { timingSafeEqual } from "crypto";
 
 @autoinject()
 export class GroupManager {
@@ -30,8 +31,11 @@ export class GroupManager {
     subscriber;
     group_mail_url;
     contact_list = [];
-    mail_body = "";
+    params = {
+        mail_body: ""
+    }
     need_to_show = "";
+    mail_sent = false;
 
     constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
         this.api = api;
@@ -158,13 +162,14 @@ export class GroupManager {
     }
 
     mail_contacts() {
-        if (!this.mail_body) return;
-        let mail_body = this.mail_body;
+        if (!this.params.mail_body) return;
+        let mail_body = this.params.mail_body;
         if (this.theme.rtltr == 'rtl') {
             mail_body = '<div dir="rtl">' + mail_body + '</div>';
         }
         this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id, mail_body:  mail_body, from_name: this.curr_group.title })
         .then(response => {
+            this.mail_sent = true;
             console.log("response from sending email ", response);
         });
     }
@@ -187,7 +192,16 @@ export class GroupManager {
         } else {
             return {};
         }
-    }    
+    } 
+    
+    @computedFrom('mail_sent')
+    get mail_contacts_caption() {
+        let s = '';
+        if (this.mail_sent) s = 'groups.mail-was-sent'
+        else s = 'groups.mail-contacts';
+        return this.i18n.tr(s);
+    }
+
 
 }
 

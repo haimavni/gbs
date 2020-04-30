@@ -460,6 +460,7 @@
         "add-contact": "Add contact",
         "contact-details": "Contact details",
         "mail-contacts": "Send email to group contacts",
+        "mail-was-sent": "Mail was sent to the contacts",
         "edit-letter": "Display / edit the letter",
         "edit-letter-template": "Edit letter template",
         "the-link": "the link",
