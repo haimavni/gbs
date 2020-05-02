@@ -1,4 +1,4 @@
-import { bindable, autoinject, singleton, bindingMode } from 'aurelia-framework';
+import { bindable, inject, DOM, singleton, bindingMode } from 'aurelia-framework';
 import { User } from '../../services/user';
 import { MemberGateway } from '../../services/gateway';
 import { Theme } from '../../services/theme';
@@ -7,62 +7,101 @@ import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Misc } from '../../services/misc';
 
-@autoinject()
+@inject(DOM.Element, User, MemberGateway, DialogService, EventAggregator, Theme, Misc)
 @singleton()
 export class LetterCustomElement {
     @bindable topic;
     user;
     api;
     theme;
-    @bindable position = 'top';
+    @bindable editing_template;
     @bindable params = {};
-    @bindable button_text = 'groups.edit-letter';
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) mail_body;
+    @bindable edit_template_button_text = 'groups.edit-letter-template';
+    @bindable view_letter_button_text = 'groups.view-letter';
+    @bindable edit_letter_button_text = 'groups.edit-letter';
+    @bindable send_letter_button_text = 'groups.send-letter';
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) mail_body = '';
+    letter_template = '';
     story_info;
     dialog;
     eventAggregator;
     misc;
+    element;
+    sending_enabled = false;
+    mail_sent = false;
 
-    constructor(user: User, api: MemberGateway, dialog: DialogService, eventAggregator: EventAggregator, theme: Theme, misc: Misc) {
+    constructor(element, user: User, api: MemberGateway, dialog: DialogService, eventAggregator: EventAggregator, theme: Theme, misc: Misc) {
+        this.element = element;
         this.user = user;
         this.api = api;
         this.theme = theme;
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
-        this.eventAggregator.subscribe('EditModeChange', payload => this.refresh())
         this.misc = misc;
     }
 
-    refresh() {
-        let topic = this.topic;
-        return this.api.call_server('letters/get_letter', { topic: topic })
+    attached() {
+        this.load_letter_template();
+        if (!this.editing_template) this.apply_params();
+    }
+
+    load_letter_template() {
+        return this.api.call_server('letters/get_letter', { topic: this.topic })
             .then(response => {
                 this.story_info = response.story_info;
-                if (this.misc.empty_object(this.params)) return;
-                let story_text = this.story_info.story_text;
-                story_text = this.misc.extrapolate(story_text, this.params);
-                this.story_info.story_text = story_text;
-                this.mail_body = story_text;
+                this.letter_template = this.story_info.story_text;
             })
     }
 
-    attached() {
-        this.refresh();
+    apply_params() {
+        this.mail_body = this.misc.extrapolate(this.letter_template, this.params);
+    }
+
+    edit_letter_template(event) {
+        event.stopPropagation();
+        this.load_letter_template()
+            .then(response => {
+                this.theme.hide_title = true;
+                this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: true, dont_save: false, raw: true }, lock: true }).whenClosed(response => {
+                    this.mail_body = '';
+                    this.theme.hide_title = false;
+                })
+            })
+    }
+
+    edit_or_view(event, edit) {
+        event.stopPropagation();
+        if (!this.mail_body) this.apply_params();
+        if (!this.theme.is_desktop) return;
+        this.theme.hide_title = true;
+        this.story_info.story_text = this.mail_body;
+        this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: edit, dont_save: true, raw: true }, lock: edit }).whenClosed(response => {
+            this.mail_body = response.output.edited_text;
+            this.theme.hide_title = false;
+        });
+
     }
 
     edit_letter(event) {
+        this.edit_or_view(event, true);
+    }
+
+    view_letter(event) {
+        this.edit_or_view(event, false);
+    }
+
+    send_letter(event) {
         event.stopPropagation();
-        this.refresh().then(response => {
-            if (!this.theme.is_desktop) return;
-            let edit = event.ctrlKey || this.misc.empty_object(this.params);
-            this.theme.hide_title = true;
-            let no_params = this.misc.empty_object(this.params);
-            this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: edit, dont_save: !no_params, raw: true }, lock: edit }).whenClosed(response => {
-                this.mail_body = this.story_info.story_text;
-                this.theme.hide_title = false;
-            });
+        this.dispatch_event('send');
+
+    }
+
+    dispatch_event(what) {
+        let event = new CustomEvent(what, {
+            bubbles: true
         });
+        this.element.dispatchEvent(event);
+        this.mail_sent = true;
     }
 
 }
-

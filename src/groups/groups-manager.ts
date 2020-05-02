@@ -161,6 +161,10 @@ export class GroupManager {
         }
     }
 
+    send_the_letter() {
+        this.mail_contacts();
+    }
+
     mail_contacts() {
         if (!this.params.mail_body) return;
         let mail_body = this.params.mail_body;
@@ -192,7 +196,12 @@ export class GroupManager {
         } else {
             return {};
         }
-    } 
+    }
+    
+    @computedFrom('curr_group_id')
+    get editing_template() {
+        return ! this.curr_group_id;
+    }
     
     @computedFrom('mail_sent')
     get mail_contacts_caption() {

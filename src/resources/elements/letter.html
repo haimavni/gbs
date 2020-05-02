@@ -1,6 +1,16 @@
 <template>
-    <button class="btn btn-info"
-        click.delegate="edit_letter($event)">
-        ${button_text & t}
-    </button>
+    <div style="display:flex;margin-right:8px">
+        <button if.bind="editing_template" class="btn btn-info" click.delegate="edit_letter_template($event)" style="margin-left:2px;margin-right:2px;">
+            ${edit_template_button_text & t}
+        </button>
+        <button if.bind="!editing_template" class="btn btn-info" click.delegate="view_letter($event)" style="margin-left:2px;margin-right:2px;">
+            ${view_letter_button_text & t}
+        </button>
+        <button if.bind="!editing_template" class="btn btn-info" click.delegate="edit_letter($event)" style="margin-left:2px;margin-right:2px;">
+            ${edit_letter_button_text & t}
+        </button>
+        <button if.bind="!editing_template" class="btn btn-${mail_sent ? 'success' : 'primary'}" disabled.bind="mail_body ? '' : 'disabled'" click.delegate="send_letter($event)" style="margin-left:2px;margin-right:2px;">
+            ${send_letter_button_text & t}
+        </button>
+    </div>
 </template>

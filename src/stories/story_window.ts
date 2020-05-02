@@ -55,13 +55,16 @@ export class StoryWindow {
         if (! this.dirty_story) {
             return;
         }
-        if (this.dont_save) return;
         let data = { user_id: this.user.id };
         if (this.story.editable_preview) {
             this.story.preview = this.story_text
         } else {
             this.story.story_text = this.story_text;
         }
+        if (this.dont_save) {
+            this.dialogController.ok({edited_text: this.story.story_text});
+            return;
+        };
         data['story_info'] = this.story;
         this.api.call_server_post('members/save_story_info', data)
             .then(response => {
