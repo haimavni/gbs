@@ -141,7 +141,7 @@ export class MemberGateway {
         return this.call_server('photos/get_photo_detail', photo);
     }
 
-    uploadFiles(user_id, fileList, what, info={}) {
+    uploadFiles(user_id, fileList, what, info = {}) {
         let This = this;
         let n = fileList.length;
         let uploaded_file_ids = [];
@@ -177,18 +177,15 @@ export class MemberGateway {
 
     upload(payload, what) {
         payload = JSON.stringify(payload);
-        if (what == 'PHOTOS')
-            return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload })
-        else if (what == 'DOCS')
-            return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
-        else if (what == 'AUDIOS')
-            return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload })
-        else if (what == 'LOGO')
-            return this.httpClient.fetch(`groups/upload_logo`, { method: 'POST', body: payload})
-        else if (what == 'APPLOGO')
-            return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload})
-        else if (what == 'PHOTO')
-            return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload})
+        switch (what) {
+            case 'PHOTOS': return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload });
+            case 'DOCS': return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
+            case 'AUDIOS': return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload });
+            case 'GROUP-LOGO': return this.httpClient.fetch(`groups/upload_logo`, { method: 'POST', body: payload });
+            case 'APPLOGO': return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload });
+            case 'PHOTO': return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload });
+            case 'CONTACTS': return this.httpClient.fetch(`groups/upload_contacts`, { method: 'POST', body: payload });
+        }
     }
 
     get_constants() {
@@ -205,7 +202,7 @@ export class MemberGateway {
             .then(data => {
                 let ws = data.ws;
                 listener = this.web2py_websocket(ws, this.handle_ws_message);
-                if (! listener) {
+                if (!listener) {
                     alert("html5 websocket not supported by your browser, try Google Chrome");
                 };
                 if (group == this.constants.ptp_key) {

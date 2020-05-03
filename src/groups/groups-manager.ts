@@ -29,6 +29,7 @@ export class GroupManager {
     ];
     user;
     subscriber;
+    subscriber1;
     group_mail_url;
     contact_list = [];
     params = {
@@ -36,6 +37,7 @@ export class GroupManager {
     }
     need_to_show = "";
     mail_sent = false;
+    csv_list = [];
 
     constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
         this.api = api;
@@ -57,12 +59,17 @@ export class GroupManager {
             group.logo_url = msg.logo_url;
             group.logo_images = null;
         });
+        this.subscriber1 = this.ea.subscribe('CONTACTS-FILE-UPLOADED', msg => {
+            this.get_contact_list();
+            this.csv_list = [];
+        })
     }
 
     detached() {
         this.theme.hide_title = false;
         this.theme.hide_menu = false;
         this.subscriber.dispose();
+        this.subscriber1.dispose();
     }
 
     get_group_list() {
@@ -111,6 +118,16 @@ export class GroupManager {
         });
     }
 
+    upload_contacts() {
+        this.api.uploadFiles(
+            this.user.id,
+            this.csv_list,
+            'CONTACTS',
+            { group_id: this.curr_group_id }
+        )
+
+    }
+
     remove_contact(contact_data) {
         this.api.call_server('groups/remove_contact', { group_id: this.curr_group_id, contact_id: contact_data.id })
             .then(result => {
@@ -123,7 +140,7 @@ export class GroupManager {
         this.api.uploadFiles(
             this.user.id,
             group.logo_images,
-            'LOGO',
+            'GROUP-LOGO',
             { group_id: group.id }
         )
     }
@@ -171,11 +188,11 @@ export class GroupManager {
         if (this.theme.rtltr == 'rtl') {
             mail_body = '<div dir="rtl">' + mail_body + '</div>';
         }
-        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id, mail_body:  mail_body, from_name: this.curr_group.title })
-        .then(response => {
-            this.mail_sent = true;
-            console.log("response from sending email ", response);
-        });
+        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id, mail_body: mail_body, from_name: this.curr_group.title })
+            .then(response => {
+                this.mail_sent = true;
+                this.curr_group_id = 0;
+            });
     }
 
     @computedFrom('curr_group_id')
@@ -187,22 +204,23 @@ export class GroupManager {
     @computedFrom('curr_group_id')
     get mail_params() {
         if (this.curr_group_id) {
+            this.params.mail_body = "";
             let url = `${location.host}${location.pathname}#/upload-photo/${this.curr_group_id}/*`;
             if (url.startsWith('localhost'))
                 url = `https://gbstories.org/gbs_crossing/static/aurelia//index-gbs_crossing.html#/upload-photo/${this.curr_group_id}/*`
             let label = this.i18n.tr('groups.the-link')
             let link = `<a href="${url}" target="_blank">${label}</a>`
-            return {group_name: this.curr_group.title, group_description: this.curr_group.description, link:link }
+            return { group_name: this.curr_group.title, group_description: this.curr_group.description, link: link }
         } else {
             return {};
         }
     }
-    
+
     @computedFrom('curr_group_id')
     get editing_template() {
-        return ! this.curr_group_id;
+        return !this.curr_group_id;
     }
-    
+
     @computedFrom('mail_sent')
     get mail_contacts_caption() {
         let s = '';

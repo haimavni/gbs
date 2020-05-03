@@ -458,6 +458,8 @@
         "explain-dates-range": "<b>Date ranges: </b>Dates resolution may be years, months or days. Enter base date as accurate as you know, then select the end date from the drop down menu.",
         "contacts": "Cotacts",
         "add-contact": "Add contact",
+        "upload-contacts": "Upload Contacts",
+        "upload-now": "Send it",
         "contact-details": "Contact details",
         "mail-contacts": "Send email to group contacts",
         "mail-was-sent": "Mail was sent to the contacts",
