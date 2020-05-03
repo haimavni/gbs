@@ -6,13 +6,15 @@ import { StoryWindow } from '../../stories/story_window';
 import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Misc } from '../../services/misc';
+import { I18N } from 'aurelia-i18n';
 
-@inject(DOM.Element, User, MemberGateway, DialogService, EventAggregator, Theme, Misc)
+@inject(DOM.Element, User, MemberGateway, DialogService, EventAggregator, Theme, Misc, I18N)
 @singleton()
 export class LetterCustomElement {
     @bindable topic;
     user;
     api;
+    i18n;
     theme;
     @bindable editing_template;
     @bindable params = {};
@@ -29,8 +31,9 @@ export class LetterCustomElement {
     element;
     sending_enabled = false;
     mail_sent = false;
+    need_to_show;
 
-    constructor(element, user: User, api: MemberGateway, dialog: DialogService, eventAggregator: EventAggregator, theme: Theme, misc: Misc) {
+    constructor(element, user: User, api: MemberGateway, dialog: DialogService, eventAggregator: EventAggregator, theme: Theme, misc: Misc, i18n: I18N) {
         this.element = element;
         this.user = user;
         this.api = api;
@@ -38,6 +41,8 @@ export class LetterCustomElement {
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
         this.misc = misc;
+        this.i18n = i18n;
+        this.need_to_show = this.i18n.tr('groups.need-to-show');
     }
 
     attached() {
@@ -92,6 +97,7 @@ export class LetterCustomElement {
 
     send_letter(event) {
         event.stopPropagation();
+        if (!this.mail_body) return;
         this.dispatch_event('send');
 
     }

@@ -9,7 +9,6 @@ import { GroupEdit } from './group-edit';
 import { ContactEdit } from './contact-edit';
 import { copy_to_clipboard } from '../services/dom_utils';
 import * as toastr from 'toastr';
-import { timingSafeEqual } from "crypto";
 
 @autoinject()
 export class GroupManager {
