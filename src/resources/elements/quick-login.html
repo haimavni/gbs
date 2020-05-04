@@ -1,0 +1,44 @@
+<template>
+    <div class="centered-form" dir="${theme.rtltr}" style="background-color:lightgray;padding-top:0px;">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group" if.bind="user_id < 0">
+                        <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
+                            value.bind="loginData.email" t="[placeholder]user.email-address">
+                    </div>
+                    <button id="login-button" if.bind="user_id < 0" class="btn btn-primary btn-block ${login_phase}"
+                        disabled="${loginData.email ? '' : 'disabled'}" click.trigger="attempt_login()">
+                        ${"groups.login" & t}
+                    </button>
+                    <div if.bind="login_phase=='registering'">
+                        <p>
+                            ${'groups.explain-registration' & t}
+                        </p>
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" class="form-control input-sm"
+                                value.bind="loginData.password" t="[placeholder]user.password">
+                        </div>
+                        <div class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
+                            <input type="password" name="confirm_password" id="password" class="form-control input-sm"
+                                value.bind="loginData.confirm_password" t="[placeholder]user.confirm-password">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="first_name" id="first_name" class="form-control input-sm"
+                                value.bind="loginData.first_name" t="[placeholder]user.first-name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="last_name" id="last_name" class="form-control input-sm"
+                                value.bind="loginData.last_name" t="[placeholder]user.last-name">
+                        </div>
+                        <button name="register" click.trigger="do_register()" class="btn btn-info btn-block"
+                            disabled.bind="missing_fields">
+                            ${"user.register" & t}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</template>
