@@ -114,11 +114,16 @@
                     <i class="fab fa-twitter"></i>&nbsp;&nbsp;Twitter
                 </a>
             </li>
-            <li>
+            <li style="border-bottom:solid 1px gray;">
                 <!-- Sharingbutton E-Mail -->
                 <a class="resp-sharing-button__link" href="mailto:?subject=${sharing_subject}&body=${current_url4mail}"
                     target="_blank" rel="noopener">
                     <i class="far fa-envelope"></i>&nbsp;&nbsp;Mail
+                </a>
+            </li>
+            <li>
+                <a class="resp-sharing-button__link" href="#" click.delegate="notify_link_copied()" >
+                    <i class="far fa-link"></i>&nbsp;&nbsp;Copy link
                 </a>
             </li>
         </ul>

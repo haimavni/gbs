@@ -11,6 +11,7 @@ import { copy_to_clipboard } from '../services/dom_utils';
 import { Customize } from '../admin/customize';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
+import * as toastr from 'toastr';
 
 @autoinject()
 export class UserMode {
@@ -66,6 +67,7 @@ export class UserMode {
         }
         this.current_url = encodeURIComponent(url);
         this.current_url4mail = encodeURIComponent(url4mail);
+        copy_to_clipboard(url)
     }
 
     toggle_edit_mode() {
@@ -185,5 +187,9 @@ export class UserMode {
 
     show_gallery() {
         this.router.navigateToRoute('gallery', {})
+    }
+
+    notify_link_copied() {
+        toastr.success("Link was copied")
     }
 }

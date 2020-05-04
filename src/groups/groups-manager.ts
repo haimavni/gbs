@@ -208,6 +208,9 @@ export class GroupManager {
             let url = `${location.host}${location.pathname}#/upload-photo/${this.curr_group_id}/*`;
             if (url.startsWith('localhost'))
                 url = `https://gbstories.org/gbs_crossing/static/aurelia//index-gbs_crossing.html#/upload-photo/${this.curr_group_id}/*`
+            else {
+                url = 'https://' + url;
+            }
             let label = this.i18n.tr('groups.the-link')
             let link = `<a href="${url}" target="_blank">${label}</a>`
             return { group_name: this.curr_group.title, group_description: this.curr_group.description, link: link }
