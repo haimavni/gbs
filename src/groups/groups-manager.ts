@@ -188,7 +188,7 @@ export class GroupManager {
             mail_body = '<div dir="rtl">' + mail_body + '</div>';
         }
         mail_body = encodeURI(mail_body);
-        this.api.call_server('groups/mail_contacts', { group_id: this.curr_group_id, mail_body: mail_body, from_name: this.curr_group.title })
+        this.api.call_server_post('groups/mail_contacts', { group_id: this.curr_group_id, mail_body: mail_body, from_name: this.curr_group.title })
             .then(response => {
                 this.mail_sent = true;
                 this.curr_group_id = 0;
