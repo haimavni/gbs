@@ -81,7 +81,9 @@ export class LetterCustomElement {
         this.theme.hide_title = true;
         this.story_info.story_text = this.mail_body;
         this.dialog.open({ viewModel: StoryWindow, model: { story: this.story_info, edit: edit, dont_save: true, raw: true }, lock: edit }).whenClosed(response => {
-            this.mail_body = response.output.edited_text;
+            if (response.output) {
+                this.mail_body = response.output.edited_text;
+            }
             this.theme.hide_title = false;
         });
 
