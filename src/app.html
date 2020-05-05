@@ -1,9 +1,9 @@
-<template data-analytics-category data-analytics-action data-analytics-label data-analytics-value>
+<template data-analytics-category data-analytics-action data-analytics-label data-analytics-value class="unselectable">
     <require from="styles.css"></require>
     <require from="toastr/build/toastr.min.css"></require>
 
     <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" dir="${theme.rtltr}">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" if.bind="! theme.hide_menu">
+        <nav class="navbar navbar-default navbar-fixed-top unselectable" role="navigation" if.bind="! theme.hide_menu">
             <div class="navbar-main" style="position: relative;">
                 <div class="nav-items unselectable" 
                     id="nav-items"

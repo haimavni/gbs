@@ -18,10 +18,16 @@ export class ChatButtonCustomElement {
 
     @computedFrom('user.isLoggedIn', 'chatroom_id')
     get can_chat() {
-        return this.user.privileges.EDITOR && this.user.isLoggedIn || this.chatroom_id;
+        return true; //this.user.isLoggedIn || this.chatroom_id;
     }
 
-    async chat() {
+    @computedFrom('chatroom_id')
+    get icon_class() {
+        return this.chatroom_id ? 'fas' : 'far';
+    }
+
+    async chat(event) {
+        event.stopPropagation();
         let n = 0;
         if (!this.chatroom_id) {
             this.dispatch_new_chatroom_event();

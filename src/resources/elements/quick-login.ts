@@ -1,6 +1,6 @@
 import { DialogController } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { autoinject, computedFrom, bindable } from 'aurelia-framework';
 import { MemberGateway } from '../../services/gateway';
 import { User } from "../../services/user";
 import { Theme } from "../../services/theme";
@@ -9,16 +9,17 @@ import { Cookies } from '../../services/cookies';
 
 @autoinject()
 export class QuickLogin {
+    @bindable explanation;
+    @bindable explain_registration;
     controller;
     api;
-    user;
+    user: User;
     theme;
     i18n;
     loginData = { email: '', password: '', first_name: '', last_name: "", confirm_password: "" };
     login_failed: boolean = false;
     message: string = "";
     message_type: string = "";
-    status_record;
     NOT_REGISTERING = 0;
     REGISTERING = 1;
     REGISTERING_DONE = 2;
@@ -27,6 +28,7 @@ export class QuickLogin {
     new_user = false;
     cookies: Cookies;
     misc;
+    started = false;
 
     constructor(controller: DialogController, api: MemberGateway, user: User,
         theme: Theme, cookies: Cookies, i18n: I18N, misc: Misc) {
@@ -39,27 +41,29 @@ export class QuickLogin {
         this.cookies = cookies;
     }
 
-    activate(params) {
-        this.status_record = params;
-        this.user.editing = true;
+    attached() {
         this.loginData.email = this.cookies.get('USER-EMAIL');
+        if (this.user.isLoggedIn) {
+            this.user_id = this.user.id;
+        }
     }
 
     attempt_login() {
-        this.api.call_server('groups/attempt_login', { email: this.loginData.email })
+        this.user.login({ email: this.loginData.email, sneak_in: true })
             .then(response => {
-                this.user_id = response.user_id;
-                this.new_user = this.user_id == 0;
-                this.cookies.put('USER-EMAIL', this.loginData.email);
-            })
+                this.user_id = this.user.id;
+                if (this.user_id) {
+                    this.cookies.put('USER-EMAIL', this.loginData.email);
+                }
+                this.new_user = !this.user_id;
+
+            });
     }
 
     do_register() {
         this.api.call_server('groups/register_user', this.loginData)
             .then(response => {
-                this.user_id = response.user_id;
-                this.new_user = false;
-                //this.status_record.is_logged_in = true;
+                this.attempt_login();
             })
     }
 
@@ -70,12 +74,11 @@ export class QuickLogin {
         return 'disabled'
     }
 
-    @computedFrom('user_id', 'loginData.email', 'new_user')
+    @computedFrom('user_id', 'loginData.email', 'new_user', 'started')
     get login_phase() {
+        if (!this.started) return 'init';
         if (this.loginData.email) {
             if (this.user_id > 0) {
-                this.status_record.is_logged_in = true;
-                this.status_record.user_id = this.user_id;
                 return 'is_logged-in';
             } else {
                 if (this.new_user) return 'registering';
@@ -83,6 +86,17 @@ export class QuickLogin {
             }
         }
         return 'init';
+    }
+
+    open_dialog() {
+        this.started = true;
+    }
+
+    @computedFrom('user.isLoggedIn')
+    get is_logged_in() {
+        if (!this.user.isLoggedIn)
+            this.started = false;
+        return 'bla';
     }
 
 }

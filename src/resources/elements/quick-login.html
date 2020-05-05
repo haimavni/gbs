@@ -1,19 +1,23 @@
 <template>
     <div class="centered-form" dir="${theme.rtltr}" style="background-color:lightgray;padding-top:0px;">
-        <div class="panel panel-default">
-            <div class="panel-body">
+        <div class="panel panel-default" if.bind="! user.isLoggedIn">
+            <button if.bind="login_phase=='init'" class="btn btn-primary btn-block" click.delegate="open_dialog()">
+                ${explanation & t}
+            </button>
+            <div class="panel-body" if.bind="login_phase != 'init'">
                 <form role="form">
-                    <div class="form-group" if.bind="user_id < 0">
+                    <div class="form-group" if.bind="login_phase=='attempting'">
                         <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
                             value.bind="loginData.email" t="[placeholder]user.email-address">
                     </div>
-                    <button id="login-button" if.bind="user_id < 0" class="btn btn-primary btn-block ${login_phase}"
-                        disabled="${loginData.email ? '' : 'disabled'}" click.trigger="attempt_login()">
+                    <button id="login-button" if.bind="login_phase=='attempting'"
+                        class="btn btn-primary btn-block ${login_phase}" disabled="${loginData.email ? '' : 'disabled'}"
+                        click.trigger="attempt_login()">
                         ${"groups.login" & t}
                     </button>
                     <div if.bind="login_phase=='registering'">
                         <p>
-                            ${'groups.explain-registration' & t}
+                            ${explain_registration & t}
                         </p>
                         <div class="form-group">
                             <input type="password" name="password" id="password" class="form-control input-sm"
@@ -38,6 +42,9 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div show.bind="false">
+            ${is_logged_in}
         </div>
     </div>
 

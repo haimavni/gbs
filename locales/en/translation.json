@@ -235,7 +235,9 @@
         "chats": "Chats",
         "enter-your-message": "Enter your message",
         "enter-search-words": "Search words",
-        "send-message": "Send"
+        "send-message": "Send",
+        "to-participate": "In order to participate click here",
+        "explain-registration": "One-time registration is needed to become active"
     },
     "photos": {
         "photos": "Photos",

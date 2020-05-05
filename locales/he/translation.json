@@ -234,7 +234,9 @@
         "chats": "קבוצות דיון",
         "enter-your-message": "הקלד את הודעתך",
         "enter-search-words": "מילות חיפוש",
-        "send-message": "שלח"
+        "send-message": "שלח",
+        "to-participate": "הקלק כאן כדי להשתתף",
+        "explain-registration": "כדי להשתתף בדיונים יש לבצע הרשמה חד-פעמית"
     },
     "photos": {
         "photos": "תמונות",

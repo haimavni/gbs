@@ -1,13 +1,14 @@
 <template>
 
-    <div class="content-area photo-detail">
+    <div class="content-area photo-detail unselectable">
         <div class="detail-header">
             <h3 style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
-                <i class="far fa-arrow-up fa-rotate-90 ${next_class}" t="[title]photos.next-slide" click.trigger="go_next($event)"
-                    if.bind="photo_ids.length > 1"></i>
+                <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()" style="font-size:large;"></chat-button>
+                <i class="far fa-arrow-up fa-rotate-90 ${next_class}" t="[title]photos.next-slide"
+                    click.trigger="go_next($event)" if.bind="photo_ids.length > 1"></i>
                 <i class="far fa-arrow-up" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
-                <i class="far fa-arrow-up fa-rotate-270 ${prev_class}" t="[title]photos.prev-slide" click.trigger="go_prev($event)"
-                    if.bind="photo_ids.length > 1"></i>
+                <i class="far fa-arrow-up fa-rotate-270 ${prev_class}" t="[title]photos.prev-slide"
+                    click.trigger="go_prev($event)" if.bind="photo_ids.length > 1"></i>
             </h3>
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${photo_story.name}
@@ -16,7 +17,6 @@
                 class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"
                 t="[title]stories.highlight-on">
             </button>
-            <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()"></chat-button>
         </div>
         <div class="row">
             <div class="col-md-7" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
@@ -25,8 +25,7 @@
                 <span dir="${theme.rtltr}" if.bind="photographer_name">${'photos.photographer-name' & t}:
                     ${photographer_name}</span>
                 <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing"
-                    base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true"
-                    enable_days_range.bind="true"
+                    base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true" enable_days_range.bind="true"
                     span_size.bind="photo_date_datespan" range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
                     change.delegate="update_photo_date($event)">
                 </date-range>
@@ -49,7 +48,8 @@
                                         style="position:relative;height:70vh;margin-right:16px;overflow:auto;">
                                         <p class="${story_dir} ${highlight_on}">
                                             <compose if.bind="photo_story.story_text"
-                                                view-model='../stories/render-story' model.bind="{html:highlightedHtml}">
+                                                view-model='../stories/render-story'
+                                                model.bind="{html:highlightedHtml}">
                                             </compose>
                                         </p>
                                     </div>
@@ -72,8 +72,7 @@
                                         <help if.bind="phase=='photos-not-editing'" topic="tags"
                                             position="${theme.is_desktop ? 'bottom' : 'right'}"
                                             style="position:absolute;left:2px;top:2px;"></help>
-                                        <multi-select options.bind="topic_list"
-                                            category="topic"
+                                        <multi-select options.bind="topic_list" category="topic"
                                             selected_options.bind="params.selected_topics"
                                             first_time.bind="no_topics_yet" option_groups.bind="topic_groups"
                                             new-name.delegate="add_topic($event)" settings.bind="options_settings"
@@ -84,8 +83,7 @@
                                     <div class="multi-select-div">
                                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
                                             ${'photos.photographers' & t}</div>
-                                        <multi-select options.bind="photographer_list"
-                                            category="photographer"
+                                        <multi-select options.bind="photographer_list" category="photographer"
                                             place_holder_text="photos.click-photographer"
                                             selected_options.bind="params.selected_photographers"
                                             settings.bind="photographers_settings"

@@ -26,10 +26,11 @@
                 </form>
             </div>
         </div>
-        <div class="rowxx">
+        <div>
             <div class="col-sm-12" scroll-glue
                 css="padding:10px;height:${theme.height-311}px;overflow:auto;direction:${theme.rtltr};"
                 ref="scroll_area">
+                <quick-login explanation.bind="'chats.to-participate'" explain_registration.bind="'chats.explain-registration'"></quick-login>
                 <ul class="${theme.rtltr}">
                     <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'"
                         class="chat-message">
@@ -48,7 +49,7 @@
                 </ul>
             </div>
         </div>
-        <div class="rowxx" if.bind="! readonly">
+        <div if.bind="user.id > 0">
             <div class="col-md-12" style="padding:0;">
                 <form role="form" style="padding:12px;">
                     <textarea rows="3" t="[placeholder]chats.enter-your-message"

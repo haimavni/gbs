@@ -68,7 +68,7 @@ export class User {
                     let msg = this.i18n.tr('user.' + result.user_error);
                     throw result.user_error
                 }
-                this.isLoggedIn = true;
+                this.isLoggedIn = ! result.unregistered;
                 let keys = Object.keys(result.user);
                 for (let key of keys) {
                     this[key] = result.user[key];
@@ -82,11 +82,8 @@ export class User {
                 this.isLoggedIn = false;
                 this.privileges = {};
                 this.editing = false;
+                this.id = -1;
             })
-    }
-
-    setPrivileges(privileges) {
-        this.privileges = privileges;
     }
 
     reset_password(loginData) {
