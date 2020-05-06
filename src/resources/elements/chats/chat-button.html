@@ -1,5 +1,5 @@
 <template>
-    <button if.bind="can_chat" click.trigger="chat($event)" class="chat-button" t="[title]user.chats">
-        <i class="${icon_class} fa-comments-alt" style="cursor: pointer;"></i>
+    <button if.bind="can_chat" click.trigger="chat($event)" class="chat-button ${empty_class}" t="[title]user.chats">
+        ${caption & t}
     </button>
 </template>

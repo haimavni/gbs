@@ -333,7 +333,8 @@
         "chronological-order": "סדר כרונולוגי",
         "chronological-order-reverse": "סדר כרונולוגי הפוך",
         "edit-face-location": "לעריכת מיקום וגודל המעגל, לחץ על הכפתור הימני של העכבר או גרור את שפת המעגל או את תוכו",
-        "click-to-identify": "הקלק על פרצוף כדי לזהותו"
+        "click-to-identify": "הקלק על פרצוף כדי לזהותו",
+        "add-details": "הוסף פרטים"
     },
     "audios": {
         "audios": "הקלטות",

@@ -2,14 +2,14 @@
 
     <div class="content-area photo-detail unselectable">
         <div class="detail-header">
-            <h3 style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
-                <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()" style="font-size:medium;"></chat-button>
-                <i class="far fa-arrow-up fa-rotate-90 ${next_class}" t="[title]photos.next-slide"
+            <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+                <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'" new-chatroom.delegate="create_chatroom()"></chat-button>
+                <i class="far fa-lg fa-arrow-up fa-rotate-90 ${next_class}" t="[title]photos.next-slide"
                     click.trigger="go_next($event)" if.bind="photo_ids.length > 1"></i>
-                <i class="far fa-arrow-up" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
-                <i class="far fa-arrow-up fa-rotate-270 ${prev_class}" t="[title]photos.prev-slide"
+                <i class="far fa-lg fa-arrow-up" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
+                <i class="far fa-lg fa-arrow-up fa-rotate-270 ${prev_class}" t="[title]photos.prev-slide"
                     click.trigger="go_prev($event)" if.bind="photo_ids.length > 1"></i>
-            </h3>
+            </div>
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${photo_story.name}
             </h3>

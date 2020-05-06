@@ -6,6 +6,7 @@ import { Chat } from '../../../user/chat';
 @inject(DOM.Element, User, DialogService, Chat)
 export class ChatButtonCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) chatroom_id;
+    @bindable caption = 'user.chats';
     user;
     dialog;
     element;
@@ -22,8 +23,9 @@ export class ChatButtonCustomElement {
     }
 
     @computedFrom('chatroom_id')
-    get icon_class() {
-        return this.chatroom_id ? 'fas' : 'far';
+    get empty_class() {
+        let result = this.chatroom_id ? '' : 'empty';
+        return this.chatroom_id ? '' : 'empty';
     }
 
     async chat(event) {

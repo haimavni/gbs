@@ -16,7 +16,7 @@ export class QuickLogin {
     user: User;
     theme;
     i18n;
-    loginData = { email: '', password: '', first_name: '', last_name: "", confirm_password: "" };
+    loginData = { email: null, password: '', first_name: '', last_name: "", confirm_password: "" };
     login_failed: boolean = false;
     message: string = "";
     message_type: string = "";
@@ -42,7 +42,7 @@ export class QuickLogin {
     }
 
     attached() {
-        this.loginData.email = this.cookies.get('USER-EMAIL');
+        this.loginData.email = this.cookies.get('USER-EMAIL') || "";
         if (this.user.isLoggedIn) {
             this.user_id = this.user.id;
         }
@@ -77,6 +77,7 @@ export class QuickLogin {
     @computedFrom('user_id', 'loginData.email', 'new_user', 'started')
     get login_phase() {
         if (!this.started) return 'init';
+        if (!this.loginData.email) return 'attempting';
         if (this.loginData.email) {
             if (this.user_id > 0) {
                 return 'is_logged-in';
