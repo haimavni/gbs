@@ -52,6 +52,9 @@ export class ChatroomCustomElement {
         this.listener.then((data) => {
             data.close();
         });
+        if (this.messages.length == 0) {
+             this.api.call_server('chats/disconnect_chatroom', {room_number: this.room_number});
+        }
     }
 
     send_message() {
