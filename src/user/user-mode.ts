@@ -113,6 +113,11 @@ export class UserMode {
             .then(result => this.handle_help_diffs(result));
     }
 
+    save_letter_templates() {
+        let target = this.user.privileges.DEVELOPER ? 'system' : '';
+        this.api.call_server('letters/save_letter_templates_to_csv', { target: target });
+    }
+
     handle_help_diffs(load_response) {
         //display list of conflicts and let the user enter dual editor to resolve
     }
