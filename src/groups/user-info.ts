@@ -41,6 +41,7 @@ export class UserInfo {
     num_text_rows = 3;
     selected_topics = [];
     misc;
+    login_error_message = "";
 
     constructor(controller: DialogController, api: MemberGateway, user: User,
         theme: Theme, cookies: Cookies, i18n: I18N, misc: Misc) {
@@ -92,11 +93,17 @@ export class UserInfo {
     }
 
     attempt_login() {
+        this.login_error_message = "";
         this.api.call_server('groups/attempt_login', { email: this.loginData.email })
             .then(response => {
-                this.user_id = response.user_id;
-                this.new_user = this.user_id == 0;
-                this.cookies.put('USER-EMAIL', this.loginData.email);
+                if (response.warning_message) {
+                    this.login_error_message = 'user.' + response.warning_message;
+                    this.new_user = true;
+                } else {
+                    this.user_id = response.user_id;
+                    this.new_user = this.user_id == 0;
+                    this.cookies.put('USER-EMAIL', this.loginData.email);
+                }
             })
     }
 
@@ -188,7 +195,7 @@ export class UserInfo {
     get dummy() {
         this.init_selected_topics();
         this.init_photographer();
-        return false 
+        return false
     }
 
     init_photographer() {

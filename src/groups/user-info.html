@@ -11,12 +11,15 @@
                             <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
                                 value.bind="loginData.email" t="[placeholder]user.email-address">
                         </div>
+                        <div if.bind="login_error_message" class="warning">
+                            ${login_error_message & t}
+                        </div>
                         <button id="login-button" if.bind="user_id < 0" class="btn btn-primary btn-block ${login_phase}"
                             disabled="${loginData.email ? '' : 'disabled'}" click.trigger="attempt_login()">
                             ${"groups.login" & t}
                         </button>
                         <div if.bind="login_phase=='registering'">
-                            <p>
+                            <p style="margin-top: 8px;">
                                 ${'groups.explain-registration' & t}
                             </p>
                             <div class="form-group">
@@ -72,12 +75,11 @@
                             <div style="margin-top: 0px;margin-bottom:2px;">
                                 ${'stories.categories' & t}
                             </div>
-                            <multi-select options.bind="topic_list" 
-                                category="topic"
-                                selected_options.bind="selected_topics"
-                                first_time.bind="no_topics_yet" option_groups.bind="topic_groups"
-                                new-name.delegate="add_topic($event)" settings.bind="options_settings"
-                                has_groups.bind="has_grouped_topics" place_holder_text="photos.click-topic"
+                            <multi-select options.bind="topic_list" category="topic"
+                                selected_options.bind="selected_topics" first_time.bind="no_topics_yet"
+                                option_groups.bind="topic_groups" new-name.delegate="add_topic($event)"
+                                settings.bind="options_settings" has_groups.bind="has_grouped_topics"
+                                place_holder_text="photos.click-topic"
                                 ms-change.delegate="handle_topic_change($event) ">
                             </multi-select>
                         </div>
