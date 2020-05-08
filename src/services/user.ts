@@ -94,6 +94,7 @@ export class User {
                 if (this.id) {
                     this.isLoggedIn = true;
                 }
+                return response;
             });
     }
 

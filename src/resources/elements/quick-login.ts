@@ -51,10 +51,8 @@ export class QuickLogin {
 
     attempt_login() {
         this.login_error_message = "";
-        this.api.call_server('groups/attempt_login', { email: this.loginData.email })
-        //this.user.login({ email: this.loginData.email, sneak_in: true })
+        this.user.attempt_login(this.loginData)
             .then(response => {
-                console.log("response: ", response);
                 this.user_id = response.user_id;
                 if (this.user_id) {
                     this.user.id = this.user_id;  //bad. move this function to the user service
