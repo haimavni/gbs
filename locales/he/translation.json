@@ -195,7 +195,7 @@
         "upload-files": "העלאת תמונות",
         "cant-send-email": "כתובת דואל לא תקינה",
         "wrong-password": "טעות בסיסמה",
-        "user-not-registered": "אינך רשום עדיין",
+        "user-not-registered": "טעות בהקלדה או שאינך רשום עדיין",
         "cant-send-mail": "כתובת דואל לא תקינה",
         "incomplete-registration": "ההרשמה טרם הושלמה",
         "email-already-exists": "אימייל זה כבר רשום במערכת",

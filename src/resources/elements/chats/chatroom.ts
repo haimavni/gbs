@@ -22,6 +22,7 @@ export class ChatroomCustomElement {
     subscription;
     listener;
     editing = false;
+    was_logged_in = false;
 
     constructor(user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
         this.user = user;
@@ -37,7 +38,7 @@ export class ChatroomCustomElement {
             if (div) break;
             await sleep(10);
         }
-        if (! div) return;
+        if (!div) return;
         setTimeout(() => {
             div.scrollTop = div.scrollHeight; // - div.clientHeight + 150
         }, 10);
@@ -45,6 +46,7 @@ export class ChatroomCustomElement {
 
     attached() {
         this.read_chatroom();
+        this.was_logged_in = this.user.isLoggedIn;
     }
 
     detached() {
@@ -53,12 +55,14 @@ export class ChatroomCustomElement {
             data.close();
         });
         if (this.messages.length == 0) {
-             this.api.call_server('chats/disconnect_chatroom', {room_number: this.room_number});
+            this.api.call_server('chats/disconnect_chatroom', { room_number: this.room_number });
         }
+        if (this.user.isLoggedIn && !this.was_logged_in)
+            this.user.logout();
     }
 
     send_message() {
-        if (! this.user_message) {
+        if (!this.user_message) {
             return;
         }
         this.api.call_server('chats/send_message', { user_message: this.user_message, room_number: this.room_number, room_index: this.room_index, user_id: this.user.id | 2 })
@@ -102,9 +106,8 @@ export class ChatroomCustomElement {
     }
 
     delete_message(msg, index) {
-        console.log("delete ", msg, index);
         this.messages.splice(index, 1);
-        this.api.call_server_post('chats/delete_message', {message: msg})
+        this.api.call_server_post('chats/delete_message', { message: msg })
     }
 
     edit_message(msg, index) {
@@ -116,19 +119,19 @@ export class ChatroomCustomElement {
     save_edited_message(msg) {
         this.edited_message_id = 0;
         msg.message = msg.message.replace(/\n/g, '<br/>');
-        this.api.call_server('chats/update_message', { user_message: msg.message, user_id: this.user.id | 2 , msg_id: msg.id});
+        this.api.call_server('chats/update_message', { user_message: msg.message, user_id: this.user.id | 2, msg_id: msg.id });
     }
 
     @computedFrom('user.isLoggedIn')
     get readonly() {
-        return ! this.user.isLoggedIn;
+        return !this.user.isLoggedIn;
     }
 
     delete_chatroom() {
-        this.api.call_server('chats/delete_chatroom', {room_number: this.room_number})
-        .then(response => {
-            //notify chatroom group to remove it from the list
-        })
+        this.api.call_server('chats/delete_chatroom', { room_number: this.room_number })
+            .then(response => {
+                //notify chatroom group to remove it from the list
+            })
     }
 
     edit_chatroom_name() {
@@ -137,7 +140,7 @@ export class ChatroomCustomElement {
 
     save_chatroom_name() {
         this.editing = false;
-        this.api.call_server('chats/rename_chatroom', {new_chatroom_name: this.chatroom_name, room_number: this.room_number});
+        this.api.call_server('chats/rename_chatroom', { new_chatroom_name: this.chatroom_name, room_number: this.room_number });
     }
 }
 

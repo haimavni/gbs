@@ -6,11 +6,14 @@
             </button>
             <div class="panel-body" if.bind="login_phase != 'init'">
                 <form role="form">
-                    <div class="form-group" if.bind="login_phase=='attempting'">
+                    <div class="form-group" if.bind="login_phase=='attempting' || login_phase=='registering'">
                         <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
                             value.bind="loginData.email" t="[placeholder]user.email-address">
                     </div>
-                    <button id="login-button" if.bind="login_phase=='attempting'"
+                    <div if.bind="login_error_message" class="warning">
+                        ${login_error_message & t}
+                    </div>
+                    <button id="login-button" if.bind="login_phase=='attempting' || login_phase=='registering'"
                         class="btn btn-primary btn-block ${login_phase}" disabled="${loginData.email ? '' : 'disabled'}"
                         click.trigger="attempt_login()">
                         ${"groups.login" & t}
@@ -24,7 +27,7 @@
                                 value.bind="loginData.password" t="[placeholder]user.password">
                         </div>
                         <div class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
-                            <input type="password" name="confirm_password" id="password" class="form-control input-sm"
+                            <input type="password" name="confirm_password" id="password2" class="form-control input-sm"
                                 value.bind="loginData.confirm_password" t="[placeholder]user.confirm-password">
                         </div>
                         <div class="form-group">
@@ -47,5 +50,20 @@
             ${is_logged_in}
         </div>
     </div>
+
+    <style>
+        .warning {
+            border: solid 1px #aa00;
+        }
+        div.options, div.search-filter {
+            width: 100%;
+        }
+        div.warning {
+            width: 100%;
+            height: 32px;
+            padding: 4px 6px;
+            margin-bottom: 12px;
+        }
+    </style>
 
 </template>

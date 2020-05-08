@@ -10,7 +10,7 @@
                         type="text" value.bind="chatroom_name" placeholder="Enter chatroom name"
                         class="form-control input-small" />
                 </div>
-                <div style="cursor:pointer;">
+                <div style="cursor:pointer;margin-left:16px;">
                     <i class="fas fa-trash" if.bind="user.privileges.CHAT_MODERATOR"
                         click.delegate="delete_chatroom()"></i>
                     <i class="fas fa-pencil" if.bind="user.privileges.CHAT_MODERATOR && ! editing"

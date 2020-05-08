@@ -29,6 +29,7 @@ export class QuickLogin {
     cookies: Cookies;
     misc;
     started = false;
+    login_error_message = "";
 
     constructor(controller: DialogController, api: MemberGateway, user: User,
         theme: Theme, cookies: Cookies, i18n: I18N, misc: Misc) {
@@ -49,11 +50,18 @@ export class QuickLogin {
     }
 
     attempt_login() {
-        this.user.login({ email: this.loginData.email, sneak_in: true })
+        this.login_error_message = "";
+        this.api.call_server('groups/attempt_login', { email: this.loginData.email })
+        //this.user.login({ email: this.loginData.email, sneak_in: true })
             .then(response => {
-                this.user_id = this.user.id;
+                console.log("response: ", response);
+                this.user_id = response.user_id;
                 if (this.user_id) {
+                    this.user.id = this.user_id;  //bad. move this function to the user service
+                    this.user.isLoggedIn = true;
                     this.cookies.put('USER-EMAIL', this.loginData.email);
+                } else {
+                    this.login_error_message = 'user.' + response.warning_message;   
                 }
                 this.new_user = !this.user_id;
 

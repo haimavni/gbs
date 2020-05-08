@@ -197,7 +197,7 @@
         "upload-files": "Photos upload",
         "cant-send-email": "Illegal email address",
         "wrong-password": "Wrong password",
-        "user-not-registered": "You are not registered yet",
+        "user-not-registered": "Error in email or not registered yet",
         "cant-send-mail": "Can not send email",
         "incomplete-registration": "Registration was not completed",
         "email-already-exists": "This email already exists",

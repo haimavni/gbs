@@ -86,6 +86,17 @@ export class User {
             })
     }
 
+    attempt_login(loginData) {
+        return this.api.call_server('groups/attempt_login', { email: loginData.email })
+            .then(response => {
+                console.log("response: ", response);
+                this.id = response.user_id;
+                if (this.id) {
+                    this.isLoggedIn = true;
+                }
+            });
+    }
+
     reset_password(loginData) {
         return this.api.call_server('default/reset_password', {email: loginData.email, password: loginData.password});
     }
