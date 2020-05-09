@@ -43,6 +43,7 @@ export class MultiSelectCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) has_groups;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) clear_selections_now;
 
+    @bindable highlight_unselectors;
     @bindable place_holder_text = "";
     @bindable can_edit = true;
     @bindable option_groups = [];  // list looks like [(parent, children)...]

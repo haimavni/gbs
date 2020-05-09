@@ -89,6 +89,7 @@
                             height.bind="220"
                             settings.bind="options_settings"
                             has_groups.bind="has_grouped_topics"
+                            highlight_unselectors.bind="highlight_unselectors"
                             option_groups.bind="topic_groups"
                             ms-change.delegate="handle_topic_change($event)"
                             new-name.delegate="add_topic($event)"
@@ -115,6 +116,7 @@
                             keywords.two-way="keywords"
                             place_holder_text="docs.word-index"
                             height="201"
+                            highlight_unselectors.bind="highlight_unselectors"
                             ms-change.trigger="handle_words_change($event)"
                             settings.bind="words_settings">
                         </multi-select>

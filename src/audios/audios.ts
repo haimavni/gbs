@@ -88,6 +88,7 @@ export class Audios {
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
     no_results = false;
+    highlight_unselectors = "";
     editing_filters = false;
     days_since_upload_options;
 
@@ -113,6 +114,7 @@ export class Audios {
     set_audio_list(audio_list) {
         console.log("audio list: ", audio_list);
         this.no_results = audio_list.length == 0;
+        this.highlight_unselectors = this.no_results ? "warning" : "";
         this.audio_list = audio_list; //.map(v => this.audio_data(v));
         this.length_keeper.len = this.audio_list.length;
         this.editing_filters = false;

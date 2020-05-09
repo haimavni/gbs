@@ -95,6 +95,7 @@ export class Videos {
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
     empty = false;
+    highlight_unselectors = "";
     editing_filters = false;
     no_topics_yet = false;
     no_photographers_yet = false;
@@ -138,6 +139,7 @@ export class Videos {
     set_video_list(video_list) {
         this.video_list = video_list.map(v => this.video_data(v));
         this.empty = this.video_list.length == 0;
+        this.highlight_unselectors = this.empty ? "warning" : "";
         this.length_keeper.len = this.video_list.length;
         this.editing_filters = false;
     }

@@ -62,6 +62,7 @@ export class Docs {
     i18n;
     num_of_docs = 0;
     no_results = false;
+    highlight_unselectors = "";
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
         can_set_sign: true
@@ -176,6 +177,7 @@ export class Docs {
                 //this.doc_list = result.doc_list;
                 this.editing_filters = false;
                 this.no_results = result.no_results;
+                this.highlight_unselectors = this.no_results ? "warning" : "";
                 if (this.no_results) {
                     this.doc_list = [];
                 }

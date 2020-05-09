@@ -73,6 +73,7 @@ export class Stories {
     i18n;
     num_of_stories = 0;
     no_results = false;
+    highlight_unselectors = "";
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
         can_set_sign: true
@@ -271,6 +272,7 @@ export class Stories {
                 this.editing_filters = false;
                 //this.story_list = result.story_list;
                 this.no_results = result.no_results;
+                this.highlight_unselectors = this.no_results ? "warning" : "";
                 if (this.no_results) {
                     this.story_list = [];
                 }

@@ -28,7 +28,7 @@
                                 if.bind="settings.can_set_sign && item.first" t="[title]multi-select.change-sign"
                                 click.delegate="toggle_sign(item.option, $event)">
                             </i>
-                            <i class="far fa-times-circle tool" t="[title]multi-select.unselect"
+                            <i class="far fa-times-circle tool ${highlight_unselectors}" t="[title]multi-select.unselect"
                                 css="margin-left:${item.first ? 0 : settings.can_set_sign ? 36 : 20}px"
                                 click.delegate="unselect_item(item, $index)">
                             </i>

@@ -87,6 +87,7 @@ export class Photos {
     after_upload = false;
     editing_filters = false;
     empty = false;
+    highlight_unselectors = "";
     upload_date_stops = [];
     upload_date_stops_index = 0;
     scroll_area;
@@ -245,6 +246,7 @@ export class Photos {
                     this.upload_date_stops.push(result.last_photo_time)
                 }
                 this.empty = this.photo_list.length == 0;
+                this.highlight_unselectors = this.empty ? "warning" : "";
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }

@@ -36,6 +36,7 @@ export class Terms {
     anchor = -1; //for multiple selections
     editing_filters = false;
     empty = false;
+    highlight_unselectors = "";
 
     constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router) {
         this.api = api;
@@ -55,6 +56,7 @@ export class Terms {
             .then(result => {
                 this.term_list = result.term_list;
                 this.empty = this.term_list.length == 0;
+                this.highlight_unselectors = this.empty ? "warning" : "";
                 this.editing_filters = false;
                 //this.scroll_top = 0;
             });
