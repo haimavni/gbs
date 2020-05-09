@@ -58,7 +58,10 @@ export class User {
 
     checkIfLoggedIn() {
         return this.api.call_server('default/check_if_logged_in')
-            .then(result => { this.isLoggedIn = result.is_logged_in });
+            .then(result => {
+                this.isLoggedIn = result.is_logged_in;
+                this.id=result.user_id;
+             });
     }
 
     login(loginData) {
