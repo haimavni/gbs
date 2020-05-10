@@ -95,7 +95,7 @@ export class FullSizePhoto {
         this.model = model;
         model.final_rotation = 0;
         this.slide = model.slide;
-        this.slide_list = model.slide_list;
+        this.slide_list = model.slide_list || [];
         this.settings = model.settings || {};
         this.baseURL = environment.baseURL;
         this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {

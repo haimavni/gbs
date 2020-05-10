@@ -57,6 +57,7 @@ export class PhotoDetail {
     can_go_backward = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
+        console.log("enter constructor of photo detail")
         this.api = api;
         this.i18n = i18n;
         this.user = user;
@@ -79,15 +80,18 @@ export class PhotoDetail {
             single: true,
             empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
+        console.log("exit constructor of photo detail")
     }
 
     activate(params, config) {
+        console.log("enter activate photo detail");
         this.keywords = params.keywords;
         this.photo_ids = params.photo_ids;
         this.advanced_search = params.search_type == 'advanced';
-        this.what = params.what;
+        this.what = params.what ? params.what : "";
         this.update_topic_list();
         this.get_photo_info(params.id, this.what);
+        console.log("exit activate photo detail");
     }
 
     async set_story(story) {
@@ -98,6 +102,7 @@ export class PhotoDetail {
     }
 
     get_photo_info(photo_id, what) {
+        console.log("enter get photo info");
         return this.api.getPhotoDetail({ photo_id: photo_id, what })
             .then(response => {
                 this.photo_id = photo_id;
@@ -120,6 +125,7 @@ export class PhotoDetail {
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
                 this.calc_photo_width();
+                console.log("exit get photo info")
             });
     }
 
