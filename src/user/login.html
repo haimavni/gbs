@@ -12,11 +12,13 @@
                                 t="[placeholder]user.email-address">
                         </div>
                         <div class="form-group">
-                            <input type="password" name="password" id="password" class="form-control input-sm" value.bind="loginData.password" t="[placeholder]user.password">
+                            <input type="password" name="password" id="password" autocomplete="off" 
+                                class="form-control input-sm" value.bind="loginData.password" t="[placeholder]user.password">
                         </div>
                         <div if.bind="registering">
                             <div class="form-group">
-                                <input type="password" name="confirm_password" id="password" 
+                                <input type="password" name="confirm_password" id="password"
+                                    autocomplete="off"
                                     class="form-control input-sm ${loginData.password != loginData.confirm_password ? 'warning' : ''}" 
                                     value.bind="loginData.confirm_password"
                                     t="[placeholder]user.confirm-password">

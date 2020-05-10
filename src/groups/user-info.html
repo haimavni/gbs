@@ -23,12 +23,12 @@
                                 ${'groups.explain-registration' & t}
                             </p>
                             <div class="form-group">
-                                <input type="password" name="password" id="password" class="form-control input-sm"
+                                <input type="password" name="password" id="password" class="form-control input-sm" autocomplete="off"
                                     value.bind="loginData.password" t="[placeholder]user.password">
                             </div>
                             <div
                                 class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
-                                <input type="password" name="confirm_password" id="password"
+                                <input type="password" name="confirm_password" id="password" autocomplete="off"
                                     class="form-control input-sm" value.bind="loginData.confirm_password"
                                     t="[placeholder]user.confirm-password">
                             </div>

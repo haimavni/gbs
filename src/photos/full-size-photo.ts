@@ -96,19 +96,8 @@ export class FullSizePhoto {
         model.final_rotation = 0;
         this.slide = model.slide;
         this.slide_list = model.slide_list;
-        let idx = this.slide_idx();
-        this.can_go_forward = idx + 1 < this.slide_list.length;
-        this.can_go_backward = idx > 0;
         this.settings = model.settings || {};
         this.baseURL = environment.baseURL;
-        let pid = this.slide[this.slide.side].photo_id;
-        if (!pid) {
-            pid = this.slide.photo_id;
-            console.log("no photo id in ", this.slide.side, " photo id: ", pid);
-        }
-        this.get_faces(pid);
-        this.get_photo_info(pid);
-        this.api.hit('PHOTO', pid);
         this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
             this.dialogController.ok();
         });
@@ -127,8 +116,23 @@ export class FullSizePhoto {
     }
 
     attached() {
+        let idx = this.slide_idx();
+        this.can_go_forward = idx + 1 < this.slide_list.length;
+        this.can_go_backward = idx > 0;
+        let pid = this.slide[this.slide.side].photo_id;
+        if (!pid) {
+            pid = this.slide.photo_id;
+            console.log("no photo id in ", this.slide.side, " photo id: ", pid);
+        }
+        this.get_faces(pid);
+        this.get_photo_info(pid);
+        this.api.hit('PHOTO', pid);
         if (this.user.editing && !this.highlighting)
             this.toggle_highlighting(null);
+    }
+
+    detached() {
+        
     }
 
     get_faces(photo_id) {
