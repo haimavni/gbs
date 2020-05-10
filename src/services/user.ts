@@ -46,6 +46,7 @@ export class User {
                 this.isLoggedIn = result.user_id > 0;
                 this.privileges = result.privileges;
                 this.user_name = result.user_name;
+                this.id = result.user_id;
             });
     }
 
