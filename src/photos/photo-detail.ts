@@ -63,7 +63,6 @@ export class PhotoDetail {
         this.dialog = dialog;
         this.router = router;
         this.options_settings = new MultiSelectSettings
-
             ({
                 hide_higher_options: true,
                 clear_filter_after_select: false,
@@ -173,7 +172,7 @@ export class PhotoDetail {
         customEvent.stopPropagation();
         let event = customEvent.detail;
         let s = typeof event;
-        this.api.call_server('photos/update_photo_date', { photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id });
+        this.api.call_server_post('photos/update_photo_date', { photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id });
     }
 
     private openDialog(slide, slide_list) {
@@ -224,7 +223,7 @@ export class PhotoDetail {
     }
 
     create_chatroom() {
-        this.api.call_server('chats/add_chatroom', { story_id: this.photo_story.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
+        this.api.call_server_post('chats/add_chatroom', { story_id: this.photo_story.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
             .then((data) => {
                 this.chatroom_id = data.chatroom_id;
             });
