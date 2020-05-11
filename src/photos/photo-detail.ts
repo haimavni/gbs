@@ -89,8 +89,8 @@ export class PhotoDetail {
         this.photo_ids = params.photo_ids;
         this.advanced_search = params.search_type == 'advanced';
         this.what = params.what ? params.what : "";
-        this.update_topic_list();
-        this.get_photo_info(params.id);
+        await this.update_topic_list();
+        await this.get_photo_info(params.id);
         await sleep(100);
         console.log("exit activate photo detail");
     }
@@ -168,8 +168,12 @@ export class PhotoDetail {
         } else {
             this.photo_width = this.orig_photo_width / ph;
         }
-        await sleep(100);
-        let el = document.getElementById('photo-box');
+        let el;
+        for (let i=0; i < 50; i++) {
+            el = document.getElementById('photo-box');
+            if (el) break;
+            await sleep(20);
+        }
         let width = el.clientWidth;
         el.style.paddingRight = `${width - this.photo_width - 15}px`;
     }
