@@ -97,7 +97,7 @@ export class PhotoDetail {
     async set_story(story) {
         //black magic to force story text change
         this.photo_story = "";
-        await sleep(10);
+        await sleep(100);
         this.photo_story = story;
     }
 
@@ -105,6 +105,7 @@ export class PhotoDetail {
         console.log("enter get photo info");
         return this.api.getPhotoDetail({ photo_id: photo_id})
             .then(response => {
+                console.log('get photo info 0');
                 this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
                 this.set_story(response.photo_story)
