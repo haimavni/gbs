@@ -96,7 +96,7 @@ export class Stories {
     anchor = -1; //for multiple selections
     story_items = [];
     editing_filters = false;
-    visibility_width = "90%";
+    visibility_width = "100%";
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {

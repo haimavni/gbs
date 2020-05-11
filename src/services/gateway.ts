@@ -140,6 +140,7 @@ export class MemberGateway {
     }
 
     getPhotoDetail(photo) {
+        console.log("get photo info. photo: ", photo);
         return this.call_server('photos/get_photo_detail', photo);
     }
 

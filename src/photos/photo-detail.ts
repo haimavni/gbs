@@ -90,7 +90,7 @@ export class PhotoDetail {
         this.advanced_search = params.search_type == 'advanced';
         this.what = params.what ? params.what : "";
         this.update_topic_list();
-        this.get_photo_info(params.id, this.what);
+        this.get_photo_info(params.id);
         console.log("exit activate photo detail");
     }
 
@@ -101,9 +101,9 @@ export class PhotoDetail {
         this.photo_story = story;
     }
 
-    get_photo_info(photo_id, what) {
+    get_photo_info(photo_id) {
         console.log("enter get photo info");
-        return this.api.getPhotoDetail({ photo_id: photo_id, what })
+        return this.api.getPhotoDetail({ photo_id: photo_id})
             .then(response => {
                 this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
@@ -112,6 +112,7 @@ export class PhotoDetail {
                 this.photographer_name = response.photographer_name;
                 this.photographer_id = response.photographer_id;
                 this.photo_topics = response.photo_topics;
+                console.log('get photo info 1');
                 this.init_selected_topics();
                 this.init_photographer();
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
@@ -119,11 +120,13 @@ export class PhotoDetail {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
                     this.photo_story.story_text = this.i18n.tr('photos.new-story-content');
                 }
+                console.log('get photo info 2');
                 this.photo_date_str = response.photo_date_str;
                 this.photo_date_datespan = response.photo_date_datespan;
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
+                console.log('get photo info 3');
                 this.calc_photo_width();
                 console.log("exit get photo info")
             });
@@ -294,7 +297,7 @@ export class PhotoDetail {
     }
     get_slide_by_idx(idx) {
         let pid = this.photo_ids[idx];
-        this.get_photo_info(pid, this.what);
+        this.get_photo_info(pid);
     }
 
     public go_next(event) {
