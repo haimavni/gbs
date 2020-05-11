@@ -32,11 +32,9 @@ button.face:hover {
     background-color:rgba(0,0,0,0);
     border: none;
     &.help {
-        top: 0px;
         padding:auto;
     }
     &.highlighter {
-        top: 32px;
         color: yellow;
     }
     &.story {

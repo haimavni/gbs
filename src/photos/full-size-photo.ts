@@ -182,7 +182,7 @@ export class FullSizePhoto {
             top: (face.y - face.r) + 'px',
             width: d + 'px',
             height: d + 'px',
-            'background-color': face.action ? "rgba(100, 100,0, 0.8)" : "rgba(0, 0, 0, 0)",
+            'background-color': face.action ? "rgba(100, 100,0, 0.2)" : "rgba(0, 0, 0, 0)",
             cursor: face.moving ? "move" : "hand",
             position: 'absolute',
         };
@@ -314,7 +314,7 @@ export class FullSizePhoto {
         if (!photo_id) {
             photo_id = this.slide.photo_id; //todo: ugly
         }
-        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: this.i18n.tr("photos.unknown"), member_id: 0, left: event.pageX - event.offsetX, top: event.pageY - event.offsetY, action: null };
+        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: this.i18n.tr("photos.unknown"), member_id: 0, action: null };
         this.current_face = face;
         this.faces.push(face);
         this.marking_face_active = true;
@@ -335,7 +335,7 @@ export class FullSizePhoto {
         face.corner = getOffset(el);
         customEvent.stopPropagation();
         let event = customEvent.detail;
-        let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
+        let pt = { x: event.pageX - face.corner.left - 32, y: event.pageY - face.corner.top }; //iThe 32 is probably width of the left toolbar
         let dist = this.distance(face, pt);
         face.action = (dist < face.r - 10) ? "moving" : "resizing";
         face.dist = dist;
@@ -365,6 +365,7 @@ export class FullSizePhoto {
         el.style.width = face_location.width;
         el.style.height = face_location.height;
         el.style.backgroundColor = 'lightblue';
+        el.style.opacity = "0.6";
         if (face.action == 'moving') {
             el.style.cursor = 'all-scroll';
         } else {
