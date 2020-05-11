@@ -61,6 +61,7 @@ export class FullSizePhoto {
     fullscreen_top_margin = 0;
     can_go_forward = false;
     can_go_backward = false;
+    list_of_ids = false;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -97,6 +98,7 @@ export class FullSizePhoto {
         this.slide = model.slide;
         this.slide_list = model.slide_list || [];
         this.settings = model.settings || {};
+        this.list_of_ids = model.list_of_ids;
         this.baseURL = environment.baseURL;
         this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
             this.dialogController.ok();
@@ -507,6 +509,10 @@ export class FullSizePhoto {
     }
 
     slide_idx() {
+        if (this.list_of_ids) {
+            let photo_id = this.slide[this.slide.side].photo_id;
+            return this.slide_list.findIndex(pid => pid == photo_id);
+        }
         return this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
     }
 
@@ -516,11 +522,27 @@ export class FullSizePhoto {
     }
 
     get_slide_by_idx(idx) {
+        if (this.list_of_ids) {
+            return this.get_slide_by_idx_list_ids(idx);
+        }
         this.slide = this.slide_list[idx];
         let pid = this.slide.photo_id;
         this.get_faces(pid);
         this.get_photo_info(pid);
         this.calc_percents();
+    }
+
+    get_slide_by_idx_list_ids(idx) {
+        let pid = this.slide_list[idx];
+        this.api.call_server('photos/get_photo_detail', {photo_id: pid})
+        .then(response => {
+            let p = this.slide[this.slide.side];
+            p.src = response.photo_src;
+            p.photo_id = pid;
+            p.width = response.width;
+            p.height = response.height;
+            this.calc_percents();
+        })
     }
 
     public next_slide(event) {
@@ -643,5 +665,3 @@ export class FullSizePhoto {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-

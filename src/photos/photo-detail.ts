@@ -83,7 +83,7 @@ export class PhotoDetail {
         console.log("exit constructor of photo detail")
     }
 
-    activate(params, config) {
+    async activate(params, config) {
         console.log("enter activate photo detail");
         this.keywords = params.keywords;
         this.photo_ids = params.photo_ids;
@@ -91,6 +91,7 @@ export class PhotoDetail {
         this.what = params.what ? params.what : "";
         this.update_topic_list();
         this.get_photo_info(params.id);
+        await sleep(100);
         console.log("exit activate photo detail");
     }
 
@@ -187,7 +188,7 @@ export class PhotoDetail {
 
     private openDialog(slide, slide_list) {
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list }, lock: false })
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, list_of_ids: true }, lock: false })
             .whenClosed(response => {
                 //do something?
                 document.body.classList.remove('black-overlay');
