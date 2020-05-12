@@ -46,12 +46,12 @@
             </div>
         </nav>
 
-        <div class="top-head" if.bind="theme.page_title != '' && ! theme.hide_title">
+        <div class="top-head unselectable" if.bind="theme.page_title != '' && ! theme.hide_title">
             <div class="page-title" css="background-image:url('${theme.files.top_background}');">
                 <span style="padding-left:15px;padding-right:15px">${theme.page_title & t}</span>
             </div>
         </div>
-        <div id="router-view" css="min-height:${router_view_height};">
+        <div id="router-view" css="min-height:${router_view_height};" class="unselectable">
             <router-view ref="theme.router_view"></router-view>
         </div>
         <footer id="footer" if.bind="! theme.hide_title" ref="theme.footer">

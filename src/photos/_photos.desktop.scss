@@ -7,7 +7,7 @@ div.multi-select-div {
 #photos-container {
     height: calc(100vh - 360px);
     &.empty-photos {
-        height: 512px;
+        height: calc(100vh - 430px);
     }
     overflow: auto;
 }

@@ -28,6 +28,7 @@ export function configure(config) {
     './elements/chats/chatroom',
     './elements/chats/chat-button',
     './elements/quiz/quiz',
-    './elements/quick-login'
+    './elements/quick-login',
+    './elements/edit-side-by-side'
   ]);
 }

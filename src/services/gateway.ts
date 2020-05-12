@@ -94,7 +94,6 @@ export class MemberGateway {
     }
 
     call_server(url: string, data?: any) {
-        console.log("call server. url: ", url, " data: ", data);
         if (data) {
             url += '?' + params(data);
         }
@@ -113,7 +112,6 @@ export class MemberGateway {
     }
 
     call_server_post(url: string, data?: any) {
-        console.log("call server post. url: ", url, " data: ", data);
         data = data ? data : {};
         data['ptp_key'] = this.constants.ptp_key;
         let x = JSON.stringify(data);
@@ -140,7 +138,6 @@ export class MemberGateway {
     }
 
     getPhotoDetail(photo) {
-        console.log("get photo info. photo: ", photo);
         return this.call_server('photos/get_photo_detail', photo);
     }
 

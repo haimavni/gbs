@@ -57,7 +57,6 @@ export class PhotoDetail {
     can_go_backward = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
-        console.log("enter constructor of photo detail")
         this.api = api;
         this.i18n = i18n;
         this.user = user;
@@ -80,33 +79,25 @@ export class PhotoDetail {
             single: true,
             empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
-        console.log("exit constructor of photo detail")
     }
 
     async activate(params, config) {
-        console.log("enter activate photo detail");
         this.keywords = params.keywords;
         this.photo_ids = params.photo_ids;
         this.advanced_search = params.search_type == 'advanced';
         this.what = params.what ? params.what : "";
         await this.update_topic_list();
         await this.get_photo_info(params.id);
-        await sleep(100);
-        console.log("exit activate photo detail");
     }
 
-    async set_story(story) {
-        //black magic to force story text change
+    set_story(story) {
         this.photo_story = "";
-        await sleep(100);
         this.photo_story = story;
     }
 
     get_photo_info(photo_id) {
-        console.log("enter get photo info");
         return this.api.getPhotoDetail({ photo_id: photo_id})
             .then(response => {
-                console.log('get photo info 0');
                 this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
                 this.set_story(response.photo_story)
@@ -114,7 +105,6 @@ export class PhotoDetail {
                 this.photographer_name = response.photographer_name;
                 this.photographer_id = response.photographer_id;
                 this.photo_topics = response.photo_topics;
-                console.log('get photo info 1');
                 this.init_selected_topics();
                 this.init_photographer();
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
@@ -122,15 +112,12 @@ export class PhotoDetail {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
                     this.photo_story.story_text = this.i18n.tr('photos.new-story-content');
                 }
-                console.log('get photo info 2');
                 this.photo_date_str = response.photo_date_str;
                 this.photo_date_datespan = response.photo_date_datespan;
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
-                console.log('get photo info 3');
                 this.calc_photo_width();
-                console.log("exit get photo info")
             });
     }
 

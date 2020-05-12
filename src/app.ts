@@ -8,7 +8,6 @@ import { WatchVersion } from './services/watch_version';
 import { DialogService } from 'aurelia-dialog';
 import { Promote } from './user/promote';
 import { Feedback } from './user/feedback';
-import { NONAME } from 'dns';
 import { AddCustomer } from './admin/add_customer';
 
 @autoinject
@@ -77,6 +76,7 @@ export class App {
             { route: 'feedbacks', name: 'feedbacks', moduleId: './admin/show-feedbacks' },
             { route: 'chats', name: 'chats', moduleId: './user/chats' },
             { route: 'adhoc-scripts', name: 'adhoc-scripts', moduleId: './admin/adhoc-scripts' },
+            { route: 'merge-help-messages', name: 'merge-help-messages', moduleId: './admin/merge-help-messages'},
             { route: 'show-logs', name: 'show-logs', moduleId: './admin/show-logs' },
             { route: 'customize', name: 'customize', moduleId: './admin/customize' },
             { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment' },

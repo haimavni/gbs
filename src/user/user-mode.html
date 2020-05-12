@@ -156,6 +156,8 @@
                     click.trigger="print_help_messages()">Print help messages</a></li>
             <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
                     click.trigger="save_letter_templates()">Save letter templates</a></li>
+            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+                    click.trigger="merge_help_messages()">Merge help messages</a></li>
             <li if.bind="user.privileges.HELP_AUTHOR" class="divider"></li>
             <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#"
                     click.trigger="reindex_words()">Reindex Words</a></li>
