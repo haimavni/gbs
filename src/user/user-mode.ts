@@ -115,7 +115,7 @@ export class UserMode {
 
     merge_help_messages() {
         let url = `${location.pathname}#/merge-help-messages`;
-        this.popup.popup('MERGE-HELP', url, "height=800,width=1500,left=100,top=100");
+        this.popup.popup('MERGE-HELP', url, "height=860,width=1700,left=100,top=100");
     }
 
     save_letter_templates() {
