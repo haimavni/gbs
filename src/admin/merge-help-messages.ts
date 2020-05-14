@@ -8,8 +8,8 @@ import { User } from '../services/user';
 
 @autoinject
 export class MergeHelpMessages {
-    left_text = "bla bla bla";
-    right_text = "boom boom boom";
+    left_text = "<p>bla bla bla</p>";
+    right_text = "<p>boom boom boom</p>";
     theme: Theme;
     api: MemberGateway;
     user: User;
@@ -18,6 +18,7 @@ export class MergeHelpMessages {
     message_list = [];
     empty = false;
     curr_story_id = 0;
+    init = false;
 
     constructor(theme: Theme, i18n: I18N, api: MemberGateway, user: User) {
         this.theme = theme;
@@ -53,9 +54,12 @@ export class MergeHelpMessages {
         .then(response => {
             this.left_text = response.prev_story_info.story_text;
             this.right_text = response.story_info.story_text;
+            this.init = true;
         })
-        
+    }
 
+    saved() {
+        console.log("SAVED IT ", this.right_text);
     }
 
 }

@@ -6,23 +6,29 @@
         </h2>
     </div>
     <div style="width: 1200px;margin: 10px auto auto;" if.bind="message_list.length > 0">
-        <div style="height:150px;">
-            <form style="display:flex;margin-right:20px;" class="fast-term-search">
-                <div class="input-group" style="width:236px;">
-                    <search-input value.bind="filter" placeholder="terms.filter" help_topic="terms-help" height="38">
-                    </search-input>
-                </div>
-                <span>Select message to merge</span>
-            </form>
-            <ul style="height:100px;overflow:auto;margin-top:5px;width:420px;margin-right:-20px;">
-                <li repeat.for="message of message_list | filter : filter : 'name'" >
-                    <button click.delegate="select_message(message)" class="btn btn-default" style="width:350px;">
-                        ${message.topic} ${message.name} [${message.last_version}]
-                    </button>
-                </li>
-            </ul>
+        <div style="height:220px;display:flex;">
+            <div style="width:50%">
+                <form style="display:flex;margin-right:20px;" class="fast-term-search">
+                    <div class="input-group" style="width:236px;">
+                        <search-input value.bind="filter" placeholder="terms.filter" help_topic="terms-help"
+                            height="38">
+                        </search-input>
+                    </div>
+                    <span>Select message to merge</span>
+                </form>
+                <ul style="height:170px;overflow:auto;margin-top:5px;width:420px;margin-right:-20px;">
+                    <li repeat.for="message of message_list | filter : filter : 'name'">
+                        <button click.delegate="select_message(message)" class="btn btn-default" style="width:350px;">
+                            ${message.topic} ${message.name} [${message.last_version}]
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div innerhtml.bind="right_text" style="width:50%;">
+
+            </div>
         </div>
-        <edit-side-by-side fixed_str.bind="left_text" edited_str.bind="right_text" height.bind="520">
+        <edit-side-by-side fixed_str.bind="left_text" edited_str.bind="right_text" height.bind="520" init.bind="init" save.delegate="saved()">
 
         </edit-side-by-side>
     </div>

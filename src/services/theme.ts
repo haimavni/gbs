@@ -29,7 +29,7 @@ export class Theme {
     interact_setting = { interactable: { preventDefault: 'never' } };
     page_title = "";
     hide_title = false;
-    hide_menu = false;
+    _hide_menu = false;
     same_dir;
     other_dir;
     _palette = null;
@@ -214,6 +214,22 @@ export class Theme {
     @computedFrom('width')
     get is_desktop() {
         return this.width >= 1200;
+    }
+
+    get hide_menu() {
+        return this._hide_menu;
+    }
+
+    set hide_menu(val) {
+        this._hide_menu = val;
+        let el = document.getElementById("router-view");
+        if (!el) return;
+        if (val) {
+            el.classList.add('hide-footer')
+        } else {
+            el.classList.remove('hide-footer')
+        }
+
     }
 
 }

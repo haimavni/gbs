@@ -266,6 +266,10 @@ button.btn-framed {
     -ms-overflow-style: none;
 }
 
+.fr-quick-insert {
+    display: none;
+}
+
 /* Dependencies */
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/froala-editor/css/froala_editor.pkgd.min';

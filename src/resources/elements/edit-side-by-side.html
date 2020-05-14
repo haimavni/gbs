@@ -1,11 +1,17 @@
 <template>
-    <div class="row" css="height:${height}px;"> 
-        <div class="col-md-6" innerhtml.bind="fixed_str" style="height:566px;overflow:auto;background-color:beige;border:4px solid lightgray;">
+    <div class="row" css="height:${height}px;">
+        <div class="col-md-6" innerhtml.bind="fixed_str"
+            id="left-panel"
+            style="height:566px;overflow:auto;background-color:beige;border:4px solid lightgray;">
 
         </div>
         <div class="col-md-6" style="display:flex;flex-direction:column;">
             <div class="big-story-panel fr-view">
-                <froala-editor value.two-way="edited_str" config.bind="{
+                <froala-editor id="my-editor" value.two-way="edited_str"
+                    event-handlers.bind="{
+                        contentChanged:content_changed
+                    }" 
+                    config.bind="{
                                 iconsTemplate: 'font_awesome_5',
                                 toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
                                         'color', 'fontSize', 'align', 'html'],
@@ -24,15 +30,20 @@
                 </froala-editor>
             </div>
             <div style="margin:10px 10px;">
-                <button class="btn btn-primary" style="width: 80px;">
+                <button class="btn btn-primary" style="width: 80px;"
+                    click.delegate="save_changes($event)" 
+                    disabled.bind="dirty ? '' : 'disabled'">
                     Save
                 </button>
-                <button class="btn btn-warning" style="width: 80px;">
+                <button class="btn btn-warning" style="width: 80px;"
+                    click.delegate="cancel_changes($event)" 
+                    disabled.bind="dirty ? '' : 'disabled'">
                     Cancel
                 </button>
             </div>
 
         </div>
+        <div class.bind="new_text" show.bind="false">${new_text}</div>
     </div>
 
 </template>

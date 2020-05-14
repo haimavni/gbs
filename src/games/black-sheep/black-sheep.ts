@@ -19,7 +19,7 @@ export class BlackSheep {
     }
 
     attached() {
-        this.theme.hide_menu = true;;
+        this.theme.hide_menu = true;
     }
 
     status(r, c, m) {

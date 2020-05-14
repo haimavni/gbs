@@ -47,6 +47,9 @@ $navbar-height: 60px;
 
 #router-view {
     height: calc(100vh - 63px);
+    &.hide-footer {
+        height: 100vh;
+    }
     overflow: auto;
 }
 
