@@ -9,7 +9,9 @@
             <div class="big-story-panel fr-view">
                 <froala-editor id="my-editor" value.two-way="edited_str"
                     event-handlers.bind="{
-                        contentChanged:content_changed
+                        contentChanged:content_changed,
+                        initialized:initialized,
+                        focus:focus
                     }" 
                     config.bind="{
                                 iconsTemplate: 'font_awesome_5',
@@ -24,6 +26,7 @@
                                 VideoDefaultWidth: 160,
                                 charCounterCount: false,
                                 linkAlwaysBlank: true,
+                                htmlUntouched: true,
                                 language: 'he', heightMin: height, heightMax: height,
                                 imageUploadRemoteUrls: false
                             }">
@@ -43,7 +46,6 @@
             </div>
 
         </div>
-        <div class.bind="new_text" show.bind="false">${new_text}</div>
     </div>
 
 </template>

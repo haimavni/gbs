@@ -9,7 +9,7 @@ import { User } from '../services/user';
 @autoinject
 export class MergeHelpMessages {
     left_text = "<p>bla bla bla</p>";
-    right_text = "<p>boom boom boom</p>";
+    right_text = "<p>boom boom boom</p>\n<p>oy oy oy</p>\n<p>oy oy oy</p>\n<p>oy oy oy</p>\n<p>oy oy oy</p>\n<p>oy oy oy</p>";
     theme: Theme;
     api: MemberGateway;
     user: User;
@@ -19,6 +19,7 @@ export class MergeHelpMessages {
     empty = false;
     curr_story_id = 0;
     init = false;
+    dirty = false;
 
     constructor(theme: Theme, i18n: I18N, api: MemberGateway, user: User) {
         this.theme = theme;
@@ -31,7 +32,6 @@ export class MergeHelpMessages {
         this.api.call_server('help/get_overridden_help_messages')
             .then(response => {
                 this.message_list = response.message_list;
-                console.log("message list: ", this.message_list);
                 this.empty = this.message_list.length == 0;
             })
     }
@@ -47,7 +47,6 @@ export class MergeHelpMessages {
     }
 
     select_message(message) {
-        console.log(message);
         let story_id = message.id;
         this.curr_story_id = story_id;
         this.api.call_server('help/get_help_message', {story_id: story_id})
