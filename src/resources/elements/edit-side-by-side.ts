@@ -23,7 +23,7 @@ export class EditSideBySideCustomElement {
 
     initialized(e, editor) {
         let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
-        THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
+        THIS_EDITOR.story_orig = el.innerHTML.slice(0);
     }
 
     focus(e, editor) {

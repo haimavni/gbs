@@ -33,6 +33,10 @@
             <div class="big-story-panel fr-view" if.bind="edit">
                 <froala-editor 
                     value.two-way="story_text" 
+                    event-handlers.bind="{
+                        contentChanged:content_changed,
+                        initialized:initialized
+                    }" 
                     config.bind="{
                         iconsTemplate: 'font_awesome_5',
                         toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',

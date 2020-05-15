@@ -4,6 +4,8 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 
+let THIS_EDITOR;
+
 @autoinject
 export class StoryWindow {
     story;
@@ -19,12 +21,14 @@ export class StoryWindow {
     story_text;
     dont_save = false;
     raw: false;
+    dirty;
 
     constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme) {
         this.dialogController = dialogController;
         this.api = api;
         this.user = user;
         this.theme = theme;
+        THIS_EDITOR = this;
     }
 
     activate(model) {
@@ -45,9 +49,20 @@ export class StoryWindow {
         this.show = !model.edit;
     }
 
-    @computedFrom('story_text', 'story.name', 'story.source')
+    initialized(e, editor) {
+        let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
+        THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
+    }
+
+    content_changed(e, editor) {
+        let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
+        let s = el.innerHTML;
+        THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
+    }
+
+    @computedFrom('story_text', 'story.name', 'story.source', 'dirty')
     get dirty_story() {
-        let dirty = (this.story_text != this.story_orig) || (this.story.name != this.story_name_orig) || (this.story.source != this.story_source_orig);
+        let dirty = this.dirty || (this.story.name != this.story_name_orig) || (this.story.source != this.story_source_orig);
         return dirty;
     }
 
