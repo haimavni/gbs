@@ -50,12 +50,12 @@ export class StoryWindow {
     }
 
     initialized(e, editor) {
-        let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
+        let el: any = document.getElementsByClassName("fr-element")[0];
         THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
     }
 
     content_changed(e, editor) {
-        let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
+        let el: any = document.getElementsByClassName("fr-element")[0];
         let s = el.innerHTML;
         THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
     }

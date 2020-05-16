@@ -21,14 +21,14 @@ export class EditSideBySideCustomElement {
         THIS_EDITOR = this;
     }
 
-    initialized(e, editor) {
-        let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
-        THIS_EDITOR.story_orig = el.innerHTML.slice(0);
-    }
+    // initialized(e, editor) {
+    //     let el: any = document.getElementsByClassName("fr-element")[0];
+    //     THIS_EDITOR.story_orig = el.innerHTML.slice(0);
+    // }
 
     focus(e, editor) {
         if (THIS_EDITOR.init) {
-            let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
+            let el: any = document.getElementsByClassName("fr-element")[0];
             let s = el.innerHTML;
             THIS_EDITOR.edited_str_orig = s.slice(0);
             THIS_EDITOR.init = false;
@@ -38,8 +38,9 @@ export class EditSideBySideCustomElement {
     }
 
     content_changed(e, editor) {
-        let el: any = document.getElementsByClassName("fr-wrapper")[0].lastChild;
+        let el: any = document.getElementsByClassName("fr-element")[0];
         let s = el.innerHTML;
+
         THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
     }
 

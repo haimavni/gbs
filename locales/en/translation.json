@@ -572,7 +572,9 @@
         "delete": "Delete",
         "all-users": "All users",
         "registered-users": "Registered users",
-        "unregistered-users": "Unregistered users"
+        "unregistered-users": "Unregistered users",
+        "merge-help-filter": "Search a help topic",
+        "no-messages-to-merge": "No help topics to merge"
     },
     "feedbacks": "משוב",
     "go-back": "Back",

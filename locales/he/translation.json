@@ -573,7 +573,9 @@
         "delete": "מחיקה",
         "all-users": "כל המשתמשים",
         "registered-users": "משתמשים שנרשמו בהצלחה",
-        "unregistered-users": "משתמשים שהרשמתם לא הושלמה"
+        "unregistered-users": "משתמשים שהרשמתם לא הושלמה",
+        "merge-help-filter": "חפש נושא של הודעת עזרה",
+        "no-messages-to-merge": "אין הודעות עזרה שצריך למזג"
     },
     "go-back": "חזור",
     "parents": "הורים",
