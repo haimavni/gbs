@@ -574,7 +574,8 @@
         "registered-users": "Registered users",
         "unregistered-users": "Unregistered users",
         "merge-help-filter": "Search a help topic",
-        "no-messages-to-merge": "No help topics to merge"
+        "no-messages-to-merge": "No help topics to merge",
+        "explain-accept-system": "Abandon your changes. Accept new system help message."
     },
     "feedbacks": "משוב",
     "go-back": "Back",

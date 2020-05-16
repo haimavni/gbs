@@ -575,7 +575,8 @@
         "registered-users": "משתמשים שנרשמו בהצלחה",
         "unregistered-users": "משתמשים שהרשמתם לא הושלמה",
         "merge-help-filter": "חפש נושא של הודעת עזרה",
-        "no-messages-to-merge": "אין הודעות עזרה שצריך למזג"
+        "no-messages-to-merge": "אין הודעות עזרה שצריך למזג",
+        "explain-accept-system": "ותר על ההתאמות וקבל את הודעת העזרה של המערכת"
     },
     "go-back": "חזור",
     "parents": "הורים",
