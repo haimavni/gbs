@@ -93,7 +93,7 @@
     </div>
 
     <div class="btn-group dropdown border-right"
-        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458">
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: share_toggled(); is-open.bind: share_menu_open" if.bind="theme.width>458" >
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle t="[title]user.sharing">
             <i class="fas fa-share-alt"></i>
             <span class="caret"></span>

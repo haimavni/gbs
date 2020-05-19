@@ -32,6 +32,7 @@ export class UserMode {
     sharing_subject;
     ea;
     handle_star_text;
+    share_menu_open = false;
 
     constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
         this.user = user;
@@ -65,7 +66,9 @@ export class UserMode {
                 if (base_url == "localhost:9000") {
                     base_url = environment.baseURL;
                 }
+                console.log("base_url: ", base_url, " response shortcut: ", response.shortcut);
                 let shortcut = base_url + response.shortcut;
+                console.log("shortcut: ", shortcut);
                 copy_to_clipboard(shortcut);
                 this.current_url = shortcut;
             });
@@ -74,6 +77,12 @@ export class UserMode {
 
     toggle_edit_mode() {
         this.user.toggle_edit_mode();
+    }
+
+    share_toggled() {
+        if (! this.share_menu_open) {
+            this.calc_current_info();
+        }
     }
 
     private loginDialog() {
