@@ -63,13 +63,12 @@ export class MergeHelpMessages {
     }
 
     saved() {
-        console.log("SAVED IT ", this.right_text);
+        let message = this.message_list.find(msg => msg.id == this.curr_story_id);
         let data = { user_id: this.user.id };
-        let story = { story_id: this.curr_story_id, story_text: this.right_text, used_for: this.api.constants.story_type.STORY4HELP }
+        let story = { story_id: this.curr_story_id, story_text: this.right_text, used_for: this.api.constants.story_type.STORY4HELP, name: message.name }
         data['story_info'] = story;
         this.api.call_server_post('members/save_story_info', data)
             .then(response => {
-                let message = this.message_list.find(msg => msg.id == this.curr_story_id);
                 message.done = 'done';
             });
     }

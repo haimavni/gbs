@@ -12,6 +12,7 @@ import { Customize } from '../admin/customize';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
+import environment from '../environment';
 
 @autoinject()
 export class UserMode {
@@ -67,7 +68,14 @@ export class UserMode {
         }
         this.current_url = encodeURIComponent(url);
         this.current_url4mail = encodeURIComponent(url4mail);
-        copy_to_clipboard(url)
+        //copy_to_clipboard(url)
+        this.api.call_server('default/get_shortcut', { url: url })
+            .then(response => {
+                let shortcut = environment.baseURL + response.shortcut;
+                copy_to_clipboard(shortcut);
+                console.log("shortcut is ", shortcut, " url is: ", url);
+            });
+
     }
 
     toggle_edit_mode() {
