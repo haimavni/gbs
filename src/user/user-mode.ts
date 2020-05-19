@@ -74,7 +74,7 @@ export class UserMode {
             .then(response => {
                 let shortcut = environment.baseURL + response.shortcut;
                 copy_to_clipboard(shortcut);
-                console.log("shortcut is ", shortcut, " url is: ", url);
+                console.log("shortcut is ", shortcut, " url is: ", url1);
             });
 
     }
