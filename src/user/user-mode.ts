@@ -69,7 +69,8 @@ export class UserMode {
         this.current_url = encodeURIComponent(url);
         this.current_url4mail = encodeURIComponent(url4mail);
         //copy_to_clipboard(url)
-        this.api.call_server('default/get_shortcut', { url: url })
+        let url1 = `${location.pathname}${location.hash}`
+        this.api.call_server('default/get_shortcut', { url: url1 })
             .then(response => {
                 let shortcut = environment.baseURL + response.shortcut;
                 copy_to_clipboard(shortcut);
