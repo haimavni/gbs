@@ -73,8 +73,8 @@ export class UserMode {
         this.api.call_server('default/get_shortcut', { url: url1 })
             .then(response => {
                 let shortcut = environment.baseURL + response.shortcut;
+                console.log("location host: ", `${location.host}`);
                 copy_to_clipboard(shortcut);
-                console.log("shortcut is ", shortcut, " url is: ", url1);
             });
 
     }
