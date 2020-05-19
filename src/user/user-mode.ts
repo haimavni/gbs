@@ -72,8 +72,11 @@ export class UserMode {
         let url1 = `${location.pathname}${location.hash}`
         this.api.call_server('default/get_shortcut', { url: url1 })
             .then(response => {
-                let shortcut = environment.baseURL + response.shortcut;
-                console.log("location host: ", `${location.host}`);
+                let base_url = `${location.host}`;
+                if (base_url == "localhost:9000") {
+                    base_url = environment.baseURL;
+                }
+                let shortcut = base_url + response.shortcut;
                 copy_to_clipboard(shortcut);
             });
 
