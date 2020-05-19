@@ -29,7 +29,6 @@ export class UserMode {
     locales = ['en', 'he'];
     isChangingLocale = false;
     current_url = "";
-    current_url4mail;
     sharing_subject;
     ea;
     handle_star_text;
@@ -59,18 +58,8 @@ export class UserMode {
             this.sharing_subject = encodeURIComponent(document.title);
         }, 4000);
 
-        let url = `${location.host}${location.pathname}${location.hash}`
-        let url4mail = url;
-        let i = url.indexOf('*');
-        if (i == url.length - 1) {
-            url += '/';
-            url4mail = '"' + url + '"';
-        }
-        this.current_url = encodeURIComponent(url);
-        this.current_url4mail = encodeURIComponent(url4mail);
-        //copy_to_clipboard(url)
-        let url1 = `${location.pathname}${location.hash}`
-        this.api.call_server('default/get_shortcut', { url: url1 })
+        let url = `${location.pathname}${location.hash}`
+        this.api.call_server('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
@@ -78,6 +67,7 @@ export class UserMode {
                 }
                 let shortcut = base_url + response.shortcut;
                 copy_to_clipboard(shortcut);
+                this.current_url = shortcut;
             });
 
     }
