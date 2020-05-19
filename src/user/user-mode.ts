@@ -68,7 +68,7 @@ export class UserMode {
                 }
                 console.log("base_url: ", base_url, " response shortcut: ", response.shortcut);
                 let shortcut = base_url + response.shortcut;
-                console.log("shortcut: ", shortcut);
+                console.log("shortcut response: ", response);
                 copy_to_clipboard(shortcut);
                 this.current_url = shortcut;
             });
