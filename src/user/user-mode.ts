@@ -61,6 +61,9 @@ export class UserMode {
                     base_url = environment.baseURL;  //for the development system
                 }
                 let shortcut = base_url + response.shortcut;
+                if (shortcut.includes('undefined')) {  //strange bug...
+                    shortcut = url;
+                }
                 copy_to_clipboard(shortcut);
                 this.current_url = shortcut;
             });
