@@ -28,12 +28,10 @@ export class SimpleInterceptor implements Interceptor {
     }
 
     responseError(response: Response) {
-        toastr.error('An error has occured! ' + response.statusText);
+        if (! response.statusText.includes('Bad Gateway')) 
+            toastr.error('An error has occured! ' + response.statusText);
         console.log("Server error: ", response);
         THIS.pending -= 1;
-        /*if (!THIS.pending) {
-            toastr.warning("Server Error. Please try again later.")
-        }*/
         return response;
     }
 }

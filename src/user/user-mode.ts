@@ -46,13 +46,6 @@ export class UserMode {
         this.handle_star_text = this.i18n.tr('user.handle-star-text')
     }
 
-    attached() {
-        this.calc_current_info();
-        this.ea.subscribe('router:navigation:complete', response => {
-            this.calc_current_info();
-        });
-    }
-
     calc_current_info() {
         document.title = this.i18n.tr('app-title');
         setTimeout(() => {  //if too early, overridden title is till not in effect
@@ -60,15 +53,14 @@ export class UserMode {
         }, 4000);
 
         let url = `${location.pathname}${location.hash}`
+        this.current_url = null;
         this.api.call_server('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
-                    base_url = environment.baseURL;
+                    base_url = environment.baseURL;  //for the development system
                 }
-                console.log("base_url: ", base_url, " response shortcut: ", response.shortcut);
                 let shortcut = base_url + response.shortcut;
-                console.log("shortcut response: ", response);
                 copy_to_clipboard(shortcut);
                 this.current_url = shortcut;
             });
