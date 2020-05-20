@@ -54,7 +54,7 @@ export class UserMode {
 
         let url = `${location.pathname}${location.hash}`
         this.current_url = null;
-        this.api.call_server('default/get_shortcut', { url: url })
+        this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
