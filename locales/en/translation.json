@@ -335,7 +335,8 @@
         "chronological-order-reverse": "Chronological order reversed",
         "edit-face-location": "Edit face location",
         "click-to-identify": "Click on a face to identify a person",
-        "add-details": "Add details"
+        "add-details": "Add details",
+        "view-map": "View map"
     },
     "videos": {
         "videos": "Video",

@@ -55,6 +55,7 @@ export class PhotoDetail {
     what = '';
     can_go_forward = false;
     can_go_backward = false;
+    map_visible = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -311,6 +312,10 @@ export class PhotoDetail {
             this.can_go_forward = true;
             this.can_go_backward = idx > 1;
         }
+    }
+
+    expose_map() {
+        this.map_visible = ! this.map_visible;
     }
 
 }
