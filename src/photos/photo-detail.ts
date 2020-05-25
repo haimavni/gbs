@@ -89,6 +89,9 @@ export class PhotoDetail {
         this.what = params.what ? params.what : "";
         await this.update_topic_list();
         await this.get_photo_info(params.id);
+        if (params.pop_full_photo) {
+            this.open_full_size_photo()
+        }
     }
 
     set_story(story) {
