@@ -285,14 +285,6 @@ export class FullSizePhoto {
         this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
     }
 
-    jump_to_photo_page(event) {
-        event.stopPropagation();
-        this.dialogController.ok();
-        let photo_ids = this.slide_list.map(slide => slide.photo_id);
-        let slide = this.slide[this.slide.side] || this.slide;
-        this.router.navigateToRoute('photo-detail', { id: slide.photo_id, keywords: "", photo_ids: photo_ids });
-    }
-
     mark_face(event) {
         if (this.fullscreen_mode) {
             let width = this.theme.width;

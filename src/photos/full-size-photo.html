@@ -54,9 +54,10 @@
                     click.trigger="toggle_highlighting($event)">
                     <i class="fa${highlighting ? '' :'r'} fa-lg fa-circle"></i>
                 </button>
-                <button aubs-tooltip="text.bind:jump_to_story_page" if.bind="! settings.no_jump" class="side-tool story"
-                    click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button>
+                <!-- <button aubs-tooltip="text.bind:jump_to_story_page" if.bind="! settings.no_jump" class="side-tool story"
+                    click.trigger="jump_to_photo_page($event)"><i class="fa fa-lg fa-bars"></i></button> -->
                 <button aubs-tooltip="text.bind:copy_photo_url_text" class="side-tool copy-to-clipboard"
+                    if.bind="user.editing"
                     click.delegate="copy_photo_url($event)"><i class="fa fa-lg fa-link"></i></button>
                 <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text" class="side-tool flip-sides"
                     click.delegate="flip_photo($event)"><i class="fa fa-lg fa-yin-yang"></i></button>

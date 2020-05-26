@@ -49,7 +49,11 @@ export class StoryDetail {
     }
 
     attached() {
-        this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => {
+            //this.openDialog(payload.slide, payload.event, payload.slide_list) 
+            let photo_ids = payload.slide_list.map(photo => photo.photo_id);
+            this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+        });
         this.subscriber1 = this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
     }
 
@@ -77,9 +81,9 @@ export class StoryDetail {
         if (used_for) {
             used_for = parseInt(used_for)
         } else {
-            used_for = (params.what && params.what == 'term') ? 
-            this.api.constants.story_type.STORY4TERM : (params.what && params.what == 'help') ? 
-            this.api.constants.story_type.STORY4HELP : this.api.constants.story_type.STORY4EVENT;
+            used_for = (params.what && params.what == 'term') ?
+                this.api.constants.story_type.STORY4TERM : (params.what && params.what == 'help') ?
+                    this.api.constants.story_type.STORY4HELP : this.api.constants.story_type.STORY4EVENT;
         }
         this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : (used_for == this.api.constants.story_type.STORY4ELP) ? 'help' : 'story';
         let what = this.story_type == 'story' ? 'EVENT' : this.story_type == 'help' ? 'HELP' : 'TERM';
@@ -103,7 +107,7 @@ export class StoryDetail {
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
                 }
-            });  
+            });
         if (params.what == 'help') return;
         this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id, story_type: this.story_type });
         this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
@@ -191,7 +195,7 @@ export class StoryDetail {
     next_page(event, dif) {
         let t = this.story_box.scrollTop;
         let h = this.story_box.clientHeight;
-        t += dif * ( h - 24);
+        t += dif * (h - 24);
         if (t < 0) {
             t = 0;
         }

@@ -52,7 +52,7 @@ export class MemberDetail {
     life_summary_content;
     life_summary_box;
     keywords = [];
-    highlight_on="highlight-on";
+    highlight_on = "highlight-on";
     advanced_search = false;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
@@ -77,13 +77,13 @@ export class MemberDetail {
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
-        let idx = this.member.member_stories.findIndex(itm => itm.story_id==story_id);
+        let idx = this.member.member_stories.findIndex(itm => itm.story_id == story_id);
         if (idx >= 0) {
             this.member.member_stories[idx].preview = data.story_data.preview;
-            this.api.call_server_post('members/get_story', {story_id: story_id})
+            this.api.call_server_post('members/get_story', { story_id: story_id })
                 .then(response => {
                     this.member.member_stories[idx].story_text = response.story.story_text;
-            });
+                });
         }
     }
 
@@ -137,7 +137,11 @@ export class MemberDetail {
         this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
-        this.sub5 = this.eventAggregator.subscribe('Zoom', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
+            //this.openDialog(payload.slide, payload.event, payload.slide_list) 
+            let photo_ids = payload.slide_list.map(photo => photo.photo_id);
+            this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+        });
         this.set_heights();
     }
 
@@ -209,7 +213,7 @@ export class MemberDetail {
     }
 
     get stories_scroll() {
-        if (! this.member) return false;
+        if (!this.member) return false;
         let nd = this.num_displayed_stories() + 1;
         let ns = this.member.member_stories.length;
         return nd < ns;
@@ -217,7 +221,7 @@ export class MemberDetail {
 
     story(idx) {
         let empty_story = { name: "", story_text: "" };
-        if (! this.member) return empty_story;
+        if (!this.member) return empty_story;
         let n = this.member.member_stories.length;
         let i;
         let N = this.num_displayed_stories();
@@ -327,7 +331,7 @@ export class MemberDetail {
     }
 
     async set_heights() {
-        while (! this.photo_strip || ! this.life_summary_content) {
+        while (!this.photo_strip || !this.life_summary_content) {
             await sleep(20);
         }
         this._set_heights();
@@ -385,5 +389,5 @@ export class MemberDetail {
 }
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -96,7 +96,10 @@ export class Home {
             this.was_born_in = this.member_of_the_day.gender == 'F' ? 'home.female-was-born-in' : 'home.male-was-born-in';
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';
         });
-        this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => { this.openDialog(payload.slide, payload.event, payload.slide_list) });
+        this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => {
+            let photo_ids = payload.slide_list.map(photo => photo.photo_id);
+            this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids,  pop_full_photo: true});
+        });
         this.photo_strip_height = Math.round(this.theme.height / 5);
         //this.panel_height = this.theme.height - 700;
     }
