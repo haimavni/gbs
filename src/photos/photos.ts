@@ -14,7 +14,13 @@ import { MyDate, format_date } from '../services/my-date';
 import * as download from 'downloadjs';
 import { set_intersection } from '../services/set_utils';
 import * as toastr from 'toastr';
-import {Misc} from '../services/misc';
+import { Misc } from '../services/misc';
+
+const
+    UTO = 'upload-time-order',
+    CDO = "chronological-order",
+    CDOR = "chronological-order-reverse";
+
 
 @autoinject()
 @singleton()
@@ -47,6 +53,7 @@ export class Photos {
         selected_order_option: "random-order",
         selected_recognition: 'recognized',
         last_photo_time: null,
+        last_photo_date: null,
         photos_date_str: "",
         photos_date_span_size: 1,
         photo_ids: [],
@@ -90,7 +97,9 @@ export class Photos {
     empty = false;
     highlight_unselectors = "";
     upload_date_stops = [];
-    upload_date_stops_index = 0;
+    upload_date_stops_index = -1;
+    chronological_date_stops = [];
+    chronological_date_stops_index = -1;
     scroll_area;
     scroll_top = 0;
     curr_photo_id = 0;
@@ -126,9 +135,9 @@ export class Photos {
         this.recognition_options = this.misc.make_selection('photos', ['recognized', 'unrecognized', 'recognized-or-not']);
         this.order_options = [
             { value: "random-order", name: this.i18n.tr('photos.random-order') },
-            { value: "upload-time-order", name: this.i18n.tr('photos.upload-time-order') },
-            { value: "chronological-order-reverse", name: this.i18n.tr('photos.chronological-order-reverse') },
-            { value: "chronological-order", name: this.i18n.tr('photos.chronological-order') }
+            { value: UTO, name: this.i18n.tr('photos.' + UTO) },
+            { value: CDOR, name: this.i18n.tr('photos.' + CDOR) },
+            { value: CDO, name: this.i18n.tr('photos.' + CDO) }
         ];
         this.options_settings = new MultiSelectSettings({
             clear_filter_after_select: false,
@@ -180,7 +189,7 @@ export class Photos {
         if (params.user_id) {
             this.params.user_id = params.user_id;
             this.params.selected_uploader = "mine";
-            this.params.selected_order_option = 'upload-time-order';
+            this.params.selected_order_option = UTO;
             this.photo_list = [];
         }
         if (this.photo_list.length == 0)
@@ -191,7 +200,7 @@ export class Photos {
     get user_editing() {
         this.update_topic_list();
         if (this.user.editing && this.user.privileges.RESTRICTED) {
-            this.update_photo_list(); 
+            this.update_photo_list();
         }
         return this.user.editing;
     }
@@ -232,7 +241,7 @@ export class Photos {
         this.scroll_top = 0;
         this.curr_photo_id = 0;
         console.time('get_photo_list');
-        if (! this.params.user_id)
+        if (!this.params.user_id)
             this.params.user_id = this.user.id;
         this.params.editing = this.user.editing
         return this.api.call_server_post('photos/get_photo_list', this.params)
@@ -244,8 +253,11 @@ export class Photos {
                 this.photo_list = result.photo_list;
                 this.total_photos = result.total_photos;
                 this.params.last_photo_time = result.last_photo_time;
+                this.params.last_photo_date = result.last_photo_date;
                 if (this.upload_date_stops_index == this.upload_date_stops.length) {
                     this.upload_date_stops.push(result.last_photo_time)
+                } else if (this.chronological_date_stops_index == this.chronological_date_stops.length) {
+                    this.chronological_date_stops.push(result.last_photo_date)
                 }
                 this.empty = this.photo_list.length == 0;
                 this.highlight_unselectors = this.empty ? "warning" : "";
@@ -336,14 +348,14 @@ export class Photos {
             //this.openDialog(slide);
             let photo_ids = this.photo_list.map(photo => photo.photo_id);
             photo_ids = photo_ids.slice(0, 800); //to prevent server errors such as "invalid gateway"
-            this.router.navigateToRoute('photo-detail', { id: slide.photo_id, keywords: "", photo_ids: photo_ids,  pop_full_photo: true});
+            this.router.navigateToRoute('photo-detail', { id: slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
         }
     }
 
     handle_topic_change(event) {
         if (!event.detail) return;
         this.params.selected_topics = event.detail.selected_options
-        this.params.show_untagged = event.detail.show_untagged; 
+        this.params.show_untagged = event.detail.show_untagged;
         this.update_photo_list();
     }
 
@@ -371,9 +383,9 @@ export class Photos {
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
         this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' })
-        .then(() => {
-            this.update_topic_list();
-        });
+            .then(() => {
+                this.update_topic_list();
+            });
     }
 
     remove_photographer(event) {
@@ -391,18 +403,42 @@ export class Photos {
     handle_order_change(event) {
         this.params.last_photo_time = null;
         this.upload_date_stops = [];
+        this.params.last_photo_date = null;
+        this.chronological_date_stops = [];
         this.update_photo_list();
     }
 
-    @computedFrom('upload_date_stops_index')
+    @computedFrom('upload_date_stops_index', 'chronological_date_stops_index')
     get prev_disabled() {
-        return this.upload_date_stops_index < 1;
+        if (this.params.selected_order_option == UTO)
+            return this.upload_date_stops_index < 0;
+        else if (this.params.selected_order_option.startsWith(CDO))
+            return this.chronological_date_stops_index < 0;
+    }
+
+    prev_upload_time(event) {
+        if (this.upload_date_stops_index < 0) return; //don't trust disabling...
+        this.upload_date_stops_index -= 1;
+        if (this.upload_date_stops_index < 0)
+            this.params.last_photo_time = null;
+        else
+            this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
+    }
+
+    prev_chronological_date(event) {
+        if (this.chronological_date_stops_index < 0) return; //don't trust disabling...
+        this.chronological_date_stops_index -= 1;
+        if (this.chronological_date_stops_index < 0)
+            this.params.last_photo_date = null;
+        else
+            this.params.last_photo_date = this.chronological_date_stops[this.chronological_date_stops_index];
     }
 
     prev(event) {
-        if (this.upload_date_stops_index < 1) return; //don't trust disabling...
-        this.upload_date_stops_index -= 1;
-        this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
+        if (this.params.selected_order_option == UTO)
+            this.prev_upload_time(event)
+        else if (this.params.selected_order_option.startsWith(CDO))
+            this.prev_chronological_date(event)
         this.update_photo_list();
     }
 
@@ -410,11 +446,25 @@ export class Photos {
         return false; //todo: handle the unlikely bottom case
     }
 
-    next(event) {
+    next_upload_time(event) {
         this.upload_date_stops_index += 1;
         if (this.upload_date_stops_index < this.upload_date_stops.length) {
             this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
         }
+    }
+
+    next_chronological_date(event) {
+        this.chronological_date_stops_index += 1;
+        if (this.chronological_date_stops_index < this.chronological_date_stops.length) {
+            this.params.last_photo_date = this.chronological_date_stops[this.chronological_date_stops_index];
+        }
+    }
+
+    next(event) {
+        if (this.params.selected_order_option == UTO)
+            this.next_upload_time(event)
+        else if (this.params.selected_order_option.startsWith(CDO))
+            this.next_chronological_date(event)
         this.update_photo_list();
     }
 

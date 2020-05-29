@@ -9,11 +9,13 @@
                         style="position:absolute;top:82px;left:4px;"
                         class="range vertical-lowest-first round" />
                     <span style="position:absolute;top:150px">${'photos.larger' & t}</span>
-                    <span if.bind="photo_list.length>0" style="position:absolute;top:200px">${photo_list.length} ${'photos.photos' & t}</span>
-                    <span if.bind="total_photos>photo_list.length" style="position:absolute;top:230px">${'photos.out-of' & t}${total_photos} </span>
-                    <p if.bind="total_photos>photo_list.length" style="position:absolute;top:260px;color:royalblue">
-                        ${'photos.to-see-more' & t}
-                    </p>
+                    <div if.bind="params.selected_order_option == 'random-order'">
+                        <span if.bind="photo_list.length>0" style="position:absolute;top:200px">${photo_list.length} ${'photos.photos' & t}</span>
+                        <span if.bind="total_photos>photo_list.length" style="position:absolute;top:230px">${'photos.out-of' & t}${total_photos} </span>
+                        <p if.bind="total_photos>photo_list.length" style="position:absolute;top:260px;color:royalblue">
+                            ${'photos.to-see-more' & t}
+                        </p>
+                    </div>
                 </div>
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;padding-right:15px;">
@@ -26,7 +28,7 @@
                                     <option repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
                                 </select>
                             </div>
-                            <div class="input-group" if.bind="params.selected_order_option == 'upload-time-order'">
+                            <div class="input-group" if.bind="params.selected_order_option != 'random-order'">
                                 <button t="[title]videos.next" class="btn btn-default" click.delegate="next($event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                                 <button t="[title]videos.prev" class="btn btn-default" click.delegate="prev($event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
                             </div>
