@@ -336,7 +336,9 @@
         "edit-face-location": "Edit face location",
         "click-to-identify": "Click on a face to identify a person",
         "add-details": "Add details",
-        "view-map": "View map"
+        "view-map": "View map",
+        "out-of": "out of ",
+        "to-see-more": "To see more phots make them smaller"
     },
     "videos": {
         "videos": "Video",

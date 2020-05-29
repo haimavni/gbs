@@ -23,6 +23,7 @@ export class Photos {
     photos_per_line: number = 8;
     _photo_size = 128;
     photo_list = [];
+    total_photos = 0;
     photos_margin = 0;
     api;
     ea: EventAggregator;
@@ -241,6 +242,7 @@ export class Photos {
                 this.candidates = new Set();
                 this.after_upload = false;
                 this.photo_list = result.photo_list;
+                this.total_photos = result.total_photos;
                 this.params.last_photo_time = result.last_photo_time;
                 if (this.upload_date_stops_index == this.upload_date_stops.length) {
                     this.upload_date_stops.push(result.last_photo_time)
