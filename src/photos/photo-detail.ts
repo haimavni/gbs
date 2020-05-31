@@ -100,7 +100,7 @@ export class PhotoDetail {
     }
 
     get_photo_info(photo_id) {
-        return this.api.getPhotoDetail({ photo_id: photo_id})
+        return this.api.getPhotoDetail({ photo_id: photo_id, what: this.what})
             .then(response => {
                 this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
