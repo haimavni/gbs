@@ -37,7 +37,6 @@ export class UploadDocs {
     save() {
         this.working = true;
         this.ea.subscribe('FilesUploaded', response => {
-            console.log("files uploaded. response: ", response);
             this.working = false;
             this.upload_finished = true;
             this.uploaded = response.uploaded;

@@ -62,7 +62,6 @@ export class TimelineCustomElement {
     }
 
     dragmove(side, event) {
-        console.log("dx: ", event.detail.dx);
         switch (side) {
             case 'left':
                 if (this.start_at_left && event.detail.dx < 0 && this.distance == 0) {

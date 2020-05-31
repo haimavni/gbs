@@ -138,7 +138,10 @@ export class MemberDetail {
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
         this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
-            //this.openDialog(payload.slide, payload.event, payload.slide_list) 
+            if (payload.event.ctrlKey) {
+                this.openDialog(payload.slide, payload.event, payload.slide_list)
+                return;
+            }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
             this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
         });

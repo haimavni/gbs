@@ -66,6 +66,24 @@ button.face:hover {
     }
 }
 
+button.navigation-arrow {
+    position:absolute;
+    top:250px;
+    color: rgb(180, 180, 180);
+    &:hover {
+        color:white;
+    }
+    font-size:60px;
+    background-color:rgba(0,0,0,0);
+    border:0;
+    &.left {
+        left: -42px;
+    }
+    &.right {
+        right:-42px;
+    }
+}
+
 .full-size-photo .highlighted-face {
     background-color:black;
     color:yellow;

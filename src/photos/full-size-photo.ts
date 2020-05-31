@@ -547,6 +547,10 @@ export class FullSizePhoto {
             this.get_slide_by_idx(idx + 1);
             this.can_go_forward = idx + 2 < this.slide_list.length;
             this.can_go_backward = true;
+            if (this.list_of_ids) {
+                this.get_faces(this.curr_photo_id);
+                this.get_photo_info(this.curr_photo_id);
+            }
         }
     }
 
@@ -557,6 +561,10 @@ export class FullSizePhoto {
             this.get_slide_by_idx(idx - 1)
             this.can_go_forward = true;
             this.can_go_backward = idx > 1;
+            if (this.list_of_ids) {
+                this.get_faces(this.curr_photo_id);
+                this.get_photo_info(this.curr_photo_id);
+            }
         }
     }
 

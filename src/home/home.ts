@@ -97,6 +97,10 @@ export class Home {
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';
         });
         this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => {
+            if (payload.event.ctrlKey) {
+                this.openDialog(payload.slide, payload.event, payload.slide_list)
+                return;
+            }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
             this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids,  pop_full_photo: true});
         });

@@ -93,7 +93,6 @@ export class User {
     attempt_login(loginData) {
         return this.api.call_server('groups/attempt_login', { email: loginData.email })
             .then(response => {
-                console.log("response: ", response);
                 this.id = response.user_id;
                 if (this.id) {
                     this.isLoggedIn = true;

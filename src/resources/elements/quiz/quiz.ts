@@ -63,7 +63,6 @@ export class QuizCustomElement {
     }
 
     toggled(state) {
-        //console.log("state: ", state);
     }
 
     apply_answer(question, answer) {

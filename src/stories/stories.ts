@@ -287,7 +287,6 @@ export class Stories {
     }
 
     handle_chunk(payload) {
-        console.log("handle chunk ", payload.first);
         this.active_result_types = payload.active_result_types;
         if (this.ready_for_new_story_list) {
             this.story_list = [];

@@ -86,9 +86,7 @@ export class ChatroomCustomElement {
     }
 
     handle_incoming_message(msg) {
-        console.log("scroll area ", this.scroll_area.scrollTop);
         this.messages.push(msg);
-        //this.scroll_area.scrollTop = 5000;
         let div = this.scroll_area;
         setTimeout(() => {
             div.scrollTop = div.scrollHeight; // - div.clientHeight + 150
@@ -113,7 +111,6 @@ export class ChatroomCustomElement {
     edit_message(msg, index) {
         this.edited_message_id = msg.id;
         msg.message = msg.message.replace(/<br\/>/g, "\n");
-        console.log("edit ", msg, index)
     }
 
     save_edited_message(msg) {

@@ -51,6 +51,10 @@ export class StoryDetail {
     attached() {
         this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => {
             //this.openDialog(payload.slide, payload.event, payload.slide_list) 
+            if (payload.event.ctrlKey) {
+                this.openDialog(payload.slide, payload.event, payload.slide_list)
+                return;
+            }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
             this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
         });
@@ -58,7 +62,6 @@ export class StoryDetail {
     }
 
     refresh_story(data) {
-        console.log("story detail refresh story ", data.story_data);
         let story_id = data.story_data.story_id;
         if (this.story && this.story.story_id == story_id) {
             this.api.call_server_post('members/get_story', { story_id: story_id })

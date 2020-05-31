@@ -112,7 +112,6 @@ export class Audios {
     }
 
     set_audio_list(audio_list) {
-        console.log("audio list: ", audio_list);
         this.no_results = audio_list.length == 0;
         this.highlight_unselectors = this.no_results ? "warning" : "";
         this.audio_list = audio_list; //.map(v => this.audio_data(v));

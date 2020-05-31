@@ -26,6 +26,12 @@
                         height="${slide[slide.side].height}"
                         width="${slide[slide.side].width}" />
                 </div>
+                <button class="navigation-arrow right" click.delegate="next_slide($event)">
+                    >
+                </button>
+                <button class="navigation-arrow left" click.delegate="prev_slide($event)">
+                    <
+                </button>
                 <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)"
                     interact-draggable.bind="theme.interact_setting"
                     contextmenu.delegate="handle_context_menu(face, $event)" class="face"
