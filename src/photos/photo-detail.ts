@@ -30,6 +30,8 @@ export class PhotoDetail {
     photo_margin = 0;
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
     MAX_HEIGHT = 550;
+    longitude;
+    latitude;
     dialog;
     router;
     keywords;
@@ -56,6 +58,7 @@ export class PhotoDetail {
     can_go_forward = false;
     can_go_backward = false;
     map_visible = false;
+    markers = [];
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -121,6 +124,8 @@ export class PhotoDetail {
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
+                this.latitude = response.latitude || +31.772;
+                this.longitude = response.longitude || 35.217;
                 this.calc_photo_width();
             });
     }
@@ -160,7 +165,7 @@ export class PhotoDetail {
             this.photo_width = this.orig_photo_width / ph;
         }
         let el;
-        for (let i=0; i < 50; i++) {
+        for (let i = 0; i < 50; i++) {
             el = document.getElementById('photo-box');
             if (el) break;
             await sleep(20);
@@ -318,7 +323,14 @@ export class PhotoDetail {
     }
 
     expose_map() {
-        this.map_visible = ! this.map_visible;
+        this.map_visible = !this.map_visible;
+    }
+
+    create_marker(event) {
+        let latLng = event.detail.latLng;
+        this.latitude = latLng.lat();
+        this.longitude = latLng.lng();
+        this.markers = [{ latitude: this.latitude, longitude: this.longitude }]
     }
 
 }

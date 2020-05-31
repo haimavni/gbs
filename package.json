@@ -15,6 +15,7 @@
     "aurelia-fetch-client": "^1.1.2",
     "aurelia-froala-editor": "^2.8.1",
     "aurelia-google-analytics": "^2.4.0",
+    "aurelia-google-maps": "^2.3.0",
     "aurelia-i18n": "^1.6.1",
     "aurelia-interactjs": "^2.0.7",
     "aurelia-toastr": "0.0.5",

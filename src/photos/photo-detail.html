@@ -24,9 +24,9 @@
                 
                 <span>
                     <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
-                    <!-- <button class="btn btn-basic" if.bind="true || user.editing" click.delegate="expose_map()" style="margin-right:60px;border:solid 2px lightgray;">
+                    <button class="btn btn-basic" if.bind="user.editing || this.longitude" click.delegate="expose_map()" style="margin-right:60px;border:solid 2px lightgray;float:left;">
                         <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${'photos.view-map' & t}
-                    </button> -->
+                    </button>
                 </span>
                 <span dir="${theme.rtltr}" if.bind="photographer_name">${'photos.photographer-name' & t}:
                     ${photographer_name}</span>
@@ -48,7 +48,13 @@
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
                         <div if.bind="map_visible">
-                            <google-map></google-map>
+                            <google-map
+                                longitude.two-way="longitude" 
+                                altitude.two-way="altitude"
+                                map-click.delegate="create_marker($event)" 
+                                markers.bind="markers" 
+                                auto-update-bounds="true" >
+                            </google-map>
                         </div>
                         <div style="padding-right:0" if.bind="! map_visible">
                             <div if.bind="! user.editing" class="row photo-story">
