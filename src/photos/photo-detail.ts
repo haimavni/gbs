@@ -30,8 +30,13 @@ export class PhotoDetail {
     photo_margin = 0;
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
     MAX_HEIGHT = 550;
-    longitude;
-    latitude;
+    has_location = false;
+    longitude: null;
+    latitude: null;
+    zoom = 12;
+    tracked_zoom: number = 0;
+    forced_zoom = false;
+    longitude_distance = 0;
     dialog;
     router;
     keywords;
@@ -51,7 +56,7 @@ export class PhotoDetail {
     params = {
         selected_topics: [],
         selected_photographers: [],
-        photo_ids: [],
+        photo_ids: []
     };
     photo_ids = [];
     what = '';
@@ -103,7 +108,7 @@ export class PhotoDetail {
     }
 
     get_photo_info(photo_id) {
-        return this.api.getPhotoDetail({ photo_id: photo_id, what: this.what})
+        return this.api.getPhotoDetail({ photo_id: photo_id, what: this.what })
             .then(response => {
                 this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
@@ -124,8 +129,13 @@ export class PhotoDetail {
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
+                this.has_location = response.longitude;
                 this.latitude = response.latitude || +31.772;
                 this.longitude = response.longitude || 35.217;
+                this.zoom = response.zoom || 12;
+                if (this.has_location) {
+                    this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
+                }
                 this.calc_photo_width();
             });
     }
@@ -322,15 +332,71 @@ export class PhotoDetail {
         }
     }
 
-    expose_map() {
+    async expose_map() {
         this.map_visible = !this.map_visible;
+        if (this.has_location && this.map_visible) {
+            let old_zoom = this.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom 
+            this.forced_zoom = true;
+            await sleep(50);
+            this.zoom = old_zoom + 1;
+            await sleep(50);
+            this.forced_zoom = true;
+            this.zoom = old_zoom;
+            await sleep(50);
+        }
     }
 
-    create_marker(event) {
+    bounds_changed(event) {
+        //console.log("bounds changed, bounds: ", event.detail.bounds.Ya);
+        let x = event.detail.bounds.Ya;
+        //console.log("x is ", x, " forced zoom: ", this.forced_zoom);
+        console.log("forced: ", this.forced_zoom, " tracked zoom: ", this.tracked_zoom);
+        console.log("event: ", event);
+        let longitude_distance = x.j - x.i;
+        if (this.forced_zoom) {
+            this.longitude_distance = longitude_distance;
+            this.tracked_zoom = this.zoom;
+            this.forced_zoom = false;
+            return;
+        }
+        if (this.longitude_distance) {
+            if (longitude_distance > this.longitude_distance)
+                this.tracked_zoom -= 1
+            else if (longitude_distance < this.longitude_distance) this.tracked_zoom = 1 * this.tracked_zoom + 1;
+            this.longitude_distance = longitude_distance;
+        } else {
+            this.longitude_distance = longitude_distance;
+        }
+        console.log("tracked zoom: ", this.tracked_zoom);
+    }
+
+    async create_marker(event) {
+        event.stopPropagation();
+        if (!this.user.editing) return;
+        this.forced_zoom = true;
+        this.zoom = 14;
         let latLng = event.detail.latLng;
         this.latitude = latLng.lat();
         this.longitude = latLng.lng();
-        this.markers = [{ latitude: this.latitude, longitude: this.longitude }]
+        this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
+        this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
+        await sleep(400);
+        this.forced_zoom = true;
+        this.zoom = 15;
+        await sleep(400);
+        return false;
+    }
+
+    zoom_changed(event) {
+        event.stopPropagation();
+        if (this.has_location && this.user.editing)
+            this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
+    }
+
+    @computedFrom("map_visible")
+    get view_hide_map() {
+        let txt = 'photos.' + (this.map_visible ? 'hide-map' : 'view-map')
+        return this.i18n.tr(txt)
     }
 
 }

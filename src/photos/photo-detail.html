@@ -24,9 +24,12 @@
                 
                 <span>
                     <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
-                    <button class="btn btn-basic" if.bind="user.editing || this.longitude" click.delegate="expose_map()" style="margin-right:60px;border:solid 2px lightgray;float:left;">
-                        <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${'photos.view-map' & t}
+                    <button class="btn btn-basic" if.bind="user.editing || has_location" click.delegate="expose_map()" style="margin-top:8px;border:solid 2px lightgray;float:left;">
+                        <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
                     </button>
+                    <!-- <input type="number" if.bind="map_visible" min="1" max="25" value.bind="zoom" 
+                        change.delegate="zoom_changed($event) & debounce: 1000"
+                        style="margin-top:8px;margin-left:5px; height:35px;padding-right:4px;padding-bottom:5px;font-size:130%;border:solid 2px lightgray;float:left;"> -->
                 </span>
                 <span dir="${theme.rtltr}" if.bind="photographer_name">${'photos.photographer-name' & t}:
                     ${photographer_name}</span>
@@ -50,9 +53,11 @@
                         <div if.bind="map_visible">
                             <google-map
                                 longitude.two-way="longitude" 
-                                altitude.two-way="altitude"
+                                latitude.two-way="latitude"
                                 map-click.delegate="create_marker($event)" 
+                                bounds-change.delegate="bounds_changed($event)"
                                 markers.bind="markers" 
+                                zoom.bind="zoom"
                                 auto-update-bounds="true" >
                             </google-map>
                         </div>
