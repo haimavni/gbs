@@ -6,6 +6,7 @@ import { User } from '../services/user';
 import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { highlight } from '../services/dom_utils';
+import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 @autoinject()
@@ -35,7 +36,6 @@ export class PhotoDetail {
     latitude: null;
     zoom = 12;
     tracked_zoom: number = 0;
-    forced_zoom = false;
     longitude_distance = 0;
     dialog;
     router;
@@ -64,6 +64,33 @@ export class PhotoDetail {
     can_go_backward = false;
     map_visible = false;
     markers = [];
+    map_zoom_stops = [
+        176.32497445272955,
+        148.8754982449835,
+        95.38534383424921,
+        51.15962888165051,
+        26.011174973799804,
+        13.058516541061568,
+        6.535832712495857,
+        3.2687367661950795,
+        1.6344708899971288,
+        0.8172482569694353,
+        0.4086257299375582,
+        0.20431306514901948,
+        0.10215655759700581,
+        0.05107828192631203,
+        0.025539141354123274,
+        0.012769570725943424,
+        0.006384785369075274,
+        0.003192392685303247,
+        0.0015961963427422177,
+        0.0007980981713835433,
+        0.00039904908570420616,
+        0.00019952454285032672,
+        0.00009976227141450522,
+        0.000049881135698370827
+    ];
+    update_photo_location_debounced;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -88,6 +115,7 @@ export class PhotoDetail {
             single: true,
             empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
+        this.update_photo_location_debounced = debounce(this.update_photo_location, 3000, false);
     }
 
     async activate(params, config) {
@@ -204,7 +232,6 @@ export class PhotoDetail {
                 document.body.classList.remove('black-overlay');
             });
     }
-
 
     open_full_size_photo() {
         let slide = {
@@ -336,61 +363,58 @@ export class PhotoDetail {
         this.map_visible = !this.map_visible;
         if (this.has_location && this.map_visible) {
             let old_zoom = this.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom 
-            this.forced_zoom = true;
             await sleep(50);
             this.zoom = old_zoom + 1;
             await sleep(50);
-            this.forced_zoom = true;
             this.zoom = old_zoom;
             await sleep(50);
+        } else {
+            this.zoom = 8;
         }
     }
 
     bounds_changed(event) {
-        //console.log("bounds changed, bounds: ", event.detail.bounds.Ya);
         let x = event.detail.bounds.Ya;
-        //console.log("x is ", x, " forced zoom: ", this.forced_zoom);
-        console.log("forced: ", this.forced_zoom, " tracked zoom: ", this.tracked_zoom);
-        console.log("event: ", event);
         let longitude_distance = x.j - x.i;
-        if (this.forced_zoom) {
-            this.longitude_distance = longitude_distance;
-            this.tracked_zoom = this.zoom;
-            this.forced_zoom = false;
-            return;
+        this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
+        this.update_photo_location_debounced();
+    }
+
+    calc_tracked_zoom(longitude_distance) {
+        let zoom = 0;
+        for (let dist of this.map_zoom_stops) {
+            if (dist < longitude_distance)
+                return zoom - 1
+            else zoom += 1;
         }
-        if (this.longitude_distance) {
-            if (longitude_distance > this.longitude_distance)
-                this.tracked_zoom -= 1
-            else if (longitude_distance < this.longitude_distance) this.tracked_zoom = 1 * this.tracked_zoom + 1;
-            this.longitude_distance = longitude_distance;
-        } else {
-            this.longitude_distance = longitude_distance;
-        }
-        console.log("tracked zoom: ", this.tracked_zoom);
+        return 24;
     }
 
     async create_marker(event) {
         event.stopPropagation();
         if (!this.user.editing) return;
-        this.forced_zoom = true;
-        this.zoom = 14;
+        let tracked_zoom = this.tracked_zoom;
+        this.zoom = tracked_zoom - 1;
         let latLng = event.detail.latLng;
         this.latitude = latLng.lat();
         this.longitude = latLng.lng();
         this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
-        this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
+        //for some reason, the above changes zoom to an extremely high value
+        this.update_photo_location_debounced();
         await sleep(400);
-        this.forced_zoom = true;
-        this.zoom = 15;
+        this.zoom = tracked_zoom;
         await sleep(400);
         return false;
+    }
+
+    update_photo_location() {
+        this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.tracked_zoom });
     }
 
     zoom_changed(event) {
         event.stopPropagation();
         if (this.has_location && this.user.editing)
-            this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
+            this.update_photo_location_debounced();
     }
 
     @computedFrom("map_visible")

@@ -26,7 +26,7 @@ export interface Marker {
 }
 
 @noView()
-@customElement('google-map')
+@customElement('google-mapa')
 @inject(Element, TaskQueue, Configure, BindingEngine, GoogleMapsAPI, MarkerClustering)
 export class GoogleMaps {
     private element: Element;
