@@ -411,11 +411,11 @@ export class PhotoDetail {
         this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.tracked_zoom });
     }
 
-    zoom_changed(event) {
-        event.stopPropagation();
-        if (this.has_location && this.user.editing)
-            this.update_photo_location_debounced();
-    }
+    // zoom_changed(event) {
+    //     event.stopPropagation();
+    //     if (this.has_location && this.user.editing)
+    //         this.update_photo_location_debounced();
+    // }
 
     @computedFrom("map_visible")
     get view_hide_map() {
