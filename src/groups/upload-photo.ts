@@ -63,12 +63,8 @@ export class UploadPhoto {
     unknown_photographer;
     explain_gallery = "The full site will be openedin a separate window."
     //google maps data
-    longitude: null;
-    latitude: null;
-    zoom = 12;
     tracked_zoom: number = 0;
     longitude_distance = 0;
-    map_visible = false;
     has_location = false;
     markers = [];
     map_zoom_stops = [
@@ -221,16 +217,16 @@ export class UploadPhoto {
     //-----------------google maps functions--------------
 
     async expose_map() {
-        this.map_visible = !this.map_visible;
-        if (this.has_location && this.map_visible) {
-            let old_zoom = this.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom 
+        this.status_record.map_visible = !this.status_record.map_visible;
+        if (this.has_location && this.status_record.map_visible) {
+            let old_zoom = this.status_record.photo_info.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom 
             await sleep(50);
-            this.zoom = old_zoom + 1;
+            this.status_record.photo_info.zoom = old_zoom + 1;
             await sleep(50);
-            this.zoom = old_zoom;
+            this.status_record.photo_info.zoom = old_zoom;
             await sleep(50);
         } else {
-            this.zoom = 8;
+            this.status_record.photo_info.zoom = 8;
         }
     }
 
@@ -255,15 +251,15 @@ export class UploadPhoto {
         event.stopPropagation();
         if (!this.user.editing) return;
         let tracked_zoom = this.tracked_zoom;
-        this.zoom = tracked_zoom - 1;
+        this.status_record.photo_info.zoom = tracked_zoom - 1;
         let latLng = event.detail.latLng;
-        this.latitude = latLng.lat();
-        this.longitude = latLng.lng();
-        this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
+        this.status_record.photo_info.latitude = latLng.lat();
+        this.status_record.photo_info.longitude = latLng.lng();
+        this.markers = [{ latitude: this.status_record.photo_info.latitude, longitude: this.status_record.photo_info.longitude }];
         //for some reason, the above changes zoom to an extremely high value
         this.update_photo_location_debounced();
         await sleep(400);
-        this.zoom = tracked_zoom;
+        this.status_record.photo_info.zoom = tracked_zoom;
         await sleep(400);
         return false;
     }
