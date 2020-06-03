@@ -31,12 +31,6 @@ export class PhotoDetail {
     photo_margin = 0;
     MAX_WIDTH = 600;  //todo: use dynamic info about the screen?
     MAX_HEIGHT = 550;
-    has_location = false;
-    longitude: null;
-    latitude: null;
-    zoom = 12;
-    tracked_zoom: number = 0;
-    longitude_distance = 0;
     dialog;
     router;
     keywords;
@@ -62,6 +56,13 @@ export class PhotoDetail {
     what = '';
     can_go_forward = false;
     can_go_backward = false;
+    //------------------google maps data----------------
+    has_location = false;
+    longitude: null;
+    latitude: null;
+    zoom = 12;
+    tracked_zoom: number = 0;
+    longitude_distance = 0;
     map_visible = false;
     markers = [];
     map_zoom_stops = [

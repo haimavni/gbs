@@ -229,7 +229,16 @@
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",
         "site-title": "Site title",
-        "site-description": "Site description"
+        "site-description": "Site description",
+        "feedback-off": "Hide feedback button",
+        "feedback-on": "Display feedback button",
+        "quick-upload-off": "Hide quick upload button",
+        "quick-upload-on": "Hide quick upload button",
+        "version-time-on": "display version time",
+        "version-time-off": "Hide version time",
+        "expose-developer-on": "Show developer",
+        "expose-developer-off": "Hide developer",
+        "quick-upload-photo": "Upload a photo"
     },
     "chats": {
         "chats": "Chats",

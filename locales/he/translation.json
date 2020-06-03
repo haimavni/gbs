@@ -228,7 +228,16 @@
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",
         "site-title": "כותרת האתר",
-        "site-description": "תאור האתר"
+        "site-description": "תאור האתר",
+        "feedback-on": "הצג כפתור משוב",
+        "feedback-off": "ללא כפתור משוב",
+        "quick-upload-off": "ללא כפתור העלאה מהירה",
+        "quick-upload-on": "הצג כפתור העלאה מהירה",
+        "version-time-on": "הצג את תאריך הגרסה",
+        "version-time-off": "הסתר את תאריך הגרסה",
+        "expose-developer-on": "הצג שם החברה",
+        "expose-developer-off": "הסתר את שם החברה",
+        "quick-upload-photo": "העלה תמונה משלך לאתר"
     },
     "chats": {
         "chats": "קבוצות דיון",

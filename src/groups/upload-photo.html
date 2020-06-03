@@ -12,7 +12,7 @@
         <div class="info-area">
             <compose view-model="./user-info" model.bind="status_record"></compose>
         </div>
-        <div class="photo-area" id="group-photo-area">
+        <div class="photo-area" id="group-photo-area" if.bind="!status_record.map_visible">
             <div class="buttons" if.bind="phase != 'photo-uploaded'">
                 <form submit.delegate="save()">
                     <div class="form-group" if.bind="phase=='ready-to-select'">
@@ -36,6 +36,17 @@
                     <img src.bind="status_record.photo_url" height.bind="photo_height" id="uploaded-photo" />
                 </a>
             </div>
+        </div> <!--end photo areqa-->
+        <div show.bind="map_visible">
+            <google-map
+                longitude.two-way="status_record.photo_info.longitude" 
+                latitude.two-way="status_record.photo_info.latitude"
+                zoom.bind="status_record.photo_info.zoom"
+                map-click.delegate="create_marker($event)" 
+                bounds-change.delegate="bounds_changed($event)"
+                markers.bind="markers" 
+                auto-update-bounds="true" >
+            </google-map>
         </div>
         <div class="footer-area1">
             <span style="font-size: 150%;padding:6px;" innerhtml.bind="help_message"></span>

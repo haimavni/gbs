@@ -14,8 +14,8 @@
                     <div class="col-md-12">
                         <form class="form-inline">
                             <div class="form-group" style="width:90%;">
-                                <input type="text" class="form-control" style="font-size:115%;width:100%;" placeholder="${'user.site-title' & t}"
-                                    value.bind="app_title">
+                                <input type="text" class="form-control" style="font-size:115%;width:100%;"
+                                    placeholder="${'user.site-title' & t}" value.bind="app_title">
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success" click.delegate="save_app_title()">
@@ -32,8 +32,8 @@
                     <div class="col-md-12">
                         <form class="form-inline">
                             <div class="form-group" style="width:90%;">
-                                <input type="text" class="form-control" style="font-size:100%;width:100%;" placeholder="${'user.site-description' & t }"
-                                    value.bind="app_description"
+                                <input type="text" class="form-control" style="font-size:100%;width:100%;"
+                                    placeholder="${'user.site-description' & t }" value.bind="app_description"
                                     change.delegate="save_app_description()">
                             </div>
                             <div class="form-group">
@@ -50,33 +50,61 @@
                     <h3 style="margin-right:-15px;margin-left:-15px;">${'user.customize-dictionary' & t}</h3>
                 </div>
                 <div class="row multi-select-div">
-                    <multi-select options.bind="key_value_list" settings.bind="options_settings" category="terminology"
+                    <multi-select options.bind="key_value_list" settings.bind="options_settings" category="topic"
                         name-changed.delegate="dic_item_changed($event)" place_holder_text="user.enter-text-to-replace">
                     </multi-select>
                 </div>
                 <div class="row">
                     <h3>${'user.config' & t}</h3>
                 </div>
-                <div class="custom-options">
-                    <div class="row" style="margin-bottom:5px;">
+                <div class="custom-options" style="height:200px;overflow:auto;">
+                    <div class="rowxxx" style="margin-bottom:5px;">
                         <button repeat.for="uf of auto_reg_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${uf==auto_reg_option ? 'primary' : 'default'} customization"
                             click.delegate="auto_reg_option_selected(uf)">
                             <span style="font-weight:bolder">${uf & t}</span>
                         </button>
                     </div>
-                    <div class="row" style="margin-bottom:5px;">
+                    <div class="rowxxx" style="margin-bottom:5px;">
                         <button repeat.for="na of new_app_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${na==new_app_option ? 'primary' : 'default'} customization"
                             click.delegate="new_app_option_selected(na)">
                             <span style="font-weight:bolder">${na & t}</span>
                         </button>
                     </div>
-                    <div class="row" style="margin-bottom:5px;">
+                    <div class="rowxxx" style="margin-bottom:5px;">
                         <button repeat.for="aud of audio_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${aud==audio_option ? 'primary' : 'default'} customization"
                             click.delegate="audio_option_selected(aud)">
                             <span style="font-weight:bolder">${aud & t}</span>
+                        </button>
+                    </div>
+                    <div class="rowxxx" style="margin-bottom:5px;">
+                        <button repeat.for="feed of feedback_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${feed==feedback_option ? 'primary' : 'default'} customization"
+                            click.delegate="feedback_option_selected(feed)">
+                            <span style="font-weight:bolder">${feed & t}</span>
+                        </button>
+                    </div>
+                    <div class="rowxxx" style="margin-bottom:5px;">
+                        <button repeat.for="qu of quick_upload_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${qu==quick_upload_button ? 'primary' : 'default'} customization"
+                            click.delegate="quick_upload_option_selected(qu)">
+                            <span style="font-weight:bolder">${qu & t}</span>
+                        </button>
+                    </div>
+                    <div class="rowxxx" style="margin-bottom:5px;">
+                        <button repeat.for="vt of version_time_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${vt==version_time_option ? 'primary' : 'default'} customization"
+                            click.delegate="version_time_option_selected(vt)">
+                            <span style="font-weight:bolder">${vt & t}</span>
+                        </button>
+                    </div>
+                    <div class="rowxxx" style="margin-bottom:5px;">
+                        <button repeat.for="edo of expose_developer_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${edo==expose_developer_option ? 'primary' : 'default'} customization"
+                            click.delegate="quick_upload_option_selected(qu)">
+                            <span style="font-weight:bolder">${edo & t}</span>
                         </button>
                     </div>
                 </div>

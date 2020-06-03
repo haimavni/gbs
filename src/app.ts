@@ -167,4 +167,8 @@ export class App {
         this.dialog.open({ viewModel: AddCustomer, lock: true})
     }
 
+    quick_upload_photo() {
+        this.router.navigateToRoute('upload-photo', {group: 1});
+    }
+
 }

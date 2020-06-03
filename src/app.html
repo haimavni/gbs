@@ -2,19 +2,21 @@
     <require from="styles.css"></require>
     <require from="toastr/build/toastr.min.css"></require>
 
-    <div class="page-container ${theme.palette}" css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;" dir="${theme.rtltr}">
+    <div class="page-container ${theme.palette}"
+        css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;"
+        dir="${theme.rtltr}">
         <nav class="navbar navbar-default navbar-fixed-top unselectable" role="navigation" if.bind="! theme.hide_menu">
             <div class="navbar-main" style="position: relative;">
-                <div class="nav-items unselectable" 
-                    id="nav-items"
-                    interact-draggable.bind="theme.interact_setting"
-                    interact-dragmove.delegate="drag_menu_items($event)" >
-                    <a class="navbar-logo" href="#" >
+                <div class="nav-items unselectable" id="nav-items" interact-draggable.bind="theme.interact_setting"
+                    interact-dragmove.delegate="drag_menu_items($event)">
+                    <a class="navbar-logo" href="#">
                         <img if.bind="theme.files.app_logo" src="${theme.files.app_logo}" />
                         <span class="router-title">${router.title & t}</span>
                     </a>
                     <div class="menu-items">
-                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}" href.bind="row.href" draggable="false" if.bind="row.title!='audios.audios' || user.config.support_audio">
+                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}"
+                            href.bind="row.href" draggable="false"
+                            if.bind="row.title!='audios.audios' || user.config.support_audio">
                             ${row.title & t}. ${row.nav}
                         </a>
                     </div>
@@ -29,19 +31,16 @@
             <div class="navbar-search">
                 <div class="search-box">
                     <label class="search-box-container">
-                        <input type="text" 
-                            class="search-box-input"
-                            value.bind="keywords" t="[placeholder]enter-search-words" 
-                            keydown.delegate="go_search($event)" />
+                        <input type="text" class="search-box-input" value.bind="keywords"
+                            t="[placeholder]enter-search-words" keydown.delegate="go_search($event)" />
                         <i class="far fa-times" click.trigger="clear_keywords()"></i>
                     </label>
-                    <button class="search-box-button" 
-                        click.delegate="go_search_btn()">
+                    <button class="search-box-button" click.delegate="go_search_btn()">
                         <i class="far fa-search"></i>
                     </button>
                 </div>
             </div>
-            <div class="navbar-controls" >
+            <div class="navbar-controls">
                 <user-mode></user-mode>
             </div>
         </nav>
@@ -56,10 +55,27 @@
         </div>
         <footer id="footer" if.bind="! theme.hide_title" ref="theme.footer">
             <div class="footer-area" style="font-size:120%;font-weight:bold;">
-                <span if.bind="user.config.expose_new_app_button" class="footer-item"><button class="btn btn-default footer-button" click.delegate="create_new_app()">${'user.create-new-app' & t}</button></span>
-                <span if.bind="! user.config.expose_new_app_button" class="footer-item"><button class="btn btn-default footer-button" click.delegate="contact_us()">Built by Lifestone</button></span>
-                <span style="direction:ltr" class="footer-item">${curr_version}</span>
-                <span class="footer-item"><button class="btn btn-default footer-button" click.delegate="feedback()">${'feedback.feedback' & t}</button></span>
+                <span if.bind="user.config.expose_new_app_button" class="footer-item">
+                    <button class="btn btn-default footer-button" click.delegate="create_new_app()">
+                        ${'user.create-new-app' & t}
+                    </button>
+                </span>
+                <span if.bind="user.config.expose_developer" class="footer-item">
+                    <button class="btn btn-default footer-button" click.delegate="contact_us()">
+                        Built by 
+                    </button>
+                </span>
+                <span if.bind="user.config.expose_version_time" style="direction:ltr" class="footer-item">${curr_version}</span>
+                <span if.bind="user.config.expose_feedback_button" class="footer-item">
+                    <button class="btn btn-default footer-button" click.delegate="feedback()">
+                        ${'feedback.feedback' & t}
+                    </button>
+                </span>
+                <span if.bind="user.config.quick_upload_button" class="footer-item">
+                    <button class="btn btn-default footer-button" click.delegate="quick_upload_photo()">
+                        ${'user.quick-upload-photo' & t}
+                    </button>
+                </span>
             </div>
         </footer>
     </div>
