@@ -47,9 +47,9 @@ export class UploadPhoto {
             photographer_name: '',
             photographer_id: 0,
             photo_topics: [],
-            latitude: 0,
-            longitude: 0,
-            zoom: 0
+            latitude: 31.772,
+            longitude: 35.217,
+            zoom: 8
         }
     }
     params = {
@@ -269,7 +269,10 @@ export class UploadPhoto {
     }
 
     update_photo_location() {
-        this.api.call_server_post('photos/update_photo_location', { photo_id: this.status_record.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.tracked_zoom });
+        this.api.call_server_post('photos/update_photo_location', { photo_id: this.status_record.photo_id, 
+            longitude: this.status_record.photo_info.longitude, 
+            latitude: this.status_record.photo_info.latitude, 
+            zoom: this.tracked_zoom });
     }
 
 }
