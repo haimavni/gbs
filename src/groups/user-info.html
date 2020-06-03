@@ -23,8 +23,8 @@
                                 ${'groups.explain-registration' & t}
                             </p>
                             <div class="form-group">
-                                <input type="password" name="password" id="password" class="form-control input-sm" autocomplete="off"
-                                    value.bind="loginData.password" t="[placeholder]user.password">
+                                <input type="password" name="password" id="password" class="form-control input-sm"
+                                    autocomplete="off" value.bind="loginData.password" t="[placeholder]user.password">
                             </div>
                             <div
                                 class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
@@ -72,6 +72,11 @@
                             </textarea>
                         </div>
                         <div if.bind="status_record.photo_uploaded" style="width:242px;">
+                            <button class="btn btn-basic" if.bind="user.editing || status_record.has_location"
+                                click.delegate="expose_map()"
+                                style="margin-top:8px;margin-bottom:6px;border:solid 2px lightgray;width:100%;">
+                                <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
+                            </button>
                             <div style="margin-top: 0px;margin-bottom:2px;">
                                 ${'stories.categories' & t}
                             </div>

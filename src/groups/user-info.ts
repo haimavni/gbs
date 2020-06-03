@@ -198,6 +198,16 @@ export class UserInfo {
         return false
     }
 
+    expose_map() {
+        this.status_record.map_visible = ! this.status_record.map_visible;
+    }
+
+    @computedFrom("status_record.map_visible")
+    get view_hide_map() {
+        let txt = 'photos.' + (this.status_record.map_visible ? 'hide-map' : 'view-map')
+        return this.i18n.tr(txt)
+    }
+
     init_photographer() {
         //not ready yet
         return
