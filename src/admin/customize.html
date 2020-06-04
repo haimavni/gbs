@@ -103,7 +103,7 @@
                     <div class="rowxxx" style="margin-bottom:5px;">
                         <button repeat.for="edo of expose_developer_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${edo==expose_developer_option ? 'primary' : 'default'} customization"
-                            click.delegate="quick_upload_option_selected(qu)">
+                            click.delegate="expose_developer_option_selected(edo)">
                             <span style="font-weight:bolder">${edo & t}</span>
                         </button>
                     </div>
