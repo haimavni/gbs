@@ -160,7 +160,8 @@
         "members-f": "חברות",
         "members-m": "חברים",
         "no-gender": "טרם הוגדר",
-        "apply-answers": "ישם"
+        "apply-answers": "ישם",
+        "already-identified": " כבר מזוהה בתמונה זו"
     },
     "quiz": {
         "filters": "מסננים",

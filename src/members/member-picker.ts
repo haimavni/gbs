@@ -30,7 +30,7 @@ export class MemberPicker {
     child_id;
     member_id;
     i18n;
-    agent = {size: 9999};
+    agent = { size: 9999 };
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -54,7 +54,7 @@ export class MemberPicker {
             if (this.candidates) {
                 this.reorder_members_candidates_first();
             }
-            this.members = this.members.filter(member => member.id == this.member_id || ! this.excluded.has(member.id))
+            this.members = this.members.filter(member => member.id == this.member_id || !this.excluded.has(member.id))
         })
     }
 
@@ -90,7 +90,10 @@ export class MemberPicker {
         this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
     }
 
-    create_new_member() {
+    async create_new_member() {
+        let member_ids = [];
+        await this.api.call_server('members/member_by_name', { name: this.filter })
+            .then(response => { member_ids = response.member_ids });
         if (this.gender) {
             let parent_of = (this.gender == 'M') ? this.i18n.tr('members.pa-of') : this.i18n.tr('members.ma-of');
             this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name, child_id: this.child_id, parent_of: parent_of })
@@ -100,6 +103,13 @@ export class MemberPicker {
                     });
                 })
         } else {
+            for (let member_id of member_ids) {
+                if (this.excluded.has(member_id)) {
+                    let msg = this.filter + this.i18n.tr('members.already-identified')
+                    alert(msg);
+                    return;
+                }
+            }
             let default_name = this.i18n.tr('members.default-name');
             this.api.call_server('members/create_new_member', { photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name })
                 .then(response => {

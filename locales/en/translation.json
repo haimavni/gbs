@@ -161,7 +161,8 @@
         "members-f": "Females",
         "members-m": "Males",
         "no-gender": "Gender unknown",
-        "apply-answers": "Apply"
+        "apply-answers": "Apply",
+        "already-identified": " already indetified in this photo"
     },
     "quiz": {
         "filters": "Filters",
