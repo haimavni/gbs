@@ -160,6 +160,11 @@ export class UploadPhoto {
         this.theme.hide_menu = true;
     }
 
+    deactivate() {
+        this.theme.hide_title = false;
+        this.theme.hide_menu = false;
+    }
+
     save() {
         this.api.uploadFiles(
             this.status_record.user_id,

@@ -31,8 +31,8 @@
                                 </a>
                             </div>
                             <div class="form-group" if.bind="user.editing && checked_stories.size>0">
-                                <button class="btn btn-warning btn-md" click.trigger="delete_checked_stories()">
-                                    <i class="far fa-trash-alt fa-xs"></i>
+                                <button class="btn btn-warning btn-sm" click.trigger="delete_checked_stories()">
+                                    <i class="far fa-trash-alt fa-lg ${params.deleted_stories ? 'fa-rotate-180' : '' }"></i>
                                 </button>
                             </div>
                             <div class="form-group">
@@ -136,10 +136,11 @@
                             clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
                         </multi-select>
                     </div>
-                    <div if.bind="user.privileges.ADVANCED && user.privileges.ADMIN && user.editing" class="row">
-                        <button class="btn btn-xs ${params.deleted_stories ? 'active' : ''}"
+                    <div if.bind="user.privileges.ADVANCED && user.privileges.ADMIN && user.editing" class="row" style="margin-top:8px;">
+                        <button class="btn btn-sm btn-defalt ${params.deleted_stories ? 'active' : ''}"
+                            style="border:solid 2px gray"
                             click.trigger="toggle_deleted_stories()" t="[title]stories.undelete">
-                            <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
+                            <i class="far fa-trash-alt fa-lg fa-rotate-180"></i>
                         </button>
                     </div>
                     <div class="row" style="position:relative;">
