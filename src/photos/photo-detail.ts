@@ -384,8 +384,11 @@ export class PhotoDetail {
     calc_tracked_zoom(longitude_distance) {
         let zoom = 0;
         for (let dist of this.map_zoom_stops) {
-            if (dist < longitude_distance)
-                return zoom - 1
+            if (dist <= longitude_distance) {
+                if (longitude_distance / dist > 1.2)
+                    zoom -= 1;
+                return zoom
+            }
             else zoom += 1;
         }
         return 24;

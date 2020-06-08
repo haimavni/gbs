@@ -485,7 +485,8 @@
         "send-letter": "Send the letter",
         "edit-letter-template": "Edit letter template",
         "the-link": "the link",
-        "need-to-show": "Display or edit before sending"
+        "need-to-show": "Display or edit before sending",
+        "place-marker": "Move and resize the map as necessary, then click on the photo place."
     },
     "consts": {
         "vis-never": "Never display!",

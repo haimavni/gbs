@@ -39,6 +39,7 @@ export class UploadPhoto {
         photo_details_saved: false,
         old_data: '',
         map_visible: false,
+        calibrating: false,
         photo_info: {
             photo_name: '',
             photo_story: '',
@@ -68,30 +69,31 @@ export class UploadPhoto {
     has_location = false;
     markers = [];
     map_zoom_stops = [
-        176.32497445272955,
-        148.8754982449835,
-        95.38534383424921,
-        51.15962888165051,
-        26.011174973799804,
-        13.058516541061568,
-        6.535832712495857,
-        3.2687367661950795,
-        1.6344708899971288,
-        0.8172482569694353,
-        0.4086257299375582,
-        0.20431306514901948,
-        0.10215655759700581,
-        0.05107828192631203,
-        0.025539141354123274,
-        0.012769570725943424,
-        0.006384785369075274,
-        0.003192392685303247,
-        0.0015961963427422177,
-        0.0007980981713835433,
-        0.00039904908570420616,
-        0.00019952454285032672,
-        0.00009976227141450522,
-        0.000049881135698370827
+        179.96079168489473,
+        176.7492823600056,
+        150.69030712520617,
+        97.57795738362208,
+        52.552012683220006,
+        26.745894508089606,
+        13.430570314236096,
+        6.722440301673341,
+        3.362112939656562,
+        1.681168017396189,
+        0.8405979505421683,
+        0.4203007179514806,
+        0.2101505768092089,
+        0.10507531563373007,
+        0.05253766122050152,
+        0.02626883103573263,
+        0.013134415571016689,
+        0.0065672077921696825,
+        0.0032836038969072945,
+        0.0016418019485477942,
+        0.0008209009742863316,
+        0.00041045048714138943,
+        0.00020522524357602379,
+        0.00010261262179511732,
+        0.00020522524357602379
     ];
     update_photo_location_debounced;
 
@@ -144,7 +146,7 @@ export class UploadPhoto {
             });
     }
 
-   detached() {
+    detached() {
         this.subscriber.dispose();
     }
 
@@ -186,9 +188,13 @@ export class UploadPhoto {
         return 'ready-to-select';
     }
 
-    @computedFrom('phase')
+    @computedFrom('phase', 'status_record.map_visible')
     get help_message() {
-        let key = 'groups.' + this.phase;
+        let key;
+        if (this.status_record.map_visible)
+            key = 'groups.place-marker'
+        else
+            key = 'groups.' + this.phase;
         return this.i18n.tr(key);
     }
 
@@ -221,32 +227,27 @@ export class UploadPhoto {
 
     //-----------------google maps functions--------------
 
-    async expose_map() {
-        this.status_record.map_visible = !this.status_record.map_visible;
-        if (this.has_location && this.status_record.map_visible) {
-            let old_zoom = this.status_record.photo_info.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom 
-            await sleep(50);
-            this.status_record.photo_info.zoom = old_zoom + 1;
-            await sleep(50);
-            this.status_record.photo_info.zoom = old_zoom;
-            await sleep(50);
-        } else {
-            this.status_record.photo_info.zoom = 8;
-        }
-    }
-
     bounds_changed(event) {
         let x = event.detail.bounds.Ya;
         let longitude_distance = x.j - x.i;
         this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
+        if (this.status_record.calibrating) {
+            this.map_zoom_stops[this.status_record.photo_info.zoom] = longitude_distance;
+            console.log("zoom: ", this.status_record.photo_info.zoom, " longitude distance: ", longitude_distance);
+        }
         this.update_photo_location_debounced();
     }
 
     calc_tracked_zoom(longitude_distance) {
         let zoom = 0;
         for (let dist of this.map_zoom_stops) {
-            if (dist < longitude_distance)
-                return zoom - 1
+            if (dist <= longitude_distance) {
+                let r = longitude_distance / dist;
+                if (r > 1.2) {
+                    zoom -= 1;
+                }
+                return zoom
+            }
             else zoom += 1;
         }
         return 24;
@@ -270,10 +271,12 @@ export class UploadPhoto {
     }
 
     update_photo_location() {
-        this.api.call_server_post('photos/update_photo_location', { photo_id: this.status_record.photo_id, 
-            longitude: this.status_record.photo_info.longitude, 
-            latitude: this.status_record.photo_info.latitude, 
-            zoom: this.tracked_zoom });
+        this.api.call_server_post('photos/update_photo_location', {
+            photo_id: this.status_record.photo_id,
+            longitude: this.status_record.photo_info.longitude,
+            latitude: this.status_record.photo_info.latitude,
+            zoom: this.tracked_zoom
+        });
     }
 
 }

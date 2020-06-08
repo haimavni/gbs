@@ -198,8 +198,21 @@ export class UserInfo {
         return false
     }
 
-    expose_map() {
+    async expose_map(event) {
         this.status_record.map_visible = ! this.status_record.map_visible;
+        if (this.status_record.map_visible && event.ctrlKey) {
+            this.status_record.calibrating = true;
+            await sleep(100);
+            console.log("CALIBRATING")
+            let old_zoom = this.status_record.photo_info.zoom;
+            for (let zoom = 0; zoom < 24; zoom += 1) {
+                await sleep(10);
+                this.status_record.photo_info.zoom = zoom;
+            }
+            await sleep(10);
+            this.status_record.calibrating = false;
+            this.status_record.photo_info.zoom = old_zoom;
+        }
     }
 
     @computedFrom("status_record.map_visible")
@@ -217,4 +230,9 @@ export class UserInfo {
         //     this.params.selected_photographers.push(itm)
         // }
     }
+}
+
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
