@@ -126,12 +126,25 @@ export class UploadPhoto {
             this.status_record.photo_info.photographer_name = msg.photographer_name || '';
             this.status_record.photo_info.photo_topics = msg.photo_topics;
             this.status_record.photo_info.photographer_id = msg.photographer_id;
+            this.handle_geo(msg);
             this.status_record.duplicate = msg.duplicate;
             this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
             let el = document.getElementById('group-photo-area');
             this.photo_height = el.offsetHeight;
             this.update_photo_list();
         });
+    }
+
+    async handle_geo(msg) {
+        if (msg.longitude) {
+            this.status_record.photo_info.longitude = msg.longitude;
+            this.status_record.photo_info.latitude = msg.latitude;
+            this.markers = [{latitude: this.status_record.photo_info.latitude, longitude:  this.status_record.photo_info.longitude}];
+            await sleep(200);
+            this.status_record.photo_info.zoom = msg.zoom - 1;
+            await sleep(200);
+            this.status_record.photo_info.zoom = msg.zoom;
+        }
     }
 
     update_photo_list() {
@@ -230,10 +243,10 @@ export class UploadPhoto {
     bounds_changed(event) {
         let x = event.detail.bounds.Ya;
         let longitude_distance = x.j - x.i;
+        if (! longitude_distance) return;
         this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
         if (this.status_record.calibrating) {
             this.map_zoom_stops[this.status_record.photo_info.zoom] = longitude_distance;
-            console.log("zoom: ", this.status_record.photo_info.zoom, " longitude distance: ", longitude_distance);
         }
         this.update_photo_location_debounced();
     }
@@ -257,20 +270,21 @@ export class UploadPhoto {
         event.stopPropagation();
         if (!this.user.editing) return;
         let tracked_zoom = this.tracked_zoom;
-        this.status_record.photo_info.zoom = tracked_zoom - 1;
+        this.status_record.photo_info.zoom = tracked_zoom - 1;  //black magic. without it zoom becomes extremely high
         let latLng = event.detail.latLng;
         this.status_record.photo_info.latitude = latLng.lat();
         this.status_record.photo_info.longitude = latLng.lng();
         this.markers = [{ latitude: this.status_record.photo_info.latitude, longitude: this.status_record.photo_info.longitude }];
         //for some reason, the above changes zoom to an extremely high value
         this.update_photo_location_debounced();
-        await sleep(400);
+        await sleep(100);
         this.status_record.photo_info.zoom = tracked_zoom;
-        await sleep(400);
+        await sleep(100);
         return false;
     }
 
     update_photo_location() {
+        if (!this.status_record.photo_info.longitude) return;
         this.api.call_server_post('photos/update_photo_location', {
             photo_id: this.status_record.photo_id,
             longitude: this.status_record.photo_info.longitude,

@@ -139,6 +139,7 @@ export class UserInfo {
     }
 
     next_photo() {
+        this.status_record.map_visible = false;
         this.status_record.photo_uploaded = false;
         this.status_record.photo_url = '';
         this.status_record.photo_info.photo_story = '';
@@ -151,6 +152,7 @@ export class UserInfo {
             .then(result => {
                 this.status_record.photo_details_saved = true;
                 this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
+                toastr.success(this.i18n.tr("groups.successful-save"))
             })
     }
 
