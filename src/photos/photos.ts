@@ -15,6 +15,7 @@ import * as download from 'downloadjs';
 import { set_intersection } from '../services/set_utils';
 import * as toastr from 'toastr';
 import { Misc } from '../services/misc';
+import { debounce } from '../services/debounce';
 
 const
     UTO = 'upload-time-order',
@@ -103,6 +104,7 @@ export class Photos {
     scroll_area;
     scroll_top = 0;
     curr_photo_id = 0;
+    update_photo_list_debounced;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -153,6 +155,8 @@ export class Photos {
             can_group: false,
             empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
+        this.update_photo_list_debounced = debounce(this.update_photo_list, 1700, false);
+
     }
 
     created(params, config) {
@@ -274,7 +278,7 @@ export class Photos {
         this._photo_size = Math.floor((width - 60) / this.photos_per_line);
         if (Number(this.photos_per_line) > this.params.max_photos_per_line) {
             this.params.max_photos_per_line = Number(this.photos_per_line);
-            this.update_photo_list();
+            this.update_photo_list_debounced();
         }
         this.photo_list = this.photo_list.splice(0);
     }
@@ -356,12 +360,12 @@ export class Photos {
         if (!event.detail) return;
         this.params.selected_topics = event.detail.selected_options
         this.params.show_untagged = event.detail.show_untagged;
-        this.update_photo_list();
+        this.update_photo_list_debounced();
     }
 
     handle_photographer_change(event) {
         this.params.selected_photographers = event.detail.selected_options;
-        this.update_photo_list();
+        this.update_photo_list_debounced();
     }
 
     photographer_name_changed(event) {

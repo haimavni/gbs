@@ -18,10 +18,19 @@
         margin-left: 0;
         padding: 0;
     }
-    li.active {
-        background-color: orange;
-        a {
+    li.untag-button {
+        padding-bottom: 3px;
+        border-radius: 8px;
+        font-weight: bolder;
+        padding-right: 5px;
+        padding-left: 5px;
+        &.active {
+            background-color: orange;
             color: white;
+        }
+        &.ready {
+            background-color: lightblue;
+            color: black;
         }
     }
 

@@ -12,6 +12,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { Popup } from '../services/popups';
 import { DocPage } from '../docs/doc-page';
+import { debounce } from '../services/debounce';
 
 @autoinject
 @singleton()
@@ -96,7 +97,8 @@ export class Stories {
     anchor = -1; //for multiple selections
     story_items = [];
     editing_filters = false;
-    visibility_width = "100%";
+    visibility_width = "90%";
+    update_story_list_debounced;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -134,6 +136,7 @@ export class Stories {
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
         this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
+        this.update_story_list_debounced = debounce(this.update_story_list, 1700, false);
     }
 
     refresh_story(data) {
@@ -403,14 +406,14 @@ export class Stories {
             this.num_of_stories = story_list.length;
             if (story_list.length == 0) return;
             this.params.selected_stories = story_list;
-            this.update_story_list('advanced');
+            this.update_story_list_debounced('advanced');
         } else if (result) {
             this.num_of_stories = 0;
             this.no_results = true;
             this.story_list = Array.from(result);
         } else {
             this.params.selected_stories = [];
-            this.update_story_list('advanced');
+            this.update_story_list_debounced('advanced');
             this.num_of_stories = 0;
         }
         this.keywords = this.params.selected_words.map(item => item.option.name);
@@ -419,7 +422,7 @@ export class Stories {
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
         this.params.show_untagged = event.detail.show_untagged;
-        this.update_story_list('other');
+        this.update_story_list_debounced('other');
     }
 
     handle_approval_state_change(event) {
@@ -527,7 +530,7 @@ export class Stories {
         this.options_settings.update({
             mergeable: result != "applying-to-stories" && result != "selecting-stories",
             name_editable: result == "ready-to-edit",
-            can_set_sign: !this.has_grouped_topics,
+            can_set_sign: this.user.editing && this.checked_stories.size > 0 && !this.has_grouped_topics,
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
             hide_higher_options: this.checked_stories.size > 0 && this.user.editing,

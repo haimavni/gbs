@@ -68,10 +68,13 @@ export class MultiSelectCustomElement {
     agent = { size: 9999 };
     group_selected = false;
     misc;
+    show_untagged_caption = "";
+    i18n;
 
     constructor(element, i18n: I18N, dialog: DialogService, user: User, theme: Theme, misc: Misc) {
         this.element = element;
         this.dialog = dialog;
+        this.i18n = i18n;
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title');
         this.user = user;
@@ -80,6 +83,7 @@ export class MultiSelectCustomElement {
     }
 
     attached() {
+        this.calc_untagged_caption();
         /*clean(this.settings);
         this.settings = Object.assign({}, default_multi_select_settings, this.settings);*/
     }
@@ -368,9 +372,15 @@ export class MultiSelectCustomElement {
     show_untagged() {
         //clear all selected options
         this.to_show_untagged = !this.to_show_untagged;
+        this.calc_untagged_caption();
         if (this.to_show_untagged)
             this.clear_all_selections();
         this.dispatch_event();
+    }
+
+    calc_untagged_caption() {
+        let show_untagged_caption = this.to_show_untagged ? 'show-tagged-and-untagged' : 'show-untagged';
+        this.show_untagged_caption = this.i18n.tr('multi-select.' + show_untagged_caption);
     }
 
     @computedFrom('settings.mergeable')

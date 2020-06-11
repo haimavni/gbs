@@ -111,7 +111,7 @@ export class UploadPhoto {
         this.unknown_photographer = this.i18n.tr('groups.unknown-photographer-name');
         this.explain_gallery = this.i18n.tr('groups.explain-gallery');
         //
-        this.update_photo_location_debounced = debounce(this.update_photo_location, 3000, false);
+        this.update_photo_location_debounced = debounce(this.update_photo_location, 1500, false);
     }
 
     attached() {
@@ -276,7 +276,7 @@ export class UploadPhoto {
         this.status_record.photo_info.longitude = latLng.lng();
         this.markers = [{ latitude: this.status_record.photo_info.latitude, longitude: this.status_record.photo_info.longitude }];
         //for some reason, the above changes zoom to an extremely high value
-        this.update_photo_location_debounced();
+        this.update_photo_location();
         await sleep(100);
         this.status_record.photo_info.zoom = tracked_zoom;
         await sleep(100);
