@@ -32,7 +32,8 @@
             </div>
             <div class="big-story-panel fr-view" if.bind="edit">
                 <froala-editor 
-                    value.two-way="story_text" 
+                    value.two-way="story_text"
+                    key.bind="theme.froala_key()" 
                     event-handlers.bind="{
                         contentChanged:content_changed,
                         initialized:initialized
