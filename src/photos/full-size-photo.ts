@@ -194,7 +194,8 @@ export class FullSizePhoto {
 
     copy_photo_url(event) {
         event.stopPropagation();
-        copy_to_clipboard(this.slide.src);
+        console.log("this slide src: ", this.slide[this.slide.side].src);
+        copy_to_clipboard(this.slide[this.slide.side].src);
         return false;
     }
 
