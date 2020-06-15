@@ -13,23 +13,7 @@
                         initialized:initialized,
                         focus:focus
                     }" 
-                    config.bind="{
-                                iconsTemplate: 'font_awesome_5',
-                                toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
-                                        'color', 'fontSize', 'align', 'html'],
-                                fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
-                                imageDefaultDisplay: 'inline',
-                                imageDefaultAlign: 'right',
-                                imageDefaultWidth: 100,
-                                videoDefaultDisplay: 'inline',
-                                videoDefaultAlign: 'left',
-                                VideoDefaultWidth: 160,
-                                charCounterCount: false,
-                                linkAlwaysBlank: true,
-                                htmlUntouched: true,
-                                language: 'he', heightMin: height, heightMax: height,
-                                imageUploadRemoteUrls: false
-                            }">
+                    config.bind="froala_config">
                 </froala-editor>
             </div>
             <div style="margin:10px 10px;">
