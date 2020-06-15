@@ -33,27 +33,11 @@
             <div class="big-story-panel fr-view" if.bind="edit">
                 <froala-editor 
                     value.two-way="story_text"
-                    key.bind="theme.froala_key()" 
                     event-handlers.bind="{
                         contentChanged:content_changed,
                         initialized:initialized
                     }" 
-                    config.bind="{
-                        iconsTemplate: 'font_awesome_5',
-                        toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
-                                'color', 'fontSize', 'align', 'html'],
-                        fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
-                        imageDefaultDisplay: 'inline',
-                        imageDefaultAlign: 'right',
-                        imageDefaultWidth: 100,
-                        videoDefaultDisplay: 'inline',
-                        videoDefaultAlign: 'left',
-                        VideoDefaultWidth: 160,
-                        charCounterCount: false,
-                        linkAlwaysBlank: true,
-                        language: 'he', heightMin: 400, heightMax: 400,
-                        imageUploadRemoteUrls: false
-                    }">
+                    config.bind="froala_config">
                 </froala-editor>
             </div>
         </ux-dialog-body>

@@ -22,6 +22,23 @@ export class StoryWindow {
     dont_save = false;
     raw: false;
     dirty;
+    froala_config = {
+        iconsTemplate: 'font_awesome_5',
+        toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
+                'color', 'fontSize', 'align', 'html'],
+        fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
+        imageDefaultDisplay: 'inline',
+        imageDefaultAlign: 'right',
+        imageDefaultWidth: 100,
+        videoDefaultDisplay: 'inline',
+        videoDefaultAlign: 'left',
+        VideoDefaultWidth: 160,
+        charCounterCount: false,
+        linkAlwaysBlank: true,
+        language: 'he', heightMin: 400, heightMax: 400,
+        imageUploadRemoteUrls: false,
+        key: ""
+    };
 
     constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme) {
         this.dialogController = dialogController;
@@ -47,6 +64,7 @@ export class StoryWindow {
         this.story_source_orig = this.story.source.slice();
         this.edit = model.edit;
         this.show = !model.edit;
+        this.froala_config.key = this.theme.froala_key();
     }
 
     initialized(e, editor) {
