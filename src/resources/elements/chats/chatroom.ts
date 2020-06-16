@@ -1,12 +1,13 @@
-import { bindable, autoinject, singleton, bindingMode, computedFrom } from 'aurelia-framework';
+import { bindable, autoinject, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
 import { User } from '../../../services/user';
 import { Theme } from '../../../services/theme';
 import { MemberGateway } from '../../../services/gateway';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
-@autoinject()
+@inject(DOM.Element, User, Theme, MemberGateway, EventAggregator)
 //@singleton()
 export class ChatroomCustomElement {
+    element;
     user: User;
     theme: Theme;
     api: MemberGateway;
@@ -24,7 +25,8 @@ export class ChatroomCustomElement {
     editing = false;
     was_logged_in = false;
 
-    constructor(user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
+    constructor(element, user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
+        this.element = element;
         this.user = user;
         this.theme = theme;
         this.api = api;
@@ -127,6 +129,7 @@ export class ChatroomCustomElement {
     delete_chatroom() {
         this.api.call_server('chats/delete_chatroom', { room_number: this.room_number })
             .then(response => {
+                this.dispatch_event('deleted');
                 //notify chatroom group to remove it from the list
             })
     }
@@ -139,6 +142,17 @@ export class ChatroomCustomElement {
         this.editing = false;
         this.api.call_server('chats/rename_chatroom', { new_chatroom_name: this.chatroom_name, room_number: this.room_number });
     }
+
+    dispatch_event(what) {
+        let changeEvent = new CustomEvent(what, {
+            detail: {
+                command: what
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(changeEvent);
+    }
+
 }
 
 function sleep(ms) {

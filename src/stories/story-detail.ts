@@ -212,4 +212,8 @@ export class StoryDetail {
             });
     }
 
+    chatroom_deleted() {
+        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story.story_id });
+    }
+
 }

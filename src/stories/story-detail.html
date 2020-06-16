@@ -11,7 +11,11 @@
             <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing" 
                 class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
             </button>
-            <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()" style="float:left;"></chat-button>
+            <chat-button chatroom_id.two-way="chatroom_id" 
+                         new-chatroom.delegate="create_chatroom()"
+                         chatroom-deleted.delegate="chatroom_deleted()"
+                         style="float:left;">
+            </chat-button>
         </div>
         <div class="row" css="direction:${story_dir};margin-left:-30px;">
             <div class="col-md-5">

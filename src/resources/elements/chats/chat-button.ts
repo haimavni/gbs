@@ -41,13 +41,28 @@ export class ChatButtonCustomElement {
         if (!this.chatroom_id) return;
         document.body.classList.add('edged-dialog');
         this.dialog.open({ viewModel: Chat, model: { chatroom_id: this.chatroom_id }, lock: false })
-            .whenClosed(result => { document.body.classList.remove('edged-dialog'); });
+            .whenClosed(result => { 
+                document.body.classList.remove('edged-dialog');
+                if (result.output == "deleted") {
+                    this.dispatch_chatroom_deleted_event();
+                }
+             });
     }
 
     dispatch_new_chatroom_event() {
         let customEvent = new CustomEvent('new-chatroom', {
             detail: {
                 new_name: 'new chatroom'
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(customEvent);
+    }
+
+    dispatch_chatroom_deleted_event() {
+        let customEvent = new CustomEvent('chatroom-deleted', {
+            detail: {
+                chatroom_id: this.chatroom_id
             },
             bubbles: true
         });

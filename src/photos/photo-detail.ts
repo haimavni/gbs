@@ -278,6 +278,10 @@ export class PhotoDetail {
             });
     }
 
+    chatroom_deleted(event) {
+        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.photo_story.story_id });
+    }
+
     update_topic_list() {
         this.api.call_server_post('topics/get_topic_list', { usage: 'P' })
             .then(result => {
