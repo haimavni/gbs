@@ -29,6 +29,7 @@ export class StoryWindow {
         fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
         imageDefaultDisplay: 'inline',
         imageDefaultAlign: 'right',
+        imageUpload: false,
         imageDefaultWidth: 100,
         videoDefaultDisplay: 'inline',
         videoDefaultAlign: 'left',
