@@ -134,7 +134,7 @@ export class Photos {
             { value: "dated", name: this.i18n.tr('photos.dated') },
             { value: "undated", name: this.i18n.tr('photos.undated') }
         ];
-        this.recognition_options = this.misc.make_selection('photos', ['recognized', 'unrecognized', 'recognized-or-not']);
+        this.recognition_options = this.misc.make_selection('photos', ['recognized', 'unrecognized', 'recognized-or-not', 'recognized-not-located']);
         this.order_options = [
             { value: "random-order", name: this.i18n.tr('photos.random-order') },
             { value: UTO, name: this.i18n.tr('photos.' + UTO) },

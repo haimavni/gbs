@@ -337,6 +337,7 @@
         "recognized": "תמונות שזוהו",
         "unrecognized": "תמונות שלא זוהו",
         "recognized-or-not": "תמונות שזוהו ושלא זוהו",
+        "recognized-not-located": "זיהויים ללא מעגל צהוב",
         "story": "בחירת תמונות הקשורות לסיפור",
         "term": "בחירת תמונות הקשורות למונח",
         "cancel-indentification": "בטל את הזיהוי",

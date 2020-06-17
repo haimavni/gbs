@@ -338,6 +338,7 @@
         "recognized": "Recognized photos",
         "unrecognized": "Unrecognized photos",
         "recognized-or-not": "Both recognized and unrecognized",
+        "recognized-not-located": "Recognized not located",
         "story": "Select photos associated with the story",
         "term": "Select photos associated with the term",
         "cancel-indentification": "Cancel the identification",
