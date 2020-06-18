@@ -56,6 +56,8 @@
         "older-links": "קישורים לאתר הישן",
         "delete": "מחק את הסיפורים שסומנו",
         "undelete": "שחזור ספורים שנמחקו",
+        "undelete-now": "שחזר את הספורים המחוקים",
+        "delete-forever": "מחק את הספורים לתמיד",
         "to-the-member-page": "לדף החבר",
         "to-the-photo-page": "לדף התמונה",
         "term-page": "מתוך מילון המונחים",
@@ -85,7 +87,8 @@
         "topic-already-exists": "יש כבר נושא כזה",
         "push-up": "העלה לראש הרשימה",
         "edit-filters": "נושאים ומילות מפתח",
-        "date": "תאריך"
+        "date": "תאריך",
+        "delete-forever-warning": "הסיפורים יימחקו ללא אפשרות שחזור. להמשיך?"
     },
     "members": {
         "members": "חברים",

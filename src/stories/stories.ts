@@ -504,6 +504,17 @@ export class Stories {
             });
     }
 
+    delete_checked_stories_forever() {
+        if (! confirm(this.i18n.tr("stories.delete-forever-warning"))) return;
+        this.params.checked_story_list = Array.from(this.checked_stories);
+        this.api.call_server_post('members/burry_stories', { params: this.params })
+            .then(response => {
+                //this.params.checked_story_list = [];
+                this.story_list = this.story_list.filter(story => !this.checked_stories.has(story.story_id));
+                this.checked_stories = new Set();
+            });
+    }
+
     promote_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/promote_stories', { params: this.params })
@@ -514,6 +525,8 @@ export class Stories {
 
     toggle_deleted_stories() {
         this.params.deleted_stories = !this.params.deleted_stories;
+        this.params.checked_story_list = [];
+        this.params.selected_stories = [];
         this.update_story_list('other');
     }
 
