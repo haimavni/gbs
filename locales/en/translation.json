@@ -312,7 +312,8 @@
         "any-photo": "All photos",
         "candidates": "Candidates from the photos",
         "delete": "Delete the photo",
-        "rotate": "Rotate the photo",
+        "rotate": "Rotate the selected photos",
+        "rotate-photo": "Rotate the photo",
         "photographer-already-exists": "Photographer already exists",
         "no-photographers-yet": "No photographers yet",
         "no-topics-yet": "No topics defined yet",
@@ -353,7 +354,9 @@
         "view-map": "View map",
         "hide-map": "Hide map",
         "out-of": "out of ",
-        "to-see-more": "To see more phots make them smaller"
+        "to-see-more": "To see more phots make them smaller",
+        "mark-people": "Mark people faces",
+        "mark-articles": "Mark articles"
     },
     "videos": {
         "videos": "Video",

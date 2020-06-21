@@ -4,6 +4,9 @@ div.slide {
 
 button.face {
     border-radius: 50%;
+    &.is-article {
+        border-radius:25%;
+    }
     border-color: rgba(0, 0, 0, 0);
     border-style: solid;
     border-width: 8px;

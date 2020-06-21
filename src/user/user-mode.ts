@@ -31,7 +31,6 @@ export class UserMode {
     current_url = "";
     sharing_subject;
     ea;
-    handle_star_text;
     share_menu_open = false;
 
     constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
@@ -43,7 +42,6 @@ export class UserMode {
         this.dialog = dialog;
         this.popup = popup;
         this.ea = ea;
-        this.handle_star_text = this.i18n.tr('user.handle-star-text')
     }
 
     calc_current_info() {

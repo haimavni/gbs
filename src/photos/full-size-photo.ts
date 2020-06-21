@@ -5,6 +5,7 @@ import { autoinject, computedFrom } from 'aurelia-framework';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { MemberPicker } from "../members/member-picker";
+import { ArticlePicker } from "../articles/article-picker";
 import environment from "../environment";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { getOffset } from "../services/dom_utils";
@@ -18,9 +19,11 @@ export class FullSizePhoto {
     dialogService;
     baseURL;
     faces = [];
+    articles = [];
     current_face;
     candidates = [];
-    already_identified = new Set();
+    faces_already_identified = new Set();
+    articles_already_identified = new Set();
     api;
     user;
     theme;
@@ -49,6 +52,8 @@ export class FullSizePhoto {
     crop;
     save_crop;
     cancel_crop;
+    mark_articles_text;
+    mark_people_text;
     crop_sides;
     rotate;
     next_slide_txt;
@@ -63,6 +68,8 @@ export class FullSizePhoto {
     can_go_forward = false;
     can_go_backward = false;
     list_of_ids = false;
+    marking_articles = false;
+    hint_position = 'right';
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -82,7 +89,7 @@ export class FullSizePhoto {
         this.i18n = i18n;
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.crop = this.i18n.tr('photos.crop');
-        this.rotate = this.i18n.tr('photos.rotate');
+        this.rotate = this.i18n.tr('photos.rotate-photo');
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
         this.next_slide_txt = this.i18n.tr('photos.next-slide')
@@ -91,6 +98,8 @@ export class FullSizePhoto {
         this.fullscreen = this.i18n.tr('photos.fullscreen');
         this.copy_photo_url_text = this.i18n.tr('photos.copy-photo-url');
         this.flip_text = this.i18n.tr('photos.flip');
+        this.mark_people_text = this.i18n.tr('photos.mark-people');
+        this.mark_articles_text = this.i18n.tr('photos.mark-articles');
     }
 
     activate(model) {
@@ -146,9 +155,21 @@ export class FullSizePhoto {
                 this.faces = data.faces;
                 for (let face of this.faces) {
                     face.name = '<span dir="rtl">' + face.name + '</span>';
-                    this.already_identified.add(face.member_id);
+                    this.faces_already_identified.add(face.member_id);
                 }
                 this.candidates = data.candidates;
+            });
+    }
+
+    get_articles(photo_id) {
+        this.articles = [];
+        this.api.call_server('photos/get_articles', { photo_id: photo_id })
+            .then((data) => {
+                this.articles = data.articles;
+                for (let article of this.articles) {
+                    article.name = '<span dir="rtl">' + article.name + '</span>';
+                    this.articles_already_identified.add(article.article_id);
+                }
             });
     }
 
@@ -188,7 +209,7 @@ export class FullSizePhoto {
             height: d + 'px',
             'background-color': face.action ? "rgba(100, 100,0, 0.2)" : "rgba(0, 0, 0, 0)",
             cursor: face.moving ? "move" : "hand",
-            position: 'absolute',
+            position: 'absolute'
         };
     }
 
@@ -205,6 +226,19 @@ export class FullSizePhoto {
         return false;
     }
 
+    handle_article(article, event, index) {
+        event.stopPropagation();
+        if (!this.user.editing) {
+            this.jump_to_article(article.article_id);
+            return;
+        }
+        if (event.altKey && event.shiftKey) {
+            this.remove_article(article);
+            return;
+        }
+        this.assign_article(article);
+    }
+
     handle_face(face, event, index) {
         event.stopPropagation();
         if (!this.user.editing) {
@@ -218,6 +252,51 @@ export class FullSizePhoto {
         this.assign_member(face);
     }
 
+    assign_face_or_member(face) {
+        if (this.marking_articles)
+            this.assign_article(face)
+        else
+            this.assign_member(face)
+    }
+
+    assign_article(article) {
+        this.dialogService.open({
+            viewModel: ArticlePicker,
+            model: {
+                face_identifier: true,
+                article_id: article.article_id,
+                excluded: this.articles_already_identified,
+                slide: this.slide,
+                current_face: this.current_face
+            }, lock: false
+        })
+            .whenClosed(response => {
+                this.marking_face_active = false;
+                if (response.wasCancelled) {
+                    if (!article.article_id) {
+                        this.hide_face(article);
+                    }
+                    //this.remove_face(face); !!! no!
+                    return;
+                }
+                let old_article_id = article.article_id;
+                let mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
+                if (mi) {
+                    article.name = this.marking_articles ? mi.name : mi.first_name + ' ' + mi.last_name;
+                    article.article_id = response.output.new_article.article_info.id;
+                    return;
+                }
+                article.article_id = response.output.article_id;
+                let make_profile_photo = response.output.make_profile_photo;
+                this.api.call_server_post('photos/save_article', { face: article, make_profile_photo: make_profile_photo, old_article_id: old_article_id })
+                    .then(response => {
+                        article.name = response.article_name;
+                        this.eventAggregator.publish('ArticleGotProfilePhoto', { article_id: article.article_id, face_photo_url: response.face_photo_url });
+                    });
+            });
+
+    }
+
     assign_member(face) {
         this.dialogService.open({
             viewModel: MemberPicker,
@@ -225,7 +304,7 @@ export class FullSizePhoto {
                 face_identifier: true,
                 member_id: face.member_id,
                 candidates: this.candidates,
-                excluded: this.already_identified,
+                excluded: this.faces_already_identified,
                 slide: this.slide,
                 current_face: this.current_face
             }, lock: false
@@ -252,7 +331,7 @@ export class FullSizePhoto {
                     .then(response => {
                         let idx = this.candidates.findIndex(m => m.member_id == face.member_id);
                         this.candidates.splice(idx, 1);
-                        this.already_identified.add(face.member_id)
+                        this.faces_already_identified.add(face.member_id)
                         face.name = response.member_name;
                         this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
                     });
@@ -274,6 +353,11 @@ export class FullSizePhoto {
         this.faces.splice(i, 1);
     }
 
+    hide_article(article) {
+        let i = this.articles.indexOf(article);
+        this.articles.splice(i, 1);
+    }
+
     remove_face(face) {
         this.api.call_server_post('photos/detach_photo_from_member', { member_id: face.member_id, photo_id: this.slide.photo_id })
             .then(() => {
@@ -281,9 +365,21 @@ export class FullSizePhoto {
             });
     }
 
+    remove_article(article) {
+        this.api.call_server_post('photos/detach_photo_from_article', { article_id: article.article_id, photo_id: this.slide.photo_id })
+            .then(() => {
+                this.hide_article(article);
+            });
+    }
+
     private jump_to_member(member_id) {
         this.dialogController.ok();
         this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
+    }
+
+    private jump_to_article(article_id) {
+        this.dialogController.ok();
+        this.router.navigateToRoute('article-details', { id: article_id, keywords: "" });
     }
 
     mark_face(event) {
@@ -311,9 +407,16 @@ export class FullSizePhoto {
         if (!photo_id) {
             photo_id = this.slide.photo_id; //todo: ugly
         }
-        let face = { photo_id: photo_id, x: event.offsetX, y: event.offsetY, r: 30, name: this.i18n.tr("photos.unknown"), member_id: 0, action: null };
+        let face = {
+            photo_id: photo_id,
+            x: event.offsetX, y: event.offsetY, r: 30,
+            name: this.i18n.tr("photos.unknown"), member_id: 0, article_id: 0, action: null
+        };
         this.current_face = face;
-        this.faces.push(face);
+        if (this.marking_articles)
+            this.articles.push(face)
+        else
+            this.faces.push(face);
         this.marking_face_active = true;
         return false;
     }
@@ -345,7 +448,8 @@ export class FullSizePhoto {
         if (!this.user.editing) {
             return;
         }
-        let el = document.getElementById('face-' + face.member_id);
+        let id = this.marking_articles ? 'article-' + face.article_id : 'face-' + face.member_id;
+        let el = document.getElementById(id);
         let current_face = this.current_face;
         if (face.action === "moving") {
             current_face.x += event.dx;
@@ -503,6 +607,11 @@ export class FullSizePhoto {
         return false;
     }
 
+    toggle_people_articles(event) {
+        event.stopPropagation();
+        this.marking_articles = !this.marking_articles;
+    }
+
     slide_idx() {
         if (this.list_of_ids) {
             let photo_id = this.slide[this.slide.side].photo_id;
@@ -601,10 +710,17 @@ export class FullSizePhoto {
                     this.remove_face(face)
                 } else if (command == 'save-face-location') {
                     this.marking_face_active = false;
-                    if (face.member_id)
-                        this.api.call_server_post('photos/save_face', { face: face });
-                    else
-                        this.assign_member(face);
+                    if (this.marking_articles) {
+                        if (face.article_id)
+                            this.api.call_server_post('photos/save_article', { article: face });
+                        else
+                            this.assign_article(face);
+                    } else {
+                        if (face.member_id)
+                            this.api.call_server_post('photos/save_face', { face: face });
+                        else
+                            this.assign_member(face);
+                    }
                 }
             }
         })
@@ -616,7 +732,8 @@ export class FullSizePhoto {
         if (!this.user.editing) return;
         let current_face = this.current_face;
         if (!current_face) return;
-        let el = document.getElementById('face-' + current_face.member_id);
+        let id = this.marking_articles ? 'article-' + current_face.article_id : 'face-' + current_face.member_id;
+        let el = document.getElementById(id);
         if (!el) return;
         let face_location = this.face_location(current_face);
         el.style.left = face_location.left;

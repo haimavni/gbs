@@ -1,0 +1,32 @@
+div#member-picker {
+    padding: 15px;
+    padding-top:0;
+    background:lightgray;
+    cursor:default;
+    div.header {
+        background-color:gray;
+        height:60px;
+        padding-top:13px;
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        margin-right:-15px;
+        margin-left:-15px;
+        padding-right:6px;
+        padding-left:6px;
+    }
+    div.member-list {
+        li {
+            width:65px;
+            float:right;
+            min-height:88px;
+            font-size:9px;
+            vertical-align: text-bottom;
+            img {
+                width:50px;
+                height:50px;
+                border-radius:50%;
+            }
+        }
+    }
+}
