@@ -25,9 +25,9 @@ export class ArticlePicker {
     candidates = [];
     excluded = new Set();
     api;
-    member_id;
     i18n;
     agent = { size: 9999 };
+    article_id;
 
     constructor(user: User, eventAggregator: EventAggregator, articleList: ArticleList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -43,7 +43,9 @@ export class ArticlePicker {
 
     created() {
         return this.articleList.getArticleList().then(articles => {
-            this.articles = this.articles.filter(article => article.id == this.member_id || !this.excluded.has(article.id))
+            let aList = articles.article_list.slice();
+            this.articles = aList; 
+            this.articles = this.articles.filter(article => article.id == this.article_id || !this.excluded.has(article.id))
         })
     }
 
@@ -54,22 +56,22 @@ export class ArticlePicker {
         this.candidates = model.candidates ? model.candidates : [];
         this.excluded = model.excluded ? model.excluded : new Set();
         this.filter = '';
-        this.member_id = model.member_id;
-        if (model.member_id) {
-            this.articleList.get_article_by_id(model.member_id)
+        this.article_id = model.article_id;
+        if (model.article_id) {
+            this.articleList.get_article_by_id(model.article_id)
                 .then(result => {
                     this.filter = result.name;
                 })
         }
     }
 
-    select(member) {
-        this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
+    select(article) {
+        this.dialogController.ok({ article_id: article.id, make_profile_photo: this.make_profile_photo });
     }
 
     async create_new_article() {
         let article_ids = [];
-        await this.api.call_server('members/article_by_name', { name: this.filter })
+        await this.api.call_server('articles/article_by_name', { name: this.filter })
             .then(response => { article_ids = response.article_ids });
         for (let article_id of article_ids) {
             if (this.excluded.has(article_id)) {
@@ -79,11 +81,11 @@ export class ArticlePicker {
             }
         }
         let default_name = this.i18n.tr('articles.default-name');
-        this.api.call_server('members/create_new_article',
+        this.api.call_server('articles/create_new_article',
             { photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name })
             .then(response => {
                 this.dialogController.ok({
-                    member_id: response.member_id, new_article: response.article
+                    article_id: response.article_id, new_article: response.article
                 });
             });
     }

@@ -3,7 +3,7 @@
     <div id="article-picker">
         <div class="header">
             <div>
-                <button if.bind="agent.size==0" click.delegate="create_new_article()" class="btn btn-success cl-create-btn" if.bind="user.editing">
+                <button if.bind="filter && agent.size==0" click.delegate="create_new_article()" class="btn btn-success cl-create-btn" if.bind="user.editing">
                     ${'members.new' & t} ${filter}
                 </button>
             </div>

@@ -15,8 +15,8 @@ export class ArticleList {
     constructor(eventAggregator, api) {
         this.eventAggregator = eventAggregator;
         this.api = api;
-        this.eventAggregator.subscribe('OBJECT_LISTS_CHANGED', payload => {
-            let flds = ['id', 'name', 'visibility', 'has_profile', 'approved'];
+        this.eventAggregator.subscribe('ARTICLE_LISTS_CHANGED', payload => {
+            let flds = ['id', 'name', 'has_profile'];
             let mi = payload.article_rec;
             if (payload.new_article) {
                 let new_article = {};

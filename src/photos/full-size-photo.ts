@@ -138,6 +138,7 @@ export class FullSizePhoto {
             console.log("no photo id in ", this.slide.side, " photo id: ", pid);
         }
         this.get_faces(pid);
+        this.get_articles(pid);
         this.get_photo_info(pid);
         this.api.hit('PHOTO', pid);
         if (this.user.editing && !this.highlighting)
@@ -259,12 +260,12 @@ export class FullSizePhoto {
             this.assign_member(face)
     }
 
-    assign_article(article) {
+    assign_article(face) {
         this.dialogService.open({
             viewModel: ArticlePicker,
             model: {
                 face_identifier: true,
-                article_id: article.article_id,
+                article_id: face.article_id,
                 excluded: this.articles_already_identified,
                 slide: this.slide,
                 current_face: this.current_face
@@ -273,25 +274,26 @@ export class FullSizePhoto {
             .whenClosed(response => {
                 this.marking_face_active = false;
                 if (response.wasCancelled) {
-                    if (!article.article_id) {
-                        this.hide_face(article);
+                    if (!face.article_id) {
+                        this.hide_face(face);
                     }
                     //this.remove_face(face); !!! no!
                     return;
                 }
-                let old_article_id = article.article_id;
+                let old_article_id = face.article_id;
+                console.log("response from article picker: ", response);
                 let mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
                 if (mi) {
-                    article.name = this.marking_articles ? mi.name : mi.first_name + ' ' + mi.last_name;
-                    article.article_id = response.output.new_article.article_info.id;
+                    face.name = this.marking_articles ? mi.name : mi.first_name + ' ' + mi.last_name;
+                    face.article_id = response.output.new_article.article_info.id;
                     return;
                 }
-                article.article_id = response.output.article_id;
+                face.article_id = response.output.article_id;
                 let make_profile_photo = response.output.make_profile_photo;
-                this.api.call_server_post('photos/save_article', { face: article, make_profile_photo: make_profile_photo, old_article_id: old_article_id })
+                this.api.call_server_post('photos/save_article', { face: face, make_profile_photo: make_profile_photo, old_article_id: old_article_id })
                     .then(response => {
-                        article.name = response.article_name;
-                        this.eventAggregator.publish('ArticleGotProfilePhoto', { article_id: article.article_id, face_photo_url: response.face_photo_url });
+                        face.name = response.article_name;
+                        this.eventAggregator.publish('ArticleGotProfilePhoto', { article_id: face.article_id, face_photo_url: response.face_photo_url });
                     });
             });
 
@@ -501,7 +503,10 @@ export class FullSizePhoto {
                 this.remove_face(face);
             }
         }
-        this.faces = this.faces.splice(0);
+        if (this.marking_articles)
+            this.articles = this.articles.splice(0)
+        else
+            this.faces = this.faces.splice(0);
         face.action = null;
     }
 
@@ -632,6 +637,7 @@ export class FullSizePhoto {
         this.slide = this.slide_list[idx];
         let pid = this.slide.photo_id;
         this.get_faces(pid);
+        this.get_articles(pid);
         this.get_photo_info(pid);
         this.calc_percents();
     }
@@ -659,6 +665,7 @@ export class FullSizePhoto {
             this.can_go_backward = true;
             if (this.list_of_ids) {
                 this.get_faces(this.curr_photo_id);
+                this.get_articles(this.curr_photo_id)
                 this.get_photo_info(this.curr_photo_id);
             }
         }
@@ -673,6 +680,7 @@ export class FullSizePhoto {
             this.can_go_backward = idx > 1;
             if (this.list_of_ids) {
                 this.get_faces(this.curr_photo_id);
+                this.get_articles(this.curr_photo_id);
                 this.get_photo_info(this.curr_photo_id);
             }
         }
@@ -712,7 +720,7 @@ export class FullSizePhoto {
                     this.marking_face_active = false;
                     if (this.marking_articles) {
                         if (face.article_id)
-                            this.api.call_server_post('photos/save_article', { article: face });
+                            this.api.call_server_post('photos/save_article', { face: face });
                         else
                             this.assign_article(face);
                     } else {
@@ -760,6 +768,7 @@ export class FullSizePhoto {
         this.fullscreen_mode = !this.fullscreen_mode;
         if (!this.fullscreen_mode) {
             this.get_faces(this.curr_photo_id);
+            this.get_articles(this.curr_photo_id);
             this.get_photo_info(this.curr_photo_id);
         }
     }

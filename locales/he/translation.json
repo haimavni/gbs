@@ -166,6 +166,11 @@
         "apply-answers": "ישם",
         "already-identified": " כבר מזוהה בתמונה זו"
     },
+    "articles": {
+        "articles": "אובייקטים",
+        "filter": "הקלד את שם האובייקט",
+        "filter-can-add": "הקלד את שם האובייקט או שם של אובייקט חדש"
+    },
     "quiz": {
         "filters": "מסננים",
         "fill-questions": "סמן תשובות",

@@ -167,6 +167,11 @@
         "apply-answers": "Apply",
         "already-identified": " already indetified in this photo"
     },
+    "articles": {
+        "articles": "Articles",
+        "filter": "Enter article name",
+        "filter-can-add": "Enter article name or name of a new article"
+    },
     "quiz": {
         "filters": "Filters",
         "fill-questions": "Fill questions",
