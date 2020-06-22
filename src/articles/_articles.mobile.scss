@@ -1,0 +1,17 @@
+$profile_photo_size: 80px;
+
+div.article-list.content-area li.list-group-item {
+    width: $profile_photo_size + 20px;
+    min-height: $profile_photo_size + 22px;
+    a {
+         img {
+             width: $profile_photo_size;
+             height: $profile_photo_size;
+         }
+    }
+}
+
+#articles-filter {
+    width: 90%;
+    font-size: 13px;
+}

@@ -1,0 +1,37 @@
+<template>
+
+    <section class="container content-area">
+        <div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-2" style="padding-right:50px;">
+                    <div class="inputs-inline">
+                        <div id="articles-filter" class="input-group">
+                            <search-input value.bind="filter" placeholder="articles.filter" height="38"
+                                help_topic="articles-help">
+                            </search-input>
+                        </div>
+                        <div class="input-group" style="padding-top:16px;">
+                            <help topic.bind="topic_articles" position="bottom"></help>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="article-list" class="article-list content-area unselectable" css="height:${theme.height-320}px;"
+                ref="scroll_area">
+                <ul class="list-group">
+                    <li repeat.for="article of articles | filter : filter : 'name' | take : max_articles_displayed"
+                        class="list-group-item"
+                        dir="rtl">
+                        <a click.delegate="article_clicked(article, $event)" tapandhold="500"
+                            style="color:black;cursor:pointer;">
+                            <img src.bind="article.facePhotoURL" />
+                            <h6 class="list-group-item-heading">${article.name}</h6>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</template>
