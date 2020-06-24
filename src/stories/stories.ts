@@ -99,6 +99,7 @@ export class Stories {
     editing_filters = false;
     visibility_width = "90%";
     update_story_list_debounced;
+    delete_or_undelete_now_title;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -111,6 +112,7 @@ export class Stories {
         this.router = router;
         this.ea = ea;
         this.popup = popup;
+        this.delete_or_undelete_now_title = this.i18n.tr('stories.delete');
         this.days_since_update_options = [
             { value: 0, name: this.i18n.tr('stories.uploaded-any-time') },
             { value: 1, name: this.i18n.tr('stories.uploaded-today') },
@@ -525,6 +527,8 @@ export class Stories {
 
     toggle_deleted_stories() {
         this.params.deleted_stories = !this.params.deleted_stories;
+        let t = this.params.deleted_stories ? 'stories.undelete-now' : 'stories.delete';
+        this.delete_or_undelete_now_title = this.i18n.tr(t);
         this.params.checked_story_list = [];
         this.params.selected_stories = [];
         this.update_story_list('other');

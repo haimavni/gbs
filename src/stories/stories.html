@@ -31,11 +31,11 @@
                                 </a>
                             </div>
                             <div class="form-group" if.bind="user.editing && checked_stories.size>0" style="float:left;margin-left:20px;">
-                                <button class="btn btn-warning btn-sm" click.trigger="delete_checked_stories()" t="[title]stories.undelete-now">
+                                <button class="btn btn-warning btn-sm" click.trigger="delete_checked_stories()" title="${delete_or_undelete_now_title}">
                                     <i class="far fa-trash-alt fa-lg ${params.deleted_stories ? 'fa-rotate-180' : '' }"></i>
                                 </button>
                             </div>
-                            <div class="form-group" if.bind="user.editing && checked_stories.size>0" style="float:left;margin-left:20px;">
+                            <div class="form-group" if.bind="user.editing && checked_stories.size>0 && params.deleted_stories" style="float:left;margin-left:20px;">
                                 <button class="btn btn-error btn-sm" 
                                     click.trigger="delete_checked_stories_forever()" 
                                     t="[title]stories.delete-forever"
