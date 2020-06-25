@@ -96,7 +96,7 @@
                     click.delegate="rotate_photo($event)"><i class="fa fa-lg fa-undo"></i></button>
                 <button if.bind="user.config.enable_articles && user.editing && marking_articles" aubs-tooltip="text.bind:mark_people_text;position.bind:hint_position;" 
                     class="side-tool crop" click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-smile"></i></button>
-                <button if.bind="user.editing && !marking_articles" aubs-tooltip="text.bind:mark_articles_text;position.bind:hint_position;" class="side-tool crop"
+                <button if.bind="user.config.enable_articles && user.editing && !marking_articles" aubs-tooltip="text.bind:mark_articles_text;position.bind:hint_position;" class="side-tool crop"
                     click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-trees"></i></button>
             </div>
         </div>
