@@ -169,7 +169,8 @@
     "articles": {
         "articles": "אובייקטים",
         "filter": "הקלד את שם האובייקט",
-        "filter-can-add": "הקלד את שם האובייקט או שם של אובייקט חדש"
+        "filter-can-add": "הקלד את שם האובייקט או שם של אובייקט חדש",
+        "life-summary": "אודות "
     },
     "quiz": {
         "filters": "מסננים",
@@ -233,6 +234,8 @@
         "create-new-app": "ליצירת האתר שלי",
         "new-app-enabled": "אפשר יצירת אתר חדש",
         "new-app-disabled": "ללא יצירת אתר חדש",
+        "enable-articles-off": "ללא זיהוי אובייקטים",
+        "enable-articles-on": "אפשר זיהוי אובייקטים",
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",

@@ -170,7 +170,8 @@
     "articles": {
         "articles": "Articles",
         "filter": "Enter article name",
-        "filter-can-add": "Enter article name or name of a new article"
+        "filter-can-add": "Enter article name or name of a new article",
+        "life-summary": "About"
     },
     "quiz": {
         "filters": "Filters",
@@ -234,6 +235,8 @@
         "create-new-app": "Create my own site",
         "new-app-enabled": "Expose new app button",
         "new-app-disabled": "No new app button",
+        "enable-articles-off": "No article detection",
+        "enable-articles-on": "Enable article detection",
         "gallery": "Gallery",
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",

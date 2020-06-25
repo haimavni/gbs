@@ -26,6 +26,7 @@ export class Customize {
     quick_upload_options = ['user.quick-upload-on', 'user.quick-upload-off'];
     version_time_options = ['user.version-time-on', 'user.version-time-off'];
     expose_developer_options = ['user.expose-developer-on', 'user.expose-developer-off'];
+    enable_articles_options = ['user.enable-articles-on', 'user.enable-articles-off'];
     
     //-----------
     auto_reg_option = 'user.by-invitation';
@@ -35,6 +36,7 @@ export class Customize {
     quick_upload_button = 'user.quick-upload-off';
     version_time_option = 'user.version-time-on';
     expose_developer_option = 'user.expose-developer-on';
+    enable_articles_option = 'user.enable-articles-off';
     user;
 
     constructor(theme: Theme, router: Router, i18n: I18N, controller: DialogController, api: MemberGateway, user: User) {
@@ -66,6 +68,7 @@ export class Customize {
         this.feedback_option = this.user.config.expose_feedback_button ? 'user.feedback-on' : 'user.feedback-off';
         this.quick_upload_button = this.user.config.quick_upload_button ? 'user.quick-upload-on' : 'user.quick-upload-off';
         this.expose_developer_option = this.user.config.expose_developer ?  'user.expose-developer-on' : 'user.expose-developer-off';
+        this.enable_articles_option = this.user.config.enable_articles ?  'user.enable-articles-on' : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
     }
 
@@ -158,6 +161,14 @@ export class Customize {
     expose_developer_option_selected(option) {
         this.expose_developer_option = option;
         this.api.call_server('admin/set_developer_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+            })
+    }
+
+    enable_articles_option_selected(option) {
+        this.enable_articles_option = option;
+        this.api.call_server('admin/set_articles_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
             })

@@ -58,53 +58,60 @@
                     <h3>${'user.config' & t}</h3>
                 </div>
                 <div class="custom-options" style="height:200px;overflow:auto;">
-                    <div class="rowxxx" style="margin-bottom:5px;">
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="uf of auto_reg_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${uf==auto_reg_option ? 'primary' : 'default'} customization"
                             click.delegate="auto_reg_option_selected(uf)">
                             <span style="font-weight:bolder">${uf & t}</span>
                         </button>
                     </div>
-                    <div class="rowxxx" style="margin-bottom:5px;">
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="na of new_app_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${na==new_app_option ? 'primary' : 'default'} customization"
                             click.delegate="new_app_option_selected(na)">
                             <span style="font-weight:bolder">${na & t}</span>
                         </button>
                     </div>
-                    <div class="rowxxx" style="margin-bottom:5px;">
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="aud of audio_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${aud==audio_option ? 'primary' : 'default'} customization"
                             click.delegate="audio_option_selected(aud)">
                             <span style="font-weight:bolder">${aud & t}</span>
                         </button>
                     </div>
-                    <div class="rowxxx" style="margin-bottom:5px;">
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="feed of feedback_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${feed==feedback_option ? 'primary' : 'default'} customization"
                             click.delegate="feedback_option_selected(feed)">
                             <span style="font-weight:bolder">${feed & t}</span>
                         </button>
                     </div>
-                    <div class="rowxxx" style="margin-bottom:5px;">
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="qu of quick_upload_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${qu==quick_upload_button ? 'primary' : 'default'} customization"
                             click.delegate="quick_upload_option_selected(qu)">
                             <span style="font-weight:bolder">${qu & t}</span>
                         </button>
                     </div>
-                    <div class="rowxxx" style="margin-bottom:5px;">
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="vt of version_time_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${vt==version_time_option ? 'primary' : 'default'} customization"
                             click.delegate="version_time_option_selected(vt)">
                             <span style="font-weight:bolder">${vt & t}</span>
                         </button>
                     </div>
-                    <div class="rowxxx" style="margin-bottom:5px;">
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="edo of expose_developer_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${edo==expose_developer_option ? 'primary' : 'default'} customization"
                             click.delegate="expose_developer_option_selected(edo)">
                             <span style="font-weight:bolder">${edo & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
+                        <button repeat.for="aro of enable_articles_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${aro==enable_articles_option ? 'primary' : 'default'} customization"
+                            click.delegate="enable_articles_option_selected(aro)">
+                            <span style="font-weight:bolder">${aro & t}</span>
                         </button>
                     </div>
                 </div>

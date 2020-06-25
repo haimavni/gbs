@@ -67,6 +67,7 @@ export class App {
             { route: 'term-detail/:id/*', name: 'term-detail', moduleId: './stories/story-detail' },
             { route: 'help-detail/:id/*', name: 'help-detail', moduleId: './stories/story-detail' },
             { route: 'member-details/:id/*', name: 'member-details', moduleId: './members/member-detail' },
+            { route: 'article-details/:id/*', name: 'article-details', moduleId: './articles/article-detail' },
             { route: 'memmbers/new', name: 'member-creation', moduleId: './members/member-edit', title: 'members.newMember' },
             { route: 'members/:id/edit', name: 'member-edit', moduleId: './members/member-edit', title: 'members.editMember' },
             { route: 'photos/:id/*', name: 'photo-detail', moduleId: './photos/photo-detail' },

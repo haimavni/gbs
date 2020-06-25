@@ -3,10 +3,12 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
+import { ArticleList } from '../services/article_list';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
 import { QState, Question } from '../resources/elements/quiz/quiz-model';
+
 
 @autoinject()
 @singleton()
@@ -19,6 +21,8 @@ export class Members {
     eventAggregator;
     _members = [];
     memberList;
+    articleList;
+    articles_exist = false;
     selectedId;
     faces_per_line = 8;
     win_width;
@@ -46,7 +50,7 @@ export class Members {
     quiz_help_data;
     old_editing_mode = false;
 
-    constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, theme: Theme, i18n: I18N, router: Router) {
+    constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, articleList: ArticleList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
         this.api = api;
         this.theme = theme;
@@ -54,6 +58,7 @@ export class Members {
         this.router = router;
         this.eventAggregator = eventAggregator;
         this.memberList = memberList;
+        this.articleList = articleList;
         this._members = [];
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.eventAggregator.subscribe('NewMemberAdded', member_details => {
@@ -73,7 +78,7 @@ export class Members {
             { value: '', name: this.i18n.tr('members.all-members') },
             { value: 'x', name: this.i18n.tr('members.unapproved-only') }
         ];
-        this.quiz_help_data = {items: this.i18n.tr('members.members')};
+        this.quiz_help_data = { items: this.i18n.tr('members.members') };
     }
 
     activate(params, routeConfig) {
@@ -107,6 +112,10 @@ export class Members {
     }
 
     attached() {
+        this.articleList.getArticleList()
+            .then(articles => {
+                this.articles_exist = articles.article_list.length > 0;
+            })
         this.theme.display_header_background = true;
         this.theme.page_title = (this.caller_type) ? 'members.' + this.caller_type : "members.members";
         this.scroll_area.scrollTop = this.scroll_top;
@@ -330,6 +339,10 @@ export class Members {
                 });
         } else if (this.q_state == QState.APPLYING) {
         }
+    }
+
+    goto_articles() {
+        this.router.navigateToRoute('articles');
     }
 
 }
