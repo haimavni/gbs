@@ -67,7 +67,7 @@ export class ChatroomCustomElement {
         if (!this.user_message) {
             return;
         }
-        this.api.call_server('chats/send_message', { user_message: this.user_message, room_number: this.room_number, room_index: this.room_index, user_id: this.user.id | 2 })
+        this.api.call_server_post('chats/send_message', { user_message: this.user_message, room_number: this.room_number, room_index: this.room_index, user_id: this.user.id | 2 })
             .then((data) => {
                 this.user_message = "";
             });

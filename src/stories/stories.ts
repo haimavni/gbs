@@ -273,7 +273,7 @@ export class Stories {
         return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
             .then(result => {
                 //this.params.by_last_chat_time = false;
-                this.params.order_option = this.order_options[0];
+                //this.params.order_option = this.order_options[0];
                 this.editing_filters = false;
                 //this.story_list = result.story_list;
                 this.no_results = result.no_results;

@@ -15,7 +15,9 @@ export class StoryDetail {
     i18n;
     story;
     members = [];
+    articles = [];
     candidates = [];
+    article_candidates = [];
     has_associated_photos = false;
     photos;
     curr_photo;
@@ -105,7 +107,9 @@ export class StoryDetail {
                     this.story_dir = this.theme.language_dir(this.story.language)
                 }
                 this.members = response.members;
+                this.articles = response.articles;
                 this.candidates = response.candidates;
+                this.article_candidates = response.article_candidates;
                 this.photos = response.photos;
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
@@ -124,6 +128,11 @@ export class StoryDetail {
     update_associated_members() {
         let member_ids = this.members.map(member => Number(member.id));
         this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: this.story_type, associated_members: member_ids });
+    }
+
+    update_associated_articles() {
+        let article_ids = this.articles.map(article => Number(article.id));
+        this.router.navigateToRoute('associate-articles', { caller_id: this.story.story_id, caller_type: this.story_type, associated_articles: article_ids });
     }
 
     update_associated_photos() {
@@ -183,6 +192,14 @@ export class StoryDetail {
         let mem = mems[0];
         this.members.push(mem);
         this.api.call_server_post('members/add_story_member', { story_id: this.story.story_id, candidate_id: candidate_id });
+    }
+
+    accept_article_candidate(candidate_id, idx) {
+        let arts = this.article_candidates.slice(idx, idx + 1);
+        this.article_candidates.splice(idx, 1);
+        let art = arts[0];
+        this.articles.push(art);
+        this.api.call_server_post('members/add_story_article', { story_id: this.story.story_id, candidate_id: candidate_id });
     }
 
     @computedFrom('story.story_text', 'story_changed')

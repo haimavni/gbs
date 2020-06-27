@@ -37,7 +37,7 @@ export class ArticleDetail {
     stories_base = 0;
     life_summary;
     source;
-    sub1; sub2; sub3; sub4; sub5;
+    sub1; sub2; sub3; sub4;
     to_story_page;
     expand;
     compress;
@@ -64,8 +64,8 @@ export class ArticleDetail {
         this.router = router;
         this.i18n = i18n;
         this.to_story_page = this.i18n.tr('articles.to-story-page');
-        this.expand = this.i18n.tr('articles.expand-life-summary');
-        this.compress = this.i18n.tr('articles.compress-life-summary');
+        this.expand = this.i18n.tr('members.expand-life-summary');
+        this.compress = this.i18n.tr('members.compress-life-summary');
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('articles.life-summary');
@@ -117,9 +117,9 @@ export class ArticleDetail {
 
     attached() {
         this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
-        this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
-        this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
+        this.sub2 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
+        this.sub3 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
+        this.sub4 = this.eventAggregator.subscribe('Zoom', payload => {
             if (payload.event.ctrlKey) {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
                 return;
@@ -135,7 +135,6 @@ export class ArticleDetail {
         this.sub2.dispose();
         this.sub3.dispose();
         this.sub4.dispose();
-        this.sub5.dispose();
     }
 
     tryDelete() {

@@ -319,6 +319,7 @@
         "search-member": "With Member",
         "any-photo": "All photos",
         "candidates": "Candidates from the photos",
+        "article-candidates": "Article candidates from the photos",
         "delete": "Delete the photo",
         "rotate": "Rotate the selected photos",
         "rotate-photo": "Rotate the photo",
@@ -645,5 +646,6 @@
     "result6": "Help messages",
     "result8": "Video",
     "result9": "Document",
-    "result10": "Audio"
+    "result10": "Audio",
+    "result12": "Articles"
 }

@@ -17,6 +17,9 @@
         </div>
         <div class="container" ref="article_detail_panel">
             <div id="article-detail-content" class="row" dir="rtl" ref="top_panel">
+                <div class="col-md-6">
+                   <!-- think of something useful to place here -->
+                </div> 
                 <div class="col-md-6" if.bind="user.editing && article" style="padding-right:48px;">
                     <div class="row" dir="rtl">
                         <compose view-model="./article-edit" model.bind="article"></compose>

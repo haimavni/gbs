@@ -104,7 +104,6 @@ export class Members {
                         member.selected = 0;
                     }
                 }
-
             }
             this.win_width = window.outerWidth;
             this.theme.display_header_background = true;
@@ -124,12 +123,6 @@ export class Members {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
-    }
-
-    select(member) {
-
-        this.selectedId = member.id;
-        return true;
     }
 
     member_added(member_details) {
@@ -242,7 +235,6 @@ export class Members {
 
     save_member_group(group_id) {
         let member_ids = Array.from(this.selected_members);
-        //member_ids = member_ids.map(m => Number(m));
         let caller_type = this.caller_type;
         this.caller_type = '';
         this.api.call_server_post('members/save_group_members',

@@ -22,15 +22,25 @@
                 <photo-strip if.bind="has_associated_photos" source.bind="source" action_key="Zoom2" style="padding:0;"
                     dir="ltr" settings.bind="{arrows:true, height:220}"></photo-strip>
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
-                    <div if.bind="user.editing" class="col-md-5" >
+                    <div if.bind="user.editing" >
                         <form class="form-inline">
-                            <button class="btn btn-success btn-sm" click.trigger="update_associated_photos()" style="float:left;margin-right:5px;">
+                            <button class="btn btn-success btn-sm" 
+                                click.trigger="update_associated_photos()" 
+                                style="float:left;margin-right:5px;">
                                 ${'photos.photos' & t}
                             </button>
-                            <button class="btn btn-success btn-sm" click.trigger="update_associated_members()" style="float:left;">
+                            <button class="btn btn-success btn-sm" 
+                                click.trigger="update_associated_members()" 
+                                style="float:left;margin-right:5px;">
                                 ${'members.members' & t}
                             </button>
-                            <label style="float:right;font-weight:normal;font-size:18px;margin-top:2px;">${'update' & t}:</label>
+                            <button class="btn btn-success btn-sm" 
+                                if.bind="user.config.enable_articles"
+                                click.trigger="update_associated_articles()" 
+                                style="float:left;">
+                                ${'articles.articles' & t}
+                            </button>
+                            <label style="float:right;font-weight:normal;font-size:14px;margin-top:2px;">${'update' & t}:</label>
                         </form>
                     </div>
                     <div if.bind="! user.editing" class="col-md-5">
@@ -50,6 +60,17 @@
                         </li>
                     </ul>
                 </div>
+                <div if.bind="articles.length>0" id="article-list" class="row stories-member-list" 
+                    css="max-height:${user.editing ? 200 : 400}px;overflow:auto;overflow-x:hidden;">
+                    <ul class="list-group">
+                        <li class="list-group-item" repeat.for="article of articles">
+                            <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
+                                <img src.bind="article.facePhotoURL" />
+                                <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${article.name}</h6>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="row stories-member-list">
                     <h3 style="margin-right:40px;">${'photos.candidates' & t}</h3>
                     <ul class="list-group" style="max-height:200px;overflow:auto;overflow-x:hidden;">
@@ -57,6 +78,17 @@
                             <a click.delegate="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
                                 <img src.bind="candidate.facePhotoURL" />
                                 <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${candidate.full_name}</h6>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div if.bind="user.editing && article_candidates.length>0" id="article-candidate-list" class="row stories-member-list">
+                    <h3 style="margin-right:40px;">${'photos.article-candidates' & t}</h3>
+                    <ul class="list-group" style="max-height:200px;overflow:auto;overflow-x:hidden;">
+                        <li class="list-group-item" repeat.for="candidate of article_candidates">
+                            <a click.delegate="accept_article_candidate(candidate.id, $index)" style="cursor:pointer;">
+                                <img src.bind="candidate.facePhotoURL" />
+                                <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${candidate.name}</h6>
                             </a>
                         </li>
                     </ul>
