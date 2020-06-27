@@ -75,6 +75,31 @@ div.stories-member-list li.list-group-item {
     }
 }
 
+div.stories-article-list li.list-group-item {
+    width: $profile_photo_size;
+    float: right;
+    height: $profile_photo_height;
+    font-size: 9px;
+    vertical-align: text-bottom;
+    background-color:rgba(0,0,0,0);
+    margin-left:8px;
+    margin-bottom: 0px;
+    padding: 0;
+    a {
+         vertical-align: text-bottom;
+         align-content: center;
+         border: none;
+         img {
+             width: $profile_photo_size;
+             height: $profile_photo_size;
+             border-radius: 35%;
+         }
+         h6 {
+             text-align: center;
+         }
+    }
+}
+
 div.story-section {
     //height: 180px;
     overflow: hidden;

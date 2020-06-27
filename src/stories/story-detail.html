@@ -1,20 +1,21 @@
 <template>
 
-    <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px" class="container content-area">
+    <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px"
+        class="container content-area">
         <div class="detail-header detail-header-modifier">
             <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
-                <i class="far fa-arrow-up" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
+                <i class="far fa-arrow-up" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
+                    if.bind="theme.is_desktop"></i>
             </h3>
             <h3 dir="${story_dir}" style="float: right;margin:0px;">
                 ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
-            <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing" 
-                class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
+            <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
+                class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"
+                t="[title]stories.highlight-on">
             </button>
-            <chat-button chatroom_id.two-way="chatroom_id" 
-                         new-chatroom.delegate="create_chatroom()"
-                         chatroom-deleted.delegate="chatroom_deleted()"
-                         style="float:left;">
+            <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()"
+                chatroom-deleted.delegate="chatroom_deleted()" style="float:left;">
             </chat-button>
         </div>
         <div class="row" css="direction:${story_dir};margin-left:-30px;">
@@ -22,89 +23,96 @@
                 <photo-strip if.bind="has_associated_photos" source.bind="source" action_key="Zoom2" style="padding:0;"
                     dir="ltr" settings.bind="{arrows:true, height:220}"></photo-strip>
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
-                    <div if.bind="user.editing" >
+                    <div if.bind="user.editing">
                         <form class="form-inline">
-                            <button class="btn btn-success btn-sm" 
-                                click.trigger="update_associated_photos()" 
+                            <button class="btn btn-success btn-sm" click.trigger="update_associated_photos()"
                                 style="float:left;margin-right:5px;">
                                 ${'photos.photos' & t}
                             </button>
-                            <button class="btn btn-success btn-sm" 
-                                click.trigger="update_associated_members()" 
+                            <button class="btn btn-success btn-sm" click.trigger="update_associated_members()"
                                 style="float:left;margin-right:5px;">
                                 ${'members.members' & t}
                             </button>
-                            <button class="btn btn-success btn-sm" 
-                                if.bind="user.config.enable_articles"
-                                click.trigger="update_associated_articles()" 
-                                style="float:left;">
+                            <button class="btn btn-success btn-sm" if.bind="user.config.enable_articles"
+                                click.trigger="update_associated_articles()" style="float:left;">
                                 ${'articles.articles' & t}
                             </button>
-                            <label style="float:right;font-weight:normal;font-size:14px;margin-top:2px;">${'update' & t}:</label>
+                            <label style="float:right;font-weight:normal;font-size:14px;margin-top:2px;">${'update' &
+                                t}:</label>
                         </form>
                     </div>
                     <div if.bind="! user.editing" class="col-md-5">
                     </div>
-                    <div show.bind="members.length>0" class="col-md-7" style="padding-right:36px;">
-                        <span style="float:right;margin-right:-10px;">${'stories.associated-members' & t}</span>
+                </div>
+                <div style="max-height:550px;overflow:auto;overflow-x:hidden;">
+                    <div if.bind="members.length>0" id="member-list" class="stories-member-list"
+                        style="display:flex;flex-direction:column;">
+                        <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
+                            <span style="float:right;">${'stories.associated-members' & t}</span>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item" repeat.for="member of members">
+                                <a route-href="route: member-details; params.bind: {id:member.id, keywords: ''}">
+                                    <img src.bind="member.facePhotoURL" />
+                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${member.full_name}</h6>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
-                <div if.bind="members.length>0" id="member-list" class="row stories-member-list" 
-                    css="max-height:${user.editing ? 200 : 400}px;overflow:auto;overflow-x:hidden;">
-                    <ul class="list-group">
-                        <li class="list-group-item" repeat.for="member of members">
-                            <a route-href="route: member-details; params.bind: {id:member.id, keywords: ''}">
-                                <img src.bind="member.facePhotoURL" />
-                                <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${member.full_name}</h6>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div if.bind="articles.length>0" id="article-list" class="row stories-member-list" 
-                    css="max-height:${user.editing ? 200 : 400}px;overflow:auto;overflow-x:hidden;">
-                    <ul class="list-group">
-                        <li class="list-group-item" repeat.for="article of articles">
-                            <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
-                                <img src.bind="article.facePhotoURL" />
-                                <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${article.name}</h6>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="row stories-member-list">
-                    <h3 style="margin-right:40px;">${'photos.candidates' & t}</h3>
-                    <ul class="list-group" style="max-height:200px;overflow:auto;overflow-x:hidden;">
-                        <li class="list-group-item" repeat.for="candidate of candidates">
-                            <a click.delegate="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
-                                <img src.bind="candidate.facePhotoURL" />
-                                <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${candidate.full_name}</h6>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div if.bind="user.editing && article_candidates.length>0" id="article-candidate-list" class="row stories-member-list">
-                    <h3 style="margin-right:40px;">${'photos.article-candidates' & t}</h3>
-                    <ul class="list-group" style="max-height:200px;overflow:auto;overflow-x:hidden;">
-                        <li class="list-group-item" repeat.for="candidate of article_candidates">
-                            <a click.delegate="accept_article_candidate(candidate.id, $index)" style="cursor:pointer;">
-                                <img src.bind="candidate.facePhotoURL" />
-                                <h6 dir="${theme.rtltr}" class="list-group-item-heading" >${candidate.name}</h6>
-                            </a>
-                        </li>
-                    </ul>
+                    <div if.bind="articles.length>0" id="article-list" class="stories-article-list"
+                        style="display:flex;flex-direction:column;margin-top:-24px;">
+                        <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
+                            <span style="float:right;">${'stories.associated-articles' & t}</span>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item" repeat.for="article of articles">
+                                <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
+                                    <img src.bind="article.facePhotoURL" />
+                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${article.name}</h6>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div if.bind="user.editing && candidates.length>0" id="candidate-list"
+                        class="stories-member-list" style="margin-top:-24px;">
+                        <h4>${'photos.candidates' & t}</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item" repeat.for="candidate of candidates">
+                                <a click.delegate="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
+                                    <img src.bind="candidate.facePhotoURL" />
+                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.full_name}</h6>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div if.bind="user.editing && article_candidates.length>0" id="article-candidate-list"
+                        class="stories-member-list" style="margin-top:-24px;">
+                        <h4>${'photos.article-candidates' & t}</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item" repeat.for="candidate of article_candidates">
+                                <a click.delegate="accept_article_candidate(candidate.id, $index)"
+                                    style="cursor:pointer;">
+                                    <img src.bind="candidate.facePhotoURL" />
+                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.name}</h6>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-md-7 justified-story full-story" ref="story_box">
                 <div class="row" style="padding-top:8px;">
                     <div class="col-md-4 col-md-offset-8" if.bind="story.source">
-                        <span css="float:${theme.same_dir};direction:${story_dir};padding-right:12px;padding-left:12px;">${story.source}:</span>
+                        <span
+                            css="float:${theme.same_dir};direction:${story_dir};padding-right:12px;padding-left:12px;">${story.source}:</span>
                     </div>
                 </div>
                 <div if.bind="! user.editing" class="row" style="padding-right:15px;padding-top:8pxl;">
                     <div class="fr-view" dir="${story_dir}">
                         <div class="big-story-panel ${theme.font_size}" style="position:relative;">
-                            <p class="${story_dir} ${highlight_on}"> 
-                                <compose if.bind="story.story_text" view-model='./render-story' model.bind="{html:highlightedHtml}"></compose>
+                            <p class="${story_dir} ${highlight_on}">
+                                <compose if.bind="story.story_text" view-model='./render-story'
+                                    model.bind="{html:highlightedHtml}"></compose>
                                 <div class="page-control next" click.trigger="next_page($event, +1)"></div>
                                 <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
                             </p>
@@ -114,8 +122,8 @@
                 <div if.bind="user.editing" class="row" style="padding-right:15px;padding-top:8pxl;">
                     <div class="fr-view" dir="${story_dir}">
                         <div class="big-story-panel ${theme.font_size}" style="position:relative;">
-                            <editable if.bind="user.editing" 
-                                settings.bind="{show_date:false, class:'story-section', checkable: false}" 
+                            <editable if.bind="user.editing"
+                                settings.bind="{show_date:false, class:'story-section', checkable: false}"
                                 story.bind="story">
                             </editable>
                         </div>
