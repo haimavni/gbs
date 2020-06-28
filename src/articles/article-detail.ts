@@ -63,7 +63,7 @@ export class ArticleDetail {
         this.articleList = articleList;
         this.router = router;
         this.i18n = i18n;
-        this.to_story_page = this.i18n.tr('articles.to-story-page');
+        this.to_story_page = this.i18n.tr('members.to-story-page');
         this.expand = this.i18n.tr('members.expand-life-summary');
         this.compress = this.i18n.tr('members.compress-life-summary');
         this.dialog = dialog;

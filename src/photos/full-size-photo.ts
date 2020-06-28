@@ -339,12 +339,15 @@ export class FullSizePhoto {
 
     }
 
-    @computedFrom('marking_face_active')
+    @computedFrom('marking_face_active', 'marking_articles')
     get instruction() {
         if (this.marking_face_active) {
             return this.i18n.tr('photos.edit-face-location')
         } else {
-            return this.i18n.tr('photos.click-to-identify')
+            let s = 'photos.click-to-identify';
+            if (this.marking_articles)
+                s += '-article';
+            return this.i18n.tr(s)
         }
     }
 
