@@ -216,7 +216,6 @@ export class FullSizePhoto {
 
     copy_photo_url(event) {
         event.stopPropagation();
-        console.log("this slide src: ", this.slide[this.slide.side].src);
         copy_to_clipboard(this.slide[this.slide.side].src);
         return false;
     }
@@ -281,7 +280,6 @@ export class FullSizePhoto {
                     return;
                 }
                 let old_article_id = face.article_id;
-                console.log("response from article picker: ", response);
                 let mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
                 if (mi) {
                     face.name = this.marking_articles ? mi.name : mi.first_name + ' ' + mi.last_name;

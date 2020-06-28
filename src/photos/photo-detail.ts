@@ -380,6 +380,7 @@ export class PhotoDetail {
 
     bounds_changed(event) {
         let x = event.detail.bounds.Ya;
+        if (! x) return;
         let longitude_distance = x.j - x.i;
         this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
         this.update_photo_location_debounced();

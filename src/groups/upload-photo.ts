@@ -242,6 +242,7 @@ export class UploadPhoto {
 
     bounds_changed(event) {
         let x = event.detail.bounds.Ya;
+        if (! x) return;
         let longitude_distance = x.j - x.i;
         if (! longitude_distance) return;
         this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
