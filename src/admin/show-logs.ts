@@ -1,6 +1,7 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { MemberGateway } from '../services/gateway';
 import { Theme } from '../services/theme';
+import * as download from 'downloadjs';
 
 @autoinject()
 export class ShowLogs {
@@ -47,10 +48,11 @@ export class ShowLogs {
             });
     }
 
-    download_log_file_post(file_name) {
+    download_log_file(file_name) {
         this.api.call_server('developer/download_log_file', { file_name: file_name })
             .then((data) => {
-                alert("download not ready " + data.file_path);
+                let url = data.file_path
+                download(url)
             });
     }
 
