@@ -1,4 +1,5 @@
 import { MemberGateway } from '../services/gateway';
+import { Popup } from '../services/popups';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { User } from '../services/user';
@@ -32,8 +33,10 @@ export class Home {
     scroll_area;
     active_part = 3;
     photo_strip_height = 220;
+    popup;   //just to force closing all dialogs on routing
 
-    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, eventAggregator: EventAggregator, misc: Misc) {
+    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, 
+        popup: Popup, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
         this.user = user;
         this.misc = misc;
@@ -50,6 +53,7 @@ export class Home {
         this.api.call_server_post('photos/get_video_sample')
             .then(response => this.set_video_list(response.video_list));
         this.dialog = dialog;
+        this.popup = popup;
         this.eventAggregator = eventAggregator;
     }
 

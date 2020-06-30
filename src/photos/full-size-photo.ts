@@ -110,21 +110,9 @@ export class FullSizePhoto {
         this.settings = model.settings || {};
         this.list_of_ids = model.list_of_ids;
         this.baseURL = environment.baseURL;
-        this.navEvent = this.eventAggregator.subscribe('router:navigation:complete', response => {
-            try {
-                this.dialogController.ok();
-            } catch (ex) {
-                //ugly but works...
-            }
-            this.theme.hide_title = true;
-        })
     }
 
     deactivate() {
-        if (this.navEvent) {
-            this.navEvent.dispose();
-            this.navEvent = null;
-        }
         this.theme.hide_title = false;
     }
 
