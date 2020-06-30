@@ -95,7 +95,7 @@ export class MemberGateway {
             url += '?' + params(data);
         }
         return this.httpClient.fetch(url) //, {method: "POST", body: json(data))
-            .catch(error => alert("error: " + error))
+            .catch(error => toastr.error(error))
             .then((result) => {
                 if (result.error) {
                     toastr.error(this.tr(result.error));
@@ -113,7 +113,7 @@ export class MemberGateway {
         data['ptp_key'] = this.constants.ptp_key;
         let x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
-            .catch(error => alert("error: " + error))
+            .catch(error => toastr.error(error))
             .then((result) => {
                 if (result.error) {
                     toastr.error(this.tr(result.error))
