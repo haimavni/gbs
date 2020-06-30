@@ -69,6 +69,7 @@
         "by-chats": "View recent responses",
         "new-to-old": "New to old",
         "old-to-new": "Old to new",
+        "by-name": "By name",
         "uploaded-any-time": "Stories uploaded any time",
         "uploaded-today": "Stories uploaded today",
         "uploaded-this-week": "Stories uploaded this week",
@@ -90,7 +91,9 @@
         "push-up": "Place at the top",
         "edit-filters": "Topics and keywords",
         "date": "Date",
-        "delete-forever-warning": "The stories will be irreversibly deleted. Is that OK?"
+        "delete-forever-warning": "The stories will be irreversibly deleted. Is that OK?",
+        "start-name": "Name to start with",
+        "start-date": "Date to start with"
     },
     "members": {
         "members": "Members",

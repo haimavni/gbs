@@ -57,7 +57,9 @@ export class Stories {
         first_year: 1928,
         last_year: 2021,
         base_year: 1925,
-        num_years: 100
+        num_years: 100,
+        start_name: "",
+        start_date: "0001-01-01"
     };
     prev_keywords;
     help_data = {
@@ -132,7 +134,8 @@ export class Stories {
             { name: i18n.tr('stories.random-order'), value: 'normal' },
             { name: i18n.tr('stories.new-to-old'), value: 'new-to-old' },
             { name: i18n.tr('stories.old-to-new'), value: 'old-to-new' },
-            { name: i18n.tr('stories.by-chats'), value: 'by-chats' }
+            { name: i18n.tr('stories.by-chats'), value: 'by-chats' },
+            { name: i18n.tr('stories.by-name'), value: 'by-name' }
         ];
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
@@ -492,6 +495,11 @@ export class Stories {
         this.update_story_list('other');
     }
 
+    handle_start_name_change(event) {
+        event.stopPropagation();
+        this.update_story_list('other');
+    }
+
     handle_order_change() {
         this.update_story_list('other')
     }
@@ -507,7 +515,7 @@ export class Stories {
     }
 
     delete_checked_stories_forever() {
-        if (! confirm(this.i18n.tr("stories.delete-forever-warning"))) return;
+        if (!confirm(this.i18n.tr("stories.delete-forever-warning"))) return;
         this.params.checked_story_list = Array.from(this.checked_stories);
         this.api.call_server_post('members/burry_stories', { params: this.params })
             .then(response => {
@@ -643,7 +651,9 @@ export class Stories {
             first_year: 1928,
             last_year: 2021,
             base_year: 1925,
-            num_years: 100
+            num_years: 100,
+            start_name: "",
+            start_date: "0001-01-01"
         };
 
     }

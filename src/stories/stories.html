@@ -170,11 +170,16 @@
                         </selector>
                     </div>
                     <div class="row" style="margin-top: 20px;" if.bind="user.isLoggedIn">
-                        <form role="form">
+                        <form role="form" onsubmit="return false">
                             <select value.bind="params.order_option" style="height:32px;width:90%;"
                                 change.delegate="handle_order_change($event)">
                                 <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
                             </select>
+                            <div if.bind="params.order_option.value =='by-name'">
+                                <input type="text" value.bind="params.start_name"
+                                    change.delegate="handle_start_name_change($event)" 
+                                    style="width:90%;margin-top:8px;height:32px;" t="[placeholder]stories.start-name"/>
+                            </div>
                         </form>
                     </div>
 
