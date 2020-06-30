@@ -53,13 +53,12 @@ export class Stories {
         days_since_update: 0,
         search_type: 'simple',
         approval_state: 0,
-        order_option: 0,
+        order_option: {value: ""},
         first_year: 1928,
         last_year: 2021,
         base_year: 1925,
         num_years: 100,
-        start_name: "",
-        start_date: "0001-01-01"
+        start_name: ""
     };
     prev_keywords;
     help_data = {
@@ -501,7 +500,10 @@ export class Stories {
     }
 
     handle_order_change() {
-        this.update_story_list('other')
+        if (this.params.order_option.value != 'by-name') {
+            this.params.start_name = "";
+            this.update_story_list('other')
+        }
     }
 
     delete_checked_stories() {
@@ -647,13 +649,12 @@ export class Stories {
             days_since_update: 0,
             search_type: 'simple',
             approval_state: 0,
-            order_option: 0,
+            order_option: {value: ""},
             first_year: 1928,
             last_year: 2021,
             base_year: 1925,
             num_years: 100,
-            start_name: "",
-            start_date: "0001-01-01"
+            start_name: ""
         };
 
     }
