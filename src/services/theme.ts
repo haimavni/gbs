@@ -3,6 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
 import { Cookies } from './cookies';
+import { DialogService } from 'aurelia-dialog';
 
 const rtl_langs = new Set(['he', 'ar']);
 let THEME;
@@ -39,8 +40,9 @@ export class Theme {
     footer;
     search_debounce = 15000;
     document_title = "";
+    dialog: DialogService;
 
-    constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N) {
+    constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N, dialog: DialogService) {
         this.api = api;
         this.cookies = cookies;
         this.eventAggregator = eventAggregator;
@@ -57,6 +59,10 @@ export class Theme {
         THEME = this;
         this.detectTouchScreen();
         this.set_heights();
+        this.dialog = dialog;
+        this.eventAggregator.subscribe('router:navigation:complete', response => {
+            this.dialog.closeAll();
+        })
     }
 
     async set_locale() {
