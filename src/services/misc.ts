@@ -113,7 +113,6 @@ export class Misc {
     }
 
     update_history(history, str, max_count=5) {
-        console.log("max count ", max_count);
         let i = history.findIndex(option => option == str);
         if (i > 0) {
             history.splice(i, 1);

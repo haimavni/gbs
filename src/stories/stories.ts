@@ -233,8 +233,6 @@ export class Stories {
         let typ = 'simple'
         if (local) {
             this.keywords_to_selected_words();
-        } else {
-            typ = 'menu'
         }
         this.update_story_list(typ);
     }
@@ -254,7 +252,7 @@ export class Stories {
 
     async update_story_list(search_type) {
         //if (this.checked_stories.size > 0) return;
-        if (search_type != 'simple' && search_type != 'menu') {
+        if (search_type != 'simple') {
             this.params.keywords_str = "";
         }
         this.params.checked_story_list = Array.from(this.checked_stories);
@@ -341,7 +339,7 @@ export class Stories {
             let names = arr.map(story => story.name);
             let name = names[names.length - 1];
             if (next_name == "~" || name < next_name) {
-                if (name != curr_name)
+                if (name && name != curr_name)
                     next_name = name;
             }
         }
@@ -531,13 +529,13 @@ export class Stories {
     handle_start_name_change(event) {
         event.stopPropagation();
         this.start_name_history = this.misc.update_history(this.start_name_history, this.params.start_name)
-        this.update_story_list('other');
+        this.update_story_list('advanced');
     }
 
     handle_order_change() {
         this.params.start_name = "";
         this.start_name_history = [];
-        this.update_story_list('other');
+        this.update_story_list('advanced');
     }
 
     delete_checked_stories() {
