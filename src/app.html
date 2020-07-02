@@ -31,9 +31,12 @@
             <div class="navbar-search">
                 <div class="search-box">
                     <label class="search-box-container">
-                        <input type="text" class="search-box-input" value.bind="keywords"
+                        <input type="text" list="search-history" class="search-box-input" value.bind="keywords"
                             t="[placeholder]enter-search-words" keydown.delegate="go_search($event)" />
-                        <i class="far fa-times" click.trigger="clear_keywords()"></i>
+                            <datalist id="search-history">
+                                <option repeat.for="option of search_history" value.bind="option"></option>
+                            </datalist>
+                            <i class="far fa-times" click.trigger="clear_keywords()"></i>
                     </label>
                     <button class="search-box-button" click.delegate="go_search_btn()">
                         <i class="far fa-search"></i>

@@ -111,4 +111,18 @@ export class Misc {
     deepClone(obj) {
         return JSON.parse(JSON.stringify(obj));
     }
+
+    update_history(history, str, max_count=5) {
+        console.log("max count ", max_count);
+        let i = history.findIndex(option => option == str);
+        if (i > 0) {
+            history.splice(i, 1);
+        }
+        if (i != 0) {
+            let lst = [str];
+            history = lst.concat(history);
+        }
+        history.splice(max_count, 999);
+        return history;
+    }
 }

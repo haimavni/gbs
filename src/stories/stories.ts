@@ -11,6 +11,7 @@ import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { Popup } from '../services/popups';
+import { Misc } from '../services/misc';
 import { DocPage } from '../docs/doc-page';
 import { debounce } from '../services/debounce';
 
@@ -53,7 +54,7 @@ export class Stories {
         days_since_update: 0,
         search_type: 'simple',
         approval_state: 0,
-        order_option: {value: ""},
+        order_option: { value: "" },
         first_year: 1928,
         last_year: 2021,
         base_year: 1925,
@@ -101,11 +102,14 @@ export class Stories {
     visibility_width = "90%";
     update_story_list_debounced;
     delete_or_undelete_now_title;
+    start_name_history = [];
+    misc;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
-        word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
+        word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup, misc: Misc) {
         this.api = api;
         this.user = user;
+        this.misc = misc;
         this.theme = theme;
         this.word_index = word_index;
         this.dialog = dialog;
@@ -272,7 +276,9 @@ export class Stories {
         }
         console.time('update-story-list');
         this.params.editing = this.user.editing;
-        return this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
+        let promise = this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
+        this.params.start_name = "";
+        promise
             .then(result => {
                 //this.params.by_last_chat_time = false;
                 //this.params.order_option = this.order_options[0];
@@ -307,13 +313,41 @@ export class Stories {
         }
         this.story_list = this.story_list.concat(payload.chunk);
         this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
-        /*if (this.ready_for_new_story_list) {
-            let i = 0;
-            for (let itm of this.story_list) {
-                itm.idx = i;
-                i += 1;
+        if (this.ready_for_new_story_list && this.params.order_option.value == 'by-name') {
+            this.set_active_type();
+            let next_name = this.find_next_name();
+            this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
+        }
+    }
+
+    set_active_type() {
+        let used_for = 0;
+        let name = ""
+        for (let art of this.active_result_types) {
+            let story = this.story_list.find(st => st.used_for == art)
+            if (!name || story.name < name) {
+                used_for = art;
+                name = story.name;
             }
-        }*/
+        }
+        this.used_for = used_for;
+    }
+
+    find_next_name() {
+        let next_name = "~";
+        let curr_name = this.start_name_history[0];
+        for (let art of this.active_result_types) {
+            let arr = this.story_list.filter(story => story.used_for == art);
+            let names = arr.map(story => story.name);
+            let name = names[names.length - 1];
+            if (next_name == "~" || name < next_name) {
+                if (name != curr_name)
+                    next_name = name;
+            }
+        }
+        if (next_name == "~")
+            next_name = this.i18n.tr('stories.end-of-stories');
+        return next_name;
     }
 
     jump_to_the_full_story(event, story) {
@@ -496,14 +530,14 @@ export class Stories {
 
     handle_start_name_change(event) {
         event.stopPropagation();
+        this.start_name_history = this.misc.update_history(this.start_name_history, this.params.start_name)
         this.update_story_list('other');
     }
 
     handle_order_change() {
-        if (this.params.order_option.value != 'by-name') {
-            this.params.start_name = "";
-            this.update_story_list('other')
-        }
+        this.params.start_name = "";
+        this.start_name_history = [];
+        this.update_story_list('other');
     }
 
     delete_checked_stories() {
@@ -649,7 +683,7 @@ export class Stories {
             days_since_update: 0,
             search_type: 'simple',
             approval_state: 0,
-            order_option: {value: ""},
+            order_option: { value: "" },
             first_year: 1928,
             last_year: 2021,
             base_year: 1925,

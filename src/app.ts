@@ -4,6 +4,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { Theme } from './services/theme';
 import { MemberGateway } from './services/gateway';
 import { User } from './services/user';
+import { Misc } from './services/misc';
 import { WatchVersion } from './services/watch_version';
 import { DialogService } from 'aurelia-dialog';
 import { Promote } from './user/promote';
@@ -26,8 +27,10 @@ export class App {
     search_button_pressed = false;
     clear_keywords_timeout = null;
     search_timeout = null;
+    search_history = [];
+    misc;
 
-    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator) {
+    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator, misc: Misc) {
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
@@ -36,6 +39,7 @@ export class App {
         this.watcher = watcher;
         this.dialog = dialog;
         this.ea = ea;
+        this.misc = misc;
         this.ea.subscribe('GOTO-PHOTO-PAGE', payload => {
             this.router.navigateToRoute('photos', payload);
         });
@@ -120,7 +124,9 @@ export class App {
             clearTimeout(this.clear_keywords_timeout);
             this.clear_keywords_timeout = null;
         }
-        if (event.keyCode == 13) return this.invoke_search(true);
+        if (event.keyCode == 13) {
+            return this.invoke_search(true);
+        }
         if (this.search_timeout) {
             clearTimeout(this.search_timeout);
         }
@@ -139,7 +145,7 @@ export class App {
     invoke_search(from_btn: boolean) {
         //this.theme.change_search_debounce(from_btn);
         if (this.clear_keywords_timeout) clearTimeout(this.clear_keywords_timeout);
-        this.clear_keywords_timeout = setTimeout(() => {this.clear_keywords()}, 60000);
+        this.clear_keywords_timeout = setTimeout(() => {this.clear_keywords()}, 10000);
         if (this.router.currentInstruction.config.name == 'stories') {
             this.ea.publish("GO-SEARCH", { keywords: this.keywords });
         } else {
@@ -153,6 +159,7 @@ export class App {
     }
 
     clear_keywords() {
+        this.search_history = this.misc.update_history(this.search_history, this.keywords);
         this.keywords = "";
     }
 
