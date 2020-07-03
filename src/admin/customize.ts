@@ -62,7 +62,7 @@ export class Customize {
         this.theme.hide_menu = true;
         let lang = this.i18n.getLocale();
         let data = this.i18n.i18next.store.data[lang].translation;
-        //await this.user.readConfiguration();
+        await this.user.readConfiguration();
         this.create_key_value_list('', data);
         this.auto_reg_option = this.user.config.enable_auto_registration ? 'user.auto-reg' : 'user.by-invitation';
         this.new_app_option = this.user.config.expose_new_app_button ? 'user.new-app-enabled' : 'user.new-app-disabled';
