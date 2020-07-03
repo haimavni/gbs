@@ -6,6 +6,7 @@ import { DialogController } from 'aurelia-dialog';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
+import * as toastr from 'toastr';
 
 @autoinject()
 export class Customize {
@@ -37,6 +38,7 @@ export class Customize {
     version_time_option = 'user.version-time-on';
     expose_developer_option = 'user.expose-developer-on';
     enable_articles_option = 'user.enable-articles-off';
+    promoted_story_expiration = 7;
     user;
 
     constructor(theme: Theme, router: Router, i18n: I18N, controller: DialogController, api: MemberGateway, user: User) {
@@ -70,6 +72,7 @@ export class Customize {
         this.expose_developer_option = this.user.config.expose_developer ?  'user.expose-developer-on' : 'user.expose-developer-off';
         this.enable_articles_option = this.user.config.enable_articles ?  'user.enable-articles-on' : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
+        this.promoted_story_expiration = this.user.config.promoted_story_expiration;
     }
 
     create_key_value_list(prefix, data) {
@@ -123,6 +126,7 @@ export class Customize {
         this.api.call_server('admin/set_user_registration_options', { option: this.auto_reg_option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
     }
 
@@ -131,6 +135,7 @@ export class Customize {
         this.api.call_server('admin/set_new_app_options', { option: this.new_app_option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
     }
 
@@ -139,6 +144,7 @@ export class Customize {
         this.api.call_server('admin/set_audio_option', { option: this.audio_option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
     }
 
@@ -147,6 +153,7 @@ export class Customize {
         this.api.call_server('admin/set_feedback_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
     }
 
@@ -155,6 +162,7 @@ export class Customize {
         this.api.call_server('admin/set_quick_upload_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
     }
 
@@ -163,6 +171,7 @@ export class Customize {
         this.api.call_server('admin/set_developer_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
     }
 
@@ -171,6 +180,7 @@ export class Customize {
         this.api.call_server('admin/set_articles_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
     }
 
@@ -179,7 +189,20 @@ export class Customize {
         this.api.call_server('admin/set_version_time_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
+                this.report_success();
             })
+    }
+
+    set_promoted_story_expiration() {
+        this.api.call_server('admin/set_promoted_story_expiration', { promoted_story_expiration: this.promoted_story_expiration })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+    report_success() {
+        toastr.success(this.i18n.tr("admin.changes-successfuly saved"))
     }
 
 }

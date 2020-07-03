@@ -614,7 +614,9 @@
         "unregistered-users": "Unregistered users",
         "merge-help-filter": "Search a help topic",
         "no-messages-to-merge": "No help topics to merge",
-        "explain-accept-system": "Abandon your changes. Accept new system help message."
+        "explain-accept-system": "Abandon your changes. Accept new system help message.",
+        "promoted-story-expiration": "How many days to keep promoted story?",
+        "changes-successfuly saved": "Your changes were successfuly saved"
     },
     "feedbacks": "משוב",
     "go-back": "Back",
