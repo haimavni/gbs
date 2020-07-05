@@ -54,7 +54,6 @@ export class User {
         return this.api.call_server('default/read_configuration')
             .then(result => {
                 this.config = result.config;
-                console.log("read configuration: ", this.config);
             });
     }
 
