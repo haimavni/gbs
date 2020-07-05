@@ -175,7 +175,14 @@
         "articles": "אובייקטים",
         "filter": "הקלד את שם האובייקט",
         "filter-can-add": "הקלד את שם האובייקט או שם של אובייקט חדש",
-        "life-summary": "אודות "
+        "life-summary": "אודות ",
+        "article-name": "שם האובייקט",
+        "save": "שמור את השינויים",
+        "cancel": "בטל את השינויים",
+        "delete-article": "מחק את האובייקט",
+        "start-date": "תחילת התקופה",
+        "end-date": "סוף התקופה",
+        "period": "תקופה: "
     },
     "quiz": {
         "filters": "מסננים",

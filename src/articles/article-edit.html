@@ -1,0 +1,40 @@
+<template>
+    <div style="margin-top:30px;">
+        <div stle="display:flex">
+            <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button"
+                type="button" class="btn btn-default" click.trigger="save_edited_data()" t="[title]articles.save">
+                <i class="fa  fa-large fa-save"></i>
+            </button>
+            <button type="button" type="button"
+                class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}"
+                click.trigger="cancel_edit_mode()" t="[title]articles.cancel">
+                <i class="fa  fa-large fa-undo"></i>
+            </button>
+            <button if.bind="user.privileges.ADMIN" type="button" type="button"
+                class="btn btn-warning ${dirty_info ? 'disabled' : btn-warning'}"
+                click.trigger="tryDelete(article.article_info.id)" t="[title]articles.delete-article">
+                <i class="far fa-large fa-trash-alt"></i>
+            </button>
+        </div>
+        <div class="form-group" style="margin-top:10px">
+            <input type="text" class="form-control" id="name" t="[placeholder]articles.article-name"
+                value.bind="article.article_info.name">
+        </div>
+        <div class="form-group" style="margin-top:10px;display:flex;justify-content:space-between;">
+            <div style="padding-left:0;">
+                <date-range 
+                    label="articles.start-date" 
+                    base_date_str.bind="article.article_info.start_date.date"
+                    span_size.bind="article.article_info.start_date.span">
+                </date-range>
+            </div>
+            <div style="padding-left:0;">
+                <date-range 
+                    label="articles.end-date" 
+                    base_date_str.bind="article.article_info.end_date.date"
+                    span_size.bind="article.article_info.start_date.span">
+                </date-range>
+            </div>
+        </div>
+    </div>
+</template>

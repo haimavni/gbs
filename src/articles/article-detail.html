@@ -17,7 +17,7 @@
         </div>
         <div class="container" ref="article_detail_panel">
             <div id="article-detail-content" class="row" dir="rtl" ref="top_panel">
-                <div class="col-md-6">
+                <div class="col-md-6" show.bind="!user.editing">
                    <!-- think of something useful to place here -->
                 </div> 
                 <div class="col-md-6" if.bind="user.editing && article" style="padding-right:48px;">
@@ -29,7 +29,7 @@
                     if.bind="story_0.story_text == '' && ! user.privileges.EDITOR">
                 </div>
                 <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box"
-                        if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
+                        if.bind="user.privileges.EDITOR || story_0.story_text != ''">
                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
                         ${'articles.life-summary' & t} ${article.article_info.name}
                     </h4>
@@ -66,7 +66,7 @@
             </div>
             <!--article stories panel-->
             <div id="stories" class="fr-view row ${theme.font-size} unselectable" ref="bottom_panel"
-                show.bind="article.article_stories.length > 1 && ! (user.editing || life_summary_expanded)"
+                show.bind="article.article_stories.length > 1 && ! life_summary_expanded"
                 css="margin-left:-28px;margin-right:0px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 story-box" css="float:${theme.same_dir};height:${story_box_height}px;padding-right:8px;" click.trigger="goto_story_page(story_1)">

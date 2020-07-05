@@ -176,7 +176,14 @@
         "articles": "Articles",
         "filter": "Enter article name",
         "filter-can-add": "Enter article name or name of a new article",
-        "life-summary": "About"
+        "life-summary": "About",
+        "article-name": "Article name",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete-article": "Delete the object",
+        "start-date": "Start date",
+        "end-date": "End date",
+        "period": "Period: "
     },
     "quiz": {
         "filters": "Filters",
