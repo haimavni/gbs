@@ -4,7 +4,8 @@
             <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" dir="${theme.rtltr}">
                 <i class="far fa-arrow-up pull-left" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
                 <span if.bind="article.article_info.id">${article.article_info.name}</span>
-                <span if.bind="! article.article_info.id">${new_article}</span>
+                <span style="margin-right:25px;color:white;">${life_cycle_text}</span>
+                <span if.bind="! article.article_info.id" style="margin-right:-5px;">${new_article}</span>
             </div>
         </div>
         <div class="row" ref="photo_strip">
@@ -54,9 +55,11 @@
                         style="margin-left:2px;margin-top:-8px;float:left;cursor:pointer;"
                         class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
                     </button>
-                    <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
-                        <i if.bind="user.privileges.EDITOR" class="fas fa-pencil is-link" style="font-size:0.6em;" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
-                        ${story_0.name}
+                    <h3 dir="rtl" style="padding:0;margin:0;margin-bottom:8px;">
+                        <i if.bind="user.privileges.EDITOR" class="fas fa-pencil is-link" 
+                            style="font-size:0.6em;float:right;margin-top:8px;"" 
+                            t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
+                        ${story_0.name || '&nbsp;'}
                     </h3>
                     <div class="article-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;height:82%" ref="life_summary_content">
                             <p class="${theme.font_size} ${highlight_on}" innerhtml.bind="biography ">

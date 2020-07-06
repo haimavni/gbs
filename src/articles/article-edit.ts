@@ -48,7 +48,7 @@ export class ArticleEdit {
     }
 
     @computedFrom('article.article_info.name', 
-        'article.article_info.start_date.date', 'article.article_info.end_date.date')
+        'article.article_info.date_start.date', 'article.article_info.date_end.date')
     get dirty_info() {
         let dirty = JSON.stringify(this.article.article_info) != JSON.stringify(this.article_info_orig);
         this.eventAggregator.publish('DirtyInfo', dirty);

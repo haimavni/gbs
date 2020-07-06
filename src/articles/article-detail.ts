@@ -345,6 +345,18 @@ export class ArticleDetail {
         document.getElementById("word-highlighter").blur();
     }
 
+    @computedFrom('article.article_info.date_start.date', 'article.article_info.date_end.date')
+    get life_cycle_text() {
+        if (!this.article) return "";
+        let ai = this.article.article_info;
+        let date_start = ai.date_start ? ai.date_start.date : "";
+        if (! date_start) return "";
+        let s = this.i18n.tr('articles.period') + date_start + ' - ';
+        let date_end = ai.date_end ? ai.date_end.date : "";
+        s += date_end;
+        return s;
+    }
+
 }
 
 function sleep(ms) {
