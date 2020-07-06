@@ -241,7 +241,7 @@ export class FullSizePhoto {
     }
 
     assign_face_or_member(face) {
-        if (this.marking_articles)
+        if (face.article_id)
             this.assign_article(face)
         else
             this.assign_member(face)
@@ -270,7 +270,7 @@ export class FullSizePhoto {
                 let old_article_id = face.article_id;
                 let mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
                 if (mi) {
-                    face.name = this.marking_articles ? mi.name : mi.first_name + ' ' + mi.last_name;
+                    face.name = face.article_id ? mi.name : mi.first_name + ' ' + mi.last_name;
                     face.article_id = response.output.new_article.article_info.id;
                     return;
                 }
@@ -350,6 +350,9 @@ export class FullSizePhoto {
     }
 
     remove_face(face) {
+        if (face.article_id) {
+            return this.remove_article(face)
+        }
         this.api.call_server_post('photos/detach_photo_from_member', { member_id: face.member_id, photo_id: this.slide.photo_id })
             .then(() => {
                 this.hide_face(face);
@@ -401,7 +404,10 @@ export class FullSizePhoto {
         let face = {
             photo_id: photo_id,
             x: event.offsetX, y: event.offsetY, r: 30,
-            name: this.i18n.tr("photos.unknown"), member_id: 0, article_id: 0, action: null
+            name: this.i18n.tr("photos.unknown"), 
+            member_id: this.marking_articles ? 0 : -1, 
+            article_id: this.marking_articles ? -1 : 0, 
+            action: null
         };
         this.current_face = face;
         if (this.marking_articles)
@@ -439,7 +445,7 @@ export class FullSizePhoto {
         if (!this.user.editing) {
             return;
         }
-        let id = this.marking_articles ? 'article-' + face.article_id : 'face-' + face.member_id;
+        let id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
         let el = document.getElementById(id);
         let current_face = this.current_face;
         if (face.action === "moving") {
@@ -492,7 +498,7 @@ export class FullSizePhoto {
                 this.remove_face(face);
             }
         }
-        if (this.marking_articles)
+        if (face.article_id)
             this.articles = this.articles.splice(0)
         else
             this.faces = this.faces.splice(0);
@@ -707,13 +713,13 @@ export class FullSizePhoto {
                     this.remove_face(face)
                 } else if (command == 'save-face-location') {
                     this.marking_face_active = false;
-                    if (this.marking_articles) {
-                        if (face.article_id)
+                    if (face.article_id) {
+                        if (face.article_id > 0)
                             this.api.call_server_post('photos/save_article', { face: face });
                         else
                             this.assign_article(face);
                     } else {
-                        if (face.member_id)
+                        if (face.member_id > 0)
                             this.api.call_server_post('photos/save_face', { face: face });
                         else
                             this.assign_member(face);
@@ -729,7 +735,7 @@ export class FullSizePhoto {
         if (!this.user.editing) return;
         let current_face = this.current_face;
         if (!current_face) return;
-        let id = this.marking_articles ? 'article-' + current_face.article_id : 'face-' + current_face.member_id;
+        let id = current_face.article_id ? 'article-' + current_face.article_id : 'face-' + current_face.member_id;
         let el = document.getElementById(id);
         if (!el) return;
         let face_location = this.face_location(current_face);

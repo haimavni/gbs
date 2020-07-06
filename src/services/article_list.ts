@@ -35,7 +35,7 @@ export class ArticleList {
             }
         });
 
-        this.eventAggregator.subscribe('articleGotProfilePhoto', payload => {
+        this.eventAggregator.subscribe('ARTICLE_PROFILE_CHANGED', payload => {
             this.set_profile_photo(payload.article_id, payload.face_photo_url);
         });
     }
