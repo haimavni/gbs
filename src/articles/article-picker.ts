@@ -57,7 +57,7 @@ export class ArticlePicker {
         this.excluded = model.excluded ? model.excluded : new Set();
         this.filter = '';
         this.article_id = model.article_id;
-        if (model.article_id) {
+        if (model.article_id > 0) {
             this.articleList.get_article_by_id(model.article_id)
                 .then(result => {
                     this.filter = result.name;

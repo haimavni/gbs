@@ -44,7 +44,7 @@ export class MemberPicker {
         this.i18n = i18n;
     }
 
-    created() {
+    prepare_lists() {
         return this.memberList.getMemberList().then(members => {
             let parents = members.member_list.slice();
             if (this.gender) {
@@ -58,7 +58,8 @@ export class MemberPicker {
         })
     }
 
-    activate(model) {
+    async activate(model) {
+        await this.prepare_lists();
         this.child_id = model.child_id;
         this.gender = model.gender;
         this.child_name = model.child_name;  //the child for whom we select paent
@@ -69,7 +70,7 @@ export class MemberPicker {
         this.excluded = model.excluded ? model.excluded : new Set();
         this.filter = '';
         this.member_id = model.member_id;
-        if (model.member_id) {
+        if (model.member_id > 0) {
             this.memberList.get_member_by_id(model.member_id)
                 .then(result => {
                     this.filter = result.first_name + ' ' + result.last_name;
