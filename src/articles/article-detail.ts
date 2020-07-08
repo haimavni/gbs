@@ -52,6 +52,7 @@ export class ArticleDetail {
     keywords = [];
     highlight_on = "highlight-on";
     advanced_search = false;
+    photo_list_changes_pending = false;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, articleList: ArticleList, misc: Misc) {
@@ -71,6 +72,7 @@ export class ArticleDetail {
         this.life_summary = this.i18n.tr('articles.life-summary');
         this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
         this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_heights() });
+        this.eventAggregator.subscribe('ARTICLE_PHOTO_LIST_CHANGED', payload => { this.photo_list_changes_pending = true });
     }
 
     refresh_story(data) {
@@ -91,7 +93,10 @@ export class ArticleDetail {
     }
 
     activate(params, config) {
-        if (this.article && this.article.article_info && this.article.article_info.id == params.id) return;
+        if (this.article && this.article.article_info && 
+            this.article.article_info.id == params.id &&
+            !this.photo_list_changes_pending) return;
+        this.photo_list_changes_pending = false;
         this.new_article = params.id == 'new' ? this.i18n.tr('articles.new-article') : '';
         this.init_article(); //So that changing to a new article does not display most recent one
         this.keywords = params.keywords;
@@ -119,7 +124,7 @@ export class ArticleDetail {
         this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
         this.sub2 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.sub3 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
-        this.sub4 = this.eventAggregator.subscribe('Zoom', payload => {
+        this.sub4 = this.eventAggregator.subscribe('Zoom3', payload => {
             if (payload.event.ctrlKey) {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
                 return;
@@ -231,13 +236,7 @@ export class ArticleDetail {
             .then(response => {
                 if (response.photo_detached) {
                     // now delete slide #photo_id from slide_list:
-                    let idx = -1;
-                    for (let i = 0; i < slide_list.length; i++) {
-                        if (slide_list[i].photo_id == photo_id) {
-                            idx = i;
-                            break;
-                        }
-                    }
+                    let idx = slide_list.findIndex(p => p.photo_id == photo_id)
                     if (idx >= 0) {
                         slide_list.splice(idx, 1);
                     }
@@ -350,7 +349,7 @@ export class ArticleDetail {
         if (!this.article) return "";
         let ai = this.article.article_info;
         let date_start = ai.date_start ? ai.date_start.date : "";
-        if (! date_start) return "";
+        if (!date_start) return "";
         let s = this.i18n.tr('articles.period') + date_start + ' - ';
         let date_end = ai.date_end ? ai.date_end.date : "";
         s += date_end;

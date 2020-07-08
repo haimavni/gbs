@@ -38,6 +38,12 @@ export class ArticleList {
         this.eventAggregator.subscribe('ARTICLE_PROFILE_CHANGED', payload => {
             this.set_profile_photo(payload.article_id, payload.face_photo_url);
         });
+        this.eventAggregator.subscribe('ARTICLE_DELETED', payload => {
+            let idx = this.articles.article_list.findIndex((article) => article.id==payload.article_id);
+            if (idx >= 0) {
+                this.articles.article_list.splice(idx, 1);
+            }
+        })
     }
 
     getArticleList(refresh: boolean = false) {

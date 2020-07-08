@@ -54,6 +54,7 @@ export class MemberDetail {
     keywords = [];
     highlight_on = "highlight-on";
     advanced_search = false;
+    photo_list_changes_pending = false;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -73,6 +74,7 @@ export class MemberDetail {
         this.life_summary = this.i18n.tr('members.life-summary');
         this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
         this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_heights() });
+        this.eventAggregator.subscribe('PHOTO_PHOTO_LIST_CHANGED', payload => { this.photo_list_changes_pending = true });
     }
 
     refresh_story(data) {
@@ -93,7 +95,10 @@ export class MemberDetail {
     }
 
     activate(params, config) {
-        if (this.member && this.member.member_info && this.member.member_info.id == params.id) return;
+        if (this.member && this.member.member_info &&
+            this.member.member_info.id == params.id &&
+            !this.photo_list_changes_pending) return;
+        this.photo_list_changes_pending = false;
         this.new_member = params.id == 'new' ? this.i18n.tr('members.new-member') : '';
         this.init_member(); //So that changing to a new member does not display most recent one
         this.keywords = params.keywords;

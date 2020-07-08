@@ -404,9 +404,9 @@ export class FullSizePhoto {
         let face = {
             photo_id: photo_id,
             x: event.offsetX, y: event.offsetY, r: 30,
-            name: this.i18n.tr("photos.unknown"), 
-            member_id: this.marking_articles ? 0 : -1, 
-            article_id: this.marking_articles ? -1 : 0, 
+            name: this.i18n.tr("photos.unknown"),
+            member_id: this.marking_articles ? 0 : -1,
+            article_id: this.marking_articles ? -1 : 0,
             action: null
         };
         this.current_face = face;
