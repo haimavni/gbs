@@ -59,17 +59,17 @@ export class MemberPicker {
     }
 
     async activate(model) {
-        await this.prepare_lists();
+        this.candidates = model.candidates ? model.candidates : [];
         this.child_id = model.child_id;
         this.gender = model.gender;
         this.child_name = model.child_name;  //the child for whom we select paent
         this.face_identifier = model.face_identifier;
         this.face = model.current_face;
         this.slide = model.slide;
-        this.candidates = model.candidates ? model.candidates : [];
         this.excluded = model.excluded ? model.excluded : new Set();
-        this.filter = '';
         this.member_id = model.member_id;
+        await this.prepare_lists();
+        this.filter = '';
         if (model.member_id > 0) {
             this.memberList.get_member_by_id(model.member_id)
                 .then(result => {
