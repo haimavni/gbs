@@ -252,8 +252,11 @@ export class Stories {
         this.theme.page_title = "";
     }
 
-    async update_story_list(search_type) {
-        //if (this.checked_stories.size > 0) return;
+    async update_story_list(search_type, from_words_change=false) {
+        if (! from_words_change) {
+            this.update_params_from_selected_words()
+            if (this.no_results) return;
+        }
         if (search_type != 'simple' && search_type != 'menu') {
             this.params.keywords_str = "";
         }
@@ -415,6 +418,15 @@ export class Stories {
         }
         this.params.keywords_str = "";
         this.params.selected_words = event.detail.selected_options;
+        this.update_params_from_selected_words();
+        if (!this.no_results) {
+            this.update_story_list_debounced('advanced', true);
+        }
+    }
+
+    update_params_from_selected_words() {
+        this.no_results = false;
+        let result = null;
         let uni = new Set<number>();
         let group_sign;
         for (let sign of ['plus', 'minus']) {
@@ -444,14 +456,12 @@ export class Stories {
             this.num_of_stories = story_list.length;
             if (story_list.length == 0) return;
             this.params.selected_stories = story_list;
-            this.update_story_list_debounced('advanced');
         } else if (result) {
             this.num_of_stories = 0;
             this.no_results = true;
             this.story_list = Array.from(result);
         } else {
             this.params.selected_stories = [];
-            this.update_story_list_debounced('advanced');
             this.num_of_stories = 0;
         }
         this.keywords = this.params.selected_words.map(item => item.option.name);
