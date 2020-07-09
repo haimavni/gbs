@@ -233,6 +233,8 @@ export class Stories {
         let typ = 'simple'
         if (local) {
             this.keywords_to_selected_words();
+        } else {
+            typ = 'menu';
         }
         this.update_story_list(typ);
     }
@@ -252,7 +254,7 @@ export class Stories {
 
     async update_story_list(search_type) {
         //if (this.checked_stories.size > 0) return;
-        if (search_type != 'simple') {
+        if (search_type != 'simple' && search_type != 'menu') {
             this.params.keywords_str = "";
         }
         this.params.checked_story_list = Array.from(this.checked_stories);
@@ -352,7 +354,7 @@ export class Stories {
         this.scroll_top = this.scroll_area.scrollTop;
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
-        let kws = this.params.keywords_str ? [this.params.keywords_str] : null;
+        let kws = this.params.keywords_str ? [this.params.keywords_str] : [''];
         let keywords = story.exact ? kws : this.keywords;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:

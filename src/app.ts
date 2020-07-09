@@ -159,7 +159,7 @@ export class App {
     }
 
     clear_keywords() {
-        this.search_history = this.misc.update_history(this.search_history, this.keywords);
+        this.search_history = this.misc.update_history(this.search_history, this.keywords, 12);
         this.keywords = "";
     }
 

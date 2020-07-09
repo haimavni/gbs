@@ -95,14 +95,14 @@ export class MemberDetail {
     }
 
     activate(params, config) {
+        this.keywords = params.keywords;
+        this.advanced_search = params.search_type == 'advanced';
         if (this.member && this.member.member_info &&
             this.member.member_info.id == params.id &&
             !this.photo_list_changes_pending) return;
         this.photo_list_changes_pending = false;
         this.new_member = params.id == 'new' ? this.i18n.tr('members.new-member') : '';
         this.init_member(); //So that changing to a new member does not display most recent one
-        this.keywords = params.keywords;
-        this.advanced_search = params.search_type == 'advanced';
         this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
         this.api.call_server_post('members/get_member_details', { member_id: params.id, what: params.what })
             .then(member => {
