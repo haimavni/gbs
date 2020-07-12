@@ -8,6 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { highlight } from '../services/dom_utils';
 import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { timingSafeEqual } from 'crypto';
 
 @autoinject()
 export class PhotoDetail {
@@ -92,6 +93,14 @@ export class PhotoDetail {
         0.000049881135698370827
     ];
     update_photo_location_debounced;
+    undo_list = [];
+    curr_info = {
+        photo_date_str: "",
+        photo_date_datespan: 0,
+        photo_topics: [],
+        photographer_id: 0,
+        photographer_name: ""
+    }
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -166,6 +175,13 @@ export class PhotoDetail {
                     this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
                 }
                 this.calc_photo_width();
+                this.curr_info = {
+                    photographer_id: this.photographer_id,
+                    photographer_name: this.photographer_name,
+                    photo_topics: this.photo_topics.slice(0),
+                    photo_date_str: this.photo_date_str.slice(0),
+                    photo_date_datespan: this.photo_date_datespan
+                }
             });
     }
 
@@ -218,11 +234,62 @@ export class PhotoDetail {
             .then(() => { alert('changed') });
     }
 
+    handle_topic_change(event) {
+        if (!event.detail) return;
+        this.params.selected_topics = event.detail.selected_options
+        let topics = this.params.selected_topics.map(top => top.option);
+        this.photo_topics = topics;
+        this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.photo_topics });
+        this.curr_info.photo_topics = topics.slice(0);
+        this.api.call_server_post('photos/apply_topics_to_photo', { photo_id: this.true_photo_id, topics: this.photo_topics });
+    }
+
+    handle_photographer_change(event) {
+        this.params.selected_photographers = event.detail.selected_options;
+        if (this.params.selected_photographers.length == 1) {
+            this.photographer_name = this.params.selected_photographers[0].option.name;
+            this.photographer_id = this.params.selected_photographers[0].option.id;
+        } else {
+            this.photographer_name = '';
+            this.photographer_id = null;
+        }
+        this.undo_list.push({ what: 'photographer', 'photographer': {id: this.curr_info.photographer_id, name: this.curr_info.photographer_name} });
+        this.curr_info.photographer_id = this.photographer_id;
+        this.curr_info.photographer_name = this.photographer_name.slice(0);
+        this.api.call_server_post('photos/assign_photo_photographer', { photo_id: this.true_photo_id, photographer_id: this.photographer_id });
+    }
+
     update_photo_date(customEvent) {
         customEvent.stopPropagation();
         let event = customEvent.detail;
         let s = typeof event;
+        this.undo_list.push({ what: 'photo-date', photo_date: { photo_date_str: this.curr_info.photo_date_str, photo_date_datespan: this.curr_info.photo_date_datespan } });
+        this.curr_info.photo_date_str = this.photo_date_str.slice(0);
+        this.curr_info.photo_date_datespan = this.photo_date_datespan;
         this.api.call_server_post('photos/update_photo_date', { photo_date_str: event.date_str, photo_date_datespan: event.date_span, photo_id: this.photo_id });
+    }
+
+    undo() {
+        let command = this.undo_list.pop();
+        switch (command.what) {
+            case "photographer": 
+                this.photographer_id = command.photographer.id;
+                this.photographer_name = command.photographer.name;
+                this.init_photographer();
+                this.photographer_name = this.params.selected_photographers[0].option.name;
+                this.api.call_server_post('photos/assign_photo_photographer', { photo_id: this.true_photo_id, photographer_id: this.photographer_id });
+                break;
+            case "topics": 
+                this.photo_topics = command.photo_topics.slice(0);
+                this.init_selected_topics();
+                this.api.call_server_post('photos/apply_topics_to_photo', { photo_id: this.true_photo_id, topics: this.photo_topics });
+                break;
+            case "photo-date": 
+                this.photo_date_str = command.photo_date.photo_date_str;
+                this.photo_date_datespan = command.photo_date.photo_date_datespan;
+                this.api.call_server_post('photos/update_photo_date', { photo_date_str: this.photo_date_str, photo_date_datespan: this.photo_date_datespan, photo_id: this.photo_id });
+                break;
+        }
     }
 
     private openDialog(slide, slide_list) {
@@ -293,26 +360,6 @@ export class PhotoDetail {
             });
     }
 
-    handle_topic_change(event) {
-        if (!event.detail) return;
-        this.params.selected_topics = event.detail.selected_options
-        let topics = this.params.selected_topics.map(top => top.option);
-        this.photo_topics = topics;
-        this.api.call_server_post('photos/apply_topics_to_photo', { photo_id: this.true_photo_id, topics: this.photo_topics });
-    }
-
-    handle_photographer_change(event) {
-        this.params.selected_photographers = event.detail.selected_options;
-        if (this.params.selected_photographers.length == 1) {
-            this.photographer_name = this.params.selected_photographers[0].option.name;
-            this.photographer_id = this.params.selected_photographers[0].option.id;
-        } else {
-            this.photographer_name = '';
-            this.photographer_id = null;
-        }
-        this.api.call_server_post('photos/assign_photo_photographer', { photo_id: this.true_photo_id, photographer_id: this.photographer_id });
-    }
-
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
         this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
@@ -380,7 +427,7 @@ export class PhotoDetail {
 
     bounds_changed(event) {
         let x = event.detail.bounds.Ya;
-        if (! x) return;
+        if (!x) return;
         let longitude_distance = x.j - x.i;
         this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
         this.update_photo_location_debounced();

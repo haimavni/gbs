@@ -378,7 +378,8 @@
         "out-of": "out of ",
         "to-see-more": "To see more phots make them smaller",
         "mark-people": "Mark people faces",
-        "mark-articles": "Mark articles"
+        "mark-articles": "Mark articles",
+        "undo-last-change": "Undo last change"
     },
     "videos": {
         "videos": "Video",
