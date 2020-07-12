@@ -83,6 +83,12 @@ img.similar {
     align-content: flex-start;
 }
 
+.container.photos {
+    div.toolbar {
+        margin-left: 4px;
+    }
+}
+
 #photos_area {
     width: 100%;
     margin-bottom: 24px;
