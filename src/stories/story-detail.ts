@@ -40,7 +40,6 @@ export class StoryDetail {
     story_box;
     chatroom_id;
     sorting_key = ['', '', '', '', ''];
-    curr_idx = 999;
     topic_list = [];
     no_topics_yet = false;
     topic_groups = [];
@@ -48,11 +47,16 @@ export class StoryDetail {
     options_settings: MultiSelectSettings;
     story_topics;
     undo_list = [];
+    story_date_str = "";
+    story_date_datespan = 0;
     curr_info = {
         story_date_str: "",
         story_date_datespan: 0,
-        story_topics: []
-    }
+        story_topics: [],
+        sorting_key: []
+    };
+    last_filled_idx = 0;
+    nudnik;
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
@@ -75,6 +79,7 @@ export class StoryDetail {
     }
 
     attached() {
+        this.nudnik = setInterval(() => this.calc_last_filled(), 50);
         this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => {
             //this.openDialog(payload.slide, payload.event, payload.slide_list) 
             if (payload.event.ctrlKey) {
@@ -101,6 +106,7 @@ export class StoryDetail {
     detached() {
         this.subscriber.dispose();
         this.subscriber1.dispose();
+        this.nudnik = 0;;
     }
 
     async activate(params, config) {
@@ -142,6 +148,9 @@ export class StoryDetail {
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
                 }
+                let story_date = response.story_date;
+                this.story_date_str = story_date.date;
+                this.story_date_datespan = story_date.span;
             });
         if (params.what == 'help') return;
         this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id, story_type: this.story_type });
@@ -262,7 +271,6 @@ export class StoryDetail {
     }
 
     keep_only_digits(event, idx) {
-        this.curr_idx = this.curr_idx + 1;
         let key = event.key;
         if (key == "Enter") {
             return true;
@@ -274,11 +282,11 @@ export class StoryDetail {
         return m != null;
     }
 
-    @computedFrom('curr_idx', 'sorting_key[0]', 'sorting_key[1]', 'sorting_key[2]', 'sorting_key[3]', 'sorting_key[4]')
-    get last_filled_idx() {
-        for (let idx of [0, 1, 2, 3]) {
+    calc_last_filled() {
+        for (let idx of [0, 1, 2, 3, 4]) {
             if (!this.sorting_key[idx]) {
-                return idx;
+                this.last_filled_idx = idx;
+                return;
             }
         }
     }

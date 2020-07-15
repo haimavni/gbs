@@ -94,7 +94,8 @@
         "start-name": "השם הראשון שיוצג",
         "start-date": "התאריך הראשון שיוצג",
         "end-of-stories": "--אין יותר ספורים--",
-        "sorting-key": "מפתח מיון"
+        "sorting-key": "מפתח מיון",
+        "story-date": "תאריך הסיפור"
     },
     "members": {
         "members": "חברים",

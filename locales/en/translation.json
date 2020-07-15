@@ -171,7 +171,8 @@
         "members-m": "Males",
         "no-gender": "Gender unknown",
         "apply-answers": "Apply",
-        "already-identified": " already indetified in this photo"
+        "already-identified": " already indetified in this photo",
+        "story-date": "Story date"
     },
     "articles": {
         "articles": "Articles",
