@@ -94,7 +94,8 @@
         "delete-forever-warning": "The stories will be irreversibly deleted. Is that OK?",
         "start-name": "Name to start with",
         "start-date": "Date to start with",
-        "end-of-stories": "--No more stories!--"
+        "end-of-stories": "--No more stories!--",
+        "sorting-key": "Sorting key"
     },
     "members": {
         "members": "Members",

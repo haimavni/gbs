@@ -8,7 +8,6 @@ import { DialogService } from 'aurelia-dialog';
 import { highlight } from '../services/dom_utils';
 import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import { timingSafeEqual } from 'crypto';
 
 @autoinject()
 export class PhotoDetail {

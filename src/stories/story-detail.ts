@@ -8,6 +8,7 @@ import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 @autoinject()
 export class StoryDetail {
@@ -38,6 +39,13 @@ export class StoryDetail {
     story_changed = false;
     story_box;
     chatroom_id;
+    sorting_key = ['', '', '', '', ''];
+    curr_idx = 999;
+    topic_list = [];
+    no_topics_yet = false;
+    topic_groups = [];
+    selected_topics = [];
+    options_settings: MultiSelectSettings;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -47,7 +55,15 @@ export class StoryDetail {
         this.theme = theme;
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
-
+        this.options_settings = new MultiSelectSettings
+            ({
+                hide_higher_options: true,
+                clear_filter_after_select: false,
+                can_set_sign: false,
+                can_add: true,
+                can_group: false,
+                empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            });
     }
 
     attached() {
@@ -79,7 +95,7 @@ export class StoryDetail {
         this.subscriber1.dispose();
     }
 
-    activate(params, config) {
+    async activate(params, config) {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         let used_for = params.used_for
@@ -90,6 +106,7 @@ export class StoryDetail {
                 this.api.constants.story_type.STORY4TERM : (params.what && params.what == 'help') ?
                     this.api.constants.story_type.STORY4HELP : this.api.constants.story_type.STORY4EVENT;
         }
+        await this.update_topic_list();
         this.story_type = (used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : (used_for == this.api.constants.story_type.STORY4ELP) ? 'help' : 'story';
         let what = this.story_type == 'story' ? 'EVENT' : this.story_type == 'help' ? 'HELP' : 'TERM';
         this.api.getStoryDetail({ story_id: params.id })
@@ -231,6 +248,47 @@ export class StoryDetail {
 
     chatroom_deleted() {
         this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story.story_id });
+    }
+
+    keep_only_digits(event, idx) {
+        this.curr_idx = this.curr_idx + 1;;
+        let key = event.key;
+        if (key == "Enter") {
+            return true;
+        }
+        let m = key.match(/[0-9/]/) || key == 'Backspace' || key == 'Delete';
+        if (! m) {
+            event.preventDefault();
+        }
+        return m != null;
+    }
+
+    @computedFrom('curr_idx', 'sorting_key[0]', 'sorting_key[1]', 'sorting_key[2]', 'sorting_key[3]', 'sorting_key[4]')
+    get last_filled_idx() {
+        for (let idx of [0,1,2,3]) {
+            if (!this.sorting_key[idx]) {
+                return idx;
+            }
+        }
+    }
+
+    sorting_key_changed(event, idx) {
+        this.api.call_server_post('members/save_sorting_key', {story_id: this.story.story_id, sorting_key: this.sorting_key});
+    }
+
+    update_topic_list() {
+        this.api.call_server_post('topics/get_topic_list', { usage: 'ET' })
+            .then(result => {
+                this.topic_list = result.topic_list;
+                this.topic_groups = result.topic_groups;
+                this.no_topics_yet = this.topic_list.length == 0;
+            });
+    }
+
+    add_topic(event) {
+        let new_topic_name = event.detail.new_name;
+        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
+            .then(() => this.update_topic_list());
     }
 
 }

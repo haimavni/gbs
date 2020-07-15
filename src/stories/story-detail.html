@@ -73,8 +73,8 @@
                             </li>
                         </ul>
                     </div>
-                    <div if.bind="user.editing && candidates.length>0" id="candidate-list"
-                        class="stories-member-list" style="margin-top:-24px;">
+                    <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="stories-member-list"
+                        style="margin-top:-24px;">
                         <h4>${'photos.candidates' & t}</h4>
                         <ul class="list-group">
                             <li class="list-group-item" repeat.for="candidate of candidates">
@@ -100,38 +100,71 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7 justified-story full-story" ref="story_box">
-                <div class="row" style="padding-top:8px;">
-                    <div class="col-md-4 col-md-offset-8" if.bind="story.source">
-                        <span
-                            css="float:${theme.same_dir};direction:${story_dir};padding-right:12px;padding-left:12px;">${story.source}:</span>
+            <div class="col-md-7" ref="story_box" style="padding-right:0;">
+                <div class="justified-story full-story">
+                    <div style="padding-top:8px;margin-left:15px;">
+                        <div class="col-md-4 col-md-offset-8" if.bind="story.source">
+                            <span
+                                css="float:${theme.same_dir};direction:${story_dir};padding-right:12px;padding-left:12px;">${story.source}:</span>
+                        </div>
                     </div>
-                </div>
-                <div if.bind="! user.editing" class="row" style="padding-right:15px;padding-top:8pxl;">
-                    <div class="fr-view" dir="${story_dir}">
-                        <div class="big-story-panel ${theme.font_size}" style="position:relative;">
-                            <p class="${story_dir} ${highlight_on}">
-                                <compose if.bind="story.story_text" view-model='./render-story'
-                                    model.bind="{html:highlightedHtml}"></compose>
-                                <div class="page-control next" click.trigger="next_page($event, +1)"></div>
-                                <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
-                            </p>
+                    <div if.bind="! user.editing" style="padding-right:15px;padding-top:8pxl;">
+                        <div class="fr-view" dir="${story_dir}">
+                            <div class="big-story-panel ${theme.font_size}" style="position:relative;">
+                                <p class="${story_dir} ${highlight_on}">
+                                    <compose if.bind="story.story_text" view-model='./render-story'
+                                        model.bind="{html:highlightedHtml}"></compose>
+                                    <div class="page-control next" click.trigger="next_page($event, +1)"></div>
+                                    <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div if.bind="user.editing" style="padding-right:15px;padding-top:8pxl;">
+                        <div class="fr-view" dir="${story_dir}">
+                            <div class="big-story-panel ${theme.font_size}" style="position:relative;">
+                                <editable if.bind="user.editing"
+                                    settings.bind="{show_date:false, class:'story-section', checkable: false}"
+                                    story.bind="story">
+                                </editable>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div if.bind="user.editing" class="row" style="padding-right:15px;padding-top:8pxl;">
-                    <div class="fr-view" dir="${story_dir}">
-                        <div class="big-story-panel ${theme.font_size}" style="position:relative;">
-                            <editable if.bind="user.editing"
-                                settings.bind="{show_date:false, class:'story-section', checkable: false}"
-                                story.bind="story">
-                            </editable>
+                <!--end of justified -->
+                <div if.bind="user.editing"
+                    style="background-color:lightgray;height:570px;width:94%;margin-right:15px;margin-top:12px;">
+                    <div style="display:flex;justify-content:spacex-between;">
+                        <label style="margin-top:12px;margin-right:12px;font-size:120%;">
+                            ${'stories.sorting-key' & t}
+                        </label>
+                        <ul
+                            style="display:flex;justify-content:spacex-evenly;flex-direction:row-reverse;margin-top:12px;">
+                            <li repeat.for="idx of [0,1,2,3,4]" style="width:40px;margin-right:10px;">
+                                <input style="width:90%;padding:3px;" type="text" maxlength="3"
+                                    value.bind="sorting_key[idx]" disabled="${idx > last_filled_idx ? 'disabled' : ''}"
+                                    keypress.delegate="keep_only_digits($event, idx)"
+                                    change.delegate="sorting_key_changed($event, idx)">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-select-div"
+                        style="margin-bottom:0px;position:relative;width:80%;margin-right:15px;height:53vh;overflow:auto;">
+                        <div class="multi-select-div" style="margin-bottom:15px;position:relative;">
+                            <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
+                                ${'stories.categories' & t}
+                            </div>
+                            <multi-select options.bind="topic_list" category="topic"
+                                selected_options.bind="selected_topics"
+                                option_groups.bind="topic_groups" new-name.delegate="add_topic($event)"
+                                settings.bind="options_settings" has_groups.bind="has_grouped_topics"
+                                place_holder_text="photos.click-topic"
+                                ms-change.delegate="handle_topic_change($event) ">
+                            </multi-select>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
 
 </template>

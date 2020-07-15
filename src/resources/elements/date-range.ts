@@ -116,7 +116,10 @@ export class DateRangeCustomElement {
         if (key == "Enter") {
             return true;
         }
-        let m = key.match(/[0-9/]/) || key == 'Backspace' || key == 'Delete';
+        let m = key.match(/[0-9/.]/) || key == 'Backspace' || key == 'Delete';
+        if (! m) {
+            event.preventDefault();
+        }
         return m != null;
     }
 
