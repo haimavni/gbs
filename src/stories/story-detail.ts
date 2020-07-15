@@ -121,6 +121,7 @@ export class StoryDetail {
             .then(response => {
                 this.api.hit(what, params.id);
                 this.story = response.story;
+                this.sorting_key = response.sorting_key;
                 this.chatroom_id = this.story.chatroom_id;
                 let html = this.story.story_text;
                 if (this.story.story_id == 'new') {
@@ -261,7 +262,7 @@ export class StoryDetail {
     }
 
     keep_only_digits(event, idx) {
-        this.curr_idx = this.curr_idx + 1;;
+        this.curr_idx = this.curr_idx + 1;
         let key = event.key;
         if (key == "Enter") {
             return true;
