@@ -46,6 +46,14 @@ export class StoryDetail {
     topic_groups = [];
     selected_topics = [];
     options_settings: MultiSelectSettings;
+    story_topics;
+    undo_list = [];
+    curr_info = {
+        story_date_str: "",
+        story_date_datespan: 0,
+        story_topics: []
+    }
+
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -128,6 +136,8 @@ export class StoryDetail {
                 this.candidates = response.candidates;
                 this.article_candidates = response.article_candidates;
                 this.photos = response.photos;
+                this.story_topics = response.story_topics;
+                this.init_selected_topics();
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
                 }
@@ -257,7 +267,7 @@ export class StoryDetail {
             return true;
         }
         let m = key.match(/[0-9/]/) || key == 'Backspace' || key == 'Delete';
-        if (! m) {
+        if (!m) {
             event.preventDefault();
         }
         return m != null;
@@ -265,7 +275,7 @@ export class StoryDetail {
 
     @computedFrom('curr_idx', 'sorting_key[0]', 'sorting_key[1]', 'sorting_key[2]', 'sorting_key[3]', 'sorting_key[4]')
     get last_filled_idx() {
-        for (let idx of [0,1,2,3]) {
+        for (let idx of [0, 1, 2, 3]) {
             if (!this.sorting_key[idx]) {
                 return idx;
             }
@@ -273,7 +283,7 @@ export class StoryDetail {
     }
 
     sorting_key_changed(event, idx) {
-        this.api.call_server_post('members/save_sorting_key', {story_id: this.story.story_id, sorting_key: this.sorting_key});
+        this.api.call_server_post('members/save_sorting_key', { story_id: this.story.story_id, sorting_key: this.sorting_key });
     }
 
     update_topic_list() {
@@ -290,5 +300,31 @@ export class StoryDetail {
         this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
             .then(() => this.update_topic_list());
     }
+
+    init_selected_topics() {
+        this.selected_topics = [];
+        let i = 0;
+        for (let opt of this.story_topics) {
+            opt.sign = '';
+            let itm = { option: opt, first: i == 0, last: i == this.story_topics.length - 1, group_number: i + 1 }
+            this.selected_topics.push(itm);
+            i += 1;
+        }
+    }
+
+    handle_topic_change(event) {
+        if (!event.detail) return;
+        this.selected_topics = event.detail.selected_options
+        let topics = this.selected_topics.map(top => top.option);
+        this.story_topics = topics;
+        this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.story_topics });
+        this.curr_info.story_topics = topics.slice(0);
+        this.api.call_server_post('members/apply_topics_to_story', {
+            story_id: this.story.story_id,
+            story_topics: this.story_topics,
+            used_for: this.story.used_for
+        });
+    }
+
 
 }
