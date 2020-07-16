@@ -127,7 +127,6 @@ export class StoryDetail {
             .then(response => {
                 this.api.hit(what, params.id);
                 this.story = response.story;
-                this.sorting_key = response.sorting_key;
                 this.chatroom_id = this.story.chatroom_id;
                 let html = this.story.story_text;
                 if (this.story.story_id == 'new') {
@@ -145,12 +144,19 @@ export class StoryDetail {
                 this.photos = response.photos;
                 this.story_topics = response.story_topics;
                 this.init_selected_topics();
-                if (this.photos.length > 0) {
-                    this.curr_photo = this.photos[0].photo_path;
-                }
+                this.sorting_key = response.sorting_key;
                 let story_date = response.story_date;
                 this.story_date_str = story_date.date;
                 this.story_date_datespan = story_date.span;
+                this.curr_info = {
+                    sorting_key: this.sorting_key.slice(0),
+                    story_date_str: this.story_date_str.slice(0),
+                    story_date_datespan: this.story_date_datespan,
+                    story_topics: this.story_topics
+                }
+                if (this.photos.length > 0) {
+                    this.curr_photo = this.photos[0].photo_path;
+                }
             });
         if (params.what == 'help') return;
         this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: params.id, story_type: this.story_type });
@@ -292,6 +298,8 @@ export class StoryDetail {
     }
 
     sorting_key_changed(event, idx) {
+        this.undo_list.push({ what: 'sorting-key', sorting_key: this.curr_info.sorting_key });
+        this.curr_info.sorting_key = this.sorting_key.slice(0);
         this.api.call_server_post('members/save_sorting_key', { story_id: this.story.story_id, sorting_key: this.sorting_key });
     }
 
@@ -326,7 +334,7 @@ export class StoryDetail {
         this.selected_topics = event.detail.selected_options
         let topics = this.selected_topics.map(top => top.option);
         this.story_topics = topics;
-        this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.story_topics });
+        this.undo_list.push({ what: 'topics', story_topics: this.curr_info.story_topics });
         this.curr_info.story_topics = topics.slice(0);
         this.api.call_server_post('members/apply_topics_to_story', {
             story_id: this.story.story_id,
@@ -335,5 +343,59 @@ export class StoryDetail {
         });
     }
 
+    update_story_date(customEvent) {
+        customEvent.stopPropagation();
+        let event = customEvent.detail;
+        let s = typeof event;
+        this.undo_list.push({
+            what: 'story-date',
+            story_date: {
+                story_date_str: this.curr_info.story_date_str,
+                story_date_datespan: this.curr_info.story_date_datespan
+            }
+        });
+        this.curr_info.story_date_str = this.story_date_str.slice(0);
+        this.curr_info.story_date_datespan = this.story_date_datespan;
+        this.api.call_server_post('members/update_story_date',
+            {
+                story_date_str: event.date_str, story_date_datespan: event.date_span,
+                story_id: this.story.story_id
+            });
+    }
+
+    undo() {
+        let command = this.undo_list.pop();
+        switch (command.what) {
+            case "topics":
+                this.story_topics = command.story_topics.slice(0);
+                this.curr_info.story_topics = command.story_topics.slice(0);
+                this.init_selected_topics();
+                this.api.call_server_post('members/apply_topics_to_story',
+                    {
+                        story_id: this.story.story_id,
+                        story_topics: this.story_topics,
+                        used_for: this.story.used_for
+                    });
+                break;
+            case "story-date":
+                this.story_date_str = command.story_date.story_date_str;
+                this.curr_info.story_date_str = command.story_date.story_date_str;
+                this.story_date_datespan = command.story_date.story_date_datespan;
+                this.curr_info.story_date_datespan = command.story_date.story_date_datespan;
+                this.api.call_server_post('members/update_story_date',
+                    {
+                        story_date_str: this.story_date_str,
+                        story_date_datespan: this.story_date_datespan,
+                        story_id: this.story.story_id
+                    });
+                break;
+            case "sorting-key":
+                this.sorting_key = command.sorting_key.slice(0);
+                this.curr_info.sorting_key = command.sorting_key.slice(0);
+                this.api.call_server_post('members/save_sorting_key',
+                    { story_id: this.story.story_id, sorting_key: this.sorting_key });
+                break;
+        }
+    }
 
 }

@@ -272,19 +272,19 @@ export class PhotoDetail {
         let command = this.undo_list.pop();
         switch (command.what) {
             case "photographer": 
-                this.photographer_id = command.photographer.id;
-                this.photographer_name = command.photographer.name;
+                this.curr_info.photographer_id = this.photographer_id = command.photographer.id;
+                this.curr_info.photographer_name = this.photographer_name = command.photographer.name;
                 this.init_photographer();
-                this.photographer_name = this.params.selected_photographers[0].option.name;
                 this.api.call_server_post('photos/assign_photo_photographer', { photo_id: this.true_photo_id, photographer_id: this.photographer_id });
                 break;
             case "topics": 
                 this.photo_topics = command.photo_topics.slice(0);
+                this.curr_info.photo_topics = this.photo_topics.slice(0);
                 this.init_selected_topics();
                 this.api.call_server_post('photos/apply_topics_to_photo', { photo_id: this.true_photo_id, topics: this.photo_topics });
                 break;
             case "photo-date": 
-                this.photo_date_str = command.photo_date.photo_date_str;
+                this.curr_info.photo_date_str = this.photo_date_str = command.photo_date.photo_date_str;
                 this.photo_date_datespan = command.photo_date.photo_date_datespan;
                 this.api.call_server_post('photos/update_photo_date', { photo_date_str: this.photo_date_str, photo_date_datespan: this.photo_date_datespan, photo_id: this.photo_id });
                 break;

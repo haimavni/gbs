@@ -164,8 +164,15 @@
                     </div>
                     <div style="margin-top: 10px;margin-left:14px;margin-right:15px;width:50%;">
                         <date-range label="stories.story-date" base_date_str.bind="story_date_str"
-                            range_options.bind="[1,2,3,5,10,15,20,30,50,100]" span_size.bind="story_date_span_size">
+                            range_options.bind="[1,2,3,5,10,15,20,30,50,100]"
+                            change.delegate="update_story_date($event)" span_size.bind="story_date_datespan">
                         </date-range>
+                    </div>
+                    <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
+                        <button if.bind="undo_list.length > 0" class="btn btn-warning" style="width:90%;"
+                            click.delegate="undo()">
+                            <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
+                        </button>
                     </div>
                 </div>
             </div>
