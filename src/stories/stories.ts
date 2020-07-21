@@ -104,6 +104,7 @@ export class Stories {
     delete_or_undelete_now_title;
     start_name_history = [];
     misc;
+    book_list = [];
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup, misc: Misc) {
@@ -204,6 +205,8 @@ export class Stories {
                     }
                 }
             });
+        this.api.call_server('members/get_book_list')
+            .then(response => { this.book_list = response.book_list });
     }
 
     keywords_to_selected_words() {
@@ -252,8 +255,8 @@ export class Stories {
         this.theme.page_title = "";
     }
 
-    async update_story_list(search_type, from_words_change=false) {
-        if (! from_words_change) {
+    async update_story_list(search_type, from_words_change = false) {
+        if (!from_words_change) {
             this.update_params_from_selected_words()
             if (this.no_results) return;
         }

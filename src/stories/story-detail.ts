@@ -57,6 +57,7 @@ export class StoryDetail {
     };
     last_filled_idx = 0;
     nudnik;
+    book_id;
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {

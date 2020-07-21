@@ -359,7 +359,8 @@ export class MemberDetail {
         this.life_summary_content.style.height = `${tph - lsco}px`;
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
-            this.top_panel.style.height = `${tph}px`;
+            let n = (this.member.member_stories.length > 1) ? 0 : 100;
+            this.top_panel.style.height = `${tph - n}px`;
             this.bottom_panel.style.height = `${bph}px`;
             this.bottom_panel.style.width = '1166px';
             this.bottom_panel.style.marginRight = '0px'
