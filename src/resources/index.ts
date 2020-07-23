@@ -11,6 +11,7 @@ export function configure(config) {
     './value-converters/keeplen',
     './value-converters/format-date',
     './elements/multi-select/multi-select',
+    './elements/picker/picker',
     './elements/selector',
     './elements/photo-strip',
     './elements/editable',

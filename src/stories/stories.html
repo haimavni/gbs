@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <button
                                     if.bind="user.editing && checked_stories.size > 0 && (params.selected_topics.length>0 || date_is_valid || params.selected_story_visibility)"
-                                    click.trigger="apply_topics_to_selected_stories()" class="btn btn-basic btn-md">
+                                    click.trigger="apply_topics_to_selected_stories()" class="btn btn-warning btn-md">
                                     ${'stories.apply-to-selected' & t}
                                 </button>
                             </div>

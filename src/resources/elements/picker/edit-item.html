@@ -1,0 +1,33 @@
+<template>
+    <ux-dialog style="padding:12px;">
+        <ux-dialog-header>
+            <h3>${title}</h3>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="${name_placeholder}" value.bind="topic.name">
+                </div>
+                <div class="form-group" if.bind="has_description">
+                    <input type="text" class="form-control" placeholder="${description_placeholder}"
+                        value.bind="topic.description">
+                </div>
+                <div class="form-group">
+                    <span class="error" if.bind="error_message">${error_message}</span>
+                </div>
+                <div class="form-group" if.bind="can_delete">
+                    <button class="btn btn-warning" click.delegate="remove_topic()">
+                        <i class="fa fa-trash"></i>
+                        ${'multi-select.remove-item' & t} "${topic.name}"
+                    </button>
+                </div>
+            </form>
+        </ux-dialog-body>
+        <ux-dialog-footer>
+            <button type="button" class="btn btn-primary"
+                disabled="${ready_to_save ? '' : 'disabled'}"
+                click.delegate="save()">${'groups.save' & t}</button>
+            <button type="button" class="btn btn-info" click.delegate="cancel()">${'groups.cancel' & t}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>
