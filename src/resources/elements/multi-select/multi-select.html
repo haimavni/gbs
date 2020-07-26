@@ -1,6 +1,4 @@
 <template class="multi-select" dir="${theme.rtltr}">
-    <require from="./multi-select.css">
-    </require>
     <div class="input-group search-filter" if.bind="options.length > 0 || first_time">
         <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"
             help_topic.bind="settings.help_topic" filter-change.delegate="enter_word($event)"></search-input>

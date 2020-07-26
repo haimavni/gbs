@@ -10,7 +10,7 @@ export class EditItem {
     i18n;
     controller: DialogController;
     error_message = "";
-    topic;
+    item;
     old_data;
     can_delete = false;
     has_description = false;
@@ -28,27 +28,27 @@ export class EditItem {
     }
 
     activate(params) {
-        this.topic = params.topic;
+        this.item = params.item;
         this.can_delete = params.can_delete;
-        this.old_data = this.misc.deepClone(this.topic);
+        this.old_data = this.misc.deepClone(this.item);
         this.category = params.category;
-        this.has_description = this.category == 'topic';
-        let key = 'multi-select.' + this.category + '-title';
+        this.has_description = this.category == 'item';
+        let key = 'picker.' + this.category + '-title';
         this.title = this.i18n.tr(key);
-        key = 'multi-select.' + this.category + '-name';
+        key = 'picker.' + this.category + '-name';
         this.name_placeholder = this.i18n.tr(key);
         if (this.has_description) {
-            key = 'multi-select.' + this.category + '-description'
+            key = 'picker.' + this.category + '-description'
             this.description_placeholder = this.i18n.tr(key);
         }
     }
 
     save() {
-        if (this.category != 'topic') {
+        if (this.category != 'item') {
             this.controller.ok({command: 'rename'});
             return;
         }
-        this.api.call_server_post('topics/update_topic_name_and_description', {topic: this.topic})
+        this.api.call_server_post('items/update_item_name_and_description', {item: this.item})
             .then((data) => {
                 if (data.user_error) {
                     this.error_message = this.i18n.tr(data.user_error);
@@ -58,20 +58,20 @@ export class EditItem {
             });
     }
 
-    remove_topic() {
-        this.controller.ok({command: 'remove-topic'})
+    remove_item() {
+        this.controller.ok({command: 'remove-item'})
     }
 
     cancel() {
-        this.topic.name = this.old_data.name;
-        this.topic.description = this.old_data.topic_description;
+        this.item.name = this.old_data.name;
+        this.item.description = this.old_data.item_description;
         this.controller.cancel();
     }
 
-    @computedFrom('topic.name', 'topic.description')
+    @computedFrom('item.name', 'item.description')
     get ready_to_save() {
-        if (! this.topic.name) return false;
-        if (this.topic.name == this.old_data.name && this.topic.description == this.old_data.description) return false;
+        if (! this.item.name) return false;
+        if (this.item.name == this.old_data.name && this.item.description == this.old_data.description) return false;
         return true;
     }
 

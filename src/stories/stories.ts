@@ -14,6 +14,7 @@ import { Popup } from '../services/popups';
 import { Misc } from '../services/misc';
 import { DocPage } from '../docs/doc-page';
 import { debounce } from '../services/debounce';
+import { PickerSettings } from '../resources/elements/picker/picker';
 
 @autoinject
 @singleton()
@@ -39,6 +40,7 @@ export class Stories {
         keywords_str: "",
         editing: false,
         selected_topics: [],
+        selected_book: null,
         show_untagged: false,
         selected_words: [],
         selected_uploader: "",
@@ -105,6 +107,7 @@ export class Stories {
     start_name_history = [];
     misc;
     book_list = [];
+    pickerSettings: PickerSettings = new PickerSettings({can_add: true});
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup, misc: Misc) {
@@ -682,6 +685,7 @@ export class Stories {
             editing: false,
             selected_topics: [],
             show_untagged: false,
+            selected_book: null,
             selected_words: [],
             selected_uploader: "",
             selected_story_visibility: 0,

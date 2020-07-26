@@ -26,6 +26,8 @@ $navbar-default-link-active-bg: inherit;
 @import 'groups/groups';
 
 /* Elements */
+@import 'resources/elements/multi-select/multi-select';
+@import 'resources/elements/picker/picker';
 @import 'resources/elements/photo-strip';
 @import 'resources/elements/quiz/quiz';
 @import 'resources/elements/quick-login';

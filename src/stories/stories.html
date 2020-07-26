@@ -30,16 +30,18 @@
                                     ${'stories.new' & t}
                                 </a>
                             </div>
-                            <div class="form-group" if.bind="user.editing && checked_stories.size>0" style="float:left;margin-left:20px;">
-                                <button class="btn btn-warning btn-sm" click.trigger="delete_checked_stories()" title="${delete_or_undelete_now_title}">
+                            <div class="form-group" if.bind="user.editing && checked_stories.size>0"
+                                style="float:left;margin-left:20px;">
+                                <button class="btn btn-warning btn-sm" click.trigger="delete_checked_stories()"
+                                    title="${delete_or_undelete_now_title}">
                                     <i class="far fa-trash-alt fa-lg ${params.deleted_stories ? 'fa-rotate-180' : '' }"></i>
                                 </button>
                             </div>
-                            <div class="form-group" if.bind="user.editing && checked_stories.size>0 && params.deleted_stories" style="float:left;margin-left:20px;">
-                                <button class="btn btn-error btn-sm" 
-                                    click.trigger="delete_checked_stories_forever()" 
-                                    t="[title]stories.delete-forever"
-                                    style="padding:4px;border:2px solid red;">
+                            <div class="form-group"
+                                if.bind="user.editing && checked_stories.size>0 && params.deleted_stories"
+                                style="float:left;margin-left:20px;">
+                                <button class="btn btn-error btn-sm" click.trigger="delete_checked_stories_forever()"
+                                    t="[title]stories.delete-forever" style="padding:4px;border:2px solid red;">
                                     <i class="far fa-trash-alt fa-lg" style="color:red;"></i>
                                 </button>
                             </div>
@@ -132,22 +134,21 @@
                             style="position:absolute;left:0px;top:26px;"></help>
                         <help if.bind="phase=='ready-to-edit'" topic="topics.ready-to-edit" , position="bottom"
                             style="position:absolute;left:0px;top:26px;"></help>
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic"
-                            category="topic"
+                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" category="topic"
                             selected_options.bind="params.selected_topics" height.bind="220"
-                            first_time.bind="no_topics_yet"
-                            settings.bind="options_settings" has_groups.bind="has_grouped_topics"
-                            highlight_unselectors.bind="highlight_unselectors"
+                            first_time.bind="no_topics_yet" settings.bind="options_settings"
+                            has_groups.bind="has_grouped_topics" highlight_unselectors.bind="highlight_unselectors"
                             option_groups.bind="topic_groups" ms-change.delegate="handle_topic_change($event)"
                             new-name.delegate="add_topic($event)" name-changed.delegate="topic_name_changed($event)"
                             remove-option.delegate="remove_topic($event)"
                             clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
                         </multi-select>
                     </div>
-                    <div if.bind="user.privileges.ADVANCED && user.privileges.ADMIN && user.editing" class="row" style="margin-top:8px;">
+                    <div if.bind="user.privileges.ADVANCED && user.privileges.ADMIN && user.editing" class="row"
+                        style="margin-top:8px;">
                         <button class="btn btn-sm btn-defalt ${params.deleted_stories ? 'active' : ''}"
-                            style="border:solid 2px gray"
-                            click.trigger="toggle_deleted_stories()" t="[title]stories.undelete">
+                            style="border:solid 2px gray" click.trigger="toggle_deleted_stories()"
+                            t="[title]stories.undelete">
                             <i class="far fa-trash-alt fa-lg fa-rotate-180"></i>
                         </button>
                     </div>
@@ -164,8 +165,7 @@
                         </multi-select>
                     </div>
                     <div class="row" if.bind="user.editing && user.privileges.ADMIN && checked_stories.size > 0">
-                        <selector dict.bind="api.constants.story_visibility"
-                            width.bind="visibility_width"
+                        <selector dict.bind="api.constants.story_visibility" width.bind="visibility_width"
                             selectedval.two-way="params.selected_story_visibility">
                         </selector>
                     </div>
@@ -176,13 +176,12 @@
                                 <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
                             </select>
                             <div if.bind="params.order_option.value =='by-name' && start_name_history.length > 0">
-                                <input type="text" value.bind="params.start_name"
-                                    list="start-name-history"
-                                    change.delegate="handle_start_name_change($event)" 
-                                    style="width:90%;margin-top:8px;height:32px;" t="[placeholder]stories.start-name"/>
-                                    <datalist id="start-name-history">
-                                        <option repeat.for="option of start_name_history" value.bind="option"></option>
-                                    </datalist>
+                                <input type="text" value.bind="params.start_name" list="start-name-history"
+                                    change.delegate="handle_start_name_change($event)"
+                                    style="width:90%;margin-top:8px;height:32px;" t="[placeholder]stories.start-name" />
+                                <datalist id="start-name-history">
+                                    <option repeat.for="option of start_name_history" value.bind="option"></option>
+                                </datalist>
                             </div>
                         </form>
                     </div>
@@ -204,6 +203,13 @@
                                 </option>
                             </select>
                         </form>
+                    </div>
+                    <div class="row" style="margin-top: 20px;margin-left:23px;"
+                        if.bind="user.editing && user.privileges.DEVELOPER">
+                        <picker options.bind="book_list" settings.bind="pickerSettings"
+                            first_time.bind="book_list.length  == 0"
+                            selected_option.bind="params.selected_book">
+                        </picker>
                     </div>
                     <div class="row" style="margin-top: 20px;margin-left:23px;" if.bind="can_set_dates">
                         <date-range label="stories.date" base_date_str.bind="params.stories_date_str"

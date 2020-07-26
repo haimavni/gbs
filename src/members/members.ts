@@ -49,6 +49,7 @@ export class Members {
     to_clear_now = false;
     quiz_help_data;
     old_editing_mode = false;
+    anchor = -1; //for multiple selections
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, articleList: ArticleList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
@@ -138,7 +139,7 @@ export class Members {
         this.memberList.sort_member_list(this.order);
     }
 
-    toggle_selection(member, event) {
+    toggle_selection(member) {
         if (member.selected) {
             member.selected = 0;
             this.selected_members.delete(member.id)
@@ -163,6 +164,13 @@ export class Members {
                 this.relatives_path = null;
                 this.relative_list = null;
             }
+        }
+    }
+
+    clear_selection() {
+        this.selected_members = new Set();
+        for (let mem of this._members) {
+            mem.selected = 0;
         }
     }
 
@@ -223,13 +231,40 @@ export class Members {
         return result;
     }
 
-    member_clicked(member, event) {
+    member_clicked(member, event, index) {
+        if (this.anchor < 0) this.anchor = index;
         if (event.ctrlKey) {
-            this.toggle_selection(member, event);
+            this.toggle_selection(member);
+        } else if (event.altKey) {
+            this.clear_selection()
+        } else if (event.shiftKey) {
+            this.select_block(member, index)
         } else {
             event.stopPropagation();
             this.scroll_top = this.scroll_area.scrollTop;
             this.router.navigateToRoute('member-details', { id: member.id, keywords: "" });
+        }
+    }
+
+    select_block(member, index) {
+        this.toggle_selection(member);
+        let checked = member.selected;
+        let i0, i1;
+        if (this.anchor < index) {
+            i0 = this.anchor;
+            i1 = index
+        } else {
+            i0 = index;
+            i1 = this.anchor;
+        }
+        for (let i = i0; i < i1; i++) {
+            let mem = this._members[i];
+            mem.selected = checked;
+            if (checked) {
+                this.selected_members.add(mem.id)
+            } else {
+                this.selected_members.delete(mem.id)
+            }
         }
     }
 

@@ -6,19 +6,19 @@
         <ux-dialog-body>
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="${name_placeholder}" value.bind="topic.name">
+                    <input type="text" class="form-control" placeholder="${name_placeholder}" value.bind="item.name">
                 </div>
                 <div class="form-group" if.bind="has_description">
                     <input type="text" class="form-control" placeholder="${description_placeholder}"
-                        value.bind="topic.description">
+                        value.bind="item.description">
                 </div>
                 <div class="form-group">
                     <span class="error" if.bind="error_message">${error_message}</span>
                 </div>
                 <div class="form-group" if.bind="can_delete">
-                    <button class="btn btn-warning" click.delegate="remove_topic()">
+                    <button class="btn btn-warning" click.delegate="remove_item()">
                         <i class="fa fa-trash"></i>
-                        ${'multi-select.remove-item' & t} "${topic.name}"
+                        ${'multi-select.remove-item' & t} "${item.name}"
                     </button>
                 </div>
             </form>

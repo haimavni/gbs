@@ -8,11 +8,11 @@ import { EditItem } from './edit-item';
 
 export class PickerSettings {
     name_editable = false;
-    can_add = false;
+    can_add = true;
     can_delete = false;
     show_only_if_filter = false;
     empty_list_message = 'Empty list of options';
-    help_topic = 'search-input';
+    help_item = 'search-input';
 
     constructor(obj) {
         this.update(obj);
@@ -32,10 +32,11 @@ export class Picker {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) settings: PickerSettings;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_option;
     @bindable place_holder_text = "";
+    @bindable first_time = false;
     //----------------
     user: User;
     theme: Theme;
-    agent = { size: 9999 };
+    agent = { size: 0 };
     misc: Misc;
     i18n: I18N;
     dialog: DialogService;
@@ -50,6 +51,7 @@ export class Picker {
         this.i18n = i18n;
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title');
+        this.place_holder_text = "Enter name from list or a new one";
         this.user = user;
         this.theme = theme;
         this.misc = misc;
@@ -77,15 +79,14 @@ export class Picker {
         return false;
     }
 
-
     edit_option_dialog(option, event) {
         event.stopPropagation();
         if (!this.user.privileges.ADMIN) return false;
         this.dialog.open({
-            viewModel: EditItem, model: { topic: option, can_delete: this.can_delete }, lock: true
+            viewModel: EditItem, model: { item: option, can_delete: this.can_delete }, lock: true
         }).whenClosed(result => {
             if (result.wasCancelled) return;
-            if (result.output.command == "remove-topic") {
+            if (result.output.command == "remove-item") {
                 this.remove_option(option);
             } else if (result.output.command == "rename") {
                 this.name_changed(option)
@@ -118,4 +119,25 @@ export class Picker {
         return this.settings.can_delete;
     }
 
+    @computedFrom('settings.can_add', 'filter', 'filter_size', 'first_time')
+    get can_add() {
+        return this.filter.length > 0 && this.settings.can_add && (this.first_time || this.filter_size == 0);
+    }
+
+    select_option(option){
+        this.filter = option.name;
+        let customEvent = new CustomEvent('item-selected', {
+            detail: {
+                option: option
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(customEvent);
+    }
+
+    @computedFrom('agent.size')
+    get filter_size() {
+        return this.agent.size;
+    }
 }
+ 

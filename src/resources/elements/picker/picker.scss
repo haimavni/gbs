@@ -1,0 +1,150 @@
+.picker {
+    div.selected {
+        font-weight: bolder;
+        color: black;
+        //max-height: 60px;
+        border-bottom: solid 2px lightgray;
+    }
+    /*div.unselected {
+        //max-height: 120px;
+    }*/
+    div.search-filter input {
+        font-size: inherit;
+    }
+    div.search-filter.ltr input {
+        direction: ltr;
+    }
+    div.option-item {
+        margin-left: 0;
+        padding: 0;
+    }
+
+    div.options {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        width: 90%;
+        margin-right: 0px;
+    }
+
+    div.ms-container {
+        min-height: 40px;
+        position: relative;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    div.selected {
+        font-size: 115%;
+        ul {
+            padding-right:16px;
+            &.ltr {
+                padding-left: 20px;
+            }
+        }
+        i {
+            float: left;
+        }
+        span {
+            float: right;
+        }
+    }
+
+    li a {
+       width: 51%;
+       color: black;
+    }
+
+    li.odd-group {
+        background-color: lightblue;
+    }
+
+    /*li.even-group {
+        background-color: yellow;
+    }*/
+
+    .ms-tooltip {
+        ul {
+            list-style-type: hebrew;
+            z-index: 9999;
+        }
+    }
+
+    div.search-filter {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    /*a {
+        float: right;
+    }*/
+
+    span {
+        height: 20px;
+    }
+    span.span-a {
+        width: 100%;
+        float:right;
+        overflow: hidden;
+        cursor: pointer;
+        padding-right:2px;
+        a {
+            margin: 0;
+            padding: 0;
+            //float: left;
+        }
+    }
+    span.keyword-area {
+        width: 160px;
+        cursor: pointer;
+    }
+
+    span.span-i {
+        width: 80px;
+        float:left;
+        a {
+            margin: 0;
+            padding: 0;
+            float: left;
+            width:18px;
+        }
+    }
+
+    .option-kind-0 {
+        color: green;
+    }
+
+    .option-kind-1 {
+        color: blue;
+    }
+
+    .option-kind-2 {
+        color: inherited;
+    }
+
+    div.options {
+        max-height: 120px;
+        ul.ltr {
+            padding-left:20px;
+        }
+        i {
+            cursor: pointer;
+            color: blue;
+            font-size: 50%;
+        }
+        a {
+            cursor: pointer;
+            //color:black;
+            &.option-group {
+                color: blue;
+            }
+            &:hover {
+                //font-weight:bolder;
+                background-color: lightblue;
+            }
+        }
+    }
+
+}
