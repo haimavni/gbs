@@ -13,6 +13,7 @@ export class PickerSettings {
     show_only_if_filter = false;
     empty_list_message = 'Empty list of options';
     help_item = 'search-input';
+    place_holder_text = "Enter name from list or a new one";
 
     constructor(obj) {
         this.update(obj);
@@ -31,7 +32,6 @@ export class Picker {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) settings: PickerSettings;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_option;
-    @bindable place_holder_text = "";
     @bindable first_time = false;
     //----------------
     user: User;
@@ -51,7 +51,6 @@ export class Picker {
         this.i18n = i18n;
         this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
         this.new_item_title = i18n.tr('multi-select.new-item-title');
-        this.place_holder_text = "Enter name from list or a new one";
         this.user = user;
         this.theme = theme;
         this.misc = misc;

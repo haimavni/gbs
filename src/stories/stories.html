@@ -205,9 +205,12 @@
                         </form>
                     </div>
                     <div class="row" style="margin-top: 20px;margin-left:23px;"
-                        if.bind="user.editing && user.privileges.DEVELOPER">
-                        <picker options.bind="book_list" settings.bind="pickerSettings"
-                            first_time.bind="book_list.length  == 0"
+                        if.bind="user.privileges.DEVELOPER">
+                        <picker options.bind="book_list" 
+                            settings.bind="pickerSettings"
+                            first_time.bind="book_list.length == 0"
+                            new-name.delegate="create_new_book($event)"
+                            item-selected.delegate="book_selected($event)"
                             selected_option.bind="params.selected_book">
                         </picker>
                     </div>

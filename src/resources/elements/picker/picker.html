@@ -1,7 +1,8 @@
 <template class="picker" dir="${theme.rtltr}">
     <div class="input-group search-filter" if.bind="options.length > 0 || first_time">
-        <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"
-            help_topic.bind="settings.help_topic"><!--filter-change.delegate="enter_word($event)"-->
+        <search-input value.bind="filter" placeholder.bind="settings.place_holder_text" height="32"
+            help_topic.bind="settings.help_topic">
+            <!--filter-change.delegate="enter_word($event)"-->
         </search-input>
     </div>
     <button if.bind="can_add" class="btn btn-success btn-sm cl-create-btn"
@@ -14,13 +15,13 @@
     <div class="options unselected ${theme.rtltr}" css="max-height:${option_list_height}px;min-height:132px;"
         if.bind="options && options.length > 0 && (filter.length > 0 || (! settings.show_only_if_filter)) ">
         <ul css="width:${width}px;">
-            <li
-                repeat.for="option of options | filter: filter : 'name' | spy : agent">
+            <li repeat.for="option of options | filter: filter : 'name' | spy : agent">
                 <div class="option-item" contextmenu.delegate="edit_option_dialog(option, $event)"
                     aubs-popover="body.bind:option.description;position:right;disabled.bind:!option.description"
-                    if.bind="option.topic_kind > 0 || user.editing">
-                    <a click.delegate="select_option(option)"
-                        class.bind="'option-kind-' + option.topic_kind">${option.name}</a>
+                    if.bind="user.editing">
+                    <a click.delegate="select_option(option)">
+                        ${option.name}
+                    </a>
                 </div>
             </li>
         </ul>

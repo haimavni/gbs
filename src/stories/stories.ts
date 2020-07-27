@@ -149,6 +149,7 @@ export class Stories {
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
         this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
         this.update_story_list_debounced = debounce(this.update_story_list, 1700, false);
+        this.pickerSettings.place_holder_text = this.i18n.tr('stories.enter-book-name')
     }
 
     refresh_story(data) {
@@ -752,6 +753,20 @@ export class Stories {
     @computedFrom('theme.height')
     get panel_height() {
         return this.theme.height - 350;
+    }
+
+    create_new_book(customEvent) {
+        let event = customEvent.detail;
+        this.api.call_server('topics/create_new_book', {book_name: event.new_name})
+        .then(result => {
+            let book = {name: event.new_name, description: "", book_id: result.book_id};
+            this.book_list.push(book)
+        })
+    }
+
+    book_selected(customEvent) {
+        let event = customEvent.detail;
+        console.log("book selected: ", event);
     }
 
 }

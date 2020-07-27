@@ -95,7 +95,9 @@
         "start-name": "Name to start with",
         "start-date": "Date to start with",
         "end-of-stories": "--No more stories!--",
-        "sorting-key": "Sorting key"
+        "sorting-key": "Sorting key",
+        "enter-book-name": "Enter book name",
+        "story-date": "Story date"
     },
     "members": {
         "members": "Members",
