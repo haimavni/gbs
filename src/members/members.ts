@@ -70,7 +70,8 @@ export class Members {
             { value: "selected;last_name;first_name", name: this.i18n.tr('members.by-last-name') },
             { value: "selected;first_name;last_name;first_name", name: this.i18n.tr('members.by-first-name') },
             { value: "selected;-birth_date", name: this.i18n.tr('members.by-age-young-first') },
-            { value: "selected;birth_date", name: this.i18n.tr('members.by-age-old-first') }
+            { value: "selected;birth_date", name: this.i18n.tr('members.by-age-old-first') },
+            { value: "selected;-id", name: this.i18n.tr('members.newly-added')}
         ];
         if (this.user.privileges.EDITOR) {
             this.sorting_options.push({ value: "has_profile_photo", name: this.i18n.tr('members.profile-missing-first') });
