@@ -143,7 +143,7 @@ export class MemberDetail {
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
         this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
         this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
-            if (payload.event.ctrlKey) {
+            if (payload.event.ctrlKey || payload.event.shiftKey) {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
                 return;
             }
@@ -339,7 +339,7 @@ export class MemberDetail {
     }
 
     async set_heights() {
-        while (!this.photo_strip || !this.life_summary_content) {
+        while (!this.photo_strip || !this.life_summary_content || ! this.member) {
             await sleep(20);
         }
         this._set_heights();
