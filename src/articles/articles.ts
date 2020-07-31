@@ -155,7 +155,6 @@ export class Articles {
             this.selected_articles.add(article.id)
             article.selected = 1;
         }
-        console.log("this.selected_articles ", this.selected_articles);
     }
 
 }

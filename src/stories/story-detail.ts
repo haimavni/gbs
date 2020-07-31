@@ -129,7 +129,6 @@ export class StoryDetail {
                 this.api.hit(what, params.id);
                 this.story = response.story;
                 this.chatroom_id = this.story.chatroom_id;
-                let html = this.story.story_text;
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
@@ -145,6 +144,8 @@ export class StoryDetail {
                 this.photos = response.photos;
                 this.story_topics = response.story_topics;
                 this.init_selected_topics();
+                this.book_id = response.book_id;
+                this.book_name = response.book_name;
                 this.sorting_key = response.sorting_key;
                 let story_date = response.story_date;
                 this.story_date_str = story_date.date;

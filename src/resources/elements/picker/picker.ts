@@ -97,7 +97,6 @@ export class Picker {
     }
 
     remove_option(option) {
-        console.log("options: ", this.options);
         let customEvent = new CustomEvent('remove-item', {
             detail: {
                 option: option
