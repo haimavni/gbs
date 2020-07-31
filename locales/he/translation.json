@@ -566,6 +566,12 @@
         "recorder-name": "",
         "recorder-title": "ערוך את שם המקליט"
     },
+    "picker": {
+        "book-name": "שם הספר",
+        "book-title": "שם הספר ותיאורו",
+        "book-description": "תיאור הספר",
+        "unselect-item": "---בטל את הבחירה---"
+    },
     "locales": {
         "he": "עברית",
         "en": "English"

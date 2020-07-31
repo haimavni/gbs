@@ -32,7 +32,7 @@ export class EditItem {
         this.can_delete = params.can_delete;
         this.old_data = this.misc.deepClone(this.item);
         this.category = params.category;
-        this.has_description = this.category == 'item';
+        this.has_description = true; //this.category == 'item';
         let key = 'picker.' + this.category + '-title';
         this.title = this.i18n.tr(key);
         key = 'picker.' + this.category + '-name';
@@ -45,10 +45,10 @@ export class EditItem {
 
     save() {
         if (this.category != 'item') {
-            this.controller.ok({command: 'rename'});
+            this.controller.ok({command: 'modify-item'});
             return;
         }
-        this.api.call_server_post('items/update_item_name_and_description', {item: this.item})
+        this.api.call_server_post('topics/update_item_name_and_description', {item: this.item})
             .then((data) => {
                 if (data.user_error) {
                     this.error_message = this.i18n.tr(data.user_error);

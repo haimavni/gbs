@@ -31,6 +31,7 @@ export class MemberPicker {
     member_id;
     i18n;
     agent = { size: 9999 };
+    help_topic;
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -68,6 +69,7 @@ export class MemberPicker {
         this.slide = model.slide;
         this.excluded = model.excluded ? model.excluded : new Set();
         this.member_id = model.member_id;
+        this.help_topic = model.help_topic;
         await this.prepare_lists();
         this.filter = '';
         if (model.member_id > 0) {

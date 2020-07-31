@@ -566,6 +566,12 @@
         "recorder-name": "",
         "recorder-title": "Name of recording creator"
     },
+    "picker": {
+        "book-name": "Book name",
+        "book-title": "Book name and description",
+        "book-description": "Book description",
+        "unselect-item": "---Cancel item selction---"
+    },
     "locales": {
         "he": "Hebrew",
         "en": "English"

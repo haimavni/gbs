@@ -294,7 +294,8 @@ export class FullSizePhoto {
                 candidates: this.candidates,
                 excluded: this.faces_already_identified,
                 slide: this.slide,
-                current_face: this.current_face
+                current_face: this.current_face,
+                help_topic: "pick-member"
             }, lock: false
         })
             .whenClosed(response => {

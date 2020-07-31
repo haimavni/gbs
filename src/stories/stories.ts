@@ -149,7 +149,10 @@ export class Stories {
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
         this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
         this.update_story_list_debounced = debounce(this.update_story_list, 1700, false);
-        this.pickerSettings.place_holder_text = this.i18n.tr('stories.enter-book-name')
+        this.pickerSettings.place_holder_text = this.i18n.tr('stories.enter-book-name');
+        this.pickerSettings.can_delete = this.user.editing;
+        this.pickerSettings.help_topic = "search-book-list";
+
     }
 
     refresh_story(data) {
@@ -293,6 +296,7 @@ export class Stories {
                 //this.params.by_last_chat_time = false;
                 //this.params.order_option = this.order_options[0];
                 this.editing_filters = false;
+                //this.params.selected_book = null;
                 //this.story_list = result.story_list;
                 this.no_results = result.no_results;
                 this.highlight_unselectors = this.no_results ? "warning" : "";
@@ -621,6 +625,7 @@ export class Stories {
             can_set_sign: result == "not-editing",
             empty_list_message: this.i18n.tr('photos.no-words-yet')
         });
+        this.pickerSettings.can_delete = result == "ready-to-edit";
         return result;
     }
 
@@ -759,14 +764,35 @@ export class Stories {
         let event = customEvent.detail;
         this.api.call_server('topics/create_new_book', {book_name: event.new_name})
         .then(result => {
-            let book = {name: event.new_name, description: "", book_id: result.book_id};
+            let book = {name: event.new_name, description: "", id: result.book_id};
             this.book_list.push(book)
         })
     }
 
     book_selected(customEvent) {
         let event = customEvent.detail;
-        console.log("book selected: ", event);
+        this.params.selected_book = event.option;
+        this.update_story_list('other');
+        if (this.user.editing) {
+            //add all stories to the checked stories and make apply-button visible
+            // this.checked_stories = 
+            //     this.api.call_server_post('topics/collect_stories', {book_id: event.option.id})
+        }
+    }
+
+    unselect_book(customEvent) {
+        this.params.selected_book = null;
+        this.update_story_list('other');
+    }
+
+    modify_book_info(customEvent) {
+        let event = customEvent.detail;
+        this.api.call_server_post('topics/modify_book_info', {book: event.option})
+    }
+
+    remove_book(customEvent) {
+        let event = customEvent.detail;
+        this.api.call_server_post('topics/remove_book', {book: event.option})
     }
 
 }

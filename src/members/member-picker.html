@@ -7,6 +7,9 @@
                     ${'members.new' & t} ${filter}
                 </button>
             </div>
+            <div if.bind="help_topic">
+                <help topic.bind="help_topic" position="bottom"></help>
+            </div>
             <div if.bind="face_identifier && member_id && 0 < agent.size && agent.size < 7" style="padding-left:0px;">
                 <div class="checkbox">
                     <label t="[title]members.make-profile-photo" for="set-as-profile-photo">

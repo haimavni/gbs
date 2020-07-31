@@ -12,7 +12,7 @@ export class PickerSettings {
     can_delete = false;
     show_only_if_filter = false;
     empty_list_message = 'Empty list of options';
-    help_item = 'search-input';
+    help_topic = 'search-input';
     place_holder_text = "Enter name from list or a new one";
 
     constructor(obj) {
@@ -32,6 +32,7 @@ export class Picker {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) settings: PickerSettings;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_option;
+    @bindable category="item";
     @bindable first_time = false;
     //----------------
     user: User;
@@ -44,6 +45,7 @@ export class Picker {
     new_item_title = "";
     element;
     filter = "";
+    option_was_selected = false;
 
     constructor(element, i18n: I18N, dialog: DialogService, user: User, theme: Theme, misc: Misc) {
         this.element = element;
@@ -75,6 +77,7 @@ export class Picker {
             bubbles: true
         });
         this.element.dispatchEvent(customEvent);
+        this.filter = "";
         return false;
     }
 
@@ -82,29 +85,32 @@ export class Picker {
         event.stopPropagation();
         if (!this.user.privileges.ADMIN) return false;
         this.dialog.open({
-            viewModel: EditItem, model: { item: option, can_delete: this.can_delete }, lock: true
+            viewModel: EditItem, model: { item: option, can_delete: this.can_delete, category: this.category }, lock: true
         }).whenClosed(result => {
             if (result.wasCancelled) return;
             if (result.output.command == "remove-item") {
                 this.remove_option(option);
-            } else if (result.output.command == "rename") {
-                this.name_changed(option)
+            } else if (result.output.command == "modify-item") {
+                this.modify_item(option)
             }
         });
     }
 
     remove_option(option) {
-        let customEvent = new CustomEvent('remove-option', {
+        console.log("options: ", this.options);
+        let customEvent = new CustomEvent('remove-item', {
             detail: {
                 option: option
             },
             bubbles: true
         });
         this.element.dispatchEvent(customEvent);
+        let idx = this.options.findIndex(opt => opt.id==option.id);
+        this.options.splice(idx, 1)
     }
 
-    name_changed(option) {
-        let customEvent = new CustomEvent('name-changed', {
+    modify_item(option) {
+        let customEvent = new CustomEvent('item-modified', {
             detail: {
                 option: option
             },
@@ -118,16 +124,29 @@ export class Picker {
         return this.settings.can_delete;
     }
 
-    @computedFrom('settings.can_add', 'filter', 'filter_size', 'first_time')
+    @computedFrom('settings.can_add', 'filter', 'filter_size', 'first_time', 'user.editing')
     get can_add() {
-        return this.filter.length > 0 && this.settings.can_add && (this.first_time || this.filter_size == 0);
+        return this.user.editing && this.filter.length > 0 && this.settings.can_add && (this.first_time || this.filter_size == 0);
     }
 
     select_option(option){
+        this.option_was_selected = true;
         this.filter = option.name;
         let customEvent = new CustomEvent('item-selected', {
             detail: {
                 option: option
+            },
+            bubbles: true
+        });
+        this.element.dispatchEvent(customEvent);
+    }
+
+    unselect_option() {
+        this.option_was_selected = false;
+        this.filter = "";
+        let customEvent = new CustomEvent('unselect', {
+            detail: {
+                option: 'unselect'
             },
             bubbles: true
         });

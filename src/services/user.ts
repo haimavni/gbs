@@ -2,6 +2,7 @@ import { autoinject, singleton, noView } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
+import environment from '../environment';
 
 @autoinject()
 @singleton()
@@ -116,6 +117,10 @@ export class User {
                     throw result.error
                 }
             });
+    }
+
+    get debugging() {
+        return environment.debug;
     }
 
 }

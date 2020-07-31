@@ -47,7 +47,7 @@
                             </div>
                             <div class="form-group">
                                 <button
-                                    if.bind="user.editing && checked_stories.size > 0 && (params.selected_topics.length>0 || date_is_valid || params.selected_story_visibility)"
+                                    if.bind="user.editing && checked_stories.size > 0 && (params.selected_topics.length>0 || date_is_valid || params.selected_story_visibility || params.selected_book)"
                                     click.trigger="apply_topics_to_selected_stories()" class="btn btn-warning btn-md">
                                     ${'stories.apply-to-selected' & t}
                                 </button>
@@ -205,12 +205,16 @@
                         </form>
                     </div>
                     <div class="row" style="margin-top: 20px;margin-left:23px;"
-                        if.bind="user.privileges.DEVELOPER">
+                        if.bind="user.debugging || user.privileges.DEVELOPER">
                         <picker options.bind="book_list" 
                             settings.bind="pickerSettings"
+                            category="book"
                             first_time.bind="book_list.length == 0"
                             new-name.delegate="create_new_book($event)"
                             item-selected.delegate="book_selected($event)"
+                            unselect.delegate="unselect_book($event)"
+                            item-modified.delegate="modify_book_info($event)"
+                            remove-item.delegate="remove_book($event)"
                             selected_option.bind="params.selected_book">
                         </picker>
                     </div>
