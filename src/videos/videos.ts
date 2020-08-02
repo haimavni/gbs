@@ -120,6 +120,12 @@ export class Videos {
                 // <p><a href="https://vimeo.com/38324835">צבעונים ונוריות בשמורת הבונים</a> from <a href="https://vimeo.com/user2289719">Haim Avni</a> on <a href="https://vimeo.com">Vimeo</a>.</p>            
                 video_rec.src = 'https://vimeo.com/' + video_rec.src;
                 break;
+            case 'google_drive':
+                video_rec.src = `https://drive.google.com/file/d/${video_rec.src}/preview`;
+                break;
+            case 'google_photos':
+                video_rec.src = `https://photos.app.goo.gl/${video_rec.src}`;
+                break;
         }
         //video_rec.selected = false;
         let photographer = this.photographer_list.find(p => p.id == video_rec.photographer_id);
