@@ -9,7 +9,7 @@
                                 <search-input value.bind="filter" change.delegate="update_story_list()" if.bind="theme.is_desktop"
                                     placeholder="terms.filter" help_topic="terms-help" height="38"></search-input>
                             </div>
-                            <div class="input-group" if.bind="user.editing && checked_terms.size == 0">
+                            <div class="input-group" if.bind="user.editing && checked_terms.size == 0" style="margin-right:4px;">
                                 <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4TERM}"
                                     class="btn btn-success cl-create-btn">
                                     <i class="far fa-plus-square"></i>
@@ -79,9 +79,9 @@
                     <div class="row" style="position:relative;">
                         <!-- <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div> -->
                         <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
+                            style="position:absolute;left:0px;top:2px;"></help>
                         <help if.bind="phase=='ready-to-edit'" topic="terms.ready-to-edit" position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
+                            style="position:absolute;left:0px;top:2px;"></help>
                             <span show.bind="false">${user_editing}</span>
                             <multi-select 
                                 options.bind="topic_list" 

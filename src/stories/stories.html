@@ -205,7 +205,7 @@
                         </form>
                     </div>
                     <div class="row" style="margin-top: 20px;margin-left:23px;"
-                        if.bind="user.debugging || user.privileges.TESTER">
+                        if.bind="(user.debugging || user.privileges.TESTER) && (user.editing || book_list.length > 0)">
                         <picker options.bind="book_list" 
                             settings.bind="pickerSettings"
                             category="book"
