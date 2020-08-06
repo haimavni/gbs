@@ -66,8 +66,7 @@
             </li>
             <li style="width:170px;padding-bottom:4px;padding-top:6px;">
                 <div class="btn-group dropdown border-right"
-                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
-                    if.bind="true || user.privileges.DEVELOPER">
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-tint" style="margin-left:12px;"></i>
                         <span style="position:absolute; left:40px;top:0px;">${'user.select-colors' & t}</span>
@@ -136,82 +135,82 @@
     </div>
 
 
-    <a if.bind="user.privileges.EDITOR" href click.trigger="toggle_edit_mode()"
+    <a if.bind="user.debugging || user.privileges.EDITOR" href click.trigger="toggle_edit_mode()"
         title="${user.editing ? 'user.no-edit' : 'user.can-edit' & t}"
         class="border-right ${user.editing ? 'highlight' : ''}" style="border-left:1px solid gray;padding-left:10px;">
         <i class="fas ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>
     </a>
 
-    <a if.bind="user.privileges.CHATTER" href click.trigger="chat_rooms()" t="[title]user.chat-rooms"
+    <a if.bind="user.debugging || user.privileges.CHATTER" href click.trigger="chat_rooms()" t="[title]user.chat-rooms"
         class="border-right">
         <i class="fas fa-comments"></i>
     </a>
 
     <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
-        if.bind="user.privileges.HELP_AUTHOR ||user.privileges.ADMIN || user.privileges.DEVELOPER || user.privileges.ACCESS_MANAGER">
+        if.bind="user.debugging || user.privileges.HELP_AUTHOR ||user.privileges.ADMIN || user.privileges.DEVELOPER || user.privileges.ACCESS_MANAGER">
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
             <i class="fas fa-cog"></i>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left">
-            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+            <li if.bind="user.debugging || user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
                     click.trigger="save_help_messages()">Save help messages</a></li>
-            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+            <li if.bind="user.debugging || user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
                     click.trigger="load_help_messages()">Load help messages</a></li>
-            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+            <li if.bind="user.debugging || user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
                     click.trigger="print_help_messages()">Print help messages</a></li>
-            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+            <li if.bind="user.debugging || user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
                     click.trigger="save_letter_templates()">Save letter templates</a></li>
-            <li if.bind="user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
+            <li if.bind="user.debugging || user.privileges.HELP_AUTHOR"><a class="dropdown-item" href="#"
                     click.trigger="merge_help_messages()">Merge help messages</a></li>
-            <li if.bind="user.privileges.HELP_AUTHOR" class="divider"></li>
-            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#"
+            <li if.bind="user.debugging || user.privileges.HELP_AUTHOR" class="divider"></li>
+            <li if.bind="user.debugging || user.privileges.DEVELOPER"><a class="dropdown-item" href="#"
                     click.trigger="reindex_words()">Reindex Words</a></li>
-            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="adhoc_scripts()">Ad
+            <li if.bind="user.debugging || user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="adhoc_scripts()">Ad
                     Hoc Scripts</a></li>
-            <li if.bind="user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="show_logs()">Show
+            <li if.bind="user.debugging || user.privileges.DEVELOPER"><a class="dropdown-item" href="#" click.trigger="show_logs()">Show
                     Log Files</a></li>
-            <li if.bind="user.privileges.ACCESS_MANAGER" t="[title]user.manage-users">
+            <li if.bind="user.debugging || user.privileges.ACCESS_MANAGER" t="[title]user.manage-users">
                 <a class="dropdown-item" href="#" click.trigger="manage_users()">
                     <span class="${theme.rtltr} float">
                         ${'user.manage-users' & t}
                     </span>
                 </a>
             </li>
-            <li if.bind="user.privileges.ACCESS_MANAGER" t="[title]groups.groups-manager">
+            <li if.bind="user.debugging || user.privileges.ACCESS_MANAGER" t="[title]groups.groups-manager">
                 <a class="dropdown-item" href="#" click.trigger="manage_groups()">
                     <span class="${theme.rtltr} float">
                         ${'groups.groups-manager' & t}
                     </span>
                 </a>
             </li>
-            <li if.bind="user.privileges.ADMIN" t="[title]user.customize">
+            <li if.bind="user.debugging || user.privileges.ADMIN" t="[title]user.customize">
                 <a class="dropdown-item" href="#" click.trigger="customize()">
                     <span class="${theme.rtltr} float">
                         ${'user.customize' & t}
                     </span> </a> </li>
-            <li if.bind="user.privileges.ADMIN" t="[title]user.hit-counts"><a class="dropdown-item" href="#"
+            <li if.bind="user.debugging || user.privileges.ADMIN" t="[title]user.hit-counts"><a class="dropdown-item" href="#"
                     click.trigger="show_hit_counts()">
                     <span class="${theme.rtltr} float">
                         ${'user.hit-counts' & t}
                     </span>
                 </a>
             </li>
-            <li if.bind="user.privileges.ADMIN" t="[title]feedback.feedback">
+            <li if.bind="user.debugging || user.privileges.ADMIN" t="[title]feedback.feedback">
                 <a class="dropdown-item" href="#" click.trigger="show_feedbacks()">
                     <span class="${theme.rtltr} float">
                         ${'feedback.feedback' & t}
                     </span>
                 </a>
             </li>
-            <li if.bind="user.privileges.DEVELOPER" t="[title]user.create-new-app">
+            <li if.bind="user.debugging || user.privileges.DEVELOPER" t="[title]user.create-new-app">
                 <a class="dropdown-item" href="#" click.trigger="create_new_app()">
                     <span class="${theme.rtltr} float">
                         ${'user.create-new-app' & t}
                     </span>
                 </a>
             </li>
-            <li if.bind="user.privileges.DEVELOPER" t="[title]user.gallery">
+            <li if.bind="user.debugging || user.privileges.DEVELOPER" t="[title]user.gallery">
                 <a class="dropdown-item" href="#" click.trigger="show_gallery()">
                     <span class="${theme.rtltr} float">
                         ${'user.gallery' & t}
