@@ -96,7 +96,9 @@
         "end-of-stories": "--אין יותר ספורים--",
         "sorting-key": "מפתח מיון",
         "enter-book-name": "הקלד את שם הספר",
-        "story-date": "תאריך הסיפור"
+        "story-date": "תאריך הסיפור",
+        "prev-story": "לסיפור הקודם",
+        "next-story": "לסיפור הבא"
     },
     "members": {
         "members": "חברים",

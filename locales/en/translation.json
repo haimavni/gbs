@@ -97,7 +97,9 @@
         "end-of-stories": "--No more stories!--",
         "sorting-key": "Sorting key",
         "enter-book-name": "Enter book name",
-        "story-date": "Story date"
+        "story-date": "Story date",
+        "prev-story": "Previous story",
+        "next-story": "Next story"
     },
     "members": {
         "members": "Members",

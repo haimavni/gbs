@@ -372,7 +372,9 @@ export class Stories {
         let keywords = story.exact ? kws : this.keywords;
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
-                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+                let story_list = this.story_list.filter(item => item.used_for == this.api.constants.story_type.STORY4EVENT);
+                story_list = story_list.map(itm => itm.story_id);
+                this.router.navigateToRoute('story-detail', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type, story_list: story_list });
                 break;
             case this.api.constants.story_type.STORY4MEMBER:
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });

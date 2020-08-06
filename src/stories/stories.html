@@ -87,6 +87,7 @@
                         <button if.bind="used_for==3" class="btn btn-basic" click.delegate="goto_photos_page()">
                             ${'photos.show-in-photo-page' & t}
                         </button>
+                        <span if.bind="params.selected_book" style="font-size:120%;font-weight:bolder;">${params.selected_book.name}</span>
                     </form>
                     <ul ref="scroll_area" class="story-list unselectable ${no_results ? 'empty-stories' : ''}"
                         style="margin-top:12px;">

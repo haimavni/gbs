@@ -2,11 +2,19 @@
 
     <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px"
         class="container content-area">
-        <div class="detail-header detail-header-modifier">
-            <h3 style="float:left;cursor:pointer;padding:0;margin:0;">
-                <i class="far fa-arrow-up" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
+        <div class="detail-header" style="width:1170px;margin-right:-15px;">
+            <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+                <button class="transparent btn" disabled.bind="next_disabled" ref="btn_next"
+                    click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">
+                    <i class="far fa-lg fa-arrow-up fa-rotate-90 ${next_class}"></i>
+                </button>
+                <i class="far fa-arrow-up fa-lg" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
                     if.bind="theme.is_desktop"></i>
-            </h3>
+                <button class="transparent btn" disabled.bind="prev_disabled" ref="btn_prev"
+                    click.trigger="go_prev($event)" t="[title]stories.prev-story" if.bind="story_list.length > 1">
+                    <i class="far fa-lg fa-arrow-up fa-rotate-270 ${prev_class}"></i>
+                </button>
+            </div>
             <h3 dir="${story_dir}" style="float: right;margin:0px;">
                 ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
@@ -20,8 +28,9 @@
         </div>
         <div class="row" css="direction:${story_dir};margin-left:-30px;">
             <div class="col-md-5">
-                <photo-strip if.bind="has_associated_photos" source.bind="source" action_key="Zoom2" style="padding:0;"
-                    dir="ltr" settings.bind="{arrows:true, height:220}"></photo-strip>
+                <photo-strip if.bind="has_associated_photos" source.bind="source" id.bind="story_idx" action_key="Zoom2"
+                    style="padding:0;" dir="ltr" settings.bind="{arrows:true, height:220}">
+                </photo-strip>
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
                     <div if.bind="user.editing">
                         <form class="form-inline">
@@ -37,8 +46,7 @@
                                 click.trigger="update_associated_articles()" style="float:left;">
                                 ${'articles.articles' & t}
                             </button>
-                            <label style="float:right;font-weight:normal;font-size:14px;margin-top:2px;">${'update' &
-                                t}:</label>
+                            <label style="float:right;font-weight:normal;font-size:14px;margin-top:2px;">${'update' & t}:</label>
                         </form>
                     </div>
                     <div if.bind="! user.editing" class="col-md-5">
@@ -54,7 +62,8 @@
                             <li class="list-group-item" repeat.for="member of members">
                                 <a route-href="route: member-details; params.bind: {id:member.id, keywords: ''}">
                                     <img src.bind="member.facePhotoURL" />
-                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${member.full_name}</h6>
+                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${member.full_name}
+                                    </h6>
                                 </a>
                             </li>
                         </ul>
@@ -80,7 +89,8 @@
                             <li class="list-group-item" repeat.for="candidate of candidates">
                                 <a click.delegate="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
                                     <img src.bind="candidate.facePhotoURL" />
-                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.full_name}</h6>
+                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.full_name}
+                                    </h6>
                                 </a>
                             </li>
                         </ul>
@@ -111,9 +121,9 @@
                     <div if.bind="! user.editing" style="padding-right:15px;padding-top:8pxl;">
                         <div class="fr-view" dir="${story_dir}">
                             <div class="big-story-panel ${theme.font_size}" style="position:relative;">
-                                <p class="${story_dir} ${highlight_on}">
-                                    <compose if.bind="story.story_text" view-model='./render-story'
-                                        model.bind="{html:highlightedHtml}"></compose>
+                                <p class="${story_dir} ${highlight_on}" innerhtml.bind="highlightedHtml">
+                                    <!-- <compose if.bind="story.story_text" view-model='./render-story'
+                                        model.bind="{html:highlightedHtml}"></compose> -->
                                     <div class="page-control next" click.trigger="next_page($event, +1)"></div>
                                     <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
                                 </p>

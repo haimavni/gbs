@@ -157,6 +157,11 @@ button.word-highlighter {
     }
 }
 
+button.transparent, button.transparent:focus {
+    background-color: rgba(0,0,0,0);
+    border: none;
+}
+
 [dir="rtl"] button.word-highlighter {
     float: left;
 }
