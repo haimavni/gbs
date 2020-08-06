@@ -2,7 +2,7 @@
 
     <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px"
         class="container content-area">
-        <div class="detail-header" style="width:1170px;margin-right:-15px;">
+        <div class="detail-header story-detail">
             <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
                 <button class="transparent btn" disabled.bind="next_disabled" ref="btn_next"
                     click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">

@@ -77,12 +77,9 @@ $navbar-height: 60px;
     height:45px;
     padding-left:12px;
     padding-right:12px;
-    &.detail-header-modifier {  //why is this needed?
-        margin-top: -15px;
-        margin-left: -15px;
-        margin-right: -15px;
-        padding-right: 15px;
-        padding-left: 15px;
+    &.story-detail {  
+        width: 1167px;
+        margin-right: -12px;
     }
 }
 
