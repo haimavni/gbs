@@ -14,24 +14,7 @@ export class EditSideBySideCustomElement {
     theme: Theme;
     misc;
     edited_str_orig = null;
-    froala_config = {
-        iconsTemplate: 'font_awesome_5',
-        toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
-                'color', 'fontSize', 'align', 'html'],
-        fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
-        imageDefaultDisplay: 'inline',
-        imageDefaultAlign: 'right',
-        imageDefaultWidth: 100,
-        videoDefaultDisplay: 'inline',
-        videoDefaultAlign: 'left',
-        VideoDefaultWidth: 160,
-        charCounterCount: false,
-        linkAlwaysBlank: true,
-        htmlUntouched: true,
-        language: 'he', heightMin: this.height, heightMax: this.height,
-        imageUploadRemoteUrls: false,
-        key: ""
-    }
+    froala_config;
 
     constructor(theme: Theme, misc: Misc) {
         this.theme = theme;
@@ -40,6 +23,24 @@ export class EditSideBySideCustomElement {
     }
 
     activate() {
+        this.froala_config = {
+            iconsTemplate: 'font_awesome_5',
+            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
+                'color', 'fontSize', 'align', 'html'],
+            fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
+            imageDefaultDisplay: 'inline',
+            imageDefaultAlign: 'right',
+            imageDefaultWidth: 100,
+            videoDefaultDisplay: 'inline',
+            videoDefaultAlign: 'left',
+            VideoDefaultWidth: 160,
+            charCounterCount: false,
+            linkAlwaysBlank: true,
+            htmlUntouched: true,
+            language: 'he', heightMin: this.height, heightMax: this.height,
+            imageUploadRemoteUrls: false,
+            key: ""
+        }
         this.froala_config.key = this.theme.froala_key();
         this.froala_config.heightMin = this.height;
         this.froala_config.heightMax = this.height;
