@@ -83,7 +83,7 @@ export class Picker {
 
     edit_option_dialog(option, event) {
         event.stopPropagation();
-        if (!this.user.privileges.ADMIN) return false;
+        if (!this.user.privileges.ADMIN && ! this.user.debugging) return false;
         this.dialog.open({
             viewModel: EditItem, model: { item: option, can_delete: this.can_delete, category: this.category }, lock: true
         }).whenClosed(result => {
