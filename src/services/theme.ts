@@ -242,6 +242,7 @@ export class Theme {
         let tol_key = "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17==";
         let gbs_key = "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jpzjntntD-17lF4npd==";
         let host = window.location.hostname;
+        console.log("froala key. host: [" + host + "]");
         if (host == "gbstories.org") return gbs_key;
         if (host == "tol.life") return tol_key;
     }
