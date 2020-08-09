@@ -149,7 +149,7 @@ export class Stories {
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
         this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
         this.update_story_list_debounced = debounce(this.update_story_list, 1700, false);
-        this.pickerSettings.place_holder_text = this.i18n.tr('stories.enter-book-name');
+        this.pickerSettings.place_holder_text = 'stories.enter-book-name';
         this.pickerSettings.can_delete = this.user.editing;
         this.pickerSettings.help_topic = "search-book-list";
 
@@ -189,7 +189,7 @@ export class Stories {
             .then(response => {
                 this.used_languages = response.used_languages;
                 for (let lang of this.used_languages) {
-                    lang.name = this.i18n.tr(lang.name);
+                    lang.name = this.i18n.tr(lang.name.toLowerCase());
                     lang.name += ' (' + lang.count + ")"
                 }
             });

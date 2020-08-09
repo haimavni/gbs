@@ -39,7 +39,7 @@ export class EditSideBySideCustomElement {
         THIS_EDITOR = this;
     }
 
-    actvate() {
+    activate() {
         this.froala_config = {
             iconsTemplate: 'font_awesome_5',
             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
@@ -59,7 +59,6 @@ export class EditSideBySideCustomElement {
             key: "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17=="
         }
         this.froala_config.key = this.theme.froala_key();
-        console.log("the key is ", this.froala_config.key);
         this.froala_config.heightMin = this.height;
         this.froala_config.heightMax = this.height;
     }

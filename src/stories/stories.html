@@ -78,6 +78,7 @@
                     </button>
 
                     <form if.bind="!no_results" class="form-inline" style="margin-right:20px;margin-bottom:6px;">
+                        <span if.bind="params.selected_book" style="font-size:120%;font-weight:bolder;">${params.selected_book.name}: </span>
                         <button repeat.for="uf of active_result_types"
                             class="btn btn-${uf==used_for ? 'primary' : 'default'}"
                             click.delegate="select_used_for(uf)">
@@ -87,7 +88,6 @@
                         <button if.bind="used_for==3" class="btn btn-basic" click.delegate="goto_photos_page()">
                             ${'photos.show-in-photo-page' & t}
                         </button>
-                        <span if.bind="params.selected_book" style="font-size:120%;font-weight:bolder;">${params.selected_book.name}</span>
                     </form>
                     <ul ref="scroll_area" class="story-list unselectable ${no_results ? 'empty-stories' : ''}"
                         style="margin-top:12px;">
