@@ -59,6 +59,7 @@ export class EditSideBySideCustomElement {
             key: ""
         }
         this.froala_config.key = this.theme.froala_key();
+        console.log("the key is ", this.froala_config.key);
         this.froala_config.heightMin = this.height;
         this.froala_config.heightMax = this.height;
     }
