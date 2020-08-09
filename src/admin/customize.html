@@ -115,6 +115,20 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
+                        <button repeat.for="eb of enable_books_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${eb==enable_books_option ? 'primary' : 'default'} customization"
+                            click.delegate="enable_books_option_selected(eb)">
+                            <span style="font-weight:bolder">${eb & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
+                        <button repeat.for="mod of enable_member_of_the_day_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${mod==enable_member_of_the_day_option ? 'primary' : 'default'} customization"
+                            click.delegate="enable_member_of_the_day_option_selected(mod)">
+                            <span style="font-weight:bolder">${mod & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
                         <label style="margin-left:8px;width:200px;">
                             ${'admin.promoted-story-expiration' & t}
                         </label>

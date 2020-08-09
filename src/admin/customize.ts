@@ -28,6 +28,8 @@ export class Customize {
     version_time_options = ['user.version-time-on', 'user.version-time-off'];
     expose_developer_options = ['user.expose-developer-on', 'user.expose-developer-off'];
     enable_articles_options = ['user.enable-articles-on', 'user.enable-articles-off'];
+    enable_books_options = ['user.enable-books-on', 'user.enable-books-off'];
+    enable_member_of_the_day_options = ['user.enable-member-of-the-day-on', 'user.enable-member-of-the-day-off'];
     
     //-----------
     auto_reg_option = 'user.by-invitation';
@@ -38,6 +40,8 @@ export class Customize {
     version_time_option = 'user.version-time-on';
     expose_developer_option = 'user.expose-developer-on';
     enable_articles_option = 'user.enable-articles-off';
+    enable_books_option = 'user.enable-books-on';
+    enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
     user;
 
@@ -178,6 +182,24 @@ export class Customize {
     enable_articles_option_selected(option) {
         this.enable_articles_option = option;
         this.api.call_server('admin/set_articles_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+    enable_books_option_selected(option) {
+        this.enable_books_option = option;
+        this.api.call_server('admin/set_books_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+    enable_member_of_the_day_option_selected(option) {
+        this.enable_member_of_the_day_option = option;
+        this.api.call_server('admin/set_member_of_the_day_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();
