@@ -8,7 +8,7 @@ let THIS_EDITOR;
 export class EditSideBySideCustomElement {
     @bindable fixed_str;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) edited_str;
-    @bindable height = 500;
+    @bindable height = 520;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) init = false;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) dirty = false;
     theme: Theme;
@@ -30,7 +30,7 @@ export class EditSideBySideCustomElement {
         htmlUntouched: true,
         language: 'he', heightMin: this.height, heightMax: this.height,
         imageUploadRemoteUrls: false,
-        key: ""
+        key: "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17=="
     }
 
     constructor(theme: Theme, misc: Misc) {
@@ -39,7 +39,7 @@ export class EditSideBySideCustomElement {
         THIS_EDITOR = this;
     }
 
-    attached() {
+    actvate() {
         this.froala_config = {
             iconsTemplate: 'font_awesome_5',
             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
@@ -56,7 +56,7 @@ export class EditSideBySideCustomElement {
             htmlUntouched: true,
             language: 'he', heightMin: this.height, heightMax: this.height,
             imageUploadRemoteUrls: false,
-            key: ""
+            key: "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17=="
         }
         this.froala_config.key = this.theme.froala_key();
         console.log("the key is ", this.froala_config.key);
