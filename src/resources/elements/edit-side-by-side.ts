@@ -64,10 +64,10 @@ export class EditSideBySideCustomElement {
         this.froala_config.heightMax = this.height;
     }
 
-    // initialized(e, editor) {
-    //     let el: any = document.getElementsByClassName("fr-element")[0];
-    //     THIS_EDITOR.story_orig = el.innerHTML.slice(0);
-    // }
+    initialized(e, editor) {
+        // let el: any = document.getElementsByClassName("fr-element")[0];
+        // THIS_EDITOR.story_orig = el.innerHTML.slice(0);
+    }
 
     focus(e, editor) {
         if (THIS_EDITOR.init) {
