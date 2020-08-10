@@ -388,6 +388,7 @@ export class FullSizePhoto {
             return;
         }
         if (this.no_new_faces) return;
+        if (this.cropping) return;
         event.stopPropagation();
         if (!this.user.editing) {
             return;
@@ -516,12 +517,14 @@ export class FullSizePhoto {
         el.blur();
     }
 
-    public crop_photo() {
+    public crop_photo(event) {
+        event.stopPropagation();
         this.crop_height = this.slide[this.slide.side].height;
         this.crop_width = this.slide[this.slide.side].width;
         this.crop_top = 0;
         this.crop_left = 0;
         this.cropping = true;
+        return false;
     }
 
     public save_photo_crop(event) {
