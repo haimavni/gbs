@@ -58,8 +58,8 @@ export class PhotoDetail {
     can_go_backward = false;
     //------------------google maps data----------------
     has_location = false;
-    longitude: null;
-    latitude: null;
+    longitude = null;
+    latitude = null;
     zoom = 12;
     tracked_zoom: number = 0;
     longitude_distance = 0;
@@ -425,7 +425,7 @@ export class PhotoDetail {
     }
 
     bounds_changed(event) {
-        let x = event.detail.bounds.Ya;
+        let x = event.detail.bounds.Za;
         if (!x) return;
         let longitude_distance = x.j - x.i;
         this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
@@ -455,22 +455,16 @@ export class PhotoDetail {
         this.longitude = latLng.lng();
         this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
         //for some reason, the above changes zoom to an extremely high value
-        this.update_photo_location_debounced();
         await sleep(400);
         this.zoom = tracked_zoom;
         await sleep(400);
+        this.update_photo_location_debounced();
         return false;
     }
 
     update_photo_location() {
         this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.tracked_zoom });
     }
-
-    // zoom_changed(event) {
-    //     event.stopPropagation();
-    //     if (this.has_location && this.user.editing)
-    //         this.update_photo_location_debounced();
-    // }
 
     @computedFrom("map_visible")
     get view_hide_map() {

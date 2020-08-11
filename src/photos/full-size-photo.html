@@ -89,7 +89,7 @@
                 <button show.bind="user.editing && ! cropping" aubs-tooltip="text.bind:crop;position.bind:hint_position;" class="side-tool crop"
                     click.delegate="crop_photo($event)"><i class="fa fa-lg fa-crop-alt"></i></button>
                 <button show.bind="cropping" aubs-tooltip="text.bind:save_crop;position.bind:hint_position;" class="side-tool crop"
-                    click.delegate="save_photo_crop($event)"><i class="fa fa-lg fa-save"></i></button>
+                    click.delegate="save_photo_crop($event)"><i class="fa fa-lg fa-save" style="color:orange;"></i></button>
                 <button show.bind="cropping" aubs-tooltip="text.bind:cancel_crop;position.bind:hint_position;" class="side-tool cancel-crop"
                     click.delegate="cancel_photo_crop($event)"><i class="fa fa-lg fa-undo" style="color:orange;"></i></button>
                 <button show.bind="user.editing" aubs-tooltip="text.bind:rotate;position.bind:hint_position;" class="side-tool rotate"

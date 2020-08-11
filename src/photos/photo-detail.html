@@ -55,9 +55,13 @@
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
                         <div show.bind="map_visible">
-                            <google-map longitude.two-way="longitude" latitude.two-way="latitude"
+                            <google-map 
+								longitude.two-way="longitude"
+							    latitude.two-way="latitude"
                                 map-click.delegate="create_marker($event)"
-                                bounds-change.delegate="bounds_changed($event)" markers.bind="markers" zoom.bind="zoom"
+                                bounds-change.delegate="bounds_changed($event)"
+								markers.bind="markers" 
+								zoom.bind="zoom"
                                 auto-update-bounds="true">
                             </google-map>
                         </div>
