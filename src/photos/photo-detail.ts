@@ -64,6 +64,7 @@ export class PhotoDetail {
     tracked_zoom: number = 0;
     longitude_distance = 0;
     map_visible = false;
+    visibility_changed = false;
     markers = [];
     map_zoom_stops = [
         176.32497445272955,
@@ -124,7 +125,7 @@ export class PhotoDetail {
             single: true,
             empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
-        this.update_photo_location_debounced = debounce(this.update_photo_location, 3000, false);
+        this.update_photo_location_debounced = debounce(this.update_photo_location, 1500, false);
     }
 
     async activate(params, config) {
@@ -147,6 +148,7 @@ export class PhotoDetail {
     get_photo_info(photo_id) {
         return this.api.getPhotoDetail({ photo_id: photo_id, what: this.what })
             .then(response => {
+                this.visibility_changed = true;
                 this.photo_id = photo_id;
                 this.photo_src = response.photo_src;
                 this.set_story(response.photo_story)
@@ -172,6 +174,8 @@ export class PhotoDetail {
                 this.zoom = response.zoom || 12;
                 if (this.has_location) {
                     this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
+                } else {
+                    this.markers = [];
                 }
                 this.calc_photo_width();
                 this.curr_info = {
@@ -392,6 +396,7 @@ export class PhotoDetail {
 
     public go_next(event) {
         event.stopPropagation();
+        this.map_visible = false;
         let idx = this.slide_idx();
         if (idx + 1 < this.photo_ids.length) {
             this.get_slide_by_idx(idx + 1);
@@ -402,6 +407,7 @@ export class PhotoDetail {
 
     public go_prev(event) {
         event.stopPropagation();
+        this.map_visible = false;
         let idx = this.slide_idx();
         if (idx > 0) {
             this.get_slide_by_idx(idx - 1)
@@ -412,7 +418,10 @@ export class PhotoDetail {
 
     async expose_map() {
         this.map_visible = !this.map_visible;
-        if (this.has_location && this.map_visible) {
+        this.visibility_changed = true;
+        if (! this.map_visible) return;
+
+        if (this.has_location) {
             let old_zoom = this.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom 
             await sleep(50);
             this.zoom = old_zoom + 1;
@@ -425,10 +434,17 @@ export class PhotoDetail {
     }
 
     bounds_changed(event) {
+        if (this.visibility_changed) {
+            this.visibility_changed = false;
+        }
+        if (! this.map_visible) return;
         let x = event.detail.bounds.Za;
         if (!x) return;
         let longitude_distance = x.j - x.i;
+        if (longitude_distance < 0.00000001) return;
         this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
+        if (! this.tracked_zoom) return;
+        this.zoom = this.tracked_zoom;
         this.update_photo_location_debounced();
     }
 
@@ -463,6 +479,7 @@ export class PhotoDetail {
     }
 
     update_photo_location() {
+        if (! this.user.editing) return;
         this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.tracked_zoom });
     }
 
