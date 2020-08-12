@@ -121,9 +121,8 @@
                     <div if.bind="! user.editing" style="padding-right:15px;padding-top:8pxl;">
                         <div class="fr-view" dir="${story_dir}">
                             <div class="big-story-panel ${theme.font_size}" style="position:relative;">
-                                <p class="${story_dir} ${highlight_on}" innerhtml.bind="highlightedHtml">
-                                    <!-- <compose if.bind="story.story_text" view-model='./render-story'
-                                        model.bind="{html:highlightedHtml}"></compose> -->
+                                <p class="${story_dir} ${highlight_on}">
+                                    <render-story if.bind="highlightedHtml" html.bind="highlightedHtml"></render-story>
                                     <div class="page-control next" click.trigger="next_page($event, +1)"></div>
                                     <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
                                 </p>

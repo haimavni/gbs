@@ -30,6 +30,7 @@ export function configure(config) {
     './elements/chats/chat-button',
     './elements/quiz/quiz',
     './elements/quick-login',
-    './elements/edit-side-by-side'
+    './elements/edit-side-by-side',
+    './elements/render-story'
   ]);
 }

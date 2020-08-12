@@ -9,7 +9,6 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import { cpus } from 'os';
 
 @autoinject()
 export class StoryDetail {
@@ -160,7 +159,7 @@ export class StoryDetail {
                 this.init_selected_topics();
                 this.book_id = response.book_id;
                 this.book_name = response.book_name;
-                this.sorting_key = response.sorting_key;
+                this.sorting_key = response.sorting_key || [0,0,0,0,0];
                 let story_date = response.story_date;
                 this.story_date_str = story_date.date;
                 this.story_date_datespan = story_date.span;
