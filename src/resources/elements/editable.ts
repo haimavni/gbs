@@ -17,7 +17,8 @@ export class editableCustomElement {
         checkable: false,
         deletable: false,
         no_expand: false,
-        pushable: false
+        pushable: false,
+        pinnable: false
     };
     @bindable info_title = "";
     @bindable info_content = "";
@@ -72,6 +73,10 @@ export class editableCustomElement {
 
     push_story() {
         this.dispatch_event('pushup', 'pushup', {});
+    }
+
+    pin_story() {
+        this.dispatch_event('pin', 'pin', {});
     }
 
     dispatch_event(action, what, keys) {

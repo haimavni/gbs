@@ -82,6 +82,18 @@ export class Home {
             })
     }
 
+    pin_story(story, customEvent) {
+        event = customEvent.detail;
+        this.api.call_server_post('members/pin_message', { story_id: story.story_id })
+            .then(response => {
+                let idx = this.message_list.findIndex(item => item.story_id == story.story_id);
+                let msgs = this.message_list.slice(idx, idx + 1);
+                this.message_list.splice(idx, 1);
+                this.message_list.splice(0, 0, msgs[0]);
+                this.scroll_area.scrollTop = 0;
+            })
+    }
+
     hande_story_change(story, customEvent) {
         event = customEvent.detail;
         if (story.deleted) {

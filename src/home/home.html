@@ -19,9 +19,10 @@
             </h2>
             <ul class="messages">
                 <li class="message" repeat.for="msg of message_list" dir="rtl" draggable="false">
-                    <editable story.bind="msg" settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true}" 
+                    <editable story.bind="msg" settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true, pinnable: true}" 
                         change.delegate="hande_story_change(msg, $event)"
-                        pushup.delegate="push_story(msg, $event)">
+                        pushup.delegate="push_story(msg, $event)"
+                        pin.delegate="pin_story(msg, $event)">
                     </editable>
                 </li>
             </ul>
