@@ -4,6 +4,7 @@ export class MyDate {
     _day;
     _month;
     _year;
+    mdays = [31,28,31,30,31,30,31,31,30,31,30,31];
 
     constructor(date_str) {
         if (! date_str) date_str = '1';
@@ -13,58 +14,79 @@ export class MyDate {
         switch(n) {
             case 1:
                 this._year = parseInt(parts[0] || '0');
+                this._month = 0;
+                this._day = 0;
                 break;
             case 2:
                 this._year = parseInt(parts[1] || '0');
-                this._month = parseInt(parts[0]) - 1
+                this._month = parseInt(parts[0]);
+                this._day = 0;
                 break;
             case 3:
                 this._year = parseInt(parts[2] || '0');
-                this._month = parseInt(parts[1]) - 1;
+                this._month = parseInt(parts[1]);
                 this._day = parseInt(parts[0]);
                 break;
         }
     }
 
+    month_days(month, year) {
+        let md = this.mdays[month - 1];
+        if (month == 2 && year % 4 == 0) md += 1;
+        return md;
+    }
+
+    fix_date() {
+        let md = this.month_days(this._month, this._year);
+        while (this._day > md) {
+            this._day = this._day - md;
+            this._month += 1;
+            if (this._month == 13) {
+                this._year += 1;
+                this._month = 1;
+            }
+            md = this.month_days(this._month, this._year);
+        }
+        while (this._month > 12) {
+            this._month -= 12;
+            this._year += 1;
+        }
+    }
+
+
     incr(n) {
         if (this._day) {
             this._day += n
-            this.validate();
-        } else if (this._month != undefined) {
+        } else if (this._month >= 0) {
             this._month += n;
-            this.validate();
         } else {
             this._year += n;
         }
+        this.fix_date();
     }
 
     detail_level() {
         if (this._day) {
             return 'D'
-        } else if (this._month != undefined) {
+        } else if (this._month) {
             return 'M'
         }
         return 'Y'
     }
 
-    validate() {
-        if (this._year < 1000) return;
-        let d = new Date(this._year, this._month || 1, this._day || 1);
-        this._year = d.getFullYear();
-        if (this._month != undefined) this._month = d.getMonth();
-        if (this._day) this._day = d.getDate();
-    }
-
     is_valid() {
-        this.validate();
-        let mon = this._month || 1;
-        let day = this._day || 1;
-        if (this._year < 1000) {
-            return false;
+        if (this._year < 1000) return 'partial';
+        let dl = this.detail_level();
+        if (dl == 'Y') return 'valid';
+        if (dl == 'M') {
+            if (0 < this._month && this._month <= 12) return 'valid';
+            return 'error';
         }
-        return true;
-        /*let d = new Date(this._year, mon - 1, day);
-        return d && (d.getMonth() + 1) == this._month;*/
+        if (dl == 'D') {
+            let md = this.month_days(this._month, this._year)
+            if (0 < this._day && this._day <= md) return 'valid';
+            return 'error';
+        }
     }
 
     toString() {
@@ -76,8 +98,8 @@ export class MyDate {
             }
             s += day + date_sep
         }
-        if (this._month != undefined) { //months are 0-based...
-            let m = this._month + 1;
+        if (this._month != 0) {
+            let m = this._month;
             if (m < 10) {
                 m = '0' + m;
             }

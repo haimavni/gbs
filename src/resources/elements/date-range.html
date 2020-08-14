@@ -5,7 +5,8 @@
 
         <div if.bind="user.editing" class="form-group" style="margin-right:0px;width:61px;float:left;top:0;left:0;">
             <input type="text" value.bind="base_date_str" maxlength="10" title.bind="hint"
-                style="width:70px;padding-left:2px;padding-right:0;color:black;direction:ltr;margin-right:-8px;"
+                style="width:70px;padding-left:2px;padding-right:0;direction:ltr;margin-right:-8px;"
+                class.bind="is_valid"
                 change.trigger="base_date_changed($event)" keypress.trigger="keep_only_good_chars($event)" />
         </div>
         <div class="form-group" if.bind="show_edit_end_date" style="margin-right:0px;float:left;top:0;">

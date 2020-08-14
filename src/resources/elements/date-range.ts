@@ -20,7 +20,7 @@ export class DateRangeCustomElement {
     _end_date_str="";
     end_date_options = [];
     partial;
-    is_valid = false;
+    is_valid = '';
     element;
     hint;
 
@@ -39,6 +39,9 @@ export class DateRangeCustomElement {
     build_end_date_options() {
         if (! this.base_date_str) return;
         this.base_date_str = this.base_date_str.replace('/', date_sep);
+        let date = new MyDate(this.base_date_str);
+        this.is_valid = date.is_valid()
+        if (this.is_valid != 'valid') return;
         let arr;
         let today = new Date();
         let cur_year = today.getFullYear();
@@ -50,15 +53,6 @@ export class DateRangeCustomElement {
         } else {
             return;
         }
-        if (this.base_date_str == undefined) {
-            this.base_date_str = "";
-        }
-        let date = new MyDate(this.base_date_str);
-        this.is_valid = date.is_valid();
-        if (!this.is_valid) {
-            this.partial = true;
-            return;
-        }
         this.partial = date.detail_level() != 'D';
         if (! this.partial && ! this.enable_days_range) {
             return;
@@ -68,7 +62,7 @@ export class DateRangeCustomElement {
         for (let i of arr) {
             if (i == 1) continue;
             let dif = date._year - cur_year;
-            if (dif >= 0) {  //not future dates!
+            if (dif >= 0) {  //no future dates!
                 i0 -= dif;
                 date.incr(-dif);
             }
@@ -85,6 +79,7 @@ export class DateRangeCustomElement {
 
     base_date_changed(event) {
         event.stopPropagation();
+        if (this.is_valid != 'valid') return;
         this.build_end_date_options();
         this.dispatch_event();
     }
@@ -125,12 +120,12 @@ export class DateRangeCustomElement {
 
     @computedFrom("user.editing", "partial", "is_valid", "range_options", "base_date_str")
     get show_edit_end_date() {
-        return this.base_date_str && this.is_valid && this.user.editing && (this.partial || this.enable_days_range) && this.range_options.length > 1;
+        return this.base_date_str && this.is_valid == 'valid' && this.user.editing && (this.partial || this.enable_days_range) && this.range_options.length > 1;
     }
 
     @computedFrom("user.editing", "partial", "is_valid")
     get dont_show_edit_end_date() {
-        return ! (this.is_valid && this.user.editing && this.partial);
+        return ! (this.is_valid == 'valid' && this.user.editing && this.partial);
     }
     
     @computedFrom("user.editing","base_date_str", "span_size")
