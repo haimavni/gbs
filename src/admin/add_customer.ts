@@ -70,7 +70,7 @@ export class AddCustomer {
             return true;
         }
         if (key == '_') return true;
-        let m = key.match(/[0-9a-zA-Z-/]/);
+        let m = key.match(/[0-9a-zA-Z/]/);
         if (m) {
             return true;
         }
