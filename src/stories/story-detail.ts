@@ -101,17 +101,16 @@ export class StoryDetail {
     }
 
     refresh_story(story_id) {
-        //if (this.story && this.story.story_id == story_id) {
-            if (this.new_story) {
-                this.router.navigateToRoute('story-detail', { id: story_id, what: this.story_type});
-                return;
-            }
-            this.api.call_server_post('members/get_story', { story_id: story_id })
-                .then(response => {
-                    this.story = response.story;
-                    this.story_changed = true;
-                });
-        //}
+        if (this.new_story) {
+            this.story_list.push(story_id);
+            this.router.navigateToRoute('story-detail', { id: story_id, what: this.story_type });
+            return;
+        }
+        this.api.call_server_post('members/get_story', { story_id: story_id })
+            .then(response => {
+                this.story = response.story;
+                this.story_changed = true;
+            });
     }
 
     detached() {
@@ -166,7 +165,7 @@ export class StoryDetail {
                 this.init_selected_topics();
                 this.book_id = response.book_id;
                 this.book_name = response.book_name;
-                this.sorting_key = response.sorting_key || [0,0,0,0,0];
+                this.sorting_key = response.sorting_key || [0, 0, 0, 0, 0];
                 let story_date = response.story_date;
                 this.story_date_str = story_date.date;
                 this.story_date_datespan = story_date.span;

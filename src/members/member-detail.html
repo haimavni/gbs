@@ -3,13 +3,13 @@
         <div class="row" ref="member_header">
             <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" dir="${theme.rtltr}">
                 <i class="far fa-arrow-up pull-left" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
-                <span if.bind="member.member_info.id">${member_display_name}</span>
-                <span if.bind="! member.member_info.id">${new_member}</span>
+                <span if.bind="member_info.id">${member_display_name}</span>
+                <span if.bind="! member_info.id">${new_member}</span>
                 <span style="color:white;font-size:85%;margin-right:30px;"> ${life_cycle_text} </span>
             </div>
         </div>
         <div class="row" ref="photo_strip">
-            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height" id.bind="member.member_info.id"
+            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height" id.bind="member_info.id"
                 style="padding:0;"
                 action_key="Zoom" dir="ltr"
                 height_change.delegate="on_height_change($event)"
@@ -108,7 +108,7 @@
                 <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box"
                         if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
-                        ${'members.life-summary' & t} ${member.member_info.first_name}
+                        ${'members.life-summary' & t} ${member_info.first_name}
                     </h4>
                     <i class="fa fa-expand fa-lg"
                         show.bind="member.member_stories.length > 1 && !life_summary_expanded"

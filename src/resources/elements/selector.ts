@@ -47,11 +47,11 @@ export class SelectorCustomElement {
     }
 
     selectedvalChanged(newValue, oldValue) {
-        console.log("selectedval changed from ", oldValue, " to ", newValue, " this value: ", this.selectedval);
+        //console.log("selectedval changed from ", oldValue, " to ", newValue, " this value: ", this.selectedval);
     }
 
     selectedChanged(newValue, oldValue) {
-        console.log("selected changed from ", oldValue, " to ", newValue, " this value: ", this.selected);
+        //console.log("selected changed from ", oldValue, " to ", newValue, " this value: ", this.selected);
     }
 
 }

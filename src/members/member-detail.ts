@@ -94,6 +94,12 @@ export class MemberDetail {
         return this.dirty_info ? "disabled" : "";
     }
 
+    @computedFrom('member')
+    get member_info() {
+        if (this.member) return this.member.member_info
+        return {};
+    }
+
     activate(params, config) {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
