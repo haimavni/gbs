@@ -27,6 +27,7 @@ export class StoryDetail {
     user;
     theme;
     story_dir;
+    new_story = false;
     keywords;
     story_list; //for prev / next
     story_idx = -1;
@@ -101,6 +102,10 @@ export class StoryDetail {
 
     refresh_story(story_id) {
         //if (this.story && this.story.story_id == story_id) {
+            if (this.new_story) {
+                this.router.navigateToRoute('story-detail', { id: story_id, what: this.story_type});
+                return;
+            }
             this.api.call_server_post('members/get_story', { story_id: story_id })
                 .then(response => {
                     this.story = response.story;
@@ -147,8 +152,10 @@ export class StoryDetail {
                     this.story.story_text = this.i18n.tr('stories.new-story-content');
                     this.story.used_for = this.used_for;
                     this.story_dir = this.theme.rtltr;
+                    this.new_story = true;
                 } else {
-                    this.story_dir = this.theme.language_dir(this.story.language)
+                    this.story_dir = this.theme.language_dir(this.story.language);
+                    this.new_story = false;
                 }
                 this.members = response.members;
                 this.articles = response.articles;
