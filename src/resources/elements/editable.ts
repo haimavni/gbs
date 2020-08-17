@@ -97,4 +97,10 @@ export class editableCustomElement {
         return false;
     }
 
+    @computedFrom('story')
+    get story_name() {
+        if (this.story) return this.story.name;
+        return this.i18n.tr('stories.new-story');
+    }
+
 }

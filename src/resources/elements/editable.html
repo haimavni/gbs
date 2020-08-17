@@ -17,7 +17,7 @@
             <span if.bind="settings.show_author && story.author">${story.author}:&nbsp;</span>
             <span if.bind="settings.show_author && story.source && story.source != story.author">${story.source}:&nbsp;</span>
             <!--<span if.bind="settings.show_author && ! story.author && ! story.source">${'stories.unknown-source' & t}:&nbsp;</span>-->
-            <div class="checkable ${checked ? 'selected' : ''}" style="margin-right:7px;"><strong innerhtml.bind="story.name"></strong></div>
+            <div class="checkable ${checked ? 'selected' : ''}" style="margin-right:7px;"><strong innerhtml.bind="story_name"></strong></div>
             <span if.bind="user.privileges.EDITOR && user.editing && story.updater.name" style="margin-left:6px;margin-right:6px;"> ${updated_by}: ${story.updater.name} @${story.timestamp}</span>
         </div>
 

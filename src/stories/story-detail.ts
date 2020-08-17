@@ -310,6 +310,12 @@ export class StoryDetail {
         return '';
     }
 
+    @computedFrom('story')
+    get story_name() {
+        if (this.story) return this.story.name;
+        return this.i18n.tr('stories.new-story');
+    }
+
     @computedFrom('story_idx')
     get next_disabled() {
         if (this.story_idx >= this.story_list.length - 1) return 'disabled';
@@ -372,7 +378,8 @@ export class StoryDetail {
     init_selected_topics() {
         this.selected_topics = [];
         let i = 0;
-        for (let opt of this.story_topics) {
+        let story_topics = this.story_topics || [];
+        for (let opt of story_topics) {
             opt.sign = '';
             let itm = { option: opt, first: i == 0, last: i == this.story_topics.length - 1, group_number: i + 1 }
             this.selected_topics.push(itm);

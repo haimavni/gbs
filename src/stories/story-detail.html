@@ -16,7 +16,7 @@
                 </button>
             </div>
             <h3 dir="${story_dir}" style="float: right;margin:0px;">
-                ${story.name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
+                ${story_name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
             <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
                 class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"

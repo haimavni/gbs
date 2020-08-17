@@ -65,7 +65,7 @@ export class MultiSelectCustomElement {
     user;
     theme;
     to_show_untagged = false;
-    agent = { size: 9999 };
+    agent = { size: 0 };
     group_selected = false;
     misc;
     show_untagged_caption = "";
