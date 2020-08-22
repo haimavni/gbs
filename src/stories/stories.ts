@@ -797,6 +797,11 @@ export class Stories {
         this.api.call_server_post('topics/remove_book', {book: event.option})
     }
 
+    scroll(h) {
+        let div = document.getElementById('story-filters');
+        div.scrollTop = h;
+    }
+
 }
 
 function sleep(ms) {

@@ -75,7 +75,7 @@ export class MyDate {
     }
 
     is_valid() {
-        if (this._year < 1000) return 'partial';
+        if (this._year < 1000 || this._year > 2200) return 'partial';
         let dl = this.detail_level();
         if (dl == 'Y') return 'valid';
         if (dl == 'M') {

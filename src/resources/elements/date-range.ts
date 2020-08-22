@@ -13,6 +13,7 @@ export class DateRangeCustomElement {
     i18n;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) base_date_str = "";
     @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 1;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) is_valid = '';
     @bindable label;
     @bindable range_options: any = [];
     @bindable hide_label_if_no_date = false;
@@ -20,7 +21,6 @@ export class DateRangeCustomElement {
     _end_date_str="";
     end_date_options = [];
     partial;
-    is_valid = '';
     element;
     hint;
 
@@ -37,7 +37,10 @@ export class DateRangeCustomElement {
     }
 
     build_end_date_options() {
-        if (! this.base_date_str) return;
+        if (! this.base_date_str) {
+            this.is_valid = 'valid';
+            return;
+        }
         this.base_date_str = this.base_date_str.replace('/', date_sep);
         let date = new MyDate(this.base_date_str);
         this.is_valid = date.is_valid()
@@ -79,8 +82,8 @@ export class DateRangeCustomElement {
 
     base_date_changed(event) {
         event.stopPropagation();
-        if (this.is_valid != 'valid') return;
         this.build_end_date_options();
+        if (this.is_valid != 'valid') return;
         this.dispatch_event();
     }
 

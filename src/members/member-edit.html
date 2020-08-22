@@ -36,6 +36,7 @@
                             <i class="fa fa-female fa-small" if.bind="member.member_info.gender=='F'"></i>
                         </button>
                         <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button" type="button" class="btn btn-default"
+                            disabled.bind="incomplete"
                             click.trigger="save_edited_data()" t="[title]members.save">
                             <i class="fa  fa-large fa-save"></i>
                         </button>
@@ -75,6 +76,7 @@
                             label="members.date-of-death"
                             base_date_str.bind="member.member_info.date_of_death.date"
                             span_size.bind="member.member_info.date_of_death.span"
+                            is_valid.bind="date_of_death_valid"
                             id="date-of-death">
                         </date-range>
                     </div>
@@ -112,6 +114,7 @@
                         <date-range
                             label="members.date-of-birth"
                             base_date_str.bind="member.member_info.date_of_birth.date"
+                            is_valid.bind="date_of_birth_valid"
                             span_size.bind="member.member_info.date_of_birth.span"
                             id="date-of-birth">
                         </date-range>

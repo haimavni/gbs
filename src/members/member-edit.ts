@@ -25,6 +25,8 @@ export class MemberEdit {
     dialog;
     update_info = '';
     misc;
+    date_of_birth_valid = "";
+    date_of_death_valid = "";
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
@@ -169,6 +171,13 @@ export class MemberEdit {
         else {
             return {}
         }
+    }
+
+    @computedFrom('date_of_birth_valid', 'date_of_death_valid', "member_info.gender")
+    get incomplete() {
+        if (this.date_of_birth_valid != 'valid' || this.date_of_death_valid != 'valid' || (this.member_info_orig.gender != "F" && this.member_info_orig.gender != "M"))
+            return "disabled"
+        return ''
     }
 
     setup(modalContainer: Element, modalOverlay: Element) {

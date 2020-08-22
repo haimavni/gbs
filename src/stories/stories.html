@@ -127,8 +127,9 @@
                 </div>
                 <div class="col-md-4 col-sm-12" if.bind="theme.is_desktop || editing_filters" id="story-filters"
                     css="height:${panel_height}px;overflow:auto;">
-                    <div class="row" style="position:relative;">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
+                    <div class="row" style="position:relative;" 
+                        mouseenter.trigger="scroll(0)">
+                        <div style="margin-top: 6px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase == 'not-editing'" topic="tags" position="bottom"
                             style="position:absolute;left:0px;top:26px;"></help>
                         <help if.bind="phase == 'selecting-stories'" topic="selecting-stories" position="bottom"
@@ -153,10 +154,10 @@
                             <i class="far fa-trash-alt fa-lg fa-rotate-180"></i>
                         </button>
                     </div>
-                    <div class="row" style="position:relative;">
+                    <div class="row" style="position:relative;padding-top:6px;">
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' & t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
+                        <div style="margin-bottom:5px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="left" style="position:absolute;left:0px;top:46px;"
                             params.bind="help_data"></help>
                         <multi-select options.bind="stories_index" selected_options.bind="params.selected_words"
@@ -205,7 +206,8 @@
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 20px;margin-left:23px;"
+                    <div class="row" style="margin-top: 20px;margin-left:23px;" 
+                        mouseenter.trigger="scroll(300)"
                         if.bind="user.config.enable_books && (user.editing || book_list.length > 0)">
                         <picker options.bind="book_list" 
                             settings.bind="pickerSettings"
