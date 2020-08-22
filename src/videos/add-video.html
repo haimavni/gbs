@@ -20,6 +20,7 @@
                                 label="videos.video-date-range"
                                 base_date_str.bind="params.video_date_datestr"
                                 span_size.bind="params.video_date_datespan"
+                                is_valid.bind="video_date_valid"
                                 id="video-date">
                             </date-range>
                         </div>
@@ -31,7 +32,7 @@
             <button class="btn btn-danger btn-warning" click.trigger="cancel()">
                 ${'stories.cancel' & t}
             </button>
-            <button class="btn btn-success btn-primary" click.trigger="send()" disabled.bind="! dirty">
+            <button class="btn btn-success btn-primary" click.trigger="send()" disabled.bind="incomplete || ! dirty">
                 ${'videos.send' & t}
             </button>
         </ux-dialog-footer>

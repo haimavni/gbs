@@ -70,6 +70,7 @@ export class FullSizePhoto {
     list_of_ids = false;
     marking_articles = false;
     hint_position = 'right';
+    photo_date_valid = "";
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -178,6 +179,7 @@ export class FullSizePhoto {
 
     save_photo_info(event) {
         event.stopPropagation();
+        if (this.photo_date_valid != 'valid') return;
         let pi = event.detail;
         this.photo_info.photo_date_str = pi.date_str;
         this.photo_info.photo_date_datespan = pi.date_span;
@@ -794,6 +796,12 @@ export class FullSizePhoto {
         this.fullscreen_top_margin = Math.round((sh - h) / 2);
     }
 
+    @computedFrom('photo_date_valid')
+    get incomplete() {
+        if (this.photo_date_valid != 'valid')
+            return "disabled"
+        return ''
+    }
 }
 
 function sleep(ms) {

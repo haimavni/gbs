@@ -108,6 +108,7 @@ export class Stories {
     misc;
     book_list = [];
     pickerSettings: PickerSettings = new PickerSettings({can_add: true});
+    stories_date_valid = '';
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup, misc: Misc) {
@@ -800,6 +801,13 @@ export class Stories {
     scroll(h) {
         let div = document.getElementById('story-filters');
         div.scrollTop = h;
+    }
+
+    @computedFrom('stories_date_valid')
+    get incomplete() {
+        if (this.stories_date_valid != 'valid')
+            return "disabled"
+        return ''
     }
 
 }

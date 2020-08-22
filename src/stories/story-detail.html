@@ -141,9 +141,9 @@
                     </div>
                 </div>
                 <!--end of justified -->
-                <div if.bind="user.editing && book_id"
+                <div if.bind="user.editing"
                     style="background-color:#eee;height:500px;width:94%;margin-right:8px;margin-top:12px;">
-                    <div style="display:flex;justify-content:spacex-between;">
+                    <div style="display:flex;justify-content:spacex-between;" if.bind="book_id">
                         <label style="margin-top:12px;margin-right:15px;font-size:120%;">
                             ${'stories.sorting-key' & t} [${book_name}]
                         </label>
@@ -174,6 +174,7 @@
                     <div style="margin-top: 10px;margin-left:14px;margin-right:15px;width:50%;">
                         <date-range label="stories.story-date" base_date_str.bind="story_date_str"
                             range_options.bind="[1,2,3,5,10,15,20,30,50,100]"
+                            is_valid.bind="story_date_valid"
                             change.delegate="update_story_date($event)" span_size.bind="story_date_datespan">
                         </date-range>
                     </div>

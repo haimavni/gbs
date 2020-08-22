@@ -22,6 +22,8 @@ export class ArticleEdit {
     dialog;
     update_info = '';
     misc;
+    date_start_valid = '';
+    date_end_valid = '';
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, 
         router: Router, i18n: I18N, dialog: DialogService,  misc: Misc) {
@@ -73,6 +75,14 @@ export class ArticleEdit {
                 this.article = this.misc.deepClone(this.article);
             });
     }
+
+    @computedFrom('date_start_valid', 'date_end_valid')
+    get incomplete() {
+        if (this.date_start_valid != 'valid' || this.date_end_valid != 'valid')
+            return "disabled"
+        return ''
+    }
+
 
 }
 

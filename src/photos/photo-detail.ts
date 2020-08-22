@@ -101,6 +101,7 @@ export class PhotoDetail {
         photographer_id: 0,
         photographer_name: ""
     }
+    photo_date_valid = '';
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
         this.api = api;
@@ -264,6 +265,7 @@ export class PhotoDetail {
 
     update_photo_date(customEvent) {
         customEvent.stopPropagation();
+        if (this.photo_date_valid != 'valid') return;
         let event = customEvent.detail;
         let s = typeof event;
         this.undo_list.push({ what: 'photo-date', photo_date: { photo_date_str: this.curr_info.photo_date_str, photo_date_datespan: this.curr_info.photo_date_datespan } });

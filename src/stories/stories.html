@@ -47,7 +47,8 @@
                             </div>
                             <div class="form-group">
                                 <button
-                                    if.bind="user.editing && checked_stories.size > 0 && (params.selected_topics.length>0 || date_is_valid || params.selected_story_visibility || params.selected_book)"
+                                    if.bind="user.editing && checked_stories.size > 0 && (params.selected_topics.length>0 || params.selected_story_visibility || params.selected_book || params.stories_date_str)"
+                                    disabled.bind="incomplete"
                                     click.trigger="apply_topics_to_selected_stories()" class="btn btn-warning btn-md">
                                     ${'stories.apply-to-selected' & t}
                                 </button>
@@ -224,6 +225,7 @@
                     <div class="row" style="margin-top: 20px;margin-left:23px;" if.bind="can_set_dates">
                         <date-range label="stories.date" base_date_str.bind="params.stories_date_str"
                             range_options.bind="[1,2,3,4,5,10, 20, 50, 100, 120]"
+                            is_valid.bind="stories_date_valid"
                             span_size.bind="params.stories_date_span_size">
                         </date-range>
                     </div>

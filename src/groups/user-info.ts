@@ -42,6 +42,7 @@ export class UserInfo {
     selected_topics = [];
     misc;
     login_error_message = "";
+    photo_date_valid = "";
 
     constructor(controller: DialogController, api: MemberGateway, user: User,
         theme: Theme, cookies: Cookies, i18n: I18N, misc: Misc) {
@@ -232,6 +233,14 @@ export class UserInfo {
         //     this.params.selected_photographers.push(itm)
         // }
     }
+
+    @computedFrom('photo_date_valid')
+    get incomplete() {
+        if (this.photo_date_valid != 'valid')
+            return "disabled"
+        return ''
+    }
+
 }
 
 

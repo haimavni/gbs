@@ -2,8 +2,9 @@
     <div style="margin-top:30px;">
         <div stle="display:flex">
             <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button"
+                disabled.bind="incomplete"
                 type="button" class="btn btn-default" click.trigger="save_edited_data()" t="[title]articles.save">
-                <i class="fa  fa-large fa-save"></i>
+                <i class="fa fa-large fa-save"></i>
             </button>
             <button type="button" type="button"
                 class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}"
@@ -25,6 +26,7 @@
                 <date-range 
                     label="articles.start-date" 
                     base_date_str.bind="article.article_info.date_start.date"
+                    is_valid.bind="date_start_valid"
                     span_size.bind="article.article_info.date_start.span">
                 </date-range>
             </div>
@@ -32,6 +34,7 @@
                 <date-range 
                     label="articles.end-date" 
                     base_date_str.bind="article.article_info.date_end.date"
+                    is_valid.bind="date_end_valid"
                     span_size.bind="article.article_info.date_end.span">
                 </date-range>
             </div>

@@ -7,6 +7,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import * as toastr from 'toastr';
 import { User } from '../services/user';
 import { Misc } from '../services/misc';
+import { timingSafeEqual } from 'crypto';
 
 @autoinject()
 export class AddVideo {
@@ -19,6 +20,7 @@ export class AddVideo {
     params;
     old_params;
     misc;
+    video_date_valid = '';
 
     constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N, user: User, misc: Misc) {
         this.controller = controller;
@@ -62,6 +64,12 @@ export class AddVideo {
     get dirty() {
         let dirty = JSON.stringify(this.params) != JSON.stringify(this.old_params);
         return dirty;
+    }
+
+    @computedFrom('video_date_valid')
+    get incomplete() {
+        if ( this.video_date_valid != 'valid') return 'disabled';
+        return '';
     }
 
 }

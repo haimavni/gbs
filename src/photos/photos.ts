@@ -105,6 +105,7 @@ export class Photos {
     scroll_top = 0;
     curr_photo_id = 0;
     update_photo_list_debounced;
+    photos_date_valid = "";
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -825,4 +826,17 @@ export class Photos {
         return `height: ${this.win_height - 323}px;`;
     }
 
+    @computedFrom('photos_date_valid')
+    get incomplete() {
+        if (this.photos_date_valid != 'valid')
+            return "disabled"
+        return ''
+    }
+
+    @computedFrom('params.selected_topics.length', 'params.selected_photographers.length', 'params.photos_date_str', 'photos_date_valid')
+    get apply_disabled() {
+        let x = this.params.selected_topics.length==0 && this.params.selected_photographers.length != 1 && this.params.photos_date_str == '';
+        if (this.photos_date_valid != 'valid') x = true;
+        return x;
+    }
 }

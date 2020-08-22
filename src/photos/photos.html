@@ -82,7 +82,7 @@
                             </div>
                             <div class="form-group toolbar" if.bind="phase=='applying-to-photos' && ! got_duplicates && ! working">
                                 <button 
-                                    disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.photos_date_str == ''"
+                                    disabled.bind="apply_disabled"
                                     class="btn btn-warning btn-md" 
                                     click.trigger="apply_to_selected()">
                                     ${'photos.apply-to-selected' & t}
@@ -225,6 +225,7 @@
                             label="photos.photos-date" 
                             base_date_str.bind="params.photos_date_str"
                             range_options.bind="[1,2,3,5,10,15,20,30,50,100]" 
+                            is_valid.bind="photos_date_valid"
                             span_size.bind="params.photos_date_span_size">
                         </date-range>
                     </div>

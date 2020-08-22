@@ -66,6 +66,7 @@ export class StoryDetail {
     book_name = "";
     btn_prev;
     btn_next;
+    story_date_valid = '';
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
@@ -409,6 +410,7 @@ export class StoryDetail {
 
     update_story_date(customEvent) {
         customEvent.stopPropagation();
+        if (! this.story_date_valid) return;
         let event = customEvent.detail;
         let s = typeof event;
         this.undo_list.push({
