@@ -30,20 +30,11 @@
                         <span style="position:absolute; left:40px;top:0px;">${'user.font-size' & t}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left">
-                        <li class="font-size-100"><a class="dropdown-item" href="#"
-                                click.trigger="set_font_size(100)">${'abcde' & t}</a></li>
-                        <li class="font-size-110"><a class="dropdown-item" href="#"
-                                click.trigger="set_font_size(110)">${'abcde' & t}</a></li>
-                        <li class="font-size-120"><a class="dropdown-item" href="#"
-                                click.trigger="set_font_size(120)">${'abcde' & t}</a></li>
-                        <li class="font-size-130"><a class="dropdown-item" href="#"
-                                click.trigger="set_font_size(130)">${'abcde' & t}</a></li>
-                        <li class="font-size-140"><a class="dropdown-item" href="#"
-                                click.trigger="set_font_size(140)">${'abcde' & t}</a></li>
-                        <li class="font-size-150"><a class="dropdown-item" href="#"
-                                click.trigger="set_font_size(150)">${'abcde' & t}</a></li>
-                        <li class="font-size-180"><a class="dropdown-item" href="#"
-                                click.trigger="set_font_size(180)">${'abcde' & t}</a></li>
+                        <li repeat.for="font_size_option of font_size_options" class="${'font-size-' + font_size_option} ${font_size_option.sel}">
+                            <a class="dropdown-item" href="#" click.trigger="set_font_size(font_size_option.size)">
+                                ${'abcde' & t}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -59,6 +50,23 @@
                         <li repeat.for="locale of locales">
                             <a class="dropdown-item" href="#" click.trigger="change_locale(locale)">
                                 ${'locales.' + locale & t}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li style="border-bottom:solid 1px gray;width:170px;padding-bottom:5px;height:32px;padding-top:3px;">
+                <div class="btn-group dropdown border-right"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+                    if.bind="theme.width>458">
+                    <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
+                        <i class="far fa-lg fa-glasses-alt" style="margin-left:10px;"></i>
+                        <span style="position:absolute; left:40px;top:0px;">${'user.advanced-options' & t}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        <li repeat.for="adv_option of adv_options" class.bind="adv_option.cls"> 
+                            <a class="dropdown-item" href="#" click.trigger="change_advanced_options(adv_option)">
+                                ${'user.' + adv_option.name & t}
                             </a>
                         </li>
                     </ul>
@@ -219,5 +227,10 @@
             </li>
         </ul>
     </div>
+    <style>
+        li.selected {
+            background-color: lightblue;
+        }
+    </style>
 
 </template>

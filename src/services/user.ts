@@ -3,6 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
 import environment from '../environment';
+import { Cookies } from './cookies';
 
 @autoinject()
 @singleton()
@@ -15,13 +16,16 @@ export class User {
     public privileges;
     public config = {enable_auto_registration: false, expose_new_app_button: false, support_audio: false};
     public id;
+    public _advanced = false;
     private api;
     private i18n;
+    private cookies: Cookies;
 
-    constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N) {
+    constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.i18n = i18n;
+        this.cookies = cookies;
         this.isLoggedIn = false;
         this.editing = false;
         this.privileges = { EDITOR: true };
@@ -121,6 +125,22 @@ export class User {
 
     get debugging() {
         return environment.debug;
+    }
+
+    get advanced() {
+        if (!this._advanced) {
+            this._advanced = this.cookies.get('ADVANCED-USER');
+            if (this._advanced == null) {
+                this._advanced = false;
+                this.cookies.put('ADVANCED-USER', this._advanced);
+            }
+        }
+        return this._advanced;
+    }
+
+    set advanced(adv) {
+        this._advanced = adv;
+        this.cookies.put('ADVANCED-USER', this._advanced);
     }
 
 }

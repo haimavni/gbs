@@ -32,6 +32,8 @@ export class UserMode {
     sharing_subject;
     ea;
     share_menu_open = false;
+    adv_options = [{name: 'advanced-options-off', cls: ''}, {name: 'advanced-options-on', cls: ''}];
+    font_size_options = [];
 
     constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
         this.user = user;
@@ -42,6 +44,10 @@ export class UserMode {
         this.dialog = dialog;
         this.popup = popup;
         this.ea = ea;
+        for (let size of [100,110,120,130,140,150,180]) {
+            let opt = {size: size, sel: ''};
+            this.font_size_options.push(opt);
+        }
     }
 
     calc_current_info() {
@@ -66,6 +72,14 @@ export class UserMode {
                 this.current_url = shortcut;
             });
 
+    }
+
+    attached() {
+        let idx = this.user.advanced ? 1 : 0;
+        this.adv_options[idx].cls = 'selected';
+        let s = this.theme.font_size.substr(10, 3);
+        let size = parseInt(s);
+        this.set_font_size(size); //to set the selected class
     }
 
     toggle_edit_mode() {
@@ -177,6 +191,9 @@ export class UserMode {
 
     set_font_size(size) {
         this.theme.font_size = "font-size-" + size;
+        for (let fso of this.font_size_options) fso.sel = '';
+        let fso = this.font_size_options.find(fs => fs.size == size);
+        if (fso) fso.sel = 'selected'
     }
 
     change_locale(locale) {
@@ -206,4 +223,12 @@ export class UserMode {
     notify_link_copied() {
         toastr.success("Link was copied")
     }
+
+    change_advanced_options(adv_option) {
+        this.user.advanced = adv_option.name == 'advanced-options-off' ? false : true;
+        for (let adv of this.adv_options) adv.cls = '';
+        let idx = adv_option.name == 'advanced-options-off' ? 0 : 1;
+        this.adv_options[idx].cls = 'selected';
+    }
+
 }

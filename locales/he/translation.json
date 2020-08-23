@@ -272,7 +272,10 @@
         "version-time-off": "הסתר את תאריך הגרסה",
         "expose-developer-on": "הצג שם החברה",
         "expose-developer-off": "הסתר את שם החברה",
-        "quick-upload-photo": "העלה תמונה משלך לאתר"
+        "quick-upload-photo": "העלה תמונה משלך לאתר",
+        "advanced-options": "אפשרויות מתקדמות",
+        "advanced-options-off": "ללא אפשרויות מתקדמות",
+        "advanced-options-on": "הצג אפשרויות מתקדמות"
     },
     "chats": {
         "chats": "קבוצות דיון",
