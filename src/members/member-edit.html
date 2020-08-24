@@ -100,7 +100,7 @@
                     <input type="text" class="form-control" id="member_name" t="[placeholder]members.member-name" value.bind="member.member_info.Name"
                         disabled.bind="true">
                 </div>
-                <div class="form-group">
+                <div class="form-group ${member.member_info.first_name ? '' : 'mandatory-missing'}">
                     <input type="text" class="form-control" id="first_name" t="[placeholder]members.first-name" value.bind="member.member_info.first_name">
                 </div>
                 <div class="form-group">
