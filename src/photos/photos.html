@@ -157,7 +157,8 @@
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
                         <help if.bind="phase=='applying-to-photos'" topic="apply-to-selected-photos", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                        <help if.bind="phase=='photos-not-editing'" topic="tags" position="${theme.is_desktop ? 'bottom' : 'right'}" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="user.advanced && phase=='photos-not-editing'" topic="tags" position="${theme.is_desktop ? 'bottom' : 'right'}" style="position:absolute;left:2px;top:2px;"></help>
+                        <help if.bind="(!user.advanced) && phase=='photos-not-editing'" topic="tags-simple" position="${theme.is_desktop ? 'bottom' : 'right'}" style="position:absolute;left:2px;top:2px;"></help>
                         <multi-select options.bind="topic_list"
                             category="topic"
                             selected_options.bind="params.selected_topics"

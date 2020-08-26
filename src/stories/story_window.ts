@@ -53,6 +53,7 @@ export class StoryWindow {
         this.story = model.story;
         this.dont_save = model.dont_save;
         this.raw = model.raw
+        if (!this.story) return;
         this.story_text = this.story.editable_preview ? this.story.preview : this.story.story_text
         if (! this.story_text) {
              this.story_text = "";

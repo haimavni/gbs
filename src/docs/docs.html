@@ -79,7 +79,8 @@
                 <div id="doc-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.is_desktop">
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help if.bind="phase=='not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="user.advanced_user && phase=='not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="(!user.advanced_user) && phase=='not-editing'" topic="tags-simple" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
                         <help if.bind="phase=='ready-to-edit'" topic="docs.ready-to-edit" position="bottom" style="position:absolute;left:0px;top:26px;"></help>
                         <span show.bind="false">${user_editing}</span>
                         <multi-select options.bind="topic_list"
@@ -109,7 +110,8 @@
                         <span if.bind="num_of_docs">${num_of_docs} ${'docs.matching-docs' & t}</span>
                         <span if.bind="! num_of_docs">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
-                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
+                        <help if.bind="user.advanced_user" topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
+                        <help if.bind="!user.advanced_user" topic="words-simple" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
                         <multi-select
                             options.bind="docs_index"
                             selected_options.bind="params.selected_words"

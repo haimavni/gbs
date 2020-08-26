@@ -122,7 +122,9 @@ export class Audios {
     update_audio_list() {
         this.params.editing = this.user.editing;
         this.api.call_server_post('audios/get_audio_list', { params: this.params })
-            .then(response => this.set_audio_list(response.audio_list));
+            .then(response => {
+                this.set_audio_list(response.audio_list);
+            });
     }
 
     attached() {
@@ -157,7 +159,6 @@ export class Audios {
                 }
             });
         this.ea.subscribe('RECORDER_ADDED', () => { this.update_topic_list() });  //for now they are linked...
-        this.update_audio_list();
         this.ea.subscribe('NEW-AUDIO', msg => {
             this.add_audio(msg.new_audio_rec)
         });

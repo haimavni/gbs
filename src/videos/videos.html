@@ -97,7 +97,8 @@
                     <div class="row" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                        <help if.bind="phase=='photos-not-editing'" id="video-help" topic="tags" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
+                        <help if.bind="user.advanced_user && phase=='photos-not-editing'" id="video-help" topic="tags" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
+                        <help if.bind="(!user.advanced_user) && phase=='photos-not-editing'" id="video-help" topic="tags-simple" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
                         <multi-select options.bind="topic_list"
                             category="topic"
                             selected_options.bind="params.selected_topics"

@@ -55,8 +55,10 @@
                 <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop" css="height: ${win_height-340}px;overflow:auto;">
                     <div style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="user.advanced_user && phase=='not-editing'" topic="tags" position="bottom"
+                            style="position:absolute;left:0px;top:26px;z-index:100;"></help>
+                        <help if.bind="(! user.advanced_user) && phase=='not-editing'" topic="tags-simple" position="bottom"
+                            style="position:absolute;left:0px;top:26px;z-index:100;"></help>
                         <help if.bind="phase=='ready-to-edit'" topic="audios.ready-to-edit" position="bottom"
                             style="position:absolute;left:0px;top:26px;"></help>
                         <span show.bind="false">${user_editing}</span>
@@ -96,6 +98,10 @@
                         <span if.bind="! num_of_audios">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
                         <help topic="words" position="left" style="position:absolute;left:0px;top:46px;"
+                            if.bind="user.advanced_user"
+                            params.bind="help_data"></help>
+                        <help topic="words-simple" position="left" style="position:absolute;left:0px;top:46px;"
+                            if.bind="!user.advanced_user"
                             params.bind="help_data"></help>
                         <multi-select options.bind="audios_index" selected_options.bind="params.selected_words"
                             keywords.two-way="keywords" place_holder_text="audios.word-index" height="201"

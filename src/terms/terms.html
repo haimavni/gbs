@@ -78,7 +78,9 @@
                 <div class="col-md-3 ${theme.rtltr}" if.bind="theme.is_desktop || editing_filters" id="term-topics">
                     <div class="row" style="position:relative;">
                         <!-- <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div> -->
-                        <help if.bind="phase=='not-editing'" topic="tags" position="bottom"
+                        <help if.bind="user.advanced_user && phase=='not-editing'" topic="tags" position="bottom"
+                            style="position:absolute;left:0px;top:2px;"></help>
+                        <help if.bind="(!user.advanced_user) && phase=='not-editing'" topic="tags-simple" position="bottom"
                             style="position:absolute;left:0px;top:2px;"></help>
                         <help if.bind="phase=='ready-to-edit'" topic="terms.ready-to-edit" position="bottom"
                             style="position:absolute;left:0px;top:2px;"></help>
