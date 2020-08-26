@@ -20,7 +20,7 @@
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;padding-right:15px;">
                         <form style="display:flex;height:34px;">
-                            <div class="input-group" if.bind="user.privileges.ADVANCED">
+                            <div class="input-group" if.bind="user.advanced_user">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
                             <div class="input-group" if.bind="user.privileges.EDITOR" style="width:144px;margin-right:6px;">

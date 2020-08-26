@@ -16,7 +16,7 @@ export class User {
     public privileges;
     public config = {enable_auto_registration: false, expose_new_app_button: false, support_audio: false};
     public id;
-    public _advanced = false;
+    public _advanced = 'off';
     private api;
     private i18n;
     private cookies: Cookies;
@@ -127,20 +127,25 @@ export class User {
         return environment.debug;
     }
 
-    get advanced() {
+    get advanced(): boolean {
         if (!this._advanced) {
             this._advanced = this.cookies.get('ADVANCED-USER');
             if (this._advanced == null) {
-                this._advanced = false;
+                this._advanced = 'off';
                 this.cookies.put('ADVANCED-USER', this._advanced);
             }
         }
-        return this._advanced;
+        return this._advanced == 'on';
     }
 
-    set advanced(adv) {
-        this._advanced = adv;
+    set advanced(adv: boolean) {
+        this._advanced = adv ? 'on' : 'off';
         this.cookies.put('ADVANCED-USER', this._advanced);
+    }
+
+    get advanced_user() {
+        if (this.editing) return true;
+        return this.advanced;
     }
 
 }

@@ -19,18 +19,18 @@
                         <!-- lock/unlock button -->
                         <div style="display:flex;flex-direction:row-reverse;align-items:center;">
                             <i class="far fa-${item.group_number==open_group ? 'lock-open-alt' : 'lock-alt'} tool"
-                                if.bind="settings.can_group && item.first" t="[title]multi-select.lock-unlock"
+                                if.bind="user.advanced_user && settings.can_group && item.first" t="[title]multi-select.lock-unlock"
                                 click.delegate="toggle_group(item.group_number)">
                             </i>
                             <i class="far fa-${item.option.sign}-square fa-rotate-180 tool"
-                                if.bind="settings.can_set_sign && item.first" t="[title]multi-select.change-sign"
+                                if.bind="user.advanced_user && settings.can_set_sign && item.first" t="[title]multi-select.change-sign"
                                 click.delegate="toggle_sign(item.option, $event)">
                             </i>
                             <i class="far fa-times-circle tool ${highlight_unselectors}" t="[title]multi-select.unselect"
                                 css="margin-left:${item.first ? 0 : settings.can_set_sign ? 40 : settings.can_group ? 20 : 0}px"
                                 click.delegate="unselect_item(item, $index)">
                             </i>
-                            <i class="far fa-exchange-alt tool" t="[title]multi-select.change-group"
+                            <i class="user.advanced_user && far fa-exchange-alt tool" t="[title]multi-select.change-group"
                                 show.bind="item.moveable" 
                                 click.delegate="move_item(item, $index)">
                             </i>
