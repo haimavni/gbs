@@ -172,7 +172,7 @@
                             selectedval.two-way="params.selected_story_visibility">
                         </selector>
                     </div>
-                    <div class="row" style="margin-top: 20px;">
+                    <div class="row" style="margin-top: 20px;" if.bind="user.advanced_user">
                         <form role="form" onsubmit="return false">
                             <select value.bind="params.order_option" style="height:32px;width:90%;"
                                 change.delegate="handle_order_change($event)">
