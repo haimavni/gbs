@@ -22,6 +22,7 @@ export class editableCustomElement {
     };
     @bindable info_title = "";
     @bindable info_content = "";
+    @bindable pinned = false;
     element;
     user;
     theme;

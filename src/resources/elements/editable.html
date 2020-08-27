@@ -11,7 +11,7 @@
                 <i if.bind="settings.deletable && user.privileges.ADMIN && user.editing" class="fas fa-sm fa-trash-alt is-link" t="[title]stories.delete" click.trigger="delete_story(story)">&nbsp;</i>
                 <i if.bind="settings.checkable && user.editing" class="fa${checked ? '' : 'r'} fa-circle fa-sm is-link" t="[title]stories.checking" click.delegate="toggle_checked($event)">&nbsp;</i>
                 <i if.bind="settings.pushable && user.privileges.ADMIN && user.editing" class="far fa-sm fa-arrow-up is-link" t="[title]stories.push-up" click.trigger="push_story(story)">&nbsp;</i>
-                <i if.bind="settings.pinnable && user.privileges.ADMIN && user.editing" class="fas fa-sm fa-thumbtack is-link" t="[title]stories.pin-story" click.trigger="pin_story(story)">&nbsp;</i>
+                <i if.bind="settings.pinnable && user.privileges.ADMIN && user.editing" class="fas fa-sm fa-thumbtack is-link ${pinned ? 'pinned' : ''}" t="[title]stories.pin-story" click.trigger="pin_story(story)">&nbsp;</i>
             </span>
             <span if.bind="settings.show_date &&story.timestamp">${story.timestamp | formatdate} |&nbsp;</span>
             <span if.bind="settings.show_author && story.author">${story.author}:&nbsp;</span>

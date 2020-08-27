@@ -35,7 +35,7 @@ export class Home {
     photo_strip_height = 220;
     popup;   //just to force closing all dialogs on routing
 
-    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService, 
+    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService,
         popup: Popup, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
         this.user = user;
@@ -87,10 +87,15 @@ export class Home {
         this.api.call_server_post('members/pin_message', { story_id: story.story_id })
             .then(response => {
                 let idx = this.message_list.findIndex(item => item.story_id == story.story_id);
-                let msgs = this.message_list.slice(idx, idx + 1);
-                this.message_list.splice(idx, 1);
-                this.message_list.splice(0, 0, msgs[0]);
-                this.scroll_area.scrollTop = 0;
+                if (response.pinned) {
+                    let msgs = this.message_list.slice(idx, idx + 1);
+                    this.message_list.splice(idx, 1);
+                    msgs[0].pinned = true;
+                    this.message_list.splice(0, 0, msgs[0]);
+                    this.scroll_area.scrollTop = 0;
+                } else {
+                    this.message_list[idx].pinned = false;
+                }
             })
     }
 

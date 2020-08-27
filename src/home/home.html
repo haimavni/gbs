@@ -22,6 +22,7 @@
                     <editable story.bind="msg" settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true, pinnable: true}" 
                         change.delegate="hande_story_change(msg, $event)"
                         pushup.delegate="push_story(msg, $event)"
+                        pinned.bind="msg.pinned"
                         pin.delegate="pin_story(msg, $event)">
                     </editable>
                 </li>
