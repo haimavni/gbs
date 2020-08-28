@@ -320,7 +320,7 @@ export class StoryDetail {
     @computedFrom('story')
     get story_name() {
         if (this.story) return this.story.name;
-        return this.i18n.tr('stories.new-story');
+        return '';
     }
 
     @computedFrom('story_idx')
