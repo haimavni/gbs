@@ -102,8 +102,8 @@
                         <compose view-model="./member-edit" model.bind="member"></compose>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box"
-                    if.bind="story_0.story_text == '' && ! user.privileges.EDITOR">
+                <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box1"
+                    if.bind="story_0.story_text == '' && ! user.privileges.EDITOR && ! user.editing">
                 </div>
                 <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box"
                         if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">

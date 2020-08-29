@@ -13,6 +13,7 @@ export class SelectorCustomElement {
     i18n;
     user;
     element;
+    selector;
 
     constructor(element, i18n, user) {
         this.element = element;
@@ -31,7 +32,7 @@ export class SelectorCustomElement {
             options.push(selected);
         }
         options.sort((option1, option2) => option1.value - option2.value);
-        let el = document.getElementById("selector");
+        let el = this.selector; //document.getElementById("selector");
         if (el) el.style.width = this.width;
         return options;
     }

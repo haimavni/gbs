@@ -51,6 +51,7 @@ export class MemberDetail {
     bottom_panel;
     life_summary_content;
     life_summary_box;
+    life_summary_box1;
     keywords = [];
     highlight_on = "highlight-on";
     advanced_search = false;
@@ -345,7 +346,9 @@ export class MemberDetail {
     }
 
     async set_heights() {
-        while (!this.photo_strip || !this.life_summary_content || ! this.member) {
+        for (let i = 0; i < 270; i++) {
+            if (i > 7 && this.member) break;
+            if (this.member && this.life_summary_box) break;
             await sleep(20);
         }
         this._set_heights();
@@ -353,7 +356,16 @@ export class MemberDetail {
 
     _set_heights() {
         let footer_height = 63;
-        let panel_height = this.theme.height - this.photo_strip.offsetTop - this.photo_strip_height - footer_height;
+        let ps_offset;
+        let ps_height;
+        if (this.photo_strip) {
+            ps_offset = this.photo_strip.offsetTop;
+            ps_height = this.photo_strip_height;
+        } else {
+            ps_offset = 0;
+            ps_height = 0;
+        }
+        let panel_height = this.theme.height - ps_offset - ps_height - footer_height;
         panel_height = Math.max(panel_height, 544);
         let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
         if (this.theme.is_desktop) {
@@ -362,8 +374,10 @@ export class MemberDetail {
             this.member_detail_panel.style.marginRight = '-32px';
         }
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
-        let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
-        this.life_summary_content.style.height = `${tph - lsco}px`;
+        if (this.life_summary_content) {
+            let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
+            this.life_summary_content.style.height = `${tph - lsco}px`;
+        }
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
             let n = (this.member.member_stories.length > 1) ? 0 : 100;
@@ -375,9 +389,17 @@ export class MemberDetail {
             this.top_panel.style.height = null;
             this.bottom_panel.style.height = null;
         }
-        if (this.photo_strip_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
+        if (ps_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
         this.story_box_height = bph - 2;
-        this.life_summary_box.style.height = '90%'// `${lsb}px`;
+        if (this.life_summary_box)
+            if (this.user.editing)
+                this.life_summary_box.style.height = '0%'// `${lsb}px`;
+            else {
+                let n = no_member_stories ? 19 : 1;
+                this.life_summary_box.style.height = `${tph-n}px`;
+            }
+        if (this.life_summary_box1 && ! this.user.editing)
+            this.life_summary_box1.style.height = '99%'// `${lsb}px`;
         if (this.theme.is_desktop) {
             this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
