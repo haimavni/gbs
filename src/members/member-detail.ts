@@ -395,7 +395,7 @@ export class MemberDetail {
             if (this.user.editing)
                 this.life_summary_box.style.height = '0%'// `${lsb}px`;
             else {
-                let n = no_member_stories ? 19 : 1;
+                let n = no_member_stories ? 24 : 1;
                 this.life_summary_box.style.height = `${tph-n}px`;
             }
         if (this.life_summary_box1 && ! this.user.editing)
