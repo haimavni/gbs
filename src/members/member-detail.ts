@@ -369,7 +369,7 @@ export class MemberDetail {
         panel_height = Math.max(panel_height, 544);
         let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
         if (this.theme.is_desktop) {
-            let n = no_member_stories ? 4 : 0;
+            let n = no_member_stories ? 4 : 5;
             this.member_detail_panel.style.height = `${panel_height - n}px`;
             this.member_detail_panel.style.marginRight = '-32px';
         }
