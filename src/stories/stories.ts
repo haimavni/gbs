@@ -158,9 +158,10 @@ export class Stories {
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
-        let idx = this.story_list.findIndex(itm => itm.story_id == story_id);
-        if (idx >= 0) {
-            this.story_list[idx].preview = data.story_data.preview;
+        let story = this.story_list.find(itm => itm.story_id == story_id);
+        if (story) {
+            story.preview = data.story_data.preview;
+            story.name = data.story_data.name;
         }
     }
 

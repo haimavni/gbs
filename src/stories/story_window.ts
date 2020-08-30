@@ -109,6 +109,7 @@ export class StoryWindow {
                 this.dialogController.ok(response.info);
                 this.story.story_id = response.info.story_id;
                 this.story.preview = response.info.preview;
+                this.story.name = response.info.name;
             });
     }
 
