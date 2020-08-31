@@ -80,12 +80,13 @@ export class MemberDetail {
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
-        let idx = this.member.member_stories.findIndex(itm => itm.story_id == story_id);
-        if (idx >= 0) {
-            this.member.member_stories[idx].preview = data.story_data.preview;
+        let story = this.member.member_stories.find(itm => itm.story_id == story_id);
+        if (story) {
+            story.preview = data.story_data.preview;
+            story.name = data.story_data.name;
             this.api.call_server_post('members/get_story', { story_id: story_id })
                 .then(response => {
-                    this.member.member_stories[idx].story_text = response.story.story_text;
+                    story.story_text = response.story.story_text;
                 });
         }
     }

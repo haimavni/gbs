@@ -77,12 +77,13 @@ export class ArticleDetail {
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
-        let idx = this.article.article_stories.findIndex(itm => itm.story_id == story_id);
-        if (idx >= 0) {
-            this.article.article_stories[idx].preview = data.story_data.preview;
+        let story = this.article.article_stories.find(itm => itm.story_id == story_id);
+        if (story) {
+            story.preview = data.story_data.preview;
+            story.name = data.story_data.name;
             this.api.call_server_post('articles/get_story', { story_id: story_id })
                 .then(response => {
-                    this.article.article_stories[idx].story_text = response.story.story_text;
+                    story.story_text = response.story.story_text;
                 });
         }
     }

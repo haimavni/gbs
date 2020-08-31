@@ -107,6 +107,8 @@ export class StoryDetail {
             this.router.navigateToRoute('story-detail', { id: story_id, what: this.story_type });
             return;
         }
+        let sid = this.story ? this.story.story_id : null;
+        if (sid != story_id) return; //otherwise one user saves story and another's story changes to the saved one!
         this.api.call_server_post('members/get_story', { story_id: story_id })
             .then(response => {
                 this.story = response.story;
