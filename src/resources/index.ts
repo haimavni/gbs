@@ -31,6 +31,7 @@ export function configure(config) {
     './elements/quiz/quiz',
     './elements/quick-login',
     './elements/edit-side-by-side',
-    './elements/render-story'
+    './elements/render-story',
+    './elements/fit-text'
   ]);
 }
