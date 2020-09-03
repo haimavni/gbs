@@ -1,5 +1,9 @@
 <template>
-    <canvas ref="canvas" resize.delegate="fit()">
+    <div>
+        <canvas ref="canvas" resize.delegate="fit()" show.bind="!truncated_text">
+            ${dummy}
+        </canvas>
+        <p innerhtml.bind="truncated_text">
 
-    </canvas>
+        </p>
 </template>
