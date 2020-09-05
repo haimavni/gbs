@@ -140,6 +140,7 @@ export class FullSizePhoto {
 
     get_faces(photo_id) {
         this.faces = [];
+        this.faces_already_identified = new Set();
         this.api.call_server('photos/get_faces', { photo_id: photo_id })
             .then((data) => {
                 this.faces = data.faces;
