@@ -6,6 +6,8 @@ import { Theme } from '../../services/theme';
 export class fitTextCustomElement {
     element;
     @bindable txt = "";
+    @bindable width;
+    @bindable height;
     truncated_text = "";
     canvas: HTMLCanvasElement;
     misc: Misc;
@@ -28,6 +30,8 @@ export class fitTextCustomElement {
         let parent = this.element.parentElement;
         parent = parent.parentElement;
         let bc = parent.getBoundingClientRect();
+        console.log("offset height: ", parent.offsetHeight);
+        console.log("offset width: ", parent.offsetWidth);
         console.log("bc is ", bc);
         for (let i=0; i< 10; i+=1) {
             if (this.theme) {
@@ -53,13 +57,10 @@ export class fitTextCustomElement {
 
     fit() {
         //this.element.innerHTML = this.txt;
-        let element_height = 160;  //temporary
+        let element_height = this.height;
 
-        //await this.misc.sleep(1000);
-        let w = this.element.clientWidth;
-        let h = this.element.clientHeight;
         let lineHeight = this.getLineHeight();
-        let lineWidth = 220;
+        let lineWidth = this.width;
         var lines = [];
         let line = "";
         let line0 = "";
@@ -116,7 +117,7 @@ export class fitTextCustomElement {
             case 'font-size-100': 
                 return 0.9;
             case 'font-size-150':
-                return 1.0;
+                return 1.3;
         }
         return 1.0;
     }
