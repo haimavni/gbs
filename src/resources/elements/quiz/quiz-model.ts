@@ -22,6 +22,7 @@ export class Question {
     is_open = false;
     editable = false;
     answers: Answer[] = [];
+    nota = false;
 
     constructor(prompt = "", description = "", qid = 0, editable = true, answers = []) {
         this.prompt = prompt;

@@ -48,6 +48,18 @@
                                 </button>
                             </div>
                         </li>
+                        <li if.bind="!user.editing" style="margin-bottom:5px;" class="answer ${question.nota ? 'checked' : ''}">
+                            <div class="btn-group dropdown border-right"
+                                aubs-dropdown="auto-close.bind: autoClose;">
+                                <button style="float:right;text-decoration:none;padding:0;width:100%;"
+                                    class="dropdown-item btn btn-link btn-md " href="#"
+                                    click.trigger="apply_answer(question, null)">
+                                    <span class="answer ${question.nota ? 'checked' : ''}" style="float:right">
+                                        ${i18n.tr('quiz.none-of-the-above') }
+                                    </span>
+                                </button>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </li>

@@ -13,6 +13,7 @@ export class QuizCustomElement {
     @bindable name;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) questions: Question[] = [];
     @bindable({ defaultBindingMode: bindingMode.twoWay }) checked_answers = [];
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) nota_questions = [];  //for which user selected "none of the above"
     @bindable({ defaultBindingMode: bindingMode.twoWay }) to_clear_now = false;
     @bindable help_data;
     api;
@@ -75,7 +76,18 @@ export class QuizCustomElement {
                 }
             }
         } else if (this.q_state == QState.USING) {
-            answer.checked = !answer.checked;
+            if (answer) {
+                answer.checked = !answer.checked;
+                question.nota = false;
+            } 
+            else {
+                if (question.nota) question.nota = false
+                else {
+                    for (let ans of question.answers)
+                        ans.checked = false;
+                    question.nota = true;
+                }
+            }
         }
         this.calc_checked_answers();
         this.dispatch_event();
@@ -193,7 +205,8 @@ export class QuizCustomElement {
         let changeEvent = new CustomEvent('q-change', {
             detail: {
                 q_state: this.q_state,
-                checked_answers: this.checked_answers
+                checked_answers: this.checked_answers,
+                nota_questions: this.nota_questions
             },
             bubbles: true
         });
@@ -203,6 +216,7 @@ export class QuizCustomElement {
     clear_all_answers() {
         this.checked_answers = [];
         for (let question of this.questions) {
+            question.nota = false;
             for (let answer of question.answers) {
                 answer.checked = false;
             }
@@ -212,7 +226,10 @@ export class QuizCustomElement {
 
     calc_checked_answers() {
         this.checked_answers = [];
+        this.nota_questions = [];
         for (let question of this.questions) {
+            if (question.nota) 
+                this.nota_questions.push(question.qid);
             for (let answer of question.answers) {
                 if (answer.checked) {
                     this.checked_answers.push(answer.aid)
@@ -242,6 +259,7 @@ export class QuizCustomElement {
     is_dirty() {
         let drt;
         for (let question of this.questions) {
+            if (question.nota) return true;
             for (let ans of question.answers) {
                 if (ans.checked) return true;
             }
@@ -257,7 +275,7 @@ export class QuizCustomElement {
         return "";
     }
 
-    clear_all(){
+    clear_all() {
         this.clear_all_answers();
         this.to_clear_now = false;
         this.dirty = false;

@@ -206,7 +206,8 @@
         "prompt": "Prompt",
         "description": "Description",
         "answer-text": "Answer text",
-        "clear-all": "Clear"
+        "clear-all": "Clear",
+        "none-of-the-above": "None of the above"
     },
     "user": {
         "hit-counts": "מונה הכניסות",

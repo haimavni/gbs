@@ -204,7 +204,8 @@
         "prompt": "השאלה",
         "description": "הסבר",
         "answer-text": "הקלידו את התשובה",
-        "clear-all": "נקה"
+        "clear-all": "נקה",
+        "none-of-the-above": "אף אחת מהתשובות"
     },
     "user": {
         "login": "התחבר כעורך ",

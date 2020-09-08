@@ -45,6 +45,7 @@ export class Members {
     scroll_top = 0;
     questions: Question[] = [];
     checked_answers = [];
+    nota_questions = [];
     qualified_members = null;
     to_clear_now = false;
     quiz_help_data;
@@ -356,12 +357,13 @@ export class Members {
 
     questions_changed(event) {
         this.checked_answers = event.detail.checked_answers;  //for some reason it is not synced with the element, unlike questions
+        this.nota_questions = event.detail.nota_questions;
         if (this.q_state == QState.USING) {
-            if (this.checked_answers.length == 0) {
+            if (this.checked_answers.length == 0 && this.nota_questions.length == 0) {
                 this.qualified_members = null;
                 return;
             }
-            this.api.call_server_post('members/qualified_members', { checked_answers: this.checked_answers })
+            this.api.call_server_post('members/qualified_members', { checked_answers: this.checked_answers, nota_questions: this.nota_questions })
                 .then(response => {
                     this.qualified_members = new Set(response.qualified_members);
                 });
