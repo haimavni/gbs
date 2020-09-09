@@ -6,6 +6,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import * as download from 'downloadjs';
 import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
+import {ThemeA} from './theme-a';
 
 let THIS;
 
@@ -41,6 +42,7 @@ export class MemberGateway {
     httpClient;
     eventAggregator;
     i18n;
+    themeA: ThemeA;
     constants = {
         visibility: {
             VIS_NEVER: 0,
@@ -61,10 +63,11 @@ export class MemberGateway {
     pending = 0;
     ptp_connected;
 
-    constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N) {
+    constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N, themeA: ThemeA) {
         this.httpClient = httpClient;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
+        this.themeA = themeA;
         let href = window.location.href;
         let app = href.split('/')[3];
         if (app == '#') {
@@ -111,6 +114,7 @@ export class MemberGateway {
     call_server_post(url: string, data?: any) {
         data = data ? data : {};
         data['ptp_key'] = this.constants.ptp_key;
+        data['webpSupported'] = this.themeA.webpSupported;
         let x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
             .catch(error => toastr.error(error))
@@ -150,7 +154,7 @@ export class MemberGateway {
             fr.readAsBinaryString(file);
             let payload = { user_id: user_id }
             fr.onload = function () {
-                payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result, info: info };
+                payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result, info: info, webp_supported: THIS.themeA.webpSupported };
                 This.upload(payload, what)
                     .then(response => {
                         if (response.upload_result.failed) {
