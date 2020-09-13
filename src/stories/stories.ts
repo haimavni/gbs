@@ -101,7 +101,7 @@ export class Stories {
     anchor = -1; //for multiple selections
     story_items = [];
     editing_filters = false;
-    visibility_width = "90%";
+    visibility_width = "100%";
     update_story_list_debounced;
     delete_or_undelete_now_title;
     start_name_history = [];

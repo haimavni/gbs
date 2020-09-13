@@ -7,7 +7,7 @@
         <div style="display:flex;flex-direction:row-reverse;">
             <div class="slide full-size-photo"
                 css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;">
-                <div id="photo-image">
+                <div id="photo-image" keydown.delegate="keypress($event)">
                     <!-- <div class="fullscreen-navigator prev" if.bind="fullscreen_mode && can_go_backward"> -->
                         <span if.bind="fullscreen_mode && can_go_backward" class="prev" click.delegate="prev_slide($event)">
                             < 

@@ -13,6 +13,8 @@ import { I18N } from 'aurelia-i18n';
 import { copy_to_clipboard } from '../services/dom_utils';
 import { FaceInfo } from './face-info';
 
+let THIS;
+
 @autoinject()
 export class FullSizePhoto {
     dialogController;
@@ -73,6 +75,7 @@ export class FullSizePhoto {
     photo_date_valid = "";
     image_height = 0;
     image_width = 0;
+    keypress_handler;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -103,6 +106,8 @@ export class FullSizePhoto {
         this.flip_text = this.i18n.tr('photos.flip');
         this.mark_people_text = this.i18n.tr('photos.mark-people');
         this.mark_articles_text = this.i18n.tr('photos.mark-articles');
+        THIS = this;
+        this.keypress_handler = function(event) {THIS.navigate(event)};
     }
 
     activate(model) {
@@ -113,10 +118,21 @@ export class FullSizePhoto {
         this.settings = model.settings || {};
         this.list_of_ids = model.list_of_ids;
         this.baseURL = environment.baseURL;
+        document.addEventListener('keyup', this.keypress_handler);
     }
 
     deactivate() {
         this.theme.hide_title = false;
+        document.removeEventListener('keyup', this.keypress_handler);
+    }
+
+    navigate(event) {
+        let key = event.key
+        if (key == 'ArrowRight' || key == ' ') {
+            this.next_slide(event);
+        } else if (key == 'ArrowLeft') {
+            this.prev_slide(event);
+        }
     }
 
     attached() {
