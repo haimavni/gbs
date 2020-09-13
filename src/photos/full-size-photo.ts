@@ -71,6 +71,8 @@ export class FullSizePhoto {
     marking_articles = false;
     hint_position = 'right';
     photo_date_valid = "";
+    image_height = 0;
+    image_width = 0;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -535,7 +537,7 @@ export class FullSizePhoto {
         event.stopPropagation();
         let photo_data = this.slide[this.slide.side];
         let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
-        this.api.call_server('photos/crop_photo', { photo_id: photo_id, crop_left: this.crop_left, crop_top: this.crop_top, crop_width: this.crop_width, crop_height: this.crop_height })
+        this.api.call_server_post('photos/crop_photo', { photo_id: photo_id, crop_left: this.crop_left, crop_top: this.crop_top, crop_width: this.crop_width, crop_height: this.crop_height })
             .then((data) => {
                 photo_data.src = data.photo_src;   //to ensure refresh
                 photo_data.width = this.crop_width;
@@ -802,6 +804,11 @@ export class FullSizePhoto {
         if (this.photo_date_valid != 'valid')
             return "disabled"
         return ''
+    }
+
+    image_loaded() {
+        this.image_height = this.slide[this.slide.side].height;
+        this.image_width = this.slide[this.slide.side].width;
     }
 }
 

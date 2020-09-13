@@ -19,12 +19,14 @@
                         </span>
                     <!-- </div> -->
                     <img if.bind="fullscreen_mode" src="${slide[slide.side].src}" 
+                        load.trigger="image_loaded()"
                         css="width:${fullscreen_width}vw;height:${fullscreen_height}vh;margin-left:${fullscreen_margin}px;margin-top:${fullscreen_top_margin}px;"
-                        height="${slide[slide.side].height}"
-                        width="${slide[slide.side].width}" />
+                        height.bind="image_height"
+                        width.bind="image_width" />
                     <img if.bind="! fullscreen_mode" src="${slide[slide.side].src}" 
-                        height="${slide[slide.side].height}"
-                        width="${slide[slide.side].width}" />
+                        load.trigger="image_loaded()"
+                        height.bind="image_height"
+                        width.bind="image_width" />
                 </div>
                 <button class="navigation-arrow right" click.delegate="next_slide($event)">
                     >

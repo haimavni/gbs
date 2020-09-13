@@ -139,7 +139,7 @@ export class MemberGateway {
     }
 
     getPhotoDetail(photo) {
-        return this.call_server('photos/get_photo_detail', photo);
+        return this.call_server_post('photos/get_photo_detail', photo);
     }
 
     uploadFiles(user_id, fileList, what, info = {}) {

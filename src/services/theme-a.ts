@@ -16,12 +16,15 @@ export class ThemeA {
     }
 
     detectWebSupport() {
-        this.webpSupported = this.cookies.get('WEBP-SUPPORTED');
-        if (this.webpSupported == null) {
+        let webpSupported = this.cookies.get('WEBP-SUPPORTED');
+        if (webpSupported != 'YES' && webpSupported != 'NO') {
             supportsWebp().then(result => {
                 this.webpSupported  = result;
-                this.cookies.put('WEBP-SUPPORTED', result)
+                let s = result ? 'YES' : 'NO';
+                this.cookies.put('WEBP-SUPPORTED', s)
             })
+        } else {
+            this.webpSupported = webpSupported == 'YES';
         }
     }
 

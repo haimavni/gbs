@@ -57,7 +57,7 @@ export class MyDate {
     incr(n) {
         if (this._day) {
             this._day += n
-        } else if (this._month >= 0) {
+        } else if (this._month > 0) {
             this._month += n;
         } else {
             this._year += n;

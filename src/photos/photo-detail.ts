@@ -8,7 +8,8 @@ import { DialogService } from 'aurelia-dialog';
 import { highlight } from '../services/dom_utils';
 import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-
+import { EventAggregator } from 'aurelia-event-aggregator';
+ 
 @autoinject()
 export class PhotoDetail {
     api;
@@ -102,13 +103,16 @@ export class PhotoDetail {
         photographer_name: ""
     }
     photo_date_valid = '';
+    ea: EventAggregator;
+    sub1;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router, ea: EventAggregator) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
         this.dialog = dialog;
         this.router = router;
+        this.ea = ea;
         this.options_settings = new MultiSelectSettings
             ({
                 hide_higher_options: true,
@@ -139,6 +143,18 @@ export class PhotoDetail {
         if (params.pop_full_photo) {
             this.open_full_size_photo()
         }
+    }
+
+    attached() {
+        this.sub1 = this.ea.subscribe('PHOTO_WAS_ROTATED', msg => {
+            if (msg.photo_id == this.photo_id) {
+                this.get_photo_info(this.photo_id);
+            }
+        });
+    }
+
+    detached() {
+        this.sub1.dispose();
     }
 
     set_story(story) {
