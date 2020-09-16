@@ -266,7 +266,7 @@
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",
         "site-title": "Site title",
-        "site-description": "Site description",
+        "site-description": "Site description for search engines",
         "feedback-off": "Hide feedback button",
         "feedback-on": "Display feedback button",
         "quick-upload-off": "Hide quick upload button",

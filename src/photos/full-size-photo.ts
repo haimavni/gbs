@@ -659,7 +659,6 @@ export class FullSizePhoto {
         this.get_faces(pid);
         this.get_articles(pid);
         this.get_photo_info(pid);
-        this.calc_percents();
     }
 
     get_slide_by_idx_list_ids(idx) {
@@ -825,6 +824,7 @@ export class FullSizePhoto {
     image_loaded() {
         this.image_height = this.slide[this.slide.side].height;
         this.image_width = this.slide[this.slide.side].width;
+        this.calc_percents();
     }
 }
 

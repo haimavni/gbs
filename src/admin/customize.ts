@@ -8,6 +8,8 @@ import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import * as toastr from 'toastr';
 
+let THIS_EDITOR;
+
 @autoinject()
 export class Customize {
 
@@ -30,7 +32,7 @@ export class Customize {
     enable_articles_options = ['user.enable-articles-on', 'user.enable-articles-off'];
     enable_books_options = ['user.enable-books-on', 'user.enable-books-off'];
     enable_member_of_the_day_options = ['user.enable-member-of-the-day-on', 'user.enable-member-of-the-day-off'];
-    
+
     //-----------
     auto_reg_option = 'user.by-invitation';
     new_app_option = 'user.new-app-disabled';
@@ -44,6 +46,27 @@ export class Customize {
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
     user;
+    froala_config = {
+        iconsTemplate: 'font_awesome_5',
+        toolbarButtons: ['undo', 'redo'],
+        fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
+        imageDefaultDisplay: 'inline',
+        imageDefaultAlign: 'right',
+        imageUpload: false,
+        imageDefaultWidth: 100,
+        videoDefaultDisplay: 'inline',
+        videoDefaultAlign: 'left',
+        VideoDefaultWidth: 160,
+        charCounterCount: false,
+        linkAlwaysBlank: true,
+        language: 'he', heightMin: 100, heightMax: 100,
+        padding: '10px',
+        imageUploadRemoteUrls: false,
+        key: ""
+    };
+    dirty = false;
+    edited_str_orig = "";
+    app_description_story;
 
     constructor(theme: Theme, router: Router, i18n: I18N, controller: DialogController, api: MemberGateway, user: User) {
         this.theme = theme;
@@ -58,6 +81,7 @@ export class Customize {
             can_set_sign: false,
             can_group: false,
         });
+        THIS_EDITOR = this;
     }
 
     async attached() {
@@ -73,12 +97,16 @@ export class Customize {
         this.audio_option = this.user.config.support_audio ? 'user.audio-enabled' : 'user.audio-disabled';
         this.feedback_option = this.user.config.expose_feedback_button ? 'user.feedback-on' : 'user.feedback-off';
         this.quick_upload_button = this.user.config.quick_upload_button ? 'user.quick-upload-on' : 'user.quick-upload-off';
-        this.expose_developer_option = this.user.config.expose_developer ?  'user.expose-developer-on' : 'user.expose-developer-off';
-        this.enable_articles_option = this.user.config.enable_articles ?  'user.enable-articles-on' : 'user.enable-articles-off';
+        this.expose_developer_option = this.user.config.expose_developer ? 'user.expose-developer-on' : 'user.expose-developer-off';
+        this.enable_articles_option = this.user.config.enable_articles ? 'user.enable-articles-on' : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
         this.enable_books_option = this.user.config.enable_books ? 'user.enable-books-on' : 'user.enable-books-off';
         this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
+        this.api.call_server_post('members/get_app_description')
+            .then(result => { this.app_description_story = result.story;
+                this.edited_str_orig = result.story.story_text;
+             });
     }
 
     create_key_value_list(prefix, data) {
@@ -115,7 +143,22 @@ export class Customize {
     }
 
     save_app_description() {
-        alert(this.app_description + ' - save not ready')
+        if (! this.dirty) {
+            return;
+        }
+        let data = { user_id: this.user.id };
+        data['story_info'] = this.app_description_story;
+        data['pinned'] = true;
+        this.api.call_server_post('members/save_story_info', data)
+            .then(response => {
+                this.edited_str_orig = this.app_description_story.story_text;
+                this.dirty = false;
+            });
+    }
+
+    cancel_changes() {
+        this.app_description_story.story_text = this.edited_str_orig;
+        this.dirty = false;
     }
 
     cancel() {
@@ -227,6 +270,17 @@ export class Customize {
 
     report_success() {
         toastr.success(this.i18n.tr("admin.changes-successfuly saved"))
+    }
+
+    initialized(e, editor) {
+        let el: any = document.getElementsByClassName("fr-element")[0];
+        THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
+    }
+
+    content_changed(e, editor) {
+        let el: any = document.getElementsByClassName("fr-element")[0];
+        let s = el.innerHTML;
+        THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
     }
 
 }

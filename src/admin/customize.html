@@ -1,4 +1,5 @@
 <template>
+    <require from="./admin.css"></require>
     <ux-dialog css="direction:${theme.rtltr}">
         <ux-dialog-header>
             <div>
@@ -25,25 +26,31 @@
                         </form>
                     </div>
                 </div>
-                <div class="row" style="display:flex;font-size:100%;">
-                    <!-- <div class="col-md-3">
-                        ${'user.site-description' & t}
-                    </div> -->
-                    <div class="col-md-12">
-                        <form class="form-inline">
-                            <div class="form-group" style="width:90%;">
-                                <input type="text" class="form-control" style="font-size:100%;width:100%;"
-                                    placeholder="${'user.site-description' & t }" value.bind="app_description"
-                                    change.delegate="save_app_description()">
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-success" click.delegate="save_app_description()">
-                                    <i class="fas fa-save"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                <div style="display:flex;justify-content:space-between;height:34px;margin-top:8px;padding-left:12px;">
+                    <span style="width:300px">
+                        <span style="font-size:24px;">${'user.site-description' & t }</span>
+                    </span>
+                    <span>
+                        <button type="button" type="button" class="btn btn-warning" click.trigger="cancel_changes()"
+                            disabled.bind="dirty ? '' : 'disabled'" t="[title]members.cancel">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="btn btn-success" click.delegate="save_app_description()"
+                            disabled.bind="dirty ? '' : 'disabled'">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </span>
                 </div>
+                <div class="description-panel fr-view">
+                    <!-- <froala-editor value.two-way="app_description" config.bind="froala_config">
+                    </froala-editor> -->
+                    <froala-editor value.two-way="app_description_story.story_text" event-handlers.bind="{
+                        contentChanged:content_changed,
+                        initialized:initialized
+                    }" config.bind="froala_config">
+                    </froala-editor>
+                </div>
+
             </div>
             <div class="col-md-12">
                 <div>
@@ -57,7 +64,7 @@
                 <div class="row">
                     <h3>${'user.config' & t}</h3>
                 </div>
-                <div class="custom-options" style="height:200px;overflow:auto;">
+                <div class="custom-options">
                     <div style="margin-bottom:5px;">
                         <button repeat.for="uf of auto_reg_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${uf==auto_reg_option ? 'primary' : 'default'} customization"
@@ -122,7 +129,8 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
-                        <button repeat.for="mod of enable_member_of_the_day_options" style="margin-left:8px;width:200px;"
+                        <button repeat.for="mod of enable_member_of_the_day_options"
+                            style="margin-left:8px;width:200px;"
                             class="btn btn-${mod==enable_member_of_the_day_option ? 'primary' : 'default'} customization"
                             click.delegate="enable_member_of_the_day_option_selected(mod)">
                             <span style="font-weight:bolder">${mod & t}</span>
@@ -133,7 +141,7 @@
                             ${'admin.promoted-story-expiration' & t}
                         </label>
                         <input type="number" style="margin-left:8px;margin-right:-4px;width:200px;"
-                            value.bind="promoted_story_expiration" change.delegate="set_promoted_story_expiration()"/>
+                            value.bind="promoted_story_expiration" change.delegate="set_promoted_story_expiration()" />
                     </div>
                 </div>
             </div>
