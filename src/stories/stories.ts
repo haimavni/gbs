@@ -143,7 +143,7 @@ export class Stories {
             { name: i18n.tr('stories.new-to-old'), value: 'new-to-old' },
             { name: i18n.tr('stories.old-to-new'), value: 'old-to-new' },
             { name: i18n.tr('stories.by-chats'), value: 'by-chats' },
-            { name: i18n.tr('stories.by-name'), value: 'by-name' }
+            { name: i18n.tr('stories.by-update'), value: 'by-update' }
         ];
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });

@@ -1,11 +1,8 @@
 import { autoinject, computedFrom, singleton } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
-import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
-import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
-import { timingSafeEqual } from "crypto";
 
 @autoinject
 export class MergeHelpMessages {
