@@ -30,7 +30,7 @@ export class EditSideBySideCustomElement {
         htmlUntouched: true,
         language: 'he', heightMin: this.height, heightMax: this.height,
         imageUploadRemoteUrls: false,
-        key: "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17=="
+        key: ""
     }
 
     constructor(theme: Theme, misc: Misc) {
@@ -56,7 +56,7 @@ export class EditSideBySideCustomElement {
             htmlUntouched: true,
             language: 'he', heightMin: this.height, heightMax: this.height,
             imageUploadRemoteUrls: false,
-            key: "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17=="
+            key: ""
         }
         this.froala_config.key = this.theme.froala_key();
         this.froala_config.heightMin = this.height;
