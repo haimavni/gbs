@@ -1,0 +1,15 @@
+<template>
+    <div if.bind="unapproved==false">
+        <h2 style="margin-left:auto;margin-right:auto;width:300px;">
+            ${'stories.already-approved' & t}
+        </h2>
+    </div>
+    <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px"
+        if.bind="unapproved==true"
+        class="container content-area">
+        <edit-side-by-side if.bind="story_id" fixed_str.bind="left_text" edited_str.bind="right_text" height.bind="520"
+            init.bind="init" dirty.bind="dirty" save.delegate="saved()">
+        </edit-side-by-side>
+    </div>
+
+</template>

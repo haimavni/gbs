@@ -68,6 +68,8 @@
         "random-order": "Random Order",
         "by-chats": "View recent responses",
         "by-update": "Most recently updated",
+        "already-approved": "Story already approved",
+        "confirm-story": "Confirm this story",
         "new-to-old": "New to old",
         "old-to-new": "Old to new",
         "by-name": "By name",

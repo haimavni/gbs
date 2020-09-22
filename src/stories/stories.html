@@ -106,9 +106,10 @@
                                         </audio>
                                     </div>
                                     <editable
-                                        settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
+                                        settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, confirmable: params.approval_state.id==2 }"
                                         story.bind="story"
                                         change.delegate="toggle_story_selection(story, $event, $index)"
+                                        confirm.delegate="confirm_story(story, $event)"
                                         info_title.bind="story.name" info_content.bind="story.topics"
                                         class="story-body">
                                     </editable>

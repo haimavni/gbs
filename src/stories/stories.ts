@@ -737,6 +737,10 @@ export class Stories {
         this.api.call_server_post('topics/rename_topic', t);
     }
 
+    confirm_story(story, event) {
+        this.router.navigateToRoute('confirm-story', { id: story.story_id, what: 'story' });
+    }
+
     show_filters_only() {
         this.editing_filters = true;
     }
