@@ -32,7 +32,7 @@ export class ConfirmStory {
             .then(response => {
                 this.unapproved = response.unapproved;
                 if (this.unapproved) {
-                    this.left_text = response.prev_story_info.story_text;
+                    this.left_text = response.prev_story_info ? response.prev_story_info.story_text : this.i18n.tr('stories.initial_version');
                     this.right_text = response.story_info.story_text;
                 }
                 this.init = true;
@@ -46,4 +46,10 @@ export class ConfirmStory {
         this.api.call_server_post('members/save_story_info', data)
     }
 
+    approved() {
+        let data = { user_id: this.user.id };
+        let story = { story_id: this.story_id, story_text: this.right_text }
+        data['story_info'] = story;
+        this.api.call_server_post('members/approve_story_info', data)
+    }
 }

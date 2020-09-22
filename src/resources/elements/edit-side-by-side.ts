@@ -97,6 +97,12 @@ export class EditSideBySideCustomElement {
         this.dispatch_event('save');
     }
 
+    approve_changes(event) {
+        this.dirty = false;
+        event.stopPropagation();
+        this.dispatch_event('approve');
+    }
+
     dispatch_event(what) {
         let event = new CustomEvent(what, {
             bubbles: true
