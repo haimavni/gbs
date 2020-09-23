@@ -91,6 +91,8 @@
         "promote-selected-stories": "Promote selected stories",
         "unknown-source": "Unknown source",
         "updated-by": "Updated by",
+        "authored-by": "Authored by",
+        "at-date": "on",
         "topic-already-exists": "Topic already exists",
         "push-up": "Place at the top",
         "pin-story": "Keep at the top",

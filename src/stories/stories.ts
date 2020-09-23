@@ -738,7 +738,7 @@ export class Stories {
     }
 
     confirm_story(story, event) {
-        this.router.navigateToRoute('confirm-story', { id: story.story_id, what: 'story' });
+        this.router.navigateToRoute('confirm-story', { id: story.story_id, what: 'story', story_list: this.story_list });
     }
 
     show_filters_only() {
