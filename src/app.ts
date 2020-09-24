@@ -69,7 +69,7 @@ export class App {
             { route: 'articles/:caller_id/*', name: 'associate-articles', moduleId: './articles/articles', nav: false, title: 'articles.update-story-articles' },
             { route: 'photos-group/:caller_id/*', name: 'associate-photos', moduleId: './photos/photos', nav: false, title: 'photos.update-story-photos' },
             { route: 'story-detail/:id/*', name: 'story-detail', moduleId: './stories/story-detail' },
-            { route: 'confirm-story/:id/*', name: 'confirm-story', moduleId: './stories/confirm-story' },
+            { route: 'approve-story/:id/*', name: 'approve-story', moduleId: './stories/approve-story' },
             { route: 'term-detail/:id/*', name: 'term-detail', moduleId: './stories/story-detail' },
             { route: 'help-detail/:id/*', name: 'help-detail', moduleId: './stories/story-detail' },
             { route: 'member-details/:id/*', name: 'member-details', moduleId: './members/member-detail' },

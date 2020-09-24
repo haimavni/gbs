@@ -103,6 +103,12 @@ export class EditSideBySideCustomElement {
         this.dispatch_event('approve');
     }
 
+    skip_story(event) {
+        this.dirty = false;
+        event.stopPropagation();
+        this.dispatch_event('skip');
+    }
+
     dispatch_event(what) {
         let event = new CustomEvent(what, {
             bubbles: true

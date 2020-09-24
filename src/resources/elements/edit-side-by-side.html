@@ -20,16 +20,20 @@
                 <button class="btn btn-primary" style="width: 80px;"
                     click.delegate="save_changes($event)" 
                     disabled.bind="dirty ? '' : 'disabled'">
-                    Save
+                    ${'stories.save' & t}
                 </button>
                 <button class="btn btn-warning" style="width: 80px;"
                     click.delegate="cancel_changes($event)" 
                     disabled.bind="dirty ? '' : 'disabled'">
-                    Cancel
+                    ${'stories.cancel' & t}
                 </button>
                 <button class="btn btn-success" style="width: 80px;"
                     click.delegate="approve_changes($event)">
-                    Approve
+                    ${'stories.approve' & t}
+                </button>
+                <button class="btn btn-default" style="width: 80px;"
+                    click.delegate="skip_story($event)">
+                    ${'stories.skip' & t}
                 </button>
             </div>
 

@@ -32,7 +32,7 @@ export class ConfirmStory {
 
     activate(params) {
         this.story_id = params.id;
-        this.story_list = params.story_list;
+        this.story_list = params.story_list || [];
         this.get_story_versions();
     }
 
@@ -73,10 +73,16 @@ export class ConfirmStory {
             })
     }
 
+    skip() {
+        this.next_story();
+    }
+
     next_story() {
-        let idx = this.story_list.findIndex(itm => itm.story_id == this.story_id);
-        if (idx >= 0 && idx < this.story_list.length - 1) {
-            this.story_id = this.story_list[idx + 1].story_id;
+        let idx = this.story_list.findIndex(itm => itm == this.story_id);
+        console.log("idx: ", idx, "story id: ", this.story_id, " this.story_list ", this.story_list);
+        if (idx < 0) idx = 0;
+        if (idx < this.story_list.length - 1) {
+            this.story_id = this.story_list[idx + 1]
             this.story_list.splice(idx, 1);
             this.get_story_versions();
         }

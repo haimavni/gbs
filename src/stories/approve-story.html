@@ -12,7 +12,7 @@
             <span if.bind="!updater">${'stories.authored-by' & t} ${author.name} - ${author.email} ${'stories.at-date' &t} ${last_update_date}</span>
         </div>
         <edit-side-by-side if.bind="story_id" fixed_str.bind="left_text" edited_str.bind="right_text" height.bind="520"
-            init.bind="init" dirty.bind="dirty" save.delegate="saved()" approve.delegate="approved()">
+            init.bind="init" dirty.bind="dirty" save.delegate="saved()" approve.delegate="approved()" skip.delegate="skip()">
         </edit-side-by-side>
     </div>
 

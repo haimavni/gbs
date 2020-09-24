@@ -77,7 +77,7 @@ export class editableCustomElement {
         this.dispatch_event('pushup', 'pushup', {});
     }
 
-    confirm_story() {
+    approve_story() {
         this.dispatch_event('confirm', 'confirm', {});
     }
 
