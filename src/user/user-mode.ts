@@ -69,7 +69,7 @@ export class UserMode {
                     shortcut = url;
                 }
                 copy_to_clipboard(shortcut);
-                this.current_url = shortcut;
+                this.current_url = 'http://' + shortcut;
             });
 
     }
