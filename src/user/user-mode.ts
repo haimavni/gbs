@@ -68,8 +68,8 @@ export class UserMode {
                 if (shortcut.includes('undefined')) {  //strange bug...
                     shortcut = url;
                 }
-                copy_to_clipboard(shortcut);
-                this.current_url = 'http://' + shortcut;
+                copy_to_clipboard('http://' + shortcut);
+                this.current_url = shortcut;
             });
 
     }
