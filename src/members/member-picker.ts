@@ -32,6 +32,8 @@ export class MemberPicker {
     i18n;
     agent = { size: 9999 };
     help_topic;
+    multi = false;
+    selected_member_ids = new Set();
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -63,7 +65,7 @@ export class MemberPicker {
         this.candidates = model.candidates ? model.candidates : [];
         this.child_id = model.child_id;
         this.gender = model.gender;
-        this.child_name = model.child_name;  //the child for whom we select paent
+        this.child_name = model.child_name;  //the child for whom we select parent
         this.face_identifier = model.face_identifier;
         this.face = model.current_face;
         this.slide = model.slide;
@@ -71,6 +73,7 @@ export class MemberPicker {
         this.member_id = model.member_id;
         this.help_topic = model.help_topic;
         await this.prepare_lists();
+        this.multi = model.multi;
         this.filter = '';
         if (model.member_id > 0) {
             this.memberList.get_member_by_id(model.member_id)
@@ -90,7 +93,26 @@ export class MemberPicker {
     }
 
     select(member) {
-        this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
+        if (this.multi) {
+            if (this.selected_member_ids.has(member.id)) {
+                this.selected_member_ids.delete(member.id);
+                member.selected = ''
+            } else {
+                this.selected_member_ids.add(member.id)
+                member.selected = 'selected'
+            }
+        } else {
+            this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
+        }
+    }
+
+    save() {
+        let member_ids = Array.from(this.selected_member_ids);
+        this.selected_member_ids = new Set();
+        for (let member of this.members) {
+            member.selected = '';
+        }
+        this.dialogController.ok({ member_ids: member_ids });
     }
 
     async create_new_member() {

@@ -186,7 +186,8 @@
         "no-gender": "Gender unknown",
         "apply-answers": "Apply",
         "already-identified": " already indetified in this photo",
-        "story-date": "Story date"
+        "story-date": "Story date",
+        "back-to-photos": "Back to photos"
     },
     "articles": {
         "articles": "Articles",
@@ -352,7 +353,7 @@
         "photo-date": "Photo date",
         "photos-date": "Photos date",
         "copy-photo-url": "Copy photo address for sharing",
-        "search-member": "With Member",
+        "search-member": "With Members",
         "any-photo": "All photos",
         "candidates": "Candidates from the photos",
         "article-candidates": "Article candidates from the photos",

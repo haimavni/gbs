@@ -3,8 +3,13 @@
     <div id="member-picker">
         <div class="header">
             <div>
-                <button if.bind="user.editing && filter && agent.size==0" click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)" if.bind="user.editing">
+                <button if.bind="user.editing && filter && agent.size==0 && ! multi" click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)" if.bind="user.editing">
                     ${'members.new' & t} ${filter}
+                </button>
+            </div>
+            <div if.bind="multi && selected_member_ids.size > 0">
+                <button click.delegate="save()" class="btn btn-success cl-create-btn">
+                    ${'members.back-to-photos' & t}
                 </button>
             </div>
             <div if.bind="help_topic">
@@ -28,8 +33,8 @@
         <div class="member-list popup">
             <div style="padding-right:75px;">
                 <ul class="list-group">
-                    <li repeat.for="member of members | filter : filter : 'first_name':'last_name' : 'nick_name' : 'former_last_name' | take : 500 | spy : agent" 
-                        class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''}">
+                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name': 'last_name' : 'nick_name' : 'former_last_name' | take : 500 | spy : agent" 
+                        class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${member.selected}">
 
                         <a click.delegate="select(member)" style="vertical-align: text-bottom;align-content: center;cursor:pointer;" aubs-tooltip="text.bind:member.name">
                             <img src.bind="member.facePhotoURL" />

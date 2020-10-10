@@ -184,7 +184,8 @@
         "members-m": "חברים",
         "no-gender": "טרם הוגדר",
         "apply-answers": "ישם",
-        "already-identified": " כבר מזוהה בתמונה זו"
+        "already-identified": " כבר מזוהה בתמונה זו",
+        "back-to-photos": "בחזרה לתמונות"
     },
     "articles": {
         "articles": "אובייקטים",
@@ -350,7 +351,7 @@
         "photo-date": "תאריך התמונה",
         "photos-date": "תאריך התמונות",
         "copy-photo-url": "העתק את כתובת התמונה למטרת שיתוף",
-        "search-member": "עם חבר...",
+        "search-member": "עם חברים...",
         "any-photo": "כל התמונות",
         "candidates": "מועמדים לצרוף מתוך התמונות",
         "article-candidates": "אובייקטים מועמדים לצרוף מתוך התמונות",

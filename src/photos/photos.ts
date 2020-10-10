@@ -60,7 +60,7 @@ export class Photos {
         photo_ids: [],
         selected_photo_list: [],
         user_id: null,
-        selected_member_id: null,
+        selected_member_ids: null,
         first_year: 1928,
         last_year: 2021,
         base_year: 1925,
@@ -513,7 +513,7 @@ export class Photos {
     select_member(event: Event) {
         this.with_a_member = !this.with_a_member;
         if (!this.with_a_member) {
-            this.params.selected_member_id = null;
+            this.params.selected_member_ids = null;
             this.update_photo_list();
             this.with_a_member_text = this.i18n.tr('photos.search-member');
             return;
@@ -521,11 +521,12 @@ export class Photos {
         this.with_a_member_text = this.i18n.tr('photos.any-photo');
         this.theme.hide_title = true;
         this.dialog.open({
-            viewModel: MemberPicker, model: {}, lock: false,
+            viewModel: MemberPicker, model: {multi: true}, lock: false,
             rejectOnCancel: true
         }).whenClosed(response => {
             this.theme.hide_title = false;
-            this.params.selected_member_id = response.output.member_id;
+            console.log("output member ids: ", response.output.member_ids);
+            this.params.selected_member_ids = Array.from(response.output.member_ids);
             this.update_photo_list()
                 .then(response => {
                     //this.params.selected_member_id = null;
