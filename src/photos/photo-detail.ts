@@ -53,6 +53,7 @@ export class PhotoDetail {
         selected_photographers: [],
         photo_ids: []
     };
+    photo_id_rec = {photo_id: 0};
     photo_ids = [];
     what = '';
     can_go_forward = false;
@@ -167,6 +168,7 @@ export class PhotoDetail {
             .then(response => {
                 this.visibility_changed = true;
                 this.photo_id = photo_id;
+                this.photo_id_rec.photo_id = photo_id;
                 this.photo_src = response.photo_src;
                 this.set_story(response.photo_story)
                 this.photo_name = this.photo_story.name || response.photo_name;
@@ -315,9 +317,9 @@ export class PhotoDetail {
 
     private openDialog(slide, slide_list) {
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, list_of_ids: true }, lock: false })
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, list_of_ids: true, photo_id_rec: this.photo_id_rec }, lock: false })
             .whenClosed(response => {
-                //do something?
+                this.get_photo_info(this.photo_id_rec.photo_id);
                 document.body.classList.remove('black-overlay');
             });
     }
