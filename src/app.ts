@@ -145,6 +145,8 @@ export class App {
 
     invoke_search(from_btn: boolean) {
         //this.theme.change_search_debounce(from_btn);
+        this.keywords = this.keywords.trim();
+        if (this.keywords == "") return;
         if (this.clear_keywords_timeout) clearTimeout(this.clear_keywords_timeout);
         this.clear_keywords_timeout = setTimeout(() => {this.clear_keywords()}, 10000);
         this.api.call_server('members/collect_search_stats', {search_pattern: this.keywords});
