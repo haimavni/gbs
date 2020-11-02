@@ -247,7 +247,14 @@ export class PhotoDetail {
             if (el) break;
             await sleep(20);
         }
-        let width = el.clientWidth;
+        let width;
+        if (el) {
+            width = el.clientWidth;
+        }
+        else {
+            width = 1200;
+            console.log("el was not defined...");
+        }
         el.style.paddingRight = `${width - this.photo_width - 15}px`;
     }
 

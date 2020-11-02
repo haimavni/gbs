@@ -108,7 +108,7 @@ export class FullSizePhoto {
         this.mark_people_text = this.i18n.tr('photos.mark-people');
         this.mark_articles_text = this.i18n.tr('photos.mark-articles');
         THIS = this;
-        this.keypress_handler = function (event) { THIS.navigate(event); console.log("keypress handler"); };
+        this.keypress_handler = function (event) { THIS.navigate(event); };
     }
 
     activate(model) {
@@ -131,7 +131,7 @@ export class FullSizePhoto {
     navigate(event) {
         event.stopPropagation();
         let key = event.key
-        if (key == 'ArrowRight' || key == ' ') {
+        if (key == 'ArrowRight') {
             this.next_slide(event);
         } else if (key == 'ArrowLeft') {
             this.prev_slide(event);
@@ -186,7 +186,6 @@ export class FullSizePhoto {
     }
 
     get_photo_info(photo_id) {
-        console.log("get photo info ", photo_id)
         this.api.call_server('photos/get_photo_info', { photo_id: photo_id })
             .then((data) => {
                 this.photo_info.name = data.name;
@@ -681,7 +680,6 @@ export class FullSizePhoto {
     }
 
     public next_slide(event) {
-        console.log("next slide called");
         event.stopPropagation();
         let idx = this.slide_idx();
         if (idx + 1 < this.slide_list.length) {
@@ -697,7 +695,6 @@ export class FullSizePhoto {
     }
 
     public prev_slide(event) {
-        console.log("prev slide called");
         event.stopPropagation();
         let idx = this.slide_idx();
         if (idx > 0) {
