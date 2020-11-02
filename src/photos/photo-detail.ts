@@ -242,7 +242,7 @@ export class PhotoDetail {
             this.photo_width = this.orig_photo_width / ph;
         }
         let el;
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 150; i++) {
             el = document.getElementById('photo-box');
             if (el) break;
             await sleep(20);
