@@ -1,6 +1,6 @@
 export default {
     debug: true,
-    testing: true,
+    testing: false,
     baseURL: "http://tol.com:8000",
     app: 'tol3',
     version: "",
