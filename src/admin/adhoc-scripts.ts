@@ -42,7 +42,7 @@ export class Terms {
 
     evaluate_script(code) {
         this.working = true;
-        this.api.call_server('plugin_scripts/evaluate_script', { code: this.code })
+        this.api.call_server_post('plugin_scripts/evaluate_script', { code: this.code })
             .then((data) => {
                 this.results = data.results;
                 let node = this.hj.display(this.results);
