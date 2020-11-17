@@ -173,8 +173,9 @@ export class MemberEdit {
         }
     }
 
-    @computedFrom('date_of_birth_valid', 'date_of_death_valid', "member.member_info.gender", "member.member_info.first_name")
+    @computedFrom('date_of_birth_valid', 'date_of_death_valid', "member.member_info.gender", "member.member_info.first_name", "member.member_info.visibility")
     get incomplete() {
+        if (!this.member.member_info.visibility) return '';
         if (this.date_of_birth_valid != 'valid' || this.date_of_death_valid != 'valid' || (this.member.member_info.gender != "F" && this.member.member_info.gender != "M") || ! this.member.member_info.first_name)
             return "disabled"
         return ''
