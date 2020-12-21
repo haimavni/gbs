@@ -370,9 +370,9 @@ export class Stories {
         this.scroll_top = this.scroll_area.scrollTop;
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
-        console.log("this.params: ", this.params);
         let kws = this.params.keywords_str ? [this.params.keywords_str] : [''];
-        let keywords = this.keywords.length > 0 ? this.keywords : story.exact ? kws : this.params.keywords_str.split(' ');
+        let keywords_str = this.params.keywords_str || "";
+        let keywords = this.keywords.length > 0 ? this.keywords : story.exact ? kws : keywords_str.split(' ');
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
                 let story_list = this.story_list.filter(item => item.used_for == this.api.constants.story_type.STORY4EVENT);
