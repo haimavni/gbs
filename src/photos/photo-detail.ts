@@ -63,6 +63,7 @@ export class PhotoDetail {
     longitude = null;
     latitude = null;
     zoom = 12;
+    back;
     tracked_zoom: number = 0;
     longitude_distance = 0;
     map_visible = false;
@@ -191,6 +192,7 @@ export class PhotoDetail {
                 this.latitude = response.latitude || +31.772;
                 this.longitude = response.longitude || 35.217;
                 this.zoom = response.zoom || 12;
+                this.back = response.back;
                 if (this.has_location) {
                     this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
                 } else {
@@ -332,6 +334,14 @@ export class PhotoDetail {
     }
 
     open_full_size_photo() {
+        let back = null;
+        if (this.back) {
+           back = {
+               src: this.back.src,
+               width: this.back.width,
+               height: this.back.height
+           }
+        }
         let slide = {
             side: 'front',
             front: {
@@ -340,6 +350,7 @@ export class PhotoDetail {
                 height: this.orig_photo_height,
                 photo_id: this.true_photo_id
             },
+            back: back,
             name: this.photo_name,
             photo_id: this.true_photo_id
         };
