@@ -460,7 +460,7 @@ export class PhotoDetail {
         if (! this.map_visible) return;
 
         if (this.has_location) {
-            let old_zoom = this.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom 
+            let old_zoom = this.zoom || 8;  //some black magic for buggy behaviour of the component - it changes to extreme zoom
             await sleep(50);
             this.zoom = old_zoom + 1;
             await sleep(50);
@@ -476,7 +476,7 @@ export class PhotoDetail {
             this.visibility_changed = false;
         }
         if (! this.map_visible) return;
-        let x = event.detail.bounds.Za;
+        let x = event.detail.bounds.Wa;
         if (!x) return;
         let longitude_distance = x.j - x.i;
         if (longitude_distance < 0.00000001) return;
