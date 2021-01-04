@@ -56,7 +56,11 @@
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
                         <div show.bind="map_visible">
-                            <google-map 
+                            <!--form submit.delegate="onSubmitAddress()">
+                                <aup-google-places disabled="", value.bind="location_address"></aup-google-places>
+                                <button type="submit">Submit</button>
+                            </form-->
+                            <google-map
 								longitude.two-way="longitude"
 							    latitude.two-way="latitude"
                                 map-click.delegate="create_marker($event)"

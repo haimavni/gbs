@@ -96,6 +96,7 @@ export class PhotoDetail {
         0.000049881135698370827
     ];
     update_photo_location_debounced;
+    location_address;
     undo_list = [];
     curr_info = {
         photo_date_str: "",
@@ -520,6 +521,20 @@ export class PhotoDetail {
         if (! this.user.editing) return;
         this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.tracked_zoom });
     }
+
+    async onSubmitAddress() {
+        const place = await this.geocode(this.location_address);
+        console.log(place);
+    }
+
+  geocode(value) {
+  }/*
+    return new Promise((resolve, reject) => {
+      new google.maps.Geocoder().geocode({ address: value }, (results, status) => {
+        status === google.maps.GeocoderStatus.OK ? resolve(results[0]) : reject();
+      });
+    });
+  }*/
 
     @computedFrom("map_visible")
     get view_hide_map() {
