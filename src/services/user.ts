@@ -138,7 +138,7 @@ export class User {
         return this._advanced == 'on';
     }
 
-    set advanced(adv: boolean) {
+    set advanced_user(adv: boolean) {
         this._advanced = adv ? 'on' : 'off';
         this.cookies.put('ADVANCED-USER', this._advanced);
     }
