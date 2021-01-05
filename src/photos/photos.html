@@ -62,7 +62,7 @@
                                 <button t="[title]photos.delete" class="btn btn-warning btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.ADMIN && selected_photos.size > 0">
-                                <button t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos()"><i class="fa fa-undo fa-xs"></i></button>
+                                <button t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos($event)"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
                             <div class="form-group" if.bind="! editing_filters">
                                 <button class="btn btn-basic btn-sm btn-framed" 
