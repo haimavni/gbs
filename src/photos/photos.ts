@@ -65,7 +65,8 @@ export class Photos {
         last_year: 2021,
         base_year: 1925,
         num_years: 100,
-        max_photos_per_line: 8
+        max_photos_per_line: 8,
+        rotate_clockwise: false
     };
     topic_list = [];
     no_topics_yet = false;
@@ -681,7 +682,8 @@ export class Photos {
             });
     }
 
-    rotate_selected_photos() {
+    rotate_selected_photos(event) {
+        this.params.rotate_clockwise = event.ctrlKey;
         this.api.call_server_post('photos/rotate_selected_photos', this.params)
             .then(() => this.update_photo_list());
     }
