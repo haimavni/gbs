@@ -14,7 +14,6 @@ export class MemberPicker {
     gender = "";
     face_identifier = false;
     face;
-    slide;
     user;
     eventAggregator;
     members = [];
@@ -68,7 +67,6 @@ export class MemberPicker {
         this.child_name = model.child_name;  //the child for whom we select parent
         this.face_identifier = model.face_identifier;
         this.face = model.current_face;
-        this.slide = model.slide;
         this.excluded = model.excluded ? model.excluded : new Set();
         this.member_id = model.member_id;
         this.help_topic = model.help_topic;
@@ -136,7 +134,7 @@ export class MemberPicker {
                 }
             }
             let default_name = this.i18n.tr('members.default-name');
-            this.api.call_server('members/create_new_member', { photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name })
+            this.api.call_server('members/create_new_member', { photo_id: this.face.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name })
                 .then(response => {
                     this.dialogController.ok({
                         member_id: response.member_id, new_member: response.member

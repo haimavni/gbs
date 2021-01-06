@@ -317,7 +317,6 @@ export class FullSizePhoto {
                 member_id: face.member_id,
                 candidates: this.candidates,
                 excluded: this.faces_already_identified,
-                slide: this.slide,
                 current_face: this.current_face,
                 help_topic: "pick-member"
             }, lock: false
