@@ -144,6 +144,10 @@ export class User {
         this.cookies.put('ADVANCED-USER', this._advanced);
     }
 
+    get advanced_user() {
+        return this.advanced;
+    }
+
 }
 
 
