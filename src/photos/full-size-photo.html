@@ -6,8 +6,14 @@
         interact-dragmove.delegate="drag_move_photo($event)">
         <div style="display:flex;flex-direction:row-reverse;">
             <div class="slide full-size-photo"
-                css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;">
+                css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;border:solid 1px blue;">
                 <div id="photo-image" keydown.delegate="keypress($event)">
+                    <div show.bind="cropping"
+                         id="cropper"
+                         css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
+                         interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="do_crop($event)"
+                         interact-dragstart.delegate="start_crop($event)">
+                    </div>
                     <!-- <div class="fullscreen-navigator prev" if.bind="fullscreen_mode && can_go_backward"> -->
                         <span if.bind="fullscreen_mode && can_go_backward" class="prev" click.delegate="prev_slide($event)">
                             < 
@@ -68,11 +74,6 @@
                 </button>
             </div>
             <div style="display:flex;flex-direction:column;width:32px;">
-                <div show.bind="cropping"
-                    css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;margin-left:32px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
-                    interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="do_crop($event)"
-                    interact-dragstart.delegate="start_crop($event)">
-                </div>
                 <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help">
                 </help>
                 <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help">

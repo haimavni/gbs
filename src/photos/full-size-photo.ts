@@ -1,17 +1,16 @@
-import { MemberGateway } from '../services/gateway';
-import { Router } from 'aurelia-router';
-import { DialogController, DialogService } from 'aurelia-dialog';
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
-import { MemberPicker } from "../members/member-picker";
-import { ArticlePicker } from "../articles/article-picker";
+import {MemberGateway} from '../services/gateway';
+import {Router} from 'aurelia-router';
+import {DialogController, DialogService} from 'aurelia-dialog';
+import {autoinject, computedFrom} from 'aurelia-framework';
+import {User} from "../services/user";
+import {Theme} from "../services/theme";
+import {MemberPicker} from "../members/member-picker";
+import {ArticlePicker} from "../articles/article-picker";
 import environment from "../environment";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { getOffset } from "../services/dom_utils";
-import { I18N } from 'aurelia-i18n';
-import { copy_to_clipboard } from '../services/dom_utils';
-import { FaceInfo } from './face-info';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {copy_to_clipboard, getOffset, absolute_coordinates} from "../services/dom_utils";
+import {I18N} from 'aurelia-i18n';
+import {FaceInfo} from './face-info';
 
 let THIS;
 
@@ -34,7 +33,7 @@ export class FullSizePhoto {
     curr_photo_id;
     slide_list = [];
     slide_index = 0;
-    photo_info = { name: "", photo_date_str: "", photo_date_datespan: 0, photographer: "" };
+    photo_info = {name: "", photo_date_str: "", photo_date_datespan: 0, photographer: ""};
     router;
     highlighting = false;
     eventAggregator;
@@ -76,16 +75,16 @@ export class FullSizePhoto {
     image_height = 0;
     image_width = 0;
     keypress_handler;
-    photo_id_rec = { photo_id: 0 };
+    photo_id_rec = {photo_id: 0};
 
     constructor(dialogController: DialogController,
-        dialogService: DialogService,
-        api: MemberGateway,
-        user: User,
-        theme: Theme,
-        router: Router,
-        eventAggregator: EventAggregator,
-        i18n: I18N) {
+                dialogService: DialogService,
+                api: MemberGateway,
+                user: User,
+                theme: Theme,
+                router: Router,
+                eventAggregator: EventAggregator,
+                i18n: I18N) {
         this.dialogController = dialogController;
         this.dialogService = dialogService;
         this.api = api;
@@ -108,7 +107,9 @@ export class FullSizePhoto {
         this.mark_people_text = this.i18n.tr('photos.mark-people');
         this.mark_articles_text = this.i18n.tr('photos.mark-articles');
         THIS = this;
-        this.keypress_handler = function (event) { THIS.navigate(event); };
+        this.keypress_handler = function (event) {
+            THIS.navigate(event);
+        };
     }
 
     activate(model) {
@@ -162,7 +163,7 @@ export class FullSizePhoto {
     get_faces(photo_id) {
         this.faces = [];
         this.faces_already_identified = new Set();
-        this.api.call_server('photos/get_faces', { photo_id: photo_id })
+        this.api.call_server('photos/get_faces', {photo_id: photo_id})
             .then((data) => {
                 this.faces = data.faces;
                 for (let face of this.faces) {
@@ -175,7 +176,7 @@ export class FullSizePhoto {
 
     get_articles(photo_id) {
         this.articles = [];
-        this.api.call_server('photos/get_articles', { photo_id: photo_id })
+        this.api.call_server('photos/get_articles', {photo_id: photo_id})
             .then((data) => {
                 this.articles = data.articles;
                 for (let article of this.articles) {
@@ -186,7 +187,7 @@ export class FullSizePhoto {
     }
 
     get_photo_info(photo_id) {
-        this.api.call_server('photos/get_photo_info', { photo_id: photo_id })
+        this.api.call_server('photos/get_photo_info', {photo_id: photo_id})
             .then((data) => {
                 this.photo_info.name = data.name;
                 this.photo_info.photographer = data.photographer;
@@ -205,12 +206,20 @@ export class FullSizePhoto {
         let pi = event.detail;
         this.photo_info.photo_date_str = pi.date_str;
         this.photo_info.photo_date_datespan = pi.date_span;
-        this.api.call_server_post('photos/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
+        this.api.call_server_post('photos/save_photo_info', {
+            user_id: this.user.id,
+            photo_id: this.slide.photo_id,
+            photo_info: this.photo_info
+        });
         return false;
     }
 
     save_photo_caption(event) {
-        this.api.call_server_post('photos/save_photo_info', { user_id: this.user.id, photo_id: this.slide.photo_id, photo_info: this.photo_info });
+        this.api.call_server_post('photos/save_photo_info', {
+            user_id: this.user.id,
+            photo_id: this.slide.photo_id,
+            photo_info: this.photo_info
+        });
     }
 
     face_location(face) {
@@ -300,10 +309,17 @@ export class FullSizePhoto {
                 }
                 face.article_id = response.output.article_id;
                 let make_profile_photo = response.output.make_profile_photo;
-                this.api.call_server_post('photos/save_article', { face: face, make_profile_photo: make_profile_photo, old_article_id: old_article_id })
+                this.api.call_server_post('photos/save_article', {
+                    face: face,
+                    make_profile_photo: make_profile_photo,
+                    old_article_id: old_article_id
+                })
                     .then(response => {
                         face.name = response.article_name;
-                        this.eventAggregator.publish('ArticleGotProfilePhoto', { article_id: face.article_id, face_photo_url: response.face_photo_url });
+                        this.eventAggregator.publish('ArticleGotProfilePhoto', {
+                            article_id: face.article_id,
+                            face_photo_url: response.face_photo_url
+                        });
                     });
             });
 
@@ -339,13 +355,20 @@ export class FullSizePhoto {
                 }
                 face.member_id = response.output.member_id;
                 let make_profile_photo = response.output.make_profile_photo;
-                this.api.call_server_post('photos/save_face', { face: face, make_profile_photo: make_profile_photo, old_member_id: old_member_id })
+                this.api.call_server_post('photos/save_face', {
+                    face: face,
+                    make_profile_photo: make_profile_photo,
+                    old_member_id: old_member_id
+                })
                     .then(response => {
                         let idx = this.candidates.findIndex(m => m.member_id == face.member_id);
                         this.candidates.splice(idx, 1);
                         this.faces_already_identified.add(face.member_id)
                         face.name = response.member_name;
-                        this.eventAggregator.publish('MemberGotProfilePhoto', { member_id: face.member_id, face_photo_url: response.face_photo_url });
+                        this.eventAggregator.publish('MemberGotProfilePhoto', {
+                            member_id: face.member_id,
+                            face_photo_url: response.face_photo_url
+                        });
                     });
             });
 
@@ -377,14 +400,20 @@ export class FullSizePhoto {
         if (face.article_id) {
             return this.remove_article(face)
         }
-        this.api.call_server_post('photos/detach_photo_from_member', { member_id: face.member_id, photo_id: this.slide.photo_id })
+        this.api.call_server_post('photos/detach_photo_from_member', {
+            member_id: face.member_id,
+            photo_id: this.slide.photo_id
+        })
             .then(() => {
                 this.hide_face(face);
             });
     }
 
     remove_article(article) {
-        this.api.call_server_post('photos/detach_photo_from_article', { article_id: article.article_id, photo_id: this.slide.photo_id })
+        this.api.call_server_post('photos/detach_photo_from_article', {
+            article_id: article.article_id,
+            photo_id: this.slide.photo_id
+        })
             .then(() => {
                 this.hide_article(article);
             });
@@ -392,12 +421,12 @@ export class FullSizePhoto {
 
     private jump_to_member(member_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
+        this.router.navigateToRoute('member-details', {id: member_id, keywords: ""});
     }
 
     private jump_to_article(article_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('article-details', { id: article_id, keywords: "" });
+        this.router.navigateToRoute('article-details', {id: article_id, keywords: ""});
     }
 
     mark_face(event) {
@@ -457,11 +486,11 @@ export class FullSizePhoto {
         face.corner = getOffset(el);
         customEvent.stopPropagation();
         let event = customEvent.detail;
-        let pt = { x: event.pageX - face.corner.left - 32, y: event.pageY - face.corner.top }; //iThe 32 is probably width of the left toolbar
+        let pt = {x: event.pageX - face.corner.left - 32, y: event.pageY - face.corner.top}; //iThe 32 is probably width of the left toolbar
         let dist = this.distance(face, pt);
         face.action = (dist < face.r - 10) ? "moving" : "resizing";
         face.dist = dist;
-        this.current_face = { x: face.x, y: face.y, r: face.r, dist: face.dist };
+        this.current_face = {x: face.x, y: face.y, r: face.r, dist: face.dist};
     }
 
     public dragmove(face, customEvent: CustomEvent) {
@@ -477,7 +506,7 @@ export class FullSizePhoto {
             current_face.x += event.dx;
             current_face.y += event.dy;
         } else {
-            let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
+            let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
             let dist = this.distance(current_face, pt);
             current_face.r += dist - current_face.dist;
             current_face.dist = dist;
@@ -516,7 +545,7 @@ export class FullSizePhoto {
             face.x += event.dx;
             face.y += event.dy;
         } else {
-            let pt = { x: event.pageX - face.corner.left, y: event.pageY - face.corner.top };
+            let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
             let dist = this.distance(face, pt);
             face.r += dist - face.dist;
             if (face.r < 18) {
@@ -555,7 +584,13 @@ export class FullSizePhoto {
         event.stopPropagation();
         let photo_data = this.slide[this.slide.side];
         let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
-        this.api.call_server_post('photos/crop_photo', { photo_id: photo_id, crop_left: this.crop_left, crop_top: this.crop_top, crop_width: this.crop_width, crop_height: this.crop_height })
+        this.api.call_server_post('photos/crop_photo', {
+            photo_id: photo_id,
+            crop_left: this.crop_left,
+            crop_top: this.crop_top,
+            crop_width: this.crop_width,
+            crop_height: this.crop_height
+        })
             .then((data) => {
                 photo_data.src = data.photo_src;   //to ensure refresh
                 photo_data.width = this.crop_width;
@@ -602,30 +637,18 @@ export class FullSizePhoto {
     }
 
     public start_crop(customEvent: CustomEvent) {
-        let el = document.getElementById('full-size-photo');
-        let corner = getOffset(el);
         customEvent.stopPropagation();
         let event = customEvent.detail;
-        let x = event.pageX - corner.left;
-        let y = event.pageY - corner.top;
-        let height = this.slide[this.slide.side].height;
-        let width = this.slide[this.slide.side].width;
-        if (x * 2 < width) {
-            if (y * 2 < height) {
-                this.crop_sides = 'nw'
-            } else {
-                this.crop_sides = 'sw'
-            }
-        } else if (y * 2 < height) {
-            this.crop_sides = 'ne'
-        } else {
-            this.crop_sides = 'se'
-        }
+        let el: HTMLElement = document.getElementById('cropper');
+        let rect = el.getBoundingClientRect();
+        let we = event.pageX - rect.left < rect.width / 2 ? 'w' : 'e';
+        let ns = event.pageY - rect.top < rect.height / 2 ? 'n' : 's';
+        this.crop_sides = ns + we;
     }
 
     rotate_photo(event) {
         event.stopPropagation();
-        this.api.call_server('photos/rotate_selected_photos', { selected_photo_list: [this.slide.photo_id] })
+        this.api.call_server('photos/rotate_selected_photos', {selected_photo_list: [this.slide.photo_id]})
             .then(result => {
                 this.model.final_rotation += 90;
                 let el = document.getElementById('photo-image');
@@ -667,7 +690,7 @@ export class FullSizePhoto {
         let pid = this.slide_list[idx];
         this.photo_id_rec.photo_id = pid;
         this.curr_photo_id = pid;
-        this.api.call_server('photos/get_photo_detail', { photo_id: pid })
+        this.api.call_server('photos/get_photo_detail', {photo_id: pid})
             .then(response => {
                 let p = this.slide[this.slide.side];
                 p.src = response.photo_src;
@@ -742,12 +765,12 @@ export class FullSizePhoto {
                     this.marking_face_active = false;
                     if (face.article_id) {
                         if (face.article_id > 0)
-                            this.api.call_server_post('photos/save_article', { face: face });
+                            this.api.call_server_post('photos/save_article', {face: face});
                         else
                             this.assign_article(face);
                     } else {
                         if (face.member_id > 0)
-                            this.api.call_server_post('photos/save_face', { face: face });
+                            this.api.call_server_post('photos/save_face', {face: face});
                         else
                             this.assign_member(face);
                     }
