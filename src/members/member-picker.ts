@@ -48,7 +48,8 @@ export class MemberPicker {
 
     prepare_lists() {
         return this.memberList.getMemberList().then(members => {
-            let parents = members.member_list.slice();
+            //let parents = members.member_list.slice();
+            let parents = this.memberList.get_members().slice();
             if (this.gender) {
                 parents = parents.filter(member => member.gender == this.gender);
             }
@@ -100,6 +101,7 @@ export class MemberPicker {
                 member.selected = 'selected'
             }
         } else {
+            this.memberList.add_recent(member);
             this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
         }
     }
