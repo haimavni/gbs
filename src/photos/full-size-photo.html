@@ -6,7 +6,7 @@
         interact-dragmove.delegate="drag_move_photo($event)">
         <div style="display:flex;flex-direction:row-reverse;">
             <div class="slide full-size-photo"
-                css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;border:solid 1px blue;">
+                css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;">
                 <div id="photo-image" keydown.delegate="keypress($event)">
                     <div show.bind="cropping"
                          id="cropper"

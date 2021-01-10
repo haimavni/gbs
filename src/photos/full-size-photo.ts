@@ -8,7 +8,7 @@ import {MemberPicker} from "../members/member-picker";
 import {ArticlePicker} from "../articles/article-picker";
 import environment from "../environment";
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {copy_to_clipboard, getOffset, absolute_coordinates} from "../services/dom_utils";
+import {copy_to_clipboard} from "../services/dom_utils";
 import {I18N} from 'aurelia-i18n';
 import {FaceInfo} from './face-info';
 
@@ -472,25 +472,31 @@ export class FullSizePhoto {
         return false;
     }
 
-    private distance(face, pt) {
-        let dist = Math.sqrt(Math.pow(pt.x - face.x, 2) + Math.pow(pt.y - face.y, 2));
-        return Math.round(dist);
-    }
-
     public dragstart(face, customEvent: CustomEvent) {
         customEvent.stopPropagation();
         if (!this.user.editing) {
             return;
         }
-        let el = document.getElementById('full-size-photo');
-        face.corner = getOffset(el);
-        customEvent.stopPropagation();
+        let el = document.getElementById('face-' + face.member_id);
+        let rect = el.getBoundingClientRect();
+        let face_center = {x: rect.left + rect.width / 2, y: rect.top + rect.width / 2};
         let event = customEvent.detail;
-        let pt = {x: event.pageX - face.corner.left - 32, y: event.pageY - face.corner.top}; //iThe 32 is probably width of the left toolbar
-        let dist = this.distance(face, pt);
-        face.action = (dist < face.r - 10) ? "moving" : "resizing";
-        face.dist = dist;
-        this.current_face = {x: face.x, y: face.y, r: face.r, dist: face.dist};
+        let x = event.pageX - face_center.x;
+        let y = event.pageY - face_center.y;
+        let r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+        r = this.distance(event, face)
+        face.action = (r < face.r - 10) ? "moving" : "resizing";
+        face.dist = r;
+        this.current_face = {x: face.x, y: face.y, r: face.r, dist: face.dist, photo_id: face.photo_id};
+    }
+
+    distance(event, face) {
+        let el = document.getElementById('face-' + face.member_id);
+        let rect = el.getBoundingClientRect();
+        let face_center = {x: rect.left + rect.width / 2, y: rect.top + rect.width / 2};
+        let x = event.pageX - face_center.x;
+        let y = event.pageY - face_center.y;
+        return Math.round(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)))
     }
 
     public dragmove(face, customEvent: CustomEvent) {
@@ -506,8 +512,7 @@ export class FullSizePhoto {
             current_face.x += event.dx;
             current_face.y += event.dy;
         } else {
-            let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
-            let dist = this.distance(current_face, pt);
+            let dist = this.distance(event, face);
             current_face.r += dist - current_face.dist;
             current_face.dist = dist;
         }
@@ -525,16 +530,6 @@ export class FullSizePhoto {
         }
     }
 
-    public drag_move_photo(customEvent: CustomEvent) {
-        if (!this.theme.is_desktop) {
-            let event = customEvent.detail;
-            let el = document.getElementById("full-size-photo");
-            let mls = el.style.marginLeft.replace('px', '');
-            let ml = Math.min(0, parseInt(mls) + event.dx);
-            el.style.marginLeft = `${ml}px`;
-        }
-    }
-
     public dragend(face, customEvent: CustomEvent) {
         if (!this.user.editing) {
             return;
@@ -545,8 +540,9 @@ export class FullSizePhoto {
             face.x += event.dx;
             face.y += event.dy;
         } else {
-            let pt = {x: event.pageX - face.corner.left, y: event.pageY - face.corner.top};
-            let dist = this.distance(face, pt);
+            let id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
+            let el = document.getElementById(id);
+            let dist = this.distance(event, face)
             face.r += dist - face.dist;
             if (face.r < 18) {
                 this.remove_face(face);
@@ -557,6 +553,16 @@ export class FullSizePhoto {
         else
             this.faces = this.faces.splice(0);
         face.action = null;
+    }
+
+    public drag_move_photo(customEvent: CustomEvent) {
+        if (!this.theme.is_desktop) {
+            let event = customEvent.detail;
+            let el = document.getElementById("full-size-photo");
+            let mls = el.style.marginLeft.replace('px', '');
+            let ml = Math.min(0, parseInt(mls) + event.dx);
+            el.style.marginLeft = `${ml}px`;
+        }
     }
 
     public toggle_highlighting(event) {
