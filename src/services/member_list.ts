@@ -46,7 +46,9 @@ export class MemberList {
         if (idx > 0) {
             this.recent.splice(idx, 1);
         }
-        this.recent.splice(0, 0, member);
+        if (idx != 0) {
+            this.recent.splice(0, 0, member);
+        }
         if (this.recent.length > 20) {
             this.recent.splice(20, 1);
         }
