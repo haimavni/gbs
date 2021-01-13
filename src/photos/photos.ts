@@ -105,6 +105,7 @@ export class Photos {
     curr_photo_id = 0;
     update_photo_list_debounced;
     photos_date_valid = "";
+    editing = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -202,6 +203,8 @@ export class Photos {
 
     @computedFrom('user.editing')
     get user_editing() {
+        if (this.user.editing == this.editing) return;
+        this.editing = this.user.editing;
         this.update_topic_list();
         if (this.user.editing && this.user.privileges.RESTRICTED) {
             this.update_photo_list();

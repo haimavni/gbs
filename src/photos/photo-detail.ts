@@ -392,7 +392,8 @@ export class PhotoDetail {
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', { usage: 'P' })
+        let usage = this.user.editing ? {} : { usage: 'P' };
+        this.api.call_server_post('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
@@ -402,6 +403,11 @@ export class PhotoDetail {
             });
     }
 
+    @computedFrom('user.editing')
+    get user_editing() {
+        this.update_topic_list();
+        return this.user.editing;
+    }
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
         this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
