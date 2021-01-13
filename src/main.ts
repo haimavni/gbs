@@ -117,7 +117,7 @@ export function configure(aurelia: Aurelia) {
         aurelia.use
             .plugin('aurelia-google-maps', config => {
                 config.options({
-                    apiKey: google_maps_key, // use `false` to disable the key
+                    apiKey: tolife_google_api_key, // use `false` to disable the key
                     apiLibraries: 'drawing,geometry,places', //get optional libraries like drawing, geometry, ... - comma seperated list
                     options: {panControl: true, panControlOptions: {position: 9}}, //add google.maps.MapOptions on construct (https://developers.google.com/maps/documentation/javascript/3.exp/reference#MapOptions)
                     language: 'he' || 'en', // default: uses browser configuration (recommended). Set this parameter to set another language (https://developers.google.com/maps/documentation/javascript/localization)
@@ -130,18 +130,19 @@ export function configure(aurelia: Aurelia) {
                     }
                 });
             });
-        /*aurelia.use
+        aurelia.use
             .plugin('aurelia-google-places', config => {
                 config.options({
                     apiScriptLoadedEvent: 'aurelia-plugins:google-maps:api-script-loaded', // if loadApiScript is false, the event that is subscribed to, to know when the Google Maps API is loaded by another plugin
-                    apiKey: google_maps_key, // your Google API key retrieved from the Google Developer Console
-                    language: 'he' || 'en', // see https://developers.google.com/maps/documentation/javascript/localization
+                    key: tolife_google_api_key, // your Google API key retrieved from the Google Developer Console
+                    //key: google_maps_key,
+                    language: 'en' || 'he', // see https://developers.google.com/maps/documentation/javascript/localization
                     apiLibraries: 'places', // see https://developers.google.com/maps/documentation/javascript/libraries
                     loadApiScript: true, // whether or not the <script> tag of the Google Maps API should be loaded
                     options: {types: ['geocode']}, // see https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete
-                    region: 'IL || US' // see https://developers.google.com/maps/documentation/javascript/localization#Region
+                    region: 'IL' || 'US' // see https://developers.google.com/maps/documentation/javascript/localization#Region
                 });
-            });*/
+            });
         if (environment.debug) {
             aurelia.use.developmentLogging();
         }

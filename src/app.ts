@@ -74,7 +74,7 @@ export class App {
             { route: 'help-detail/:id/*', name: 'help-detail', moduleId: './stories/story-detail' },
             { route: 'member-details/:id/*', name: 'member-details', moduleId: './members/member-detail' },
             { route: 'article-details/:id/*', name: 'article-details', moduleId: './articles/article-detail' },
-            { route: 'memmbers/new', name: 'member-creation', moduleId: './members/member-edit', title: 'members.newMember' },
+            { route: 'members/new', name: 'member-creation', moduleId: './members/member-edit', title: 'members.newMember' },
             { route: 'members/:id/edit', name: 'member-edit', moduleId: './members/member-edit', title: 'members.editMember' },
             { route: 'photos/:id/*', name: 'photo-detail', moduleId: './photos/photo-detail' },
             { route: 'access-manager', name: 'access-manager', moduleId: './admin/access-manager' },
@@ -90,6 +90,7 @@ export class App {
             { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment' },
             { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep' },
             { route: 'gbrenner/*', name: 'gbrenner', moduleId: './gbrenner/gbrenner'},
+            { route: 'map', name: 'map', moduleId: './maps/map'},
             { route: 'gallery', name: 'gallery', moduleId: './gallery/gallery'}
         ]);
         this.router = router;

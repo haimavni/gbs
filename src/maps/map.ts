@@ -10,8 +10,8 @@ export class Map {
     user;
     i18n: User;
     has_location = false;
-    longitude = null;
-    latitude = null;
+    longitude = 35.22;
+    latitude = 31.77;
     zoom = 12;
     back;
     tracked_zoom: number = 0;
@@ -66,6 +66,10 @@ export class Map {
     constructor(user: User, api: MemberGateway) {
             this.user = user;
             this.api = api;
+    }
+
+    keydown(event) {
+        console.log("event: ", event);
     }
 
     calc_tracked_zoom(longitude_distance) {
