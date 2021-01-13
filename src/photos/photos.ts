@@ -67,7 +67,6 @@ export class Photos {
         num_years: 100,
         max_photos_per_line: 8,
         rotate_clockwise: false,
-        count_limit: 10 //temporary!!!!
     };
     topic_list = [];
     no_topics_yet = false;
@@ -100,9 +99,7 @@ export class Photos {
     empty = false;
     highlight_unselectors = "";
     upload_order_stops = [];
-    upload_date_stops_index = -1;
     chronological_date_stops = [];
-    chronological_date_stops_index = -1;
     scroll_area;
     scroll_top = 0;
     curr_photo_id = 0;
@@ -263,9 +260,6 @@ export class Photos {
                 this.total_photos = result.total_photos;
                 this.params.last_photo_id = result.last_photo_id;
                 this.params.last_photo_date = result.last_photo_date;
-                if (this.chronological_date_stops_index == this.chronological_date_stops.length) {
-                    this.chronological_date_stops.push(result.last_photo_date)
-                }
                 this.empty = this.photo_list.length == 0;
                 this.highlight_unselectors = this.empty ? "warning" : "";
                 for (let photo of this.photo_list) {
@@ -416,12 +410,12 @@ export class Photos {
     }
 
     prev_chronological_date(event) {
-        if (this.chronological_date_stops_index < 0) return; //don't trust disabling...
-        this.chronological_date_stops_index -= 1;
-        if (this.chronological_date_stops_index < 0)
-            this.params.last_photo_date = null;
-        else
-            this.params.last_photo_date = this.chronological_date_stops[this.chronological_date_stops_index];
+        this.chronological_date_stops.pop();
+        if (this.chronological_date_stops.length == 0)
+            [this.params.last_photo_date, this.params.last_photo_id] = [null, null]
+        else {
+            [this.params.last_photo_date, this.params.last_photo_id] = this.chronological_date_stops[this.chronological_date_stops.length-1]
+        }
     }
 
     prev(event) {
@@ -433,12 +427,12 @@ export class Photos {
         this.update_photo_list();
     }
 
-    @computedFrom('upload_order_stops.length', 'chronological_date_stops_index')
+    @computedFrom('upload_order_stops.length', 'chronological_date_stops.length')
     get prev_disabled() {
         if (this.params.selected_order_option == UTO)
             return this.upload_order_stops.length < 1;
         else if (this.params.selected_order_option.startsWith(CDO))
-            return this.chronological_date_stops_index < 0;
+            return this.chronological_date_stops.length < 1;
     }
 
     prev_upload_time(event) {
@@ -465,10 +459,7 @@ export class Photos {
     }
 
     next_chronological_date(event) {
-        this.chronological_date_stops_index += 1;
-        if (this.chronological_date_stops_index < this.chronological_date_stops.length) {
-            this.params.last_photo_date = this.chronological_date_stops[this.chronological_date_stops_index];
-        }
+        this.chronological_date_stops.push([this.params.last_photo_date, this.params.last_photo_id]);
     }
 
     next(event) {
