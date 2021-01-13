@@ -99,7 +99,7 @@ export class Photos {
     editing_filters = false;
     empty = false;
     highlight_unselectors = "";
-    upload_order_stops = [null];
+    upload_order_stops = [];
     upload_date_stops_index = -1;
     chronological_date_stops = [];
     chronological_date_stops_index = -1;
@@ -251,6 +251,8 @@ export class Photos {
         if (!this.params.user_id)
             this.params.user_id = this.user.id;
         this.params.editing = this.user.editing;
+        if (this.params.last_photo_id == 'END') this.params.last_photo_id = null;
+        if (this.params.last_photo_date == 'END') this.params.last_photo_date = null;
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.editing_filters = false;
@@ -407,7 +409,7 @@ export class Photos {
 
     handle_order_change(event) {
         this.params.last_photo_id = null;
-        this.upload_order_stops = [null];
+        this.upload_order_stops = [];
         this.params.last_photo_date = null;
         this.chronological_date_stops = [];
         this.update_photo_list();
@@ -434,14 +436,18 @@ export class Photos {
     @computedFrom('upload_order_stops.length', 'chronological_date_stops_index')
     get prev_disabled() {
         if (this.params.selected_order_option == UTO)
-            return this.upload_order_stops.length < 2;
+            return this.upload_order_stops.length < 1;
         else if (this.params.selected_order_option.startsWith(CDO))
             return this.chronological_date_stops_index < 0;
     }
 
     prev_upload_time(event) {
         this.upload_order_stops.pop();
-        this.params.last_photo_id = this.upload_order_stops[this.upload_order_stops.length - 1];
+        if (this.upload_order_stops.length > 0)
+            this.params.last_photo_id = this.upload_order_stops[this.upload_order_stops.length - 1];
+        else {
+            this.params.last_photo_id = null;
+        }
     }
 
     @computedFrom('params.last_photo_id', 'params.last_photo_date')
