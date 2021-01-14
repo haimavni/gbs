@@ -77,7 +77,7 @@
     },
     "options": {
       "minify": "stage & prod & tmp_env",
-      "sourcemaps": "dev & stage",
+      "sourcemaps": "dev3 & stage",
       "rev": "prod & stage & tmp_env"
     },
     "bundles": [
@@ -286,7 +286,9 @@
             "name": "aurelia-google-places",
             "main": "index",
             "path": "../node_modules/aurelia-google-places/dist/amd",
-            "resources": []
+            "resources": [
+                "aurelia-plugins-google-places-autocomplete-element.html"
+            ]
           },
           "regenerator-runtime"
         ]

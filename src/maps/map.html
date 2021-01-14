@@ -2,13 +2,9 @@
     <require from="./map.css">
 
     </require>
-    <!--script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKvOyX3jtoW10M8Mu6fk6mQvY31lv-xQo&callback=initAutocomplete&libraries=places&v=weekly"
-            defer
-    ></script-->
     <div id="mapa" style="margin-left:auto;margin-right:auto;width:600px;height:600px">
         <aup-google-places
-                change.delegate="onSubmitAddress"
+                change.delegate="onSubmitAddress($event)"
                 select-class="highlight"
                 value.bind="location_address"
                 style="width:600px;">
