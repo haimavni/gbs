@@ -130,7 +130,7 @@ export function configure(aurelia: Aurelia) {
                     }
                 });
             });
-        aurelia.use
+        /*aurelia.use
             .plugin('aurelia-google-places', config => {
                 config.options({
                     apiScriptLoadedEvent: 'aurelia-plugins:google-maps:api-script-loaded', // if loadApiScript is false, the event that is subscribed to, to know when the Google Maps API is loaded by another plugin
@@ -142,7 +142,7 @@ export function configure(aurelia: Aurelia) {
                     options: {types: ['geocode']}, // see https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete
                     region: 'IL' || 'US' // see https://developers.google.com/maps/documentation/javascript/localization#Region
                 });
-            });
+            });*/
         if (environment.debug) {
             aurelia.use.developmentLogging();
         }
