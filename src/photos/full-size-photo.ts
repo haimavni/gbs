@@ -55,6 +55,7 @@ export class FullSizePhoto {
     cancel_crop;
     mark_articles_text;
     mark_people_text;
+    nobody_there;
     crop_sides;
     rotate;
     next_slide_txt;
@@ -98,6 +99,7 @@ export class FullSizePhoto {
         this.rotate = this.i18n.tr('photos.rotate-photo');
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
+        this.nobody_there = this.i18n.tr('photos.nobody-there');
         this.next_slide_txt = this.i18n.tr('photos.next-slide')
         this.prev_slide_txt = this.i18n.tr('photos.prev-slide')
         this.jump_to_story_page = this.i18n.tr('photos.jump-to-story-page');
@@ -654,9 +656,12 @@ export class FullSizePhoto {
 
     rotate_photo(event) {
         event.stopPropagation();
-        this.api.call_server('photos/rotate_selected_photos', {selected_photo_list: [this.slide.photo_id]})
+        let rotate_clockwise: boolean = event.ctrlKey;
+        let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
+        this.api.call_server('photos/rotate_selected_photos', {selected_photo_list: [photo_id], rotate_clockwise: rotate_clockwise})
             .then(result => {
-                this.model.final_rotation += 90;
+                let angle = rotate_clockwise ? 270 : 90;
+                this.model.final_rotation += angle;
                 let el = document.getElementById('photo-image');
                 el.style.transform = `rotate(-${this.model.final_rotation}deg)`;
             })
@@ -666,6 +671,11 @@ export class FullSizePhoto {
     toggle_people_articles(event) {
         event.stopPropagation();
         this.marking_articles = !this.marking_articles;
+    }
+
+    nobody(event) {
+        event.stopPropagation();
+        this.api.call_server('photos/mark_as_recogized', {photo_id: this.slide[this.slide.side].photo_id});
     }
 
     slide_idx() {

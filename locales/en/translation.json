@@ -383,6 +383,7 @@
         "crop": "Crop",
         "save-crop": "Save crop",
         "cancel-crop": "Cancel crop",
+        "nobody-there": "Nobody to recognize",
         "next-slide": "Next photo",
         "prev-slide": "Prev photo",
         "recognized": "Recognized photos",

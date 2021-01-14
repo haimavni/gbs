@@ -101,6 +101,8 @@
                     class="side-tool crop" click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-smile"></i></button>
                 <button show.bind="user.config.enable_articles && user.editing && !marking_articles" aubs-tooltip="text.bind:mark_articles_text;position.bind:hint_position;" class="side-tool crop"
                     click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-trees"></i></button>
+                <button show.bind="user.editing" aubs-tooltip="text.bind:nobody_there;position.bind:hint_position;" class="side-tool rotate"
+                        click.delegate="nobody($event)"><i class="fa fa-lg fa-check"></i></button>
             </div>
         </div>
         <div>
