@@ -118,6 +118,7 @@ export function configure(aurelia: Aurelia) {
             .plugin('aurelia-google-maps', config => {
                 config.options({
                     apiKey: tolife_google_api_key, // use `false` to disable the key
+                    clientId: "1234",   //experiment...
                     apiLibraries: 'drawing,geometry,places', //get optional libraries like drawing, geometry, ... - comma seperated list
                     options: {panControl: true, panControlOptions: {position: 9}}, //add google.maps.MapOptions on construct (https://developers.google.com/maps/documentation/javascript/3.exp/reference#MapOptions)
                     language: 'he' || 'en', // default: uses browser configuration (recommended). Set this parameter to set another language (https://developers.google.com/maps/documentation/javascript/localization)

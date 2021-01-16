@@ -177,8 +177,6 @@ export class PhotoDetail {
                 this.photographer_name = response.photographer_name;
                 this.photographer_id = response.photographer_id;
                 this.photo_topics = response.photo_topics;
-                this.init_selected_topics();
-                this.init_photographer();
                 this.true_photo_id = response.photo_id; //this.photo_id may be associated story id
                 if (this.photo_story.story_id == 'new') {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
@@ -200,6 +198,8 @@ export class PhotoDetail {
                     this.markers = [];
                 }
                 this.calc_photo_width();
+                this.init_selected_topics();
+                this.init_photographer();
                 this.curr_info = {
                     photographer_id: this.photographer_id,
                     photographer_name: this.photographer_name,
@@ -207,18 +207,20 @@ export class PhotoDetail {
                     photo_date_str: this.photo_date_str.slice(0),
                     photo_date_datespan: this.photo_date_datespan
                 }
+                this.undo_list = [];
             });
     }
 
     init_selected_topics() {
-        this.params.selected_topics = [];
+        let selected_topics = [];
         let i = 0;
         for (let opt of this.photo_topics) {
             opt.sign = '';
             let itm = { option: opt, first: i == 0, last: i == this.photo_topics.length - 1, group_number: i + 1 }
-            this.params.selected_topics.push(itm);
+            selected_topics.push(itm);
             i += 1;
         }
+        this.params.selected_topics = selected_topics;
     }
 
     init_photographer() {
