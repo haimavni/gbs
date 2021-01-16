@@ -472,6 +472,7 @@ export class Photos {
         else if (this.params.selected_order_option.startsWith(CDO))
             this.next_chronological_date(event)
         this.update_photo_list();
+        this.scroll_top = 0;
     }
 
     time_range_changed(event) {
