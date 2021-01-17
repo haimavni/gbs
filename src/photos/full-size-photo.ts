@@ -132,6 +132,9 @@ export class FullSizePhoto {
     }
 
     navigate(event) {
+        let el = document.getElementById('photo-image');
+        if (el)
+            el.style.transform = null;
         event.stopPropagation();
         let key = event.key
         if (key == 'ArrowRight') {
