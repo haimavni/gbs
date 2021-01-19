@@ -282,14 +282,6 @@
             "path": "../node_modules/aurelia-google-maps/dist/amd",
             "main": "index"
           },
-          {
-            "name": "aurelia-google-places",
-            "main": "index",
-            "path": "../node_modules/aurelia-google-places/dist/amd",
-            "resources": [
-                "aurelia-plugins-google-places-autocomplete-element.html"
-            ]
-          },
           "regenerator-runtime"
         ]
       }
