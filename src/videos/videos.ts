@@ -18,6 +18,7 @@ class Video {
     keywords_label = "";
     name = "";
     src = "";
+    video_type = "";
     id = 0;
     keywords = "";
     video_date_datestr = "";
