@@ -1,8 +1,6 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
-import { User } from '../services/user';
-import { I18N } from 'aurelia-i18n';
-import { debounce } from '../services/debounce';
+import {autoinject} from 'aurelia-framework';
+import {MemberGateway} from '../services/gateway';
+import {User} from '../services/user';
 
 @autoinject()
 export class Map {
@@ -20,13 +18,14 @@ export class Map {
     markers = [];
     google_maps: any;
     map: any;
+    autocomplete;
+    searchBox;
     //update_photo_location_debounced;
 
-    location_address;
-
     update_photo_location_debounced() {
-        console.log("temporary place holder. zoom: ", this.map.zoom);
+        //console.log("temporary place holder. zoom: ", this.map.zoom);
     }
+
     bounds_changed(event) {
         this.zoom = this.map.zoom;
         this.update_photo_location_debounced();
@@ -37,24 +36,39 @@ export class Map {
         this.api = api;
     }
 
-    map_loaded(x, map, event) {
-        console.log("map loaded: ", map, " event: ", event);
+    async map_loaded(x, map, event) {
         if (!this.google_maps) {
             this.google_maps = (<any>window).google.maps;
-            console.log("google maps: ", this.google_maps);
         }
         this.map = map;
+        await sleep(400);
+        this.create_search_box();
+    }
+
+    create_search_box() {
+        // Create the search box and link it to the UI element.
+        const input = document.getElementById("pac-input") as HTMLInputElement;
+        this.searchBox = new this.google_maps.places.SearchBox(input);
+        let LatLngBounds = this.google_maps.LatLngBounds;
+        this.searchBox.addListener("places_changed", () => {
+            const places = this.searchBox.getPlaces();
+            if (!places || places.length == 0 || !places[0].geometry) return;
+            let latlng = places[0].geometry.viewport;
+            let lat: number = (latlng.Wa.j + latlng.Wa.i) / 2;
+            let lng: number = (latlng.Ra.j + latlng.Ra.i) / 2;
+            this.map.setCenter({lng: lng, lat: lat});
+        });
+        this.map.controls[this.google_maps.ControlPosition.TOP_CENTER].push(input);
     }
 
     async create_marker(event: CustomEvent) {
         event.stopPropagation();
         if (!this.user.editing) return;
-        let tracked_zoom = this.tracked_zoom;
         let zoom = this.map.zoom;
         let latLng = event.detail.latLng;
         this.latitude = latLng.lat();
         this.longitude = latLng.lng();
-        this.markers = [{ latitude: this.latitude, longitude: this.longitude }];
+        this.markers = [{latitude: this.latitude, longitude: this.longitude}];
         //for some reason, the above changes zoom to an extremely high value
         await sleep(400);
         this.zoom = zoom;
@@ -64,26 +78,10 @@ export class Map {
 
     /*update_photo_location() {
         if (! this.user.editing) return;
-        this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.tracked_zoom });
+        this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
     }*/
 
-    async onSubmitAddress() {
-        const place = await this.geocode(this.location_address);
-        console.log(place);
-    }
-
-  geocode(value) {
-  }/*
-    return new Promise((resolve, reject) => {
-      new google.maps.Geocoder().geocode({ address: value }, (results, status) => {
-        status === google.maps.GeocoderStatus.OK ? resolve(results[0]) : reject();
-      });
-    });
-  }*/
-
-
 }
-
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
