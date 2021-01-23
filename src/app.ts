@@ -87,7 +87,7 @@ export class App {
             { route: 'merge-help-messages', name: 'merge-help-messages', moduleId: './admin/merge-help-messages'},
             { route: 'show-logs', name: 'show-logs', moduleId: './admin/show-logs' },
             { route: 'customize', name: 'customize', moduleId: './admin/customize' },
-            { route: 'experiments', name: 'experiments', moduleId: './experiments/experiment' },
+            { route: 'experiment', name: 'experiment', moduleId: './experiments/experiment' },
             { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep' },
             { route: 'gbrenner/*', name: 'gbrenner', moduleId: './gbrenner/gbrenner'},
             { route: 'map', name: 'map', moduleId: './maps/map'},

@@ -1,6 +1,7 @@
 import {autoinject} from 'aurelia-framework';
 import {MemberGateway} from '../services/gateway';
 import {User} from '../services/user';
+import { debounce } from '../services/debounce';
 
 @autoinject()
 export class Map {
@@ -20,20 +21,17 @@ export class Map {
     map: any;
     autocomplete;
     searchBox;
-    //update_photo_location_debounced;
-
-    update_photo_location_debounced() {
-        //console.log("temporary place holder. zoom: ", this.map.zoom);
-    }
+    update_location_debounced;
 
     bounds_changed(event) {
         this.zoom = this.map.zoom;
-        this.update_photo_location_debounced();
+        this.update_location_debounced();
     }
 
     constructor(user: User, api: MemberGateway) {
         this.user = user;
         this.api = api;
+        this.update_location_debounced = debounce(this.update_location, 1500, false);
     }
 
     async map_loaded(x, map, event) {
@@ -72,14 +70,15 @@ export class Map {
         //for some reason, the above changes zoom to an extremely high value
         await sleep(400);
         this.zoom = zoom;
-        this.update_photo_location_debounced();
+        this.update_location_debounced();
         return false;
     }
 
-    /*update_photo_location() {
-        if (! this.user.editing) return;
-        this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
-    }*/
+    update_location() {
+        //if (! this.user.editing) return;
+        //this.api.call_server_post('photos/update_photo_location', { photo_id: this.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
+        //dispatch event
+    }
 
 }
 

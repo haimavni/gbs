@@ -1,0 +1,11 @@
+<template>
+    <my-map
+            longitude.bind="longitude"
+            latitude.bind="latitude"
+            zoom.bind="zoom"
+            can_mark.bind="user.editing"
+            location-changed.delegate="location_changed($event)"
+    >
+
+    </my-map>
+</template>

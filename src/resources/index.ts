@@ -32,6 +32,7 @@ export function configure(config) {
     './elements/quick-login',
     './elements/edit-side-by-side',
     './elements/render-story',
-    './elements/fit-text'
+    './elements/fit-text',
+    './elements/my-map/my-map'
   ]);
 }
