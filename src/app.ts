@@ -90,7 +90,6 @@ export class App {
             { route: 'experiment', name: 'experiment', moduleId: './experiments/experiment' },
             { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep' },
             { route: 'gbrenner/*', name: 'gbrenner', moduleId: './gbrenner/gbrenner'},
-            { route: 'map', name: 'map', moduleId: './maps/map'},
             { route: 'gallery', name: 'gallery', moduleId: './gallery/gallery'}
         ]);
         this.router = router;

@@ -1,5 +1,6 @@
 <template>
-    <my-map
+    <button class="btn btn-default" click.delegate="to_show=!to_show">Show/Hide</button>
+    <my-map show.bind="to_show"
             longitude.bind="longitude"
             latitude.bind="latitude"
             zoom.bind="zoom"

@@ -8,6 +8,7 @@ export class Experiment {
     zoom: number = 10;
     can_mark = true;
     user: User;
+    to_show = false;
 
     constructor(user: User) {
         this.user = user;
