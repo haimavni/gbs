@@ -1,0 +1,23 @@
+<template>
+    <require from="./my-map.css">
+
+    </require>
+    <div id="mapa" style="margin-left:auto;margin-right:auto;width:500px;height:500px">
+        <input
+                id="pac-input"
+                class="controls"
+                type="text"
+                placeholder="${'search-location' & t}"
+        />
+        <google-map
+                longitude.two-way="longitude"
+                latitude.two-way="latitude"
+                map-loaded.call="map_loaded(map, $event)"
+                map-click.delegate="create_marker($event)"
+                bounds-change.delegate="bounds_changed($event)"
+                markers.bind="markers"
+                zoom.bind="zoom"
+                auto-update-bounds="true">
+        </google-map>
+    </div>
+</template>
