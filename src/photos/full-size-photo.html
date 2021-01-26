@@ -109,8 +109,10 @@
             <span if.bind="! user.editing" class="full-size-photo-info ${theme.rtltr}"
                 css="width:${Math.max(slide[slide.side].width)}px;display:flex;align-items:center;justify-content:flex-start;">
                 <span class="photo-info-names">
-                    ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' &
-                    t}:&nbsp;${photo_info.photographer}.
+                    <span style=""margin-right: 30px>${photo_info.name}.</span>
+                    <span if.bind="photo_info.photographer_known">
+                        ${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
+                    </span>
                 </span>
                 <date-range label="photos.photo-date" range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
                     change.delegate="save_photo_info($event)" base_date_str.bind="photo_info.photo_date_str"

@@ -33,7 +33,7 @@ export class FullSizePhoto {
     curr_photo_id;
     slide_list = [];
     slide_index = 0;
-    photo_info = {name: "", photo_date_str: "", photo_date_datespan: 0, photographer: ""};
+    photo_info = {name: "", photo_date_str: "", photo_date_datespan: 0, photographer: "", photographer_known: true};
     router;
     highlighting = false;
     eventAggregator;
@@ -196,7 +196,8 @@ export class FullSizePhoto {
             .then((data) => {
                 this.photo_info.name = data.name;
                 this.photo_info.photographer = data.photographer;
-                if (!this.photo_info.photographer) {
+                this.photo_info.photographer_known = Boolean(this.photo_info.photographer);
+                if (!this.photo_info.photographer_known) {
                     this.photo_info.photographer = this.i18n.tr('photos.unknown-photographer');
                 }
                 this.photo_info.photo_date_datespan = data.photo_date_datespan;

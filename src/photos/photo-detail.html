@@ -32,7 +32,7 @@
                         <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
                     </button>
                 </span>
-                <span dir="${theme.rtltr}" if.bind="photographer_name">${'photos.photographer-name' & t}:
+                <span dir="${theme.rtltr}" if.bind="photographer_id">${'photos.photographer-name' & t}:
                     ${photographer_name}</span>
                 <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing"
                     base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true" enable_days_range.bind="true"
