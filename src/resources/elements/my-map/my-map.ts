@@ -10,22 +10,26 @@ export class MyMapCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) zoom = 12;
     @bindable can_mark = true;
     @bindable marked = false;
+    @bindable ignore = false;
     back;
     tracked_zoom: number = 0;
     longitude_distance = 0;
-    map_visible = false;
     markers = [];
     google_maps: any;
     map: any;
     autocomplete;
     searchBox;
+    search_pattern = "";
     update_location_debounced;
 
     bounds_changed(event) {
+        if (this.ignore) {
+            return;
+        }
         this.zoom = this.map.zoom;
-        this.update_location_debounced("bounds-changed");
         this.longitude = this.map.center.lng();
         this.latitude = this.map.center.lat();
+        this.update_location_debounced("bounds-changed");
     }
 
     constructor(element) {
@@ -39,7 +43,6 @@ export class MyMapCustomElement {
         }
         this.map = map;
         this.create_search_box();
-        console.log("map loaded. marked? ", this.marked, " longitude: ", this.longitude);
         if (this.marked) {
             await this.place_marker();
         }
@@ -53,6 +56,7 @@ export class MyMapCustomElement {
         this.searchBox.addListener("places_changed", () => {
             const places = this.searchBox.getPlaces();
             if (!places || places.length == 0 || !places[0].geometry) return;
+            this.search_pattern = "";
             let latlng = places[0].geometry.viewport;
             let lat: number = (latlng.Wa.j + latlng.Wa.i) / 2;
             let lng: number = (latlng.Ra.j + latlng.Ra.i) / 2;
@@ -85,9 +89,10 @@ export class MyMapCustomElement {
     async place_marker() {
         let zoom = this.map.zoom;
         this.markers = [{latitude: this.latitude, longitude: this.longitude}];
-        await sleep(10);
+        await sleep(1000);
         this.zoom = zoom;
-        this.update_location('marker-placed');
+        this.map.setZoom(zoom);
+        this.update_location_debounced('marker-placed');
     }
 
     dispatch_event(what) {

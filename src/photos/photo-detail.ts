@@ -61,10 +61,11 @@ export class PhotoDetail {
     //------------------google maps data----------------
     longitude = null;
     latitude = null;
-    zoom = 12;
+    zoom = null;
     marked = false;
     back;
     map_visible = false;
+    ignore = true;
     undo_list = [];
     curr_info = {
         photo_date_str: "",
@@ -153,10 +154,7 @@ export class PhotoDetail {
                 this.orig_photo_width = response.width;
                 this.orig_photo_height = response.height;
                 this.chatroom_id = response.chatroom_id;
-                this.marked =  response.longitude != null;
-                this.latitude = response.latitude || +31.772;
-                this.longitude = response.longitude || 35.217;
-                this.zoom = response.zoom || 8;
+                this.update_location_data(response.latitude, response.longitude, response.zoom);
                 this.back = response.back;
                 this.calc_photo_width();
                 this.init_selected_topics();
@@ -170,6 +168,16 @@ export class PhotoDetail {
                 }
                 this.undo_list = [];
             });
+    }
+
+    async update_location_data(latitude, longitude, zoom) {
+        this.ignore = true;
+        this.marked =  longitude != null;
+        this.latitude = latitude || +31.772;
+        this.longitude = longitude || 35.217;
+        this.zoom = zoom || 8;
+        await sleep(2000);
+        this.ignore = false;
     }
 
     init_selected_topics() {
@@ -404,7 +412,6 @@ export class PhotoDetail {
 
     public go_next(event) {
         event.stopPropagation();
-        this.map_visible = false;
         let idx = this.slide_idx();
         if (idx + 1 < this.photo_ids.length) {
             this.get_slide_by_idx(idx + 1);
@@ -415,7 +422,6 @@ export class PhotoDetail {
 
     public go_prev(event) {
         event.stopPropagation();
-        this.map_visible = false;
         let idx = this.slide_idx();
         if (idx > 0) {
             this.get_slide_by_idx(idx - 1)
@@ -434,7 +440,7 @@ export class PhotoDetail {
     }
 
     location_changed(event) {
-        console.log("location changed ", event.detail);
+        event.stopPropagation();
         if (! this.user.editing) return;
         let detail = event.detail;
         let longitude = null;

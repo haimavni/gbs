@@ -52,7 +52,8 @@
                 </div>
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
-                        <my-map show.bind="map_visible"
+                        <my-map show.bind="map_visible && (user.editing || marked)"
+                                ignore.bind="ignore"
                                 longitude.bind="longitude"
                                 latitude.bind="latitude"
                                 zoom.bind="zoom"
@@ -62,7 +63,7 @@
                         >
                         </my-map>
 
-                        <div style="padding-right:0" if.bind="! map_visible">
+                        <div style="padding-right:0" if.bind="! (map_visible && (user.editing || marked))">
                             <div if.bind="! user.editing" class="row photo-story">
                                 <div class="fr-view" dir="${story_dir}">
                                     <div class="${theme.font_size}"
