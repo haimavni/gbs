@@ -50,7 +50,7 @@ export class Home {
             result => {
                 this.message_list = result.message_list;
             });
-        this.api.call_server_post('photos/get_video_sample')
+        this.api.call_server_post('videos/get_video_sample')
             .then(response => this.set_video_list(response.video_list));
         this.dialog = dialog;
         this.popup = popup;

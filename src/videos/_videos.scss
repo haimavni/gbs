@@ -4,3 +4,10 @@
 #video-help {
     position:absolute;
 }
+
+#video-details {
+    .video-detail-body {
+        display: flex;
+        justify-content: space-between;
+    }
+}

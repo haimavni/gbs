@@ -1,0 +1,40 @@
+<template>
+    <div id="video-details" class="content-area unselectable">
+        <div class="detail-header">
+            <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+                <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
+                             new-chatroom.delegate="create_chatroom()"
+                             chatroom-deleted.delegate="chatroom_deleted($event)">
+                </chat-button>
+                <i class="far fa-lg fa-arrow-up fa-rotate-90 ${next_class}" t="[title]photos.next-slide"
+                   click.trigger="go_next($event)" if.bind="photo_ids.length > 1"></i>
+                <i class="far fa-lg fa-arrow-up" t="[title]go-back" click.trigger="go_back()"
+                   if.bind="theme.is_desktop"></i>
+                <i class="far fa-lg fa-arrow-up fa-rotate-270 ${prev_class}" t="[title]photos.prev-slide"
+                   click.trigger="go_prev($event)" if.bind="photo_ids.length > 1"></i>
+            </div>
+            <h3 dir="rtl" style="float: right;margin:0px;">
+                ${video_story.name}
+            </h3>
+        </div>
+        <div class="video-detail-body">
+
+            <div class="data-area">
+                <f3>Video information</f3>
+            </div>
+            <div class="video-area">
+                <div class="video-display-area">
+                    <video width="640" height="480" controls>
+                      <source src.bind="video_source" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+
+                </div>
+                <div class="cue-points-area">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
