@@ -24,14 +24,44 @@
             </div>
             <div class="video-area">
                 <div class="video-display-area">
-                    <video width="640" height="480" controls>
+                    <video ref="video_element" id="video-element" width="640" height="480" controls>
                       <source src.bind="video_source" type="video/mp4">
                       Your browser does not support the video tag.
                     </video>
 
                 </div>
-                <div class="cue-points-area">
-
+                <button class="btn btn-primary" click.delegate="add_cue_point()" if.bind="user.editing" disabled.bind="!video_element.paused">
+                    ${'videos.add-cue' & t}
+                </button>
+                <div class="cue-points-area table-scroller">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <th css="text-align:${theme.same_dir};" style="width:100px">${'videos.cue-time' & t}</th>
+                            <th style="width:40px"><i class="fa fa-users" style="margin-left:5px;"></i></th>
+                            <th css="text-align:${theme.same_dir};">${'videos.cue-description' & t}</th>
+                            <th if.bind="user.editing" style="width:40px"><i class="fa fa-trash" style="margin-left:5px;"></i></th>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="cue of cue_points">
+                                <td>
+                                    ${cue.time | formatTime}
+                                    <i class="${cue.is_current ? 'fas' : 'far'} fa-circle" click.delegate="jump_to_cue(cue)" style="float:left;cursor:pointer;"></i>
+                                </td>
+                                <td>
+                                    <i style="cursor:pointer" class="fa fa-users"></i>
+                                </td>
+                                <td>
+                                    <span if.bind="!user.editing">
+                                        ${cue.description}
+                                    </span>
+                                    <span if.bind="user.editing">
+                                        <input type="text" value.bind="cue.description" style="height:28px;width:100%;"/>
+                                    </span>
+                                </td>
+                                <td if.bind="user.editing" style="width:40px" click.delegate="remove_cue(cue)"><i style="margin-right:5px;cursor:pointer;" class="fa fa-trash"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </div>

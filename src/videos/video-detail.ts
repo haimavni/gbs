@@ -4,6 +4,7 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from  '../services/theme';
+import { Misc } from '../services/misc';
 import { DialogService } from 'aurelia-dialog';
 import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
@@ -12,14 +13,22 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 class CuePoint {
    time: number;
    description: string;
+   is_current;
+   constructor(time, description) {
+       this.time = time;
+       this.description = description;
+   }
 }
 
 @autoinject()
 export class VideoDetail {
     api;
-    user;
+    user: User;
     theme: Theme;
+    misc: Misc;
+    router: Router;
     i18n;
+    dialog: DialogService;
     members;
     video_id;
     video_name;
@@ -31,6 +40,7 @@ export class VideoDetail {
     no_topics_yet = false;
     no_photographers_yet = false;
     video_source;
+    video_element: HTMLVideoElement;
     cue_points: CuePoint[] = [];
     video_story;
     chatroom_id = null;
@@ -43,16 +53,18 @@ export class VideoDetail {
         selected_photographers: [],
     };
     undo_list = [];
+    ea: EventAggregator;
 
 
-
-    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, dialog: DialogService, router: Router, ea: EventAggregator) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc, dialog: DialogService, router: Router, ea: EventAggregator) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
-        // this.dialog = dialog;
-        // this.router = router;
-        // this.ea = ea;
+        this.misc = misc;
+        this.theme = theme;
+        this.dialog = dialog;
+        this.router = router;
+        this.ea = ea;
         this.options_settings = new MultiSelectSettings
             ({
                 hide_higher_options: true,
@@ -75,6 +87,17 @@ export class VideoDetail {
     async activate(params, config) {
         await this.update_topic_list();
         await this.get_video_info(params.id);
+    }
+
+    attached() {
+        console.log("attached. element: ", this.video_element);
+        this.cue_points = [];
+        //console.log("duration: ", this.video_element.duration);
+        //this.video_element.play();
+        this.video_element = document.getElementById('video-element') as HTMLVideoElement;
+        this.video_element.currentTime = 1000;
+        //element.play();
+        //console.log("element is ", element, element.src);
     }
 
     update_topic_list() {
@@ -140,5 +163,24 @@ export class VideoDetail {
         }
     }
 
+    add_cue_point() {
+        console.log("cue points: ", this.cue_points)
+        let cue = new CuePoint(this.video_element.currentTime, 'blabla');
+        this.cue_points.push(cue);
+        this.cue_points = this.cue_points.sort((cue1, cue2) => cue1.time - cue2.time);
+    }
+
+    jump_to_cue(cue) {
+        for (let cue of this.cue_points) {
+            cue.is_current = false;
+        }
+        cue.is_current = true;
+        this.video_element.currentTime = cue.time;
+    }
+
+    remove_cue(cue) {
+        let idx = this.cue_points.findIndex(c => c.time == cue.time);
+        this.cue_points.splice(idx, 1);
+    }
 
 }

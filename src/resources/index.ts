@@ -10,6 +10,7 @@ export function configure(config) {
     './value-converters/sort',
     './value-converters/keeplen',
     './value-converters/format-date',
+    './value-converters/format-time',
     './elements/multi-select/multi-select',
     './elements/picker/picker',
     './elements/selector',

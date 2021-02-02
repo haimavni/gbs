@@ -428,7 +428,10 @@
         "unknown-photographer": "Unknown",
         "promote-selected-videos": "Promote selected videos",
         "filter": "Fast search in video titles",
-        "edit-filters": "Topics and keywords"
+        "edit-filters": "Topics and keywords",
+        "add-cue": "Create stopping point",
+        "cue-time": "Time",
+        "cue-description": "Description"
     },
     "audios": {
         "audios": "Audios",

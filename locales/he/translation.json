@@ -448,7 +448,10 @@
         "unknown-photographer": "לא ידוע",
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
         "filter": "חפוש מהיר בשמות הסרטונים",
-        "edit-filters": "נושאים וצלמים"
+        "edit-filters": "נושאים וצלמים",
+        "add-cue": "הוסף קטע",
+        "cue-time": "זמן התחלה",
+        "cue-description": "תיאור הקטע"
     },
     "docs": {
         "docs": "מסמכים",
