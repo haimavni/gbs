@@ -30,6 +30,7 @@ export class MemberPicker {
     member_id;
     i18n;
     agent = { size: 9999 };
+    back_to_text;
     help_topic;
     multi = false;
     selected_member_ids = new Set();
@@ -74,6 +75,17 @@ export class MemberPicker {
         await this.prepare_lists();
         this.multi = model.multi;
         this.filter = '';
+        this.back_to_text = model.back_to_text || 'members.back-to-photos';
+        if (model.preselected) {
+            console.log("model.preselected: ", model.preselected);
+            for (let member_id of model.preselected) {
+                this.selected_member_ids.add(member_id)
+                let member = this.members.find(mem => mem.id == member_id);
+                member.selected = 'selected';
+                console.log("member: ", member);
+            }
+            this.members.sort((a, b) => a.selected ? -1 : b.selected ? +1 : 0);
+        }
         if (model.member_id > 0) {
             this.memberList.get_member_by_id(model.member_id)
                 .then(result => {

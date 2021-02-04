@@ -9,11 +9,13 @@ import { DialogService } from 'aurelia-dialog';
 import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import {MemberPicker} from "../members/member-picker";
 
 class CuePoint {
    time: number;
    description: string;
    is_current;
+   member_ids = [];
    constructor(time, description) {
        this.time = time;
        this.description = description;
@@ -54,6 +56,7 @@ export class VideoDetail {
     };
     undo_list = [];
     ea: EventAggregator;
+    selected_member_ids = [];
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc, dialog: DialogService, router: Router, ea: EventAggregator) {
@@ -85,17 +88,17 @@ export class VideoDetail {
     }
 
     async activate(params, config) {
+        this.cue_points = [];
         await this.update_topic_list();
         await this.get_video_info(params.id);
     }
 
     attached() {
         console.log("attached. element: ", this.video_element);
-        this.cue_points = [];
         //console.log("duration: ", this.video_element.duration);
         //this.video_element.play();
         this.video_element = document.getElementById('video-element') as HTMLVideoElement;
-        this.video_element.currentTime = 1000;
+        this.video_element.currentTime = 0;
         //element.play();
         //console.log("element is ", element, element.src);
     }
@@ -165,9 +168,15 @@ export class VideoDetail {
 
     add_cue_point() {
         console.log("cue points: ", this.cue_points)
-        let cue = new CuePoint(this.video_element.currentTime, 'blabla');
+        let time = Math.round(this.video_element.currentTime)
+        let cue = new CuePoint(time, '');
         this.cue_points.push(cue);
         this.cue_points = this.cue_points.sort((cue1, cue2) => cue1.time - cue2.time);
+        this.api.call_server_post('videos/update_video_cue_points', {video_id: this.video_id, cue_points: this.cue_points});
+    }
+
+    cue_description_changed(cue) {
+        this.api.call_server_post('videos/update_video_cue_points', {video_id: this.video_id, cue_points: this.cue_points});
     }
 
     jump_to_cue(cue) {
@@ -181,6 +190,27 @@ export class VideoDetail {
     remove_cue(cue) {
         let idx = this.cue_points.findIndex(c => c.time == cue.time);
         this.cue_points.splice(idx, 1);
+        this.api.call_server_post('videos/update_video_cue_points', {video_id: this.video_id, cue_poins: this.cue_points});
+    }
+
+    select_members(cue) {
+        this.theme.hide_title = true;
+        this.dialog.open({
+            viewModel: MemberPicker, model: {multi: true, back_to_text: 'members.back-to-video', preselected: cue.member_ids}, lock: false,
+            rejectOnCancel: true
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            cue.member_ids = Array.from(response.output.member_ids);
+            this.api.call_server_post('videos/update_cue_members', {video_id: this.video_id, time: cue.time, member_ids: cue.member_ids});
+        });
+
+    }
+
+    @computedFrom('video_element.currentTime')
+    get already_in() {
+        let t = Math.round(this.video_element.currentTime)
+        let cue = this.cue_points.find(c => c.time == t)
+        return Boolean(cue);
     }
 
 }

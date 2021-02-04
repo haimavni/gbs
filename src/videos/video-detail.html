@@ -21,6 +21,15 @@
 
             <div class="data-area">
                 <f3>Video information</f3>
+                <div if.bind="user.editing">
+                    <editable style="background-color:beige;margin-bottom:12px;"
+                              settings.bind="{show_date:false, class:'story-section', checkable: false}"
+                              story.bind="video_story">
+                    </editable>
+                </div>
+                <div if.bind="!user.editing">
+
+                </div>
             </div>
             <div class="video-area">
                 <div class="video-display-area">
@@ -30,7 +39,7 @@
                     </video>
 
                 </div>
-                <button class="btn btn-primary" click.delegate="add_cue_point()" if.bind="user.editing" disabled.bind="!video_element.paused">
+                <button class="btn btn-primary" click.delegate="add_cue_point()" if.bind="user.editing" disabled.bind="(!video_element.paused) || already_in">
                     ${'videos.add-cue' & t}
                 </button>
                 <div class="cue-points-area table-scroller">
@@ -45,17 +54,24 @@
                             <tr repeat.for="cue of cue_points">
                                 <td>
                                     ${cue.time | formatTime}
-                                    <i class="${cue.is_current ? 'fas' : 'far'} fa-circle" click.delegate="jump_to_cue(cue)" style="float:left;cursor:pointer;"></i>
+                                    <i class="${cue.is_current ? 'fas' : 'far'} fa-circle" click.delegate="jump_to_cue(cue)" style="float:left;margin-top:4px;cursor:pointer;"></i>
                                 </td>
                                 <td>
-                                    <i style="cursor:pointer" class="fa fa-users"></i>
+                                    <i style="cursor:pointer"
+                                       class="fa fa-users"
+                                       title="${'videos.members-in' & t}"
+                                       click.delegate="select_members(cue)">
+                                    </i>
                                 </td>
                                 <td>
                                     <span if.bind="!user.editing">
                                         ${cue.description}
                                     </span>
                                     <span if.bind="user.editing">
-                                        <input type="text" value.bind="cue.description" style="height:28px;width:100%;"/>
+                                        <input type="text"
+                                               value.bind="cue.description"
+                                               placeholder="${'videos.describe-cue' & t}"
+                                               change.delegate="cue_description_changed(cue)" style="height:28px;width:100%;"/>
                                     </span>
                                 </td>
                                 <td if.bind="user.editing" style="width:40px" click.delegate="remove_cue(cue)"><i style="margin-right:5px;cursor:pointer;" class="fa fa-trash"></i></td>

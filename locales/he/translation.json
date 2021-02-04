@@ -185,7 +185,8 @@
         "no-gender": "טרם הוגדר",
         "apply-answers": "ישם",
         "already-identified": " כבר מזוהה בתמונה זו",
-        "back-to-photos": "בחזרה לתמונות"
+        "back-to-photos": "בחזרה לתמונות",
+        "back-to-video": "חזרה לקטע הוידאו"
     },
     "articles": {
         "articles": "אובייקטים",
@@ -451,7 +452,10 @@
         "edit-filters": "נושאים וצלמים",
         "add-cue": "הוסף קטע",
         "cue-time": "זמן התחלה",
-        "cue-description": "תיאור הקטע"
+        "cue-description": "תיאור הקטע",
+        "back-to-videos": "בחזרה לקטע הוידאו",
+        "describe-cue": "תאר מה רואים בקטע",
+        "members-in": "מי בקטע?"
     },
     "docs": {
         "docs": "מסמכים",

@@ -18,5 +18,10 @@
         height: 250px;
         overflow: auto;
     }
+    div.data-area {
+        display: flex;
+        flex-direction: column;
+    }
+
 
 }

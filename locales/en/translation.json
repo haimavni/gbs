@@ -187,7 +187,8 @@
         "apply-answers": "Apply",
         "already-identified": " already indetified in this photo",
         "story-date": "Story date",
-        "back-to-photos": "Back to photos"
+        "back-to-photos": "Back to photos",
+        "back-to-video": "Back to video"
     },
     "articles": {
         "articles": "Articles",
@@ -431,7 +432,9 @@
         "edit-filters": "Topics and keywords",
         "add-cue": "Create stopping point",
         "cue-time": "Time",
-        "cue-description": "Description"
+        "cue-description": "Description",
+        "describe-cue": "Describe this segment",
+        "members-in": "Members are in this segment"
     },
     "audios": {
         "audios": "Audios",

@@ -9,7 +9,7 @@
             </div>
             <div if.bind="multi && selected_member_ids.size > 0">
                 <button click.delegate="save()" class="btn btn-success cl-create-btn">
-                    ${'members.back-to-photos' & t}
+                    ${back_to_text & t}
                 </button>
             </div>
             <div if.bind="help_topic">
