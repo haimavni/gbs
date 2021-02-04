@@ -197,9 +197,10 @@ export class VideoDetail {
         this.theme.hide_title = true;
         this.dialog.open({
             viewModel: MemberPicker, model: {multi: true, back_to_text: 'members.back-to-video', preselected: cue.member_ids}, lock: false,
-            rejectOnCancel: true
+            rejectOnCancel: false
         }).whenClosed(response => {
             this.theme.hide_title = false;
+            if (response.wasCancelled) return;
             cue.member_ids = Array.from(response.output.member_ids);
             this.api.call_server_post('videos/update_cue_members', {video_id: this.video_id, time: cue.time, member_ids: cue.member_ids});
         });

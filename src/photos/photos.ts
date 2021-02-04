@@ -524,9 +524,10 @@ export class Photos {
         this.theme.hide_title = true;
         this.dialog.open({
             viewModel: MemberPicker, model: {multi: true}, lock: false,
-            rejectOnCancel: true
+            rejectOnCancel: false
         }).whenClosed(response => {
             this.theme.hide_title = false;
+            if (response.wasCancelled) return;
             console.log("output member ids: ", response.output.member_ids);
             this.params.selected_member_ids = Array.from(response.output.member_ids);
             this.update_photo_list()
