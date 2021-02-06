@@ -76,6 +76,9 @@ export class MemberPicker {
         this.multi = model.multi;
         this.filter = '';
         this.back_to_text = model.back_to_text || 'members.back-to-photos';
+        for (let member of this.members) {
+            member.selected = '';
+        }
         if (model.preselected) {
             console.log("model.preselected: ", model.preselected);
             for (let member_id of model.preselected) {
