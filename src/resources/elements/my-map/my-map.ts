@@ -58,8 +58,10 @@ export class MyMapCustomElement {
             if (!places || places.length == 0 || !places[0].geometry) return;
             this.search_pattern = "";
             let latlng = places[0].geometry.viewport;
-            let lat: number = (latlng.Wa.j + latlng.Wa.i) / 2;
-            let lng: number = (latlng.Ra.j + latlng.Ra.i) / 2;
+            //console.log("latlng: ", latlng);
+            let lat_lng = latlng.getCenter();
+            let lat: number = lat_lng.lat();
+            let lng: number = lat_lng.lng();
             if (this.can_mark) {
                 this.longitude = lng;
                 this.latitude = lat;
