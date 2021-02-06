@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-default" click.delegate="to_show=!to_show">Show/Hide</button>
+    <!--button class="btn btn-default" click.delegate="to_show=!to_show">Show/Hide</button>
     <my-map show.bind="to_show"
             longitude.bind="longitude"
             latitude.bind="latitude"
@@ -8,5 +8,9 @@
             location-changed.delegate="location_changed($event)"
     >
 
-    </my-map>
+    </my-map-->
+    <div style="width: 600px;margin-right:auto;margin-left:auto">
+        <button class="btn btn-primary" click.delegate="make_step()">Step forward</button>
+        <progress-bar final.bind="final" current.bind="current"></progress-bar>
+    </div>
 </template>

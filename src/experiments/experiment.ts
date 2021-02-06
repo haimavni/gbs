@@ -9,6 +9,12 @@ export class Experiment {
     can_mark = true;
     user: User;
     to_show = false;
+    final = 3000;
+    current = 0;
+
+    make_step() {
+        this.current += 100;
+    }
 
     constructor(user: User) {
         this.user = user;
@@ -22,4 +28,5 @@ export class Experiment {
         this.zoom = detail.zoom;
         //this.markers = detail.markers;
     }
+
 }
