@@ -1,22 +1,22 @@
 import { MemberGateway } from '../services/gateway';
-import { autoinject, noView } from "aurelia-framework";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import {ThemeA} from './theme-a';
+import { autoinject} from "aurelia-framework";
 
 let This;
 
 @autoinject()
-@noView()
 class Uploader {
     api: MemberGateway;
-    eventAggregator: EventAggregator;
-    themeA: ThemeA;
+    files: FileList;
+    end_point;
+    total_size = 0;
 
-    constructor(api: MemberGateway, eventAggregator: EventAggregator, themeA: ThemeA) {
+    constructor(api: MemberGateway) {
         this.api = api;
-        this.eventAggregator = eventAggregator;
-        this.themeA = themeA;
         This = this;
+    }
+
+    activate(model) {
+        this.end_point = model.end_point;
     }
 
     uploadFiles(user_id, fileList, end_point, info = {}) {
@@ -31,7 +31,6 @@ class Uploader {
         }
         let total_uploaded = 0;
 
-        this.eventAggregator.publish('FileWasUploaded', { files_left: n, total_size: total_size });
         for (let file of fileList) {
             let fr = new FileReader();
             fr.readAsBinaryString(file);
@@ -48,9 +47,8 @@ class Uploader {
                             uploaded_file_ids.push(response.upload_result.photo_id)
                         }
                         n -= 1;
-                        This.eventAggregator.publish('FileWasUploaded', { files_left: n });
                         if (n == 0) {
-                            This.eventAggregator.publish('FilesUploaded', { failed: failed, duplicates: duplicates, uploaded: uploaded_file_ids });
+                            //This.eventAggregator.publish('FilesUploaded', { failed: failed, duplicates: duplicates, uploaded: uploaded_file_ids });
                             This.call_server_post('default/notify_new_files', { uploaded_file_ids: uploaded_file_ids, what: end_point });
                         }
                     })

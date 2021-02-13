@@ -473,6 +473,7 @@ export class Photos {
             this.next_chronological_date(event)
         this.update_photo_list();
         this.scroll_top = 0;
+        this.scroll_area.scrollTop = 0;
     }
 
     time_range_changed(event) {
