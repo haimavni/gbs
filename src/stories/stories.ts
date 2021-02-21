@@ -308,10 +308,11 @@ export class Stories {
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
-                if(this.book_selected && this.user.editing) {
-                    let story_ids = this.story_list.map(story => story.id)
+                if (this.params.selected_book && this.user.editing) {
+                    let book_stories = this.story_list.filter(story => story.id==this.params.selected_book.id)
+                    let story_ids = book_stories.map(story => story.id)
                     this.checked_stories = new Set(story_ids)
-                    for (let story of this.story_list) {
+                    for (let story of book_stories) {
                         story.checked = true;
                     }
                 }
