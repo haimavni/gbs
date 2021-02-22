@@ -308,14 +308,6 @@ export class Stories {
                 for (let story of this.story_list) {
                     story.title = '<span dir="rtl">' + story.title + '</span>';
                 }
-                if (this.params.selected_book && this.user.editing) {
-                    let book_stories = this.story_list; //filter(story => story.book_id==this.params.selected_book.id)
-                    let story_ids = book_stories.map(story => story.id)
-                    this.checked_stories = new Set(story_ids)
-                    for (let story of book_stories) {
-                        story.checked = true;
-                    }
-                }
                 //this.active_result_types = result.active_result_types;
                 //this.used_for = result.active_result_types[0];
                 console.timeEnd('update-story-list');
@@ -337,10 +329,20 @@ export class Stories {
         }
         this.story_list = this.story_list.concat(payload.chunk);
         this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
-        if (this.ready_for_new_story_list && this.params.order_option.value == 'by-name') {
-            this.set_active_type();
-            let next_name = this.find_next_name();
-            this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
+        if (this.ready_for_new_story_list) {
+            if (this.params.order_option.value == 'by-name') {
+                this.set_active_type();
+                let next_name = this.find_next_name();
+                this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
+            }
+            if (this.params.selected_book && this.user.editing) {
+                let book_stories = this.story_list;
+                let story_ids = book_stories.map(story => story.id)
+                this.checked_stories = new Set(story_ids)
+                for (let story of book_stories) {
+                    story.checked = true;
+                }
+            }
         }
     }
 
