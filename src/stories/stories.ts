@@ -335,14 +335,14 @@ export class Stories {
                 let next_name = this.find_next_name();
                 this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
             }
-            // if (this.params.selected_book && this.user.editing) {
-            //     let book_stories = this.story_list;
-            //     let story_ids = book_stories.map(story => story.id)
-            //     this.checked_stories = new Set(story_ids)
-            //     for (let story of book_stories) {
-            //         story.checked = true;
-            //     }
-            // }
+            if (this.params.selected_book && this.user.editing) {
+                let book_stories = this.story_list;
+                let story_ids = book_stories.map(story => story.story_id);
+                this.checked_stories = new Set(story_ids);
+                for (let story of book_stories) {
+                    story.checked = true;
+                }
+            }
         }
     }
 
