@@ -335,14 +335,14 @@ export class Stories {
                 let next_name = this.find_next_name();
                 this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
             }
-            if (this.params.selected_book && this.user.editing) {
-                let book_stories = this.story_list;
-                let story_ids = book_stories.map(story => story.id)
-                this.checked_stories = new Set(story_ids)
-                for (let story of book_stories) {
-                    story.checked = true;
-                }
-            }
+            // if (this.params.selected_book && this.user.editing) {
+            //     let book_stories = this.story_list;
+            //     let story_ids = book_stories.map(story => story.id)
+            //     this.checked_stories = new Set(story_ids)
+            //     for (let story of book_stories) {
+            //         story.checked = true;
+            //     }
+            // }
         }
     }
 
@@ -423,6 +423,7 @@ export class Stories {
 
     apply_topics_to_selected_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
+        console.log("this.params.checked_story_list ", this.params.checked_story_list);
         this.api.call_server_post('members/apply_topics_to_selected_stories', { params: this.params, used_for: this.used_for })
             .then(response => {
                 this.clear_selected_topics_now = true;
