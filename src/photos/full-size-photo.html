@@ -83,7 +83,6 @@
                     <i class="fa${highlighting ? '' :'r'} fa-lg fa-circle"></i>
                 </button>
                 <button aubs-tooltip="text.bind:copy_photo_url_text;position.bind:hint_position;" class="side-tool copy-to-clipboard"
-                    if.bind="user.editing"
                     click.delegate="copy_photo_url($event)"><i class="fa fa-lg fa-link"></i></button>
                 <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text;position.bind:hint_position;" class="side-tool flip-sides"
                     click.delegate="flip_photo($event)"><i class="fa fa-lg fa-yin-yang"></i></button>

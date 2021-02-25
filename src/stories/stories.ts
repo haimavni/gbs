@@ -291,6 +291,9 @@ export class Stories {
         }
         console.time('update-story-list');
         this.params.editing = this.user.editing;
+        if (this.params.selected_book && this.user.editing) {
+            this.clear_all_filters();
+        }
         let promise = this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
         this.params.start_name = "";
         promise
@@ -441,6 +444,22 @@ export class Stories {
         for (let story of this.story_list) {
             story.checked = false;
         }
+    }
+
+    clear_all_filters() {
+        console.log("clear all filters");
+        let p = this.params;
+        p.base_year = 0;
+        p.selected_topics = [];
+        p.days_since_update = 0;
+        p.first_year = 0;
+        p.last_year = 0;
+        this.filter = '';
+        p.order_option = {value: ''};
+        p.selected_uploader = "";
+        p.selected_words = [];
+        p.to_date = '';
+        p.from_date = '';
     }
 
     handle_words_change(event) {
@@ -799,7 +818,10 @@ export class Stories {
 
     book_selected(customEvent) {
         let event = customEvent.detail;
+        if (this.params.selected_book && this.params.selected_book.id == event.option.id)
+            return;
         this.params.selected_book = event.option;
+        this.uncheck_selected_stories();
         this.update_story_list('other');
         if (this.user.editing) {
             //add all stories to the checked stories and make apply-button visible
@@ -810,6 +832,7 @@ export class Stories {
 
     unselect_book(customEvent) {
         this.params.selected_book = null;
+        this.uncheck_selected_stories();
         this.update_story_list('other');
     }
 
