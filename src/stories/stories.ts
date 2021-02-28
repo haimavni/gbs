@@ -431,6 +431,7 @@ export class Stories {
             .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_selected_stories();
+                this.params.selected_book = null;
                 this.params.selected_story_visibility = 0;
                 if (response.new_topic_was_added) {
                     this.update_topic_list();
@@ -820,8 +821,9 @@ export class Stories {
         let event = customEvent.detail;
         if (this.params.selected_book && this.params.selected_book.id == event.option.id)
             return;
+        if (this.params.selected_book)
+            this.uncheck_selected_stories();
         this.params.selected_book = event.option;
-        this.uncheck_selected_stories();
         this.update_story_list('other');
         if (this.user.editing) {
             //add all stories to the checked stories and make apply-button visible

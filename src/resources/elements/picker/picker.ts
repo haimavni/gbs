@@ -156,5 +156,12 @@ export class Picker {
     get filter_size() {
         return this.agent.size;
     }
+
+    @computedFrom('selected_option')
+    get check_option_selected() {
+        if (!this.selected_option)
+            this.option_was_selected = false;
+        this.filter = '';
+        return false
+    }
 }
- 
