@@ -187,7 +187,8 @@
         "apply-answers": "Apply",
         "already-identified": " already indetified in this photo",
         "story-date": "Story date",
-        "back-to-photos": "Back to photos"
+        "back-to-photos": "Back to photos",
+        "back-to-video": "Back to video"
     },
     "articles": {
         "articles": "Articles",
@@ -383,6 +384,7 @@
         "crop": "Crop",
         "save-crop": "Save crop",
         "cancel-crop": "Cancel crop",
+        "nobody-there": "Nobody to recognize",
         "next-slide": "Next photo",
         "prev-slide": "Prev photo",
         "recognized": "Recognized photos",
@@ -427,7 +429,12 @@
         "unknown-photographer": "Unknown",
         "promote-selected-videos": "Promote selected videos",
         "filter": "Fast search in video titles",
-        "edit-filters": "Topics and keywords"
+        "edit-filters": "Topics and keywords",
+        "add-cue": "Create stopping point",
+        "cue-time": "Time",
+        "cue-description": "Description",
+        "describe-cue": "Describe this segment",
+        "members-in": "Members are in this segment"
     },
     "audios": {
         "audios": "Audios",
@@ -686,6 +693,7 @@
     "by-old-count": "By old count",
     "enter-search-words": "Enter search words",
     "no-results": "No matching results found",
+    "search-location": "Search location",
     "result1": "Members",
     "result2": "Stories",
     "result3": "Photos",

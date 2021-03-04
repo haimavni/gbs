@@ -8,6 +8,12 @@
             <div class="slide full-size-photo"
                 css="height: ${slide[slide.side].height}px; width:${Math.max(slide[slide.side].width + 32,640)}px;position:relative;">
                 <div id="photo-image" keydown.delegate="keypress($event)">
+                    <div show.bind="cropping"
+                         id="cropper"
+                         css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
+                         interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="do_crop($event)"
+                         interact-dragstart.delegate="start_crop($event)">
+                    </div>
                     <!-- <div class="fullscreen-navigator prev" if.bind="fullscreen_mode && can_go_backward"> -->
                         <span if.bind="fullscreen_mode && can_go_backward" class="prev" click.delegate="prev_slide($event)">
                             < 
@@ -68,11 +74,6 @@
                 </button>
             </div>
             <div style="display:flex;flex-direction:column;width:32px;">
-                <div show.bind="cropping"
-                    css="height:${crop_height}px;width:${crop_width}px;position:absolute;top:${crop_top}px;left:${crop_left}px;margin-left:32px;opacity:0.5;background-color:grey;border-width:3px;border-style:dotted;border-color: yellow;"
-                    interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="do_crop($event)"
-                    interact-dragstart.delegate="start_crop($event)">
-                </div>
                 <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help">
                 </help>
                 <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help">
@@ -82,7 +83,6 @@
                     <i class="fa${highlighting ? '' :'r'} fa-lg fa-circle"></i>
                 </button>
                 <button aubs-tooltip="text.bind:copy_photo_url_text;position.bind:hint_position;" class="side-tool copy-to-clipboard"
-                    if.bind="user.editing"
                     click.delegate="copy_photo_url($event)"><i class="fa fa-lg fa-link"></i></button>
                 <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text;position.bind:hint_position;" class="side-tool flip-sides"
                     click.delegate="flip_photo($event)"><i class="fa fa-lg fa-yin-yang"></i></button>
@@ -100,14 +100,18 @@
                     class="side-tool crop" click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-smile"></i></button>
                 <button show.bind="user.config.enable_articles && user.editing && !marking_articles" aubs-tooltip="text.bind:mark_articles_text;position.bind:hint_position;" class="side-tool crop"
                     click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-trees"></i></button>
+                <button show.bind="user.editing" aubs-tooltip="text.bind:nobody_there;position.bind:hint_position;" class="side-tool rotate"
+                        click.delegate="nobody($event)"><i class="fa fa-lg fa-check"></i></button>
             </div>
         </div>
         <div>
             <span if.bind="! user.editing" class="full-size-photo-info ${theme.rtltr}"
                 css="width:${Math.max(slide[slide.side].width)}px;display:flex;align-items:center;justify-content:flex-start;">
                 <span class="photo-info-names">
-                    ${photo_info.name}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${'photos.photographer' &
-                    t}:&nbsp;${photo_info.photographer}.
+                    <span style=""margin-right: 30px>${photo_info.name}.</span>
+                    <span if.bind="photo_info.photographer_known">
+                        ${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
+                    </span>
                 </span>
                 <date-range label="photos.photo-date" range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
                     change.delegate="save_photo_info($event)" base_date_str.bind="photo_info.photo_date_str"

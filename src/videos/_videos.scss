@@ -4,3 +4,24 @@
 #video-help {
     position:absolute;
 }
+
+#video-details {
+    .video-detail-body {
+        display: flex;
+        justify-content: space-between;
+    }
+    div.video-area {
+        display: flex;
+        flex-direction: column;
+    }
+    div.cue-points-area {
+        height: 250px;
+        overflow: auto;
+    }
+    div.data-area {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+}

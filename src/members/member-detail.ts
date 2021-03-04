@@ -391,7 +391,7 @@ export class MemberDetail {
             this.bottom_panel.style.height = null;
         }
         if (ps_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
-        this.story_box_height = bph - 2;
+        this.story_box_height = bph - 3;
         if (this.life_summary_box)
             if (this.user.editing)
                 this.life_summary_box.style.height = '0%'// `${lsb}px`;

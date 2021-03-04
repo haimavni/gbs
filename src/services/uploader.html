@@ -1,0 +1,81 @@
+<template>
+    <div class="row centered-form" style="width:720px;min-height:560px;" dir="ltr">
+        <div class="col-md-10 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title text-center"><strong>${"photos.upload-files" & t}</strong>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <section class="container">
+
+                        <form class="form-horizontal" submit.delegate="save()">
+                            <div class="form-group">
+                                <label
+                                    style="margin-left:191px;width:150px;background-color:lightgray;border:solid 1px darkgray;border-radius:5px;text-align:center;padding:6px;"
+                                    class="control-label" for="photos">
+                                    ${'photos.select-photos' & t}
+                                </label>
+                                <div>
+                                    <input style="display:none" type="file" multiple id="photos" accept="image/*"
+                                        files.bind="photos">
+                                </div>
+                            </div>
+                            <div class="form-group" if.bind="photos && photos.length > 0">
+                                <h4 style="margin-left:191px;width:150px;text-align:center"> ${photos.length}
+                                    ${'photos.photos-were-selected' & t}</h4>
+                                <div style="padding-left:191px">
+                                    <button style="margin-left:auto; margin-right:auto;width:150px;" type="submit"
+                                        class="btn btn-success">${'photos.send' & t}</button>
+                                </div>
+                            </div>
+                            <div style="padding-left:175px;margin-top:16px;" if.bind="! working">
+                                <button style="margin-left:auto; margin-right:auto;width:150px;"
+                                    click.delegate="cancel()" type="submit" class="btn btn-warning">${'photos.cancel' &
+                                    t}</button>
+                            </div>
+                        </form>
+                    </section>
+                    <div if.bind="working">
+                        <h3 style="display:flex;justify-content:center;">${'photos.upload-in-progress' & t}.
+                            ${photos_left} ${'photos.left' & t}</h3>
+                    </div>
+                    <div if.bind="upload_finished" style="margin-left:auto;margin-right:auto;width:350px;">
+                        <h3 if.bind="uploaded.length>0" class="text-center success">${uploaded.length}
+                            ${'photos.photos-uploaded' & t}</h3>
+                        <h3 if.bind="duplicates.length>0" class="text-center">${duplicates.length}
+                            ${'photos.photos-duplicate' & t} </h3>
+                        <h3 if.bind="failed.length>0" class="text-center errors">${failed.length}
+                            ${'photos.photos-failed' & t} </h3>
+                        <ul class="errors">
+                            <li repeat.for="f of failed">
+                                ${f}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        h3.success {
+            background-color: green;
+            color: white;
+        }
+
+        h3.errors {
+            background-color: red;
+            color: white;
+        }
+
+        ul.errors {
+            list-style-type: none;
+            background-color: red;
+            color: white;
+        }
+
+        ul.errors li {
+            float: right;
+        }
+    </style>
+</template>

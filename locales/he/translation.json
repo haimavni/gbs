@@ -185,7 +185,8 @@
         "no-gender": "טרם הוגדר",
         "apply-answers": "ישם",
         "already-identified": " כבר מזוהה בתמונה זו",
-        "back-to-photos": "בחזרה לתמונות"
+        "back-to-photos": "בחזרה לתמונות",
+        "back-to-video": "חזרה לקטע הוידאו"
     },
     "articles": {
         "articles": "אובייקטים",
@@ -381,6 +382,7 @@
         "crop": "חיתוך",
         "save-crop": "שמור את החיתוך",
         "cancel-crop": "בטל את החיתוך",
+        "nobody-there": "אין את מי לזהות",
         "next-slide": "התמונה הבאה",
         "prev-slide": "התמונה הקודמת",
         "recognized": "תמונות שזוהו",
@@ -447,7 +449,13 @@
         "unknown-photographer": "לא ידוע",
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
         "filter": "חפוש מהיר בשמות הסרטונים",
-        "edit-filters": "נושאים וצלמים"
+        "edit-filters": "נושאים וצלמים",
+        "add-cue": "הוסף קטע",
+        "cue-time": "זמן התחלה",
+        "cue-description": "תיאור הקטע",
+        "back-to-videos": "בחזרה לקטע הוידאו",
+        "describe-cue": "תאר מה רואים בקטע",
+        "members-in": "מי בקטע?"
     },
     "docs": {
         "docs": "מסמכים",
@@ -685,6 +693,7 @@
     "by-old-count": "קליקים מצטברים",
     "enter-search-words": "הקלידו מילות חיפוש",
     "no-results": "<p dir='rtl'>לא נמצאו תוצאות מתאימות.<br>יש לשנות או להשמיט חלק מהמסננים</p>",
+    "search-location": "חפש מקום",
     "result1": "חברים",
     "result2": "ספורים",
     "result3": "תמונות",

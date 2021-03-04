@@ -62,7 +62,7 @@
                                 <button t="[title]photos.delete" class="btn btn-warning btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.ADMIN && selected_photos.size > 0">
-                                <button t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos()"><i class="fa fa-undo fa-xs"></i></button>
+                                <button t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos($event)"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
                             <div class="form-group" if.bind="! editing_filters">
                                 <button class="btn btn-basic btn-sm btn-framed" 
@@ -192,7 +192,6 @@
                             ms-change.delegate="handle_photographer_change($event)">
                         </multi-select>
                     </div>
-                    <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->
                     <div class="row" style="margin-top: 10px;">
                         <form role="form">
                             <select value.bind="params.selected_days_since_upload" style="height:32px;width:90%;" change.delegate="handle_change($event)">
@@ -236,5 +235,6 @@
                 <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.delegate="time_range_changed($event)"></timeline>
             </div>
         </div>
+        <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->
     </section>
 </template>

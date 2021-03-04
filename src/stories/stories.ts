@@ -291,6 +291,9 @@ export class Stories {
         }
         console.time('update-story-list');
         this.params.editing = this.user.editing;
+        if (this.params.selected_book && this.user.editing) {
+            this.clear_all_filters();
+        }
         let promise = this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
         this.params.start_name = "";
         promise
@@ -329,10 +332,20 @@ export class Stories {
         }
         this.story_list = this.story_list.concat(payload.chunk);
         this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
-        if (this.ready_for_new_story_list && this.params.order_option.value == 'by-name') {
-            this.set_active_type();
-            let next_name = this.find_next_name();
-            this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
+        if (this.ready_for_new_story_list) {
+            if (this.params.order_option.value == 'by-name') {
+                this.set_active_type();
+                let next_name = this.find_next_name();
+                this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
+            }
+            if (this.params.selected_book && this.user.editing) {
+                let book_stories = this.story_list;
+                let story_ids = book_stories.map(story => story.story_id);
+                this.checked_stories = new Set(story_ids);
+                for (let story of book_stories) {
+                    story.checked = true;
+                }
+            }
         }
     }
 
@@ -370,9 +383,9 @@ export class Stories {
         this.scroll_top = this.scroll_area.scrollTop;
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
-        console.log("this.params: ", this.params);
         let kws = this.params.keywords_str ? [this.params.keywords_str] : [''];
-        let keywords = this.keywords.length > 0 ? this.keywords : story.exact ? kws : this.params.keywords_str.split(' ');
+        let keywords_str = this.params.keywords_str || "";
+        let keywords = this.keywords.length > 0 ? this.keywords : story.exact ? kws : keywords_str.split(' ');
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
                 let story_list = this.story_list.filter(item => item.used_for == this.api.constants.story_type.STORY4EVENT);
@@ -413,10 +426,12 @@ export class Stories {
 
     apply_topics_to_selected_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
+        console.log("this.params.checked_story_list ", this.params.checked_story_list);
         this.api.call_server_post('members/apply_topics_to_selected_stories', { params: this.params, used_for: this.used_for })
             .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_selected_stories();
+                this.params.selected_book = null;
                 this.params.selected_story_visibility = 0;
                 if (response.new_topic_was_added) {
                     this.update_topic_list();
@@ -430,6 +445,22 @@ export class Stories {
         for (let story of this.story_list) {
             story.checked = false;
         }
+    }
+
+    clear_all_filters() {
+        console.log("clear all filters");
+        let p = this.params;
+        p.base_year = 0;
+        p.selected_topics = [];
+        p.days_since_update = 0;
+        p.first_year = 0;
+        p.last_year = 0;
+        this.filter = '';
+        p.order_option = {value: ''};
+        p.selected_uploader = "";
+        p.selected_words = [];
+        p.to_date = '';
+        p.from_date = '';
     }
 
     handle_words_change(event) {
@@ -788,6 +819,10 @@ export class Stories {
 
     book_selected(customEvent) {
         let event = customEvent.detail;
+        if (this.params.selected_book && this.params.selected_book.id == event.option.id)
+            return;
+        if (this.params.selected_book)
+            this.uncheck_selected_stories();
         this.params.selected_book = event.option;
         this.update_story_list('other');
         if (this.user.editing) {
@@ -799,6 +834,7 @@ export class Stories {
 
     unselect_book(customEvent) {
         this.params.selected_book = null;
+        this.uncheck_selected_stories();
         this.update_story_list('other');
     }
 

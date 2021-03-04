@@ -53,7 +53,7 @@ export class Photos {
         selected_dates_option: "dated-or-not",
         selected_order_option: "random-order",
         selected_recognition: 'recognized',
-        last_photo_time: null,
+        last_photo_id: null,
         last_photo_date: null,
         photos_date_str: "",
         photos_date_span_size: 1,
@@ -65,7 +65,8 @@ export class Photos {
         last_year: 2021,
         base_year: 1925,
         num_years: 100,
-        max_photos_per_line: 8
+        max_photos_per_line: 8,
+        rotate_clockwise: false,
     };
     topic_list = [];
     no_topics_yet = false;
@@ -97,15 +98,14 @@ export class Photos {
     editing_filters = false;
     empty = false;
     highlight_unselectors = "";
-    upload_date_stops = [];
-    upload_date_stops_index = -1;
+    upload_order_stops = [];
     chronological_date_stops = [];
-    chronological_date_stops_index = -1;
     scroll_area;
     scroll_top = 0;
     curr_photo_id = 0;
     update_photo_list_debounced;
     photos_date_valid = "";
+    editing = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -203,6 +203,8 @@ export class Photos {
 
     @computedFrom('user.editing')
     get user_editing() {
+        if (this.user.editing == this.editing) return;
+        this.editing = this.user.editing;
         this.update_topic_list();
         if (this.user.editing && this.user.privileges.RESTRICTED) {
             this.update_photo_list();
@@ -248,7 +250,9 @@ export class Photos {
         console.time('get_photo_list');
         if (!this.params.user_id)
             this.params.user_id = this.user.id;
-        this.params.editing = this.user.editing
+        this.params.editing = this.user.editing;
+        if (this.params.last_photo_id == 'END') this.params.last_photo_id = null;
+        if (this.params.last_photo_date == 'END') this.params.last_photo_date = null;
         return this.api.call_server_post('photos/get_photo_list', this.params)
             .then(result => {
                 this.editing_filters = false;
@@ -257,13 +261,8 @@ export class Photos {
                 this.after_upload = false;
                 this.photo_list = result.photo_list;
                 this.total_photos = result.total_photos;
-                this.params.last_photo_time = result.last_photo_time;
+                this.params.last_photo_id = result.last_photo_id;
                 this.params.last_photo_date = result.last_photo_date;
-                if (this.upload_date_stops_index == this.upload_date_stops.length) {
-                    this.upload_date_stops.push(result.last_photo_time)
-                } else if (this.chronological_date_stops_index == this.chronological_date_stops.length) {
-                    this.chronological_date_stops.push(result.last_photo_date)
-                }
                 this.empty = this.photo_list.length == 0;
                 this.highlight_unselectors = this.empty ? "warning" : "";
                 for (let photo of this.photo_list) {
@@ -406,40 +405,24 @@ export class Photos {
     }
 
     handle_order_change(event) {
-        this.params.last_photo_time = null;
-        this.upload_date_stops = [];
+        this.params.last_photo_id = null;
+        this.upload_order_stops = [];
         this.params.last_photo_date = null;
         this.chronological_date_stops = [];
         this.update_photo_list();
     }
 
-    @computedFrom('upload_date_stops_index', 'chronological_date_stops_index')
-    get prev_disabled() {
-        if (this.params.selected_order_option == UTO)
-            return this.upload_date_stops_index < 0;
-        else if (this.params.selected_order_option.startsWith(CDO))
-            return this.chronological_date_stops_index < 0;
-    }
-
-    prev_upload_time(event) {
-        if (this.upload_date_stops_index < 0) return; //don't trust disabling...
-        this.upload_date_stops_index -= 1;
-        if (this.upload_date_stops_index < 0)
-            this.params.last_photo_time = null;
-        else
-            this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
-    }
-
     prev_chronological_date(event) {
-        if (this.chronological_date_stops_index < 0) return; //don't trust disabling...
-        this.chronological_date_stops_index -= 1;
-        if (this.chronological_date_stops_index < 0)
-            this.params.last_photo_date = null;
-        else
-            this.params.last_photo_date = this.chronological_date_stops[this.chronological_date_stops_index];
+        this.chronological_date_stops.pop();
+        if (this.chronological_date_stops.length == 0)
+            [this.params.last_photo_date, this.params.last_photo_id] = [null, null]
+        else {
+            [this.params.last_photo_date, this.params.last_photo_id] = this.chronological_date_stops[this.chronological_date_stops.length-1]
+        }
     }
 
     prev(event) {
+        if (this.prev_disabled) return; //don't trust disabling...
         if (this.params.selected_order_option == UTO)
             this.prev_upload_time(event)
         else if (this.params.selected_order_option.startsWith(CDO))
@@ -447,30 +430,50 @@ export class Photos {
         this.update_photo_list();
     }
 
+    @computedFrom('upload_order_stops.length', 'chronological_date_stops.length')
+    get prev_disabled() {
+        if (this.params.selected_order_option == UTO)
+            return this.upload_order_stops.length < 1;
+        else if (this.params.selected_order_option.startsWith(CDO))
+            return this.chronological_date_stops.length < 1;
+    }
+
+    prev_upload_time(event) {
+        this.upload_order_stops.pop();
+        if (this.upload_order_stops.length > 0)
+            this.params.last_photo_id = this.upload_order_stops[this.upload_order_stops.length - 1];
+        else {
+            this.params.last_photo_id = null;
+        }
+    }
+
+    @computedFrom('params.last_photo_id', 'params.last_photo_date')
     get next_disabled() {
-        return false; //todo: handle the unlikely bottom case
+        if (this.params.selected_order_option == UTO) {
+            return this.params.last_photo_id == "END"
+        }
+        else  if (this.params.selected_order_option.startsWith(CDO)) {
+            return this.params.last_photo_date == "END"
+        }
     }
 
     next_upload_time(event) {
-        this.upload_date_stops_index += 1;
-        if (this.upload_date_stops_index < this.upload_date_stops.length) {
-            this.params.last_photo_time = this.upload_date_stops[this.upload_date_stops_index];
-        }
+        this.upload_order_stops.push(this.params.last_photo_id);
     }
 
     next_chronological_date(event) {
-        this.chronological_date_stops_index += 1;
-        if (this.chronological_date_stops_index < this.chronological_date_stops.length) {
-            this.params.last_photo_date = this.chronological_date_stops[this.chronological_date_stops_index];
-        }
+        this.chronological_date_stops.push([this.params.last_photo_date, this.params.last_photo_id]);
     }
 
     next(event) {
+        if (this.next_disabled) return;
         if (this.params.selected_order_option == UTO)
             this.next_upload_time(event)
         else if (this.params.selected_order_option.startsWith(CDO))
             this.next_chronological_date(event)
         this.update_photo_list();
+        this.scroll_top = 0;
+        this.scroll_area.scrollTop = 0;
     }
 
     time_range_changed(event) {
@@ -522,9 +525,10 @@ export class Photos {
         this.theme.hide_title = true;
         this.dialog.open({
             viewModel: MemberPicker, model: {multi: true}, lock: false,
-            rejectOnCancel: true
+            rejectOnCancel: false
         }).whenClosed(response => {
             this.theme.hide_title = false;
+            if (response.wasCancelled) return;
             console.log("output member ids: ", response.output.member_ids);
             this.params.selected_member_ids = Array.from(response.output.member_ids);
             this.update_photo_list()
@@ -681,7 +685,8 @@ export class Photos {
             });
     }
 
-    rotate_selected_photos() {
+    rotate_selected_photos(event) {
+        this.params.rotate_clockwise = event.ctrlKey;
         this.api.call_server_post('photos/rotate_selected_photos', this.params)
             .then(() => this.update_photo_list());
     }
