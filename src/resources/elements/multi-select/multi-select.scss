@@ -1,4 +1,10 @@
 .multi-select {
+    div.options.ltr {
+        padding-left: 16px;
+    }
+    div.options.rtl {
+        padding-right: 16px;
+    }
     div.selected {
         font-weight: bolder;
         color: black;
