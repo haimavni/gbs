@@ -62,7 +62,7 @@ export class Misc {
     calc_member_display_name(rec) {
         if (!rec.first_name)
             return this.old_display_name(rec);
-        let s = (rec.title ? rec.title + ' ' : '') + rec.first_name + ' ' + rec.last_name
+        let s = (rec.title ? rec.title + ' ' : '') + (rec.first_name || '') + ' ' + (rec.last_name || '')
         if (rec.former_first_name || rec.former_last_name) {
             s += ' (';
             if (rec.former_first_name)

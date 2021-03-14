@@ -25,6 +25,16 @@ div.member-list.content-area li.list-group-item {
         } 
     }
 }
+div.rtl {
+    select,input {
+        direction: rtl;
+    }
+}
+div.ltr {
+    select,input {
+        direction: ltr;
+    }
+}
 
 .rtl a {
     direction: rtl;

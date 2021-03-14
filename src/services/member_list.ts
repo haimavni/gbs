@@ -57,7 +57,12 @@ export class MemberList {
     public get_members() {
         let recent_ids = this.recent.map(mem => mem.id);
         let recent_set = new Set(recent_ids);
-        let result = this.recent.concat(this.members.member_list.filter(mem => ! recent_set.has(mem.id)));
+        let member_list = this.members.member_list;
+        let result = this.recent;
+        if (member_list) {
+            member_list = member_list.filter(mem => ! recent_set.has(mem.id));
+            result = result.concat(member_list);
+        }
         return result;
     }
 
