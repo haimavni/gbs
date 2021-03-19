@@ -9,7 +9,7 @@
     <div class="panel main-panel unselectable" css="height:${panel_height}px;"
         interact-draggable.bind="theme.interact_setting"
         interact-dragend.delegate="drag_end_panel($event)">
-        <div class="panel-messages" css="direction:${theme.rtltr};position:relative;" ref="scroll_area" if.bind="theme.is_desktop || active_part== 3">
+        <div class="panel-messages" ref="scroll_area" if.bind="theme.is_desktop || active_part== 3">
             <i class="fas fa-caret-right fa-4x" style="position:absolute;left: 0;top:0;color:lightblue;" if.bind="! theme.is_desktop"></i>
             <h2 class="messages-header">
                 <span>${'home.messages' & t}</span>
@@ -18,7 +18,7 @@
                 </span>
             </h2>
             <ul class="messages">
-                <li class="message" repeat.for="msg of message_list" dir="rtl" draggable="false" show.bind="user.editing || msg.name.substr(0,2) != '__'">
+                <li class="message" repeat.for="msg of message_list" draggable="false" show.bind="user.editing || msg.name.substr(0,2) != '__'">
                     <editable story.bind="msg" settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true, pinnable: true}" 
                         change.delegate="hande_story_change(msg, $event)"
                         pushup.delegate="push_story(msg, $event)"
@@ -28,20 +28,20 @@
                 </li>
             </ul>
         </div>
-        <div class="panel-stories" style="direction:rtl;position:relative;" if.bind="theme.is_desktop || active_part== 2">
+        <div class="panel-stories" if.bind="theme.is_desktop || active_part== 2">
             <h2 class="panel-stories-header">
                 <i class="fas fa-caret-right fa-2x" style="position:absolute;left: 0;top:-16px;color:lightblue;" if.bind="! theme.is_desktop"></i>
                 <i class="fas fa-caret-left fa-2x" style="position:absolute;right: 0;top:-16px;color:lightblue;" if.bind="! theme.is_desktop"></i>
                 <span class="expand">${'home.sample-stories' & t}</span>
                 <span class="full-collection-button" click.delegate="goto_full_collection()">
                     ${'home.full-collection' & t}
-                    <i class="fa fa-play fa-rotate-180"> </i>
+                    <i class="fa fa-play ${theme.rtltr=='rtl' ? 'fa-rotate-180' : ''}"> </i>
                 </span>
             </h2>
             <ul class="panel-story-segments">
-                <li class="panel-story-segment" repeat.for="story of stories_sample" dir="${theme.rtltr}" draggable="false" click.delegate="jump_to_the_full_story(story)">
+                <li class="panel-story-segment" repeat.for="story of stories_sample" draggable="false" click.delegate="jump_to_the_full_story(story)">
                     <div class="story-preview">
-                        <h4 class="panel-story-header" dir="rtl">
+                        <h4 class="panel-story-header">
                             ${story.name}
                         </h4>
                         <p dir.bind="theme.rtltr" class="${theme.font_size}" innerhtml.bind="story.preview"></p>
@@ -63,9 +63,9 @@
             <span style="padding-top:2px;">
                 <span class="hidden-xs member-prefix">${member_prefix & t}</span>
                 <img class="member-image" src.bind="member_of_the_day.face_photo_url" if.bind="member_of_the_day.face_photo_url" />
-                <span class="member-name" css="direction:${theme.rtltr};">${member_of_the_day.name}</span>
+                <span class="member-name">${member_of_the_day.name}</span>
             </span>
-            <span class="hidden-xs hidden-sm member-text" css="direction:${theme.rtltr};">
+            <span class="hidden-xs hidden-sm member-text">
                 ${member_of_the_day_life_cycle_text}
             </span>
             <span class="member-link" click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">

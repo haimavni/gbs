@@ -17,14 +17,14 @@
             </photo-strip>
         </div>
         <div class="container" ref="member_detail_panel">
-            <div id="member-detail-content" class="row" dir="rtl" ref="top_panel">
+            <div id="member-detail-content" class="row" ref="top_panel">
                 <div class="col-md-6 col-sm-12">
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
-                    <div class="family-chains" ref="family_connections_panel">
-                        <table class="noborder">
-                            <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
-                                <td class="relation-kind">${'parents' & t}</td>
-                                <td>
+                    <div class="family-chains" ref="family_connections_panel" style="display:flex;flex-direction:column;">
+                        <div class="noborder">
+                            <div style="display:flex;flex-direction:row;" if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
+                                <div class="relation-kind">${'parents' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
@@ -43,11 +43,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.siblings.length > 0">
-                                <td class="relation-kind">${'siblings' & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.siblings.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'siblings' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}"
@@ -60,11 +60,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.spouses.length > 0">
-                                <td class="relation-kind">${member.spouses & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.spouses.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${member.spouses & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" 
@@ -76,11 +76,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.children.length> 0">
-                                <td class="relation-kind">${'children' & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.children.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'children' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" 
@@ -92,9 +92,9 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                        </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6" if.bind="user.editing && member" style="padding-right:48px;">
