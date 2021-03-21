@@ -2,7 +2,7 @@
     <div id="member-detail" class="content-area ${theme.rtltr}" ref="member_detail_container">
         <div class="row" ref="member_header">
             <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" dir="${theme.rtltr}">
-                <i class="far fa-arrow-up pull-left" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
+                <i class="far fa-arrow-up pull-${theme.other_dir}" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
                 <span if.bind="member_info.id">${member_display_name}</span>
                 <span if.bind="! member_info.id">${new_member}</span>
                 <span style="color:white;font-size:85%;margin-right:30px;"> ${life_cycle_text} </span>
@@ -17,14 +17,14 @@
             </photo-strip>
         </div>
         <div class="container" ref="member_detail_panel">
-            <div id="member-detail-content" class="row" dir="rtl" ref="top_panel">
+            <div id="member-detail-content" class="row" ref="top_panel">
                 <div class="col-md-6 col-sm-12">
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
-                    <div class="family-chains" ref="family_connections_panel">
-                        <table class="noborder">
-                            <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
-                                <td class="relation-kind">${'parents' & t}</td>
-                                <td>
+                    <div class="family-chains" ref="family_connections_panel" style="display:flex;flex-direction:column;">
+                        <div class="noborder">
+                            <div style="display:flex;flex-direction:row;" if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
+                                <div class="relation-kind">${'parents' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
@@ -43,11 +43,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.siblings.length > 0">
-                                <td class="relation-kind">${'siblings' & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.siblings.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'siblings' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}"
@@ -60,11 +60,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.spouses.length > 0">
-                                <td class="relation-kind">${member.spouses & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.spouses.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${member.spouses & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" 
@@ -76,11 +76,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.children.length> 0">
-                                <td class="relation-kind">${'children' & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.children.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'children' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" 
@@ -92,9 +92,9 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                        </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6" if.bind="user.editing && member" style="padding-right:48px;">
@@ -135,7 +135,7 @@
                         <i if.bind="user.privileges.EDITOR" class="fas fa-pencil is-link" style="font-size:0.5em;padding-top:8px;padding-left:4px;" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                         ${story_0.name}
                     </h3>
-                    <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;height:82%" ref="life_summary_content">
+                    <div class="member-story-panel ${theme.rtltr} biography" ref="life_summary_content">
                             <p class="${theme.font_size} ${highlight_on}" innerhtml.bind="biography ">
                         </p>
                     </div>

@@ -131,7 +131,7 @@ export class MemberDetail {
     }
 
     @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date',
-        'member.member_info.cause_of_death', 'member.member_info.gender')
+        'member.member_info.cause_of_death', 'member.member_info.gender', 'theme.rtltr')
     get life_cycle_text() {
         if (!this.member) return "";
         return this.misc.calc_life_cycle_text(this.member.member_info)

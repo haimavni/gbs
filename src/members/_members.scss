@@ -63,9 +63,15 @@ ul.family a {
 ul.family span {
     position: absolute;
     top: 7px;
+}
+
+[dir="rtl"] ul.family span {
     right: 34px;
 }
 
+[dir="ltr"] ul.family span {
+    left: 34px;
+}
 //member picker
 
 div.member-list {
@@ -142,10 +148,40 @@ ux-dialog-containerxxx {
     }
 }
 
+[dir="rtl"] .family-chains {
+    a {
+        border-right: solid 2px gray;
+        & img {
+            float:right;
+        }
+    }
+    ul {
+        li {
+            float: right;
+        }
+    }
+}
+
+[dir="ltr"] .family-chains {
+    a {
+        border-right: solid 2px gray;
+        & img {
+            float: left;
+        }
+    }
+    ul {
+        li {
+            float: left;
+        }
+    }
+}
+
 .relation-kind
 {
     padding-left: 15px;
     padding-right: 15px;
+    width: 60px;
+    padding-top: 10px;
 }
 
 //member edit
@@ -227,6 +263,15 @@ ux-dialog-containerxxx {
 div.member-story-panel {
     //height: 185px;
     overflow: auto;
+        &.biography {
+            height: 180px;
+            &.rtl {
+                border-left: solid 2px darkgray;
+            }
+            &.ltr {
+                border-right: solid 2px darkgray;
+            }
+        }
     >p {
         padding-bottom: 2px;
         padding-left:12px;
