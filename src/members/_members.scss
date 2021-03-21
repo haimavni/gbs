@@ -263,6 +263,15 @@ ux-dialog-containerxxx {
 div.member-story-panel {
     //height: 185px;
     overflow: auto;
+        &.biography {
+            height: 180px;
+            &.rtl {
+                border-left: solid 2px darkgray;
+            }
+            &.ltr {
+                border-right: solid 2px darkgray;
+            }
+        }
     >p {
         padding-bottom: 2px;
         padding-left:12px;
