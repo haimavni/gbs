@@ -13,7 +13,7 @@
                 <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}" t="[title]photos.prev-slide"
                     click.trigger="go_prev($event)" if.bind="photo_ids.length > 1"></i>
             </div>
-            <h3 dir="${theme.other_dir}" css="float: ${theme.other_dir};margin:0px;margin-top:-26px;">
+            <h3 style="margin-top:0px;">
                 ${photo_story.name}
             </h3>
             <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
