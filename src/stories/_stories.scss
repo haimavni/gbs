@@ -6,8 +6,11 @@
     opacity: 0.95;
 } */
 
-ux-dialog {
+[dir="rtl"] ux-dialog {
     direction: rtl;
+}
+[dir="ltr"] ux-dialog {
+    direction: ltr;
 }
 ux-dialog>ux-dialog-body {
     max-height:600px;
@@ -166,9 +169,13 @@ button.transparent, button.transparent:focus {
     float: left;
 }
 
+[dir="ltr"] button.word-highlighter {
+    float: right;
+}
+
 div.story-preview {
     display: flex;
-    direction: column;
+    flex-direction: column;
     div>img {
         padding-left:10px;
         align-self: stretch;

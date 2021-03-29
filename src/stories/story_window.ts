@@ -67,6 +67,7 @@ export class StoryWindow {
         this.edit = model.edit;
         this.show = !model.edit;
         this.froala_config.key = this.theme.froala_key();
+        this.froala_config.language = this.story.language;
     }
 
     initialized(e, editor) {
@@ -128,6 +129,15 @@ export class StoryWindow {
 
     beforeUpdate(images) {
         console.log("before update. images: ", images, " this: ", this);
+    }
+
+    @computedFrom('story', 'story.language')
+    get story_dir() {
+        if (! this.story) return "";
+        if (this.story.language == 'he' || this.story.language == 'ar') {
+            return "rtl"
+        }
+        return "ltr"
     }
 
 }

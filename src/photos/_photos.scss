@@ -61,6 +61,11 @@ div.panel.panel-default {
     margin-left:auto;
     margin-right:auto;
     min-height:755px;
+    .detail-header {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
     editable div.story-section {
         height: 150px;
     }

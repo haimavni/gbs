@@ -35,7 +35,7 @@ export class MemberDetail {
     bottom_height = 271;
     top_height = 271;
     story_box_height = 260;
-    stories_base = 0;
+    stories_base = -1;
     life_summary;
     source;
     sub1; sub2; sub3; sub4; sub5;
@@ -56,6 +56,7 @@ export class MemberDetail {
     highlight_on = "highlight-on";
     advanced_search = false;
     photo_list_changes_pending = false;
+    biography_dir = "";
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
         router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -103,6 +104,7 @@ export class MemberDetail {
     }
 
     activate(params, config) {
+        this.stories_base = -1;
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         if (this.member && this.member.member_info &&
@@ -117,6 +119,7 @@ export class MemberDetail {
                 this.member = member;
                 let life_story = this.member.member_stories[0];
                 if (life_story) {
+                    this.biography_dir = this.theme.language_dir(life_story.language);
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
                 this.api.hit('MEMBER', this.member.member_info.id);
@@ -238,6 +241,8 @@ export class MemberDetail {
     story(idx) {
         let empty_story = { name: "", story_text: "" };
         if (!this.member) return empty_story;
+        if (this.stories_base < 0)
+            this.stories_base = 0;
         let n = this.member.member_stories.length;
         let i;
         let N = this.num_displayed_stories();
@@ -254,6 +259,7 @@ export class MemberDetail {
         if (i < n) {
             let rec = this.member.member_stories[i];
             rec.name = rec.name ? rec.name : ""
+            rec.dir = this.theme.language_dir(rec.language);
             return rec
         } else {
             return empty_story;
@@ -264,18 +270,22 @@ export class MemberDetail {
         return this.story(0);
     }
 
+    @computedFrom("stories_base")
     get story_1() {
         return this.story(1);
     }
 
+    @computedFrom("stories_base")
     get story_2() {
         return this.story(2);
     }
 
+    @computedFrom("stories_base")
     get story_3() {
         return this.story(3);
     }
 
+    @computedFrom("stories_base")
     get story_4() {
         return this.story(4);
     }
