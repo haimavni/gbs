@@ -50,6 +50,14 @@ export class UserMode {
         }
     }
 
+    @computedFrom("theme.locale")
+    get select_language_str() {
+        //Work around a strange bug
+        if (this.theme.locale != 'he')
+            return "Select Language";
+        return this.i18n.tr('user.select-language')
+    }
+
     calc_current_info() {
         document.title = this.i18n.tr('app-title');
         setTimeout(() => {  //if too early, overridden title is till not in effect
