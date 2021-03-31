@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
 import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
@@ -107,6 +107,8 @@ export class Customize {
             .then(result => { this.app_description_story = result.story;
                 this.edited_str_orig = result.story.story_text;
              });
+        this.froala_config.key = this.theme.froala_key();
+        this.froala_config.language = this.i18n.getLocale();
     }
 
     create_key_value_list(prefix, data) {
@@ -269,7 +271,7 @@ export class Customize {
     }
 
     report_success() {
-        toastr.success(this.i18n.tr("admin.changes-successfuly saved"))
+        toastr.success(this.i18n.tr("admin.changes-successfully-saved"))
     }
 
     initialized(e, editor) {
