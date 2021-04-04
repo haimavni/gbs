@@ -45,7 +45,7 @@ export class ConfirmStory {
                 this.updater = response.updater;
                 this.last_update_date = response.last_update_date;
                 if (this.unapproved) {
-                    this.left_text = response.prev_story_info ? response.prev_story_info.story_text : this.i18n.tr('stories.initial_version');
+                    this.left_text = response.prev_story_info ? response.prev_story_info.story_text : this.i18n.tr('stories.initial-version');
                     this.right_text = response.story_info.story_text;
                 }
                 this.init = true;
