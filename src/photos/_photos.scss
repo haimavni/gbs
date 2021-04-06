@@ -26,7 +26,8 @@ div.multi-select-div {
 
 [dir="ltr"] div.multi-select-div {
     >help {
-        right: 2px;
+        right: 0px;
+        top: 25px;
     }
     multi-select help {
         left: 2px;
@@ -34,7 +35,8 @@ div.multi-select-div {
 }
 [dir="rtl"] div.multi-select-div {
     >help {
-        left: 2px;
+        left: 0px;
+        top: 25px;
     }
     multi-select help {
         right: 2px;

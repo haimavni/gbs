@@ -59,12 +59,11 @@ div.video-page {
 }
 
 #video-help {
-    top: 2px;
     &.rtl {
-        left: 2px;
+        left: 0px;
     }
     &.ltr {
-        right: 2px;
+        right: 0px;
     }
 }
 
