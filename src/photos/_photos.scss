@@ -24,14 +24,20 @@ div.multi-select-div {
     }
 }
 
-div.multi-select-div.ltr {
-    help {
-        right:2px;
+[dir="ltr"] div.multi-select-div {
+    >help {
+        right: 2px;
+    }
+    multi-select help {
+        left: 2px;
     }
 }
-div.multi-select-div.rtl {
-    help {
-        left:2px;
+[dir="rtl"] div.multi-select-div {
+    >help {
+        left: 2px;
+    }
+    multi-select help {
+        right: 2px;
     }
 }
 

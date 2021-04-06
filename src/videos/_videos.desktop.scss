@@ -60,7 +60,12 @@ div.video-page {
 
 #video-help {
     top: 2px;
-    left: 2px;
+    &.rtl {
+        left: 2px;
+    }
+    &.ltr {
+        right: 2px;
+    }
 }
 
 #video-filters {
