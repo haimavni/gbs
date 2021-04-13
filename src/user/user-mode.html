@@ -44,7 +44,7 @@
                     if.bind="theme.width>458">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-lg fa-globe" style="margin-left:10px;"></i>
-                        <span style="position:absolute; left:40px;top:0px;">${select_language_str}</span>
+                        <span style="position:absolute; left:40px;top:0px;">${'user.select-language' & t}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
                         <li repeat.for="locale of locales">
