@@ -32,7 +32,7 @@
     "iscroll": "^5.2.0",
     "jquery": "^3.5.1",
     "json.human": "0.0.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "requirejs": "^2.3.2",
     "tether": "^1.4.0",
     "text": "github:requirejs/text#latest",
