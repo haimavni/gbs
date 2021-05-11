@@ -58,6 +58,9 @@ export class StoryWindow {
         if (! this.story_text) {
              this.story_text = "";
         }
+        if (! this.story.name) {
+            this.story.name = "";
+        }
         if (! this.story.source) {
             this.story.source = this.user.user_name;
         }
@@ -72,7 +75,8 @@ export class StoryWindow {
 
     initialized(e, editor) {
         let el: any = document.getElementsByClassName("fr-element")[0];
-        THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
+        let innerHTML = el.innerHTML || "";
+        THIS_EDITOR.edited_str_orig = innerHTML.slice(0);
     }
 
     content_changed(e, editor) {
