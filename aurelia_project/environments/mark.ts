@@ -2,7 +2,8 @@ export default {
     debug: true,
     testing: false,
     baseURL: "http://127.0.0.1:8000",
-    app: 'eng',
+    app: 'windsor',
     version: "",
     i18n_ver: ''
 };
+
