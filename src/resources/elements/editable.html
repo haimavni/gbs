@@ -3,6 +3,9 @@
 
     <div css="width:${width}" class="${settings.divclass} editable-box">
         <div class="preview-header">
+            <div if.bind="user.privileges.DEVELOPER">
+                +++${story.name}+++
+            </div>
             <span if.bind="info_content && user.advanced_user">
                 <info title.bind="info_title" content.bind="info_content"></info>
             </span>

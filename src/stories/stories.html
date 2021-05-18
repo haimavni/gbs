@@ -105,6 +105,10 @@
                                             <source src="${story.audio_path}" type="audio/mpeg">
                                         </audio>
                                     </div>
+                                    <div if.bind="user.privileges.DEVELOPER && (used_for == 3 || used_for==9)">
+                                        ${story.name}--${story.preview}
+                                        <br/>
+                                    </div>
                                     <editable
                                         settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, confirmable: params.approval_state.id==2 }"
                                         story.bind="story"
