@@ -101,6 +101,7 @@
                                     <div>
                                         <img if.bind="used_for==3" src.bind="story.photo_src" width="140" />
                                         <img if.bind="used_for==9" src.bind="story.doc_jpg_url" width="140" />
+                                        <img if.bind="used_for==1" src.bind="story.profile_photo_path" width="140" style="border-radius: 50%;" />
                                         <audio controls if.bind="used_for==10">
                                             <source src="${story.audio_path}" type="audio/mpeg">
                                         </audio>

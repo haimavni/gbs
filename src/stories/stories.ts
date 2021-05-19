@@ -333,8 +333,6 @@ export class Stories {
         this.story_list = this.story_list.concat(payload.chunk);
         this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
         if (this.ready_for_new_story_list) {
-            let slist = this.story_list.filter(story => story.used_for==3 || story.used_for==9);
-            console.log('story list: ', slist);
             if (this.params.order_option.value == 'by-name') {
                 this.set_active_type();
                 let next_name = this.find_next_name();
