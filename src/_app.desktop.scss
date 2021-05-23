@@ -77,9 +77,12 @@ $navbar-height: 60px;
     height:45px;
     padding-left:12px;
     padding-right:12px;
-    &.story-detail {  
+    &.story-detail {
         width: 1167px;
         margin-right: -12px;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
     }
 }
 
