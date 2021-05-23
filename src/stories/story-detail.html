@@ -8,7 +8,7 @@
                     click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">
                     <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 270 : 90} ${next_class}"></i>
                 </button>
-                <i class="far fa-arrow-up fa-lg" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
+                <i  class="far fa-arrow-up fa-lg" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
                     if.bind="theme.is_desktop"></i>
                 <button class="transparent btn" disabled.bind="prev_disabled" ref="btn_prev"
                     click.trigger="go_prev($event)" t="[title]stories.prev-story" if.bind="story_list.length > 1">
