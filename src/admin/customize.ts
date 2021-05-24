@@ -82,6 +82,7 @@ export class Customize {
             can_group: false,
         });
         THIS_EDITOR = this;
+        this.froala_config.key = this.theme.froala_key();
     }
 
     async attached() {

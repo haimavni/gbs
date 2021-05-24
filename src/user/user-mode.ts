@@ -29,6 +29,7 @@ export class UserMode {
     locales = ['en', 'he'];
     isChangingLocale = false;
     current_url = "";
+    title = "";
     sharing_subject;
     ea;
     share_menu_open = false;
@@ -58,6 +59,7 @@ export class UserMode {
 
         let url = `${location.pathname}${location.hash}`
         this.current_url = null;
+        this.title = document.title;
         this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
