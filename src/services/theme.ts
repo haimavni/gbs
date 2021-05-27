@@ -86,7 +86,8 @@ export class Theme {
     }
 
     language_dir(lang) {
-       return  rtl_langs.has(lang) ? "rtl" : "ltr";
+        if (!lang) return this.rtltr;
+        return  rtl_langs.has(lang) ? "rtl" : "ltr";
     }
 
     detectTouchScreen() {
