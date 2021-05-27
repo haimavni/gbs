@@ -199,21 +199,21 @@
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 10px;" if.bind="user.isLoggedIn">
+                    <div class="row" style="margin-top: 10px;" >
                         <form role="form">
                             <select value.bind="params.selected_uploader" style="height:32px;width:90%;" change.delegate="handle_change($event)">
-                                <option repeat.for="option of uploader_options" model.bind="option.value">${option.name}</option>
+                                <option repeat.for="option of uploader_options" if.bind="option.mustLog || user.isLoggedIn" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 10px;" if.bind="user.isLoggedIn">
+                    <div class="row" style="margin-top: 10px;">
                         <form role="form">
                             <select value.bind="params.selected_dates_option" style="height:32px;width:90%;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of dates_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 10px;" if.bind="user.editing">
+                    <div class="row" style="margin-top: 10px;">
                         <form role="form">
                             <select value.bind="params.selected_recognition" style="height:32px;width:90%;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of recognition_options" model.bind="option.value">${option.name}</option>

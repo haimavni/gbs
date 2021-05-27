@@ -126,9 +126,9 @@ export class Photos {
             { value: 365, name: this.i18n.tr('photos.uploaded-this-year') }
         ];
         this.uploader_options = [
-            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone') },
-            { value: "users", name: this.i18n.tr('photos.uploaded-by-users') },
-            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me') }
+            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone'), mustLog: true },
+            { value: "users", name: this.i18n.tr('photos.uploaded-by-users'), mustLog: true },
+            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me'), mustLog: false }
         ];
         this.dates_options = [
             { value: "dated-or-not", name: this.i18n.tr('photos.dated-or-not') },
