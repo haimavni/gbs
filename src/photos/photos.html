@@ -18,12 +18,12 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="row" style="margin-bottom:15px;padding-right:15px;">
+                    <div class="row" style="margin-bottom:15px;padding-right:5px;">
                         <form style="display:flex;height:34px;">
-                            <div class="input-group" if.bind="user.advanced_user">
+                            <div class="input-group" if.bind="user.advanced_user" style="margin-right:5px">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
-                            <div class="input-group" if.bind="user.privileges.EDITOR" style="width:144px;margin-right:6px;">
+                            <div class="input-group" if.bind="user.advanced_user" style="width:144px;margin-right:6px;">
                                 <select value.bind="params.selected_order_option" style="height:32px;width:90%;" change.delegate="handle_order_change($event)">
                                     <option repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
                                 </select>
@@ -199,21 +199,21 @@
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 10px;" >
+                    <div class="row" style="margin-top: 10px;" if.bind="user.advanced_user">
                         <form role="form">
                             <select value.bind="params.selected_uploader" style="height:32px;width:90%;" change.delegate="handle_change($event)">
-                                <option repeat.for="option of uploader_options" if.bind="option.mustLog || user.isLoggedIn" model.bind="option.value">${option.name}</option>
+                                <option repeat.for="option of uploader_options" if.bind="(!option.mustLog) || user.isLoggedIn" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 10px;">
+                    <div class="row" style="margin-top: 10px;" if.bind="user.advanced_user">
                         <form role="form">
                             <select value.bind="params.selected_dates_option" style="height:32px;width:90%;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of dates_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
                     </div>
-                    <div class="row" style="margin-top: 10px;">
+                    <div class="row" style="margin-top: 10px;" if.bind="user.isLoggedIn">
                         <form role="form">
                             <select value.bind="params.selected_recognition" style="height:32px;width:90%;" change.delegate="handle_change($event)">
                                 <option repeat.for="option of recognition_options" model.bind="option.value">${option.name}</option>
