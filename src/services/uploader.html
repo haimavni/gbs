@@ -3,7 +3,7 @@
         <div class="col-md-10 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1 class="panel-title text-center"><strong>${"photos.upload-files" & t}</strong>
+                    <h1 class="panel-title text-center"><strong>${header_str & t}</strong>
                     </h1>
                 </div>
                 <div class="panel-body">
@@ -17,7 +17,7 @@
                                     ${'photos.select-photos' & t}
                                 </label>
                                 <div>
-                                    <input style="display:none" type="file" multiple id="photos" accept="image/*"
+                                    <input style="display:none" type="file" multiple id="photos" accept.bind="file_types"
                                         files.bind="photos">
                                 </div>
                             </div>
@@ -40,6 +40,7 @@
                         <h3 style="display:flex;justify-content:center;">${'photos.upload-in-progress' & t}.
                             ${photos_left} ${'photos.left' & t}</h3>
                     </div>
+                    <progress-bar if.bind="working" final.bind="total_size" current.bind="total_uploaded_size"></progress-bar>
                     <div if.bind="upload_finished" style="margin-left:auto;margin-right:auto;width:350px;">
                         <h3 if.bind="uploaded.length>0" class="text-center success">${uploaded.length}
                             ${'photos.photos-uploaded' & t}</h3>

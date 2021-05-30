@@ -124,4 +124,8 @@ export class Misc {
         history.splice(max_count, 999);
         return history;
     }
+
+    random_string() {
+        return require("crypto").randomBytes(64).toString('hex');
+    }
 }
