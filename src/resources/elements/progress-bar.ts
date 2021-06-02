@@ -10,6 +10,7 @@ export class ProgressBarCustomElement {
 
     @computedFrom('current')
     get percent() {
+        if (! this.current) return 0;
         return Math.round(100 * this.current / this.final);
     }
 
