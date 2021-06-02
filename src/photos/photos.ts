@@ -656,12 +656,16 @@ export class Photos {
 
     upload_files() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: UploadPhotos, lock: true })
-        //this.dialog.open({ viewModel: Uploader, model: {endpoint: 'photos/upload_chunk'}, lock: true })
-            .whenClosed(result => {
-                this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
-                this.theme.hide_title = false;
-            });
+        let dlg;
+        if (this.user.privileges.TESTER) {
+            dlg = this.dialog.open({ viewModel: Uploader, model: {endpoint: 'photos/upload_chunk'}, lock: true })
+        } else {
+            dlg = this.dialog.open({ viewModel: UploadPhotos, lock: true })
+        }
+        dlg.whenClosed(result => {
+            this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
+            this.theme.hide_title = false;
+        });
     }
 
     download_photos() {
