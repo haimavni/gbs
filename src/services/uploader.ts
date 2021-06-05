@@ -74,24 +74,36 @@ export class Uploader {
         let start = 0;
         let end;
         let duplicate = false;
-        await this.api.call_server_post(this.endpoint, {what: 'start', file_name: file.name, user_id: user_id, crc: this.crc_values[file.name]})
+        let record_id;
+        await this.api.call_server_post(this.endpoint, {
+            what: 'start',
+            file_name: file.name,
+            user_id: user_id,
+            crc: this.crc_values[file.name]
+        })
             .then(response => {
                 if (response.duplicate) {
-                    this.duplicates.push(file.name);
+                    console.log("duplicate. response: ", response);
+                    record_id = response.duplicate;
+                    this.duplicates.push(record_id);
+                    this.total_uploaded_size += file.size;
                     duplicate = true;
+                } else {
+                    record_id = response.record_id;
                 }
             });
+        this.check_if_finished();
         if (duplicate) return;
         while (start < file.size) {
             end = Math.min(start + this.chunk_size, file.size);
             let is_last = end >= file.size;
             let start0 = start;
-            await this.upload_chunk(file, start0, end, is_last);
+            await this.upload_chunk(file, start0, end, is_last, record_id);
             start += this.chunk_size;
         }
     }
 
-    async upload_chunk(file, start, end, is_last) {
+    async upload_chunk(file, start, end, is_last, record_id) {
         //await sleep(2000);
         let blob: Blob = file.slice(start, end);
         let user_id = this.user.id;
@@ -99,13 +111,13 @@ export class Uploader {
         let fr = new FileReader;
         //fr.readAsBinaryString(blob);
         fr.readAsArrayBuffer(blob);
-        fr.onloadstart = function(ev) {
+        fr.onloadstart = function (ev) {
             //console.log("loadstart file.name ", file.name, " start ", start, "event ", ev);
         }
-        fr.onloadend = function(ev: Event) {
+        fr.onloadend = function (ev: Event) {
             //console.log("loadend file.name ", file.name, " start ", start, "event ", ev);
         }
-        fr.onerror = function(ev) {
+        fr.onerror = function (ev) {
             //console.log("Error ", ev);
         }
         let call_returned = false;
@@ -124,8 +136,10 @@ export class Uploader {
             payload['file_name'] = file.name;
             payload['start'] = start;
             payload['end'] = end;
+            payload['is_last'] = is_last;
             let crc = This_Uploader.crc_values[file.name]
             payload['crc'] = crc;
+            payload['record_id'] = record_id;
             if (This_Uploader.n_concurrent > This_Uploader.high_mark) {
                 for (let i = 0; i < 1000; i++) {
                     await This_Uploader.misc.sleep(100);
@@ -139,18 +153,15 @@ export class Uploader {
                     call_returned = true
                     //console.log("response is ", response);
                     This_Uploader.n_concurrent -= 1;
-                    if (response.upload_result.failed) {
-                        This_Uploader.failed.push(file.name)
-                    } else if (response.upload_result.duplicate) {
-                        This_Uploader.duplicates.push(response.upload_result.duplicate)
-                    } else {
-                        This_Uploader.uploaded_file_ids.push(response.upload_result.photo_id)
+                    if (is_last) {
+                        This_Uploader.uploaded_file_ids.push(record_id)
                     }
                     This_Uploader.total_uploaded_size += end - start;
                     if (This_Uploader.total_uploaded_size >= This_Uploader.total_size) {
+                        console.log("finished upload. duplicates/uploaded: ", This_Uploader.duplicates, This_Uploader.uploaded_file_ids);
                         This_Uploader.dlg.ok({
                             failed: This_Uploader.failed,
-                            duplicated: This_Uploader.duplicates,
+                            duplicates: This_Uploader.duplicates,
                             uploaded: This_Uploader.uploaded_file_ids
                         });
                     }
@@ -165,13 +176,24 @@ export class Uploader {
         }
     }
 
+    check_if_finished() {
+        if (This_Uploader.total_uploaded_size >= This_Uploader.total_size) {
+            console.log("finished upload. duplicates/uploaded: ", This_Uploader.duplicates, This_Uploader.uploaded_file_ids);
+            This_Uploader.dlg.ok({
+                failed: This_Uploader.failed,
+                duplicates: This_Uploader.duplicates,
+                uploaded: This_Uploader.uploaded_file_ids
+            });
+        }
+    }
+
     calc_file_crc(file) {
         let crc = 0;
         let start = 0;
         let end;
         while (start < file.size) {
             end = Math.min(start + this.chunk_size, file.size);
-            let is_last = (start + this.chunk_size >= file.size);
+            let is_last = (end >= file.size);
             this.calc_chunk_crc(file, start, end, crc, is_last);
             start += this.chunk_size;
         }

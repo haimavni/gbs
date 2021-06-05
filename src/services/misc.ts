@@ -1,4 +1,4 @@
-import {autoinject, singleton, noView, computedFrom, subscriberCollection} from "aurelia-framework";
+import {autoinject, noView, singleton} from "aurelia-framework";
 import {MemberGateway} from "./gateway";
 import {I18N} from 'aurelia-i18n';
 
@@ -103,8 +103,8 @@ export class Misc {
     extrapolate(s, params) {
         if (!params) return s;
         //in rtl the $ might be on the right
-        s = s.replace(/\{.+?\}\$/g, x => '${' + x.substr(1, x.length - 3) + '}')
-        return s.replace(/\$\{.+?\}/g, x => params[x.substr(2, x.length - 3)]).slice(0);
+        s = s.replace(/{.+?}\$/g, x => '${' + x.substr(1, x.length - 3) + '}')
+        return s.replace(/\${.+?}/g, x => params[x.substr(2, x.length - 3)]).slice(0);
     }
 
     deepClone(obj) {
@@ -180,15 +180,17 @@ export class Misc {
 
         let ds = new Uint8Array(ab);
 
-        if (!crc) crc = 0 ^ (-1);
+        if (!crc) crc = 0xffffffff;
 
         let dsArr = ds;
+        console.log("length of dsArr: ", dsArr.byteLength);
         for (let i = 0; i < dsArr.byteLength; i++) {
 
-            crc = (crc >>> 8) ^ table[(crc ^ dsArr[i]) & 0xFF];
+            crc = table[(crc ^ dsArr[i]) & 0xFF] ^ (crc >> 8);
         }
-
-        return (crc ^ (-1)) >>> 0;
+        console.log("crc ^ 0xffffffff, -1 - crc: ", crc ^ 0xffffffff, -1 - crc)
+        return -1 - crc;
+        //return (crc ^ (-1)) >>> 0;
 
     }
 }
