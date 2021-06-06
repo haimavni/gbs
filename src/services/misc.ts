@@ -8,10 +8,12 @@ import {I18N} from 'aurelia-i18n';
 export class Misc {
     i18n;
     api;
+    crc_table;
 
     constructor(api: MemberGateway, i18n: I18N) {
         this.api = api;
         this.i18n = i18n;
+        //this.create_table();
     }
 
     calc_life_cycle_text(member_info) {
@@ -129,7 +131,7 @@ export class Misc {
         //return crypto.randomBytes(64).toString('hex');
     }
 
-    crc32FromArrayBuffer(ab, crc = null) {
+    crc32FromArrayBufferOld(ab, crc = null) {
 
         let table = new Uint32Array([
             0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f,
@@ -188,9 +190,43 @@ export class Misc {
 
             crc = table[(crc ^ dsArr[i]) & 0xFF] ^ (crc >> 8);
         }
-        console.log("crc ^ 0xffffffff, -1 - crc: ", crc ^ 0xffffffff, -1 - crc)
+        console.log("crc & 0xffffffff, -1 - crc: ", (crc & 0xffffffff).toString(16), (-1 - crc).toString(16), crc.toString(16))
+
         return -1 - crc;
         //return (crc ^ (-1)) >>> 0;
 
     }
+
+    crc32FromArrayBuffer(data, crc=0) {
+        const poly = 0xEDB88320;
+        const lookup = new Uint32Array(256);
+        lookup.forEach((_, i, self) => {
+            let crc = i;
+            for (let bit = 0; bit < 8; bit++) {
+                crc = crc & 1
+                    ? crc >>> 1 ^ poly
+                    : crc >>> 1;
+            }
+
+            self[i] = crc;
+        });
+        crc = crc ? crc : 0xffffffff;
+        const input = Uint8Array.from(data);
+        console.log("data: ", data, " input: ", input);
+        for (let i=0; i < input.byteLength; i++) {
+            let x = input[i];
+            crc = lookup[(x ^ crc) & 0xff] ^ (crc >>> 8);
+            if (i < 10) {
+                console.log("x is: ", x.toString(16), " crc: ", crc.toString(16))
+            }
+        }
+        return -1 -crc;
+
+        //return ~input.reduce(
+            //(crc, byte) => lookup[(crc ^ byte) & 0xFF] ^ crc >>> 8,
+           // 0xFFFFFFFF
+        //);
+    }
+
 }
+

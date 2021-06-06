@@ -83,7 +83,7 @@ export class Uploader {
         })
             .then(response => {
                 if (response.duplicate) {
-                    console.log("duplicate. response: ", response);
+                    //console.log("duplicate. response: ", response);
                     record_id = response.duplicate;
                     this.duplicates.push(record_id);
                     this.total_uploaded_size += file.size;
@@ -178,7 +178,7 @@ export class Uploader {
 
     check_if_finished() {
         if (This_Uploader.total_uploaded_size >= This_Uploader.total_size) {
-            console.log("finished upload. duplicates/uploaded: ", This_Uploader.duplicates, This_Uploader.uploaded_file_ids);
+            //console.log("finished upload. duplicates/uploaded: ", This_Uploader.duplicates, This_Uploader.uploaded_file_ids);
             This_Uploader.dlg.ok({
                 failed: This_Uploader.failed,
                 duplicates: This_Uploader.duplicates,
@@ -199,12 +199,13 @@ export class Uploader {
         }
     }
 
-    calc_chunk_crc(file, start, end, crc = 0, is_last = false) {
+    async calc_chunk_crc(file, start, end, crc = 0, is_last = false) {
         let blob: Blob = file.slice(start, end);
         let fr = new FileReader;
-        fr.readAsBinaryString(blob);
+        fr.readAsArrayBuffer(blob);
+        let done = false;
         fr.onload = async function () {
-            let arr = Int8Array.from(this.result);
+            let arr = Array.from(new Uint8Array(this.result));
             crc = This_Uploader.misc.crc32FromArrayBuffer(arr, crc);
             if (is_last) {
                 This_Uploader.crc_values[file.name] = crc;
