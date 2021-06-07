@@ -14,7 +14,7 @@
                                 <label
                                     style="margin-left:191px;width:150px;background-color:lightgray;border:solid 1px darkgray;border-radius:5px;text-align:center;padding:6px;"
                                     class="control-label" for="file-list">
-                                    ${'photos.select-photos' & t}
+                                    ${select_objects_text & t}
                                 </label>
                                 <div>
                                     <input style="display:none" type="file" multiple id="file-list" accept.bind="file_types"
@@ -47,11 +47,11 @@
                     <progress-bar if.bind="working" final.bind="total_size" current.bind="total_uploaded_size"></progress-bar>
                     <div if.bind="upload_finished" style="margin-left:auto;margin-right:auto;width:350px;">
                         <h3 if.bind="uploaded.length>0" class="text-center success">${uploaded.length}
-                            ${'photos.photos-uploaded' & t}</h3>
+                            ${uploaded_objects_text & t}</h3>
                         <h3 if.bind="duplicates.length>0" class="text-center">${duplicates.length}
-                            ${'photos.photos-duplicate' & t} </h3>
+                            ${duplicate_objects_text & t} </h3>
                         <h3 if.bind="failed.length>0" class="text-center errors">${failed.length}
-                            ${'photos.photos-failed' & t} </h3>
+                            ${'failed_objects_text & t} </h3>
                         <ul class="errors">
                             <li repeat.for="f of failed">
                                 ${f}

@@ -658,7 +658,10 @@ export class Photos {
         this.theme.hide_title = true;
         let dlg;
         if (this.user.privileges.TESTER) {
-            dlg = this.dialog.open({ viewModel: Uploader, model: {endpoint: 'photos/upload_chunk'}, lock: true })
+            dlg = this.dialog.open({ viewModel: Uploader,
+                model: {endpoint: 'photos/upload_chunk',
+                    object_names: 'photos.photos',
+                    header_str: 'photos.upload-photos'}, lock: true })
         } else {
             dlg = this.dialog.open({ viewModel: UploadPhotos, lock: true })
         }

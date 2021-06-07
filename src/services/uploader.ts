@@ -15,6 +15,12 @@ export class Uploader {
     dlg: DialogController;
     endpoint;
     file_types = "image/*";
+    objects_name = 'photos.photos';
+    objects_were_selected_text = 'photos.photos-were-selected';
+    select_objects_text;
+    uploaded_objects_text;
+    duplicate_objects_text;
+    failed_objects_text;
     total_size = 0;
     total_uploaded_size = 0;
     chunk_size = 1024 * 1024;
@@ -41,6 +47,12 @@ export class Uploader {
         this.endpoint = model.endpoint;
         this.header_str = model.header_str || "Upload files";
         this.file_types = model.file_types || "image/*";
+        this.objects_name = model.objects_name || 'photos.photos';
+        this.select_objects_text = model.select_objects_text || 'photos.select-photos';
+        this.objects_were_selected_text = model.objects_were_selected_text || 'photos.photos-were-selected';
+        this.uploaded_objects_text = model.uploaded_objects_text || 'photos.uploaded';
+        this.failed_objects_text = model.failed_objects_text || 'photos.failed';
+        this.duplicate_objects_text = model.duplicate_objects_text || 'photos.duplicate';
         this.info = model.info;
     }
 
