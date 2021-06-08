@@ -4,14 +4,17 @@
         class="container content-area">
         <div class="detail-header story-detail">
             <div>
-                <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+                <div style="float:left;cursor:pointer;padding:0;margin:0;display:flex;padding-top:6px;" if.bind="theme.is_desktop">
                     <button class="transparent btn" disabled.bind="next_disabled" ref="btn_next"
+                        style="margin:0;padding:0;"
                         click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">
                         <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 270 : 90} ${next_class}"></i>
                     </button>
-                    <i class="far fa-arrow-up fa-lg" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
+                    <i class="far fa-arrow-up fa-lg" t="[title]go-back" click.trigger="go_back()"
+                        style="padding-left:3px;padding-right:3px;cursor:pointer;"
                         if.bind="theme.is_desktop"></i>
                     <button class="transparent btn" disabled.bind="prev_disabled" ref="btn_prev"
+                        style="padding:0;"
                         click.trigger="go_prev($event)" t="[title]stories.prev-story" if.bind="story_list.length > 1">
                         <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}"></i>
                     </button>
