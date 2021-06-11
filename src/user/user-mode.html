@@ -106,8 +106,12 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
-            <li style="border-bottom:solid 1px gray;">
-                <!-- Sharingbutton Facebook -->
+            <li style="border-bottom:solid 1px gray;" if.bind="user.privileges.TESTER">
+                <a class="resp-sharing-button__link"
+                   click.delegate="share_on_facebook()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
+                </a>
+            </li>
+            <li style="border-bottom:solid 1px gray;" if.bind="! user.privileges.TESTER">
                 <a class="resp-sharing-button__link"
                     href="https://facebook.com/sharer/sharer.php?u=${current_url}&t=${title}"
                     disabled="${current_url ? '' : 'disabled'}"

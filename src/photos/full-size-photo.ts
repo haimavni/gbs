@@ -243,7 +243,9 @@ export class FullSizePhoto {
 
     copy_photo_url(event) {
         event.stopPropagation();
-        copy_to_clipboard(this.slide[this.slide.side].src);
+        let url = this.slide[this.slide.side].src;
+        copy_to_clipboard(url);
+        this.user.set_photo_link(url);
         return false;
     }
 
