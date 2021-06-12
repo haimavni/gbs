@@ -255,7 +255,6 @@
         "personalize": "התאמה אישית",
         "select-language": "בחירת שפה",
         "select-colors": "בחירת צבעים",
-        "sharing": "שיתוף",
         "enter-text-to-replace": "מצא את הטקסט שברצונך להחליף ואז הקלק עליו בכפתור הימני",
         "site-header": "כותרת האתר",
         "config": "הגדרות מערכת",
@@ -288,11 +287,15 @@
         "advanced-options-off": "ללא אפשרויות מתקדמות",
         "advanced-options-on": "הצג אפשרויות מתקדמות",
         "sharing": {
+            "sharing": "שיתוף",
             "facebook": "שיתוף בפייסבוק",
             "sub-title": "כותרת משנה",
             "card-description": "תיאור",
             "continue": "המשך",
-            "share-on-facebook": "שתף בפייסבוק"
+            "share-on-facebook": "שתף בפייסבוק",
+            "photo-link-copied": "כתובת התמונה הועתקה בהצלחג",
+            "replace-photo": "להצגת תמונה אחרת, צא מחלון זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן",
+            "missing-photo": "לא נבחרה תמונה! צא ממסך זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן"
         }
     },
     "chats": {

@@ -11,6 +11,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {copy_to_clipboard} from "../services/dom_utils";
 import {I18N} from 'aurelia-i18n';
 import {FaceInfo} from './face-info';
+import * as toastr from 'toastr';
 
 let THIS;
 
@@ -246,6 +247,8 @@ export class FullSizePhoto {
         let url = this.slide[this.slide.side].src;
         copy_to_clipboard(url);
         this.user.set_photo_link(url);
+        let msg = this.i18n.tr('user.sharing.photo-link-copied');
+        toastr.success(msg)
         return false;
     }
 

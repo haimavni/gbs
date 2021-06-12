@@ -101,24 +101,24 @@
 
     <div class="btn-group dropdown border-right"
         aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: share_toggled(); is-open.bind: share_menu_open" if.bind="theme.width>458" >
-        <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle t="[title]user.sharing">
+        <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle title="${'user.sharing.sharing' & t}">
             <i class="fas fa-share-alt"></i>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
-            <li style="border-bottom:solid 1px gray;" if.bind="user.privileges.TESTER">
+            <li style="border-bottom:solid 1px gray;">
                 <a class="resp-sharing-button__link"
                    click.delegate="share_on_facebook()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
                 </a>
             </li>
-            <li style="border-bottom:solid 1px gray;" if.bind="! user.privileges.TESTER">
+            <!--li style="border-bottom:solid 1px gray;" if.bind="! user.privileges.TESTER">
                 <a class="resp-sharing-button__link"
                     href="https://facebook.com/sharer/sharer.php?u=${current_url}&t=${title}"
                     disabled="${current_url ? '' : 'disabled'}"
                     target="_blank" rel="noopener">
                     <i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
                 </a>
-            </li>
+            </li-->
             <li style="border-bottom:solid 1px gray;">
                 <!-- Sharingbutton Twitter -->
                 <a class="resp-sharing-button__link"

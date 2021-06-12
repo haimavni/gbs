@@ -257,7 +257,6 @@
         "personalize": "Personalize",
         "select-language": "Select language",
         "select-colors": "Select colors",
-        "sharing": "Sharing",
         "enter-text-to-replace": "Find the text to be replaced, then right-click on it",
         "site-header": "Site header",
         "config": "System definitions",
@@ -290,11 +289,15 @@
         "advanced-options-off": "No advanced options",
         "advanced-options-on": "Enable advanced options",
         "sharing": {
+            "sharing": "Sharing",
             "facebook": "Share on Facebook",
             "sub-title": "Sub title",
             "card-description": "Description",
             "continue": "Continue",
-            "share-on-facebook": "Share on Facebook"
+            "share-on-facebook": "Share on Facebook",
+            "photo-link-copied": "Photo address successfully copied",
+            "replace-photo": "To display a different photo, press Esc and then<br>click on the desired photo and then<b>click the chain icon",
+            "missing-photo": "No photo was selected! press Esc and then<br>click on the desired photo and then<b>click the chain icon"
         }
     },
     "chats": {
