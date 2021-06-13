@@ -673,7 +673,8 @@
         "no-messages-to-merge": "No help topics to merge",
         "explain-accept-system": "Abandon your changes. Accept new system help message.",
         "promoted-story-expiration": "How many days to keep promoted story?",
-        "changes-successfully-saved": "Your changes were successfully saved"
+        "changes-successfully-saved": "Your changes were successfully saved",
+        "cover-photo": "Cover Photo"
     },
     "feedbacks": "Feedback",
     "go-back": "Back",

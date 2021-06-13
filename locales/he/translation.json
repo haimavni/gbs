@@ -674,7 +674,8 @@
         "no-messages-to-merge": "אין הודעות עזרה שצריך למזג",
         "explain-accept-system": "ותר על ההתאמות וקבל את הודעת העזרה של המערכת",
         "promoted-story-expiration": "כמה ימים לשמור סיפור מְקוּדָם?",
-        "changes-successfuly saved": "השינויים נשמרו בהצלחה"
+        "changes-successfuly saved": "השינויים נשמרו בהצלחה",
+        "cover-photo": "תמונת השער"
     },
     "go-back": "חזור",
     "parents": "הורים",

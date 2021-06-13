@@ -657,14 +657,10 @@ export class Photos {
     upload_files() {
         this.theme.hide_title = true;
         let dlg;
-        if (this.user.privileges.TESTER) {
-            dlg = this.dialog.open({ viewModel: Uploader,
-                model: {endpoint: 'photos/upload_chunk',
-                    object_names: 'photos.photos',
-                    header_str: 'photos.upload-photos'}, lock: true })
-        } else {
-            dlg = this.dialog.open({ viewModel: UploadPhotos, lock: true })
-        }
+        dlg = this.dialog.open({ viewModel: Uploader,
+            model: {endpoint: 'photos/upload_chunk',
+                object_names: 'photos.photos',
+                header_str: 'photos.upload-photos'}, lock: true })
         dlg.whenClosed(result => {
             this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
             this.theme.hide_title = false;

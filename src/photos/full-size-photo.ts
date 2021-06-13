@@ -12,6 +12,7 @@ import {copy_to_clipboard} from "../services/dom_utils";
 import {I18N} from 'aurelia-i18n';
 import {FaceInfo} from './face-info';
 import * as toastr from 'toastr';
+import { Popup } from '../services/popups';
 
 let THIS;
 
@@ -59,6 +60,7 @@ export class FullSizePhoto {
     nobody_there;
     crop_sides;
     rotate;
+    share_on_facebook_txt;
     next_slide_txt;
     prev_slide_txt;
     no_new_faces = false;
@@ -78,6 +80,7 @@ export class FullSizePhoto {
     image_width = 0;
     keypress_handler;
     photo_id_rec = {photo_id: 0};
+    popup: Popup;
 
     constructor(dialogController: DialogController,
                 dialogService: DialogService,
@@ -86,7 +89,8 @@ export class FullSizePhoto {
                 theme: Theme,
                 router: Router,
                 eventAggregator: EventAggregator,
-                i18n: I18N) {
+                i18n: I18N,
+                popup: Popup) {
         this.dialogController = dialogController;
         this.dialogService = dialogService;
         this.api = api;
@@ -95,11 +99,13 @@ export class FullSizePhoto {
         this.router = router;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
+        this.popup = popup;
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.crop = this.i18n.tr('photos.crop');
         this.rotate = this.i18n.tr('photos.rotate-photo');
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
+        this.share_on_facebook_txt = this.i18n.tr('photos.share-on-facebook');
         this.nobody_there = this.i18n.tr('photos.nobody-there');
         this.next_slide_txt = this.i18n.tr('photos.next-slide')
         this.prev_slide_txt = this.i18n.tr('photos.prev-slide')
@@ -675,6 +681,32 @@ export class FullSizePhoto {
                 el.style.transform = `rotate(-${this.model.final_rotation}deg)`;
             })
         return false;
+    }
+
+    async share_on_facebook(event) {
+        event.stopPropagation();
+        let current_url;
+        let card_url;
+        let img_src = this.slide[this.slide.side].src;
+        let title = this.i18n.tr('app-title');
+        let description = this.photo_info.name;
+
+        await this.api.call_server_post('default/get_shortcut', { url: current_url })
+            .then(response => {
+                let base_url = `${location.host}`;
+                if (base_url == "localhost:9000") {
+                    base_url = environment.baseURL;  //for the development system
+                }
+                let shortcut = base_url + response.shortcut;
+                current_url = shortcut;
+            });
+        await this.api.call_server_post('default/create_fb_card',
+            {img_src: img_src, url: current_url, title: title, description: description})
+            .then(response => {
+                card_url = response.card_url;
+            })
+        let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
+        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
 
     toggle_people_articles(event) {

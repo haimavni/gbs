@@ -14,7 +14,7 @@ export class User {
     public editing: boolean;
     public user_name;
     public privileges;
-    public config = {enable_auto_registration: false, expose_new_app_button: false, support_audio: false};
+    public config = {enable_auto_registration: false, expose_new_app_button: false, support_audio: false, cover_photo: ""};
     public id;
     public _advanced;
     private api;
@@ -60,6 +60,7 @@ export class User {
         return this.api.call_server('default/read_configuration')
             .then(result => {
                 this.config = result.config;
+                this.photo_link = this.config.cover_photo;
             });
     }
 
