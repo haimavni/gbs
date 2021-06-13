@@ -150,7 +150,7 @@
                         <input type="text" style="margin-left:8px;margin-right:-4px;width:200px;"
                                value.bind="cover_photo"
                                change.delegate="set_cover_photo()"/>
-                        <img if.bind="cover_photo" src="cover_photo" width="100" />
+                        <img if.bind="cover_photo" src.bind="cover_photo" width="100" />
                     </div>
                 </div>
             </div>
