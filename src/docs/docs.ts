@@ -174,7 +174,7 @@ export class Docs {
                     endpoint: 'docs/upload_chunk',
                     select_objects_text: 'docs.select-docs',
                     object_names: 'docs.docs',
-                    header_str: 'docs.upload-docs',
+                    header_str: 'docs.upload',
                     file_types: ".pdf",
                     duplicate_objects_text: "docs.duplicate"
                 }, lock: true
