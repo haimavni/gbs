@@ -16,7 +16,6 @@ export class FacebookCard {
     message: string = "";
     message_type;
     title;
-    sub_title;
     current_url;
     img_src;
     description;
@@ -45,9 +44,6 @@ export class FacebookCard {
 
     create_card() {
         let title = this.title;
-        if (this.sub_title) {
-            title += ': ' + this.sub_title;
-        }
         this.api.call_server_post('default/create_fb_card',
             {img_src: this.img_src, url: this.current_url, title: title, description: this.description})
             .then(response => {

@@ -2,7 +2,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
-import { UploadPhotos } from './upload-photos';
+//import { UploadPhotos } from './upload-photos';
 import { Uploader } from '../services/uploader';
 import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
