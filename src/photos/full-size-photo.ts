@@ -706,6 +706,7 @@ export class FullSizePhoto {
                 card_url = response.card_url;
             })
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
+        copy_to_clipboard(card_url);
         this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
 

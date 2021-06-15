@@ -5,6 +5,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import * as toastr from 'toastr';
+import { copy_to_clipboard } from '../services/dom_utils';
 
 @autoinject()
 export class FacebookCard {
@@ -48,6 +49,7 @@ export class FacebookCard {
             {img_src: this.img_src, url: this.current_url, title: title, description: this.description})
             .then(response => {
                 this.card_url = response.card_url;
+                copy_to_clipboard(this.card_url)
                 //this.controller.ok();
             })
     }
