@@ -167,7 +167,7 @@ export class Docs {
     upload_files() {
         this.theme.hide_title = true;
         let dlg;
-        if (this.user.debugging && this.user.privileges.TESTER) {
+        if (this.user.privileges.TESTER) {
             dlg = this.dialog.open({
                 viewModel: Uploader,
                 model: {
