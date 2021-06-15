@@ -14,6 +14,7 @@ export class Uploader {
     files: FileList;
     dlg: DialogController;
     endpoint;
+    what = "";
     file_types = "image/*";
     objects_name = 'photos.photos';
     objects_were_selected_text = 'photos.photos-were-selected';
@@ -54,6 +55,7 @@ export class Uploader {
         this.failed_objects_text = model.failed_objects_text || 'photos.failed';
         this.duplicate_objects_text = model.duplicate_objects_text || 'photos.duplicate';
         this.info = model.info;
+        this.what = model.what;
     }
 
     save() {
@@ -95,7 +97,6 @@ export class Uploader {
         })
             .then(response => {
                 if (response.duplicate) {
-                    //console.log("duplicate. response: ", response);
                     record_id = response.duplicate;
                     this.duplicates.push(record_id);
                     this.total_uploaded_size += file.size;
@@ -134,8 +135,6 @@ export class Uploader {
         }
         let call_returned = false;
         fr.onload = async function (ev) {
-            //console.log("load file.name ", file.name, " start ", start, "event ", ev);
-            //console.log("fr after ", fr);
             let result = Array.from(new Uint8Array(this.result));
             //let result = this.result;
             payload['file'] = {
@@ -159,18 +158,16 @@ export class Uploader {
                 }
             }
             This_Uploader.n_concurrent += 1;
-            //console.log("start: ", file.name, " @", start, " payload: ", payload);
             This_Uploader.api.call_server_post(This_Uploader.endpoint, payload)
                 .then(response => {
                     call_returned = true
-                    //console.log("response is ", response);
                     This_Uploader.n_concurrent -= 1;
                     if (is_last) {
                         This_Uploader.uploaded_file_ids.push(record_id)
                     }
                     This_Uploader.total_uploaded_size += end - start;
                     if (This_Uploader.total_uploaded_size >= This_Uploader.total_size) {
-                        console.log("finished upload. duplicates/uploaded: ", This_Uploader.duplicates, This_Uploader.uploaded_file_ids);
+                        This_Uploader.api.call_server_post('default/notify_new_files', { uploaded_file_ids: This_Uploader.uploaded_file_ids, what: This_Uploader.what });
                         This_Uploader.dlg.ok({
                             failed: This_Uploader.failed,
                             duplicates: This_Uploader.duplicates,
@@ -181,7 +178,6 @@ export class Uploader {
         }
         for (let i = 0; i < 10000; i++) {
             if (call_returned) {
-                //console.log("call returned")
                 return
             }
             await sleep(100);
@@ -190,7 +186,6 @@ export class Uploader {
 
     check_if_finished() {
         if (This_Uploader.total_uploaded_size >= This_Uploader.total_size) {
-            //console.log("finished upload. duplicates/uploaded: ", This_Uploader.duplicates, This_Uploader.uploaded_file_ids);
             This_Uploader.dlg.ok({
                 failed: This_Uploader.failed,
                 duplicates: This_Uploader.duplicates,

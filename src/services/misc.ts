@@ -185,12 +185,10 @@ export class Misc {
         if (!crc) crc = 0xffffffff;
 
         let dsArr = ds;
-        console.log("length of dsArr: ", dsArr.byteLength);
         for (let i = 0; i < dsArr.byteLength; i++) {
 
             crc = table[(crc ^ dsArr[i]) & 0xFF] ^ (crc >> 8);
         }
-        console.log("crc & 0xffffffff, -1 - crc: ", (crc & 0xffffffff).toString(16), (-1 - crc).toString(16), crc.toString(16))
 
         return -1 - crc;
         //return (crc ^ (-1)) >>> 0;
@@ -212,20 +210,11 @@ export class Misc {
         });
         crc = crc ? crc : 0xffffffff;
         const input = Uint8Array.from(data);
-        console.log("data: ", data, " input: ", input);
         for (let i=0; i < input.byteLength; i++) {
             let x = input[i];
             crc = lookup[(x ^ crc) & 0xff] ^ (crc >>> 8);
-            if (i < 10) {
-                console.log("x is: ", x.toString(16), " crc: ", crc.toString(16))
-            }
         }
         return -1 -crc;
-
-        //return ~input.reduce(
-            //(crc, byte) => lookup[(crc ^ byte) & 0xFF] ^ crc >>> 8,
-           // 0xFFFFFFFF
-        //);
     }
 
 }

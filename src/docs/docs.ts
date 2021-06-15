@@ -176,7 +176,9 @@ export class Docs {
                     object_names: 'docs.docs',
                     header_str: 'docs.upload',
                     file_types: ".pdf",
-                    duplicate_objects_text: "docs.duplicate"
+                    duplicate_objects_text: "docs.duplicate",
+                    objects_were_selected_text: "docs.docs-were-selected",
+                    what: 'DOCS'
                 }, lock: true
             })
         } else {

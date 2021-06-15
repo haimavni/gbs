@@ -476,6 +476,7 @@
         "select-docs": "Select documents",
         "apply-to-selected": "Tag the selected documents",
         "upload-in-progress": "Upload in progress...",
+        "docs-were-selected": "Documents were selected",
         "docs-uploaded": "Successfully uploaded - ",
         "matching-docs": "Documents that contain the selected words",
         "docs-duplicate": "Duplicate documents - ",
