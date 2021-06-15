@@ -685,28 +685,27 @@ export class FullSizePhoto {
 
     async share_on_facebook(event) {
         event.stopPropagation();
-        let current_url;
         let card_url;
         let img_src = this.slide[this.slide.side].src;
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
-
-        await this.api.call_server_post('default/get_shortcut', { url: current_url })
+        let url = `${location.pathname}${location.hash}`;
+        let current_url;
+        await this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
                     base_url = environment.baseURL;  //for the development system
                 }
-                let shortcut = base_url + response.shortcut;
-                current_url = shortcut;
+                current_url = base_url + response.shortcut;
             });
         await this.api.call_server_post('default/create_fb_card',
             {img_src: img_src, url: current_url, title: title, description: description})
             .then(response => {
                 card_url = response.card_url;
+                copy_to_clipboard(card_url);
             })
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        copy_to_clipboard(card_url);
         this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
 
