@@ -84,6 +84,9 @@
                 </button>
                 <button aubs-tooltip="text.bind:copy_photo_url_text;position.bind:hint_position;" class="side-tool copy-to-clipboard"
                     click.delegate="copy_photo_url($event)"><i class="fa fa-lg fa-link"></i></button>
+                <button aubs-tooltip="text.bind:share_on_facebook_txt;position.bind:hint_position;" class="side-tool crop"
+                        click.delegate="share_on_facebook($event)"><i class="fab fa-lg fa-facebook-f" style="color:orange;"></i>
+                </button>
                 <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text;position.bind:hint_position;" class="side-tool flip-sides"
                     click.delegate="flip_photo($event)"><i class="fa fa-lg fa-yin-yang"></i></button>
                 <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
@@ -102,9 +105,6 @@
                     click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-trees"></i></button>
                 <button show.bind="user.editing" aubs-tooltip="text.bind:nobody_there;position.bind:hint_position;" class="side-tool rotate"
                         click.delegate="nobody($event)"><i class="fa fa-lg fa-check"></i></button>
-                <button aubs-tooltip="text.bind:share_on_facebook_txt;position.bind:hint_position;" class="side-tool crop"
-                        click.delegate="share_on_facebook($event)"><i class="fab fa-lg fa-facebook-f" style="color:orange;"></i>
-                </button>
             </div>
         </div>
         <div>

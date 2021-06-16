@@ -105,7 +105,7 @@ export class FullSizePhoto {
         this.rotate = this.i18n.tr('photos.rotate-photo');
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
-        this.share_on_facebook_txt = this.i18n.tr('photos.share-on-facebook');
+        this.share_on_facebook_txt = this.i18n.tr('user.sharing.share-on-facebook');
         this.nobody_there = this.i18n.tr('photos.nobody-there');
         this.next_slide_txt = this.i18n.tr('photos.next-slide')
         this.prev_slide_txt = this.i18n.tr('photos.prev-slide')
