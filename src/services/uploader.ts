@@ -55,7 +55,7 @@ export class Uploader {
         this.failed_objects_text = model.failed_objects_text || 'photos.failed';
         this.duplicate_objects_text = model.duplicate_objects_text || 'photos.duplicate';
         this.info = model.info;
-        this.what = model.what;
+        this.what = model.what || 'PHOTOS';
     }
 
     save() {
