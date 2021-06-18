@@ -6,6 +6,7 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import * as toastr from 'toastr';
 import { copy_to_clipboard } from '../services/dom_utils';
+import { Popup } from '../services/popups';
 
 @autoinject()
 export class FacebookCard {
@@ -21,13 +22,15 @@ export class FacebookCard {
     img;
     description;
     card_url;
+    popup;
 
-    constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, i18n: I18N) {
+    constructor(controller: DialogController, api: MemberGateway, user: User, theme: Theme, popup: Popup, i18n: I18N) {
         this.controller = controller;
         this.api = api;
         this.user = user;
         this.theme = theme;
         this.i18n = i18n;
+        this.popup = popup;
     }
 
     activate(model) {
@@ -53,6 +56,11 @@ export class FacebookCard {
                 copy_to_clipboard(this.card_url)
                 //this.controller.ok();
             })
+    }
+
+    submit_it() {
+        let href=`https://facebook.com/sharer/sharer.php?u=${this.card_url}&t=${this.title}`;
+        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
 
 }

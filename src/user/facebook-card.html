@@ -12,14 +12,14 @@
                                    value.bind="description"
                                    t="[placeholder]user.sharing.card-description">
                         </div>
-                        <div if.bind="img_src">
-                            <img src.bind="img_src" width="270px" />
+                        <div if.bind="img && img.src">
+                            <img src.bind="img.src" width="270px" />
                         </div>
                         <div if.bind="message" class.bind="message_type"
                              style="margin-top:8px;margin-bottom:12px;padding:8px;">
                             ${message & t}
                         </div>
-                        <button if.bind="img_src && description && ! card_url" class="btn btn-primary btn-block"
+                        <button if.bind="img && img.src && description && ! card_url" class="btn btn-primary btn-block"
                                 style="margin-top:6px;width: 100%;"
                                 click.trigger="create_card()">
                             ${"user.sharing.continue" & t}
@@ -27,8 +27,7 @@
                         <div if.bind="card_url" style="width:100%;height:32px;margin-top:6px;background-color:green;display:flex;justify-content: space-evenly;padding-top:4px;">
                             <a class="resp-sharing-button__link"
                                style="color:white;"
-                               href="https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}"
-                               target="_blank" rel="noopener">
+                               click.delegate="submit_it()">
                                 <i class="fab fa-facebook-f"></i>&nbsp;&nbsp;${'user.sharing.share-on-facebook' & t}
                             </a>
                         </div>

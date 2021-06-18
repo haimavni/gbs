@@ -110,6 +110,14 @@ export class Customize {
         this.cover_photo = this.user.config.cover_photo;
         this.cover_photo_width = this.user.config.cover_photo_width;
         this.cover_photo_height = this.user.config.cover_photo_height;
+        if (! this.cover_photo) {
+            let curr_photo_link = this.user.get_photo_link();
+            if (curr_photo_link.src) {
+                this.cover_photo = curr_photo_link.src;
+                this.cover_photo_width = curr_photo_link.width;
+                this.cover_photo_height = curr_photo_link.height;
+            }
+        }
         this.api.call_server_post('members/get_app_description')
             .then(result => { this.app_description_story = result.story;
                 this.edited_str_orig = result.story.story_text;
@@ -292,8 +300,10 @@ export class Customize {
         THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
     }
 
-    set_cover_photo() {
+    set_cover_photo(event) {
         let cover_photo = this.user.get_photo_link();
+        if (event.ctrlKey) cover_photo.src = "";
+        this.cover_photo = cover_photo.src;
         this.api.call_server_post('admin/cover_photo',
             {cover_photo: cover_photo.src,
                 cover_photo_width: cover_photo.width,

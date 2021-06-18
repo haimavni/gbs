@@ -675,7 +675,9 @@
         "explain-accept-system": "Abandon your changes. Accept new system help message.",
         "promoted-story-expiration": "How many days to keep promoted story?",
         "changes-successfully-saved": "Your changes were successfully saved",
-        "cover-photo": "Cover Photo"
+        "cover-photo": "Cover Photo",
+        "select-cover-photo1": "To set cover photo, find photo,",
+        "select-cover-photo2": "To click the chain icon. then return here."
     },
     "feedbacks": "Feedback",
     "go-back": "Back",
