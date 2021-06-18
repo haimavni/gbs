@@ -14,13 +14,23 @@ export class User {
     public editing: boolean;
     public user_name;
     public privileges;
-    public config = {enable_auto_registration: false, expose_new_app_button: false, support_audio: false, cover_photo: ""};
+    public config = {enable_auto_registration: false,
+        expose_new_app_button: false,
+        support_audio: false,
+        cover_photo: "",
+        cover_photo_width: 800,
+        cover_photo_height: 420
+    };
     public id;
     public _advanced;
     private api;
     private i18n;
     private cookies: Cookies;
-    private photo_link;
+    private photo_link = {
+        src: "",
+        width: 800,
+        height: 420
+    }
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
         this.eventAggregator = eventAggregator;
@@ -60,7 +70,9 @@ export class User {
         return this.api.call_server('default/read_configuration')
             .then(result => {
                 this.config = result.config;
-                this.photo_link = this.config.cover_photo;
+                this.photo_link.src = this.config.cover_photo;
+                this.photo_link.width = this.config.cover_photo_width;
+                this.photo_link.height = this.config.cover_photo_height;
             });
     }
 

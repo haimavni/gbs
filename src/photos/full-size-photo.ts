@@ -250,9 +250,11 @@ export class FullSizePhoto {
 
     copy_photo_url(event) {
         event.stopPropagation();
-        let url = this.slide[this.slide.side].src;
-        copy_to_clipboard(url);
-        this.user.set_photo_link(url);
+        let src = this.slide[this.slide.side].src;
+        let width = this.slide[this.slide.side].width;
+        let height = this.slide[this.slide.side].height;
+        copy_to_clipboard(src);
+        this.user.set_photo_link({src:src, width:width, height:height});
         let msg = this.i18n.tr('user.sharing.photo-link-copied');
         toastr.success(msg)
         return false;
@@ -687,6 +689,8 @@ export class FullSizePhoto {
         event.stopPropagation();
         let card_url;
         let img_src = this.slide[this.slide.side].src;
+        let width = this.slide[this.slide.side].width;
+        let height = this.slide[this.slide.side].height;
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
@@ -700,7 +704,7 @@ export class FullSizePhoto {
                 current_url = base_url + response.shortcut;
             });
         await this.api.call_server_post('default/create_fb_card',
-            {img_src: img_src, url: current_url, title: title, description: description})
+            {img_src: img_src, url: current_url, width: width, height: height, title: title, description: description})
             .then(response => {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);

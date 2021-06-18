@@ -91,6 +91,7 @@ export class App {
             { route: 'black-sheep', name: 'black-sheep', moduleId: './games/black-sheep/black-sheep' },
             { route: 'gbrenner/*', name: 'gbrenner', moduleId: './gbrenner/gbrenner'},
             { route: 'gallery', name: 'gallery', moduleId: './gallery/gallery'},
+            { route: 'annotate-video/:id', name: 'annotate-video', moduleId: './videos/annotate-video' },
             { route: 'videos/:id/*', name: 'video-detail', moduleId: './videos/video-detail'}
         ]);
         this.router = router;

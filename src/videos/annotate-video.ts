@@ -23,7 +23,7 @@ class CuePoint {
 }
 
 @autoinject()
-export class VideoDetail {
+export class AnnotateVideo {
     api;
     user: User;
     theme: Theme;

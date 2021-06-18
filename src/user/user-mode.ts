@@ -236,7 +236,10 @@ export class UserMode {
 
     share_on_facebook() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: FacebookCard, model: {current_url: this.current_url, img_src: this.user.get_photo_link()}, lock: false }).whenClosed(response => {
+        this.dialog.open({ viewModel: FacebookCard,
+            model: {current_url: this.current_url,
+                img: this.user.get_photo_link()}, lock: false })
+            .whenClosed(response => {
             this.theme.hide_title = false;
         });
 

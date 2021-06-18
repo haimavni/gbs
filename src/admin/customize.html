@@ -147,10 +147,12 @@
                         <label style="margin-left:8px;width:200px;">
                             ${'admin.cover-photo' & t}
                         </label>
-                        <input type="text" style="margin-left:8px;margin-right:-4px;width:200px;"
-                               value.bind="cover_photo"
-                               change.delegate="set_cover_photo()"/>
-                        <img if.bind="cover_photo" src.bind="cover_photo" width="100" />
+                        <a click.delegate="set_cover_photo()">
+                            <img if.bind="cover_photo" src.bind="cover_photo" width="100"/>
+                            <label if.bind="!cover_photo">
+                                Select a cover photo
+                            </label>
+                        </a>
                     </div>
                 </div>
             </div>

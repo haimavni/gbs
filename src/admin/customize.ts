@@ -46,6 +46,8 @@ export class Customize {
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
     cover_photo;
+    cover_photo_width;
+    cover_photo_height;
     user;
     froala_config = {
         iconsTemplate: 'font_awesome_5',
@@ -106,6 +108,8 @@ export class Customize {
         this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
+        this.cover_photo_width = this.user.config.cover_photo_width;
+        this.cover_photo_height = this.user.config.cover_photo_height;
         this.api.call_server_post('members/get_app_description')
             .then(result => { this.app_description_story = result.story;
                 this.edited_str_orig = result.story.story_text;
@@ -289,7 +293,11 @@ export class Customize {
     }
 
     set_cover_photo() {
-        this.api.call_server_post('admin/cover_photo', {cover_photo: this.cover_photo})
+        let cover_photo = this.user.get_photo_link();
+        this.api.call_server_post('admin/cover_photo',
+            {cover_photo: cover_photo.src,
+                cover_photo_width: cover_photo.width,
+                cover_photo_height: cover_photo.height})
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();
