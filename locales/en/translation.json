@@ -417,7 +417,8 @@
         "to-see-more": "To see more phots make them smaller",
         "mark-people": "Mark people faces",
         "mark-articles": "Mark articles",
-        "undo-last-change": "Undo last change"
+        "undo-last-change": "Undo last change",
+        "photo-detail": "View photo details"
     },
     "videos": {
         "videos": "Video",

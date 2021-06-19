@@ -60,6 +60,7 @@ export class FullSizePhoto {
     nobody_there;
     crop_sides;
     rotate;
+    photo_detail;
     share_on_facebook_txt;
     next_slide_txt;
     prev_slide_txt;
@@ -103,6 +104,7 @@ export class FullSizePhoto {
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.crop = this.i18n.tr('photos.crop');
         this.rotate = this.i18n.tr('photos.rotate-photo');
+        this.photo_detail = this.i18n.tr('photos.photo-detail');
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
         this.share_on_facebook_txt = this.i18n.tr('user.sharing.share-on-facebook');
@@ -877,6 +879,10 @@ export class FullSizePhoto {
             this.get_articles(this.curr_photo_id);
             this.get_photo_info(this.curr_photo_id);
         }
+    }
+
+    close(event) {
+        this.dialogController.ok();
     }
 
     calc_percents() {
