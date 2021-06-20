@@ -13,6 +13,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
 import environment from '../environment';
+import { FacebookCard } from "./facebook-card";
 
 @autoinject()
 export class UserMode {
@@ -53,7 +54,7 @@ export class UserMode {
 
     calc_current_info() {
         document.title = this.i18n.tr('app-title');
-        setTimeout(() => {  //if too early, overridden title is till not in effect
+        setTimeout(() => {  //if too early, overridden title is not in effect yet
             this.sharing_subject = encodeURIComponent(document.title);
         }, 4000);
 
@@ -231,6 +232,17 @@ export class UserMode {
         for (let adv of this.adv_options) adv.cls = '';
         let idx = adv_option.name == 'advanced-options-off' ? 0 : 1;
         this.adv_options[idx].cls = 'selected';
+    }
+
+    share_on_facebook() {
+        this.theme.hide_title = true;
+        this.dialog.open({ viewModel: FacebookCard,
+            model: {current_url: this.current_url,
+                img: this.user.get_photo_link()}, lock: false })
+            .whenClosed(response => {
+            this.theme.hide_title = false;
+        });
+
     }
 
 }

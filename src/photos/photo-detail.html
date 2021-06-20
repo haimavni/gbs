@@ -2,7 +2,7 @@
 
     <div class="content-area photo-detail unselectable">
         <div class="detail-header">
-            <div css="cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+            <div style="cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
                 <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
                     new-chatroom.delegate="create_chatroom()" chatroom-deleted.delegate="chatroom_deleted($event)">
                 </chat-button>

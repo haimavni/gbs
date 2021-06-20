@@ -255,7 +255,6 @@
         "personalize": "התאמה אישית",
         "select-language": "בחירת שפה",
         "select-colors": "בחירת צבעים",
-        "sharing": "שיתוף",
         "enter-text-to-replace": "מצא את הטקסט שברצונך להחליף ואז הקלק עליו בכפתור הימני",
         "site-header": "כותרת האתר",
         "config": "הגדרות מערכת",
@@ -286,7 +285,18 @@
         "quick-upload-photo": "העלה תמונה משלך לאתר",
         "advanced-options": "אפשרויות מתקדמות",
         "advanced-options-off": "ללא אפשרויות מתקדמות",
-        "advanced-options-on": "הצג אפשרויות מתקדמות"
+        "advanced-options-on": "הצג אפשרויות מתקדמות",
+        "sharing": {
+            "sharing": "שיתוף",
+            "facebook": "שיתוף בפייסבוק",
+            "sub-title": "כותרת משנה",
+            "card-description": "תיאור",
+            "continue": "המשך",
+            "share-on-facebook": "שתף בפייסבוק",
+            "photo-link-copied": "כתובת התמונה הועתקה בהצלחג",
+            "replace-photo": "להצגת תמונה אחרת, צא מחלון זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן",
+            "missing-photo": "לא נבחרה תמונה! צא ממסך זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן"
+        }
     },
     "chats": {
         "chats": "קבוצות דיון",
@@ -318,6 +328,7 @@
         "uploaded-by-users": "הועלו על ידי משתמשים",
         "uploaded-by-anyone": "תמונות ממקור כלשהו",
         "enter-date": "תאריך או שנה",
+        "upload-photos": "העלאת תמונות",
         "upload-in-progress": "...התמונות נשלחות לשרת",
         "photos-uploaded": " - תמונות שהועלו בהצלחה",
         "photos-duplicate": " - תמונות שכבר הועלו בעבר",
@@ -404,7 +415,8 @@
         "to-see-more": "כדי לראות יותר תמונות הקטן אותן. כשתגדיל אותן מספרן לא יקטן.",
         "mark-people": "סמן פרצופים",
         "mark-articles": "סמן אובייקטים",
-        "undo-last-change": "בטל את השינוי האחרון"
+        "undo-last-change": "בטל את השינוי האחרון",
+        "photo-detail": "סיפורה של התמונה"
     },
     "audios": {
         "audios": "הקלטות",
@@ -663,7 +675,10 @@
         "no-messages-to-merge": "אין הודעות עזרה שצריך למזג",
         "explain-accept-system": "ותר על ההתאמות וקבל את הודעת העזרה של המערכת",
         "promoted-story-expiration": "כמה ימים לשמור סיפור מְקוּדָם?",
-        "changes-successfuly saved": "השינויים נשמרו בהצלחה"
+        "changes-successfully-saved": "השינויים נשמרו בהצלחה",
+        "cover-photo": "תמונת השער",
+        "select-cover-photo1": "כדי לקבוע תמונת שער, צא ומצא תמונה.",
+        "select-cover-photo2": "הקלק על אייקון השלשלת ואז חזור לכאן."
     },
     "go-back": "חזור",
     "parents": "הורים",

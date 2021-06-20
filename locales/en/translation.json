@@ -257,7 +257,6 @@
         "personalize": "Personalize",
         "select-language": "Select language",
         "select-colors": "Select colors",
-        "sharing": "Sharing",
         "enter-text-to-replace": "Find the text to be replaced, then right-click on it",
         "site-header": "Site header",
         "config": "System definitions",
@@ -288,7 +287,18 @@
         "quick-upload-photo": "Upload a photo",
         "advanced-options": "Advanced options",
         "advanced-options-off": "No advanced options",
-        "advanced-options-on": "Enable advanced options"
+        "advanced-options-on": "Enable advanced options",
+        "sharing": {
+            "sharing": "Sharing",
+            "facebook": "Share on Facebook",
+            "sub-title": "Sub title",
+            "card-description": "Description",
+            "continue": "Continue",
+            "share-on-facebook": "Share on Facebook",
+            "photo-link-copied": "Photo address successfully copied",
+            "replace-photo": "To display a different photo, press Esc and then<br>click on the desired photo and then<b>click the chain icon",
+            "missing-photo": "No photo was selected! press Esc and then<br>click on the desired photo and then<b>click the chain icon"
+        }
     },
     "chats": {
         "chats": "Chats",
@@ -320,6 +330,7 @@
         "uploaded-by-users": "Uploaded by users",
         "uploaded-by-anyone": "Photos from any source",
         "enter-date": "Date or year",
+        "upload-photos": "Upload Photos",
         "upload-in-progress": "Upload in progress...",
         "photos-uploaded": "Successfully uploaded - ",
         "photos-duplicate": "Duplicate photos - ",
@@ -406,7 +417,8 @@
         "to-see-more": "To see more phots make them smaller",
         "mark-people": "Mark people faces",
         "mark-articles": "Mark articles",
-        "undo-last-change": "Undo last change"
+        "undo-last-change": "Undo last change",
+        "photo-detail": "View photo details"
     },
     "videos": {
         "videos": "Video",
@@ -465,6 +477,7 @@
         "select-docs": "Select documents",
         "apply-to-selected": "Tag the selected documents",
         "upload-in-progress": "Upload in progress...",
+        "docs-were-selected": "Documents were selected",
         "docs-uploaded": "Successfully uploaded - ",
         "matching-docs": "Documents that contain the selected words",
         "docs-duplicate": "Duplicate documents - ",
@@ -662,7 +675,10 @@
         "no-messages-to-merge": "No help topics to merge",
         "explain-accept-system": "Abandon your changes. Accept new system help message.",
         "promoted-story-expiration": "How many days to keep promoted story?",
-        "changes-successfully-saved": "Your changes were successfully saved"
+        "changes-successfully-saved": "Your changes were successfully saved",
+        "cover-photo": "Cover Photo",
+        "select-cover-photo1": "To set cover photo, find photo,",
+        "select-cover-photo2": "To click the chain icon. then return here."
     },
     "feedbacks": "Feedback",
     "go-back": "Back",

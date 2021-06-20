@@ -2,7 +2,8 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { FullSizePhoto } from './full-size-photo';
-import { UploadPhotos } from './upload-photos';
+//import { UploadPhotos } from './upload-photos';
+import { Uploader } from '../services/uploader';
 import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
@@ -126,9 +127,9 @@ export class Photos {
             { value: 365, name: this.i18n.tr('photos.uploaded-this-year') }
         ];
         this.uploader_options = [
-            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone'), mustLog: false },
-            { value: "users", name: this.i18n.tr('photos.uploaded-by-users'), mustLog: false },
-            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me'), mustLog: true }
+            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone') },
+            { value: "users", name: this.i18n.tr('photos.uploaded-by-users') },
+            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me') }
         ];
         this.dates_options = [
             { value: "dated-or-not", name: this.i18n.tr('photos.dated-or-not') },
@@ -655,11 +656,15 @@ export class Photos {
 
     upload_files() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: UploadPhotos, lock: true })
-            .whenClosed(result => {
-                this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
-                this.theme.hide_title = false;
-            });
+        let dlg;
+        dlg = this.dialog.open({ viewModel: Uploader,
+            model: {endpoint: 'photos/upload_chunk',
+                object_names: 'photos.photos',
+                header_str: 'photos.upload-photos'}, lock: true })
+        dlg.whenClosed(result => {
+            this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
+            this.theme.hide_title = false;
+        });
     }
 
     download_photos() {

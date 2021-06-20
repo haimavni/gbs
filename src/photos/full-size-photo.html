@@ -84,6 +84,9 @@
                 </button>
                 <button aubs-tooltip="text.bind:copy_photo_url_text;position.bind:hint_position;" class="side-tool copy-to-clipboard"
                     click.delegate="copy_photo_url($event)"><i class="fa fa-lg fa-link"></i></button>
+                <button aubs-tooltip="text.bind:share_on_facebook_txt;position.bind:hint_position;" class="side-tool crop"
+                        click.delegate="share_on_facebook($event)"><i class="fab fa-lg fa-facebook-f" style="color:orange;"></i>
+                </button>
                 <button if.bind="slide.back" aubs-tooltip="text.bind:flip_text;position.bind:hint_position;" class="side-tool flip-sides"
                     click.delegate="flip_photo($event)"><i class="fa fa-lg fa-yin-yang"></i></button>
                 <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
@@ -102,13 +105,16 @@
                     click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-trees"></i></button>
                 <button show.bind="user.editing" aubs-tooltip="text.bind:nobody_there;position.bind:hint_position;" class="side-tool rotate"
                         click.delegate="nobody($event)"><i class="fa fa-lg fa-check"></i></button>
+                <button show.bind="!theme.is_desktop" aubs-tooltip="text.bind:photo_detail;position.bind:hint_position;"
+                        class="side-tool detail"
+                        click.delegate="close($event)"><i class="fa fa-lg fa-bars"></i></button>
             </div>
         </div>
         <div>
             <span if.bind="! user.editing" class="full-size-photo-info ${theme.rtltr}"
                 css="width:${Math.max(slide[slide.side].width)}px;display:flex;align-items:center;justify-content:flex-start;">
                 <span class="photo-info-names">
-                    <span style=""margin-right: 30px>${photo_info.name}.</span>
+                    <span style="margin-right: 30px">${photo_info.name}.</span>
                     <span if.bind="photo_info.photographer_known">
                         ${'photos.photographer' & t}:&nbsp;${photo_info.photographer}.
                     </span>

@@ -3,28 +3,33 @@
     <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px"
         class="container content-area">
         <div class="detail-header story-detail">
-            <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
-                <button class="transparent btn" disabled.bind="next_disabled" ref="btn_next"
-                    click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">
-                    <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 270 : 90} ${next_class}"></i>
-                </button>
-                <i   class="far fa-arrow-up fa-lg" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
-                    if.bind="theme.is_desktop"></i>
-                <button class="transparent btn" disabled.bind="prev_disabled" ref="btn_prev"
-                    click.trigger="go_prev($event)" t="[title]stories.prev-story" if.bind="story_list.length > 1">
-                    <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}"></i>
+            <div>
+                <div style="float:left;cursor:pointer;padding:0;margin:0;display:flex;padding-top:6px;" if.bind="theme.is_desktop">
+                    <button class="transparent btn" disabled.bind="next_disabled" ref="btn_next"
+                        style="margin:0;padding:0;"
+                        click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">
+                        <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 270 : 90} ${next_class}"></i>
+                    </button>
+                    <i class="far fa-arrow-up fa-lg" t="[title]go-back" click.trigger="go_back()"
+                        style="padding-left:3px;padding-right:3px;cursor:pointer;"
+                        if.bind="theme.is_desktop"></i>
+                    <button class="transparent btn" disabled.bind="prev_disabled" ref="btn_prev"
+                        style="padding:0;"
+                        click.trigger="go_prev($event)" t="[title]stories.prev-story" if.bind="story_list.length > 1">
+                        <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}"></i>
+                    </button>
+                </div>
+                <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()"
+                    chatroom-deleted.delegate="chatroom_deleted()" style="float:left;">
+                </chat-button>
+                <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
+                    class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"
+                    t="[title]stories.highlight-on">
                 </button>
             </div>
             <h3 dir="${story_dir}" style="float: right;margin:0px;">
                 ${story_name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
-            <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
-                class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"
-                t="[title]stories.highlight-on">
-            </button>
-            <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()"
-                chatroom-deleted.delegate="chatroom_deleted()" style="float:left;">
-            </chat-button>
         </div>
         <div class="row" css="direction:${story_dir};margin-left:-30px;">
             <div class="col-md-5">
@@ -52,7 +57,7 @@
                     <div if.bind="! user.editing" class="col-md-5">
                     </div>
                 </div>
-                <div style="max-height:550px;overflow:auto;overflow-x:hidden;">
+                <div style="max-height:480px;overflow:auto;overflow-x:hidden;">
                     <div if.bind="members.length>0" id="member-list" class="stories-member-list"
                         style="display:flex;flex-direction:column;">
                         <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
