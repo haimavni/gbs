@@ -418,6 +418,13 @@ export class MultiSelectCustomElement {
         return this.agent.size;
     }
 
+    @computedFrom('selected_options')
+    get refresh() {
+        let arr = this.selected_options.map(opt => opt.option.name)
+        this.selected_options_set = new Set(arr);
+        return false;
+    }
+
     is_visible(option) {
         if (option.topic_kind == undefined) return true;
         if (option.topic_kind == 2) return true;

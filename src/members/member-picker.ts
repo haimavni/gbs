@@ -14,7 +14,6 @@ export class MemberPicker {
     gender = "";
     face_identifier = false;
     face;
-    slide;
     user;
     eventAggregator;
     members = [];
@@ -31,6 +30,7 @@ export class MemberPicker {
     member_id;
     i18n;
     agent = { size: 9999 };
+    back_to_text;
     help_topic;
     multi = false;
     selected_member_ids = new Set();
@@ -49,7 +49,8 @@ export class MemberPicker {
 
     prepare_lists() {
         return this.memberList.getMemberList().then(members => {
-            let parents = members.member_list.slice();
+            //let parents = members.member_list.slice();
+            let parents = this.memberList.get_members().slice();
             if (this.gender) {
                 parents = parents.filter(member => member.gender == this.gender);
             }
@@ -68,13 +69,26 @@ export class MemberPicker {
         this.child_name = model.child_name;  //the child for whom we select parent
         this.face_identifier = model.face_identifier;
         this.face = model.current_face;
-        this.slide = model.slide;
         this.excluded = model.excluded ? model.excluded : new Set();
         this.member_id = model.member_id;
         this.help_topic = model.help_topic;
         await this.prepare_lists();
         this.multi = model.multi;
         this.filter = '';
+        this.back_to_text = model.back_to_text || 'members.back-to-photos';
+        for (let member of this.members) {
+            member.selected = '';
+        }
+        if (model.preselected) {
+            console.log("model.preselected: ", model.preselected);
+            for (let member_id of model.preselected) {
+                this.selected_member_ids.add(member_id)
+                let member = this.members.find(mem => mem.id == member_id);
+                member.selected = 'selected';
+                console.log("member: ", member);
+            }
+            this.members.sort((a, b) => a.selected ? -1 : b.selected ? +1 : 0);
+        }
         if (model.member_id > 0) {
             this.memberList.get_member_by_id(model.member_id)
                 .then(result => {
@@ -102,6 +116,7 @@ export class MemberPicker {
                 member.selected = 'selected'
             }
         } else {
+            this.memberList.add_recent(member);
             this.dialogController.ok({ member_id: member.id, make_profile_photo: this.make_profile_photo });
         }
     }
@@ -136,7 +151,7 @@ export class MemberPicker {
                 }
             }
             let default_name = this.i18n.tr('members.default-name');
-            this.api.call_server('members/create_new_member', { photo_id: this.slide.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name })
+            this.api.call_server('members/create_new_member', { photo_id: this.face.photo_id, face_x: this.face.x, face_y: this.face.y, face_r: this.face.r, name: this.filter, default_name: default_name })
                 .then(response => {
                     this.dialogController.ok({
                         member_id: response.member_id, new_member: response.member

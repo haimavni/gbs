@@ -58,6 +58,9 @@ export class StoryWindow {
         if (! this.story_text) {
              this.story_text = "";
         }
+        if (! this.story.name) {
+            this.story.name = "";
+        }
         if (! this.story.source) {
             this.story.source = this.user.user_name;
         }
@@ -67,11 +70,13 @@ export class StoryWindow {
         this.edit = model.edit;
         this.show = !model.edit;
         this.froala_config.key = this.theme.froala_key();
+        this.froala_config.language = this.story.language;
     }
 
     initialized(e, editor) {
         let el: any = document.getElementsByClassName("fr-element")[0];
-        THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
+        let innerHTML = el.innerHTML || "";
+        THIS_EDITOR.edited_str_orig = innerHTML.slice(0);
     }
 
     content_changed(e, editor) {
@@ -128,6 +133,15 @@ export class StoryWindow {
 
     beforeUpdate(images) {
         console.log("before update. images: ", images, " this: ", this);
+    }
+
+    @computedFrom('story', 'story.language')
+    get story_dir() {
+        if (! this.story) return "";
+        if (this.story.language == 'he' || this.story.language == 'ar') {
+            return "rtl"
+        }
+        return "ltr"
     }
 
 }

@@ -123,6 +123,17 @@ export class Audios {
         this.params.editing = this.user.editing;
         this.api.call_server_post('audios/get_audio_list', { params: this.params })
             .then(response => {
+                if (! response) {
+                    response = {error: "Got no response"}
+                }
+                if (response.error) {
+                    console.log("error occured: ", response.error)
+                    return;
+                }
+                if (! response.audio_list) {
+                    console.log("No audio list");
+                    return;
+                }
                 this.set_audio_list(response.audio_list);
             });
     }

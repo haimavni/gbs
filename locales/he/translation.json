@@ -71,7 +71,7 @@
         "by-update": " ספורים שעודכנו לאחרונה",
         "already-approved": "הספור כבר מאושר",
         "approve-story": "אשר את הספור",
-        "initial_version": "גרסה ראשונה של הסיפור",
+        "initial-version": "גרסה ראשונה של הסיפור",
         "new-to-old": "חדשים תחילה",
         "old-to-new": "ישנים תחילה",
         "by-name": "לפי שמות הספורים",
@@ -185,7 +185,8 @@
         "no-gender": "טרם הוגדר",
         "apply-answers": "ישם",
         "already-identified": " כבר מזוהה בתמונה זו",
-        "back-to-photos": "בחזרה לתמונות"
+        "back-to-photos": "בחזרה לתמונות",
+        "back-to-video": "חזרה לקטע הוידאו"
     },
     "articles": {
         "articles": "אובייקטים",
@@ -254,7 +255,6 @@
         "personalize": "התאמה אישית",
         "select-language": "בחירת שפה",
         "select-colors": "בחירת צבעים",
-        "sharing": "שיתוף",
         "enter-text-to-replace": "מצא את הטקסט שברצונך להחליף ואז הקלק עליו בכפתור הימני",
         "site-header": "כותרת האתר",
         "config": "הגדרות מערכת",
@@ -285,7 +285,18 @@
         "quick-upload-photo": "העלה תמונה משלך לאתר",
         "advanced-options": "אפשרויות מתקדמות",
         "advanced-options-off": "ללא אפשרויות מתקדמות",
-        "advanced-options-on": "הצג אפשרויות מתקדמות"
+        "advanced-options-on": "הצג אפשרויות מתקדמות",
+        "sharing": {
+            "sharing": "שיתוף",
+            "facebook": "שיתוף בפייסבוק",
+            "sub-title": "כותרת משנה",
+            "card-description": "תיאור",
+            "continue": "המשך",
+            "share-on-facebook": "שתף בפייסבוק",
+            "photo-link-copied": "כתובת התמונה הועתקה בהצלחג",
+            "replace-photo": "להצגת תמונה אחרת, צא מחלון זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן",
+            "missing-photo": "לא נבחרה תמונה! צא ממסך זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן"
+        }
     },
     "chats": {
         "chats": "קבוצות דיון",
@@ -317,6 +328,7 @@
         "uploaded-by-users": "הועלו על ידי משתמשים",
         "uploaded-by-anyone": "תמונות ממקור כלשהו",
         "enter-date": "תאריך או שנה",
+        "upload-photos": "העלאת תמונות",
         "upload-in-progress": "...התמונות נשלחות לשרת",
         "photos-uploaded": " - תמונות שהועלו בהצלחה",
         "photos-duplicate": " - תמונות שכבר הועלו בעבר",
@@ -381,6 +393,7 @@
         "crop": "חיתוך",
         "save-crop": "שמור את החיתוך",
         "cancel-crop": "בטל את החיתוך",
+        "nobody-there": "אין את מי לזהות",
         "next-slide": "התמונה הבאה",
         "prev-slide": "התמונה הקודמת",
         "recognized": "תמונות שזוהו",
@@ -402,7 +415,8 @@
         "to-see-more": "כדי לראות יותר תמונות הקטן אותן. כשתגדיל אותן מספרן לא יקטן.",
         "mark-people": "סמן פרצופים",
         "mark-articles": "סמן אובייקטים",
-        "undo-last-change": "בטל את השינוי האחרון"
+        "undo-last-change": "בטל את השינוי האחרון",
+        "photo-detail": "סיפורה של התמונה"
     },
     "audios": {
         "audios": "הקלטות",
@@ -447,7 +461,13 @@
         "unknown-photographer": "לא ידוע",
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
         "filter": "חפוש מהיר בשמות הסרטונים",
-        "edit-filters": "נושאים וצלמים"
+        "edit-filters": "נושאים וצלמים",
+        "add-cue": "הוסף קטע",
+        "cue-time": "זמן התחלה",
+        "cue-description": "תיאור הקטע",
+        "back-to-videos": "בחזרה לקטע הוידאו",
+        "describe-cue": "תאר מה רואים בקטע",
+        "members-in": "מי בקטע?"
     },
     "docs": {
         "docs": "מסמכים",
@@ -655,15 +675,18 @@
         "no-messages-to-merge": "אין הודעות עזרה שצריך למזג",
         "explain-accept-system": "ותר על ההתאמות וקבל את הודעת העזרה של המערכת",
         "promoted-story-expiration": "כמה ימים לשמור סיפור מְקוּדָם?",
-        "changes-successfuly saved": "השינויים נשמרו בהצלחה"
+        "changes-successfully-saved": "השינויים נשמרו בהצלחה",
+        "cover-photo": "תמונת השער",
+        "select-cover-photo1": "כדי לקבוע תמונת שער, צא ומצא תמונה.",
+        "select-cover-photo2": "הקלק על אייקון השלשלת ואז חזור לכאן."
     },
     "go-back": "חזור",
     "parents": "הורים",
     "siblings": "אחים/אחיות",
-    "wife": "בת זוג",
-    "wifes": "בנות זוג",
-    "husband": "בן זוג",
-    "husbands": "בני זוג",
+    "wife": "בת-זוג",
+    "wifes": "בנות-זוג",
+    "husband": "בן-זוג",
+    "husbands": "בני-זוג",
     "children": "ילדים",
     "topics": "נושאים",
     "copy-to-clipboard": "העתק",
@@ -685,6 +708,7 @@
     "by-old-count": "קליקים מצטברים",
     "enter-search-words": "הקלידו מילות חיפוש",
     "no-results": "<p dir='rtl'>לא נמצאו תוצאות מתאימות.<br>יש לשנות או להשמיט חלק מהמסננים</p>",
+    "search-location": "חפש מקום",
     "result1": "חברים",
     "result2": "ספורים",
     "result3": "תמונות",

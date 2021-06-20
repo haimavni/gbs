@@ -1,16 +1,16 @@
 <template id="bla">
-    <ux-dialog style="direction:rtl">
+    <ux-dialog css="direction:${story_dir}" dir="${story_dir}">
         <ux-dialog-header>
-            <div dir="rtl" if.bind="show">
-                <h2 dir="rtl" class="story-title" style="margin:0;">${story.name}</h2>
+            <div if.bind="show">
+                <h2 class="story-title" style="margin:0;">${story.name}</h2>
             </div>
-            <div class="story-title" if.bind="edit" dir="rtl">
+            <div class="story-title" if.bind="edit">
                 <form class="form-horizontal" role="form">
                     <div class="form-group" style="margin:0;">
-                        <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name" dir="rtl">
+                        <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name">
                     </div>
                     <div class="form-group" style="margin:0;">
-                        <input type="text" class="form-control" t="[placeholder]stories.enter-story-source" value.bind="story.source" dir="rtl">
+                        <input type="text" class="form-control" t="[placeholder]stories.enter-story-source" value.bind="story.source">
                     </div>
                 </form>
                 <div if.bind="user.privileges.TEXT_AUDITOR" class="form-group" style="margin:0;">
@@ -23,7 +23,7 @@
             </div>
         </ux-dialog-header>
         <ux-dialog-body>
-            <div class="fr-view" dir="rtl" if.bind="show">
+            <div class="fr-view" if.bind="show">
                 <div class="justified-story">
                     <p class="${theme.font_size}" if.bind="! user.editing">
                         <compose if.bind="story_text" view-model='./render-story' model.bind="{html:story_text,raw:raw}"></compose>

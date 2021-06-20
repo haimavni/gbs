@@ -1,7 +1,7 @@
 <template>
 
     <section class="container content-area">
-        <div>
+        <div class="${theme.rtltr}">
             <div class="row">
                 <div class="col-md-10 col-md-offset-2" style="padding-right:50px;">
                     <div class="inputs-inline">
@@ -49,10 +49,7 @@
                         <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
                             <help topic="family-connections" position="bottom"></help>
                         </div>
-                        <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
-                            <help topic="family-connections" position="bottom"></help>
-                        </div>
-                        <quiz 
+                        <quiz
                             q_state.bind="q_state" 
                             questions.bind="questions" 
                             to_clear_now.bind="to_clear_now"

@@ -86,7 +86,8 @@ export class Theme {
     }
 
     language_dir(lang) {
-       return  rtl_langs.has(lang) ? "rtl" : "ltr";
+        if (!lang) return this.rtltr;
+        return  rtl_langs.has(lang) ? "rtl" : "ltr";
     }
 
     detectTouchScreen() {
@@ -241,9 +242,11 @@ export class Theme {
     froala_key() {
         let tol_key = "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17==";
         let gbs_key = "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jpzjntntD-17lF4npd==";
+        let tolife_key = "WD7C5F4H5E3H3c1A6B5A4C3A3B2C2G3C5A4D-17B-13ffbjhA11A-16yew==";
         let host = window.location.hostname;
         if (host == "gbstories.org") return gbs_key;
         if (host == "tol.life") return tol_key;
+        if (host == "tolife.site") return tolife_key;
     }
 
 }

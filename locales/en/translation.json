@@ -72,7 +72,7 @@
         "by-update": "Most recently updated",
         "already-approved": "Story already approved",
         "approve-story": "Approve this story",
-        "initial_version": "Initial version of the story",
+        "initial-version": "Initial version of the story",
         "new-to-old": "New to old",
         "old-to-new": "Old to new",
         "by-name": "By name",
@@ -187,7 +187,8 @@
         "apply-answers": "Apply",
         "already-identified": " already indetified in this photo",
         "story-date": "Story date",
-        "back-to-photos": "Back to photos"
+        "back-to-photos": "Back to photos",
+        "back-to-video": "Back to video"
     },
     "articles": {
         "articles": "Articles",
@@ -219,7 +220,7 @@
         "none-of-the-above": "None of the above"
     },
     "user": {
-        "hit-counts": "מונה הכניסות",
+        "hit-counts": "Entries counter",
         "login": "Sign in",
         "logout": "Sign out",
         "please-login": "Please sign in",
@@ -248,15 +249,14 @@
         "chat-rooms": "Chat rooms",
         "chats": "Discussions",
         "font-size": "Select font size",
-        "login-successful": "You have logged in successfuly",
+        "login-successful": "You have logged in successfully",
         "share": "Copy the address",
         "number-of-hits": "Number of entries",
         "customize": "Customize",
         "customize-dictionary": "Customize any text",
         "personalize": "Personalize",
-        "select_langauage": "Select language",
+        "select-language": "Select language",
         "select-colors": "Select colors",
-        "sharing": "Sharing",
         "enter-text-to-replace": "Find the text to be replaced, then right-click on it",
         "site-header": "Site header",
         "config": "System definitions",
@@ -287,7 +287,18 @@
         "quick-upload-photo": "Upload a photo",
         "advanced-options": "Advanced options",
         "advanced-options-off": "No advanced options",
-        "advanced-options-on": "Enable advanced options"
+        "advanced-options-on": "Enable advanced options",
+        "sharing": {
+            "sharing": "Sharing",
+            "facebook": "Share on Facebook",
+            "sub-title": "Sub title",
+            "card-description": "Description",
+            "continue": "Continue",
+            "share-on-facebook": "Share on Facebook",
+            "photo-link-copied": "Photo address successfully copied",
+            "replace-photo": "To display a different photo, press Esc and then<br>click on the desired photo and then<b>click the chain icon",
+            "missing-photo": "No photo was selected! press Esc and then<br>click on the desired photo and then<b>click the chain icon"
+        }
     },
     "chats": {
         "chats": "Chats",
@@ -319,8 +330,9 @@
         "uploaded-by-users": "Uploaded by users",
         "uploaded-by-anyone": "Photos from any source",
         "enter-date": "Date or year",
+        "upload-photos": "Upload Photos",
         "upload-in-progress": "Upload in progress...",
-        "photos-uploaded": "Successfuly uploaded - ",
+        "photos-uploaded": "Successfully uploaded - ",
         "photos-duplicate": "Duplicate photos - ",
         "left": "Left",
         "failed": "Failed - ",
@@ -383,6 +395,7 @@
         "crop": "Crop",
         "save-crop": "Save crop",
         "cancel-crop": "Cancel crop",
+        "nobody-there": "Nobody to recognize",
         "next-slide": "Next photo",
         "prev-slide": "Prev photo",
         "recognized": "Recognized photos",
@@ -404,7 +417,8 @@
         "to-see-more": "To see more phots make them smaller",
         "mark-people": "Mark people faces",
         "mark-articles": "Mark articles",
-        "undo-last-change": "Undo last change"
+        "undo-last-change": "Undo last change",
+        "photo-detail": "View photo details"
     },
     "videos": {
         "videos": "Video",
@@ -416,7 +430,7 @@
         "apply-to-selected": "Tag the selected videos",
         "video-name": "Name the video clip",
         "send": "Send",
-        "message-successful": "Video was successfuly added",
+        "message-successful": "Video was successfully added",
         "duplicate": "Video clip already exists",
         "unknown-video-type": "Unknown video type",
         "next": "Page forward",
@@ -427,7 +441,12 @@
         "unknown-photographer": "Unknown",
         "promote-selected-videos": "Promote selected videos",
         "filter": "Fast search in video titles",
-        "edit-filters": "Topics and keywords"
+        "edit-filters": "Topics and keywords",
+        "add-cue": "Create stopping point",
+        "cue-time": "Time",
+        "cue-description": "Description",
+        "describe-cue": "Describe this segment",
+        "members-in": "Members are in this segment"
     },
     "audios": {
         "audios": "Audios",
@@ -458,7 +477,8 @@
         "select-docs": "Select documents",
         "apply-to-selected": "Tag the selected documents",
         "upload-in-progress": "Upload in progress...",
-        "docs-uploaded": "Successfuly uploaded - ",
+        "docs-were-selected": "Documents were selected",
+        "docs-uploaded": "Successfully uploaded - ",
         "matching-docs": "Documents that contain the selected words",
         "docs-duplicate": "Duplicate documents - ",
         "categories": "Categories selection",
@@ -655,9 +675,12 @@
         "no-messages-to-merge": "No help topics to merge",
         "explain-accept-system": "Abandon your changes. Accept new system help message.",
         "promoted-story-expiration": "How many days to keep promoted story?",
-        "changes-successfuly saved": "Your changes were successfuly saved"
+        "changes-successfully-saved": "Your changes were successfully saved",
+        "cover-photo": "Cover Photo",
+        "select-cover-photo1": "To set cover photo, find photo,",
+        "select-cover-photo2": "To click the chain icon. then return here."
     },
-    "feedbacks": "משוב",
+    "feedbacks": "Feedback",
     "go-back": "Back",
     "parents": "Parents",
     "siblings": "Siblings",
@@ -686,6 +709,7 @@
     "by-old-count": "By old count",
     "enter-search-words": "Enter search words",
     "no-results": "No matching results found",
+    "search-location": "Search location",
     "result1": "Members",
     "result2": "Stories",
     "result3": "Photos",

@@ -69,7 +69,7 @@
                             <span repeat.for="video of video_list | filter: filter : '*selected' : 'name' | keeplen : length_keeper | take : videos_per_page : first_index" class="fr-video fr-fvc fr-draggable fr-dvi"
                                 
                                 contenteditable="false" draggable="true">
-                                <iframe class="video-iframe" src.bind="video.src" frameborder="0" allowfullscreen="">
+                                <iframe class="video-iframe" src.bind="video.src" frameborder="0" allowfullscreen="" if.bind="video.video_type=='youtube'">
                                     <style>
                                         div.yp-title-beacon {
                                             display: none;
@@ -96,9 +96,9 @@
                     <span show.bind="false">${user_editing}</span>
                     <div class="row" style="margin-bottom:15px;position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit", position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                        <help if.bind="user.advanced_user && phase=='photos-not-editing'" id="video-help" topic="tags" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
-                        <help if.bind="(!user.advanced_user) && phase=='photos-not-editing'" id="video-help" topic="tags-simple" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
+                        <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit", id="video-help" position="bottom" class="${theme.rtltr}" ></help>
+                        <help if.bind="user.advanced_user && phase=='photos-not-editing'" id="video-help" class="${theme.rtltr}" topic="tags" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
+                        <help if.bind="(!user.advanced_user) && phase=='photos-not-editing'" id="video-help" class="${theme.rtltr}" topic="tags-simple" position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
                         <multi-select options.bind="topic_list"
                             category="topic"
                             selected_options.bind="params.selected_topics"

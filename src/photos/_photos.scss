@@ -10,6 +10,40 @@ a.photo-selected img{
     width: 90%;
 }
 
+div.multi-select-div {
+    margin-bottom: 15px;
+    position:relative;
+    .header {
+        margin-top: 0px;
+        margin-bottom:2px;
+        font-size:120%;
+    }
+    help {
+        position: absolute;
+        top:2px;
+    }
+}
+
+[dir="ltr"] div.multi-select-div {
+    >help {
+        right: 0px;
+        top: 25px;
+    }
+    multi-select help {
+        left: 2px;
+    }
+}
+[dir="rtl"] div.multi-select-div {
+    >help {
+        left: 0px;
+        top: 25px;
+    }
+    multi-select help {
+        right: 2px;
+    }
+}
+
+
 a.photo-maximizer {
     position:absolute;
     right:0px;
@@ -35,6 +69,11 @@ div.panel.panel-default {
     margin-left:auto;
     margin-right:auto;
     min-height:755px;
+    .detail-header {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
     editable div.story-section {
         height: 150px;
     }

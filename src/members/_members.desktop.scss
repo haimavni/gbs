@@ -15,6 +15,10 @@ div.member-list.content-area li.list-group-item {
     #member-detail-content > div {
         min-height: 268px;
     }
+    #member-detail-content {
+        display: flex;
+        flex-direction: row-reverse;
+    }
 }
 
 #members-filter {

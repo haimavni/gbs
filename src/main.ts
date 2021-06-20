@@ -1,10 +1,11 @@
-import { Aurelia } from 'aurelia-framework'
+import {Aurelia} from 'aurelia-framework'
 import environment from './environment';
 import * as Backend from 'i18next-xhr-backend';
-import { Router } from 'aurelia-router';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import {Router} from 'aurelia-router';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import "froala-editor/js/froala_editor.pkgd.min";
 import "froala-editor/js/languages/he";
+import regeneratorRuntime from "regenerator-runtime";
 
 export function configure(aurelia: Aurelia) {
     try {
@@ -112,13 +113,14 @@ export function configure(aurelia: Aurelia) {
         });
 
         const google_maps_key = 'AIzaSyA5NfkmdFEz8VEbPhzErqoXpSxiV_zg8WQ';
-
+        const tolife_google_api_key = 'AIzaSyBKvOyX3jtoW10M8Mu6fk6mQvY31lv-xQo';
         aurelia.use
             .plugin('aurelia-google-maps', config => {
                 config.options({
-                    apiKey: google_maps_key, // use `false` to disable the key
-                    apiLibraries: 'drawing,geometry', //get optional libraries like drawing, geometry, ... - comma seperated list
-                    options: { panControl: true, panControlOptions: { position: 9 } }, //add google.maps.MapOptions on construct (https://developers.google.com/maps/documentation/javascript/3.exp/reference#MapOptions)
+                    apiKey: tolife_google_api_key, // use `false` to disable the key
+                    clientId: "1234",   //experiment...
+                    apiLibraries: 'drawing,geometry,places', //get optional libraries like drawing, geometry, ... - comma seperated list
+                    options: {panControl: true, panControlOptions: {position: 9}}, //add google.maps.MapOptions on construct (https://developers.google.com/maps/documentation/javascript/3.exp/reference#MapOptions)
                     language: 'he' || 'en', // default: uses browser configuration (recommended). Set this parameter to set another language (https://developers.google.com/maps/documentation/javascript/localization)
                     region: 'IL' || 'US', // default: it applies a default bias for application behavior towards the United States. (https://developers.google.com/maps/documentation/javascript/localization)
                     markerCluster: {
@@ -129,6 +131,19 @@ export function configure(aurelia: Aurelia) {
                     }
                 });
             });
+        /*aurelia.use
+            .plugin('aurelia-google-places', config => {
+                config.options({
+                    apiScriptLoadedEvent: 'aurelia-plugins:google-maps:api-script-loaded', // if loadApiScript is false, the event that is subscribed to, to know when the Google Maps API is loaded by another plugin
+                    key: tolife_google_api_key, // your Google API key retrieved from the Google Developer Console
+                    //key: google_maps_key,
+                    language: 'en' || 'he', // see https://developers.google.com/maps/documentation/javascript/localization
+                    apiLibraries: 'places', // see https://developers.google.com/maps/documentation/javascript/libraries
+                    loadApiScript: true, // whether or not the <script> tag of the Google Maps API should be loaded
+                    options: {types: ['geocode']}, // see https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete
+                    region: 'IL' || 'US' // see https://developers.google.com/maps/documentation/javascript/localization#Region
+                });
+            });*/
         if (environment.debug) {
             aurelia.use.developmentLogging();
         }

@@ -77,7 +77,7 @@
     },
     "options": {
       "minify": "stage & prod & tmp_env",
-      "sourcemaps": "dev & stage",
+      "sourcemaps": "haha & dev3 & stage & windsor & prod",
       "rev": "prod & stage & tmp_env"
     },
     "bundles": [
@@ -281,7 +281,8 @@
             "name": "aurelia-google-maps",
             "path": "../node_modules/aurelia-google-maps/dist/amd",
             "main": "index"
-          }
+          },
+          "regenerator-runtime"
         ]
       }
     ]

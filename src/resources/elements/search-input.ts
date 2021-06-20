@@ -1,15 +1,18 @@
 import { bindable, bindingMode, inject, DOM } from 'aurelia-framework';
+import {Theme} from '../../services/theme';
 
-@inject(DOM.Element)
+@inject(DOM.Element, Theme)
 export class SearchInputCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay}) value;
     @bindable placeholder = 'type someting';
     @bindable height;
     @bindable help_topic = 'search-input';
     element;
+    theme: Theme;
 
-    constructor(element) {
+    constructor(element, theme) {
         this.element = element;
+        this.theme = theme;
     }
 
     clear_text(event) {

@@ -2,18 +2,18 @@
 
     <div class="content-area photo-detail unselectable">
         <div class="detail-header">
-            <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+            <div style="cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
                 <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
                     new-chatroom.delegate="create_chatroom()" chatroom-deleted.delegate="chatroom_deleted($event)">
                 </chat-button>
-                <i class="far fa-lg fa-arrow-up fa-rotate-90 ${next_class}" t="[title]photos.next-slide"
+                <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='rtl' ? 90 : 270} ${next_class}" t="[title]photos.next-slide"
                     click.trigger="go_next($event)" if.bind="photo_ids.length > 1"></i>
                 <i class="far fa-lg fa-arrow-up" t="[title]go-back" click.trigger="go_back()"
                     if.bind="theme.is_desktop"></i>
-                <i class="far fa-lg fa-arrow-up fa-rotate-270 ${prev_class}" t="[title]photos.prev-slide"
+                <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}" t="[title]photos.prev-slide"
                     click.trigger="go_prev($event)" if.bind="photo_ids.length > 1"></i>
             </div>
-            <h3 dir="rtl" style="float: right;margin:0px;">
+            <h3 style="margin-top:0px;">
                 ${photo_story.name}
             </h3>
             <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
@@ -27,15 +27,12 @@
 
                 <span>
                     <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
-                    <button class="btn btn-basic" if.bind="user.editing || has_location" click.delegate="expose_map()"
+                    <button class="btn btn-basic" if.bind="user.editing || marked" click.delegate="expose_map()"
                         style="margin-top:8px;border:solid 2px lightgray;float:left;">
                         <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
                     </button>
-                    <!-- <input type="number" if.bind="map_visible" min="1" max="25" value.bind="zoom" 
-                        change.delegate="zoom_changed($event) & debounce: 1000"
-                        style="margin-top:8px;margin-left:5px; height:35px;padding-right:4px;padding-bottom:5px;font-size:130%;border:solid 2px lightgray;float:left;"> -->
                 </span>
-                <span dir="${theme.rtltr}" if.bind="photographer_name">${'photos.photographer-name' & t}:
+                <span dir="${theme.rtltr}" if.bind="photographer_id">${'photos.photographer-name' & t}:
                     ${photographer_name}</span>
                 <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing"
                     base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true" enable_days_range.bind="true"
@@ -55,18 +52,18 @@
                 </div>
                 <div class="row" style="padding-right:15px;">
                     <div class="fr-view" dir="rtl">
-                        <div show.bind="map_visible">
-                            <google-map 
-								longitude.two-way="longitude"
-							    latitude.two-way="latitude"
-                                map-click.delegate="create_marker($event)"
-                                bounds-change.delegate="bounds_changed($event)"
-								markers.bind="markers" 
-								zoom.bind="zoom"
-                                auto-update-bounds="true">
-                            </google-map>
-                        </div>
-                        <div style="padding-right:0" if.bind="! map_visible">
+                        <my-map show.bind="map_visible && (user.editing || marked)"
+                                ignore.bind="ignore"
+                                longitude.bind="longitude"
+                                latitude.bind="latitude"
+                                zoom.bind="zoom"
+                                can_mark.bind="user.editing"
+                                marked.bind="marked"
+                                location-changed.delegate="location_changed($event)"
+                        >
+                        </my-map>
+
+                        <div style="padding-right:0" if.bind="! (map_visible && (user.editing || marked))">
                             <div if.bind="! user.editing" class="row photo-story">
                                 <div class="fr-view" dir="${story_dir}">
                                     <div class="${theme.font_size}"
@@ -83,10 +80,11 @@
                             <div if.bind="user.editing" style="display:flex;flex-direction:column;">
                                 <editable style="background-color:beige;margin-bottom:12px;"
                                     settings.bind="{show_date:false, class:'story-section', checkable: false}"
-                                    story.bind="photo_story"></editable>
+                                    story.bind="photo_story">
+                                </editable>
                                 <div class="multi-select-div"
                                     style="margin-bottom:0px;position:relative;width:80%;height:60vh;overflow:auto;">
-                                    <div class="multi-select-div" style="margin-bottom:15px;position:relative;">
+                                    <div class="multi-select-div" style="margin-bottom:15px;position:relative;" dir="${theme.rtltr}">
                                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
                                             ${'stories.categories'
                                             & t}</div>
@@ -105,7 +103,7 @@
                                             ms-change.delegate="handle_topic_change($event) ">
                                         </multi-select>
                                     </div>
-                                    <div class="multi-select-div">
+                                    <div class="multi-select-div" dir="${theme.rtltr}">
                                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
                                             ${'photos.photographers' & t}</div>
                                         <multi-select options.bind="photographer_list" category="photographer"
@@ -131,6 +129,7 @@
                 </div>
             </div>
         </div>
+        <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->
     </div>
 
 </template>

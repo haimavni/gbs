@@ -50,7 +50,7 @@ export class Home {
             result => {
                 this.message_list = result.message_list;
             });
-        this.api.call_server_post('photos/get_video_sample')
+        this.api.call_server_post('videos/get_video_sample')
             .then(response => this.set_video_list(response.video_list));
         this.dialog = dialog;
         this.popup = popup;
@@ -113,6 +113,7 @@ export class Home {
     attached() {
         this.api.call_server_post('members/get_random_member').then(result => {
             this.member_of_the_day = result.member_data;
+            if (! this.member_of_the_day) return;
             this.member_prefix = this.member_of_the_day.gender == 'F' ? 'home.female-member-of-the-day' : 'home.male-member-of-the-day';
             this.was_born_in = this.member_of_the_day.gender == 'F' ? 'home.female-was-born-in' : 'home.male-was-born-in';
             this.died_in = this.member_of_the_day.gender == 'F' ? 'home.female-died-in' : 'home.male-died-in';

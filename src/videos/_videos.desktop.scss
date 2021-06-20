@@ -59,8 +59,12 @@ div.video-page {
 }
 
 #video-help {
-    top: 2px;
-    left: 2px;
+    &.rtl {
+        left: 0px;
+    }
+    &.ltr {
+        right: 0px;
+    }
 }
 
 #video-filters {

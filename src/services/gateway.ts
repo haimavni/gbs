@@ -101,7 +101,8 @@ export class MemberGateway {
             .catch(error => toastr.error(error))
             .then((result) => {
                 if (result.error) {
-                    toastr.error(this.tr(result.error));
+                    toastr.error('Error occurred: ' + result.error);
+                    return result;
                 } else if (result.user_error) {
                     toastr.warning(this.tr(result.user_error));
                     return result;
@@ -120,7 +121,8 @@ export class MemberGateway {
             .catch(error => toastr.error(error))
             .then((result) => {
                 if (result.error) {
-                    toastr.error(this.tr(result.error))
+                    toastr.error("Server error occured: " + this.tr(result.error));
+                    return result;
                 } else if (result.user_error) {
                     toastr.warning(this.tr(result.user_error));
                     return result;

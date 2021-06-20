@@ -1,9 +1,9 @@
-import { autoinject, singleton, noView } from "aurelia-framework";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { MemberGateway } from '../services/gateway';
-import { I18N } from 'aurelia-i18n';
+import {autoinject, noView, singleton} from "aurelia-framework";
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {MemberGateway} from '../services/gateway';
+import {I18N} from 'aurelia-i18n';
 import environment from '../environment';
-import { Cookies } from './cookies';
+import {Cookies} from './cookies';
 
 @autoinject()
 @singleton()
@@ -14,12 +14,24 @@ export class User {
     public editing: boolean;
     public user_name;
     public privileges;
-    public config = {enable_auto_registration: false, expose_new_app_button: false, support_audio: false};
+    public config = {
+        enable_auto_registration: false,
+        expose_new_app_button: false,
+        support_audio: false,
+        cover_photo: "",
+        cover_photo_width: 800,
+        cover_photo_height: 420
+    };
     public id;
-    public _advanced = 'off';
+    public _advanced;
     private api;
     private i18n;
     private cookies: Cookies;
+    private photo_link = {
+        src: "",
+        width: 800,
+        height: 420
+    }
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
         this.eventAggregator = eventAggregator;
@@ -28,10 +40,12 @@ export class User {
         this.cookies = cookies;
         this.isLoggedIn = false;
         this.editing = false;
-        this.privileges = { EDITOR: true };
+        this.privileges = {EDITOR: true};
         this.readPrivileges();
         this.readConfiguration();
-        this.eventAggregator.subscribe('ROLE_CHANGED', payload => { this.handle_role_change(payload) });
+        this.eventAggregator.subscribe('ROLE_CHANGED', payload => {
+            this.handle_role_change(payload)
+        });
     }
 
     handle_role_change(payload) {
@@ -59,6 +73,11 @@ export class User {
         return this.api.call_server('default/read_configuration')
             .then(result => {
                 this.config = result.config;
+                if ((!this.photo_link.src) && this.config.cover_photo) {
+                    this.photo_link.src = this.config.cover_photo;
+                    this.photo_link.width = this.config.cover_photo_width;
+                    this.photo_link.height = this.config.cover_photo_height;
+                }
             });
     }
 
@@ -66,8 +85,8 @@ export class User {
         return this.api.call_server('default/check_if_logged_in')
             .then(result => {
                 this.isLoggedIn = result.is_logged_in;
-                this.id=result.user_id;
-             });
+                this.id = result.user_id;
+            });
     }
 
     login(loginData) {
@@ -77,7 +96,7 @@ export class User {
                     let msg = this.i18n.tr('user.' + result.user_error);
                     throw result.user_error
                 }
-                this.isLoggedIn = ! result.unregistered;
+                this.isLoggedIn = !result.unregistered;
                 let keys = Object.keys(result.user);
                 for (let key of keys) {
                     this[key] = result.user[key];
@@ -96,7 +115,7 @@ export class User {
     }
 
     attempt_login(loginData) {
-        return this.api.call_server('groups/attempt_login', { email: loginData.email })
+        return this.api.call_server('groups/attempt_login', {email: loginData.email})
             .then(response => {
                 this.id = response.user_id;
                 if (this.id) {
@@ -111,7 +130,7 @@ export class User {
     }
 
     register(loginData) {
-        return this.api.call_server_post('default/register_user', { user_info: loginData })
+        return this.api.call_server_post('default/register_user', {user_info: loginData})
             .then((result) => {
                 if (result.user_error) {
                     let msg = this.i18n.tr('user.' + result.user_error);
@@ -135,6 +154,7 @@ export class User {
                 this.cookies.put('ADVANCED-USER', this._advanced);
             }
         }
+        if (this.editing) return true;
         return this._advanced == 'on';
     }
 
@@ -144,8 +164,15 @@ export class User {
     }
 
     get advanced_user() {
-        if (this.editing) return true;
         return this.advanced;
+    }
+
+    set_photo_link(photo_link) {
+        this.photo_link = photo_link;
+    }
+
+    get_photo_link() {
+        return this.photo_link;
     }
 
 }
