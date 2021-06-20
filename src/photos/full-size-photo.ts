@@ -254,7 +254,7 @@ export class FullSizePhoto {
         event.stopPropagation();
         let src = this.slide[this.slide.side].src;
         copy_to_clipboard(src);
-        this.user.set_photo_link({src: src});
+        this.user.set_photo_link(src);
         let msg = this.i18n.tr('user.sharing.photo-link-copied');
         toastr.success(msg)
         return false;
@@ -706,7 +706,8 @@ export class FullSizePhoto {
             .then(response => {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
-            })
+            });
+        await sleep(100);  //black magic attempt to solve a mystery: does not always work on first time
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
