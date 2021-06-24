@@ -418,7 +418,8 @@
         "mark-people": "Mark people faces",
         "mark-articles": "Mark articles",
         "undo-last-change": "Undo last change",
-        "photo-detail": "View photo details"
+        "photo-detail": "View photo details",
+        "set-slideshow-topics": "Slide show topics"
     },
     "videos": {
         "videos": "Video",

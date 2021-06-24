@@ -1,22 +1,23 @@
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { autoinject, singleton, computedFrom } from 'aurelia-framework';
-import { FullSizePhoto } from './full-size-photo';
+import {MemberGateway} from '../services/gateway';
+import {User} from "../services/user";
+import {autoinject, singleton, computedFrom} from 'aurelia-framework';
+import {FullSizePhoto} from './full-size-photo';
 //import { UploadPhotos } from './upload-photos';
-import { Uploader } from '../services/uploader';
-import { DialogService } from 'aurelia-dialog';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
-import { Theme } from '../services/theme';
-import { MemberPicker } from "../members/member-picker";
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import { MyDate, format_date } from '../services/my-date';
+import {Uploader} from '../services/uploader';
+import {DialogService} from 'aurelia-dialog';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {I18N} from 'aurelia-i18n';
+import {Router} from 'aurelia-router';
+import {Theme} from '../services/theme';
+import {MemberPicker} from "../members/member-picker";
+import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
+import {MyDate, format_date} from '../services/my-date';
 import * as download from 'downloadjs';
-import { set_intersection } from '../services/set_utils';
+import {set_intersection} from '../services/set_utils';
 import * as toastr from 'toastr';
-import { Misc } from '../services/misc';
-import { debounce } from '../services/debounce';
+import {Misc} from '../services/misc';
+import {debounce} from '../services/debounce';
+import {Cookies} from '../services/cookies';
 
 const
     UTO = 'upload-time-order',
@@ -38,6 +39,7 @@ export class Photos {
     user;
     theme;
     dialog;
+    cookies: Cookies;
     misc: Misc;
     win_width;
     win_height;
@@ -108,9 +110,10 @@ export class Photos {
     photos_date_valid = "";
     editing = false;
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
+    constructor(api: MemberGateway, user: User, cookies: Cookies, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
         this.user = user;
+        this.cookies = cookies;
         this.theme = theme;
         this.dialog = dialog;
         this.i18n = i18n;
@@ -119,29 +122,29 @@ export class Photos {
         this.ea = ea;
         this.misc = misc;
         this.days_since_upload_options = [
-            { value: 0, name: this.i18n.tr('photos.uploaded-any-time') },
-            { value: 1, name: this.i18n.tr('photos.uploaded-today') },
-            { value: 7, name: this.i18n.tr('photos.uploaded-this-week') },
-            { value: 30, name: this.i18n.tr('photos.uploaded-this-month') },
-            { value: 91, name: this.i18n.tr('photos.uploaded-this-quarter') },
-            { value: 365, name: this.i18n.tr('photos.uploaded-this-year') }
+            {value: 0, name: this.i18n.tr('photos.uploaded-any-time')},
+            {value: 1, name: this.i18n.tr('photos.uploaded-today')},
+            {value: 7, name: this.i18n.tr('photos.uploaded-this-week')},
+            {value: 30, name: this.i18n.tr('photos.uploaded-this-month')},
+            {value: 91, name: this.i18n.tr('photos.uploaded-this-quarter')},
+            {value: 365, name: this.i18n.tr('photos.uploaded-this-year')}
         ];
         this.uploader_options = [
-            { value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone') },
-            { value: "users", name: this.i18n.tr('photos.uploaded-by-users') },
-            { value: "mine", name: this.i18n.tr('photos.uploaded-by-me') }
+            {value: "anyone", name: this.i18n.tr('photos.uploaded-by-anyone')},
+            {value: "users", name: this.i18n.tr('photos.uploaded-by-users')},
+            {value: "mine", name: this.i18n.tr('photos.uploaded-by-me')}
         ];
         this.dates_options = [
-            { value: "dated-or-not", name: this.i18n.tr('photos.dated-or-not') },
-            { value: "dated", name: this.i18n.tr('photos.dated') },
-            { value: "undated", name: this.i18n.tr('photos.undated') }
+            {value: "dated-or-not", name: this.i18n.tr('photos.dated-or-not')},
+            {value: "dated", name: this.i18n.tr('photos.dated')},
+            {value: "undated", name: this.i18n.tr('photos.undated')}
         ];
         this.recognition_options = this.misc.make_selection('photos', ['recognized', 'unrecognized', 'recognized-or-not', 'recognized-not-located']);
         this.order_options = [
-            { value: "random-order", name: this.i18n.tr('photos.random-order') },
-            { value: UTO, name: this.i18n.tr('photos.' + UTO) },
-            { value: CDOR, name: this.i18n.tr('photos.' + CDOR) },
-            { value: CDO, name: this.i18n.tr('photos.' + CDO) }
+            {value: "random-order", name: this.i18n.tr('photos.random-order')},
+            {value: UTO, name: this.i18n.tr('photos.' + UTO)},
+            {value: CDOR, name: this.i18n.tr('photos.' + CDOR)},
+            {value: CDO, name: this.i18n.tr('photos.' + CDO)}
         ];
         this.options_settings = new MultiSelectSettings({
             clear_filter_after_select: false,
@@ -162,8 +165,12 @@ export class Photos {
     }
 
     created(params, config) {
-        this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
-        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now they are linked...
+        this.ea.subscribe('TAGS_MERGED', () => {
+            this.update_topic_list()
+        });
+        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => {
+            this.update_topic_list()
+        });  //for now they are linked...
         if (this.topic_list.length > 0) {
             return;
         }
@@ -214,7 +221,7 @@ export class Photos {
     }
 
     update_topic_list() {
-        let usage = this.user.editing ? {} : { usage: 'P' };
+        let usage = this.user.editing ? {} : {usage: 'P'};
         this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -227,7 +234,7 @@ export class Photos {
 
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
+        this.api.call_server_post('topics/add_topic', {topic_name: new_topic_name})
             .then(() => this.update_topic_list());
     }
 
@@ -295,7 +302,7 @@ export class Photos {
 
     private openDialog(slide) {
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: this.photo_list }, lock: false })
+        this.dialog.open({viewModel: FullSizePhoto, model: {slide: slide, slide_list: this.photo_list}, lock: false})
             .whenClosed(response => {
                 document.body.classList.remove('black-overlay');
                 //this.theme.page_title = title;
@@ -353,7 +360,12 @@ export class Photos {
             //this.openDialog(slide);
             let photo_ids = this.photo_list.map(photo => photo.photo_id);
             photo_ids = photo_ids.slice(0, 800); //to prevent server errors such as "invalid gateway"
-            this.router.navigateToRoute('photo-detail', { id: slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+            this.router.navigateToRoute('photo-detail', {
+                id: slide.photo_id,
+                keywords: "",
+                photo_ids: photo_ids,
+                pop_full_photo: true
+            });
         }
     }
 
@@ -381,13 +393,13 @@ export class Photos {
 
     remove_topic(event) {
         let topic_id = event.detail.option.id;
-        this.api.call_server_post('topics/remove_topic', { topic_id: topic_id })
+        this.api.call_server_post('topics/remove_topic', {topic_id: topic_id})
             .then(() => this.update_topic_list());
     }
 
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' })
+        this.api.call_server_post('topics/add_photographer', {photographer_name: new_photographer_name, kind: 'P'})
             .then(() => {
                 this.update_topic_list();
             });
@@ -395,7 +407,7 @@ export class Photos {
 
     remove_photographer(event) {
         let photographer = event.detail.option;
-        this.api.call_server_post('topics/remove_photographer', { photographer: photographer })
+        this.api.call_server_post('topics/remove_photographer', {photographer: photographer})
             .then(() => {
                 this.update_topic_list();
             });
@@ -418,7 +430,7 @@ export class Photos {
         if (this.chronological_date_stops.length == 0)
             [this.params.last_photo_date, this.params.last_photo_id] = [null, null]
         else {
-            [this.params.last_photo_date, this.params.last_photo_id] = this.chronological_date_stops[this.chronological_date_stops.length-1]
+            [this.params.last_photo_date, this.params.last_photo_id] = this.chronological_date_stops[this.chronological_date_stops.length - 1]
         }
     }
 
@@ -452,8 +464,7 @@ export class Photos {
     get next_disabled() {
         if (this.params.selected_order_option == UTO) {
             return this.params.last_photo_id == "END"
-        }
-        else  if (this.params.selected_order_option.startsWith(CDO)) {
+        } else if (this.params.selected_order_option.startsWith(CDO)) {
             return this.params.last_photo_date == "END"
         }
     }
@@ -568,7 +579,7 @@ export class Photos {
     private jump_to_photo(slide) {
         this.curr_photo_id = slide.photo_id;
         this.scroll_top = this.scroll_area.scrollTop;
-        this.router.navigateToRoute('photo-detail', { id: this.curr_photo_id, keywords: "" });
+        this.router.navigateToRoute('photo-detail', {id: this.curr_photo_id, keywords: ""});
     }
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_topics', 'params.selected_photographers', 'params.photos_date_str',
@@ -624,6 +635,14 @@ export class Photos {
         return 'photos-ready-to-edit';
     }
 
+    set_slideshow_topics(event) {
+        event.stopPropagation();
+        let x = JSON.stringify(this.params.selected_topics);
+        this.cookies.put('SLIDESHOW-TOPICS', x);
+        let s = this.cookies.get('SLIDESHOW-TOPICS');
+        toastr.success("Topics for slideshow saved " + s);
+    }
+
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_dates_option')
     get can_set_dates() {
         return this.user.editing && this.selected_photos.size > 0
@@ -635,13 +654,20 @@ export class Photos {
         let caller_type = this.caller_type;
         this.caller_type = '';
         this.api.call_server_post('members/save_photo_group',
-            { user_id: this.user.id, caller_id: this.caller_id, caller_type: caller_type, photo_ids: photo_ids })
+            {user_id: this.user.id, caller_id: this.caller_id, caller_type: caller_type, photo_ids: photo_ids})
             .then(response => {
                 this.clear_photo_group();
                 if (caller_type == 'story') {
-                    this.router.navigateToRoute('story-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4EVENT });
-                } if (caller_type == 'term') {
-                    this.router.navigateToRoute('term-detail', { id: this.caller_id, used_for: this.api.constants.story_type.STORY4TERM });
+                    this.router.navigateToRoute('story-detail', {
+                        id: this.caller_id,
+                        used_for: this.api.constants.story_type.STORY4EVENT
+                    });
+                }
+                if (caller_type == 'term') {
+                    this.router.navigateToRoute('term-detail', {
+                        id: this.caller_id,
+                        used_for: this.api.constants.story_type.STORY4TERM
+                    });
                 }
             });
     }
@@ -657,12 +683,16 @@ export class Photos {
     upload_files() {
         this.theme.hide_title = true;
         let dlg;
-        dlg = this.dialog.open({ viewModel: Uploader,
-            model: {endpoint: 'photos/upload_chunk',
+        dlg = this.dialog.open({
+            viewModel: Uploader,
+            model: {
+                endpoint: 'photos/upload_chunk',
                 object_names: 'photos.photos',
-                header_str: 'photos.upload-photos'}, lock: true })
+                header_str: 'photos.upload-photos'
+            }, lock: true
+        })
         dlg.whenClosed(result => {
-            this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
+            this.get_uploaded_info({duplicates: result.output.duplicates, uploaded: result.output.uploaded});
             this.theme.hide_title = false;
         });
     }
@@ -704,7 +734,13 @@ export class Photos {
                 let front_photo = this.photo_list.find(item => item.photo_id == front_id);
                 front_photo.flipable = 'flipable';
                 let back_photo = this.photo_list.find(item => item.photo_id == back_id);
-                front_photo['back'] = { square_src: back_photo.square_src, photo_id: back_photo.photo_id, src: back_photo.src, width: back_photo.width, height: back_photo.height };
+                front_photo['back'] = {
+                    square_src: back_photo.square_src,
+                    photo_id: back_photo.photo_id,
+                    src: back_photo.src,
+                    width: back_photo.width,
+                    height: back_photo.height
+                };
                 let idx = this.photo_list.findIndex(item => item.photo_id == back_id);
                 this.photo_list.splice(idx, 1)
                 this.clear_photo_group();
@@ -714,7 +750,11 @@ export class Photos {
     flip_sides(photo, event) {
         photo.side = (photo.side == 'front') ? 'back' : 'front';
         if (this.user.editing) {
-            this.api.call_server_post('photos/flip_photo', { front_id: photo.front.photo_id, back_id: photo.back.photo_id, to_unpair: event.ctrlKey })
+            this.api.call_server_post('photos/flip_photo', {
+                front_id: photo.front.photo_id,
+                back_id: photo.back.photo_id,
+                to_unpair: event.ctrlKey
+            })
                 .then(response => {
                     if (response.to_unpair) {
                         this.update_photo_list();
@@ -751,7 +791,7 @@ export class Photos {
         let selected_photos = Array.from(this.selected_photos);
         this.working = true
         let lst = (selected_photos.length > 0) ? selected_photos : null;
-        this.api.call_server_post('photos/find_duplicates', { selected_photos: lst })
+        this.api.call_server_post('photos/find_duplicates', {selected_photos: lst})
             .then(result => {
                 this.working = false
                 this.got_duplicates = result.got_duplicates;
@@ -793,7 +833,7 @@ export class Photos {
         let spl = set_intersection(this.selected_photos, this.candidates);
         let selected_photo_list = Array.from(spl);
         this.working = true;
-        this.api.call_server_post('photos/replace_duplicate_photos', { photos_to_keep: selected_photo_list })
+        this.api.call_server_post('photos/replace_duplicate_photos', {photos_to_keep: selected_photo_list})
             .then(result => {
                 this.working = false;
                 for (let photo of this.photo_list) {
@@ -846,7 +886,7 @@ export class Photos {
 
     @computedFrom('params.selected_topics.length', 'params.selected_photographers.length', 'params.photos_date_str', 'photos_date_valid')
     get apply_disabled() {
-        let x = this.params.selected_topics.length==0 && this.params.selected_photographers.length != 1 && this.params.photos_date_str == '';
+        let x = this.params.selected_topics.length == 0 && this.params.selected_photographers.length != 1 && this.params.photos_date_str == '';
         if (this.photos_date_valid != 'valid') x = true;
         return x;
     }

@@ -3,6 +3,7 @@ import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../../../services/gateway';
 import { I18N, TCustomAttribute } from 'aurelia-i18n';
 import { Misc } from '../../../services/misc';
+import { Theme } from '../../../services/theme';
 
 @autoinject
 export class EditTopic {
@@ -19,12 +20,14 @@ export class EditTopic {
     name_placeholder = "";
     description_placeholder = "";
     misc;
+    theme;
 
-    constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc) {
+    constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc, theme: Theme) {
         this.controller = controller;
         this.api = api;
         this.i18n = i18n;
         this.misc = misc;
+        this.theme = theme;
     }
 
     activate(params) {
