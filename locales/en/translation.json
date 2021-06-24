@@ -419,7 +419,8 @@
         "mark-articles": "Mark articles",
         "undo-last-change": "Undo last change",
         "photo-detail": "View photo details",
-        "set-slideshow-topics": "Slide show topics"
+        "set-slideshow-topics": "Slide show topics",
+        "slideshow-topics-saved": "Slideshow topics saved"
     },
     "videos": {
         "videos": "Video",

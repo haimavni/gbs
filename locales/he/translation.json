@@ -417,7 +417,8 @@
         "mark-articles": "סמן אובייקטים",
         "undo-last-change": "בטל את השינוי האחרון",
         "photo-detail": "סיפורה של התמונה",
-        "set-slideshow-topics": "קבע כנושאים למצגת הפתיחה"
+        "set-slideshow-topics": "קבע כנושאים למצגת הפתיחה",
+        "slideshow-topics-saved": "הנושאים למצגת הפתיחה נשמרו"
     },
     "audios": {
         "audios": "הקלטות",

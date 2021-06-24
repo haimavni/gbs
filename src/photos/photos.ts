@@ -639,8 +639,8 @@ export class Photos {
         event.stopPropagation();
         let x = JSON.stringify(this.params.selected_topics);
         this.cookies.put('SLIDESHOW-TOPICS', x);
-        let s = this.cookies.get('SLIDESHOW-TOPICS');
-        toastr.success("Topics for slideshow saved " + s);
+        let msg = this.i18n.tr('photos.slideshow-topics-saved');
+        toastr.success(msg);
     }
 
     @computedFrom('user.editing', 'params.selected_photo_list', 'params.selected_dates_option')
