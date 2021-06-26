@@ -719,7 +719,8 @@ export class FullSizePhoto {
 
     nobody(event) {
         event.stopPropagation();
-        this.api.call_server('photos/mark_as_recogized', {photo_id: this.slide[this.slide.side].photo_id});
+        let unrecognize = event.ctrlKey;
+        this.api.call_server('photos/mark_as_recogized', {photo_id: this.slide[this.slide.side].photo_id, unrecognize: unrecognize});
     }
 
     slide_idx() {
