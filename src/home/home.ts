@@ -3,6 +3,7 @@ import { Popup } from '../services/popups';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { User } from '../services/user';
+import { Cookies } from '../services/cookies';
 import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
 import { I18N } from 'aurelia-i18n';
@@ -22,6 +23,7 @@ export class Home {
     died_in;
     router;
     user;
+    cookies;
     misc;
     theme;
     stories_sample;
@@ -35,15 +37,19 @@ export class Home {
     photo_strip_height = 220;
     popup;   //just to force closing all dialogs on routing
 
-    constructor(api: MemberGateway, router: Router, user: User, theme: Theme, i18n: I18N, memberList: MemberList, dialog: DialogService,
-        popup: Popup, eventAggregator: EventAggregator, misc: Misc) {
+    constructor(api: MemberGateway, router: Router, user: User, cookies: Cookies, theme: Theme, i18n: I18N,
+                memberList: MemberList, dialog: DialogService,
+                popup: Popup, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
         this.user = user;
+        this.cookies = cookies;
         this.misc = misc;
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
-        this.photo_list = this.api.call_server_post('photos/get_photo_list', { selected_recognition: 'recognized' });
+        let x = this.cookies.get('SLIDESHOW-TOPICS');
+        let slideshow_topics = JSON.parse(x);
+        this.photo_list = this.api.call_server_post('photos/get_photo_list', { selected_recognition: 'recognized', selected_topics: slideshow_topics });
         this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample = result.stories_sample);
         memberList.getMemberList(); //to load in the background
         this.api.call_server_post('members/get_message_list').then(

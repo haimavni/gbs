@@ -64,6 +64,10 @@
                             <div class="form-group toolbar" if.bind="user.privileges.ADMIN && selected_photos.size > 0">
                                 <button t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos($event)"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
+                            <div class="form-group toolbar" if.bind="user.privileges.TESTER">
+                                <button t="[title]photos.set-slideshow-topics" class="btn btn-basic btn-md"
+                                        click.delegate="set_slideshow_topics($event)"><i class="fa fa-projector fa-lg"></i></button>
+                            </div>
                             <div class="form-group" if.bind="! editing_filters">
                                 <button class="btn btn-basic btn-sm btn-framed" 
                                     style="margin-right:20px;margin-left:20px;"
