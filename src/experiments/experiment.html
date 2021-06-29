@@ -10,7 +10,8 @@
 
     </my-map-->
     <div style="width: 600px;margin-right:auto;margin-left:auto">
-        <button class="btn btn-primary" click.delegate="make_step()">Step forward</button>
+        <button class="btn btn-primary" click.delegate="make_step($event)">Step forward</button>
         <progress-bar final.bind="final" current.bind="current"></progress-bar>
+        <yt-player player.bind="player" video-id="GBpibo4TEdE" ref="yt_player"></yt-player>
     </div>
 </template>

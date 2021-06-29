@@ -276,6 +276,8 @@
         "site-description": "תאור האתר למכונות חיפוש",
         "feedback-on": "הצג כפתור משוב",
         "feedback-off": "ללא כפתור משוב",
+        "exclusive-on": "פתוח רק למשתמשים רשומים",
+        "exclusive-off": "פתוח לכל מי שיש את הקישור",
         "quick-upload-off": "ללא כפתור העלאה מהירה",
         "quick-upload-on": "הצג כפתור העלאה מהירה",
         "version-time-on": "הצג את תאריך הגרסה",
@@ -286,6 +288,8 @@
         "advanced-options": "אפשרויות מתקדמות",
         "advanced-options-off": "ללא אפשרויות מתקדמות",
         "advanced-options-on": "הצג אפשרויות מתקדמות",
+        "registered-only": "רק משתמשים רשומים רשאים לצפות באתר זה",
+        "please-login-if": "אם אתה משתמש רשום, אנא התחבר",
         "sharing": {
             "sharing": "שיתוף",
             "facebook": "שיתוף בפייסבוק",
