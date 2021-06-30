@@ -1,6 +1,17 @@
-import {bindable, bindingMode, customElement, DOM} from 'aurelia-framework';
+import {bindable, bindingMode, customElement} from 'aurelia-framework';
 
-const YT = undefined;
+const YT = null;
+
+enum PlayerStates {
+    UNSTARTED = -1,
+    ENDED,
+    PLAYING,
+    PAUSED,
+    BUFFERING,
+    CUED = 5
+}
+
+let playerState: PlayerStates;
 
 class Player {
     player;
@@ -15,6 +26,14 @@ class Player {
 
     set currentTime(newTime) {
         this.player.seekTo(newTime);
+    }
+
+    get playerState(): PlayerStates {
+        return playerState;
+    }
+
+    get paused() {
+        return this.playerState == PlayerStates.PAUSED;
     }
 
     loadVideo(videoId) {
@@ -33,15 +52,15 @@ class Player {
 
 @customElement('yt-player')
 export class YtPlayerCustomElement {
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) player;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) videoId;
+    @bindable({defaultBindingMode: bindingMode.twoWay}) player;
+    @bindable({defaultBindingMode: bindingMode.twoWay}) videoId;
 
     constructor() {
-        console.log("yt player was constructed");
+        //console.log("yt player was constructed");
     }
 
     created() {
-        console.log("yt player created")
+        //console.log("yt player created")
         let tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -50,7 +69,7 @@ export class YtPlayerCustomElement {
         //    after the API code downloads.
 
         (<any>window).onYouTubeIframeAPIReady = () => {
-            console.log("api is ready");
+            //console.log("api is ready");
             //let element = document.getElementById('ytplayer');
             let player = new (<any>window).YT.Player('ytplayer', {
                 height: '100%',
@@ -74,6 +93,7 @@ export class YtPlayerCustomElement {
     }
 
     onPlayerStateChange(event) {
-        console.log("player status changed ", event);
+        //console.log("player status changed ", event);
+        playerState = event.data;
     }
 }

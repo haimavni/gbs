@@ -13,5 +13,7 @@
         <button class="btn btn-primary" click.delegate="make_step($event)">Step forward</button>
         <progress-bar final.bind="final" current.bind="current"></progress-bar>
         <yt-player player.bind="player" video-id="GBpibo4TEdE" ref="yt_player"></yt-player>
+        <h3 if.bind="player.paused">Paused</h3>
+        <h1>State: ${player.playerState}</h1>
     </div>
 </template>
