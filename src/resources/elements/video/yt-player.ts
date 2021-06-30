@@ -2,6 +2,35 @@ import {bindable, bindingMode, customElement, DOM} from 'aurelia-framework';
 
 const YT = undefined;
 
+class Player {
+    player;
+
+    constructor(player) {
+        this.player = player;
+    }
+
+    get currentTime() {
+        return this.player.getCurrentTime();
+    }
+
+    set currentTime(newTime) {
+        this.player.seekTo(newTime);
+    }
+
+    loadVideo(videoId) {
+        this.player.loadVideoById(videoId);
+    }
+
+    playVideo() {
+        this.player.playVideo();
+    }
+
+    stopVideo() {
+        this.player.stopVideo();
+    }
+
+}
+
 @customElement('yt-player')
 export class YtPlayerCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) player;
@@ -23,7 +52,7 @@ export class YtPlayerCustomElement {
         (<any>window).onYouTubeIframeAPIReady = () => {
             console.log("api is ready");
             //let element = document.getElementById('ytplayer');
-            this.player = new (<any>window).YT.Player('ytplayer', {
+            let player = new (<any>window).YT.Player('ytplayer', {
                 height: '100%',
                 width: '100%',
                 videoId: '', //'OTnLL_2-Dj8', //  'M7lc1UVf-VE',
@@ -34,16 +63,9 @@ export class YtPlayerCustomElement {
                     'onReady': this.onPlayerReady,
                     'onStateChange': this.onPlayerStateChange
                 }
-            })
+            });
+            this.player = new Player(player);
         }
-    }
-
-    get currentTime() {
-        return this.player.getCurrentTime();
-    }
-
-    set currentTime(newTime) {
-        this.player.seekTo(newTime);
     }
 
 
