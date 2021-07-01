@@ -32,12 +32,14 @@ export class Customize {
     enable_articles_options = ['user.enable-articles-on', 'user.enable-articles-off'];
     enable_books_options = ['user.enable-books-on', 'user.enable-books-off'];
     enable_member_of_the_day_options = ['user.enable-member-of-the-day-on', 'user.enable-member-of-the-day-off'];
+    exclusive_options = ['user.exclusive-on', 'user.exclusive-off']
 
     //-----------
     auto_reg_option = 'user.by-invitation';
     new_app_option = 'user.new-app-disabled';
     audio_option = 'user.audio-disabled';
     feedback_option = 'user.feedback-on';
+    exclusive_option = 'user.exclusive-off'
     quick_upload_button = 'user.quick-upload-off';
     version_time_option = 'user.version-time-on';
     expose_developer_option = 'user.expose-developer-on';
@@ -98,6 +100,7 @@ export class Customize {
         this.new_app_option = this.user.config.expose_new_app_button ? 'user.new-app-enabled' : 'user.new-app-disabled';
         this.audio_option = this.user.config.support_audio ? 'user.audio-enabled' : 'user.audio-disabled';
         this.feedback_option = this.user.config.expose_feedback_button ? 'user.feedback-on' : 'user.feedback-off';
+        this.exclusive_option = this.user.config.exclusive ? 'user.exclusive-on' : 'user.exclusive-off';
         this.quick_upload_button = this.user.config.quick_upload_button ? 'user.quick-upload-on' : 'user.quick-upload-off';
         this.expose_developer_option = this.user.config.expose_developer ? 'user.expose-developer-on' : 'user.expose-developer-off';
         this.enable_articles_option = this.user.config.enable_articles ? 'user.enable-articles-on' : 'user.enable-articles-off';
@@ -211,6 +214,15 @@ export class Customize {
     feedback_option_selected(option) {
         this.feedback_option = option;
         this.api.call_server('admin/set_feedback_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+    exclusive_option_selected(option) {
+        this.exclusive_option = option;
+        this.api.call_server('admin/set_exclusive_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();

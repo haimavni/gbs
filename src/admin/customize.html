@@ -94,6 +94,13 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
+                        <button repeat.for="excl of exclusive_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${excl==exclusive_option ? 'primary' : 'default'} customization"
+                            click.delegate="exclusive_option_selected(excl)">
+                            <span style="font-weight:bolder">${excl & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="qu of quick_upload_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${qu==quick_upload_button ? 'primary' : 'default'} customization"
                             click.delegate="quick_upload_option_selected(qu)">
