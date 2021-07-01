@@ -21,6 +21,7 @@ export class User {
         cover_photo: "",
         exclusive: false
     };
+    config_ready = false;
     public id;
     public _advanced;
     private api;
@@ -68,6 +69,7 @@ export class User {
         return this.api.call_server('default/read_configuration')
             .then(result => {
                 this.config = result.config;
+                this.config_ready = true;
                 if ((!this.photo_link_src) && this.config.cover_photo) {
                     this.photo_link_src = this.config.cover_photo;
                 }

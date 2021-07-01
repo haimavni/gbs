@@ -53,8 +53,12 @@ export class App {
 
     public router;
 
-    configureRouter(config, router) {
+    async configureRouter(config, router) {
         router.title = 'app-title';
+        for (let i=0; i < 100; i+=1) {
+            if (this.user.config_ready) break;
+            await this.misc.sleep(100);
+        }
         config.addAuthorizeStep(AuthorizeStep);
         config.map([
             {route: '', redirect: 'home'},
