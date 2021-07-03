@@ -105,7 +105,7 @@
                     click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-trees"></i></button>
                 <button show.bind="user.editing" aubs-tooltip="text.bind:nobody_there;position.bind:hint_position;" class="side-tool rotate"
                         click.delegate="nobody($event)"><i class="fa fa-lg fa-check"></i></button>
-                <button show.bind="!theme.is_desktop" aubs-tooltip="text.bind:photo_detail;position.bind:hint_position;"
+                <button aubs-tooltip="text.bind:photo_detail;position.bind:hint_position;"
                         class="side-tool detail"
                         click.delegate="close($event)"><i class="fa fa-lg fa-bars"></i></button>
             </div>
