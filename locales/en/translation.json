@@ -503,7 +503,8 @@
         "approved": "Approved Documents",
         "drag-left-and-right": "Drag here left or right",
         "edit-filters": "Topics and keywords",
-        "link-to-doc-created": "Link to the document is ready for pasting in the editor"
+        "link-to-doc-created": "Link to the document is ready for pasting in the editor",
+        "click-to-close": "Click to close"
     },
     "terms": {
         "terms": "Terms",

@@ -166,25 +166,19 @@ export class Docs {
 
     upload_files() {
         this.theme.hide_title = true;
-        let dlg;
-        if (this.user.privileges.TESTER) {
-            dlg = this.dialog.open({
-                viewModel: Uploader,
-                model: {
-                    endpoint: 'docs/upload_chunk',
-                    select_objects_text: 'docs.select-docs',
-                    object_names: 'docs.docs',
-                    header_str: 'docs.upload',
-                    file_types: ".pdf",
-                    duplicate_objects_text: "docs.duplicate",
-                    objects_were_selected_text: "docs.docs-were-selected",
-                    what: 'DOCS'
-                }, lock: true
-            })
-        } else {
-            dlg = this.dialog.open({viewModel: UploadDocs, lock: false});
-        }
-        dlg.whenClosed(result => {
+        this.dialog.open({
+            viewModel: Uploader,
+            model: {
+                endpoint: 'docs/upload_chunk',
+                select_objects_text: 'docs.select-docs',
+                object_names: 'docs.docs',
+                header_str: 'docs.upload',
+                file_types: ".pdf",
+                duplicate_objects_text: "docs.duplicate",
+                objects_were_selected_text: "docs.docs-were-selected",
+                what: 'DOCS'
+            }, lock: true
+        }).whenClosed(result => {
             this.theme.hide_title = false
         });
     }

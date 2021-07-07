@@ -503,7 +503,8 @@
         "approved": "מסמכים שכבר אושרו",
         "drag-left-and-right": "גרור כאן שמאלה וימינה",
         "edit-filters": "נושאים ומילות מפתח",
-        "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך"
+        "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך",
+        "click-to-close": "סגור את המסמך"
     },
     "terms": {
         "terms": "מונחים",

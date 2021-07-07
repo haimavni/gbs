@@ -1,13 +1,17 @@
 import { Theme } from "../services/theme";
 import { autoinject } from 'aurelia-framework';
+import {DialogController} from 'aurelia-dialog';
+
 
 @autoinject
 export class DocPage {
     doc_src;
     theme;
+    dialog;
 
-    constructor(theme: Theme) {
+    constructor(theme: Theme, dialog: DialogController) {
         this.theme = theme;
+        this.dialog = dialog;
     }
 
     activate(model) {
@@ -24,5 +28,9 @@ export class DocPage {
             el.style.marginLeft = `${ml}px`;
         }
 
+    }
+
+    close_doc() {
+        this.dialog.ok();
     }
 }
