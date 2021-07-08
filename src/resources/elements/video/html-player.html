@@ -1,6 +1,8 @@
 <template>
     <div class="video-display-area">
-        <video ref="player" id="video-element" width="640" height="480" controls>
+        HTML5 PLAYER
+        <video id="video-element" width="640" height="480" controls>
+            <span>video source ${video_source}</span>
             <source src.bind="video_source" type="video/mp4">
             Your browser does not support the video tag.
         </video>
