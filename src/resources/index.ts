@@ -36,6 +36,7 @@ export function configure(config) {
         './elements/fit-text',
         './elements/my-map/my-map',
         './elements/progress-bar',
-        './elements/video/yt-player'
+        './elements/video/yt-player',
+        './elements/video/html-player'
     ]);
 }
