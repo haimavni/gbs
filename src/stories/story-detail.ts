@@ -303,15 +303,15 @@ export class StoryDetail {
         return highlighted_html;
     }
 
-    next_page(event, dif) {
-        let t = this.story_box.scrollTop;
-        let h = this.story_box.clientHeight;
-        t += dif * (h - 24);
-        if (t < 0) {
-            t = 0;
-        }
-        this.story_box.scrollTop = t;
-    }
+    // next_page(event, dif) {
+    //     let t = this.story_box.scrollTop;
+    //     let h = this.story_box.clientHeight;
+    //     t += dif * (h - 24);
+    //     if (t < 0) {
+    //         t = 0;
+    //     }
+    //     this.story_box.scrollTop = t;
+    // }
 
     @computedFrom('story_idx')
     get prev_disabled() {
