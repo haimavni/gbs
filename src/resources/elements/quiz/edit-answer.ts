@@ -1,6 +1,7 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { Question, Answer} from './quiz-model';
+import { Theme } from '../../../services/theme';
 
 @autoinject
 export class EditAnswer {
@@ -8,9 +9,11 @@ export class EditAnswer {
     old_text: string;
     old_description: string;
     controller: DialogController;
+    theme: Theme;
 
-    constructor(controller: DialogController) {
+    constructor(controller: DialogController, theme: Theme) {
         this.controller = controller;
+        this.theme = theme;
     }
 
     activate(answer: Answer) {
