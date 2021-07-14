@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
@@ -23,6 +23,7 @@ class CuePoint {
 }
 
 @autoinject()
+//@singleton
 export class AnnotateVideo {
     api;
     user: User;
@@ -34,6 +35,9 @@ export class AnnotateVideo {
     members;
     video_id;
     video_name;
+    video_src = "";
+    video_type = "youtube";
+    video_is_ready;
     options_settings: MultiSelectSettings;
     photographers_settings: MultiSelectSettings;
     topic_list = [];
@@ -43,6 +47,9 @@ export class AnnotateVideo {
     no_photographers_yet = false;
     video_source;
     video_element: HTMLVideoElement;
+    yt_player: any = null;
+    player: any;
+    player_is_ready;
     cue_points: CuePoint[] = [];
     video_story;
     chatroom_id = null;
@@ -57,6 +64,7 @@ export class AnnotateVideo {
     undo_list = [];
     ea: EventAggregator;
     selected_member_ids = [];
+    video_info;
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc, dialog: DialogService, router: Router, ea: EventAggregator) {
@@ -88,17 +96,39 @@ export class AnnotateVideo {
     }
 
     async activate(params, config) {
+        console.log("params ", params);
+        this.video_id = params.video_id;
+        this.video_name = params.video_name;
+        this.video_src = params.video_src;
+        this.video_type = params.video_type || "youtube";
+
         this.cue_points = [];
         await this.update_topic_list();
-        await this.get_video_info(params.id);
+        await this.get_video_info(this.video_id);
     }
 
-    attached() {
+    async attached() {
         console.log("attached. element: ", this.video_element);
         //console.log("duration: ", this.video_element.duration);
         //this.video_element.play();
-        this.video_element = document.getElementById('video-element') as HTMLVideoElement;
-        this.video_element.currentTime = 0;
+        if (this.video_type == 'youtube') {
+            for (let i=0; i < 100; i+=1) {
+                if (this.yt_player && this.player_is_ready) {
+                    console.log("i = ", i, " yt_player is  ready: ", this.yt_player, " this.video_is_ready: ", this.video_is_ready);
+                    await this.misc.sleep(200);
+                    console.log("about to load video");
+                    this.yt_player.loadVideo(this.video_src);
+                    await this.misc.sleep(200);
+                    break;
+                }
+                await this.misc.sleep(100);
+            }
+            this.player = this.yt_player
+        } else {
+            this.video_element = document.getElementById('video-element') as HTMLVideoElement;
+            this.player = this.video_element;
+        }
+        this.player.currentTime = 0;
         //element.play();
         //console.log("element is ", element, element.src);
     }
@@ -168,7 +198,7 @@ export class AnnotateVideo {
 
     add_cue_point() {
         console.log("cue points: ", this.cue_points)
-        let time = Math.round(this.video_element.currentTime)
+        let time = Math.round(this.player.currentTime)
         let cue = new CuePoint(time, '');
         this.cue_points.push(cue);
         this.cue_points = this.cue_points.sort((cue1, cue2) => cue1.time - cue2.time);
@@ -184,7 +214,7 @@ export class AnnotateVideo {
             cue.is_current = false;
         }
         cue.is_current = true;
-        this.video_element.currentTime = cue.time;
+        this.player.currentTime = cue.time;
     }
 
     remove_cue(cue) {
@@ -207,9 +237,9 @@ export class AnnotateVideo {
 
     }
 
-    @computedFrom('video_element.currentTime')
+    @computedFrom('player.currentTime')
     get already_in() {
-        let t = Math.round(this.video_element.currentTime)
+        let t = Math.round(this.player.currentTime)
         let cue = this.cue_points.find(c => c.time == t)
         return Boolean(cue);
     }

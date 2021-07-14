@@ -1,6 +1,6 @@
 import {bindable, bindingMode, customElement} from 'aurelia-framework';
 
-const YT = null;
+let YT = null;
 
 enum PlayerStates {
     UNSTARTED = -1,
@@ -37,6 +37,7 @@ class Player {
     }
 
     loadVideo(videoId) {
+        console.log("loadvideo. videoId: ", videoId, " this player: ", this.player);
         this.player.loadVideoById(videoId);
     }
 
@@ -54,9 +55,11 @@ class Player {
 export class YtPlayerCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay}) player;
     @bindable({defaultBindingMode: bindingMode.twoWay}) videoId;
+    @bindable({defaultBindingMode: bindingMode.twoWay}) player_is_ready;
 
     constructor() {
         //console.log("yt player was constructed");
+        YT = this;
     }
 
     created() {
@@ -89,7 +92,8 @@ export class YtPlayerCustomElement {
 
 
     onPlayerReady(event) {
-        console.log("player is ready ", event);
+        console.log("player is ready ", event, " this: ", YT);
+        YT.player_is_ready = true;
     }
 
     onPlayerStateChange(event) {
