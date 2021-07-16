@@ -41,7 +41,7 @@
 
                 </div>
 
-                <button class="btn btn-primary" click.delegate="add_cue_point()" if.bind="user.editing" disabled.bind="(!video_element.paused) || already_in">
+                <button class="btn btn-primary" click.delegate="add_cue_point()" if.bind="user.editing" disabled.bind="(!player.paused) || already_in">
                     ${'videos.add-cue' & t}
                 </button>
                 <div class="cue-points-area table-scroller">

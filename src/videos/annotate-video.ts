@@ -113,6 +113,9 @@ export class AnnotateVideo {
         //this.video_element.play();
         if (this.video_type == 'youtube') {
             for (let i=0; i < 100; i+=1) {
+                if (this.yt_player) {
+                    console.log("waiting for yt_player ", this.yt_player);
+                }
                 if (this.yt_player && this.player_is_ready) {
                     console.log("i = ", i, " yt_player is  ready: ", this.yt_player, " this.video_is_ready: ", this.video_is_ready);
                     await this.misc.sleep(200);
@@ -122,6 +125,10 @@ export class AnnotateVideo {
                     break;
                 }
                 await this.misc.sleep(100);
+            }
+            if (!this.yt_player) {
+                console.log("Failed.");
+                this.yt_player = {};
             }
             this.player = this.yt_player
         } else {
@@ -244,4 +251,7 @@ export class AnnotateVideo {
         return Boolean(cue);
     }
 
+    go_back() {
+        this.router.navigateBack();
+    }
 }

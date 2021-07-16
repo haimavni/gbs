@@ -1,6 +1,5 @@
 import {bindable, bindingMode, customElement} from 'aurelia-framework';
-
-let YT = null;
+import {YtKeeper} from '../../../services/yt-keeper';
 
 enum PlayerStates {
     UNSTARTED = -1,
@@ -14,39 +13,53 @@ enum PlayerStates {
 let playerState: PlayerStates;
 
 class Player {
-    player;
+    _player;
+    ytKeeper;
 
-    constructor(player) {
-        this.player = player;
+    constructor(ytKeeper) {
+        this.ytKeeper = ytKeeper;
+        //this.ytKeeper.player = ytKeeper.player;
+        console.log("creating Player, this.player: ", this.ytKeeper.player, " ytkeeper==", this.ytKeeper);
     }
 
     get currentTime() {
-        return this.player.getCurrentTime();
+        return this.ytKeeper.player.getCurrentTime();
     }
 
     set currentTime(newTime) {
-        this.player.seekTo(newTime);
+        this.ytKeeper.player.seekTo(newTime);
     }
 
     get playerState(): PlayerStates {
-        return playerState;
+        return this.ytKeeper.player.getPlayerState();
     }
 
     get paused() {
         return this.playerState == PlayerStates.PAUSED;
     }
 
-    loadVideo(videoId) {
-        console.log("loadvideo. videoId: ", videoId, " this player: ", this.player);
-        this.player.loadVideoById(videoId);
+    set paused(p) {
+        if (p) {
+            this.ytKeeper.player.pauseVideo();
+        } else {
+            this.ytKeeper.player.playVideo();
+        }
+    }
+
+    set videoSource(src) {
+        this.ytKeeper.player.loadVideoById(src);
     }
 
     playVideo() {
-        this.player.playVideo();
+        this.ytKeeper.player.playVideo();
     }
 
     stopVideo() {
-        this.player.stopVideo();
+        this.ytKeeper.player.stopVideo();
+    }
+
+    pauseVideo() {
+        this.ytKeeper.player.pauseVideo()
     }
 
 }
@@ -56,44 +69,20 @@ export class YtPlayerCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay}) player;
     @bindable({defaultBindingMode: bindingMode.twoWay}) videoId;
     @bindable({defaultBindingMode: bindingMode.twoWay}) player_is_ready;
+    @bindable({defaultBindingMode: bindingMode.twoWay}) currentTime;
+    ytKeeper;
 
-    constructor() {
-        //console.log("yt player was constructed");
-        YT = this;
-    }
-
-    created() {
-        //console.log("yt player created")
-        let tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        let firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        // 3. This function creates an <iframe> (and YouTube player)
-        //    after the API code downloads.
-
-        (<any>window).onYouTubeIframeAPIReady = () => {
-            //console.log("api is ready");
-            //let element = document.getElementById('ytplayer');
-            let player = new (<any>window).YT.Player('ytplayer', {
-                height: '100%',
-                width: '100%',
-                videoId: '', //'OTnLL_2-Dj8', //  'M7lc1UVf-VE',
-                playerVars: {
-                    'playsinline': 1
-                },
-                events: {
-                    'onReady': this.onPlayerReady,
-                    'onStateChange': this.onPlayerStateChange
-                }
-            });
-            this.player = new Player(player);
-        }
+    constructor(ytKeeper: YtKeeper) {
+        console.log("yt player was constructed");
+        this.ytKeeper = ytKeeper;
+        console.log("ytKeeper: ", ytKeeper);
+        this.player = new Player(ytKeeper);
+        console.log("in yt-player, this.player: ", this.player);
     }
 
 
     onPlayerReady(event) {
-        console.log("player is ready ", event, " this: ", YT);
-        YT.player_is_ready = true;
+        this.ytKeeper.player_is_ready = true;
     }
 
     onPlayerStateChange(event) {
