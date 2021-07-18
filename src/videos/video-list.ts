@@ -9,6 +9,7 @@ import {AddVideo} from './add-video';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
 import {format_date} from '../services/my-date';
+import {Popup} from '../services/popups';
 
 @autoinject
 class Video {
@@ -53,6 +54,7 @@ export class VideoList {
     filter = "";
     video_list: Video[] = [];
     api;
+    popup: Popup;
     user;
     theme;
     i18n;
@@ -100,9 +102,10 @@ export class VideoList {
     no_topics_yet = false;
     no_photographers_yet = false;
 
-    constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
+    constructor(api: MemberGateway, user: User, popup: Popup, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
         this.user = user;
+        this.popup = popup;
         this.i18n = i18n;
         this.theme = theme;
         this.dialog = dialog;
@@ -467,12 +470,14 @@ export class VideoList {
     }
 
     view_video(video) {
-        this.router.navigateToRoute('annotate-video', {
-            video_id: video.id,
-            video_src: video.src,
-            video_name: video.name,
-            video_type: video.video_type
-        });
+        let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}`;
+        this.popup.popup('VIDEO', url, "");
+        // this.router.navigateToRoute('annotate-video', {
+        //     video_id: video.id,
+        //     video_src: video.src,
+        //     video_name: video.name,
+        //     video_type: video.video_type
+        // });
     }
 
 }

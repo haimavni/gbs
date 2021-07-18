@@ -29,7 +29,7 @@
         <h1>State: ${html5_player.playerState}</h1>
     </div>
 
-    <compose view-model="../services/yt-keeper"  if.bind="! use_html5" ref="youtube_player"></compose>
+    <compose view-model="../services/yt-keeper"  if.bind="! use_html5"></compose>
     <h3 if.bind="ytKeeper.paused">Paused</h3>
     <h1>State: ${ytKeeper.state}</h1>
     <!--yt-player player.bind="yt_player"></yt-player-->

@@ -10,6 +10,7 @@ import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import {MemberPicker} from "../members/member-picker";
+import {YtKeeper} from "../services/yt-keeper";
 
 class CuePoint {
    time: number;
@@ -23,7 +24,7 @@ class CuePoint {
 }
 
 @autoinject()
-//@singleton
+@singleton()
 export class AnnotateVideo {
     api;
     user: User;
@@ -65,9 +66,11 @@ export class AnnotateVideo {
     ea: EventAggregator;
     selected_member_ids = [];
     video_info;
+    ytKeeper;
 
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc, dialog: DialogService, router: Router, ea: EventAggregator) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc,
+                dialog: DialogService, router: Router, ea: EventAggregator, ytKeeper: YtKeeper) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
@@ -76,6 +79,7 @@ export class AnnotateVideo {
         this.dialog = dialog;
         this.router = router;
         this.ea = ea;
+        this.ytKeeper = ytKeeper;
         this.options_settings = new MultiSelectSettings
             ({
                 hide_higher_options: true,
@@ -101,44 +105,47 @@ export class AnnotateVideo {
         this.video_name = params.video_name;
         this.video_src = params.video_src;
         this.video_type = params.video_type || "youtube";
-
+        if (this.video_type == 'youtube') {
+            this.player = this.ytKeeper;
+        }
         this.cue_points = [];
         await this.update_topic_list();
         await this.get_video_info(this.video_id);
     }
 
-    async attached() {
-        console.log("attached. element: ", this.video_element);
-        //console.log("duration: ", this.video_element.duration);
-        //this.video_element.play();
-        if (this.video_type == 'youtube') {
-            for (let i=0; i < 100; i+=1) {
-                if (this.yt_player) {
-                    console.log("waiting for yt_player ", this.yt_player);
-                }
-                if (this.yt_player && this.player_is_ready) {
-                    console.log("i = ", i, " yt_player is  ready: ", this.yt_player, " this.video_is_ready: ", this.video_is_ready);
-                    await this.misc.sleep(200);
-                    console.log("about to load video");
-                    this.yt_player.loadVideo(this.video_src);
-                    await this.misc.sleep(200);
-                    break;
-                }
-                await this.misc.sleep(100);
-            }
-            if (!this.yt_player) {
-                console.log("Failed.");
-                this.yt_player = {};
-            }
-            this.player = this.yt_player
-        } else {
-            this.video_element = document.getElementById('video-element') as HTMLVideoElement;
-            this.player = this.video_element;
-        }
-        this.player.currentTime = 0;
-        //element.play();
-        //console.log("element is ", element, element.src);
-    }
+    // async attached() {
+    //     console.log("attached. element: ", this.video_element);
+    //     return;
+    //     //console.log("duration: ", this.video_element.duration);
+    //     //this.video_element.play();
+    //     if (this.video_type == 'youtube') {
+    //         for (let i=0; i < 100; i+=1) {
+    //             if (this.yt_player) {
+    //                 console.log("waiting for yt_player ", this.yt_player);
+    //             }
+    //             if (this.yt_player && this.player_is_ready) {
+    //                 console.log("i = ", i, " yt_player is  ready: ", this.yt_player, " this.video_is_ready: ", this.video_is_ready);
+    //                 await this.misc.sleep(200);
+    //                 console.log("about to load video");
+    //                 this.yt_player.loadVideo(this.video_src);
+    //                 await this.misc.sleep(200);
+    //                 break;
+    //             }
+    //             await this.misc.sleep(100);
+    //         }
+    //         if (!this.yt_player) {
+    //             console.log("Failed.");
+    //             this.yt_player = {};
+    //         }
+    //         this.player = this.yt_player
+    //     } else {
+    //         this.video_element = document.getElementById('video-element') as HTMLVideoElement;
+    //         this.player = this.video_element;
+    //     }
+    //     this.player.currentTime = 0;
+    //     //element.play();
+    //     //console.log("element is ", element, element.src);
+    // }
 
     update_topic_list() {
         let usage = this.user.editing ? {} : { usage: 'V' };
@@ -163,6 +170,7 @@ export class AnnotateVideo {
                 this.video_id = video_id;
                 //this.video_id_rec.video_id = video_id;
                 this.video_source = response.video_source;
+                this.set_video_source();
                 this.cue_points = response.cue_points;
                 this.set_story(response.video_story)
                 this.video_name = this.video_story.name || response.video_name;
@@ -181,6 +189,15 @@ export class AnnotateVideo {
                 this.undo_list = [];
             });
 
+    }
+
+    async set_video_source() {
+        for (let i = 0; i < 100; i += 1) {
+            if (this.ytKeeper.player_is_ready) break;
+            await this.misc.sleep(50);
+        }
+        console.log("about to assign video source")
+        this.ytKeeper.videoSource = this.video_src;
     }
 
     init_selected_topics() {
@@ -252,6 +269,7 @@ export class AnnotateVideo {
     }
 
     go_back() {
-        this.router.navigateBack();
+        //this.router.navigateBack();
+        window.close();
     }
 }

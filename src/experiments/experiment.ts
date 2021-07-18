@@ -1,8 +1,9 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { autoinject, singleton } from 'aurelia-framework';
 import { User } from '../services/user';
 import {YtKeeper} from '../services/yt-keeper';
 
 @autoinject
+@singleton()
 export class Experiment {
     longitude: number = 35.22;
     latitude: number = 31.77;

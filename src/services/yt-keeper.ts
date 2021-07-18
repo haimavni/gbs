@@ -18,12 +18,15 @@ export class YtKeeper {
     playerState;
 
     constructor() {
+        console.log("yt keeper constructed")
         YT = this;
+        //this.create();
     }
 
 
     created() {
-        console.log("youtube player created")
+        console.log("youtube player created. this player: ", this.player);
+        if (this.player) return;
         let tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         tag.id = 'youtube-script';
@@ -69,7 +72,7 @@ export class YtKeeper {
     }
 
     set videoSource(src) {
-        console.log("set video source")
+        console.log("set video source ", src);
         this.player.loadVideoById(src);
     }
 

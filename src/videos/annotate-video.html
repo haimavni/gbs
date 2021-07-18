@@ -37,8 +37,8 @@
                       <source src.bind="video_source" type="video/mp4">
                       Your browser does not support the video tag.
                     </video>
-                    <yt-player if.bind="video_type=='youtube'" player.bind="yt_player" video-id.bind="video_src" player_is_ready.bind="player_is_ready"></yt-player>
-
+                    <!--yt-player if.bind="video_type=='youtube'" player.bind="yt_player" video-id.bind="video_src" player_is_ready.bind="player_is_ready"></yt-player-->
+                    <compose view-model="../services/yt-keeper" if.bind="video_type=='youtube'" ></compose>
                 </div>
 
                 <button class="btn btn-primary" click.delegate="add_cue_point()" if.bind="user.editing" disabled.bind="(!player.paused) || already_in">
