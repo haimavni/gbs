@@ -42,11 +42,18 @@ export class Experiment {
             // let ct = this.player.getCurrentTime();
             // this.player.seekTo(ct + 180);
             // let ct = this.player.currentTime;
-            let ct = cur_player.getCurrentTime();
+            //let ct = cur_player.getCurrentTime();
             //this.player.currentTime = ct + 180;
-            cur_player.seekTo(ct + 180);
+            //cur_player.seekTo(ct + 180);
+            this.ytKeeper.currentTime = this.ytKeeper.currentTime + 300;
         } else {
-            cur_player.loadVideoById(this.yt_urls[this.curr_vid_idx]);
+            if (this.use_html5)
+                cur_player.loadVideoById(this.yt_urls[this.curr_vid_idx]);
+            else {
+                this.ytKeeper.videoSource = this.yt_urls[this.curr_vid_idx];
+                this.ytKeeper.paused = false;
+                this.ytKeeper.paused = true;
+            }
             this.curr_vid_idx = ((this.curr_vid_idx + 1) % this.yt_urls.length);
             cur_player.stopVideo();
         }

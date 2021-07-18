@@ -130,6 +130,10 @@
                 </div>
                 <div class="col-md-4 col-sm-12" if.bind="theme.is_desktop || editing_filters" id="story-filters"
                     css="height:${panel_height}px;overflow:auto;">
+                    <button class="btn btn-basic btn-framed" click.delegate="init_params(true)"
+                            style="margin-right:-16px;margin-left:-16px;">
+                        ${'stories.clear-all-filters' & t}
+                    </button>
                     <div class="row" style="position:relative;" 
                         mouseenter.trigger="scroll(0)">
                         <div style="margin-top: 6px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>

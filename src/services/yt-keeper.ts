@@ -1,6 +1,14 @@
 import {autoinject, singleton} from "aurelia-framework";
 
 let YT;
+enum PlayerStates {
+    UNSTARTED = -1,
+    ENDED,
+    PLAYING,
+    PAUSED,
+    BUFFERING,
+    CUED = 5
+}
 
 @autoinject()
 @singleton()
@@ -50,6 +58,35 @@ export class YtKeeper {
 
     onPlayerStateChange(event) {
         YT.playerState = event.data;
+    }
+
+    get currentTime() {
+        return this.player.getCurrentTime();
+    }
+
+    set currentTime(ct) {
+        this.player.seekTo(ct);
+    }
+
+    set videoSource(src) {
+        console.log("set video source")
+        this.player.loadVideoById(src);
+    }
+
+    get state() {
+        return this.playerState;
+    }
+
+    get paused() {
+        return this.playerState == PlayerStates.PAUSED;
+    }
+
+    set paused(p) {
+        if (p) {
+            this.player.pauseVideo();
+        } else {
+            this.player.playVideo();
+        }
     }
 
 }
