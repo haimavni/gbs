@@ -107,7 +107,8 @@
         "enter-book-name": "הקלד את שם הספר",
         "story-date": "תאריך הסיפור",
         "prev-story": "לסיפור הקודם",
-        "next-story": "לסיפור הבא"
+        "next-story": "לסיפור הבא",
+        "clear-all-filters": "כל הסיפורים"
     },
     "members": {
         "members": "חברים",

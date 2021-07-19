@@ -731,7 +731,7 @@ export class Stories {
             });
     }
 
-    init_params() {
+    init_params(update=false) {
         this.params = {
             keywords_str: "",
             editing: false,
@@ -759,7 +759,9 @@ export class Stories {
             num_years: 100,
             start_name: ""
         };
-
+        if (update) {
+            this.update_story_list('other')
+        }
     }
 
     add_topic(event) {
