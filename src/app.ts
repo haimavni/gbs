@@ -140,9 +140,9 @@ export class App {
             {route: 'gbrenner/*', name: 'gbrenner', moduleId: './gbrenner/gbrenner'},
             {route: 'gallery', name: 'gallery', moduleId: './gallery/gallery', settings: {auth: true}},
             {route: 'annotate-video/:video_id/*', name: 'annotate-video', moduleId: './videos/annotate-video', settings: {auth: true}},
-            {route: 'videos/:id/*', name: 'video-detail', moduleId: './videos/video-detail', settings: {auth: true}},
+            {route: 'videos/:id/*', name: 'video-detail', moduleId: './videos/annotate-video', settings: {auth: true}},
             {route: 'registered-only', name: 'registered-only', moduleId: './user/registered-only'},
-            {route: 'video-list', name: 'video-list', moduleId: './videos/video-list'}
+            {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
     }

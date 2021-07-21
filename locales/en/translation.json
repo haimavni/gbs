@@ -665,6 +665,7 @@
         "archiver": "Archiver", 
         "tester": "Tester",
         "restricted": "Restricted",
+        "video_editor": "Video editor",
         "duplicate-app-name": "Name is alrady in use!",
         "new-app-requested": "Your request is being processed",
         "app-name": "New site ID",
