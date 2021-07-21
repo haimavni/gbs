@@ -272,6 +272,8 @@
         "enable-books-on": "Enable books",
         "enable-member-of-the-day-off": "No member of the day",
         "enable-member-of-the-day-on": "Enable member of the day",
+        "enable-cuepoints-on": "Enable video cuepoints",
+        "enable-cuepoints-off": "Disable video cuepoints",
         "gallery": "Gallery",
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",

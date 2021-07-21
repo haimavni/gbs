@@ -470,7 +470,7 @@ export class VideoList {
     }
 
     view_video(video) {
-        let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}`;
+        let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}`;
         this.popup.popup('VIDEO', url, "");
         // this.router.navigateToRoute('annotate-video', {
         //     video_id: video.id,

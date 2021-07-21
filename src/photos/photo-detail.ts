@@ -467,6 +467,11 @@ export class PhotoDetail {
             });
     }
 
+    photographer_name_changed(event) {
+        let p = event.detail.option;
+        this.api.call_server_post('topics/rename_photographer', p);
+    }
+
 }
 
 function sleep(ms) {

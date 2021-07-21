@@ -270,6 +270,8 @@
         "enable-books-on": "אפשר ספרים",
         "enable-member-of-the-day-off": "ללא חבר היום",
         "enable-member-of-the-day-on": "אפשר חבר היום",
+        "enable-cuepoints-on": "כולל נקודות עצירה בסרטים",
+        "enable-cuepoints-off": "ללא נקודות עצירה בסרטים",
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",

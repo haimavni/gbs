@@ -15,6 +15,7 @@
     div.video-area {
         display: flex;
         flex-direction: column;
+        margin-top: 18px;
     }
 
     div.cue-points-area {
@@ -25,5 +26,15 @@
     div.data-area {
         display: flex;
         flex-direction: column;
+        width: 570px;
+        height: calc(100vh - 200px);
+        overflow: auto;
     }
 }
+
+div.video-story {
+    padding-top:8px;
+    width:100%;
+    //height:calc(100vh - 800px);
+}
+
