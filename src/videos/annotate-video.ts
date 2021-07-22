@@ -278,8 +278,9 @@ export class AnnotateVideo {
         return Boolean(cue);
     }
 
-    go_back() {
+    go_back(event) {
         //this.router.navigateBack();
+        event.stopPropagation();
         window.close();
     }
 
