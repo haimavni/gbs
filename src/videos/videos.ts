@@ -117,6 +117,10 @@ export class Videos {
         switch (video_rec.video_type) {
             case 'youtube':
                 //video_rec.src = "//www.youtube.com/embed/" + video_rec.src + "?wmode=opaque";
+                if (! video_rec.thumbnail_url) {
+                    //video_rec.thumbnail_url = `https://img.youtube.com/vi/${video_rec.src}/0.jpg`
+                    video_rec.thumbnail_url = `https://i.ytimg.com/vi/${video_rec.src}/mq2.jpg`
+                }
                 break;
             case 'vimeo':
                 //use the sample below 
