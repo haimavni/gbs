@@ -33,6 +33,7 @@ export class Customize {
     enable_books_options = ['user.enable-books-on', 'user.enable-books-off'];
     enable_member_of_the_day_options = ['user.enable-member-of-the-day-on', 'user.enable-member-of-the-day-off'];
     exclusive_options = ['user.exclusive-on', 'user.exclusive-off']
+    enable_cuepoints_options = ['user.enable-cuepoints-on', 'user.enable-cuepoints-off']
 
     //-----------
     auto_reg_option = 'user.by-invitation';
@@ -44,6 +45,7 @@ export class Customize {
     version_time_option = 'user.version-time-on';
     expose_developer_option = 'user.expose-developer-on';
     enable_articles_option = 'user.enable-articles-off';
+    enable_cuepoints_option = 'user.enable-cuepoints-off';
     enable_books_option = 'user.enable-books-on';
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
@@ -107,6 +109,7 @@ export class Customize {
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
         this.enable_books_option = this.user.config.enable_books ? 'user.enable-books-on' : 'user.enable-books-off';
         this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
+        this.enable_cuepoints_option = this.user.enable_cuepoints ? 'user.enable-cuepoints-on' : 'usser.enable-cutpoints-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
         if (! this.cover_photo) {
@@ -273,6 +276,16 @@ export class Customize {
                 this.report_success();
             })
     }
+
+    enable_cuepoints_option_selected(option) {
+        this.enable_cuepoints_option = option;
+        this.api.call_server('admin/set_cuepoints_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
 
     version_time_option_selected(option) {
         this.version_time_option = option;

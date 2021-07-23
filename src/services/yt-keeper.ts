@@ -42,7 +42,7 @@ export class YtKeeper {
             this.player = new (<any>window).YT.Player('ytplayer', {
                 height: '100%',
                 width: '100%',
-                videoId: 'M7lc1UVf-VE', //'OTnLL_2-Dj8', //  'M7lc1UVf-VE',
+                videoId: '', //'M7lc1UVf-VE', //'OTnLL_2-Dj8', //  'M7lc1UVf-VE',
                 playerVars: {
                     'playsinline': 1
                 },

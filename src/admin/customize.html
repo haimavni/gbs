@@ -143,6 +143,13 @@
                             <span style="font-weight:bolder">${mod & t}</span>
                         </button>
                     </div>
+                    <div style="margin-bottom:5px;" if.bind="user.privileges.DEVELOPER">
+                        <button repeat.for="ec of enable_cuepoints_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${ec==enable_cuepoints_option ? 'primary' : 'default'} customization"
+                            click.delegate="enable_cuepoints_option_selected(ec)">
+                            <span style="font-weight:bolder">${ec & t}</span>
+                        </button>
+                    </div>
                     <div style="margin-bottom:5px;">
                         <label style="margin-left:8px;width:200px;">
                             ${'admin.promoted-story-expiration' & t}
