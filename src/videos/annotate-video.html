@@ -43,17 +43,17 @@
                 <!--div classxxx="multi-select-div"
                      if.bind="user.editing"
                      style="margin-bottom:0px;position:relative;width:90%;margin-right:15px;"-->
-                    <div class="multi-select-div" style="margin-bottom:65px;position:relative;" if.bind="user.editing">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
-                            ${'stories.categories' & t}
-                        </div>
-                        <multi-select options.bind="topic_list" category="topic"
-                                      selected_options.bind="params.selected_topics" option_groups.bind="topic_groups"
-                                      new-name.delegate="add_topic($event)" settings.bind="options_settings"
-                                      has_groups.bind="has_grouped_topics" place_holder_text="photos.click-topic"
-                                      ms-change.delegate="handle_topic_change($event) ">
-                        </multi-select>
+                <div class="multi-select-div" style="margin-bottom:65px;position:relative;" if.bind="user.editing">
+                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
+                        ${'stories.categories' & t}
                     </div>
+                    <multi-select options.bind="topic_list" category="topic"
+                                  selected_options.bind="params.selected_topics" option_groups.bind="topic_groups"
+                                  new-name.delegate="add_topic($event)" settings.bind="options_settings"
+                                  has_groups.bind="has_grouped_topics" place_holder_text="photos.click-topic"
+                                  ms-change.delegate="handle_topic_change($event) ">
+                    </multi-select>
+                </div>
                 <!--/div-->
                 <div class="multi-select-div"
                      if.bind="user.editing"
@@ -92,7 +92,11 @@
                     </button>
                 </div>
             </div>
-            <div class="video-area">
+            <div class="video-area" if.bind="!popup">
+                <iframe src.bind="video_url" frameborder="0" width="640" height="390" allowfullscreen="x">
+                </iframe>
+            </div>
+            <div class="video-area" if.bind="popup">
                 <div class="video-display-area">
                     <video ref="video_element" id="video-element" width="640" height="480" controls
                            if.bind="video_type!='youtube'">
@@ -103,18 +107,21 @@
                     <compose view-model="../services/yt-keeper" if.bind="video_type=='youtube'"></compose>
                 </div>
 
-                <button class="btn btn-primary" click.delegate="add_cue_point()" if.bind="user.editing && user.privileges.VIDEO_EDITOR"
+                <button class="btn btn-primary" click.delegate="add_cue_point()"
+                        if.bind="user.editing && user.privileges.VIDEO_EDITOR"
                         disabled.bind="(!player.paused) || already_in">
                     ${'videos.add-cue' & t}
                 </button>
-                <div class="cue-points-area table-scroller" if.bind="user.editing && user.privileges.VIDEO_EDITOR || cue_points.length>0">
+                <div class="cue-points-area table-scroller"
+                     if.bind="user.editing && user.privileges.VIDEO_EDITOR || cue_points.length>0">
                     <table class="table table-striped table-bordered">
                         <thead>
                         <th css="text-align:${theme.same_dir};" style="width:100px">${'videos.cue-time' & t}</th>
                         <th style="width:40px"><i class="fa fa-users" style="margin-left:5px;"></i></th>
                         <th css="text-align:${theme.same_dir};">${'videos.cue-description' & t}</th>
-                        <th if.bind="user.editing" style="width:40px"><i class="fa fa-trash"
-                                                                         style="margin-left:5px;"></i></th>
+                        <th if.bind="user.editing" style="width:40px">
+                            <i class="fa fa-trash" style="margin-left:5px;"></i>
+                        </th>
                         </thead>
                         <tbody>
                         <tr repeat.for="cue of cue_points">
@@ -131,19 +138,19 @@
                                 </i>
                             </td>
                             <td>
-                                    <span if.bind="!user.editing">
-                                        ${cue.description}
-                                    </span>
+                                <span if.bind="!user.editing">
+                                    ${cue.description}
+                                </span>
                                 <span if.bind="user.editing">
-                                        <input type="text"
-                                               value.bind="cue.description"
-                                               placeholder="${'videos.describe-cue' & t}"
-                                               change.delegate="cue_description_changed(cue)"
-                                               style="height:28px;width:100%;"/>
-                                    </span>
+                                    <input type="text" value.bind="cue.description"
+                                       placeholder="${'videos.describe-cue' & t}"
+                                       change.delegate="cue_description_changed(cue)"
+                                       style="height:28px;width:100%;"/>
+                                </span>
                             </td>
-                            <td if.bind="user.editing" style="width:40px" click.delegate="remove_cue(cue)"><i
-                                    style="margin-right:5px;cursor:pointer;" class="fa fa-trash"></i></td>
+                            <td if.bind="user.editing" style="width:40px" click.delegate="remove_cue(cue)">
+                                <i style="margin-right:5px;cursor:pointer;" class="fa fa-trash"></i>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

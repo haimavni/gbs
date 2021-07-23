@@ -40,6 +40,8 @@ export class AnnotateVideo {
     video_name;
     video_src = "";
     video_type = "youtube";
+    video_url;
+    popup;
     video_is_ready;
     options_settings: MultiSelectSettings;
     photographers_settings: MultiSelectSettings;
@@ -120,7 +122,10 @@ export class AnnotateVideo {
         this.video_name = params.video_name;
         this.video_src = params.video_src;
         this.video_type = params.video_type || "youtube";
-        if (this.video_type == 'youtube') {
+        if (this.video_type=='youtube')
+            this.video_url="https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
+        this.popup = params.popup;
+        if (this.video_type == 'youtube' && ! this.popup) {
             this.player = this.ytKeeper;
         }
         this.cue_points = [];
@@ -151,7 +156,8 @@ export class AnnotateVideo {
                 this.video_id = video_id;
                 //this.video_id_rec.video_id = video_id;
                 this.video_source = response.video_source;
-                this.set_video_source();
+                if (this.popup)
+                    this.set_video_source();
                 this.cue_points = response.cue_points;
                 this.set_story(response.video_story)
                 //this.video_name = this.video_story.name || response.video_name;
@@ -279,9 +285,12 @@ export class AnnotateVideo {
     }
 
     go_back(event) {
-        //this.router.navigateBack();
         event.stopPropagation();
-        window.close();
+        if (this.popup) {
+            window.close();
+        } else {
+           this.router.navigateBack(); 
+        }
     }
 
     handle_topic_change(event) {

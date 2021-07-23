@@ -116,11 +116,7 @@ export class Videos {
     video_data(video_rec) {
         switch (video_rec.video_type) {
             case 'youtube':
-                //video_rec.src = "//www.youtube.com/embed/" + video_rec.src + "?wmode=opaque";
-                if (! video_rec.thumbnail_url) {
-                    //video_rec.thumbnail_url = `https://img.youtube.com/vi/${video_rec.src}/0.jpg`
-                    video_rec.thumbnail_url = `https://i.ytimg.com/vi/${video_rec.src}/mq2.jpg`
-                }
+                video_rec.thumbnail_url = `https://i.ytimg.com/vi/${video_rec.src}/mq2.jpg`
                 break;
             case 'vimeo':
                 //use the sample below 
@@ -473,15 +469,22 @@ export class Videos {
         this.editing_filters = true;
     }
 
-    view_video(video) {
-        let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}`;
-        this.popup.popup('VIDEO', url, "");
-        // this.router.navigateToRoute('annotate-video', {
-        //     video_id: video.id,
-        //     video_src: video.src,
-        //     video_name: video.name,
-        //     video_type: video.video_type
-        // });
+    async view_video(video) {
+        let n_cue_points = 0;
+        await this.api.call_server_post('videos/video_cue_points', {video_id: video.id}).then(response=> {
+            n_cue_points = response.cue_points.length;
+        })
+        if (this.user.privileges.VIDEO_EDITOR || this.user.enable_cuepoints && n_cue_points > 0) {
+            let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&popup=true`;
+            this.popup.popup('VIDEO', url, "");
+        } else {
+            this.router.navigateToRoute('annotate-video', {
+                video_id: video.id,
+                video_src: video.src,
+                video_name: video.name,
+                video_type: video.video_type
+            });
+        }
     }
 
 }
