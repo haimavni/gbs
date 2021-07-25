@@ -349,6 +349,10 @@ export class Stories {
         }
     }
 
+    thumbnail(video_src) {
+        return `https://i.ytimg.com/vi/${video_src}/mq2.jpg`
+    }
+
     set_active_type() {
         let used_for = 0;
         let name = ""
@@ -418,6 +422,9 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4DOC:
                 this.openDialog(story.doc_url);
+                break;
+            case this.api.constants.story_type.STORY4VIDEO:
+                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
         }
     }
