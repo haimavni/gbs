@@ -14,7 +14,7 @@
                    click.trigger="go_prev($event)" if.bind="photo_ids.length > 1"></i>
             </div>
             <h3 dir="rtl" style="float: right;margin:0px;">
-                ${video_name}
+                ${video_name || 'no name'}
             </h3>
         </div>
         <div class="video-detail-body">
@@ -77,7 +77,7 @@
                     </span>
                 </div>
                 <div if.bind="video_date_str || user.editing"
-                     style="margin-top: 10px;margin-left:14px;width:50%;">
+                     style="margin-top: 50px;margin-left:14px;width:50%;">
                     <date-range label="stories.story-date" base_date_str.bind="video_date_str"
                                 range_options.bind="[1,2,3,5,10,15,20,30,50,100]"
                                 is_valid.bind="video_date_valid"
@@ -100,7 +100,7 @@
                 <div class="video-display-area">
                     <video ref="video_element" id="video-element" width="640" height="480" controls
                            if.bind="video_type!='youtube'">
-                        <source src.bind="video_source" type="video/mp4">
+                        <source src.bind="video_src" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <!--yt-player if.bind="video_type=='youtube'" player.bind="yt_player" video-id.bind="video_src" player_is_ready.bind="player_is_ready"></yt-player-->

@@ -52,7 +52,6 @@ export class AnnotateVideo {
     selected_topics = [];
     no_topics_yet = false;
     no_photographers_yet = false;
-    video_source;
     video_element: HTMLVideoElement;
     yt_player: any = null;
     player: any;
@@ -117,20 +116,22 @@ export class AnnotateVideo {
     }
 
     async activate(params, config) {
-        console.log("params ", params);
+        this.keywords = params.keywords;
         this.video_id = params.video_id;
-        this.video_name = params.video_name;
-        this.video_src = params.video_src;
-        this.video_type = params.video_type || "youtube";
-        if (this.video_type=='youtube')
-            this.video_url="https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
+        if (params.what != 'story') {
+            this.video_name = params.video_name;
+            this.video_src = params.video_src;
+            this.video_type = params.video_type || "youtube";
+            if (this.video_type == 'youtube')
+                this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
+        }
         this.popup = params.popup;
-        if (this.video_type == 'youtube' && ! this.popup) {
+        if (this.video_type == 'youtube' && this.popup) {
             this.player = this.ytKeeper;
         }
         this.cue_points = [];
         await this.update_topic_list();
-        await this.get_video_info(this.video_id);
+        await this.get_video_info(this.video_id, params.what);
     }
 
     update_topic_list() {
@@ -147,15 +148,17 @@ export class AnnotateVideo {
     set_story(story) {
         this.video_story = "";
         this.video_story = story;
+        this.video_name = story.name;
     }
 
 
-    get_video_info(video_id) {
-        return this.api.call_server_post('videos/get_video_info', {video_id: video_id})
+    get_video_info(video_id, what=null) {
+        return this.api.call_server_post('videos/get_video_info', {video_id: video_id, by_story_id: what=='story'})
             .then(response => {
-                this.video_id = video_id;
-                //this.video_id_rec.video_id = video_id;
-                this.video_source = response.video_source;
+                this.video_id = response.video_id;
+                this.video_src = response.video_source;
+                //if (this.video_type == 'youtube')
+                this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
                 if (this.popup)
                     this.set_video_source();
                 this.cue_points = response.cue_points;
