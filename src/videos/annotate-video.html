@@ -12,6 +12,10 @@
                    if.bind="theme.is_desktop"></i>
                 <i class="far fa-lg fa-arrow-up fa-rotate-270 ${prev_class}" t="[title]photos.prev-slide"
                    click.trigger="go_prev($event)" if.bind="photo_ids.length > 1"></i>
+                <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
+                        class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"
+                        t="[title]stories.highlight-on">
+                </button>
             </div>
             <h3 dir="rtl" style="float: right;margin:0px;">
                 ${video_name || 'no name'}

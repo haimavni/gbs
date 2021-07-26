@@ -82,7 +82,7 @@ export class AnnotateVideo {
         video_topics: []
     };
     video_date_valid = '';
-
+    highlight_on= "highlight-on";
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc,
                 dialog: DialogService, router: Router, ea: EventAggregator, ytKeeper: YtKeeper) {
@@ -117,6 +117,7 @@ export class AnnotateVideo {
 
     async activate(params, config) {
         this.keywords = params.keywords;
+        this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
         if (params.what != 'story') {
             this.video_name = params.video_name;
@@ -393,6 +394,15 @@ export class AnnotateVideo {
         this.curr_info.photographer_id = this.photographer_id;
         this.curr_info.photographer_name = this.photographer_name.slice(0);
         this.api.call_server_post('videos/assign_video_photographer', { video_id: this.video_id, photographer_id: this.photographer_id });
+    }
+
+    toggle_highlight_on() {
+        if (this.highlight_on) {
+            this.highlight_on = ""
+        } else {
+            this.highlight_on = "highlight-on"
+        }
+        document.getElementById("word-highlighter").blur();
     }
 
 }
