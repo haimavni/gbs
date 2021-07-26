@@ -64,11 +64,15 @@ export class Home {
     }
 
     set_video_list(video_list) {
-        this.video_list = video_list.map(v => this.youtube_data(v));
+        this.video_list = video_list.map(v => this.video_data(v));
     }
 
-    youtube_data(video_code) {
-        return { type: "youtube", src: "//www.youtube.com/embed/" + video_code + "?wmode=opaque" }
+    video_data(v) {
+        return {
+            src: this.thumbnail(v.src),
+            video_id: v.video_id,
+            name: v.name
+        }
     }
 
     add_message() {
@@ -184,6 +188,14 @@ export class Home {
         } else if (dx > 30 && this.active_part > 1) {
             this.active_part -= 1;
         }
+    }
+
+    thumbnail(video_src) {
+        return `https://i.ytimg.com/vi/${video_src}/mq2.jpg`
+    }
+
+    jump_to_video(video) {
+        this.router.navigateToRoute('annotate-video', { video_id: video.video_id });
     }
 
 }

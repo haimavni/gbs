@@ -11,7 +11,8 @@
         "male-died-in": "נפטר ב-",
         "female-died-in": "נפטרה ב-",
         "to-the-page-of": "לדף של ",
-        "new-message": "הודעה חדשה"
+        "new-message": "הודעה חדשה",
+        "video-sample": "מבחר סרטים"
     },
     "app-title": "סִפּוּרֵי",
     "stories": {
@@ -643,7 +644,7 @@
         "bad-message": "מה אינני אוהב באתר",
         "good-message": "מה אני אוהב באתר",
         "name": "שם. לא חובה!",
-        "email-address": "כתובת דואר אלקטרוני. לא חובה!",
+        "email-address": "כתובת דואר אלקטרוני. חובה למלא!",
         "message-successful": "המשוב שלך נשמר בהצלחה",
         "device-details": "פרטי המכשיר"
     },

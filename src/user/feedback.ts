@@ -54,7 +54,7 @@ export class Feedback {
 
     @computedFrom('params.feedback_bad_message', 'params.feedback_good_message')
     get is_disabled() {
-        return (this.params.feedback_bad_message=='' && this.params.feedback_good_message=='');
+        return (this.params.feedback_bad_message=='' && this.params.feedback_good_message=='' || ! this.params.feedback_email);
     }
 
 

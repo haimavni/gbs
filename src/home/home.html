@@ -11,7 +11,7 @@
         interact-dragend.delegate="drag_end_panel($event)">
         <div class="panel-messages" ref="scroll_area" if.bind="theme.is_desktop || active_part== 3">
             <i class="fas fa-caret-right fa-4x" style="position:absolute;left: 0;top:0;color:lightblue;" if.bind="! theme.is_desktop"></i>
-            <h2 class="messages-header">
+            <h2 class="messages-header" style="margin-top:-2px;">
                 <span>${'home.messages' & t}</span>
                 <span class="is-link" if.bind="user.editing" click.delegate="add_message()">
                     <i class="fa fa-plus-square"></i>
@@ -49,11 +49,16 @@
                 </li>
             </ul>
         </div>
-        <div class="panel-vid" if.bind="theme.is_desktop || active_part== 1" style="position:relative;">
+        <div class="panel-vid" if.bind="theme.is_desktop || active_part== 1" style="position:relative;padding-top:0;">
             <i class="fas fa-caret-left fa-4x" style="position:absolute;right: 0;top:-15px;color:lightblue;" if.bind="! theme.is_desktop"></i>
-            <span repeat.for="video of video_list | filter:'youtube':'type'" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
-                <iframe src.bind="video.src" frameborder="0" allowfullscreen="">
-                </iframe>
+            <h2 class="panel-stories-header" style="width:100%;margin-top:13px;">
+                ${'home.video-sample' & t}
+            </h2>
+            <span repeat.for="video of video_list" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
+                <img src.bind="video.src"
+                     width="200"
+                     title.bind="video.name"
+                     style="margin-bottom:10px;cursor:pointer;" click.delegate="jump_to_video(video)"/>
             </span>
         </div>
     </div>
