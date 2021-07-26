@@ -49,14 +49,19 @@
                 </li>
             </ul>
         </div>
-        <div class="panel-vid" if.bind="theme.is_desktop || active_part== 1" style="position:relative;padding-top:0;">
+        <div class="panel-vid" if.bind="theme.is_desktop || active_part== 1" style="position:relative;padding-top:0;padding-right:0;">
             <i class="fas fa-caret-left fa-4x" style="position:absolute;right: 0;top:-15px;color:lightblue;" if.bind="! theme.is_desktop"></i>
             <h2 class="panel-stories-header" style="width:100%;margin-top:13px;">
                 ${'home.video-sample' & t}
             </h2>
-            <span repeat.for="video of video_list" class="fr-video fr-fvc fr-draggable fr-dvi" contenteditable="false" draggable="true">
+            <span repeat.for="video of video_list" class="fr-video fr-fvc fr-draggable fr-dvi"
+                  contenteditable="false" draggable="true"
+                  style="position:relative;">
+                <span style="position:absolute;top:40%;right:10%;color:white;background-color:rgba(0,0,0,0);font-size:110%;font-weight: bold;">
+                    ${video.name}
+                </span>
                 <img src.bind="video.src"
-                     width="200"
+                     width="220"
                      title.bind="video.name"
                      style="margin-bottom:10px;cursor:pointer;" click.delegate="jump_to_video(video)"/>
             </span>
