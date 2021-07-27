@@ -10,8 +10,10 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
 import {format_date} from '../services/my-date';
 import {Popup} from '../services/popups';
+import {Misc} from '../services/misc';
 
 @autoinject
+@singleton()
 class Video {
     photographer_name = "";
     photographer_name_label = "";
@@ -57,6 +59,7 @@ export class Videos {
     popup: Popup;
     user;
     theme;
+    misc;
     i18n;
     router;
     scroll_area;
@@ -102,7 +105,8 @@ export class Videos {
     no_topics_yet = false;
     no_photographers_yet = false;
 
-    constructor(api: MemberGateway, user: User, popup: Popup, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
+    constructor(api: MemberGateway, user: User, popup: Popup, i18n: I18N, theme: Theme, misc: Misc,
+                router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
         this.user = user;
         this.popup = popup;
@@ -111,6 +115,7 @@ export class Videos {
         this.dialog = dialog;
         this.ea = ea;
         this.router = router;
+        this.misc = misc;
     }
 
     video_data(video_rec) {
@@ -154,20 +159,36 @@ export class Videos {
         this.editing_filters = false;
     }
 
-    update_video_list() {
+    async update_video_list(first_time=false) {
+        if (! first_time) {
+            this.scroll_top = 0;
+            this.scroll_area.scrollTo({left:0,top:0,behavior:'auto'});
+            await this.misc.sleep(100);
+            this.scroll_area.scrollTo({left:0,top:0,behavior:'auto'});
+        }
         this.params.editing = this.user.editing;
         this.api.call_server_post('videos/get_video_list', this.params)
             .then(response => this.set_video_list(response.video_list));
     }
 
-    attached() {
+    async attached() {
         this.theme.display_header_background = true;
         this.theme.page_title = "videos.video-clips";
+        //let el = document.getElementById('scroll-area');
+        let el = this.scroll_area;
+        el.scrollTo({left: 0, top: this.scroll_top, behavior: 'auto'});
+        await this.misc.sleep(100);
+        el.scrollTo({left: 0, top: this.scroll_top, behavior: 'auto'});
+    }
+
+    detached() {
+        this.theme.display_header_background = false;
+        this.theme.page_title = "";
     }
 
     async created(params, config) {
         await this.update_topic_list();
-        this.update_video_list();
+        this.update_video_list(true);
         this.ea.subscribe('NEW-VIDEO', msg => {
             this.add_video(msg.new_video_rec)
         });
@@ -183,11 +204,6 @@ export class Videos {
         this.ea.subscribe('VIDEO-TAGS-CHANGED', response => {
             this.apply_changes(response.changes)
         });
-    }
-
-    detached() {
-        this.theme.display_header_background = false;
-        this.theme.page_title = "";
     }
 
     update_topic_list() {
@@ -469,7 +485,9 @@ export class Videos {
         this.editing_filters = true;
     }
 
-    async view_video(video) {
+    async view_video(video, event) {
+        event.stopPropagation();
+        event.preventDefault();
         let n_cue_points = 0;
         await this.api.call_server_post('videos/video_cue_points', {video_id: video.id}).then(response=> {
             n_cue_points = response.cue_points.length;
@@ -478,6 +496,7 @@ export class Videos {
             let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&popup=true`;
             this.popup.popup('VIDEO', url, "");
         } else {
+            this.scroll_top = this.scroll_area.scrollTop;
             this.router.navigateToRoute('annotate-video', {
                 video_id: video.id,
                 video_src: video.src,

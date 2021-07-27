@@ -61,12 +61,11 @@
                     <div style="display:flex;">
                         <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                         </h3>
-                        <div class="video-panel ${empty ? 'empty-videos' : ''}" ref="scroll_area">
+                        <div class="video-panel ${empty ? 'empty-videos' : ''}" ref="scroll_area" id="scroll-area">
                             <div repeat.for="video of video_list | filter: filter : '*selected' : 'name'"
                                 class="fr-video fr-fvc fr-draggable fr-dvi"
-
                                 contenteditable="false" draggable="true">
-                                <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;" click.delegate="view_video(video)">
+                                <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;" click.delegate="view_video(video, $event)">
                                     <img src.bind="video.thumbnail_url" width="257"/>
                                     <span class="video-name" style="margin-top:-6px;">
                                         <span>
