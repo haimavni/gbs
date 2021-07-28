@@ -643,7 +643,7 @@
         "header-text": "<p>Your feedback is important.</p>",
         "bad-message": "What I do not like in the site. Mandatory if 'like' side is empty.",
         "good-message": "What I like in the site. Mandatory if 'dont like' side is empty.",
-        "name": "Name. Not mandatory!",
+        "name": "Enter your name",
         "email-address": "Email address. Mandatory!",
         "message-successful": "Your message was succesfully sent",
         "device-details": "Device details"
