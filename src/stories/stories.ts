@@ -460,7 +460,7 @@ export class Stories {
     }
 
     clear_all_filters() {
-        console.log("clear all filters");
+        console.log("clear all filters. params before: ", this.params);
         let p = this.params;
         p.base_year = 0;
         p.selected_topics = [];

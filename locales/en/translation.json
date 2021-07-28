@@ -12,7 +12,8 @@
         "male-died-in": "Died in ",
         "female-died-in": "Died in",
         "to-the-page-of": "To Member's Page",
-        "new-message": "New Message"
+        "new-message": "New Message",
+        "video-samples": "Video samples"
     },
     "app-title": "GB Stories",
     "stories": {
@@ -640,10 +641,10 @@
         "tablet": "Tablet",
         "smartphone": "Smartphone",
         "header-text": "<p>Your feedback is important.</p>",
-        "bad-message": "What I do not like in the site",
-        "good-message": "What I like in the site",
+        "bad-message": "What I do not like in the site. Mandatory if 'like' side is empty.",
+        "good-message": "What I like in the site. Mandatory if 'dont like' side is empty.",
         "name": "Name. Not mandatory!",
-        "email-address": "Email address. Not mandatory!",
+        "email-address": "Email address. Mandatory!",
         "message-successful": "Your message was succesfully sent",
         "device-details": "Device details"
     },

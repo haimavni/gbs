@@ -61,34 +61,28 @@
                     <div style="display:flex;">
                         <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
                         </h3>
-                        <div class="video-panel ${empty ? 'empty-videos' : ''}" ref="scroll_area">
+                        <div class="video-panel ${empty ? 'empty-videos' : ''}" ref="scroll_area" id="scroll-area">
                             <div repeat.for="video of video_list | filter: filter : '*selected' : 'name'"
                                 class="fr-video fr-fvc fr-draggable fr-dvi"
-
                                 contenteditable="false" draggable="true">
-                                <!--iframe class="video-iframe" src.bind="video.src" frameborder="0" allowfullscreen="" if.bind="video.video_type=='youtube'">
-                                    <style>
-                                        div.yp-title-beacon {
-                                            display: none;
-                                        }
-                                    </style>
-                                </iframe-->
-                                <div style="margin:6px;cursor:pointer;" click.delegate="view_video(video)">
-                                    <img src.bind="video.thumbnail_url" width="250"/>
+                                <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;" click.delegate="view_video(video, $event)">
+                                    <img src.bind="video.thumbnail_url" width="257"/>
+                                    <span class="video-name" style="margin-top:-6px;">
+                                        <span>
+                                            <info title.bind="video_info_title(video)"
+                                                  content.bind="video_info_content(video)"></info>
+                                        </span>
+                                        <span if.bind="user.editing">
+                                            <i class="fa${video.selected ? 's' : 'r'} fa-circle"
+                                               click.delegate="toggle_selection(video, $event, $index)"></i>
+                                            <i class="fas fa-trash-alt" click.delegate="delete_video(video)"></i>
+                                            <i class="fas fa-pencil" click.delegate="edit_video_info(video)"></i>
+                                        </span>
+                                        <span>
+                                            ${video.name}
+                                        </span>
+                                    </span>
                                 </div>
-                                <span class="video-name" style="margin-top:-6px;">
-                                    <span>
-                                        <info title.bind="video_info_title(video)"
-                                              content.bind="video_info_content(video)"></info>
-                                    </span>
-                                    <span if.bind="user.editing">
-                                        <i class="fa${video.selected ? 's' : 'r'} fa-circle"
-                                           click.delegate="toggle_selection(video, $event, $index)"></i>
-                                        <i class="fas fa-trash-alt" click.delegate="delete_video(video)"></i>
-                                        <i class="fas fa-pencil" click.delegate="edit_video_info(video)"></i>
-                                    </span>
-                                    ${video.name}
-                                </span>
                             </div>
                         </div>
                     </div>
