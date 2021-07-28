@@ -96,11 +96,11 @@
                     </button>
                 </div>
             </div>
-            <div class="video-area" if.bind="!popup">
+            <div class="video-area" if.bind="!cuepoints_enabled">
                 <iframe src.bind="video_url" frameborder="0" width="640" height="390" allowfullscreen="x">
                 </iframe>
             </div>
-            <div class="video-area" if.bind="popup">
+            <div class="video-area" if.bind="cuepoints_enabled">
                 <div class="video-display-area">
                     <video ref="video_element" id="video-element" width="640" height="480" controls
                            if.bind="video_type!='youtube'">
@@ -110,7 +110,6 @@
                     <!--yt-player if.bind="video_type=='youtube'" player.bind="yt_player" video-id.bind="video_src" player_is_ready.bind="player_is_ready"></yt-player-->
                     <compose view-model="../services/yt-keeper" if.bind="video_type=='youtube'"></compose>
                 </div>
-
                 <button class="btn btn-primary" click.delegate="add_cue_point()"
                         if.bind="user.editing && user.privileges.VIDEO_EDITOR"
                         disabled.bind="(!player.paused) || already_in">

@@ -41,7 +41,7 @@ export class AnnotateVideo {
     video_src = "";
     video_type = "youtube";
     video_url;
-    popup;
+    cuepoints_enabled;
     video_is_ready;
     options_settings: MultiSelectSettings;
     photographers_settings: MultiSelectSettings;
@@ -126,8 +126,8 @@ export class AnnotateVideo {
             if (this.video_type == 'youtube')
                 this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
         }
-        this.popup = params.popup;
-        if (this.video_type == 'youtube' && this.popup) {
+        this.cuepoints_enabled = params.cuepoints_enabled;
+        if (this.video_type == 'youtube' && this.cuepoints_enabled) {
             this.player = this.ytKeeper;
         }
         this.cue_points = [];
@@ -154,13 +154,14 @@ export class AnnotateVideo {
 
 
     get_video_info(video_id, what=null) {
-        return this.api.call_server_post('videos/get_video_info', {video_id: video_id, by_story_id: what=='story'})
+        return this.api.call_server_post('videos/get_video_info',
+            {video_id: video_id, by_story_id: what=='story', cuepoints_enabled: this.cuepoints_enabled})
             .then(response => {
                 this.video_id = response.video_id;
                 this.video_src = response.video_source;
                 //if (this.video_type == 'youtube')
                 this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
-                if (this.popup)
+                if (this.cuepoints_enabled)
                     this.set_video_source();
                 this.cue_points = response.cue_points;
                 this.set_story(response.video_story)
@@ -290,7 +291,7 @@ export class AnnotateVideo {
 
     go_back(event) {
         event.stopPropagation();
-        if (this.popup) {
+        if (this.cuepoints_enabled) {
             window.close();
         } else {
            this.router.navigateBack(); 
