@@ -489,11 +489,13 @@ export class Videos {
         event.stopPropagation();
         event.preventDefault();
         let n_cue_points = 0;
-        await this.api.call_server_post('videos/video_cue_points', {video_id: video.id}).then(response=> {
-            n_cue_points = response.cue_points.length;
-        })
-        if (this.user.privileges.VIDEO_EDITOR || this.user.enable_cuepoints && n_cue_points > 0) {
-            let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&popup=true`;
+        let cuepoints_enabled = this.user.privileges.VIDEO_EDITOR || this.user.enable_cuepoints;
+        if (cuepoints_enabled)
+            await this.api.call_server_post('videos/video_cue_points', {video_id: video.id}).then(response=> {
+                n_cue_points = response.cue_points.length;
+            })
+        if (cuepoints_enabled && (this.user.privileges.VIDEO_EDITOR || n_cue_points > 0)) {
+            let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true`;
             this.popup.popup('VIDEO', url, "");
         } else {
             this.scroll_top = this.scroll_area.scrollTop;
