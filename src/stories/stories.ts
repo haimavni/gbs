@@ -388,13 +388,8 @@ export class Stories {
         let is_link = event.target.classList.contains('is-link');
         if (is_link) return true;
         let kws = this.params.keywords_str ? [this.params.keywords_str] : [''];
-<<<<<<< HEAD
-        let pk = this.params.keywords_str || '';
-        let keywords = this.keywords.length > 0 ? this.keywords : story.exact ? kws : pk.split(' ');
-=======
         let keywords_str = this.params.keywords_str || "";
         let keywords = this.keywords.length > 0 ? this.keywords : story.exact ? kws : keywords_str.split(' ');
->>>>>>> 2a978b059e899993b59716a75ddd566c697a3672
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4EVENT:
                 let story_list = this.story_list.filter(item => item.used_for == this.api.constants.story_type.STORY4EVENT);
