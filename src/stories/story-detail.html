@@ -58,35 +58,8 @@
                     </div>
                 </div>
                 <div style="max-height:480px;overflow:auto;overflow-x:hidden;">
-                    <div if.bind="members.length>0" id="member-list" class="stories-member-list"
-                        style="display:flex;flex-direction:column;">
-                        <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
-                            <span style="float:right;">${'stories.associated-members' & t}</span>
-                        </div>
-                        <ul class="list-group">
-                            <li class="list-group-item" repeat.for="member of members">
-                                <a route-href="route: member-details; params.bind: {id:member.id, keywords: ''}">
-                                    <img src.bind="member.facePhotoURL" />
-                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${member.full_name}
-                                    </h6>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div if.bind="articles.length>0" id="article-list" class="stories-article-list"
-                        style="display:flex;flex-direction:column;margin-top:-24px;">
-                        <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
-                            <span style="float:right;">${'stories.associated-articles' & t}</span>
-                        </div>
-                        <ul class="list-group">
-                            <li class="list-group-item" repeat.for="article of articles">
-                                <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
-                                    <img src.bind="article.facePhotoURL" />
-                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${article.name}</h6>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <compose view-model="../members/member-faces" model.bind="members"></compose>
+                    <compose view-model="../members/article-faces" model.bind="articles"></compose>
                     <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="stories-member-list"
                         style="margin-top:-24px;">
                         <h4>${'photos.candidates' & t}</h4>
