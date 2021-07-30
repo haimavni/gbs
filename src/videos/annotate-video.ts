@@ -35,7 +35,7 @@ export class AnnotateVideo {
     router: Router;
     i18n;
     dialog: DialogService;
-    members;
+    members = [];
     video_id;
     video_name;
     video_src = "";
@@ -159,6 +159,7 @@ export class AnnotateVideo {
             .then(response => {
                 this.video_id = response.video_id;
                 this.video_src = response.video_source;
+                this.members=response.members;
                 //if (this.video_type == 'youtube')
                 this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
                 if (this.cuepoints_enabled)
@@ -279,7 +280,27 @@ export class AnnotateVideo {
                 member_ids: cue.member_ids
             });
         });
+    }
 
+    select_video_members() {
+        this.theme.hide_title = true;
+        let member_ids = this.members.map(member => member.id)
+        this.dialog.open({
+            viewModel: MemberPicker,
+            model: {multi: true, back_to_text: 'members.back-to-video', preselected: member_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            member_ids = Array.from(response.output.member_ids);
+            this.api.call_server_post('videos/update_video_members', {
+                video_id: this.video_id,
+                member_ids: member_ids
+            }).then(response => {
+                this.members = response.members;
+            });
+        });
     }
 
     @computedFrom('player.currentTime')

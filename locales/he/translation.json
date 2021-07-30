@@ -477,7 +477,8 @@
         "cue-description": "תיאור הקטע",
         "back-to-videos": "בחזרה לקטע הוידאו",
         "describe-cue": "תאר מה רואים בקטע",
-        "members-in": "מי בקטע?"
+        "members-in": "מי בקטע?",
+        "select-members": "בחר חברים הקשורים לסרט"
     },
     "docs": {
         "docs": "מסמכים",

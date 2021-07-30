@@ -456,7 +456,8 @@
         "cue-time": "Time",
         "cue-description": "Description",
         "describe-cue": "Describe this segment",
-        "members-in": "Members are in this segment"
+        "members-in": "Members are in this segment",
+        "select-members": "Select associate members"
     },
     "audios": {
         "audios": "Audios",
