@@ -4,7 +4,9 @@
         interact-dragstart.delegate="on_drag_start($event)" interact-dragend.delegate="on_drag_end($event)"
         click.delegate="dragging = false">
         <img repeat.for="slide of slides" draggable="false" id="img-${slide.photo_id}" src="${slide.src}" height="${height}"
-            aubs-tooltip="text.bind:slide.title" click.delegate="on_click($event, slide)" />
+            aubs-tooltip="text.bind:slide.title" click.delegate="on_click($event, slide)"
+             class="${slide.video_id ? 'video' : ''}"
+            />
     </div>
     <div class="slide-control prev" style="top:87%;left:6px;" click.delegate="goto_photo_table()" t="[title]photos.show-in-photo-page" >
         <i class="fas fa-table" style="font-size:1.3em;color:yellow;"></i>
