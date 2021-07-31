@@ -102,7 +102,7 @@ export class AnnotateVideo {
             can_set_sign: false,
             can_add: true,
             can_group: false,
-            empty_list_message: this.i18n.tr('videos.no-topics-yet'),
+            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
         });
         this.photographers_settings = new MultiSelectSettings({
             clear_filter_after_select: true,
@@ -110,7 +110,7 @@ export class AnnotateVideo {
             can_set_sign: false,
             can_group: false,
             single: true,
-            empty_list_message: this.i18n.tr('videos.no-photographers-yet')
+            empty_list_message: this.i18n.tr('photos.no-photographers-yet')
         });
         //this.theme.hide_menu = true;  restore. add "edit" button if caller is logged in and has the privileges.
     }
