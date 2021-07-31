@@ -326,10 +326,12 @@ export class Videos {
     }
 
     delete_video(video) {
-        this.api.call_server('videos/delete_video', {video_id: video.id})
+        let selecterd_videos = Array.from(this.selected_videos);
+        this.api.call_server('videos/delete_videos', {selected_videos: selecterd_videos})
             .then(() => {
-                let idx = this.video_list.findIndex(v => v.id == video.id);
-                this.video_list.splice(idx, 1);
+                this.video_list = this.video_list.filter(v => ! this.selected_videos.has(v.id));
+                this.video_list = this.video_list.splice(0);
+                this.selected_videos = new Set();
             });
     }
 

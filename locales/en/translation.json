@@ -450,13 +450,15 @@
         "photographer-name": "Photographer name",
         "unknown-photographer": "Unknown",
         "promote-selected-videos": "Promote selected videos",
+        "delete-selected-videos": "Delete selected videos",
         "filter": "Fast search in video titles",
         "edit-filters": "Topics and keywords",
         "add-cue": "Create stopping point",
         "cue-time": "Time",
         "cue-description": "Description",
         "describe-cue": "Describe this segment",
-        "members-in": "Members are in this segment"
+        "members-in": "Members are in this segment",
+        "select-members": "Select associate members"
     },
     "audios": {
         "audios": "Audios",

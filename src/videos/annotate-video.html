@@ -44,9 +44,6 @@
                               story.bind="video_story">
                     </editable>
                 </div>
-                <!--div classxxx="multi-select-div"
-                     if.bind="user.editing"
-                     style="margin-bottom:0px;position:relative;width:90%;margin-right:15px;"-->
                 <div class="multi-select-div" style="margin-bottom:65px;position:relative;" if.bind="user.editing">
                     <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
                         ${'stories.categories' & t}
@@ -58,7 +55,6 @@
                                   ms-change.delegate="handle_topic_change($event) ">
                     </multi-select>
                 </div>
-                <!--/div-->
                 <div class="multi-select-div"
                      if.bind="user.editing"
                      dir="${theme.rtltr}" style="width:100%;margin-top:100px;">
@@ -99,6 +95,19 @@
             <div class="video-area" if.bind="!cuepoints_enabled">
                 <iframe src.bind="video_url" frameborder="0" width="640" height="390" allowfullscreen="x">
                 </iframe>
+                <button if.bind="user.editing"
+                        class="btn btn-primary btn-framed"
+                        style="margin-top:8px;font-size:108%;"
+                        click.delegate="select_video_members()">
+                    <i style="cursor:pointer"
+                       class="fa fa-users"
+                       title="${'videos.members-in' & t}">
+                    </i>
+                    ${'videos.select-members' & t}
+                </button>
+                <div if.bind="members.length>0">
+                    <compose view-model="../members/member-faces" model.bind="members"></compose>
+                </div>
             </div>
             <div class="video-area" if.bind="cuepoints_enabled">
                 <div class="video-display-area">

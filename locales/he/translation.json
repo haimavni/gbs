@@ -470,6 +470,7 @@
         "photographer-name": "שם הצלם",
         "unknown-photographer": "לא ידוע",
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
+        "delete-selected-videos": "מחק את הסרטים שנבחרו",
         "filter": "חפוש מהיר בשמות הסרטונים",
         "edit-filters": "נושאים וצלמים",
         "add-cue": "הוסף קטע",
@@ -477,7 +478,8 @@
         "cue-description": "תיאור הקטע",
         "back-to-videos": "בחזרה לקטע הוידאו",
         "describe-cue": "תאר מה רואים בקטע",
-        "members-in": "מי בקטע?"
+        "members-in": "מי בקטע?",
+        "select-members": "בחר חברים הקשורים לסרט"
     },
     "docs": {
         "docs": "מסמכים",
