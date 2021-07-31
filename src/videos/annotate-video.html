@@ -1,7 +1,7 @@
 <template>
-    <div id="video-details" class="content-area unselectable">
+    <div id="video-details" class="content-area unselectable" >
         <div class="detail-header">
-            <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+            <div style="float:left;cursor:pointer;padding:0;margin:0;">
                 <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
                              new-chatroom.delegate="create_chatroom()"
                              chatroom-deleted.delegate="chatroom_deleted($event)">
@@ -17,14 +17,13 @@
                         t="[title]stories.highlight-on">
                 </button>
             </div>
-            <h3 dir="rtl" style="float: right;margin:0px;">
+            <h3 dir="${theme.rtltr}" style="float: right;margin:0px;">
                 ${video_name || 'no name'}
             </h3>
         </div>
         <div class="video-detail-body">
 
-            <div class="data-area">
-
+            <div class="data-area" if.bind="theme.is_desktop">
                 <div if.bind="! user.editing" class="row video-story" style="margin-top:8px;">
                     <div class="fr-view" dir="${story_dir}">
                         <div class="${theme.font_size}"

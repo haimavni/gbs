@@ -159,7 +159,15 @@ export class MemberDetail {
                 return;
             }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+            photo_ids = photo_ids.filter(p => p);
+            if (payload.slide.video_id) {
+                this.router.navigateToRoute('annotate-video', {
+                    video_id: payload.slide.video_id //,
+                });
+            } else {
+                this.router.navigateToRoute('photo-detail',
+                { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+            }
         });
         this.set_heights();
     }
