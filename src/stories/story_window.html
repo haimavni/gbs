@@ -25,7 +25,7 @@
         <ux-dialog-body>
             <div class="fr-view" if.bind="show">
                 <div class="justified-story">
-                    <p class="${theme.font_size}" if.bind="! user.editing">
+                    <p class="${theme.font_size}">
                         <compose if.bind="story_text" view-model='./render-story' model.bind="{html:story_text,raw:raw}"></compose>
                     </p>
                 </div>
