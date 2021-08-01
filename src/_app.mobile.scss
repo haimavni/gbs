@@ -94,10 +94,18 @@ $navbar-height: 78px;
 
 .detail-header {
     margin-top: 26px;
-    //height:40px;
+    min-height: 60px;
+    h3 {
+        padding: 0 8px;
+    }
 }
 
 div.page-container {
     background-color: turquoise;
+}
+
+div.container {
+    padding-right: 0;
+    padding-left: 0;
 }
 
