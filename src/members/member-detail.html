@@ -106,13 +106,14 @@
                      ref="life_summary_box1"
                     if.bind="story_0.story_text == '' && ! user.privileges.EDITOR && ! user.editing">
                 </div>
-                <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box"
-                        if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
+                <div class="col-md-6 col-sm-12 fr-view life-summary has-life"
+                     ref="life_summary_box"
+                     if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
                         ${'members.life-summary' & t} ${member_info.first_name}
                     </h4>
                     <i class="fa fa-expand fa-lg"
-                        show.bind="member.member_stories.length > 1 && !life_summary_expanded"
+                        show.bind="theme.is_desktop && member.member_stories.length > 1 && !life_summary_expanded"
                         style="margin-left:32px;float:left;cursor:pointer;"
                         aubs-tooltip="text.bind:expand"
                         click.trigger="toggle_life_summary_size($event)">
@@ -196,10 +197,10 @@
                     </div>
                 </div>
                 <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)">
-                    <i class="far fa-chevron-right fa-3x"></i>
+                    <i class="fas fa-chevron-right fa-2x"></i>
                 </div>
                 <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)">
-                    <i class="far fa-chevron-left fa-3x"></i>
+                    <i class="fas fa-chevron-left fa-2x"></i>
                 </div>
             </div>
         </div>

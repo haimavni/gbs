@@ -78,7 +78,7 @@
                         style="margin-bottom:12px;margin-right:20px">${'stories.edit-filters' & t}
                     </button>
 
-                    <form if.bind="!no_results" class="form-inline" style="margin-right:20px;margin-bottom:6px;">
+                    <form if.bind="!no_results" class="form-inline" style="margin-bottom:6px;">
                         <span if.bind="params.selected_book" style="font-size:120%;font-weight:bolder;">${params.selected_book.name}: </span>
                         <button repeat.for="uf of active_result_types"
                             class="btn btn-${uf==used_for ? 'primary' : 'default'}"
@@ -146,7 +146,7 @@
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.privileges.ADMIN && user.editing" class="row"
                         style="margin-top:8px;">
-                        <button class="btn btn-sm btn-defalt ${params.deleted_stories ? 'active' : ''}"
+                        <button class="btn btn-sm btn-default ${params.deleted_stories ? 'active' : ''}"
                             style="border:solid 2px gray" click.trigger="toggle_deleted_stories()"
                             t="[title]stories.undelete">
                             <i class="far fa-trash-alt fa-lg fa-rotate-180"></i>

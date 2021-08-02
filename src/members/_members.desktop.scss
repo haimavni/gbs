@@ -26,3 +26,16 @@ div.member-list.content-area li.list-group-item {
     font-size:18px;
 }
 
+[dir="rtl"] div.member-story-panel {
+    &.biography {
+        border-left: solid 2px darkgray;
+        height: 185px;
+    }
+}
+
+[dir="ltr"] div.member-story-panel {
+    &.biography {
+        border-right: solid 2px darkgray;
+        height: 185px;
+    }
+}

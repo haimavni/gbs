@@ -192,3 +192,12 @@ div.photo-story {
     width:100%;
     height:calc(100vh - 200px);
 }
+
+div.search-box {
+    &.rtl {
+        margin-left: 6px;
+    }
+    &.ltr {
+        margin-right: 6px;
+    }
+}

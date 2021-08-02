@@ -11,6 +11,11 @@
         display: flex;
         justify-content: space-between;
     }
+    .detail-header {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
 
     div.video-area {
         display: flex;

@@ -320,11 +320,7 @@ ux-dialog-containerxxx {
 }
 
 div.member-story-panel {
-    //height: 185px;
     overflow: auto;
-    &.biography {
-        height: 180px;
-    }
     >p {
         padding-bottom: 2px;
         text-align: justify;
@@ -336,7 +332,6 @@ div.member-story-panel {
 
 [dir="rtl"] div.member-story-panel {
     &.biography {
-        border-left: solid 2px darkgray;
         >p.ltr {
             direction: ltr;
         }
@@ -349,7 +344,6 @@ div.member-story-panel {
 
 [dir="ltr"] div.member-story-panel {
     &.biography {
-        border-right: solid 2px darkgray;
         >p.ltr {
             direction: ltr;
         }

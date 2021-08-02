@@ -15,3 +15,30 @@ div.member-list.content-area li.list-group-item {
     width: 90%;
     font-size: 13px;
 }
+
+div#breadcrumb {
+    margin-top:26px;
+}
+
+[dir="rtl"] div.member-story-panel {
+    >p {
+        padding-left: 0px;
+        padding-right: 0px;
+        direction: rtl;
+    }
+}
+
+[dir="ltr"] div.member-story-panel {
+    >p {
+        padding-right: 0px;
+        padding-left: 0px;
+        direction: ltr;
+    }
+}
+
+div.member-story-panel {
+    &.biography {
+        width: calc(100vw - 55px);
+    }
+}
+
