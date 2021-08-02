@@ -1,18 +1,18 @@
-import { autoinject, computedFrom, singleton } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { I18N } from 'aurelia-i18n';
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Misc } from "../services/misc";
-import { Theme } from "../services/theme";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
-import { StoryWindow } from '../stories/story_window';
-import { MemberEdit } from './member-edit';
+import {autoinject, computedFrom, singleton} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
+import {I18N} from 'aurelia-i18n';
+import {MemberGateway} from '../services/gateway';
+import {User} from "../services/user";
+import {Misc} from "../services/misc";
+import {Theme} from "../services/theme";
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {DialogService} from 'aurelia-dialog';
+import {FullSizePhoto} from '../photos/full-size-photo';
+import {StoryWindow} from '../stories/story_window';
+import {MemberEdit} from './member-edit';
 import environment from '../environment';
-import { MemberList } from '../services/member_list';
-import { highlight } from '../services/dom_utils';
+import {MemberList} from '../services/member_list';
+import {highlight} from '../services/dom_utils';
 
 @autoinject()
 @singleton()
@@ -38,7 +38,11 @@ export class MemberDetail {
     stories_base = -1;
     life_summary;
     source;
-    sub1; sub2; sub3; sub4; sub5;
+    sub1;
+    sub2;
+    sub3;
+    sub4;
+    sub5;
     to_story_page;
     expand;
     compress;
@@ -59,7 +63,7 @@ export class MemberDetail {
     biography_dir = "";
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
-        router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
+                router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
         this.theme = theme;
         this.eventAggregator = eventAggregator;
@@ -74,9 +78,15 @@ export class MemberDetail {
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
-        this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
-        this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_heights() });
-        this.eventAggregator.subscribe('PHOTO_PHOTO_LIST_CHANGED', payload => { this.photo_list_changes_pending = true });
+        this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => {
+            this.refresh_story(payload)
+        });
+        this.eventAggregator.subscribe('WINDOW-RESIZED', payload => {
+            this.set_heights()
+        });
+        this.eventAggregator.subscribe('PHOTO_PHOTO_LIST_CHANGED', payload => {
+            this.photo_list_changes_pending = true
+        });
     }
 
     refresh_story(data) {
@@ -85,7 +95,7 @@ export class MemberDetail {
         if (story) {
             story.preview = data.story_data.preview;
             story.name = data.story_data.name;
-            this.api.call_server_post('members/get_story', { story_id: story_id })
+            this.api.call_server_post('members/get_story', {story_id: story_id})
                 .then(response => {
                     story.story_text = response.story.story_text;
                 });
@@ -113,8 +123,11 @@ export class MemberDetail {
         this.photo_list_changes_pending = false;
         this.new_member = params.id == 'new' ? this.i18n.tr('members.new-member') : '';
         this.init_member(); //So that changing to a new member does not display most recent one
-        this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
-        this.api.call_server_post('members/get_member_details', { member_id: params.id, what: params.what })
+        this.source = this.api.call_server_post('members/get_member_photo_list', {
+            member_id: params.id,
+            what: params.what
+        });
+        this.api.call_server_post('members/get_member_details', {member_id: params.id, what: params.what})
             .then(member => {
                 this.member = member;
                 let life_story = this.member.member_stories[0];
@@ -149,10 +162,18 @@ export class MemberDetail {
     }
 
     attached() {
-        this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
-        this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
-        this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
+        this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => {
+            this.user = payload
+        });
+        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => {
+            this.set_parent(this.member, parent)
+        });
+        this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => {
+            this.dirty_story = dirty
+        });
+        this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => {
+            this.dirty_info = dirty
+        });
         this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
             if (payload.event.ctrlKey || payload.event.shiftKey) {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
@@ -166,7 +187,7 @@ export class MemberDetail {
                 });
             } else {
                 this.router.navigateToRoute('photo-detail',
-                { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+                    {id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true});
             }
         });
         this.set_heights();
@@ -197,7 +218,9 @@ export class MemberDetail {
     tryDelete() {
         if (confirm(this.i18n.tr('members.confirm-delete'))) {
             this.memberList.remove_member(this.member.member_info.id)
-                .then(() => { this.router.navigateToRoute('members'); });
+                .then(() => {
+                    this.router.navigateToRoute('members');
+                });
         }
     }
 
@@ -222,7 +245,11 @@ export class MemberDetail {
             return;
         }
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list }, lock: false }).whenClosed(response => {
+        this.dialog.open({
+            viewModel: FullSizePhoto,
+            model: {slide: slide, slide_list: slide_list},
+            lock: false
+        }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
         });
     }
@@ -247,7 +274,7 @@ export class MemberDetail {
     }
 
     story(idx) {
-        let empty_story = { name: "", story_text: "" };
+        let empty_story = {name: "", story_text: ""};
         if (!this.member) return empty_story;
         if (this.stories_base < 0)
             this.stories_base = 0;
@@ -299,7 +326,7 @@ export class MemberDetail {
     }
 
     detach_photo_from_member(member_id, photo_id, slide_list) {
-        this.api.call_server_post('photos/detach_photo_from_member', { member_id: member_id, photo_id: photo_id })
+        this.api.call_server_post('photos/detach_photo_from_member', {member_id: member_id, photo_id: photo_id})
             .then(response => {
                 if (response.photo_detached) {
                     // now delete slide #photo_id from slide_list:
@@ -320,10 +347,17 @@ export class MemberDetail {
     }
 
     zoom_out(story, what, extra = '') {
-        this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
+        this.dialog.open({
+            viewModel: StoryWindow,
+            model: {story: story, edit: what == 'edit'},
+            lock: what == 'edit'
+        }).whenClosed(response => {
             if (extra == 'life' && what == 'edit' && !this.member.member_info.story_id) {
                 this.member.member_info.story_id = response.output.story_id;
-                this.api.call_server_post('members/set_member_story_id', { member_id: this.member.member_info.id, story_id: response.output.story_id });
+                this.api.call_server_post('members/set_member_story_id', {
+                    member_id: this.member.member_info.id,
+                    story_id: response.output.story_id
+                });
             }
         });
 
@@ -335,12 +369,12 @@ export class MemberDetail {
 
     goto_story_page(story) {
         let what = story.used_for == this.api.constants.story_type.STORY4TERM ? 'term' : 'story';
-        this.router.navigateToRoute('story-detail', { id: story.story_id, what: what });
+        this.router.navigateToRoute('story-detail', {id: story.story_id, what: what});
     }
 
     on_height_change(event) {
         event.stopPropagation();
-        let { new_height } = event.detail;
+        let {new_height} = event.detail;
         this.photo_strip_height = new_height;
         //this.panel_height = 680 - new_height;
         this.set_heights();
@@ -393,7 +427,7 @@ export class MemberDetail {
             this.member_detail_panel.style.marginRight = '-32px';
         }
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
-        if (this.life_summary_content) {
+        if (this.life_summary_content && this.theme.is_desktop) {
             let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
             this.life_summary_content.style.height = `${tph - lsco}px`;
         }
@@ -410,22 +444,23 @@ export class MemberDetail {
         }
         if (ps_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
         this.story_box_height = bph - 3;
-        if (this.life_summary_box)
-            if (this.user.editing)
-                this.life_summary_box.style.height = '0%'// `${lsb}px`;
-            else {
-                let n = no_member_stories ? 24 : 1;
-                this.life_summary_box.style.height = `${tph-n}px`;
-            }
-        if (this.life_summary_box1 && ! this.user.editing)
-            this.life_summary_box1.style.height = '99%'// `${lsb}px`;
         if (this.theme.is_desktop) {
+            if (this.life_summary_box)
+                if (this.user.editing)
+                    this.life_summary_box.style.height = '0%'// `${lsb}px`;
+                else {
+                    let n = no_member_stories ? 24 : 1;
+                    this.life_summary_box.style.height = `${tph - n}px`;
+                }
+            if (this.life_summary_box1 && !this.user.editing)
+                this.life_summary_box1.style.height = '99%'// `${lsb}px`;
             this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
     }
 
     life_summary_contentChanged() {
-        this.set_heights();
+        if (this.theme.is_desktop())
+            this.set_heights();
     }
 
     @computedFrom("story_0.story_text")
