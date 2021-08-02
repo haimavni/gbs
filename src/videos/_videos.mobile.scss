@@ -69,3 +69,16 @@ div.video-page {
     left: 10px;
 }
 
+#video-details {
+    .video-detail-body {
+        flex-direction: column;
+    }
+    .data-area {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    .video-story-area {
+        width: calc(100vw - 12px);
+        padding-left: 15px;
+    }
+}

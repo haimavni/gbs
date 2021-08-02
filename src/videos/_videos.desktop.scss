@@ -73,3 +73,21 @@ div.video-page {
     overflow: auto;
 }
 
+#video-details {
+    .data-area {
+        width: 570px;
+        height: calc(100vh - 200px);
+        overflow: auto;
+    }
+    .video-story-area {
+        position: relative;
+        margin-right: 16px;
+        overflow:auto;
+    }
+    .data-area {
+        .story-section.message-body {
+        height: 100px;
+        }
+    }
+
+}

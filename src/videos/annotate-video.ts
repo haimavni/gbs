@@ -219,6 +219,11 @@ export class AnnotateVideo {
         return highlighted_html;
     }
 
+    @computedFrom('user.editing')
+    get video_dates_class() {
+        return (this.user.editing) ? 'video-dates' : 'blabla';
+    }
+
     init_photographer() {
         this.params.selected_photographers = [];
         if (this.photographer_id) {
