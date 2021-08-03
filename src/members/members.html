@@ -1,6 +1,6 @@
 <template>
 
-    <section class="container content-area">
+    <section>
         <div class="${theme.rtltr}">
             <div class="row">
                 <div class="col-md-10 col-md-offset-2" style="padding-right:50px;">
@@ -71,17 +71,18 @@
             </div>
 
             <div id="member-list" class="member-list content-area unselectable"
-                css="height:${theme.height-320}px;" ref="scroll_area">
-                <ul class="list-group">
+                css="height:${member_list_height}px;" ref="scroll_area">
+                <ul class="list-group" style="display:flex;flex-wrap:wrap;padding:0;">
                     <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | filterBySet : qualified_members : 'include' : 'id' | take : max_members_displayed | filtervisibility : 0 "
                         if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || ! member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
+                        css="width:${photo_size+20};height:${photo-size+22};"
                         dir="rtl">
                         <a click.delegate="member_clicked(member, $event, $index)" tapandhold="500"
                             longtouch.delegate="toggle_selection(member, $event)" disabled.bind="not_ready(member)"
                             style="color:black;cursor:pointer;">
                             <img src.bind="member.facePhotoURL"
-                                css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" />
+                                css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" width.bind="photo_size" height.bind="photo_size"/>
                             <h6 class="list-group-item-heading">${member.name}</h6>
                         </a>
                     </li>
