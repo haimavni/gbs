@@ -394,6 +394,10 @@ export class Members {
         return null;
     }
 
+    get members_section_class() {
+        if (this.theme.is_desktop) return "container content-area";
+        return null;
+    }
 
 
 }
