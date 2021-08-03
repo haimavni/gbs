@@ -31,15 +31,20 @@
     div.data-area {
         display: flex;
         flex-direction: column;
-        width: 570px;
-        height: calc(100vh - 200px);
-        overflow: auto;
+        .video-dates {
+            margin-top: 30px;
+            margin-left:14px;
+            width:50%;
+        }
     }
 }
 
 div.video-story {
     padding-top:8px;
     width:100%;
-    //height:calc(100vh - 800px);
+    div.video-story-area {
+        position: relative;
+        margin-right: 16px;
+    }
 }
 
