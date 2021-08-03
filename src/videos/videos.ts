@@ -161,10 +161,16 @@ export class Videos {
 
     async update_video_list(first_time=false) {
         if (! first_time) {
-            this.scroll_top = 0;
-            this.scroll_area.scrollTo({left:0,top:0,behavior:'auto'});
-            await this.misc.sleep(100);
-            this.scroll_area.scrollTo({left:0,top:0,behavior:'auto'});
+            for (let i=0; i < 100; i++) {
+                if (this.scroll_area) break;
+                this.misc.sleep(30);
+            }
+            if (this.scroll_area) {
+                this.scroll_top = 0;
+                this.scroll_area.scrollTo({left: 0, top: 0, behavior: 'auto'});
+                await this.misc.sleep(100);
+                this.scroll_area.scrollTo({left: 0, top: 0, behavior: 'auto'});
+            }
         }
         this.params.editing = this.user.editing;
         this.api.call_server_post('videos/get_video_list', this.params)
