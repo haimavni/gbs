@@ -432,4 +432,15 @@ export class AnnotateVideo {
         document.getElementById("word-highlighter").blur();
     }
 
+    get video_width() {
+        if (this.theme.is_desktop) return 640;
+        return this.theme.width;
+    }
+
+    get video_height() {
+        if (this.theme.is_desktop) return 390;
+        let height = Math.round(this.theme.width * 390 / 640)
+        return height;
+    }
+
 }
