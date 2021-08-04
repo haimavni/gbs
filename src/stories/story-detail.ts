@@ -3,6 +3,7 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
+import { Misc } from '../services/misc';
 import { highlight } from '../services/dom_utils';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -26,6 +27,7 @@ export class StoryDetail {
     source;
     user;
     theme;
+    misc: Misc;
     story_dir;
     new_story = false;
     keywords;
@@ -67,13 +69,16 @@ export class StoryDetail {
     btn_prev;
     btn_next;
     story_date_valid = '';
+    move_to;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router,
+                theme: Theme, misc: Misc, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
         this.router = router;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
+        this.misc = misc;
         this.dialog = dialog;
         this.eventAggregator = eventAggregator;
         this.options_settings = new MultiSelectSettings
@@ -90,7 +95,9 @@ export class StoryDetail {
     attached() {
         this.nudnik = setInterval(() => this.calc_last_filled(), 50);
         this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => {
-            //this.openDialog(payload.slide, payload.event, payload.slide_list) 
+            //this.openDialog(payload.slide, payload.event, payload.slide_list)
+            let offset = payload.offset;
+            this.misc.save(['story_slides_offset', this.story.story_id], offset);
             if (payload.event.ctrlKey) {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
                 return;
@@ -119,7 +126,7 @@ export class StoryDetail {
     detached() {
         this.subscriber.dispose();
         this.subscriber1.dispose();
-        this.nudnik = 0;;
+        this.nudnik = 0;
     }
 
     async activate(params, config) {
@@ -140,6 +147,9 @@ export class StoryDetail {
         await this.update_topic_list();
         this.story_type = (this.used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : (this.used_for == this.api.constants.story_type.STORY4ELP) ? 'help' : 'story';
         this.get_story_details(story_id);
+        let offset = this.misc.load(['story_slides_offset', story_id]);
+        if (offset) this.move_to = offset;
+
     }
 
     get_story_details(story_id) {
