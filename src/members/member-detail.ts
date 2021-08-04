@@ -61,6 +61,7 @@ export class MemberDetail {
     advanced_search = false;
     photo_list_changes_pending = false;
     biography_dir = "";
+    move_to;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
                 router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -181,6 +182,8 @@ export class MemberDetail {
             }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
             photo_ids = photo_ids.filter(p => p);
+            let offset = payload.offset;
+            this.misc.save(['member_slides_offset', this.member.member_info.id], offset);
             if (payload.slide.video_id) {
                 this.router.navigateToRoute('annotate-video', {
                     video_id: payload.slide.video_id //,
@@ -191,6 +194,9 @@ export class MemberDetail {
             }
         });
         this.set_heights();
+        if (! this.member) return;
+        let offset = this.misc.load(['member_slides_offset', this.member.member_info.id]);
+        if (offset) this.move_to = offset;
     }
 
     detached() {
@@ -399,12 +405,13 @@ export class MemberDetail {
     }
 
     async set_heights() {
-        for (let i = 0; i < 270; i++) {
+        for (let i = 0; i < 470; i++) {
             if (i > 7 && this.member) break;
             if (this.member && this.life_summary_box) break;
             await sleep(20);
         }
-        this._set_heights();
+        if (this.member && this.life_summary_box)
+             this._set_heights();
     }
 
     _set_heights() {

@@ -9,7 +9,8 @@
             </div>
         </div>
         <div class="row" ref="photo_strip">
-            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height" id.bind="member_info.id"
+            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height"
+                         id.bind="member_info.id" move_to.bind="move_to"
                 style="padding:0;"
                 action_key="Zoom" dir="ltr"
                 height_change.delegate="on_height_change($event)"

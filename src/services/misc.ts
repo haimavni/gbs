@@ -9,6 +9,7 @@ export class Misc {
     i18n;
     api;
     crc_table;
+    storage = {};
 
     constructor(api: MemberGateway, i18n: I18N) {
         this.api = api;
@@ -215,6 +216,31 @@ export class Misc {
             crc = lookup[(x ^ crc) & 0xff] ^ (crc >>> 8);
         }
         return -1 -crc;
+    }
+
+    save(keys: any[], value: any) {
+        let obj = this.storage;
+        let key = keys[keys.length - 1]
+        keys.slice(keys.length - 1)
+        for (let k of keys) {
+            if (! obj[k]) {
+                obj[k] = {}
+            }
+            obj = obj[k];
+        }
+        obj[key] = value;
+    }
+
+    load(keys: any[]) {
+        let obj = this.storage;
+        let key = keys[keys.length - 1];
+        keys.slice(keys.length - 1);
+        for (key of keys) {
+            obj = obj[key];
+            if (obj == undefined)
+                return obj;
+        }
+        return obj[key];
     }
 
 }

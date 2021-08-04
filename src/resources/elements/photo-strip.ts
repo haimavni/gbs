@@ -12,6 +12,7 @@ export class PhotoStripCustomElement {
     @bindable settings = { height: 300, arrows: false, slide_show: 0 };
     @bindable id = 0;
     @bindable fullscreen = false;
+    @bindable move_to;
     prev_id;
     element;
     width;
@@ -153,9 +154,21 @@ export class PhotoStripCustomElement {
         x = Math.min(Math.max(x, min), max);
 
         // translate the element
-        target.style.left = `${x}px`;
+        if (target && target.style) {
+            target.style.left = `${x}px`;
+        }
 
-        // update the posiion attributes
+        // update the position attributes
+        target.setAttribute('data-x', x);
+        return x;
+    }
+
+    async place_photos(x) {
+        let target = this.slideList;
+        if (!target) return;
+        if (target && target.style) {
+            target.style.left = `${x}px`;
+        }
         target.setAttribute('data-x', x);
     }
 
@@ -219,7 +232,8 @@ export class PhotoStripCustomElement {
         }
         event.stopPropagation();
         if (this.action_key) {
-            this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides });
+            let offset = this.shift_photos(0);
+            this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides, offset: offset });
         }
     }
 
@@ -246,5 +260,13 @@ export class PhotoStripCustomElement {
             this.change_heights(height)
         }
         return "";
+    }
+
+    @computedFrom('move_to')
+    get move_to_triggered() {
+        if (! this.move_to) return;
+        this.place_photos(this.move_to);
+        this.move_to = null;
+        return false;
     }
 }
