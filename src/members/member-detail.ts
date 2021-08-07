@@ -461,7 +461,7 @@ export class MemberDetail {
                 }
             if (this.life_summary_box1 && !this.user.editing)
                 this.life_summary_box1.style.height = '99%'// `${lsb}px`;
-            this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
+            //this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
     }
 
