@@ -49,7 +49,8 @@ export class Home {
         this.i18n = i18n;
         let x = this.cookies.get('SLIDESHOW-TOPICS');
         let slideshow_topics = JSON.parse(x);
-        this.photo_list = this.api.call_server_post('photos/get_photo_list', { selected_recognition: 'recognized', selected_topics: slideshow_topics });
+        this.photo_list = this.api.call_server_post('photos/get_photo_list',
+            { selected_recognition: 'recognized', selected_topics: slideshow_topics, no_slide_show: true });
         this.api.call_server_post('members/get_stories_sample').then(result => this.stories_sample = result.stories_sample);
         memberList.getMemberList(); //to load in the background
         this.api.call_server_post('members/get_message_list').then(

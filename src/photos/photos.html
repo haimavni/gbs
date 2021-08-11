@@ -32,41 +32,49 @@
                                 <button t="[title]videos.next" class="btn btn-default" click.delegate="next($event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
                                 <button t="[title]videos.prev" class="btn btn-default" click.delegate="prev($event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
                             </div>
-                            <div if.bind="(! got_duplicates) && params.photo_ids.length == 0 && params.selected_order_option == 'random-order'" class="form-group hide-if-small toolbar">
-                                <button class="btn btn-basic btn-md" click.delegate="select_member($event)">
-                                    ${with_a_member_text}
+                            <div if.bind="(! got_duplicates) && params.photo_ids.length == 0 && params.selected_order_option == 'random-order'"
+                                 class="form-group hide-if-small toolbar" title.bind="with_a_member_text">
+                                <button class="btn btn-basic btn-md btn-framed" click.delegate="select_member($event)">
+                                    <i class="fa fa-users"></i>
                                 </button>
                             </div>
                             <div if.bind="params.photo_ids.length > 0" class="form-group hide-if-small toolbar toolbar">
-                                <button class="btn btn-basic btn-md" click.delegate="show_all_photos($event)">
+                                <button class="btn btn-basic btn-md btn-framed" click.delegate="show_all_photos($event)">
                                     ${'photos.any-photo' & t}
                                 </button>
                             </div>
                             <div class="form-group toolbar" if.bind="phase=='can-merge-topics'">
-                                <button class="btn btn-basic btn-md" click.trigger="save_merges($event)">
+                                <button class="btn btn-basic btn-md btn-framed" click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
                                 <help topic="photos.can-modify-tags", position="bottom"></help>
                             </div>
                             <div if.bind="phase=='can-create-group'" class="form-group toolbar">
-                                <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
+                                <button class="btn btn-basic btn-md btn-framed" click.trigger="save_topic_group($event)">
                                     ${'photos.save-topic-group' & t}
                                 </button>
                                 <help topic="photos.can-create-group", position="bottom"></help>
                             </div>
                             <div class="form-group toolbar" if.bind="selected_photos.size > 0 && !user.editing">
-                                <button t="[title]photos.download" class="btn btn-basic btn-md" 
+                                <button t="[title]photos.download" class="btn btn-basic btn-md btn-framed"
                                     click.delegate="download_photos()"><i class="fa fa-upload fa-rotate-180 fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.ADMIN && user.editing && selected_photos.size > 0">
-                                <button t="[title]photos.delete" class="btn btn-warning btn-md" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
+                                <button t="[title]photos.delete" class="btn btn-warning btn-md btn-framed" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.ADMIN && selected_photos.size > 0">
-                                <button t="[title]photos.rotate" class="btn btn-basic btn-md" click.delegate="rotate_selected_photos($event)"><i class="fa fa-undo fa-xs"></i></button>
+                                <button t="[title]photos.rotate" class="btn btn-basic btn-md btn-framed" click.delegate="rotate_selected_photos($event)"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.TESTER">
-                                <button t="[title]photos.set-slideshow-topics" class="btn btn-basic btn-md"
-                                        click.delegate="set_slideshow_topics($event)"><i class="fa fa-projector fa-lg"></i></button>
+                                <button t="[title]photos.set-slideshow-topics" class="btn btn-basic btn-md btn-framed"
+                                        click.delegate="set_slideshow_topics($event)"><i class="fa fa-eye"></i></button>
+                            </div>
+                            <div class="form-group toolbar"
+                                if.bind="user.editing && selected_photos.size > 0 && user.privileges.ADMIN">
+                                <button t="[title]photos.exclude-from-main-slideshow"
+                                    click.trigger="exclude_from_main_slideshow($event)" class="btn btn-basic btn-md btn-framed">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
                             </div>
                             <div class="form-group" if.bind="! editing_filters">
                                 <button class="btn btn-basic btn-sm btn-framed" 
@@ -76,7 +84,8 @@
                                 </button>
                             </div>
                             <div class="form-group toolbar" if.bind="can_pair_photos">
-                                <button t="[title]photos.pair" class="btn btn-basic btn-md" click.delegate="pair_selected_photos()">
+                                <button t="[title]photos.pair" class="btn btn-basic btn-md btn-framed"
+                                        click.delegate="pair_selected_photos()">
                                     <i class="far fa-yin-yang"></i>
                                 </button>
                             </div>
@@ -87,11 +96,12 @@
                                 <help topic="after-upload" position="bottom"></help>
                             </div>
                             <div class="form-group toolbar" if.bind="phase=='applying-to-photos' && ! got_duplicates && ! working">
-                                <button 
+                                <button
+                                    t="[title]photos.apply-to-selected"
                                     disabled.bind="apply_disabled"
-                                    class="btn btn-warning btn-md" 
+                                    class="btn btn-warning btn-md btn-framed"
                                     click.trigger="apply_to_selected()">
-                                    ${'photos.apply-to-selected' & t}
+                                    <i class="fa fa-save"></i>
                                 </button>
                                 <help topic="apply-to-selected-photos" position="bottom"></help>
                             </div>
@@ -99,7 +109,7 @@
                                 <help topic.bind="phase" position="bottom"></help>
                             </div>
                             <div if.bind="caller_type" class="form-group toolbar">
-                                <button class="btn btn-success" click.trigger="save_photo_group()">
+                                <button class="btn btn-success btn-framed" click.trigger="save_photo_group()">
                                     ${'members.back-to-' + caller_type & t}
                                 </button>
                             </div>
@@ -111,30 +121,31 @@
                                 </a>
                             </div>
                             <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type && ! got_duplicates && ! working" class="input-group">
-                                <button 
+                                <button
+                                    t="[title]photos.find-duplicates"
                                     click.trigger="find_duplicates()"
-                                    class="btn btn-basic btn-md">
-                                    ${'photos.find-duplicates' & t}
+                                    class="btn btn-basic btn-md btn-framed">
+                                    <i class="fa fa-clone"></i>
                                 </button>
                             </div>
                             <div if.bind="user.editing && ! caller_type && ! working && got_duplicates && selected_photos.size > 0" class="input-group">
                                 <button 
                                     click.trigger="replace_duplicate_photos()"
-                                    class="btn btn-basic btn-md">
+                                    class="btn btn-basic btn-md btn-framed">
                                     ${'photos.keep-selected-photos' & t}
                                 </button>
                             </div>
                             <div if.bind="user.editing && ! caller_type && ! working && candidates.size > 0" class="input-group">
                                 <button 
                                     click.trigger="select_new_copies()"
-                                    class="btn btn-basic btn-md">
+                                    class="btn btn-basic btn-md btn-framed">
                                     ${'photos.select-new-copies' & t}
                                 </button>
                             </div>
                             <div if.bind="user.editing && got_duplicates" class="input-group">
                                 <button 
                                     click.trigger="show_all_photos()"
-                                    class="btn btn-basic btn-md">
+                                    class="btn btn-basic btn-md btn-framed">
                                     ${'photos.show-all-photos' & t}
                                 </button>
                             </div>

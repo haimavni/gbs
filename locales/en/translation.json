@@ -428,7 +428,8 @@
         "undo-last-change": "Undo last change",
         "photo-detail": "View photo details",
         "set-slideshow-topics": "Slide show topics",
-        "slideshow-topics-saved": "Slideshow topics saved"
+        "slideshow-topics-saved": "Slideshow topics saved",
+        "exclude-from-main-slideshow": "Exclude from main slideshow"
     },
     "videos": {
         "videos": "Video",

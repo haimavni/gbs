@@ -426,7 +426,8 @@
         "undo-last-change": "בטל את השינוי האחרון",
         "photo-detail": "סיפורה של התמונה",
         "set-slideshow-topics": "קבע כנושאים למצגת הפתיחה",
-        "slideshow-topics-saved": "הנושאים למצגת הפתיחה נשמרו"
+        "slideshow-topics-saved": "הנושאים למצגת הפתיחה נשמרו",
+        "exclude-from-main-slideshow": "התמונות שנבחרו לא תוצגנה במצגת הפתיחה"
     },
     "audios": {
         "audios": "הקלטות",

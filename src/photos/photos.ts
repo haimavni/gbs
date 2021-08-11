@@ -872,6 +872,12 @@ export class Photos {
         this.editing_filters = true;
     }
 
+    exclude_from_main_slideshow(event) {
+        let selected_photos = Array.from(this.selected_photos);
+        let exclude = ! event.ctrlKey;
+        this.api.call_server_post('photos/exclude_from_main_slideshow', {selected_photos: selected_photos, exclude: exclude});
+    }
+
     css_height() {
         if (!this.theme.is_desktop) return '';
         return `height: ${this.win_height - 323}px;`;
