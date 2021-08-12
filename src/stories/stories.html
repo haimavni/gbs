@@ -168,7 +168,7 @@
                             ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
                         </multi-select>
                     </div>
-                    <div class="row" if.bind="user.editing && user.privileges.ADMIN && checked_stories.size > 0">
+                    <div class="row" if.bind="user.editing && user.privileges.ADMIN && checked_stories.size > 0" style="width:99%;">
                         <selector dict.bind="api.constants.story_visibility" width.bind="visibility_width"
                             selectedval.two-way="params.selected_story_visibility">
                         </selector>
