@@ -11,6 +11,7 @@ export class ArticleList {
     eventAggregator;
     articles = { article_list: null };
     api;
+    recent = [];
 
     constructor(eventAggregator, api) {
         this.eventAggregator = eventAggregator;
@@ -57,6 +58,19 @@ export class ArticleList {
                     this.articles.article_list = sort_array(articles.article_list, '-has_profile_photo');
                     return this.articles;
                 })
+        }
+    }
+
+    public add_recent(article) {
+        let idx = this.recent.findIndex(art => art.id == article.id);
+        if (idx > 0) {
+            this.recent.splice(idx, 1);
+        }
+        if (idx != 0) {
+            this.recent.splice(0, 0, article);
+        }
+        if (this.recent.length > 20) {
+            this.recent.splice(20, 1);
         }
     }
 

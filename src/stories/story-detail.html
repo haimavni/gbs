@@ -38,19 +38,19 @@
                              move_to.bind="move_to"
                     style="padding:0;" dir="ltr" settings.bind="{arrows:true, height:220}">
                 </photo-strip>
-                <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
+                <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;display:flex;flex-direction:column;">
                     <div if.bind="user.editing">
                         <form class="form-inline">
                             <button class="btn btn-success btn-sm" click.trigger="update_associated_photos()"
                                 style="float:left;margin-right:5px;">
                                 ${'photos.photos' & t}
                             </button>
-                            <button class="btn btn-success btn-sm" click.trigger="update_associated_members()"
+                            <button class="btn btn-success btn-sm" click.trigger="update_associated_members_new()"
                                 style="float:left;margin-right:5px;">
                                 ${'members.members' & t}
                             </button>
                             <button class="btn btn-success btn-sm" if.bind="user.config.enable_articles"
-                                click.trigger="update_associated_articles()" style="float:left;">
+                                click.trigger="update_associated_articles_new()" style="float:left;">
                                 ${'articles.articles' & t}
                             </button>
                             <label style="float:right;font-weight:normal;font-size:14px;margin-top:2px;">${'update' & t}:</label>
@@ -59,7 +59,7 @@
                     <div if.bind="! user.editing" class="col-md-5">
                     </div>
                 </div>
-                <div style="max-height:480px;overflow:auto;overflow-x:hidden;">
+                <div id="associated">
                     <compose view-model="../members/member-faces" model.bind="members"></compose>
                     <compose view-model="../members/article-faces" model.bind="articles"></compose>
                     <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="stories-member-list"
@@ -125,12 +125,12 @@
                 <!--end of justified -->
                 <div if.bind="user.editing"
                     style="background-color:#eee;height:500px;width:94%;margin-right:8px;margin-top:12px;">
-                    <div style="display:flex;justify-content:spacex-between;" if.bind="book_id">
+                    <div style="display:flex;justify-content:space-between;" if.bind="book_id">
                         <label style="margin-top:12px;margin-right:15px;font-size:120%;">
                             ${'stories.sorting-key' & t} [${book_name}]
                         </label>
                         <ul
-                            style="display:flex;justify-content:spacex-evenly;flex-direction:row-reverse;margin-top:12px;">
+                            style="display:flex;justify-content:space-evenly;flex-direction:row-reverse;margin-top:12px;">
                             <li repeat.for="idx of [0,1,2,3,4]" style="width:40px;margin-right:10px;">
                                 <input style="width:90%;padding:3px;" type="text" maxlength="3"
                                     value.bind="sorting_key[idx]" disabled="${idx > last_filled_idx ? 'disabled' : ''}"
@@ -169,5 +169,6 @@
                 </div>
             </div>
         </div>
+    </div>
 
 </template>

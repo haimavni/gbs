@@ -34,7 +34,7 @@
                             </div>
                             <div if.bind="(! got_duplicates) && params.photo_ids.length == 0 && params.selected_order_option == 'random-order'"
                                  class="form-group hide-if-small toolbar" title.bind="with_a_member_text">
-                                <button class="btn btn-basic btn-md btn-framed" click.delegate="select_member($event)">
+                                <button class="btn btn-${with_a_member ? 'warning' : 'basic'} btn-md btn-framed" click.delegate="select_member($event)">
                                     <i class="fa fa-users"></i>
                                 </button>
                             </div>

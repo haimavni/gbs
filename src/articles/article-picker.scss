@@ -15,7 +15,7 @@ div#article-picker {
         padding-right:6px;
         padding-left:6px;
     }
-    div.member-list {
+    div.article-list {
         li {
             width:65px;
             float:right;
@@ -26,6 +26,9 @@ div#article-picker {
                 width:50px;
                 height:50px;
                 border-radius:50%;
+            }
+            &.selected img {
+                border: 3px solid yellow;
             }
         }
     }

@@ -5,11 +5,15 @@ import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { Misc } from '../services/misc';
 import { highlight } from '../services/dom_utils';
+import { MemberList } from "../services/member_list";
+import { ArticleList } from '../services/article_list';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import {MemberPicker} from "../members/member-picker";
+import {ArticlePicker} from "../articles/article-picker";
 
 @autoinject()
 export class StoryDetail {
@@ -17,6 +21,8 @@ export class StoryDetail {
     i18n;
     story;
     members = [];
+    member_list: MemberList;
+    article_list: ArticleList;
     articles = [];
     candidates = [];
     article_candidates = [];
@@ -71,7 +77,7 @@ export class StoryDetail {
     story_date_valid = '';
     move_to;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router,
+    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, member_list: MemberList, article_list: ArticleList,
                 theme: Theme, misc: Misc, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
         this.router = router;
@@ -80,6 +86,8 @@ export class StoryDetail {
         this.theme = theme;
         this.misc = misc;
         this.dialog = dialog;
+        this.member_list = member_list;
+        this.article_list = article_list;
         this.eventAggregator = eventAggregator;
         this.options_settings = new MultiSelectSettings
             ({
@@ -204,8 +212,49 @@ export class StoryDetail {
 
     update_associated_members() {
         let member_ids = this.members.map(member => Number(member.id));
-        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: this.story_type, associated_members: member_ids });
+        this.router.navigateToRoute('associate-members', {
+            caller_id: this.story.story_id,
+            caller_type: this.story_type,
+            associated_members: member_ids
+        });
     }
+
+    update_associated_members_new() {
+        this.theme.hide_title = true;
+        let member_ids = this.members.map(member => Number(member.id));
+        this.dialog.open({
+            viewModel: MemberPicker,
+            model: {multi: true, back_to_text: 'members.back-to-story', preselected: member_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            let member_ids = Array.from(response.output.member_ids);
+            let member_set = new Set(member_ids);
+            this.api.call_server_post('members/save_group_members', {caller_id: this.story.story_id, caller_type: this.story_type, member_ids: member_ids});
+            this.members = this.member_list.members.member_list.filter(member => member_set.has(member.id))
+        });
+    }
+
+    update_associated_articles_new() {
+        this.theme.hide_title = true;
+        let article_ids = this.articles.map(article => Number(article.id));
+        this.dialog.open({
+            viewModel: ArticlePicker,
+            model: {multi: true, back_to_text: 'members.back-to-story', preselected: article_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            let article_ids = Array.from(response.output.article_ids);
+            let article_set = new Set(article_ids);
+            this.api.call_server_post('articles/save_group_articles', {caller_id: this.story.story_id, caller_type: this.story_type, article_ids: article_ids});
+            this.articles = this.article_list.articles.article_list.filter(article => article_set.has(article.id));
+        });
+    }
+
 
     update_associated_articles() {
         let article_ids = this.articles.map(article => Number(article.id));
