@@ -243,7 +243,7 @@ export class Videos {
 
     add_video(new_video_rec) {
         new_video_rec = this.video_data(new_video_rec);
-        this.video_list.push(new_video_rec);
+        this.video_list.splice(0, 0, new_video_rec);
     }
 
     refresh_video(changes) {
