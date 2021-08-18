@@ -427,7 +427,9 @@
         "photo-detail": "סיפורה של התמונה",
         "set-slideshow-topics": "קבע כנושאים למצגת הפתיחה",
         "slideshow-topics-saved": "הנושאים למצגת הפתיחה נשמרו",
-        "exclude-from-main-slideshow": "התמונות שנבחרו לא תוצגנה במצגת הפתיחה"
+        "exclude-from-main-slideshow": "התמונות שנבחרו לא תוצגנה במצגת הפתיחה",
+        "save-selected-photos": "שמור את השינויים ברשימת התמונות",
+        "cancel-selected-photos": "צא בלי לשמור את השינויים"
     },
     "audios": {
         "audios": "הקלטות",

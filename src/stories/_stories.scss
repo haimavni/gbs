@@ -238,9 +238,6 @@ ul.story-list {
     }
 }
 div#associated {
-    max-height:calc(100vh - 500px);
-    overflow:auto;
-    overflow-x:hidden;
     display:flex;
     flex-direction:column;
 }

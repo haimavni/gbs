@@ -201,3 +201,10 @@ div.search-box {
         margin-right: 6px;
     }
 }
+
+body.dialog-body ux-dialog-container {
+    background-color: beige;
+    border: solid 5px green;
+    width: 1200px;
+    height: 97vh;
+}

@@ -109,6 +109,7 @@ export class Photos {
     update_photo_list_debounced;
     photos_date_valid = "";
     editing = false;
+    selected_photo_container;
 
     constructor(api: MemberGateway, user: User, cookies: Cookies, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
         this.api = api;
@@ -181,7 +182,8 @@ export class Photos {
     }
 
     activate(params, routeConfig) {
-        if (routeConfig.name == 'associate-photos') {
+        this.selected_photo_container = params;
+        if (routeConfig && routeConfig.name == 'associate-photos') {
             this.caller_id = params.caller_id;
             this.caller_type = params.caller_type;
             let arr;
@@ -199,6 +201,14 @@ export class Photos {
         } else {
             this.params.photo_ids = [];
         }
+        let arr = [];
+        if (params.associated_photos) {
+            arr = params.associated_photos.map(i => Number(i));
+            this.selected_photos = new Set(arr);
+            this.params.selected_photo_list = Array.from(this.selected_photos);
+            this.photo_list = [];
+        }
+
         if (params.user_id) {
             this.params.user_id = params.user_id;
             this.params.selected_uploader = "mine";
@@ -504,6 +514,7 @@ export class Photos {
             photo.selected = "photo-selected";
         }
         this.params.selected_photo_list = Array.from(this.selected_photos);
+        this.selected_photo_container.associated_photos = this.params.selected_photo_list;
     }
 
     save_merges(event: Event) {
