@@ -219,6 +219,10 @@ export class Photos {
             this.update_photo_list();
     }
 
+    deactivate() {
+        this.clear_photo_group();
+    }
+
     @computedFrom('user.editing')
     get user_editing() {
         if (this.user.editing == this.editing) return;

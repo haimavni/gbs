@@ -36,6 +36,7 @@
                 <photo-strip if.bind="has_associated_photos" source.bind="source"
                              id.bind="story_idx" action_key="Zoom2"
                              move_to.bind="move_to"
+                             restart.bind="restart_slides"
                     style="padding:0;" dir="ltr" settings.bind="{arrows:true, height:220}">
                 </photo-strip>
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;display:flex;flex-direction:column;">
@@ -62,8 +63,7 @@
                 <div id="associated">
                     <compose view-model="../members/member-faces" model.bind="members"></compose>
                     <compose view-model="../members/article-faces" model.bind="articles"></compose>
-                    <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="stories-member-list"
-                        style="margin-top:-24px;">
+                    <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="stories-member-list">
                         <h4>${'photos.candidates' & t}</h4>
                         <ul class="list-group">
                             <li class="list-group-item" repeat.for="candidate of candidates">

@@ -32,6 +32,7 @@ export class StoryDetail {
     curr_photo;
     photo_idx = 0;
     source;
+    restart_slides = 0;
     user;
     theme;
     misc: Misc;
@@ -278,8 +279,13 @@ export class StoryDetail {
             this.api.call_server_post('members/save_photo_group',
             {user_id: this.user.id, caller_id: this.story.story_id, caller_type: this.story_type, photo_ids: photo_ids})
                 .then(response => {
+                    this.photos = response.photos;
+                    //this.source = new Promise(resolve => resolve({photo_list: this.photos}));
                     this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: this.story.story_id, story_type: this.story_type });
-                    this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
+                    this.source.then(response => {
+                        this.has_associated_photos = response.photo_list.length > 0;
+                    });
+                    this.restart_slides = 1;
                 })
         });
     }
