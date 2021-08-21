@@ -68,7 +68,7 @@ div.panel.panel-default {
 .photo-detail {
     margin-left:auto;
     margin-right:auto;
-    min-height:755px;
+    //min-height:755px;
     .detail-header {
         display: flex;
         flex-direction: row-reverse;
@@ -200,4 +200,11 @@ div.search-box {
     &.ltr {
         margin-right: 6px;
     }
+}
+
+body.dialog-body ux-dialog-container {
+    background-color: beige;
+    border: solid 5px green;
+    width: 1200px;
+    height: 97vh;
 }

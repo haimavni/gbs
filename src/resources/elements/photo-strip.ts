@@ -13,6 +13,7 @@ export class PhotoStripCustomElement {
     @bindable id = 0;
     @bindable fullscreen = false;
     @bindable move_to;
+    @bindable restart = 0;
     prev_id;
     element;
     width;
@@ -40,7 +41,13 @@ export class PhotoStripCustomElement {
         if (!this) {
             return;
         }
-        if (this.id != this.prev_id) {
+        if (this.id != this.prev_id || this.restart) {
+            this.restart = 0;
+            let target = this.slideList;
+            if (target) {
+                target.style.left = '0px';
+                target.setAttribute('data-x', 0);
+            }
             this.source.then(result => {
                 this.slides = result.photo_list;
                 for (let slide of this.slides) {
@@ -268,5 +275,12 @@ export class PhotoStripCustomElement {
         this.place_photos(this.move_to);
         this.move_to = null;
         return false;
+    }
+
+    @computedFrom('restart')
+    get restart_triggered() {
+        if (! this.restart) return;
+        this.ready();
+        return '';
     }
 }
