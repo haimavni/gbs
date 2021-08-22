@@ -13,7 +13,7 @@ export class PhotoStripCustomElement {
     @bindable id = 0;
     @bindable fullscreen = false;
     @bindable move_to;
-    @bindable restart = 0;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) restart = 0;
     prev_id;
     element;
     width;

@@ -213,15 +213,6 @@ export class StoryDetail {
     }
 
     update_associated_members() {
-        let member_ids = this.members.map(member => Number(member.id));
-        this.router.navigateToRoute('associate-members', {
-            caller_id: this.story.story_id,
-            caller_type: this.story_type,
-            associated_members: member_ids
-        });
-    }
-
-    update_associated_members_new() {
         this.theme.hide_title = true;
         let member_ids = this.members.map(member => Number(member.id));
         this.dialog.open({
@@ -239,7 +230,7 @@ export class StoryDetail {
         });
     }
 
-    update_associated_articles_new() {
+    update_associated_articles() {
         this.theme.hide_title = true;
         let article_ids = this.articles.map(article => Number(article.id));
         this.dialog.open({
@@ -258,17 +249,7 @@ export class StoryDetail {
     }
 
 
-    update_associated_articles() {
-        let article_ids = this.articles.map(article => Number(article.id));
-        this.router.navigateToRoute('associate-articles', { caller_id: this.story.story_id, caller_type: this.story_type, associated_articles: article_ids });
-    }
-
     update_associated_photos() {
-        let photo_ids = this.photos.map(photo => Number(photo.id));
-        this.router.navigateToRoute('associate-photos', { caller_id: this.story.story_id, caller_type: this.story_type, associated_photos: photo_ids });
-    }
-
-    update_associated_photos_new() {
         let photo_ids = this.photos.map(photo => Number(photo.id));
         this.dialog.open({
             viewModel: PhotoPicker,
@@ -280,11 +261,9 @@ export class StoryDetail {
             {user_id: this.user.id, caller_id: this.story.story_id, caller_type: this.story_type, photo_ids: photo_ids})
                 .then(response => {
                     this.photos = response.photos;
+                    this.has_associated_photos = response.photos.length > 0;
                     //this.source = new Promise(resolve => resolve({photo_list: this.photos}));
                     this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: this.story.story_id, story_type: this.story_type });
-                    this.source.then(response => {
-                        this.has_associated_photos = response.photo_list.length > 0;
-                    });
                     this.restart_slides = 1;
                 })
         });
