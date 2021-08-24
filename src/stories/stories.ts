@@ -423,6 +423,9 @@ export class Stories {
             case this.api.constants.story_type.STORY4MEMBER:
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
+            case this.api.constants.story_type.STORY4ARTICLE:
+                this.router.navigateToRoute('article-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+                break;
             case this.api.constants.story_type.STORY4PHOTO:
                 let photo_list = this.story_list.filter(itm => itm.used_for == 3);
                 let photo_ids = photo_list.map(itm => itm.story_id);
