@@ -109,3 +109,8 @@ div.container {
     padding-left: 0;
 }
 
+ux-dialog-container.active {
+    > div {
+        padding: 8px 2px;
+    }
+}

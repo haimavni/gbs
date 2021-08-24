@@ -1,7 +1,6 @@
 <template>
     <require from="./full-size-photo.css"></require>
-    <div class="slide unselectable" click.delegate="mark_face($event)" id="full-size-photo"
-        style="z-index:0;margin-left:32px;cursor:default;display:flex;flex-direction:column;"
+    <div id="full-size-photo"  class="slide unselectable" click.delegate="mark_face($event)" id="full-size-photo"
         fullscreenchange.delegate="fullscreen_change($event)" interact-draggable.bind="theme.interact_setting"
         interact-dragmove.delegate="drag_move_photo($event)">
         <div style="display:flex;flex-direction:row-reverse;">
