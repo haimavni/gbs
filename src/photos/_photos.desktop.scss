@@ -1,5 +1,10 @@
 .photo-detail {
     width:1170px;
+    .detail-header {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
 }
 div.multi-select-div {
     min-height: 170px;
@@ -19,4 +24,14 @@ div.multi-select-div {
 #photo-filters-panel {
     height: calc(100vh - 360px);
     overflow: auto;
+}
+
+div#photo-story {
+    height:70vh;
+    margin-right:16px;
+    overflow:auto;
+}
+
+div#full-size-photo {
+    margin-left:48px;
 }

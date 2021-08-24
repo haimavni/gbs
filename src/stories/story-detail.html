@@ -42,16 +42,16 @@
                 <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;display:flex;flex-direction:column;">
                     <div if.bind="user.editing">
                         <form class="form-inline">
-                            <button class="btn btn-success btn-sm" click.trigger="update_associated_photos_new()"
+                            <button class="btn btn-success btn-sm" click.trigger="update_associated_photos()"
                                 style="float:left;margin-right:5px;">
                                 ${'photos.photos' & t}
                             </button>
-                            <button class="btn btn-success btn-sm" click.trigger="update_associated_members_new()"
+                            <button class="btn btn-success btn-sm" click.trigger="update_associated_members()"
                                 style="float:left;margin-right:5px;">
                                 ${'members.members' & t}
                             </button>
                             <button class="btn btn-success btn-sm" if.bind="user.config.enable_articles"
-                                click.trigger="update_associated_articles_new()" style="float:left;">
+                                click.trigger="update_associated_articles()" style="float:left;">
                                 ${'articles.articles' & t}
                             </button>
                             <label style="float:right;font-weight:normal;font-size:14px;margin-top:2px;">${'update' & t}:</label>
@@ -102,7 +102,7 @@
                     </div>
                     <div if.bind="! user.editing" style="padding-right:15px;padding-top:8px;">
                         <div class="fr-view" dir="${story_dir}">
-                            <div class="big-story-panel ${theme.font_size}" style="position:relative;">
+                            <div class="big-story-panel ${theme.font_size} ${theme.rtltr}" style="position:relative;">
                                 <p class="${story_dir} ${highlight_on}">
                                     <render-story if.bind="highlightedHtml" html.bind="highlightedHtml"></render-story>
                                     <!--div class="page-control next" click.trigger="next_page($event, +1)"></div>
@@ -113,7 +113,7 @@
                     </div>
                     <div if.bind="user.editing" style="padding-right:15px;padding-top:8px;">
                         <div class="fr-view" dir="${story_dir}">
-                            <div class="big-story-panel ${theme.font_size}" style="position:relative;">
+                            <div class="big-story-panel ${theme.font_size} ${theme.rtltr}" style="position:relative;">
                                 <editable if.bind="user.editing"
                                     settings.bind="{show_date:false, class:'story-section', checkable: false}"
                                     story.bind="story">

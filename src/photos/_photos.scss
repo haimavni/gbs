@@ -71,8 +71,8 @@ div.panel.panel-default {
     //min-height:755px;
     .detail-header {
         display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
+        //flex-direction: row-reverse;
+        //justify-content: space-between;
     }
     editable div.story-section {
         height: 150px;
@@ -207,4 +207,16 @@ body.dialog-body ux-dialog-container {
     border: solid 5px green;
     width: 1200px;
     height: 97vh;
+}
+
+div#photo-story {
+    position:relative;
+    margin-right:30px;
+}
+
+div#full-size-photo {
+    z-index:0;
+    cursor:default;
+    display:flex;
+    flex-direction:column;
 }
