@@ -167,3 +167,8 @@ div#photo-image {
     }
 }
 
+div#full-size-photo-toolbar{
+    display:flex;
+    flex-direction:column;
+    width:32px;
+}
