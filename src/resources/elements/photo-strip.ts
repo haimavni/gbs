@@ -14,7 +14,7 @@ export class PhotoStripCustomElement {
     @bindable fullscreen = false;
     @bindable move_to;
     @bindable ({ defaultBindingMode: bindingMode.twoWay }) restart = 0;
-    prev_id = 0;
+    prev_id = -1;
     element;
     width;
     modified_slide = null;
@@ -56,6 +56,9 @@ export class PhotoStripCustomElement {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
+                if (this.calculate_widths()) {
+                    this.prev_id = this.id;
+                }
                 this.shift_photos(0);
             });
 
@@ -94,6 +97,7 @@ export class PhotoStripCustomElement {
     change_heights(new_height) {
         this.height = new_height;
         this.dispatch_height_change();
+        this.calculate_widths();
     }
 
     drag_photos(event) {
@@ -115,6 +119,7 @@ export class PhotoStripCustomElement {
             target.style.left = `${x}px`;
 
             this.dispatch_height_change();
+            this.calculate_widths();
             return false;
         }
         if (Math.abs(dx) > 7 * Math.abs(dy)) {
@@ -205,6 +210,21 @@ export class PhotoStripCustomElement {
         if (!this.slideShowStopped) {
             this.shift_photos(dir);
         }
+    }
+
+    calculate_widths() {
+        for (let slide of this.slides) {
+            if (!slide) {
+                return false;
+            }
+            let r = this.height / slide.height;
+            let w = Math.round(r * slide.width);
+            let img = document.getElementById('img-' + slide.photo_id);
+            if (img) {
+                img.style.width = w + "px";
+            }
+        }
+        return true;
     }
 
     get show_arrows() {
