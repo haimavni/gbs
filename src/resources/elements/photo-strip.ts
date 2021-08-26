@@ -37,7 +37,7 @@ export class PhotoStripCustomElement {
         this.theme = theme;
     }
 
-    ready() {
+    ready(what) {
         if (!this) {
             return;
         }
@@ -45,7 +45,7 @@ export class PhotoStripCustomElement {
             this.prev_id = this.id;
             this.restart = 0;
             let target = this.slideList;
-            if (target) {
+            if (target && what == 'attached') {
                 target.style.left = '0px';
                 target.setAttribute('data-x', 0);
             }
@@ -77,8 +77,8 @@ export class PhotoStripCustomElement {
         this.width = elementRect.width;
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
-        this.ready_interval = setInterval(() => this.ready(), 100);
-        this.ready();
+        this.ready_interval = setInterval(() => this.ready('timer'), 100);
+        this.ready('attached');
         if (! this.theme.is_desktop)
             this.height = Math.round(this.theme.height / 3);
         else this.height = 220;
@@ -279,7 +279,7 @@ export class PhotoStripCustomElement {
     @computedFrom('restart')
     get restart_triggered() {
         if (! this.restart) return;
-        this.ready();
+        this.ready('restart');
         return '';
     }
 }
