@@ -14,7 +14,7 @@ export class PhotoStripCustomElement {
     @bindable fullscreen = false;
     @bindable move_to;
     @bindable ({ defaultBindingMode: bindingMode.twoWay }) restart = 0;
-    prev_id;
+    prev_id = -1;
     element;
     width;
     modified_slide = null;
@@ -42,6 +42,7 @@ export class PhotoStripCustomElement {
             return;
         }
         if (this.id != this.prev_id || this.restart) {
+            this.prev_id = this.id;
             this.restart = 0;
             let target = this.slideList;
             if (target) {
@@ -221,8 +222,6 @@ export class PhotoStripCustomElement {
             let img = document.getElementById('img-' + slide.photo_id);
             if (img) {
                 img.style.width = w + "px";
-            } else {
-                return false;
             }
         }
         return true;
