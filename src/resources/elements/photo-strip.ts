@@ -1,9 +1,10 @@
 import { bindable, inject, DOM, bindingMode, BindingEngine, computedFrom } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Theme } from '../../services/theme';
+import { Misc } from '../../services/misc';
 
 const WAIT = 50;
-@inject(DOM.Element, EventAggregator, BindingEngine, Theme)
+@inject(DOM.Element, EventAggregator, BindingEngine, Theme, Misc)
 export class PhotoStripCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable source;
@@ -12,9 +13,9 @@ export class PhotoStripCustomElement {
     @bindable settings = { height: 300, arrows: false, slide_show: 0 };
     @bindable id = 0;
     @bindable fullscreen = false;
-    @bindable move_to;
-    @bindable ({ defaultBindingMode: bindingMode.twoWay }) restart = 0;
-    prev_id = -1;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) move_to;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) restart;
+    prev_id;
     element;
     width;
     modified_slide = null;
@@ -23,18 +24,20 @@ export class PhotoStripCustomElement {
     subscription;
     ready_interval;
     slideShow;
-    theme;
+    theme: Theme;
+    misc: Misc;
     dragging = false;
     slideShowStopped = false;
 
     // refs 
     slideList; // defined by element.ref in the html
 
-    constructor(element, eventAggregator: EventAggregator, bindingEngine, theme: Theme) {
+    constructor(element, eventAggregator: EventAggregator, bindingEngine, theme: Theme, misc: Misc) {
         this.element = element;
         this.eventAggregator = eventAggregator;
         this.bindingEngine = bindingEngine;
         this.theme = theme;
+        this.misc = misc;
     }
 
     ready(what) {
@@ -42,12 +45,13 @@ export class PhotoStripCustomElement {
             return;
         }
         if (this.id != this.prev_id || this.restart) {
-            this.prev_id = this.id;
-            this.restart = 0;
-            let target = this.slideList;
-            if (target && what == 'attached') {
-                target.style.left = '0px';
-                target.setAttribute('data-x', 0);
+            if (this.restart) {
+                this.restart = 0;
+                let target = this.slideList;
+                if (target && what == 'attached') {
+                    target.style.left = '0px';
+                    target.setAttribute('data-x', 0);
+                }
             }
             this.source.then(result => {
                 this.slides = result.photo_list;
@@ -59,7 +63,7 @@ export class PhotoStripCustomElement {
                 if (this.calculate_widths()) {
                     this.prev_id = this.id;
                 }
-                this.shift_photos(0);
+                //this.shift_photos(0);
             });
 
             let n = this.settings.slide_show;
@@ -103,7 +107,7 @@ export class PhotoStripCustomElement {
     drag_photos(event) {
         event.preventDefault();
         let { dx, dy, target } = event.detail;
-        if (Math.abs(dy) > 7 * Math.abs(dx)) { // must be significantly larger, to prevent inadvertant height change
+        if (Math.abs(dy) > 10 * Math.abs(dx)) { // must be significantly larger, to prevent inadvertant height change
             let h = this.height;
             this.height += dy;
             if (this.height < 10) {
@@ -173,11 +177,19 @@ export class PhotoStripCustomElement {
 
     async place_photos(x) {
         let target = this.slideList;
+        for (let i = 0; i < 100; i++) {
+            if(target) break;
+            this.misc.sleep(10);
+            target = this.slideList;
+        }
         if (!target) return;
         if (target && target.style) {
             target.style.left = `${x}px`;
+            target.setAttribute('data-x', x);
+            this.misc.sleep(100);
+            target.style.left = `${x}px`;
+            target.setAttribute('data-x', x);
         }
-        target.setAttribute('data-x', x);
     }
 
     dispatch_height_change() {
@@ -278,8 +290,8 @@ export class PhotoStripCustomElement {
 
     @computedFrom('restart')
     get restart_triggered() {
-        if (! this.restart) return;
-        this.ready('restart');
-        return '';
+       if (! this.restart) return;
+       this.ready('restart');
+       return '';
     }
 }
