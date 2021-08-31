@@ -273,6 +273,8 @@
         "enable-member-of-the-day-on": "אפשר חבר היום",
         "enable-cuepoints-on": "כולל נקודות עצירה בסרטים",
         "enable-cuepoints-off": "ללא נקודות עצירה בסרטים",
+        "allow-publishing-on": "אפשר תצוגה בגלריה",
+        "allow-publishing-off": "אל תאפשר תצוגה בגלריה",
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",

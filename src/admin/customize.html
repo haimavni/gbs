@@ -151,6 +151,13 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
+                        <button repeat.for="ap of allow_publishing_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${ap==allow_publishing_option ? 'primary' : 'default'} customization"
+                            click.delegate="allow_publishing_option_selected(ap)">
+                            <span style="font-weight:bolder">${ap & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
                         <label style="margin-left:8px;width:200px;">
                             ${'admin.promoted-story-expiration' & t}
                         </label>
