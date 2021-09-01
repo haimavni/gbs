@@ -275,6 +275,8 @@
         "enable-member-of-the-day-on": "Enable member of the day",
         "enable-cuepoints-on": "Enable video cuepoints",
         "enable-cuepoints-off": "Disable video cuepoints",
+        "allow-publishing-on": "Allow displaying in apps gallery",
+        "allow-publishing-off": "Do not allow displaying in apps galler",
         "gallery": "Gallery",
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",
