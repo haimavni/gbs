@@ -22,8 +22,8 @@ import {Cookies} from '../services/cookies';
 const
     UTO = 'upload-time-order',
     CDO = "chronological-order",
-    CDOR = "chronological-order-reverse";
-
+    CDOR = "chronological-order-reverse",
+    ABO = "alphabetical-order";
 
 @autoinject()
 @singleton()
@@ -145,7 +145,8 @@ export class Photos {
             {value: "random-order", name: this.i18n.tr('photos.random-order')},
             {value: UTO, name: this.i18n.tr('photos.' + UTO)},
             {value: CDOR, name: this.i18n.tr('photos.' + CDOR)},
-            {value: CDO, name: this.i18n.tr('photos.' + CDO)}
+            {value: CDO, name: this.i18n.tr('photos.' + CDO)},
+            {value: ABO, name: this.i18n.tr('photos.' + ABO)}
         ];
         this.options_settings = new MultiSelectSettings({
             clear_filter_after_select: false,
