@@ -1,10 +1,9 @@
 <template>
     <section class="container content-area">
-        <h2>Gallery</h2>
-        <div class="scaled-frame">
-            <div class="wrap" repeat.for="frm of frame_urls">
-                <iframe src.bind="frm.url" class="frame" width="1200" height="780"allow="fullscreen"></iframe>
-                <!-- <iframe repeat.for="frm of frame_urls" src.bind="frm.url" class="frame" width="1200" height="780"></iframe> -->
+        <div class="app-list">
+            <div repeat.for="app of app_list">
+                <compose view-model="./app-link" model.bind="app" if.bind="user.editing || app.active">
+                </compose>
             </div>
         </div>
     </section>s

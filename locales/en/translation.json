@@ -583,6 +583,10 @@
         "place-marker": "Move and resize the map as necessary, then click on the photo place.",
         "successful-save": "Photo information saved successfully"
     },
+    "gallery": {
+        "gallery": "Gallery",
+        "set-app-active": "Include in gallery"
+    },
     "consts": {
         "vis-never": "Never display!",
         "vis-not-ready": "Not ready yet",
