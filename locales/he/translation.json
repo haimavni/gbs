@@ -109,7 +109,8 @@
         "story-date": "תאריך הסיפור",
         "prev-story": "לסיפור הקודם",
         "next-story": "לסיפור הבא",
-        "clear-all-filters": "כל הסיפורים"
+        "clear-all-filters": "כל הסיפורים",
+        "remove-story-from-book": "הסר את הסיפור מהספר"
     },
     "members": {
         "members": "חברים",

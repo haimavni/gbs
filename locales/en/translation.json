@@ -110,7 +110,8 @@
         "story-date": "Story date",
         "prev-story": "Previous story",
         "next-story": "Next story",
-        "clear-all-filters": "Clear all filters"
+        "clear-all-filters": "Clear all filters",
+        "remove-story-from-book": "Remove story from book"
     },
     "members": {
         "members": "Members",

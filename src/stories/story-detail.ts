@@ -528,4 +528,9 @@ export class StoryDetail {
         }
     }
 
+    remove_story_from_book() {
+        this.api.call_server_post('topics/remove_story_from_book', {story_id: this.story.story_id, book_id: this.book_id})
+            .then(response => {this.book_id = null});
+    }
+
 }
