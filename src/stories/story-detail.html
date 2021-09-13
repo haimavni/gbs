@@ -126,12 +126,12 @@
                 <div if.bind="user.editing"
                     style="background-color:#eee;height:500px;width:94%;margin-right:8px;margin-top:12px;">
                     <div style="display:flex;justify-content:space-between;" if.bind="book_id">
-                        <buttn class="btn btn-warning"
+                        <button class="btn btn-basic"
                                click.delegate="remove_story_from_book()"
                                title="${'stories.remove-story-from-book' & t}"
                                if.bind="user.privileges.ADMIN">
-                            <i class="fa fa-trash"></i>
-                        </buttn>
+                            <i class="fa fa-cut" style="color:orange;"></i>
+                        </button>
                         <label style="margin-top:12px;margin-right:15px;font-size:120%;">
                             ${'stories.sorting-key' & t} [${book_name}]
                         </label>
