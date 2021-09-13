@@ -110,7 +110,8 @@
         "story-date": "Story date",
         "prev-story": "Previous story",
         "next-story": "Next story",
-        "clear-all-filters": "Clear all filters"
+        "clear-all-filters": "Clear all filters",
+        "remove-story-from-book": "Remove story from book"
     },
     "members": {
         "members": "Members",
@@ -417,6 +418,7 @@
         "cancel-indentification": "Cancel the identification",
         "chronological-order": "Chronological order",
         "chronological-order-reverse": "Chronological order reversed",
+        "alphabetical-order": "Alphabetical order",
         "edit-face-location": "Edit face location",
         "click-to-identify": "Click on a face to identify a person",
         "click-to-identify-article": "Click on an article to identify it",
@@ -581,6 +583,10 @@
         "need-to-show": "Display or edit before sending",
         "place-marker": "Move and resize the map as necessary, then click on the photo place.",
         "successful-save": "Photo information saved successfully"
+    },
+    "gallery": {
+        "gallery": "Gallery",
+        "set-app-active": "Include in gallery"
     },
     "consts": {
         "vis-never": "Never display!",

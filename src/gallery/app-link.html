@@ -1,0 +1,20 @@
+<template>
+    <div class="app-link">
+        <a href="${params.host}/${params.app}" target="_blank">
+            <div class="app-link-top">
+                <img src="${params.logo_path}">
+                <span>
+                    ${params.app_name}
+                </span>
+                <div class="checkbox" if.bind="user.editing">
+                    <input id="app-is-active" type="checkbox" value.bind="params.active"
+                               checked.bind="params.active">
+                    <span> ${'gallery.set-app-active' & t}</span>
+                </div>
+            </div>
+            <div class="app-link-bottom">
+                <img src="${params.cover_photo}" width="150">
+            </div>
+        </a>
+    </div>
+</template>

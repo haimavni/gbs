@@ -49,3 +49,33 @@ div.scaled-frame {
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
 }
+
+div.app-list {
+    overflow: auto;
+    height: 480px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+div.app-link {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    width: 250px;
+    height: 220px;
+    border: solid 10px white;
+    background-color: lightgray;
+    div.app-link-top {
+        img {
+            width: 32px;
+        }
+        span {
+            margin-right: 20px;
+        }
+    }
+    div.app-link-bottom {
+        img {
+            margin-right: 15px;
+        }
+    }
+}

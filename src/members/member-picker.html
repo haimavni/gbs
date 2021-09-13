@@ -7,7 +7,7 @@
                     ${'members.new' & t} ${filter}
                 </button>
             </div>
-            <div if.bind="multi && selected_member_ids.size > 0">
+            <div if.bind="multi && selected_member_ids.size > 0 || ! was_empty">
                 <button click.delegate="save()" class="btn btn-success cl-create-btn">
                     ${back_to_text & t}
                 </button>

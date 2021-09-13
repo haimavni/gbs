@@ -109,7 +109,8 @@
         "story-date": "תאריך הסיפור",
         "prev-story": "לסיפור הקודם",
         "next-story": "לסיפור הבא",
-        "clear-all-filters": "כל הסיפורים"
+        "clear-all-filters": "כל הסיפורים",
+        "remove-story-from-book": "הסר את הסיפור מהספר"
     },
     "members": {
         "members": "חברים",
@@ -308,6 +309,10 @@
             "missing-photo": "לא נבחרה תמונה! צא ממסך זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן"
         }
     },
+    "gallery": {
+        "gallery": "גלריה",
+        "set-app-active": "כלול בגלריה"
+    },
     "chats": {
         "chats": "קבוצות דיון",
         "enter-your-message": "הקלד את הודעתך",
@@ -415,6 +420,7 @@
         "cancel-indentification": "בטל את הזיהוי",
         "chronological-order": "סדר כרונולוגי",
         "chronological-order-reverse": "סדר כרונולוגי הפוך",
+        "alphabetical-order": "סדר אלפביתי",
         "edit-face-location": "לעריכת מיקום וגודל המעגל, לחץ על הכפתור הימני של העכבר או גרור את שפת המעגל או את תוכו",
         "click-to-identify": "הקלק על פרצוף כדי לזהותו",
         "click-to-identify-article": "הקלק על אובייקט כדי לזהותו",
