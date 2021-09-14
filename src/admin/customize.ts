@@ -342,6 +342,12 @@ export class Customize {
                 this.user.readConfiguration();
                 this.report_success();
             })
+        //the following will create a padded photo of fixed dimensions. will obsolete the above
+        this.api.call_server_post('photos/set_cover_photo', {cover_photo: cover_photo})
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
     }
 
 }
