@@ -234,11 +234,14 @@ export class UserMode {
         this.adv_options[idx].cls = 'selected';
     }
 
-    share_on_facebook() {
+    async share_on_facebook() {
         this.theme.hide_title = true;
+        let padded_photo_url;
+        await this.api.call_server_post('photos/get_padded_photo_url', {photo_url: this.user.get_photo_link()})
+            .then(response => padded_photo_url = response.padded_photo_url)
         this.dialog.open({ viewModel: FacebookCard,
             model: {current_url: this.current_url,
-                img_src: this.user.get_photo_link()}, lock: false })
+                img_src: padded_photo_url}, lock: false })
             .whenClosed(response => {
             this.theme.hide_title = false;
         });
