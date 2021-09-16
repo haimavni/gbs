@@ -689,6 +689,10 @@ export class FullSizePhoto {
         event.stopPropagation();
         let card_url;
         let img_src = this.slide[this.slide.side].src;
+        console.log("img_src before: ", img_src)
+        await this.api.call_server_post('photos/get_padded_photo_url', {photo_url: img_src})
+            .then(response => img_src = response.padded_photo_url);
+        console.log("img_src after: ", img_src);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
