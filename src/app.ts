@@ -49,6 +49,7 @@ export class App {
     attached() {
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit('APP');
+        this.user.get_app_list();
     }
 
     public router;
@@ -240,6 +241,11 @@ export class App {
     quick_upload_photo() {
         this.router.navigateToRoute('upload-photo', {group: 1});
     }
+
+    show_gallery() {
+        this.router.navigateToRoute('gallery', {})
+    }
+
 
 }
 
