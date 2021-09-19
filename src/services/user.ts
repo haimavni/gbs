@@ -1,4 +1,4 @@
-import {autoinject, noView, singleton} from "aurelia-framework";
+import {autoinject, computedFrom, noView, singleton} from "aurelia-framework";
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {MemberGateway} from './gateway';
 import {I18N} from 'aurelia-i18n';
@@ -28,8 +28,9 @@ export class User {
     private i18n;
     private cookies: Cookies;
     private photo_link_src = "";
+    app_list = [];
 
-        constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
+    constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.i18n = i18n;
@@ -169,6 +170,22 @@ export class User {
     get_photo_link() {
         return this.photo_link_src;
     }
+
+    get_app_list() {
+        this.api.call_server('gallery/apps_for_gallery', {developer: this.privileges.DEVELOPER, editing: this.editing})
+            .then(response => {
+                this.app_list = response.app_list;
+            });
+
+    }
+
+    @computedFrom('editing', 'app_list')
+    get active_app_list() {
+        if (this.editing) return true;
+        let lst = this.app_list.filter(app => app.active);
+        return lst.length > 0;
+    }
+
 
 }
 
