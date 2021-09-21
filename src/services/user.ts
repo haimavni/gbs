@@ -181,7 +181,7 @@ export class User {
 
     @computedFrom('editing', 'app_list')
     get active_app_list() {
-        if (this.editing) return true;
+        if (this.editing && this.privileges.ADMIN) return true;
         let lst = this.app_list.filter(app => app.active);
         return lst.length > 0;
     }
