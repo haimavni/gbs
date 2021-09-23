@@ -87,7 +87,6 @@ export class PhotoStripCustomElement {
             this.height = Math.round(this.theme.height / 3);
         else this.height = 220;
         this.dispatch_height_change();
-        //this.subscription = this.bindingEngine.collectionObserver(this.slides).subscribe(this.ready);
     }
 
     detached() {
@@ -95,7 +94,6 @@ export class PhotoStripCustomElement {
         clearInterval(this.slideShow);
         this.ready_interval = 0;
         this.slideShow = 0;
-        //this.subscription.dispose();
     }
 
     change_heights(new_height) {
