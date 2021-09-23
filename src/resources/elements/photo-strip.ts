@@ -60,9 +60,9 @@ export class PhotoStripCustomElement {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
-                if (this.calculate_widths()) {
-                    this.prev_id = this.id;
-                }
+                //if (true && this.calculate_widths()) {
+                this.prev_id = this.id;
+                //}
                 //this.shift_photos(0);
             });
 
