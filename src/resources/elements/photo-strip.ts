@@ -60,7 +60,7 @@ export class PhotoStripCustomElement {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
-                if (true && this.calculate_widths()) {
+                if (this.calculate_widths()) {
                 	this.prev_id = this.id;
                 }
                 //this.shift_photos(0);
@@ -177,18 +177,18 @@ export class PhotoStripCustomElement {
 
     async place_photos(x) {
         let target = this.slideList;
-        /*for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 100; i++) {
             if(target) break;
             this.misc.sleep(10);
             target = this.slideList;
-        }*/
+        }
         if (!target) return;
         if (target && target.style) {
             target.style.left = `${x}px`;
-            /*target.setAttribute('data-x', x);
+            target.setAttribute('data-x', x);
             this.misc.sleep(100);
             target.style.left = `${x}px`;
-            target.setAttribute('data-x', x);*/
+            target.setAttribute('data-x', x);
         }
     }
 
