@@ -61,7 +61,7 @@ export class PhotoStripCustomElement {
                     }
                 }
                 if (this.calculate_widths()) {
-                    this.prev_id = this.id;
+                	this.prev_id = this.id;
                 }
                 //this.shift_photos(0);
             });
