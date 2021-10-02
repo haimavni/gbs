@@ -161,6 +161,7 @@
                             <a style="position:relative;width:100%" click.delegate="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.delegate="toggle_selection(photo)" 
                                 class.bind="photo.selected" >
                                 <info css="position:absolute;top:${7 - photo_size / 2}px;left:${photo_size-20}px;"
+                                    if.bind="theme.is_desktop"
                                     title.bind="photo_info_title(photo)" content.bind="photo_info_content(photo)"></info>
                                 <img src="${photo[photo.side].square_src}"  width="${photo_size}" 
                                     height="${photo_size}" style="margin:0;cursor:pointer;" class.bind="photo.flipable + ' ' + photo.status" 
