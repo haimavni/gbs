@@ -13,11 +13,13 @@ export class RenderStory {
 
     activate(params) {
         let html = params.html;
+        console.log("activate. params.raw: ", params.raw);
         if (!params.raw) {
-            let pat_str = '(<a .*?)href="(.*?)"(.*?)>(.*?)</a>';
+            let pat_str = '(<a .*?)href=\"(.*?)\"(.*?)>(.*?)</a>';
             let pat = new RegExp(pat_str, 'gi');
             html = html.replace(/\n/g, '');
             html = html.replace(pat, function (m, m1, m2, m3, m4) {
+                console.log("replacing link to popup");
                 if (m4 == "המשך" || m4 == "Link") return m;
                 return m1 + " click.trigger=\"popup_window('POPUP', '" + m2 + "')\"" + m3 + '>' + m4 + "</a>"
             });
