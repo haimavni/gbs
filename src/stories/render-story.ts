@@ -13,7 +13,7 @@ export class RenderStory {
 
     activate(params) {
         let html = params.html;
-        if (!params.raw) {
+        if (false && !params.raw) {
             let pat_str = '(<a .*?)href="(.*?)"(.*?)>(.*?)</a>';
             let pat = new RegExp(pat_str, 'gi');
             html = html.replace(/\n/g, '');
