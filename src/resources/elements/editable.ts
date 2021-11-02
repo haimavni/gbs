@@ -19,7 +19,8 @@ export class editableCustomElement {
         no_expand: false,
         pushable: false,
         pinnable: false,
-        confirmable: false
+        confirmable: false,
+        has_details: false
     };
     @bindable info_title = "";
     @bindable info_content = "";
@@ -83,6 +84,10 @@ export class editableCustomElement {
 
     pin_story() {
         this.dispatch_event('pin', 'pin', {});
+    }
+
+    view_details(story) {
+        this.dispatch_event('view_details', 'view_details', {});
     }
 
     dispatch_event(action, what, keys) {

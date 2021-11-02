@@ -517,7 +517,8 @@
         "drag-left-and-right": "Drag here left or right",
         "edit-filters": "Topics and keywords",
         "link-to-doc-created": "Link to the document is ready for pasting in the editor",
-        "click-to-close": "Click to close"
+        "click-to-close": "Click to close",
+        "view-details": "View/edit details"
     },
     "terms": {
         "terms": "Terms",

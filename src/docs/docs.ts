@@ -476,4 +476,8 @@ export class Docs {
         this.editing_filters = true;
     }
 
+    view_details(doc, event) {
+        console.log("view details of ", doc);
+    }
+
 }
