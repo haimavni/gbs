@@ -64,7 +64,7 @@
                                 </div>
                                 <div style="width:100%;">
                                     <div style="margin-bottom: 10px;width:100%;" class="story-preview ${theme.rtltr}">
-                                        <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, has_details: true}"
+                                        <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, has_details: false}"
                                             story.bind="doc.story" change.delegate="toggle_selection(doc, $event, $index)"
                                             view_details.delegate="view_details(doc, $event)"
                                             info_title.bind="doc.name" info_content.bind="doc.keywords"
