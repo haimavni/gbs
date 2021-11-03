@@ -278,6 +278,8 @@
         "enable-cuepoints-off": "Disable video cuepoints",
         "allow-publishing-on": "Allow displaying in apps gallery",
         "allow-publishing-off": "Do not allow displaying in apps galler",
+        "expose-gallery-off": "Do not expose Gallery button",
+        "expose-gallery-on": "Expose Gallery button",
         "gallery": "Gallery",
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",

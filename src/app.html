@@ -79,7 +79,7 @@
                         ${'user.quick-upload-photo' & t}
                     </button>
                 </span>
-                <span if.bind="user.active_app_list" class="footer-item">
+                <span if.bind="user.config.expose_gallery" class="footer-item">
                     <button class="btn btn-default footer-button" click.delegate="show_gallery()">
                         ${'gallery.gallery' & t}
                     </button>
