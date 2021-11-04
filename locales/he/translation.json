@@ -276,6 +276,8 @@
         "enable-cuepoints-off": "ללא נקודות עצירה בסרטים",
         "allow-publishing-on": "אפשר תצוגה בגלריה",
         "allow-publishing-off": "אל תאפשר תצוגה בגלריה",
+        "expose-gallery-off": "ללא כפתור גלריה",
+        "expose-gallery-on": "הצג כפתור גלריה",
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",

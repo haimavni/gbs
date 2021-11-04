@@ -49,7 +49,7 @@ export class App {
     attached() {
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit('APP');
-        this.user.get_app_list();
+        //this.user.get_app_list();
     }
 
     public router;

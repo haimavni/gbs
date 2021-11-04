@@ -35,6 +35,7 @@ export class Customize {
     exclusive_options = ['user.exclusive-on', 'user.exclusive-off'];
     enable_cuepoints_options = ['user.enable-cuepoints-on', 'user.enable-cuepoints-off'];
     allow_publishing_options = ['user.allow-publishing-on', 'user.allow-publishing-off'];
+    expose_gallery_options = ['user.expose-gallery-on', 'user.expose-gallery-off'];
 
     //-----------
     auto_reg_option = 'user.by-invitation';
@@ -48,6 +49,7 @@ export class Customize {
     enable_articles_option = 'user.enable-articles-off';
     enable_cuepoints_option = 'user.enable-cuepoints-off';
     allow_publishing_option = 'user.allow-publishing-off';
+    expose_gallery_option = 'user.expose-gallery-off';
     enable_books_option = 'user.enable-books-on';
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
@@ -114,6 +116,7 @@ export class Customize {
         this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
         this.enable_cuepoints_option = this.user.config.enable_cuepoints ? 'user.enable-cuepoints-on' : 'user.enable-cutpoints-off';
         this.allow_publishing_option = this.user.config.allow_publishing ? 'user.allow-publishing-on' : 'user.allow-publishing-off';
+        this.expose_gallery_option = this.user.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
         if (! this.cover_photo) {
@@ -298,7 +301,17 @@ export class Customize {
                 this.report_success();
             })
     }
-
+    
+    expose_gallery_option_selected(option) {
+        this.expose_gallery_option = option;
+        this.api.call_server('admin/set_expose_gallery_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+    
+    
 
     version_time_option_selected(option) {
         this.version_time_option = option;
