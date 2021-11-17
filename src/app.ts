@@ -108,6 +108,7 @@ export class App {
             {route: 'help-detail/:id/*', name: 'help-detail', moduleId: './stories/story-detail', settings: {auth: true}},
             {route: 'member-details/:id/*', name: 'member-details', moduleId: './members/member-detail', settings: {auth: true}},
             {route: 'article-details/:id/*', name: 'article-details', moduleId: './articles/article-detail', settings: {auth: true}},
+            {route: 'doc-detail/:id/*', name: 'doc-detail', moduleId: './docs/doc-detail'},
             {
                 route: 'members/new',
                 name: 'member-creation',

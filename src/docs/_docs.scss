@@ -29,3 +29,8 @@ ul.doc-list {
         }
     }
 }
+
+div.doc-detail {
+    display: flex;
+    flex-direction: column;
+}

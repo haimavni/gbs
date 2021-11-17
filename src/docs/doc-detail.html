@@ -1,3 +1,106 @@
 <template>
-    
+    <div class='doc-detail content-area ${theme.rtltr}"'>
+        <div class="detail-header">
+            <h3 dir="${theme.rtltr}" style="float: right;margin:0px;">
+                ${doc.name || 'document name'}
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-md-7" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
+                <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" />
+                <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
+                    <span>
+                        <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
+                    </span>
+                    <span dir="${theme.rtltr}" if.bind="photographer_id">${'photos.photographer-name' & t}:
+                        ${photographer_name}</span>
+                    <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing"
+                        base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true"
+                        enable_days_range.bind="true" span_size.bind="photo_date_datespan"
+                        range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]" is_valid.bind="photo_date_valid"
+                        change.delegate="update_photo_date($event)">
+                    </date-range>
+                    <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}:
+                        ${topic_names}</span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-8">
+                        <span style="float:right;direction:rtl"
+                            if.bind="photo_story.source">${photo_story.source}:</span>
+                        <span if.bind="! photo_story.source">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="row" style="padding-right:15px;">
+                    <div class="fr-view" dir="rtl">
+                        <div style="padding-right:0" if.bind="! user.editing">
+                            <div class="row photo-story">
+                                <div class="fr-view" dir="${story_dir}">
+                                    <div class="${theme.font_size}" id="photo-story">
+                                        <!--style="position:relative;height:70vh;margin-right:16px;overflow:auto;"-->
+                                        <p class="${story_dir} ${highlight_on}">
+                                            <compose if.bind="photo_story.story_text"
+                                                view-model='../stories/render-story'
+                                                model.bind="{html:highlightedHtml}">
+                                            </compose>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div if.bind="user.editing" style="display:flex;flex-direction:column;">
+                                <editable style="background-color:beige;margin-bottom:12px;"
+                                    settings.bind="{show_date:false, class:'story-section', checkable: false}"
+                                    story.bind="story_about_doc">
+                                </editable>
+                                <div class="multi-select-div"
+                                    style="margin-bottom:0px;position:relative;width:80%;height:60vh;overflow:auto;">
+                                    <div class="multi-select-div" style="margin-bottom:15px;position:relative;"
+                                        dir="${theme.rtltr}">
+                                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
+                                            ${'stories.categories'
+                                            & t}</div>
+                                        <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit" ,
+                                            position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                                        <help if.bind="phase=='applying-to-photos'" topic="apply-to-selected-photos" ,
+                                            position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                                        <help if.bind="phase=='photos-not-editing'" topic="tags"
+                                            position="${theme.is_desktop ? 'bottom' : 'right'}"
+                                            style="position:absolute;left:2px;top:2px;"></help>
+                                        <multi-select options.bind="topic_list" category="topic"
+                                            selected_options.bind="params.selected_topics"
+                                            first_time.bind="no_topics_yet" option_groups.bind="topic_groups"
+                                            new-name.delegate="add_topic($event)" settings.bind="options_settings"
+                                            has_groups.bind="has_grouped_topics" place_holder_text="photos.click-topic"
+                                            ms-change.delegate="handle_topic_change($event) ">
+                                        </multi-select>
+                                    </div>
+                                    <div class="multi-select-div" dir="${theme.rtltr}">
+                                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
+                                            ${'photos.photographers' & t}</div>
+                                        <multi-select options.bind="photographer_list" category="photographer"
+                                            place_holder_text="photos.click-photographer"
+                                            selected_options.bind="params.selected_photographers"
+                                            settings.bind="photographers_settings"
+                                            first_time.bind="no_photographers_yet"
+                                            new-name.delegate="add_photographer($event)"
+                                            name-changed.delegate="photographer_name_changed($event)"
+                                            ms-change.delegate="handle_photographer_change($event)">
+                                        </multi-select>
+                                    </div>
+                                    <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
+                                        <button if.bind="undo_list.length > 0" class="btn btn-warning"
+                                            style="width:90%;" click.delegate="undo()">
+                                            <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
