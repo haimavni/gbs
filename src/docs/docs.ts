@@ -477,7 +477,8 @@ export class Docs {
     }
 
     view_details(doc, event) {
-        console.log("view details of ", doc);
+        console.log("view details of ", doc.id);
+        this.router.navigateToRoute('doc-detail', { id: doc.id });
     }
 
 }
