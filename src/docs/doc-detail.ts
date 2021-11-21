@@ -31,6 +31,12 @@ export class DocDetail {
     topic_groups = [];
     no_topics_yet = false;
     advanced_search = false;
+    doc_story;
+    doc_story_about;
+    doc_date_str;
+    doc_date_datespan;
+    doc_date_valid = '';
+
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme) {
         this.api = api;
@@ -54,6 +60,14 @@ export class DocDetail {
             .then(response => {
                 this.doc = response.doc;
                 console.log("doc: ", this.doc, "response: ", response);
+                this.doc_story = response.doc_story;
+                this.doc_story_about = response.doc_story_about;
+                if (this.doc_story_about.story_id == 'new') {
+                    //this.doc_story.name = this.i18n.tr('photos.new-story');
+                    this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
+                }
+                this.doc_date_str = response.doc_date_str;
+                this.doc_date_datespan = response.doc_date_datespan;
             });
     }
 
