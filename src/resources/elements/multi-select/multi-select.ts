@@ -400,7 +400,7 @@ export class MultiSelectCustomElement {
 
     @computedFrom('settings.can_add', 'filter_size', 'selected_options', 'filter')
     get can_add() {
-        return this.settings.can_add && this.filter_size == 0 && this.selected_options.length == 0 && this.filter;
+        return this.settings.can_add && this.filter_size == 0 && this.filter;
     }
 
     @computedFrom('settings.can_delete')
@@ -437,6 +437,7 @@ export class MultiSelectCustomElement {
         event.stopPropagation();
         if (! this.category) return false;
         if (! this.user.privileges.ADMIN) return false;
+        if (! this.user.editing) return false;
         this.dialog.open({
             viewModel: EditTopic, model: { topic: option, can_delete: this.can_delete, category: this.category }, lock: true
         }).whenClosed(result => {
