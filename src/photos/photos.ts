@@ -614,7 +614,7 @@ export class Photos {
         this.options_settings.update({
             mergeable: result != "applying-to-photos",
             name_editable: result == "photos-ready-to-edit",
-            can_add: result == "photos-ready-to-edit",
+            can_add: this.user.editing, //result == "photos-ready-to-edit",
             can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
             can_delete: result == "photos-ready-to-edit",
             hide_higher_options: this.selected_photos.size > 0 && this.user.editing,

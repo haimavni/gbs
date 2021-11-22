@@ -437,6 +437,7 @@ export class MultiSelectCustomElement {
         event.stopPropagation();
         if (! this.category) return false;
         if (! this.user.privileges.ADMIN) return false;
+        if (! this.user.editing) return false;
         this.dialog.open({
             viewModel: EditTopic, model: { topic: option, can_delete: this.can_delete, category: this.category }, lock: true
         }).whenClosed(result => {
