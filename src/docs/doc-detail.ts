@@ -24,7 +24,7 @@ export class DocDetail {
     user: User;
     theme: Theme;
     doc = {name: 'no-name'};
-    story_about_doc;
+    story_about;
     keywords;
     doc_ids = [];
     topic_list = [];
@@ -79,10 +79,11 @@ export class DocDetail {
             .then(response => {
                 this.doc = response.doc;
                 this.doc_src = response.doc_src;
+                this.story_about = response.story_about;
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
-                this.doc_story_about = response.doc_story_about;
+                // this.doc_story_about = response.doc_story_about;
                 if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
                     //this.doc_story.name = this.i18n.tr('photos.new-story');
                     this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
@@ -152,8 +153,6 @@ export class DocDetail {
         let topic_name_list = this.doc_topics.map(itm => itm.name);
         return topic_name_list.join(';');
     }
-
-
 
 
 }

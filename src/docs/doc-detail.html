@@ -8,8 +8,8 @@
         <div class="row">
             <div class="col-md-6" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
                 <!-- <embed src.bind="doc_src + '#view=FitH'" width="500px" height="480px" /> -->
-                <div style="margin-left:0">
-                    <iframe src.bind="doc_src" width="572px" height="480px"></iframe>
+                <div style="margin-left:0;width:572px;height:480px;">
+                    <iframe if.bind="doc_src" src.bind="doc_src" width="100%" height="100%" allow="fullscreen"></iframe>
                 </div>
                 <!-- <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" /> -->
                 <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
@@ -52,10 +52,10 @@
                             </div>
                         </div>
                         <div if.bind="user.editing" style="display:flex;flex-direction:column;">
-                            <!-- <editable style="background-color:beige;margin-bottom:12px;"
+                            <editable style="background-color:beige;margin-bottom:12px;"
                                 settings.bind="{show_date:false, class:'story-section', checkable: false}"
-                                story.bind="story_about_doc">
-                            </editable> -->
+                                story.bind="story_about">
+                            </editable>
                             <div class="multi-select-div"
                                 style="margin-bottom:0px;position:relative;width:80%;height:60vh;overflow:auto;">
                                 <div class="multi-select-div" style="margin-bottom:15px;position:relative;"
