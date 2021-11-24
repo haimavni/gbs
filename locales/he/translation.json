@@ -524,7 +524,8 @@
         "edit-filters": "נושאים ומילות מפתח",
         "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך",
         "click-to-close": "סגור את המסמך",
-        "view-details": "הצג/ערוך פרטים"
+        "view-details": "הצג/ערוך פרטים",
+        "doc-date": "תאריך המסמך"
     },
     "terms": {
         "terms": "מונחים",
