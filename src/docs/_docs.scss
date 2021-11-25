@@ -33,4 +33,9 @@ ul.doc-list {
 div.doc-detail {
     display: flex;
     flex-direction: column;
+    .detail-header {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
 }

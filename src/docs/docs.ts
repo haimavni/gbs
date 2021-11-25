@@ -478,7 +478,8 @@ export class Docs {
 
     view_details(doc, event) {
         console.log("view details of ", doc.id);
-        this.router.navigateToRoute('doc-detail', { id: doc.id });
+        let doc_ids = this.doc_list.map(doc => doc.id);
+        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids });
     }
 
 }
