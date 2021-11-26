@@ -50,8 +50,8 @@ export class PhotoDetail {
     photo_topics;
     params = {
         selected_topics: [],
-        selected_photographers: [],
-        photo_ids: []
+        selected_photographers: []//,
+        //photo_ids: []
     };
     photo_id_rec = {photo_id: 0};
     photo_ids = [];
