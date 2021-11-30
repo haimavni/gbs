@@ -54,6 +54,12 @@ export class DocDetail {
     can_go_backward = false;
     highlight_on = "highlight-on";
     story_dir = "rtl";
+    undo_list = [];
+    curr_info = {
+        doc_date_str: "",
+        doc_date_datespan: 0,
+        doc_topics: [],
+    }
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router) {
@@ -103,6 +109,7 @@ export class DocDetail {
                 this.story_id = response.story_id
                 this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
+                this.undo_list = [];
             });
     }
 
@@ -123,9 +130,9 @@ export class DocDetail {
         if (this.doc_date_valid != 'valid') return;
         let event = customEvent.detail;
         let s = typeof event;
-        /*this.undo_list.push({ what: 'photo-date', photo_date: { photo_date_str: this.curr_info.photo_date_str, photo_date_datespan: this.curr_info.photo_date_datespan } });
-        this.curr_info.photo_date_str = this.photo_date_str.slice(0);
-        this.curr_info.photo_date_datespan = this.photo_date_datespan;*/
+        this.undo_list.push({ what: 'doc-date', doc_date: { doc_date_str: this.curr_info.doc_date_str, doc_date_datespan: this.curr_info.doc_date_datespan } });
+        this.curr_info.doc_date_str = this.doc_date_str.slice(0);
+        this.curr_info.doc_date_datespan = this.doc_date_datespan;
         this.api.call_server_post('docs/update_doc_date', { doc_date_str: event.date_str, doc_date_datespan: event.date_span, doc_id: this.doc_id });
     }
 
@@ -134,8 +141,8 @@ export class DocDetail {
         this.params.selected_topics = event.detail.selected_options
         let topics = this.params.selected_topics.map(top => top.option);
         this.doc_topics = topics;
-        //this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.photo_topics });
-        //this.curr_info.photo_topics = topics.slice(0);
+        this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.doc_topics });
+        this.curr_info.doc_topics = topics.slice(0);
         this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
     }
 
@@ -149,6 +156,24 @@ export class DocDetail {
             i += 1;
         }
         this.params.selected_topics = selected_topics;
+    }
+
+    undo() {
+        let command = this.undo_list.pop();
+        switch (command.what) {
+            case "topics": 
+                this.doc_topics = command.photo_topics.slice(0);
+                this.curr_info.doc_topics = this.doc_topics.slice(0);
+                this.init_selected_topics();
+                this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
+                break;
+            case "doc-date": 
+                this.curr_info.doc_date_str = this.doc_date_str = command.doc_date.doc_date_str;
+                this.doc_date_datespan = command.doc_date.doc_date_datespan;
+                this.api.call_server_post('docs/update_doc_date', 
+                    { doc_date_str: this.doc_date_str, doc_date_datespan: this.doc_date_datespan, doc_id: this.doc_id });
+                break;
+        }
     }
 
     go_back() {
