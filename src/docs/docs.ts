@@ -162,6 +162,7 @@ export class Docs {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
+        //this.scroll_top = this.scroll_area.scrollTop;
     }
 
     upload_files() {
@@ -204,7 +205,7 @@ export class Docs {
                         console.log("doc has no story: ", doc);
                     }
                 }
-                this.scroll_top = 0;
+                //this.scroll_top = 0;
             });
     }
 
@@ -477,9 +478,9 @@ export class Docs {
     }
 
     view_details(doc, event) {
-        console.log("view details of ", doc.id);
         let doc_ids = this.doc_list.map(doc => doc.id);
-        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids });
+        this.scroll_top = this.scroll_area.scrollTop;
+        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords });
     }
 
 }
