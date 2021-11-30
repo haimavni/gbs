@@ -26,6 +26,7 @@ export class RenderStory {
         }
         //apply modifications here
         this.html = '<template>' + html + '</template>';
+        console.log("activate render ", this.html);
     }
 
     popup_window(name, url) {

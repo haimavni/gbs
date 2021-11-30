@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { autoinject, computedFrom, singleton } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
@@ -41,6 +41,8 @@ export class DocDetail {
     doc_date_datespan;
     doc_date_valid = '';
     doc_topics;
+    story_id = null;
+    chatroom_id = null;
     options_settings: MultiSelectSettings;
     params = {
         selected_topics: [] //,
@@ -50,6 +52,8 @@ export class DocDetail {
     doc_name: any;
     can_go_forward = false;
     can_go_backward = false;
+    highlight_on = "highlight-on";
+    story_dir = "rtl";
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router) {
@@ -82,6 +86,7 @@ export class DocDetail {
     get_doc_info(doc_id) {
         this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id })
             .then(response => {
+                this.doc_id = doc_id;
                 this.doc = response.doc;
                 this.doc_src = response.doc_src;
                 this.story_about = response.story_about;
@@ -95,6 +100,8 @@ export class DocDetail {
                 }
                 this.doc_date_str = response.doc_date_str;
                 this.doc_date_datespan = response.doc_date_datespan;
+                this.story_id = response.story_id
+                this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
             });
     }
@@ -145,7 +152,8 @@ export class DocDetail {
     }
 
     go_back() {
-        this.router.navigateBack();
+        //this.router.navigateBack();  //strange bug causes it to go prev until the first
+        this.router.navigateToRoute('docs');
     }
 
 
@@ -162,13 +170,22 @@ export class DocDetail {
         return topic_name_list.join(';');
     }
 
-    @computedFrom('story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
+    @computedFrom('story_about', 'story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
     get highlightedHtml() {
         if (!this.story_about) {
             return "";
         }
         let highlighted_html = highlight(this.story_about.story_text, this.keywords, this.advanced_search);
         return highlighted_html;
+    }
+
+    toggle_highlight_on() {
+        if (this.highlight_on) {
+            this.highlight_on = ""
+        } else {
+            this.highlight_on = "highlight-on"
+        }
+        document.getElementById("word-highlighter").blur();
     }
 
     doc_idx() {
@@ -216,6 +233,16 @@ export class DocDetail {
         }
     }
 
+    create_chatroom() {
+        this.api.call_server_post('chats/add_chatroom', { story_id: this.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
+            .then((data) => {
+                this.chatroom_id = data.chatroom_id;
+            });
+    }
+
+    chatroom_deleted(event) {
+        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story_id });
+    }
 
 
 }

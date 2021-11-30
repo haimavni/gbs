@@ -50,10 +50,10 @@
                         <div if.bind="! user.editing" class="row video-story" style="margin-top:8px;">
                             <div class="fr-view" dir="${story_dir}">
                                 <div class="${theme.font_size} video-story-area">
-                                    <p class="${story_dir} ${highlight_on}">
-                                        <compose if.bind="story_about.story_text" view-model='../stories/render-story'
+                                    <p class="${story_dir} ${highlight_on}" innerhtml.bind="highlightedHtml">
+                                        <!-- <compose if.bind="story_about && story_about.story_text" view-model='../stories/render-story'
                                             model.bind="{html:highlightedHtml}">
-                                        </compose>
+                                        </compose> -->
                                     </p>
                                 </div>
                             </div>
