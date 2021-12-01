@@ -60,14 +60,17 @@ export class DocDetail {
         doc_date_datespan: 0,
         doc_topics: [],
     }
+    dialog: DialogService;
+    members = [];
 
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
         this.router = router;
+        this.dialog = dialog;
         this.options_settings = new MultiSelectSettings
             ({
                 hide_higher_options: true,
@@ -110,6 +113,7 @@ export class DocDetail {
                 this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
                 this.undo_list = [];
+                this.members=response.members;
             });
     }
 
@@ -269,5 +273,26 @@ export class DocDetail {
         this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story_id });
     }
 
+
+    select_doc_members() {
+        this.theme.hide_title = true;
+        let member_ids = this.members.map(member => member.id)
+        this.dialog.open({
+            viewModel: MemberPicker,
+            model: {multi: true, back_to_text: 'members.back-to-video', preselected: member_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            member_ids = Array.from(response.output.member_ids);
+            this.api.call_server_post('docs/update_doc_members', {
+                doc_id: this.doc_id,
+                member_ids: member_ids
+            }).then(response => {
+                this.members = response.members;
+            });
+        });
+    }
 
 }
