@@ -28,9 +28,9 @@
                         click.delegate="select_doc_members()">
                     <i style="cursor:pointer"
                        class="fa fa-users"
-                       title="${'videos.members-in' & t}">
+                       title="${'docs.members-in' & t}">
                     </i>
-                    ${'videos.select-members' & t}
+                    ${'docs.select-members' & t}
                 </button>
                 <div if.bind="members.length>0">
                     <compose view-model="../members/member-faces" model.bind="members"></compose>

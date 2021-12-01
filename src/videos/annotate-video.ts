@@ -331,7 +331,6 @@ export class AnnotateVideo {
         this.video_topics = topics;
         this.undo_list.push({what: 'topics', video_topics: this.curr_info.video_topics});
         this.curr_info.video_topics = topics.slice(0);
-        console.log("handle topic change. story_id/story_topics/used4: ", this.video_story.story_id, this.video_topics, this.api.constants) //.story_type.STORY4VIDEO)
         this.api.call_server_post('members/apply_topics_to_story', {
             story_id: this.video_story.story_id,
             story_topics: this.video_topics,
@@ -358,7 +357,6 @@ export class AnnotateVideo {
         });
         this.curr_info.video_date_str = this.video_date_str.slice(0);
         this.curr_info.video_date_datespan = this.video_date_datespan;
-        console.log("update video date. event: ", event);
         this.api.call_server_post('videos/update_video_date',
             {
                 video_date_str: event.date_str, video_date_datespan: event.date_span,

@@ -525,7 +525,9 @@
         "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך",
         "click-to-close": "סגור את המסמך",
         "view-details": "הצג/ערוך פרטים",
-        "doc-date": "תאריך המסמך"
+        "doc-date": "תאריך המסמך",
+        "members-in": "חברים הקשורים למסמך",
+        "select-members": "בחר חברים הקשורים למסמך"
     },
     "terms": {
         "terms": "מונחים",
