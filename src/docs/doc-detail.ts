@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { autoinject, computedFrom, singleton } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
@@ -41,6 +41,8 @@ export class DocDetail {
     doc_date_datespan;
     doc_date_valid = '';
     doc_topics;
+    story_id = null;
+    chatroom_id = null;
     options_settings: MultiSelectSettings;
     params = {
         selected_topics: [] //,
@@ -50,14 +52,25 @@ export class DocDetail {
     doc_name: any;
     can_go_forward = false;
     can_go_backward = false;
+    highlight_on = "highlight-on";
+    story_dir = "rtl";
+    undo_list = [];
+    curr_info = {
+        doc_date_str: "",
+        doc_date_datespan: 0,
+        doc_topics: [],
+    }
+    dialog: DialogService;
+    members = [];
 
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
         this.router = router;
+        this.dialog = dialog;
         this.options_settings = new MultiSelectSettings
             ({
                 hide_higher_options: true,
@@ -82,6 +95,7 @@ export class DocDetail {
     get_doc_info(doc_id) {
         this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id })
             .then(response => {
+                this.doc_id = doc_id;
                 this.doc = response.doc;
                 this.doc_src = response.doc_src;
                 this.story_about = response.story_about;
@@ -95,7 +109,11 @@ export class DocDetail {
                 }
                 this.doc_date_str = response.doc_date_str;
                 this.doc_date_datespan = response.doc_date_datespan;
+                this.story_id = response.story_id
+                this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
+                this.undo_list = [];
+                this.members=response.members;
             });
     }
 
@@ -116,9 +134,9 @@ export class DocDetail {
         if (this.doc_date_valid != 'valid') return;
         let event = customEvent.detail;
         let s = typeof event;
-        /*this.undo_list.push({ what: 'photo-date', photo_date: { photo_date_str: this.curr_info.photo_date_str, photo_date_datespan: this.curr_info.photo_date_datespan } });
-        this.curr_info.photo_date_str = this.photo_date_str.slice(0);
-        this.curr_info.photo_date_datespan = this.photo_date_datespan;*/
+        this.undo_list.push({ what: 'doc-date', doc_date: { doc_date_str: this.curr_info.doc_date_str, doc_date_datespan: this.curr_info.doc_date_datespan } });
+        this.curr_info.doc_date_str = this.doc_date_str.slice(0);
+        this.curr_info.doc_date_datespan = this.doc_date_datespan;
         this.api.call_server_post('docs/update_doc_date', { doc_date_str: event.date_str, doc_date_datespan: event.date_span, doc_id: this.doc_id });
     }
 
@@ -127,8 +145,8 @@ export class DocDetail {
         this.params.selected_topics = event.detail.selected_options
         let topics = this.params.selected_topics.map(top => top.option);
         this.doc_topics = topics;
-        //this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.photo_topics });
-        //this.curr_info.photo_topics = topics.slice(0);
+        this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.doc_topics });
+        this.curr_info.doc_topics = topics.slice(0);
         this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
     }
 
@@ -144,8 +162,27 @@ export class DocDetail {
         this.params.selected_topics = selected_topics;
     }
 
+    undo() {
+        let command = this.undo_list.pop();
+        switch (command.what) {
+            case "topics": 
+                this.doc_topics = command.photo_topics.slice(0);
+                this.curr_info.doc_topics = this.doc_topics.slice(0);
+                this.init_selected_topics();
+                this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
+                break;
+            case "doc-date": 
+                this.curr_info.doc_date_str = this.doc_date_str = command.doc_date.doc_date_str;
+                this.doc_date_datespan = command.doc_date.doc_date_datespan;
+                this.api.call_server_post('docs/update_doc_date', 
+                    { doc_date_str: this.doc_date_str, doc_date_datespan: this.doc_date_datespan, doc_id: this.doc_id });
+                break;
+        }
+    }
+
     go_back() {
-        this.router.navigateBack();
+        //this.router.navigateBack();  //strange bug causes it to go prev until the first
+        this.router.navigateToRoute('docs');
     }
 
 
@@ -162,13 +199,22 @@ export class DocDetail {
         return topic_name_list.join(';');
     }
 
-    @computedFrom('story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
+    @computedFrom('story_about', 'story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
     get highlightedHtml() {
         if (!this.story_about) {
             return "";
         }
         let highlighted_html = highlight(this.story_about.story_text, this.keywords, this.advanced_search);
         return highlighted_html;
+    }
+
+    toggle_highlight_on() {
+        if (this.highlight_on) {
+            this.highlight_on = ""
+        } else {
+            this.highlight_on = "highlight-on"
+        }
+        document.getElementById("word-highlighter").blur();
     }
 
     doc_idx() {
@@ -216,6 +262,37 @@ export class DocDetail {
         }
     }
 
+    create_chatroom() {
+        this.api.call_server_post('chats/add_chatroom', { story_id: this.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
+            .then((data) => {
+                this.chatroom_id = data.chatroom_id;
+            });
+    }
 
+    chatroom_deleted(event) {
+        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story_id });
+    }
+
+
+    select_doc_members() {
+        this.theme.hide_title = true;
+        let member_ids = this.members.map(member => member.id)
+        this.dialog.open({
+            viewModel: MemberPicker,
+            model: {multi: true, back_to_text: 'members.back-to-video', preselected: member_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            member_ids = Array.from(response.output.member_ids);
+            this.api.call_server_post('docs/update_doc_members', {
+                doc_id: this.doc_id,
+                member_ids: member_ids
+            }).then(response => {
+                this.members = response.members;
+            });
+        });
+    }
 
 }

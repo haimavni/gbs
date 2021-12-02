@@ -467,7 +467,7 @@
         "cue-description": "Description",
         "describe-cue": "Describe this segment",
         "members-in": "Members are in this segment",
-        "select-members": "Select associate members"
+        "select-members": "Select associated members"
     },
     "audios": {
         "audios": "Audios",
@@ -521,7 +521,9 @@
         "link-to-doc-created": "Link to the document is ready for pasting in the editor",
         "click-to-close": "Click to close",
         "view-details": "View/edit details",
-        "doc-date": "Document date"
+        "doc-date": "Document date",
+        "members-in": "Members associated with this document",
+        "select-members": "Select associated members"
     },
     "terms": {
         "terms": "Terms",

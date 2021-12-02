@@ -19,8 +19,21 @@
         <div class="row">
             <div class="col-md-6" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
                 <!-- <embed src.bind="doc_src + '#view=FitH'" width="500px" height="480px" /> -->
-                <div style="margin-left:0;width:572px;height:480px;">
+                <div style="margin-left:0;width:572px;height:360px;">
                     <iframe if.bind="doc_src" src.bind="doc_src" width="100%" height="100%" allow="fullscreen"></iframe>
+                </div>
+                <button if.bind="user.editing"
+                        class="btn btn-primary btn-framed"
+                        style="margin-top:8px;font-size:108%;"
+                        click.delegate="select_doc_members()">
+                    <i style="cursor:pointer"
+                       class="fa fa-users"
+                       title="${'docs.members-in' & t}">
+                    </i>
+                    ${'docs.select-members' & t}
+                </button>
+                <div if.bind="members.length>0">
+                    <compose view-model="../members/member-faces" model.bind="members"></compose>
                 </div>
                 <!-- <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" /> -->
                 <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
@@ -50,10 +63,10 @@
                         <div if.bind="! user.editing" class="row video-story" style="margin-top:8px;">
                             <div class="fr-view" dir="${story_dir}">
                                 <div class="${theme.font_size} video-story-area">
-                                    <p class="${story_dir} ${highlight_on}">
-                                        <compose if.bind="story_about.story_text" view-model='../stories/render-story'
+                                    <p class="${story_dir} ${highlight_on}" innerhtml.bind="highlightedHtml" if.bind="story_about && story_about.story_text">
+                                        <!-- <compose if.bind="story_about && story_about.story_text" view-model='../stories/render-story'
                                             model.bind="{html:highlightedHtml}">
-                                        </compose>
+                                        </compose> -->
                                     </p>
                                 </div>
                             </div>
