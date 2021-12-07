@@ -713,7 +713,7 @@ export class FullSizePhoto {
             });
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
-        await sleep(100);  //black magic attempt to solve a mystery: does not always work on first time
+        await sleep(5000);  //black magic attempt to solve a mystery: does not always work on first time.
         w.location.reload();
     }
 
