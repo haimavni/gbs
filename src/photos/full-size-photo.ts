@@ -693,6 +693,9 @@ export class FullSizePhoto {
         await this.api.call_server_post('photos/get_padded_photo_url', {photo_url: img_src})
             .then(response => img_src = response.padded_photo_url);
         console.log("img_src after: ", img_src);
+        let img_elem = document.createElement('img');
+        await this.loadImage(img_src, img_elem);
+        console.log("image cached");
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
@@ -724,6 +727,15 @@ export class FullSizePhoto {
         w.location.href = href;
         w.location.reload();
     }
+
+    async loadImage(url, elem) {
+        return new Promise((resolve, reject) => {
+          elem.onload = () => resolve(elem);
+          elem.onerror = reject;
+          elem.src = url;
+        });
+      }
+      
 
     toggle_people_articles(event) {
         event.stopPropagation();
