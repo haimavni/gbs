@@ -695,7 +695,7 @@ export class FullSizePhoto {
         console.log("img_src after: ", img_src);
         let img_elem = document.createElement('img');
         await this.loadImage(img_src, img_elem);
-        console.log("image cached");
+        console.log("image cached? ", img_elem.complete);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
