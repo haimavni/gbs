@@ -711,9 +711,10 @@ export class FullSizePhoto {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
             });
-        await sleep(100);  //black magic attempt to solve a mystery: does not always work on first time
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+        let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+        await sleep(100);  //black magic attempt to solve a mystery: does not always work on first time
+        w.location.reload();
     }
 
     toggle_people_articles(event) {
