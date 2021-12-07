@@ -697,6 +697,7 @@ export class FullSizePhoto {
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
         let current_url;
+        console.log("before get shortcut");
         await this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
@@ -704,17 +705,21 @@ export class FullSizePhoto {
                     base_url = environment.baseURL;  //for the development system
                 }
                 current_url = base_url + response.shortcut;
+                console.log("got shortcut");
             });
+        console.log("before create fb card");
         await this.api.call_server_post('default/create_fb_card',
             {img_src: img_src, url: current_url,  title: title, description: description})
             .then(response => {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
+                console.log("created fb card");
             });
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
-        await sleep(5000);  //black magic attempt to solve a mystery: does not always work on first time.
-        let w1: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+        //await sleep(5000);  //black magic attempt to solve a mystery: does not always work on first time.
+        //let w1: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+        console.log("w is ", w);
         //w.location.reload();
     }
 
