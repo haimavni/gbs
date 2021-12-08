@@ -712,6 +712,7 @@ export class FullSizePhoto {
                 copy_to_clipboard(card_url);
             });
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
+        await this.loadImage(img_src, img_elem);  //black magic...
         let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
 
