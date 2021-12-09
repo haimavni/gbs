@@ -63,6 +63,7 @@ export class DocDetail {
     dialog: DialogService;
     members = [];
     caller;
+    fullscreen;
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
@@ -81,6 +82,8 @@ export class DocDetail {
                 can_group: false,
                 empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             });
+        this.fullscreen = this.i18n.tr('photos.fullscreen');
+
     }
 
     async activate(params, config) {
@@ -298,6 +301,15 @@ export class DocDetail {
                 this.members = response.members;
             });
         });
+    }
+
+    async makeFullScreen() {
+        let el = document.getElementById("doc-frame");
+        if (el.requestFullscreen) {
+            el.requestFullscreen();
+        } else {
+            console.log("Fullscreen API is not supported");
+        }
     }
 
 }
