@@ -446,6 +446,13 @@ export class Stories {
         }
     }
 
+    view_details(story, event) {
+        let doc_ids = []; //this.doc_list.map(doc => doc.id);
+        this.scroll_top = this.scroll_area.scrollTop;
+        this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: doc_ids, keywords: this.keywords, caller: 'stories' });
+    }
+
+
     private openDialog(doc_url) {
         this.dialog.open({ viewModel: DocPage, model: { doc_src: doc_url }, lock: false, keyboard: ['Enter', 'Escape'] })
             .whenClosed(response => {

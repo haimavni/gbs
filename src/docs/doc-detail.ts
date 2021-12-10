@@ -62,6 +62,8 @@ export class DocDetail {
     }
     dialog: DialogService;
     members = [];
+    caller;
+    fullscreen;
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
@@ -80,10 +82,13 @@ export class DocDetail {
                 can_group: false,
                 empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             });
+        this.fullscreen = this.i18n.tr('photos.fullscreen');
+
     }
 
     async activate(params, config) {
         this.doc_id = params.id;
+        this.caller = params.caller;
         this.keywords = params.keywords;
         this.doc_ids = params.doc_ids;
         this.advanced_search = params.search_type == 'advanced';
@@ -93,9 +98,9 @@ export class DocDetail {
     }
 
     get_doc_info(doc_id) {
-        this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id })
+        this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id, caller: this.caller })
             .then(response => {
-                this.doc_id = doc_id;
+                this.doc_id = response.doc_id;
                 this.doc = response.doc;
                 this.doc_src = response.doc_src;
                 this.story_about = response.story_about;
@@ -106,6 +111,7 @@ export class DocDetail {
                 if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
                     //this.doc_story.name = this.i18n.tr('photos.new-story');
                     this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
+                    this.doc_story_about.name = this.doc_name;
                 }
                 this.doc_date_str = response.doc_date_str;
                 this.doc_date_datespan = response.doc_date_datespan;
@@ -181,8 +187,10 @@ export class DocDetail {
     }
 
     go_back() {
-        //this.router.navigateBack();  //strange bug causes it to go prev until the first
-        this.router.navigateToRoute('docs');
+        if (this.caller == 'stories')
+            this.router.navigateBack();  //strange bug causes it to go prev until the first
+        else
+            this.router.navigateToRoute('docs');
     }
 
 
@@ -293,6 +301,15 @@ export class DocDetail {
                 this.members = response.members;
             });
         });
+    }
+
+    async makeFullScreen() {
+        let el = document.getElementById("doc-frame");
+        if (el.requestFullscreen) {
+            el.requestFullscreen();
+        } else {
+            console.log("Fullscreen API is not supported");
+        }
     }
 
 }

@@ -689,10 +689,10 @@ export class FullSizePhoto {
         event.stopPropagation();
         let card_url;
         let img_src = this.slide[this.slide.side].src;
-        console.log("img_src before: ", img_src)
         await this.api.call_server_post('photos/get_padded_photo_url', {photo_url: img_src})
             .then(response => img_src = response.padded_photo_url);
-        console.log("img_src after: ", img_src);
+        let img_elem = document.createElement('img');
+        await this.loadImage(img_src, img_elem);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
@@ -711,10 +711,19 @@ export class FullSizePhoto {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
             });
-        await sleep(100);  //black magic attempt to solve a mystery: does not always work on first time
         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+        await this.loadImage(img_src, img_elem);  //black magic...
+        let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
+
+    async loadImage(url, elem) {
+        return new Promise((resolve, reject) => {
+          elem.onload = () => resolve(elem);
+          elem.onerror = reject;
+          elem.src = url;
+        });
+      }
+      
 
     toggle_people_articles(event) {
         event.stopPropagation();
