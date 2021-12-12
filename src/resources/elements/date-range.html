@@ -5,16 +5,16 @@
 
         <div if.bind="user.editing" class="form-group" style="margin-right:0px;width:61px;float:left;top:0;left:0;">
             <input type="text" value.bind="base_date_str" maxlength="10" title.bind="hint"
-                style="width:70px;padding-left:2px;padding-right:0;direction:ltr;margin-right:-8px;"
+                style="width:80px;padding-left:2px;padding-right:0;direction:ltr;margin-right:-20px;"
                 class.bind="is_valid"
                 change.trigger="base_date_changed($event)" keypress.trigger="keep_only_good_chars($event)" />
         </div>
-        <div class="form-group" if.bind="show_edit_end_date" style="margin-right:0px;float:left;top:0;">
-            <span style="margin-left:9px;">-</span>
+        <div class="form-group" if.bind="show_edit_end_date" style="margin-right:0px;float:left;padding-top:2px;">
+            <span style="margin-left:20px;">-</span>
         </div>
 
         <div if.bind="show_edit_end_date" class="form-group" style="margin-right:0px;top:0;left:87px;float:left; ">
-            <select value.bind="span_size" style="height:1.8em;color:black;width:80px;"
+            <select value.bind="span_size" style="height:1.8em;color:black;width:90px;"
                 change.delegate="span_size_changed($event)">
                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
             </select>
