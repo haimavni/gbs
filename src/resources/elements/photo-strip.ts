@@ -55,26 +55,32 @@ export class PhotoStripCustomElement {
             }
             this.source.then(result => {
                 let slides = result.photo_list;
-                //this.misc.cache_images(slides);
-                this.slides = slides;
-                for (let slide of this.slides) {
+                for (let slide of slides) {
                     if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
+                this.start_slide_show(slides);
+                //this.misc.cache_images(slides);
                 if (this.calculate_widths()) {
                 	this.prev_id = this.id;
                 }
                 //this.shift_photos(0);
             });
 
-            await this.misc.sleep(2000);
+            //await this.misc.sleep(2000);
             let n = this.settings.slide_show;
             if (n && !this.slideShow) {
                 this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
                 this.shift_photos(0);  //for the case of half empty carousel
             }
         }
+    }
+
+    async start_slide_show(slides) {
+        this.slides = slides.slice(0, 15);
+        await this.misc.sleep(2000);
+        this.slides = slides;
     }
 
     attached() {
