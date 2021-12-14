@@ -40,7 +40,7 @@ export class PhotoStripCustomElement {
         this.misc = misc;
     }
 
-    ready(what) {
+    async ready(what) {
         if (!this) {
             return;
         }
@@ -55,7 +55,7 @@ export class PhotoStripCustomElement {
             }
             this.source.then(result => {
                 let slides = result.photo_list;
-                this.misc.cache_images(slides);
+                //this.misc.cache_images(slides);
                 this.slides = slides;
                 for (let slide of this.slides) {
                     if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
@@ -68,6 +68,7 @@ export class PhotoStripCustomElement {
                 //this.shift_photos(0);
             });
 
+            await this.misc.sleep(2000);
             let n = this.settings.slide_show;
             if (n && !this.slideShow) {
                 this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
@@ -225,7 +226,6 @@ export class PhotoStripCustomElement {
     }
 
     calculate_widths() {
-        return;
         for (let slide of this.slides) {
             if (!slide) {
                 return false;
