@@ -243,5 +243,18 @@ export class Misc {
         return obj[key];
     }
 
+    loadImage(url, elem) {
+        return new Promise((resolve, reject) => {
+          elem.onload = () => resolve(elem);
+          elem.onerror = reject;
+          elem.src = url;
+        });
+      }
+
+    async cache_image(url)   {
+        let img_elem = document.createElement('img');
+        await this.loadImage(url, img_elem);
+    }
+
 }
 
