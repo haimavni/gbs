@@ -225,6 +225,7 @@ export class PhotoStripCustomElement {
     }
 
     calculate_widths() {
+        return;
         for (let slide of this.slides) {
             if (!slide) {
                 return false;
