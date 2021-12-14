@@ -82,7 +82,7 @@ export class DocDetail {
                 can_group: false,
                 empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             });
-        this.fullscreen = this.i18n.tr('photos.fullscreen');
+        this.fullscreen = this.i18n.tr('docs.fullscreen');
 
     }
 

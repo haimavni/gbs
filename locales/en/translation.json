@@ -523,7 +523,8 @@
         "view-details": "View/edit details",
         "doc-date": "Document date",
         "members-in": "Members associated with this document",
-        "select-members": "Select associated members"
+        "select-members": "Select associated members",
+        "fullscreen": "Full screen display. F11 to return"
     },
     "terms": {
         "terms": "Terms",
