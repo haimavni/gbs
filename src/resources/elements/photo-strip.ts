@@ -55,9 +55,7 @@ export class PhotoStripCustomElement {
             }
             this.source.then(result => {
                 let slides = result.photo_list;
-                for (let slide of slides) {
-                    this.misc.cache_image(slide.src);
-                }
+                this.misc.cache_images(slides);
                 this.slides = slides;
                 for (let slide of this.slides) {
                     if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
