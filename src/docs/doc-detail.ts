@@ -187,10 +187,10 @@ export class DocDetail {
     }
 
     go_back() {
-        if (this.caller == 'stories')
-            this.router.navigateBack();  //strange bug causes it to go prev until the first
+        if (this.caller == 'docs')
+            this.router.navigateToRoute('docs'); //strange bug causes it to go prev until the first
         else
-            this.router.navigateToRoute('docs');
+            this.router.navigateBack();  
     }
 
 
