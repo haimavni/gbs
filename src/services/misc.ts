@@ -1,6 +1,6 @@
-import {autoinject, noView, singleton} from "aurelia-framework";
-import {MemberGateway} from "./gateway";
-import {I18N} from 'aurelia-i18n';
+import { autoinject, noView, singleton } from "aurelia-framework";
+import { MemberGateway } from "./gateway";
+import { I18N } from 'aurelia-i18n';
 
 @autoinject()
 @singleton()
@@ -88,7 +88,7 @@ export class Misc {
     make_selection(section, option_names) {
         let result = [];
         for (let opt of option_names) {
-            let option = {value: opt, name: this.i18n.tr(section + '.' + opt)};
+            let option = { value: opt, name: this.i18n.tr(section + '.' + opt) };
             result.push(option)
         }
         return result;
@@ -196,7 +196,7 @@ export class Misc {
 
     }
 
-    crc32FromArrayBuffer(data, crc=0) {
+    crc32FromArrayBuffer(data, crc = 0) {
         const poly = 0xEDB88320;
         const lookup = new Uint32Array(256);
         lookup.forEach((_, i, self) => {
@@ -211,11 +211,11 @@ export class Misc {
         });
         crc = crc ? crc : 0xffffffff;
         const input = Uint8Array.from(data);
-        for (let i=0; i < input.byteLength; i++) {
+        for (let i = 0; i < input.byteLength; i++) {
             let x = input[i];
             crc = lookup[(x ^ crc) & 0xff] ^ (crc >>> 8);
         }
-        return -1 -crc;
+        return -1 - crc;
     }
 
     save(keys: any[], value: any) {
@@ -223,7 +223,7 @@ export class Misc {
         let key = keys[keys.length - 1]
         keys.slice(keys.length - 1)
         for (let k of keys) {
-            if (! obj[k]) {
+            if (!obj[k]) {
                 obj[k] = {}
             }
             obj = obj[k];
@@ -241,6 +241,31 @@ export class Misc {
                 return obj;
         }
         return obj[key];
+    }
+
+    loadImage(url, elem) {
+        return new Promise((resolve, reject) => {
+            elem.onload = () => resolve(elem);
+            elem.onerror = reject;
+            elem.src = url;
+        });
+    }
+
+    async cache_image(url) {
+        let img_elem = document.createElement('img');
+        await this.loadImage(url, img_elem);
+    }
+
+    cache_images(image_list) {
+        let n = image_list.length;
+        for (let image of image_list) {
+            let img_elem = document.createElement('img');
+            this.loadImage(image.src, img_elem)
+                .then(() => {
+                    n -= 1;
+                    if (n == 0) return;
+                });
+        }
     }
 
 }
