@@ -78,7 +78,8 @@ export class PhotoStripCustomElement {
     }
 
     async start_slide_show(slides) {
-        this.slides = slides.slice(0, 15);
+        let n = this.calculate_covering_count(slides);
+        this.slides = slides.slice(0, n);
         await this.misc.sleep(2000);
         this.slides = slides;
     }
@@ -245,6 +246,25 @@ export class PhotoStripCustomElement {
         }
         return true;
     }
+
+    calculate_covering_count(slides) {
+        let container_width = this.theme.width;
+        let width = 0;
+        let n = 0;
+        for (let slide of slides) {
+            n += 1;
+            if (!slide) {
+                continue;
+            }
+
+            let r = this.height / slide.height;
+            let w = Math.round(r * slide.width);
+            width += w;
+            if (width > container_width) return n;
+        }
+        return n;
+    }
+
 
     get show_arrows() {
         return this.element.clientWidth < this.slideList.clientWidth;
