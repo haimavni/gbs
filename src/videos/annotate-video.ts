@@ -83,6 +83,7 @@ export class AnnotateVideo {
     };
     video_date_valid = '';
     highlight_on= "highlight-on";
+    caller;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc,
                 dialog: DialogService, router: Router, ea: EventAggregator, ytKeeper: YtKeeper) {
@@ -119,6 +120,7 @@ export class AnnotateVideo {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
+        this.caller = params.caller;
         if (params.what != 'story') {
             this.video_name = params.video_name;
             this.video_src = params.video_src;
@@ -321,6 +323,8 @@ export class AnnotateVideo {
             window.close();
         } else {
            this.router.navigateBack(); 
+           if (this.caller == 'member')
+                this.router.navigateBack(); 
         }
     }
 
