@@ -313,10 +313,6 @@ export class MemberDetail {
         }
     }
 
-    get story_00() {
-        return this.story(0);
-    }
-
     @computedFrom("stories_base")
     get stories_base_changed() {
         this.story_0 = this.story(0);
