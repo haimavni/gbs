@@ -62,6 +62,11 @@ export class MemberDetail {
     photo_list_changes_pending = false;
     biography_dir = "";
     move_to;
+    story_0;
+    story_1;
+    story_2;
+    story_3;
+    story_4;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
                 router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
@@ -138,6 +143,7 @@ export class MemberDetail {
                 }
                 this.api.hit('MEMBER', this.member.member_info.id);
                 this.set_heights();
+                let x = this.stories_base_changed;
             });
     }
 
@@ -307,28 +313,18 @@ export class MemberDetail {
         }
     }
 
-    get story_0() {
+    get story_00() {
         return this.story(0);
     }
 
     @computedFrom("stories_base")
-    get story_1() {
-        return this.story(1);
-    }
-
-    @computedFrom("stories_base")
-    get story_2() {
-        return this.story(2);
-    }
-
-    @computedFrom("stories_base")
-    get story_3() {
-        return this.story(3);
-    }
-
-    @computedFrom("stories_base")
-    get story_4() {
-        return this.story(4);
+    get stories_base_changed() {
+        this.story_0 = this.story(0);
+        this.story_1 = this.story(1);
+        this.story_2 = this.story(2);
+        this.story_3 = this.story(3);
+        this.story_4 = this.story(4);
+        return false;
     }
 
     detach_photo_from_member(member_id, photo_id, slide_list) {
@@ -376,6 +372,22 @@ export class MemberDetail {
     goto_story_page(story) {
         let what = story.used_for == this.api.constants.story_type.STORY4TERM ? 'term' : 'story';
         this.router.navigateToRoute('story-detail', {id: story.story_id, what: what});
+        switch(story.used_for) {
+            case this.api.constants.story_type.STORY4TERM: 
+                this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'term'});
+                break;
+            case this.api.constants.story_type.STORY4EVENT: 
+                this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'story'});
+                break;
+            case this.api.constants.story_type.STORY4DOC:
+                this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'back' });
+                break;
+            case this.api.constants.story_type.STORY4VIDEO:
+                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: [], search_type: "" });
+                break;
+            default:
+                console.log("Unsupported story type ", story.used_for);
+        }
     }
 
     on_height_change(event) {

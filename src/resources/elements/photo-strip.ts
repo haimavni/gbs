@@ -55,26 +55,33 @@ export class PhotoStripCustomElement {
             }
             this.source.then(result => {
                 let slides = result.photo_list;
-                //this.misc.cache_images(slides);
-                this.slides = slides;
-                for (let slide of this.slides) {
+                for (let slide of slides) {
                     if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
+                this.start_slide_show(slides);
+                //this.misc.cache_images(slides);
                 if (this.calculate_widths()) {
                 	this.prev_id = this.id;
                 }
                 //this.shift_photos(0);
             });
 
-            await this.misc.sleep(2000);
+            //await this.misc.sleep(2000);
             let n = this.settings.slide_show;
             if (n && !this.slideShow) {
                 this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
                 this.shift_photos(0);  //for the case of half empty carousel
             }
         }
+    }
+
+    async start_slide_show(slides) {
+        let n = this.calculate_covering_count(slides);
+        this.slides = slides.slice(0, n);
+        await this.misc.sleep(2000);
+        this.slides = slides;
     }
 
     attached() {
@@ -239,6 +246,25 @@ export class PhotoStripCustomElement {
         }
         return true;
     }
+
+    calculate_covering_count(slides) {
+        let container_width = this.theme.width;
+        let width = 0;
+        let n = 0;
+        for (let slide of slides) {
+            n += 1;
+            if (!slide) {
+                continue;
+            }
+
+            let r = this.height / slide.height;
+            let w = Math.round(r * slide.width);
+            width += w;
+            if (width > container_width) return n;
+        }
+        return n;
+    }
+
 
     get show_arrows() {
         return this.element.clientWidth < this.slideList.clientWidth;
