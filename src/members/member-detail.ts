@@ -376,7 +376,7 @@ export class MemberDetail {
                 this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'story'});
                 break;
             case this.api.constants.story_type.STORY4DOC:
-                this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'back' });
+                this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'member' });
                 break;
             case this.api.constants.story_type.STORY4VIDEO:
                 this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: [], search_type: "" });

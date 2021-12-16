@@ -25,7 +25,7 @@ export class DocDetail {
     user: User;
     theme: Theme;
     router: Router;
-    doc = {name: 'no-name'};
+    doc = { name: 'no-name' };
     story_about;
     keywords = [];
     doc_ids = [];
@@ -119,7 +119,7 @@ export class DocDetail {
                 this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
                 this.undo_list = [];
-                this.members=response.members;
+                this.members = response.members;
             });
     }
 
@@ -171,16 +171,16 @@ export class DocDetail {
     undo() {
         let command = this.undo_list.pop();
         switch (command.what) {
-            case "topics": 
+            case "topics":
                 this.doc_topics = command.photo_topics.slice(0);
                 this.curr_info.doc_topics = this.doc_topics.slice(0);
                 this.init_selected_topics();
                 this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
                 break;
-            case "doc-date": 
+            case "doc-date":
                 this.curr_info.doc_date_str = this.doc_date_str = command.doc_date.doc_date_str;
                 this.doc_date_datespan = command.doc_date.doc_date_datespan;
-                this.api.call_server_post('docs/update_doc_date', 
+                this.api.call_server_post('docs/update_doc_date',
                     { doc_date_str: this.doc_date_str, doc_date_datespan: this.doc_date_datespan, doc_id: this.doc_id });
                 break;
         }
@@ -189,8 +189,11 @@ export class DocDetail {
     go_back() {
         if (this.caller == 'docs')
             this.router.navigateToRoute('docs'); //strange bug causes it to go prev until the first
-        else
-            this.router.navigateBack();  
+        else {
+            this.router.navigateBack();
+            if (this.caller == 'member')
+                this.router.navigateBack();
+        }
     }
 
 
@@ -287,7 +290,7 @@ export class DocDetail {
         let member_ids = this.members.map(member => member.id)
         this.dialog.open({
             viewModel: MemberPicker,
-            model: {multi: true, back_to_text: 'members.back-to-video', preselected: member_ids},
+            model: { multi: true, back_to_text: 'members.back-to-video', preselected: member_ids },
             lock: false,
             rejectOnCancel: false
         }).whenClosed(response => {

@@ -480,7 +480,7 @@ export class Docs {
     view_details(doc, event) {
         let doc_ids = this.doc_list.map(doc => doc.id);
         this.scroll_top = this.scroll_area.scrollTop;
-        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords });
+        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs' });
     }
 
 }
