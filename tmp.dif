@@ -1,0 +1,1466 @@
+diff --git a/locales/en/translation.json b/locales/en/translation.json
+index 366fc2f..4b27ff1 100644
+--- a/locales/en/translation.json
++++ b/locales/en/translation.json
+@@ -278,6 +278,8 @@
+         "enable-cuepoints-off": "Disable video cuepoints",
+         "allow-publishing-on": "Allow displaying in apps gallery",
+         "allow-publishing-off": "Do not allow displaying in apps galler",
++        "expose-gallery-off": "Do not expose Gallery button",
++        "expose-gallery-on": "Expose Gallery button",
+         "gallery": "Gallery",
+         "audio-enabled": "Audio supported",
+         "audio-disabled": "Audio not supported",
+@@ -465,7 +467,7 @@
+         "cue-description": "Description",
+         "describe-cue": "Describe this segment",
+         "members-in": "Members are in this segment",
+-        "select-members": "Select associate members"
++        "select-members": "Select associated members"
+     },
+     "audios": {
+         "audios": "Audios",
+@@ -518,7 +520,11 @@
+         "edit-filters": "Topics and keywords",
+         "link-to-doc-created": "Link to the document is ready for pasting in the editor",
+         "click-to-close": "Click to close",
+-        "view-details": "View/edit details"
++        "view-details": "View/edit details",
++        "doc-date": "Document date",
++        "members-in": "Members associated with this document",
++        "select-members": "Select associated members",
++        "fullscreen": "Full screen display. F11 to return"
+     },
+     "terms": {
+         "terms": "Terms",
+diff --git a/locales/he/translation.json b/locales/he/translation.json
+index 9e19730..356dfe6 100644
+--- a/locales/he/translation.json
++++ b/locales/he/translation.json
+@@ -276,6 +276,8 @@
+         "enable-cuepoints-off": "ללא נקודות עצירה בסרטים",
+         "allow-publishing-on": "אפשר תצוגה בגלריה",
+         "allow-publishing-off": "אל תאפשר תצוגה בגלריה",
++        "expose-gallery-off": "ללא כפתור גלריה",
++        "expose-gallery-on": "הצג כפתור גלריה",
+         "gallery": "גלריה",
+         "audio-enabled": "אפשר הקלטות",
+         "audio-disabled": "ללא הקלטות",
+@@ -522,7 +524,11 @@
+         "edit-filters": "נושאים ומילות מפתח",
+         "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך",
+         "click-to-close": "סגור את המסמך",
+-        "view-details": "הצג/ערוך פרטים"
++        "view-details": "הצג/ערוך פרטים",
++        "doc-date": "תאריך המסמך",
++        "members-in": "חברים הקשורים למסמך",
++        "select-members": "בחר חברים הקשורים למסמך",
++        "fullscreen": "לחזרה F11.תצוגה במסך מלא"
+     },
+     "terms": {
+         "terms": "מונחים",
+diff --git a/package-lock.json b/package-lock.json
+index 6a112be..802d923 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1444,9 +1444,9 @@
+       }
+     },
+     "aurelia-path": {
+-      "version": "1.1.1",
+-      "resolved": "https://registry.npmjs.org/aurelia-path/-/aurelia-path-1.1.1.tgz",
+-      "integrity": "sha1-yqnSC8hRWl+fKG2aOxjYGyyFsN0="
++      "version": "1.1.7",
++      "resolved": "https://registry.npmjs.org/aurelia-path/-/aurelia-path-1.1.7.tgz",
++      "integrity": "sha512-D6/Tz8jE8b2+Y8Pt6P/fxF6xfJGef+TA6YEljzo1kEzyzbxIvwfqc7pK6i/XGY3LowlumPqrhxkfMjPxLpFIcA=="
+     },
+     "aurelia-plugins-google-places-autocomplete": {
+       "version": "2.6.1",
+@@ -1677,18 +1677,18 @@
+       "dev": true
+     },
+     "axios": {
+-      "version": "0.21.1",
+-      "resolved": "https://registry.npmjs.org/axios/-/axios-0.21.1.tgz",
+-      "integrity": "sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==",
++      "version": "0.21.4",
++      "resolved": "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz",
++      "integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==",
+       "dev": true,
+       "requires": {
+-        "follow-redirects": "^1.10.0"
++        "follow-redirects": "^1.14.0"
+       },
+       "dependencies": {
+         "follow-redirects": {
+-          "version": "1.14.1",
+-          "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.1.tgz",
+-          "integrity": "sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==",
++          "version": "1.14.5",
++          "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.5.tgz",
++          "integrity": "sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==",
+           "dev": true
+         }
+       }
+@@ -2226,8 +2226,7 @@
+         },
+         "ansi-regex": {
+           "version": "5.0.0",
+-          "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.0.tgz",
+-          "integrity": "sha512-bY6fj56OUQ0hU1KjFNDQuJFezqKdrAyFdIevADiqrWHwSlbmBNMHp5ak2f40Pm8JTFyM2mqxkG6ngkHO11f/lg==",
++          "resolved": "",
+           "dev": true
+         },
+         "ansi-styles": {
+@@ -3912,9 +3911,9 @@
+       }
+     },
+     "engine.io-client": {
+-      "version": "1.8.5",
+-      "resolved": "https://registry.npmjs.org/engine.io-client/-/engine.io-client-1.8.5.tgz",
+-      "integrity": "sha512-AYTgHyeVUPitsseqjoedjhYJapNVoSPShbZ+tEUX9/73jgZ/Z3sUlJf9oYgdEBBdVhupUpUqSxH0kBCXlQnmZg==",
++      "version": "1.8.6",
++      "resolved": "https://registry.npmjs.org/engine.io-client/-/engine.io-client-1.8.6.tgz",
++      "integrity": "sha512-6+rInQu8xU7c0fIF6RC4SRKuHVWPt8Xq0bZYS4lMrTwmhRineOlEMsU3X0zS5mHIvCgJsmpOKEX7DhihGk7j0g==",
+       "dev": true,
+       "requires": {
+         "component-emitter": "1.2.1",
+@@ -3927,7 +3926,7 @@
+         "parseqs": "0.0.5",
+         "parseuri": "0.0.5",
+         "ws": "~1.1.5",
+-        "xmlhttprequest-ssl": "1.5.3",
++        "xmlhttprequest-ssl": "1.6.3",
+         "yeast": "0.1.2"
+       },
+       "dependencies": {
+@@ -7579,9 +7578,9 @@
+       "dev": true
+     },
+     "json-schema": {
+-      "version": "0.2.3",
+-      "resolved": "https://registry.npmjs.org/json-schema/-/json-schema-0.2.3.tgz",
+-      "integrity": "sha1-tIDIkuWaLwWVTOcnvT8qTogvnhM=",
++      "version": "0.4.0",
++      "resolved": "https://registry.npmjs.org/json-schema/-/json-schema-0.4.0.tgz",
++      "integrity": "sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==",
+       "dev": true
+     },
+     "json-schema-traverse": {
+@@ -7638,14 +7637,14 @@
+       "dev": true
+     },
+     "jsprim": {
+-      "version": "1.4.1",
+-      "resolved": "https://registry.npmjs.org/jsprim/-/jsprim-1.4.1.tgz",
+-      "integrity": "sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=",
++      "version": "1.4.2",
++      "resolved": "https://registry.npmjs.org/jsprim/-/jsprim-1.4.2.tgz",
++      "integrity": "sha512-P2bSOMAc/ciLz6DzgjVlGJP9+BrJWu5UDGK70C2iweC5QBIeFf0ZXRvGjEj2uYgrY2MkAAhsSWHDWlFtEroZWw==",
+       "dev": true,
+       "requires": {
+         "assert-plus": "1.0.0",
+         "extsprintf": "1.3.0",
+-        "json-schema": "0.2.3",
++        "json-schema": "0.4.0",
+         "verror": "1.10.0"
+       }
+     },
+@@ -7839,21 +7838,21 @@
+       }
+     },
+     "localtunnel": {
+-      "version": "2.0.1",
+-      "resolved": "https://registry.npmjs.org/localtunnel/-/localtunnel-2.0.1.tgz",
+-      "integrity": "sha512-LiaI5wZdz0xFkIQpXbNI62ZnNn8IMsVhwxHmhA+h4vj8R9JG/07bQHWwQlyy7b95/5fVOCHJfIHv+a5XnkvaJA==",
++      "version": "2.0.2",
++      "resolved": "https://registry.npmjs.org/localtunnel/-/localtunnel-2.0.2.tgz",
++      "integrity": "sha512-n418Cn5ynvJd7m/N1d9WVJISLJF/ellZnfsLnx8WBWGzxv/ntNcFkJ1o6se5quUhCplfLGBNL5tYHiq5WF3Nug==",
+       "dev": true,
+       "requires": {
+-        "axios": "0.21.1",
+-        "debug": "4.3.1",
++        "axios": "0.21.4",
++        "debug": "4.3.2",
+         "openurl": "1.1.1",
+-        "yargs": "16.2.0"
++        "yargs": "17.1.1"
+       },
+       "dependencies": {
+         "ansi-regex": {
+-          "version": "5.0.0",
+-          "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.0.tgz",
+-          "integrity": "sha512-bY6fj56OUQ0hU1KjFNDQuJFezqKdrAyFdIevADiqrWHwSlbmBNMHp5ak2f40Pm8JTFyM2mqxkG6ngkHO11f/lg==",
++          "version": "5.0.1",
++          "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
++          "integrity": "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==",
+           "dev": true
+         },
+         "ansi-styles": {
+@@ -7892,9 +7891,9 @@
+           "dev": true
+         },
+         "debug": {
+-          "version": "4.3.1",
+-          "resolved": "https://registry.npmjs.org/debug/-/debug-4.3.1.tgz",
+-          "integrity": "sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==",
++          "version": "4.3.2",
++          "resolved": "https://registry.npmjs.org/debug/-/debug-4.3.2.tgz",
++          "integrity": "sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==",
+           "dev": true,
+           "requires": {
+             "ms": "2.1.2"
+@@ -7925,23 +7924,23 @@
+           "dev": true
+         },
+         "string-width": {
+-          "version": "4.2.2",
+-          "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.2.tgz",
+-          "integrity": "sha512-XBJbT3N4JhVumXE0eoLU9DCjcaF92KLNqTmFCnG1pf8duUxFGwtP6AD6nkjw9a3IdiRtL3E2w3JDiE/xi3vOeA==",
++          "version": "4.2.3",
++          "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
++          "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==",
+           "dev": true,
+           "requires": {
+             "emoji-regex": "^8.0.0",
+             "is-fullwidth-code-point": "^3.0.0",
+-            "strip-ansi": "^6.0.0"
++            "strip-ansi": "^6.0.1"
+           }
+         },
+         "strip-ansi": {
+-          "version": "6.0.0",
+-          "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.0.tgz",
+-          "integrity": "sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==",
++          "version": "6.0.1",
++          "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
++          "integrity": "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==",
+           "dev": true,
+           "requires": {
+-            "ansi-regex": "^5.0.0"
++            "ansi-regex": "^5.0.1"
+           }
+         },
+         "wrap-ansi": {
+@@ -7962,9 +7961,9 @@
+           "dev": true
+         },
+         "yargs": {
+-          "version": "16.2.0",
+-          "resolved": "https://registry.npmjs.org/yargs/-/yargs-16.2.0.tgz",
+-          "integrity": "sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==",
++          "version": "17.1.1",
++          "resolved": "https://registry.npmjs.org/yargs/-/yargs-17.1.1.tgz",
++          "integrity": "sha512-c2k48R0PwKIqKhPMWjeiF6y2xY/gPMUlro0sgxqXpbOIohWiLNXWslsootttv7E1e73QPAMQSg5FeySbVcpsPQ==",
+           "dev": true,
+           "requires": {
+             "cliui": "^7.0.2",
+@@ -7977,9 +7976,9 @@
+           }
+         },
+         "yargs-parser": {
+-          "version": "20.2.7",
+-          "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-20.2.7.tgz",
+-          "integrity": "sha512-FiNkvbeHzB/syOjIUxFDCnhSfzAL8R5vs40MgLFBorXACCOAEaWu0gRZl14vG8MR9AOJIZbmkjhusqBYZ3HTHw==",
++          "version": "20.2.9",
++          "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-20.2.9.tgz",
++          "integrity": "sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==",
+           "dev": true
+         }
+       }
+@@ -9535,9 +9534,9 @@
+       "dev": true
+     },
+     "path-parse": {
+-      "version": "1.0.5",
+-      "resolved": "https://registry.npmjs.org/path-parse/-/path-parse-1.0.5.tgz",
+-      "integrity": "sha1-PBrfhx6pzWyUMbbqK9dKD/BVxME=",
++      "version": "1.0.7",
++      "resolved": "https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz",
++      "integrity": "sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==",
+       "dev": true
+     },
+     "path-root": {
+@@ -11948,9 +11947,9 @@
+       "dev": true
+     },
+     "xmlhttprequest-ssl": {
+-      "version": "1.5.3",
+-      "resolved": "https://registry.npmjs.org/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.3.tgz",
+-      "integrity": "sha1-GFqIjATspGw+QHDZn3tJ3jUomS0=",
++      "version": "1.6.3",
++      "resolved": "https://registry.npmjs.org/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.6.3.tgz",
++      "integrity": "sha512-3XfeQE/wNkvrIktn2Kf0869fC0BN6UpydVasGIeSm2B1Llihf7/0UfZM+eCkOw3P7bP4+qPgqhm7ZoxuJtFU0Q==",
+       "dev": true
+     },
+     "xregexp": {
+@@ -12007,12 +12006,13 @@
+       }
+     },
+     "yargs-parser": {
+-      "version": "5.0.0",
+-      "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-5.0.0.tgz",
+-      "integrity": "sha1-J17PDX/+Bcd+ZOfIbkzZS/DhIoo=",
++      "version": "5.0.1",
++      "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-5.0.1.tgz",
++      "integrity": "sha512-wpav5XYiddjXxirPoCTUPbqM0PXvJ9hiBMvuJgInvo4/lAOTZzUprArw17q2O1P2+GHhbBr18/iQwjL5Z9BqfA==",
+       "dev": true,
+       "requires": {
+-        "camelcase": "^3.0.0"
++        "camelcase": "^3.0.0",
++        "object.assign": "^4.1.0"
+       },
+       "dependencies": {
+         "camelcase": {
+diff --git a/src/admin/customize.html b/src/admin/customize.html
+index 4e82ab6..cf0e85b 100644
+--- a/src/admin/customize.html
++++ b/src/admin/customize.html
+@@ -157,6 +157,13 @@
+                             <span style="font-weight:bolder">${ap & t}</span>
+                         </button>
+                     </div>
++                    <div style="margin-bottom:5px;">
++                        <button repeat.for="eg of expose_gallery_options" style="margin-left:8px;width:200px;"
++                            class="btn btn-${eg==expose_gallery_option ? 'primary' : 'default'} customization"
++                            click.delegate="expose_gallery_option_selected(eg)">
++                            <span style="font-weight:bolder">${eg & t}</span>
++                        </button>
++                    </div>
+                     <div style="margin-bottom:5px;">
+                         <label style="margin-left:8px;width:200px;">
+                             ${'admin.promoted-story-expiration' & t}
+diff --git a/src/admin/customize.ts b/src/admin/customize.ts
+index 4ec3892..78606a8 100644
+--- a/src/admin/customize.ts
++++ b/src/admin/customize.ts
+@@ -35,6 +35,7 @@ export class Customize {
+     exclusive_options = ['user.exclusive-on', 'user.exclusive-off'];
+     enable_cuepoints_options = ['user.enable-cuepoints-on', 'user.enable-cuepoints-off'];
+     allow_publishing_options = ['user.allow-publishing-on', 'user.allow-publishing-off'];
++    expose_gallery_options = ['user.expose-gallery-on', 'user.expose-gallery-off'];
+ 
+     //-----------
+     auto_reg_option = 'user.by-invitation';
+@@ -48,6 +49,7 @@ export class Customize {
+     enable_articles_option = 'user.enable-articles-off';
+     enable_cuepoints_option = 'user.enable-cuepoints-off';
+     allow_publishing_option = 'user.allow-publishing-off';
++    expose_gallery_option = 'user.expose-gallery-off';
+     enable_books_option = 'user.enable-books-on';
+     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
+     promoted_story_expiration = 7;
+@@ -114,6 +116,7 @@ export class Customize {
+         this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
+         this.enable_cuepoints_option = this.user.config.enable_cuepoints ? 'user.enable-cuepoints-on' : 'user.enable-cutpoints-off';
+         this.allow_publishing_option = this.user.config.allow_publishing ? 'user.allow-publishing-on' : 'user.allow-publishing-off';
++        this.expose_gallery_option = this.user.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
+         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
+         this.cover_photo = this.user.config.cover_photo;
+         if (! this.cover_photo) {
+@@ -298,7 +301,17 @@ export class Customize {
+                 this.report_success();
+             })
+     }
+-
++    
++    expose_gallery_option_selected(option) {
++        this.expose_gallery_option = option;
++        this.api.call_server('admin/set_expose_gallery_option', { option: option })
++            .then(response => {
++                this.user.readConfiguration();
++                this.report_success();
++            })
++    }
++    
++    
+ 
+     version_time_option_selected(option) {
+         this.version_time_option = option;
+diff --git a/src/app.html b/src/app.html
+index 22a12a8..1d18f97 100644
+--- a/src/app.html
++++ b/src/app.html
+@@ -79,7 +79,7 @@
+                         ${'user.quick-upload-photo' & t}
+                     </button>
+                 </span>
+-                <span if.bind="user.active_app_list" class="footer-item">
++                <span if.bind="user.config.expose_gallery" class="footer-item">
+                     <button class="btn btn-default footer-button" click.delegate="show_gallery()">
+                         ${'gallery.gallery' & t}
+                     </button>
+diff --git a/src/app.ts b/src/app.ts
+index b14637d..2331199 100644
+--- a/src/app.ts
++++ b/src/app.ts
+@@ -64,7 +64,7 @@ export class App {
+         config.map([
+             {route: '', redirect: 'home'},
+             {route: 'home', moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
+-            {route: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs', settings: {auth: true}},
++            {route: 'docs', name: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs', settings: {auth: true}},
+             {route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
+             {route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios', settings: {auth: true}},
+             {route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos', settings: {auth: true}},
+@@ -108,6 +108,7 @@ export class App {
+             {route: 'help-detail/:id/*', name: 'help-detail', moduleId: './stories/story-detail', settings: {auth: true}},
+             {route: 'member-details/:id/*', name: 'member-details', moduleId: './members/member-detail', settings: {auth: true}},
+             {route: 'article-details/:id/*', name: 'article-details', moduleId: './articles/article-detail', settings: {auth: true}},
++            {route: 'doc-detail/:id/*', name: 'doc-detail', moduleId: './docs/doc-detail'},
+             {
+                 route: 'members/new',
+                 name: 'member-creation',
+diff --git a/src/docs/_docs.scss b/src/docs/_docs.scss
+index 9ed4d70..355f2ed 100644
+--- a/src/docs/_docs.scss
++++ b/src/docs/_docs.scss
+@@ -29,3 +29,13 @@ ul.doc-list {
+         }
+     }
+ }
++
++div.doc-detail {
++    display: flex;
++    flex-direction: column;
++    .detail-header {
++        display: flex;
++        flex-direction: row-reverse;
++        justify-content: space-between;
++    }
++}
+diff --git a/src/docs/doc-detail.html b/src/docs/doc-detail.html
+index 27e0f69..edb23d5 100644
+--- a/src/docs/doc-detail.html
++++ b/src/docs/doc-detail.html
+@@ -1,3 +1,132 @@
+ <template>
+-    
++    <div class='doc-detail content-area ${theme.rtltr}"'>
++        <div class="detail-header">
++            <div style="cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
++                <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
++                    new-chatroom.delegate="create_chatroom()" chatroom-deleted.delegate="chatroom_deleted($event)">
++                </chat-button>
++                <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='rtl' ? 90 : 270} ${next_class}" t="[title]photos.next-slide"
++                    click.trigger="go_next($event)" if.bind="doc_ids.length > 1"></i>
++                <i class="far fa-lg fa-arrow-up" t="[title]go-back" click.trigger="go_back()"
++                    if.bind="theme.is_desktop"></i>
++                <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}" t="[title]photos.prev-slide"
++                    click.trigger="go_prev($event)" if.bind="doc_ids.length > 1"></i>
++            </div>
++            <h3 dir="${theme.rtltr}" style="float: right;margin:0px;">
++                ${doc_name || 'document name'}
++            </h3>
++        </div>
++        <div class="row">
++            <div class="col-md-6" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
++                <!-- <embed src.bind="doc_src + '#view=FitH'" width="500px" height="480px" /> -->
++                <div style="margin-left:0;width:572px;height:360px;position:relative">
++                    <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
++                    style="width:40px;position:absolute;left:80px;top:20px;background-color:rgba(0,0,0,0);border:0;color:white;"
++                    click.delegate="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
++                    <iframe if.bind="doc_src" src.bind="doc_src" width="100%" height="100%" allow="fullscreen" id="doc-frame"></iframe>
++                </div>
++                <button if.bind="user.editing"
++                        class="btn btn-primary btn-framed"
++                        style="margin-top:8px;font-size:108%;"
++                        click.delegate="select_doc_members()">
++                    <i style="cursor:pointer"
++                       class="fa fa-users"
++                       title="${'docs.members-in' & t}">
++                    </i>
++                    ${'docs.select-members' & t}
++                </button>
++                <div if.bind="members.length>0">
++                    <compose view-model="../members/member-faces" model.bind="members"></compose>
++                </div>
++                <!-- <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" /> -->
++                <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
++                    <span>
++                        <span dir="${theme.rtltr}" if.bind="doc_name">${doc_name}</span>
++                    </span>
++                    <date-range label="docs.doc-date" if.bind="doc_date_str || user.editing"
++                        base_date_str.bind="doc_date_str" hide_label_if_no_date.bind="true"
++                        enable_days_range.bind="true" span_size.bind="doc_date_datespan"
++                        range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]" is_valid.bind="doc_date_valid"
++                        change.delegate="update_doc_date($event)">
++                    </date-range>
++                    <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}:
++                        ${topic_names}</span>
++                </div>
++            </div>
++            <div class="col-md-6">
++                <div class="row">
++                    <div class="col-md-4 col-md-offset-8">
++                        <span style="float:right;direction:rtl"
++                            if.bind="photo_story.source">${photo_story.source}:</span>
++                        <span if.bind="! photo_story.source">&nbsp;</span>
++                    </div>
++                </div>
++                <div class="row" style="padding-right:15px;">
++                    <div class="fr-view" dir="rtl">
++                        <div if.bind="! user.editing" class="row video-story" style="margin-top:8px;">
++                            <div class="fr-view" dir="${story_dir}">
++                                <div class="${theme.font_size} video-story-area">
++                                    <p class="${story_dir} ${highlight_on}" innerhtml.bind="highlightedHtml" if.bind="story_about && story_about.story_text">
++                                        <!-- <compose if.bind="story_about && story_about.story_text" view-model='../stories/render-story'
++                                            model.bind="{html:highlightedHtml}">
++                                        </compose> -->
++                                    </p>
++                                </div>
++                            </div>
++                        </div>
++                        <div if.bind="user.editing" style="display:flex;flex-direction:column;">
++                            <editable style="background-color:beige;margin-bottom:12px;"
++                                settings.bind="{show_date:false, class:'story-section', checkable: false}"
++                                story.bind="story_about">
++                            </editable>
++                            <div class="multi-select-div"
++                                style="margin-bottom:0px;position:relative;width:80%;height:60vh;overflow:auto;">
++                                <div class="multi-select-div" style="margin-bottom:15px;position:relative;"
++                                    dir="${theme.rtltr}">
++                                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
++                                        ${'stories.categories'
++                                        & t}</div>
++                                    <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit" ,
++                                        position="bottom" style="position:absolute;left:2px;top:2px;"></help>
++                                    <help if.bind="phase=='applying-to-photos'" topic="apply-to-selected-photos" ,
++                                        position="bottom" style="position:absolute;left:2px;top:2px;"></help>
++                                    <help if.bind="phase=='photos-not-editing'" topic="tags"
++                                        position="${theme.is_desktop ? 'bottom' : 'right'}"
++                                        style="position:absolute;left:2px;top:2px;"></help>
++                                    <multi-select options.bind="topic_list" category="topic"
++                                        selected_options.bind="params.selected_topics" first_time.bind="no_topics_yet"
++                                        option_groups.bind="topic_groups" new-name.delegate="add_topic($event)"
++                                        settings.bind="options_settings" has_groups.bind="has_grouped_topics"
++                                        place_holder_text="photos.click-topic"
++                                        ms-change.delegate="handle_topic_change($event) ">
++                                    </multi-select>
++                                </div>
++                                <!-- <div class="multi-select-div" dir="${theme.rtltr}">
++                                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
++                                        ${'photos.photographers' & t}</div>
++                                    <multi-select options.bind="photographer_list" category="photographer"
++                                        place_holder_text="photos.click-photographer"
++                                        selected_options.bind="params.selected_photographers"
++                                        settings.bind="photographers_settings" first_time.bind="no_photographers_yet"
++                                        new-name.delegate="add_photographer($event)"
++                                        name-changed.delegate="photographer_name_changed($event)"
++                                        ms-change.delegate="handle_photographer_change($event)">
++                                    </multi-select>
++                                </div> -->
++                                <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
++                                    <button if.bind="undo_list.length > 0" class="btn btn-warning" style="width:90%;"
++                                        click.delegate="undo()">
++                                        <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
++                                    </button>
++                                </div>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++            </div>
++        </div>
++        <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->
++    </div>
++
++
+ </template>
+\ No newline at end of file
+diff --git a/src/docs/doc-detail.ts b/src/docs/doc-detail.ts
+index 0ca05de..1c90700 100644
+--- a/src/docs/doc-detail.ts
++++ b/src/docs/doc-detail.ts
+@@ -1,3 +1,318 @@
+-class DocDetail {
+-    
++import { autoinject, computedFrom, singleton } from 'aurelia-framework';
++import { I18N } from 'aurelia-i18n';
++import { MemberGateway } from '../services/gateway';
++import { User } from '../services/user';
++import { Theme } from '../services/theme';
++import { Misc } from '../services/misc';
++import { highlight } from '../services/dom_utils';
++import { MemberList } from "../services/member_list";
++import { ArticleList } from '../services/article_list';
++import { Router } from 'aurelia-router';
++import { EventAggregator } from 'aurelia-event-aggregator';
++import { DialogService } from 'aurelia-dialog';
++import { FullSizePhoto } from '../photos/full-size-photo';
++import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
++import { MemberPicker } from "../members/member-picker";
++import { ArticlePicker } from "../articles/article-picker";
++import { PhotoPicker } from "../photos/photo-picker";
++import { runInThisContext } from 'vm';
++import { HitCounts } from '../admin/hit-counts';
++
++@autoinject()
++export class DocDetail {
++    api: MemberGateway;
++    i18n: I18N;
++    user: User;
++    theme: Theme;
++    router: Router;
++    doc = { name: 'no-name' };
++    story_about;
++    keywords = [];
++    doc_ids = [];
++    topic_list = [];
++    topic_groups = [];
++    no_topics_yet = false;
++    advanced_search = false;
++    doc_id;
++    doc_src;
++    doc_story;
++    doc_story_about;
++    doc_date_str;
++    doc_date_datespan;
++    doc_date_valid = '';
++    doc_topics;
++    story_id = null;
++    chatroom_id = null;
++    options_settings: MultiSelectSettings;
++    params = {
++        selected_topics: [] //,
++        //selected_photographers: [],
++        //doc_ids: []
++    };
++    doc_name: any;
++    can_go_forward = false;
++    can_go_backward = false;
++    highlight_on = "highlight-on";
++    story_dir = "rtl";
++    undo_list = [];
++    curr_info = {
++        doc_date_str: "",
++        doc_date_datespan: 0,
++        doc_topics: [],
++    }
++    dialog: DialogService;
++    members = [];
++    caller;
++    fullscreen;
++
++
++    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
++        this.api = api;
++        this.i18n = i18n;
++        this.user = user;
++        this.theme = theme;
++        this.router = router;
++        this.dialog = dialog;
++        this.options_settings = new MultiSelectSettings
++            ({
++                hide_higher_options: true,
++                clear_filter_after_select: false,
++                can_set_sign: false,
++                can_add: true,
++                can_group: false,
++                empty_list_message: this.i18n.tr('photos.no-topics-yet'),
++            });
++        this.fullscreen = this.i18n.tr('docs.fullscreen');
++
++    }
++
++    async activate(params, config) {
++        this.doc_id = params.id;
++        this.caller = params.caller;
++        this.keywords = params.keywords;
++        this.doc_ids = params.doc_ids;
++        this.advanced_search = params.search_type == 'advanced';
++        ///this.what = params.what ? params.what : "";
++        await this.update_topic_list();
++        await this.get_doc_info(this.doc_id);
++    }
++
++    get_doc_info(doc_id) {
++        this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id, caller: this.caller })
++            .then(response => {
++                this.doc_id = response.doc_id;
++                this.doc = response.doc;
++                this.doc_src = response.doc_src;
++                this.story_about = response.story_about;
++                this.doc_name = response.doc_name;
++                this.doc_topics = response.doc_topics;
++                this.doc_story = response.doc_story;
++                // this.doc_story_about = response.doc_story_about;
++                if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
++                    //this.doc_story.name = this.i18n.tr('photos.new-story');
++                    this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
++                    this.doc_story_about.name = this.doc_name;
++                }
++                this.doc_date_str = response.doc_date_str;
++                this.doc_date_datespan = response.doc_date_datespan;
++                this.story_id = response.story_id
++                this.chatroom_id = response.chatroom_id;
++                this.init_selected_topics();
++                this.undo_list = [];
++                this.members = response.members;
++            });
++    }
++
++    update_topic_list() {
++        let usage = this.user.editing ? {} : { usage: 'D' };
++        this.api.call_server_post('topics/get_topic_list', usage)
++            .then(result => {
++                this.topic_list = result.topic_list;
++                this.topic_groups = result.topic_groups;
++                //this.photographer_list = result.photographer_list;
++                this.no_topics_yet = this.topic_list.length == 0;
++                //this.no_photographers_yet = this.photographer_list.length == 0;
++            });
++    }
++
++    update_doc_date(customEvent) {
++        customEvent.stopPropagation();
++        if (this.doc_date_valid != 'valid') return;
++        let event = customEvent.detail;
++        let s = typeof event;
++        this.undo_list.push({ what: 'doc-date', doc_date: { doc_date_str: this.curr_info.doc_date_str, doc_date_datespan: this.curr_info.doc_date_datespan } });
++        this.curr_info.doc_date_str = this.doc_date_str.slice(0);
++        this.curr_info.doc_date_datespan = this.doc_date_datespan;
++        this.api.call_server_post('docs/update_doc_date', { doc_date_str: event.date_str, doc_date_datespan: event.date_span, doc_id: this.doc_id });
++    }
++
++    handle_topic_change(event) {
++        if (!event.detail) return;
++        this.params.selected_topics = event.detail.selected_options
++        let topics = this.params.selected_topics.map(top => top.option);
++        this.doc_topics = topics;
++        this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.doc_topics });
++        this.curr_info.doc_topics = topics.slice(0);
++        this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
++    }
++
++    init_selected_topics() {
++        let selected_topics = [];
++        let i = 0;
++        for (let opt of this.doc_topics) {
++            opt.sign = '';
++            let itm = { option: opt, first: i == 0, last: i == this.doc_topics.length - 1, group_number: i + 1 }
++            selected_topics.push(itm);
++            i += 1;
++        }
++        this.params.selected_topics = selected_topics;
++    }
++
++    undo() {
++        let command = this.undo_list.pop();
++        switch (command.what) {
++            case "topics":
++                this.doc_topics = command.photo_topics.slice(0);
++                this.curr_info.doc_topics = this.doc_topics.slice(0);
++                this.init_selected_topics();
++                this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
++                break;
++            case "doc-date":
++                this.curr_info.doc_date_str = this.doc_date_str = command.doc_date.doc_date_str;
++                this.doc_date_datespan = command.doc_date.doc_date_datespan;
++                this.api.call_server_post('docs/update_doc_date',
++                    { doc_date_str: this.doc_date_str, doc_date_datespan: this.doc_date_datespan, doc_id: this.doc_id });
++                break;
++        }
++    }
++
++    go_back() {
++        if (this.caller == 'docs')
++            this.router.navigateToRoute('docs'); //strange bug causes it to go prev until the first
++        else {
++            this.router.navigateBack();
++            if (this.caller == 'member')
++                this.router.navigateBack();
++        }
++    }
++
++
++    @computedFrom('user.editing')
++    get user_editing() {
++        this.update_topic_list();
++        return this.user.editing;
++    }
++
++    @computedFrom('doc_topics')
++    get topic_names() {
++        if (!this.doc_topics) return "";
++        let topic_name_list = this.doc_topics.map(itm => itm.name);
++        return topic_name_list.join(';');
++    }
++
++    @computedFrom('story_about', 'story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
++    get highlightedHtml() {
++        if (!this.story_about) {
++            return "";
++        }
++        let highlighted_html = highlight(this.story_about.story_text, this.keywords, this.advanced_search);
++        return highlighted_html;
++    }
++
++    toggle_highlight_on() {
++        if (this.highlight_on) {
++            this.highlight_on = ""
++        } else {
++            this.highlight_on = "highlight-on"
++        }
++        document.getElementById("word-highlighter").blur();
++    }
++
++    doc_idx() {
++        return this.doc_ids.findIndex(pid => pid == this.doc_id);
++    }
++
++    public has_next(step) {
++        let idx = this.doc_idx();
++        return 0 <= (idx + step) && (idx + step) < this.doc_ids.length;
++    }
++
++    @computedFrom('doc_id')
++    get prev_class() {
++        if (this.has_next(-1)) return '';
++        return 'disabled'
++    }
++
++    @computedFrom('doc_id')
++    get next_class() {
++        if (this.has_next(+1)) return '';
++        return 'disabled'
++    }
++    get_doc_by_idx(idx) {
++        let did = this.doc_ids[idx];
++        this.get_doc_info(did);
++    }
++
++    public go_next(event) {
++        event.stopPropagation();
++        let idx = this.doc_idx();
++        if (idx + 1 < this.doc_ids.length) {
++            this.get_doc_by_idx(idx + 1);
++            this.can_go_forward = idx + 2 < this.doc_ids.length;
++            this.can_go_backward = true;
++        }
++    }
++
++    public go_prev(event) {
++        event.stopPropagation();
++        let idx = this.doc_idx();
++        if (idx > 0) {
++            this.get_doc_by_idx(idx - 1)
++            this.can_go_forward = true;
++            this.can_go_backward = idx > 1;
++        }
++    }
++
++    create_chatroom() {
++        this.api.call_server_post('chats/add_chatroom', { story_id: this.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
++            .then((data) => {
++                this.chatroom_id = data.chatroom_id;
++            });
++    }
++
++    chatroom_deleted(event) {
++        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story_id });
++    }
++
++
++    select_doc_members() {
++        this.theme.hide_title = true;
++        let member_ids = this.members.map(member => member.id)
++        this.dialog.open({
++            viewModel: MemberPicker,
++            model: { multi: true, back_to_text: 'members.back-to-video', preselected: member_ids },
++            lock: false,
++            rejectOnCancel: false
++        }).whenClosed(response => {
++            this.theme.hide_title = false;
++            if (response.wasCancelled) return;
++            member_ids = Array.from(response.output.member_ids);
++            this.api.call_server_post('docs/update_doc_members', {
++                doc_id: this.doc_id,
++                member_ids: member_ids
++            }).then(response => {
++                this.members = response.members;
++            });
++        });
++    }
++
++    async makeFullScreen() {
++        let el = document.getElementById("doc-frame");
++        if (el.requestFullscreen) {
++            el.requestFullscreen();
++        } else {
++            console.log("Fullscreen API is not supported");
++        }
++    }
++
+ }
+\ No newline at end of file
+diff --git a/src/docs/docs.html b/src/docs/docs.html
+index 79402b0..78f465b 100644
+--- a/src/docs/docs.html
++++ b/src/docs/docs.html
+@@ -64,7 +64,7 @@
+                                 </div>
+                                 <div style="width:100%;">
+                                     <div style="margin-bottom: 10px;width:100%;" class="story-preview ${theme.rtltr}">
+-                                        <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, has_details: false}"
++                                        <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, has_details: true}"
+                                             story.bind="doc.story" change.delegate="toggle_selection(doc, $event, $index)"
+                                             view_details.delegate="view_details(doc, $event)"
+                                             info_title.bind="doc.name" info_content.bind="doc.keywords"
+diff --git a/src/docs/docs.ts b/src/docs/docs.ts
+index 4875c5d..22a2b6f 100644
+--- a/src/docs/docs.ts
++++ b/src/docs/docs.ts
+@@ -162,6 +162,7 @@ export class Docs {
+     detached() {
+         this.theme.display_header_background = false;
+         this.theme.page_title = "";
++        //this.scroll_top = this.scroll_area.scrollTop;
+     }
+ 
+     upload_files() {
+@@ -204,7 +205,7 @@ export class Docs {
+                         console.log("doc has no story: ", doc);
+                     }
+                 }
+-                this.scroll_top = 0;
++                //this.scroll_top = 0;
+             });
+     }
+ 
+@@ -477,7 +478,9 @@ export class Docs {
+     }
+ 
+     view_details(doc, event) {
+-        console.log("view details of ", doc);
++        let doc_ids = this.doc_list.map(doc => doc.id);
++        this.scroll_top = this.scroll_area.scrollTop;
++        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs' });
+     }
+ 
+ }
+diff --git a/src/members/member-detail.html b/src/members/member-detail.html
+index 6238d27..6884b25 100644
+--- a/src/members/member-detail.html
++++ b/src/members/member-detail.html
+@@ -105,11 +105,11 @@
+                 </div>
+                 <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;"
+                      ref="life_summary_box1"
+-                    if.bind="story_0.story_text == '' && ! user.privileges.EDITOR && ! user.editing">
++                    if.bind="story_0 && story_0.story_text == '' && ! user.privileges.EDITOR && ! user.editing">
+                 </div>
+                 <div class="col-md-6 col-sm-12 fr-view life-summary has-life"
+                      ref="life_summary_box"
+-                     if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
++                     if.bind="(user.privileges.EDITOR || story_0 &&  story_0.story_text != '') && ! user.editing">
+                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
+                         ${'members.life-summary' & t} ${member_info.first_name}
+                     </h4>
+@@ -149,7 +149,8 @@
+                 show.bind="member.member_stories.length > 1 && ! (user.editing || life_summary_expanded)"
+                 css="margin-left:-28px;margin-right:0px;"
+                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
+-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 story-box" css="float:${theme.same_dir};height:${story_box_height}px;padding-right:8px;" click.trigger="goto_story_page(story_1)">
++                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 story-box" css="float:${theme.same_dir};height:${story_box_height}px;padding-right:8px;" 
++                    click.trigger="goto_story_page(story_1)">
+                     <div class="member-story-header" show.bind="story_1.story_text != ''" aubs-tooltip="text.bind:to_story_page" >
+                         <h4  ${story_1.dir}>
+                             <span class="name" innerhtml.bind="story_1.name"></span>
+@@ -207,6 +208,6 @@
+         </div>
+     </div>
+     <div show.bind="false">
+-        ${stories_base}
++        ${stories_base_changed}
+     </div>
+ </template>
+diff --git a/src/members/member-detail.ts b/src/members/member-detail.ts
+index 6b679cd..30eb123 100644
+--- a/src/members/member-detail.ts
++++ b/src/members/member-detail.ts
+@@ -62,6 +62,11 @@ export class MemberDetail {
+     photo_list_changes_pending = false;
+     biography_dir = "";
+     move_to;
++    story_0;
++    story_1;
++    story_2;
++    story_3;
++    story_4;
+ 
+     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
+                 router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
+@@ -138,6 +143,7 @@ export class MemberDetail {
+                 }
+                 this.api.hit('MEMBER', this.member.member_info.id);
+                 this.set_heights();
++                let x = this.stories_base_changed;
+             });
+     }
+ 
+@@ -307,28 +313,14 @@ export class MemberDetail {
+         }
+     }
+ 
+-    get story_0() {
+-        return this.story(0);
+-    }
+-
+-    @computedFrom("stories_base")
+-    get story_1() {
+-        return this.story(1);
+-    }
+-
+-    @computedFrom("stories_base")
+-    get story_2() {
+-        return this.story(2);
+-    }
+-
+-    @computedFrom("stories_base")
+-    get story_3() {
+-        return this.story(3);
+-    }
+-
+     @computedFrom("stories_base")
+-    get story_4() {
+-        return this.story(4);
++    get stories_base_changed() {
++        this.story_0 = this.story(0);
++        this.story_1 = this.story(1);
++        this.story_2 = this.story(2);
++        this.story_3 = this.story(3);
++        this.story_4 = this.story(4);
++        return false;
+     }
+ 
+     detach_photo_from_member(member_id, photo_id, slide_list) {
+@@ -376,6 +368,22 @@ export class MemberDetail {
+     goto_story_page(story) {
+         let what = story.used_for == this.api.constants.story_type.STORY4TERM ? 'term' : 'story';
+         this.router.navigateToRoute('story-detail', {id: story.story_id, what: what});
++        switch(story.used_for) {
++            case this.api.constants.story_type.STORY4TERM: 
++                this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'term'});
++                break;
++            case this.api.constants.story_type.STORY4EVENT: 
++                this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'story'});
++                break;
++            case this.api.constants.story_type.STORY4DOC:
++                this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'member' });
++                break;
++            case this.api.constants.story_type.STORY4VIDEO:
++                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: [], search_type: "", caller: 'member' });
++                break;
++            default:
++                console.log("Unsupported story type ", story.used_for);
++        }
+     }
+ 
+     on_height_change(event) {
+diff --git a/src/photos/full-size-photo.scss b/src/photos/full-size-photo.scss
+index 7fb6c9b..482613f 100644
+--- a/src/photos/full-size-photo.scss
++++ b/src/photos/full-size-photo.scss
+@@ -39,6 +39,7 @@ button.face:hover {
+     }
+     &.highlighter {
+         color: yellow;
++        margin-top:10px;
+     }
+     &.story {
+         color: white;
+diff --git a/src/photos/full-size-photo.ts b/src/photos/full-size-photo.ts
+index c9d856b..dd44681 100644
+--- a/src/photos/full-size-photo.ts
++++ b/src/photos/full-size-photo.ts
+@@ -689,10 +689,10 @@ export class FullSizePhoto {
+         event.stopPropagation();
+         let card_url;
+         let img_src = this.slide[this.slide.side].src;
+-        console.log("img_src before: ", img_src)
+         await this.api.call_server_post('photos/get_padded_photo_url', {photo_url: img_src})
+             .then(response => img_src = response.padded_photo_url);
+-        console.log("img_src after: ", img_src);
++        let img_elem = document.createElement('img');
++        await this.loadImage(img_src, img_elem);
+         let title = this.i18n.tr('app-title');
+         let description = this.photo_info.name;
+         let url = `${location.pathname}${location.hash}`;
+@@ -711,11 +711,20 @@ export class FullSizePhoto {
+                 card_url = response.card_url;
+                 copy_to_clipboard(card_url);
+             });
+-        await sleep(100);  //black magic attempt to solve a mystery: does not always work on first time
+         let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
+-        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
++        await this.loadImage(img_src, img_elem);  //black magic...
++        let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+     }
+ 
++    async loadImage(url, elem) {
++        return new Promise((resolve, reject) => {
++          elem.onload = () => resolve(elem);
++          elem.onerror = reject;
++          elem.src = url;
++        });
++      }
++      
++
+     toggle_people_articles(event) {
+         event.stopPropagation();
+         this.marking_articles = !this.marking_articles;
+diff --git a/src/photos/photo-detail.html b/src/photos/photo-detail.html
+index 8e124a2..6088e65 100644
+--- a/src/photos/photo-detail.html
++++ b/src/photos/photo-detail.html
+@@ -22,7 +22,7 @@
+             </button>
+         </div>
+         <div class="row">
+-            <div class="col-md-7" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
++            <div class="col-md-7" style="display:flex;flex-direction:column;margin-top:16px;padding-left:0;" id="photo-box">
+                 <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" />
+                 <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
+                     <span>
+diff --git a/src/photos/photo-detail.ts b/src/photos/photo-detail.ts
+index 8e1bc2d..5f18bab 100644
+--- a/src/photos/photo-detail.ts
++++ b/src/photos/photo-detail.ts
+@@ -50,8 +50,8 @@ export class PhotoDetail {
+     photo_topics;
+     params = {
+         selected_topics: [],
+-        selected_photographers: [],
+-        photo_ids: []
++        selected_photographers: []//,
++        //photo_ids: []
+     };
+     photo_id_rec = {photo_id: 0};
+     photo_ids = [];
+diff --git a/src/photos/photos.ts b/src/photos/photos.ts
+index d8b5c6d..d3d8b28 100644
+--- a/src/photos/photos.ts
++++ b/src/photos/photos.ts
+@@ -614,7 +614,7 @@ export class Photos {
+         this.options_settings.update({
+             mergeable: result != "applying-to-photos",
+             name_editable: result == "photos-ready-to-edit",
+-            can_add: result == "photos-ready-to-edit",
++            can_add: this.user.editing, //result == "photos-ready-to-edit",
+             can_set_sign: result == "photos-ready-to-edit" || result == "applying-to-photos",
+             can_delete: result == "photos-ready-to-edit",
+             hide_higher_options: this.selected_photos.size > 0 && this.user.editing,
+diff --git a/src/photos/upload-photos.html b/src/photos/upload-photos.html
+index a088b9d..970accc 100644
+--- a/src/photos/upload-photos.html
++++ b/src/photos/upload-photos.html
+@@ -17,7 +17,7 @@
+                                     ${'photos.select-photos' & t}
+                                 </label>
+                                 <div>
+-                                    <input style="display:none" type="file" multiple id="photos" accept="image/*"
++                                    <input style="display:none" type="file" multiple id="photos" accept="image/jpeg,image/jpg,image/png,image/webp"
+                                         files.bind="photos">
+                                 </div>
+                             </div>
+diff --git a/src/resources/elements/date-range.html b/src/resources/elements/date-range.html
+index 412d106..974bfa2 100644
+--- a/src/resources/elements/date-range.html
++++ b/src/resources/elements/date-range.html
+@@ -5,16 +5,16 @@
+ 
+         <div if.bind="user.editing" class="form-group" style="margin-right:0px;width:61px;float:left;top:0;left:0;">
+             <input type="text" value.bind="base_date_str" maxlength="10" title.bind="hint"
+-                style="width:70px;padding-left:2px;padding-right:0;direction:ltr;margin-right:-8px;"
++                style="width:80px;padding-left:2px;padding-right:0;direction:ltr;margin-right:-20px;"
+                 class.bind="is_valid"
+                 change.trigger="base_date_changed($event)" keypress.trigger="keep_only_good_chars($event)" />
+         </div>
+-        <div class="form-group" if.bind="show_edit_end_date" style="margin-right:0px;float:left;top:0;">
+-            <span style="margin-left:9px;">-</span>
++        <div class="form-group" if.bind="show_edit_end_date" style="margin-right:0px;float:left;padding-top:2px;">
++            <span style="margin-left:20px;">-</span>
+         </div>
+ 
+         <div if.bind="show_edit_end_date" class="form-group" style="margin-right:0px;top:0;left:87px;float:left; ">
+-            <select value.bind="span_size" style="height:1.8em;color:black;width:80px;"
++            <select value.bind="span_size" style="height:1.8em;color:black;width:90px;"
+                 change.delegate="span_size_changed($event)">
+                 <option repeat.for="option of end_date_options" model.bind="option.value">${option.name}</option>
+             </select>
+diff --git a/src/resources/elements/multi-select/multi-select.html b/src/resources/elements/multi-select/multi-select.html
+index bd1dd62..76491c3 100644
+--- a/src/resources/elements/multi-select/multi-select.html
++++ b/src/resources/elements/multi-select/multi-select.html
+@@ -35,7 +35,7 @@
+                                 click.delegate="move_item(item, $index)">
+                             </i>
+                         </div>
+-                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;"
++                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;"  contextmenu.delegate="edit_option_dialog(item.option, $event)"
+                             class.bind="'option-kind-' + item.option.topic_kind">${item.option.name}</span>
+                         <input type="text" if.bind="item.editing" value.bind="item.option.name"
+                             change.delegate="name_changed(item, $event)" style="width:55%">
+diff --git a/src/resources/elements/multi-select/multi-select.ts b/src/resources/elements/multi-select/multi-select.ts
+index 80ddcd4..3474421 100644
+--- a/src/resources/elements/multi-select/multi-select.ts
++++ b/src/resources/elements/multi-select/multi-select.ts
+@@ -437,6 +437,7 @@ export class MultiSelectCustomElement {
+         event.stopPropagation();
+         if (! this.category) return false;
+         if (! this.user.privileges.ADMIN) return false;
++        if (! this.user.editing) return false;
+         this.dialog.open({
+             viewModel: EditTopic, model: { topic: option, can_delete: this.can_delete, category: this.category }, lock: true
+         }).whenClosed(result => {
+diff --git a/src/resources/elements/photo-strip.ts b/src/resources/elements/photo-strip.ts
+index 4d35b9f..e3f5e3c 100644
+--- a/src/resources/elements/photo-strip.ts
++++ b/src/resources/elements/photo-strip.ts
+@@ -40,7 +40,7 @@ export class PhotoStripCustomElement {
+         this.misc = misc;
+     }
+ 
+-    ready(what) {
++    async ready(what) {
+         if (!this) {
+             return;
+         }
+@@ -54,18 +54,21 @@ export class PhotoStripCustomElement {
+                 }
+             }
+             this.source.then(result => {
+-                this.slides = result.photo_list;
+-                for (let slide of this.slides) {
++                let slides = result.photo_list;
++                for (let slide of slides) {
+                     if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
+                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
+                     }
+                 }
++                this.start_slide_show(slides);
++                //this.misc.cache_images(slides);
+                 if (this.calculate_widths()) {
+                 	this.prev_id = this.id;
+                 }
+                 //this.shift_photos(0);
+             });
+ 
++            //await this.misc.sleep(2000);
+             let n = this.settings.slide_show;
+             if (n && !this.slideShow) {
+                 this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
+@@ -74,6 +77,13 @@ export class PhotoStripCustomElement {
+         }
+     }
+ 
++    async start_slide_show(slides) {
++        let n = this.calculate_covering_count(slides);
++        this.slides = slides.slice(0, n);
++        await this.misc.sleep(2000);
++        this.slides = slides;
++    }
++
+     attached() {
+         const elementRect = this.element.getBoundingClientRect();
+         const left = elementRect.left + window.scrollX;
+@@ -237,6 +247,25 @@ export class PhotoStripCustomElement {
+         return true;
+     }
+ 
++    calculate_covering_count(slides) {
++        let container_width = this.theme.width;
++        let width = 0;
++        let n = 0;
++        for (let slide of slides) {
++            n += 1;
++            if (!slide) {
++                continue;
++            }
++
++            let r = this.height / slide.height;
++            let w = Math.round(r * slide.width);
++            width += w;
++            if (width > container_width) return n;
++        }
++        return n;
++    }
++
++
+     get show_arrows() {
+         return this.element.clientWidth < this.slideList.clientWidth;
+     }
+diff --git a/src/services/misc.ts b/src/services/misc.ts
+index 27cae0f..f42923c 100644
+--- a/src/services/misc.ts
++++ b/src/services/misc.ts
+@@ -1,6 +1,6 @@
+-import {autoinject, noView, singleton} from "aurelia-framework";
+-import {MemberGateway} from "./gateway";
+-import {I18N} from 'aurelia-i18n';
++import { autoinject, noView, singleton } from "aurelia-framework";
++import { MemberGateway } from "./gateway";
++import { I18N } from 'aurelia-i18n';
+ 
+ @autoinject()
+ @singleton()
+@@ -88,7 +88,7 @@ export class Misc {
+     make_selection(section, option_names) {
+         let result = [];
+         for (let opt of option_names) {
+-            let option = {value: opt, name: this.i18n.tr(section + '.' + opt)};
++            let option = { value: opt, name: this.i18n.tr(section + '.' + opt) };
+             result.push(option)
+         }
+         return result;
+@@ -196,7 +196,7 @@ export class Misc {
+ 
+     }
+ 
+-    crc32FromArrayBuffer(data, crc=0) {
++    crc32FromArrayBuffer(data, crc = 0) {
+         const poly = 0xEDB88320;
+         const lookup = new Uint32Array(256);
+         lookup.forEach((_, i, self) => {
+@@ -211,11 +211,11 @@ export class Misc {
+         });
+         crc = crc ? crc : 0xffffffff;
+         const input = Uint8Array.from(data);
+-        for (let i=0; i < input.byteLength; i++) {
++        for (let i = 0; i < input.byteLength; i++) {
+             let x = input[i];
+             crc = lookup[(x ^ crc) & 0xff] ^ (crc >>> 8);
+         }
+-        return -1 -crc;
++        return -1 - crc;
+     }
+ 
+     save(keys: any[], value: any) {
+@@ -223,7 +223,7 @@ export class Misc {
+         let key = keys[keys.length - 1]
+         keys.slice(keys.length - 1)
+         for (let k of keys) {
+-            if (! obj[k]) {
++            if (!obj[k]) {
+                 obj[k] = {}
+             }
+             obj = obj[k];
+@@ -243,5 +243,30 @@ export class Misc {
+         return obj[key];
+     }
+ 
++    loadImage(url, elem) {
++        return new Promise((resolve, reject) => {
++            elem.onload = () => resolve(elem);
++            elem.onerror = reject;
++            elem.src = url;
++        });
++    }
++
++    async cache_image(url) {
++        let img_elem = document.createElement('img');
++        await this.loadImage(url, img_elem);
++    }
++
++    cache_images(image_list) {
++        let n = image_list.length;
++        for (let image of image_list) {
++            let img_elem = document.createElement('img');
++            this.loadImage(image.src, img_elem)
++                .then(() => {
++                    n -= 1;
++                    if (n == 0) return;
++                });
++        }
++    }
++
+ }
+ 
+diff --git a/src/stories/stories.html b/src/stories/stories.html
+index 883ef3b..2063fa3 100644
+--- a/src/stories/stories.html
++++ b/src/stories/stories.html
+@@ -108,8 +108,9 @@
+                                         </audio>
+                                     </div>
+                                     <editable
+-                                        settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, confirmable: params.approval_state.id==2 }"
++                                        settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, confirmable: params.approval_state.id==2, has_details: used_for==9 }"
+                                         story.bind="story"
++                                        view_details.delegate="view_details(story, $event)"
+                                         change.delegate="toggle_story_selection(story, $event, $index)"
+                                         confirm.delegate="approve_story(story, $event)"
+                                         info_title.bind="story.name" info_content.bind="story.topics"
+diff --git a/src/stories/stories.ts b/src/stories/stories.ts
+index 43c7fef..d8eb655 100644
+--- a/src/stories/stories.ts
++++ b/src/stories/stories.ts
+@@ -446,6 +446,13 @@ export class Stories {
+         }
+     }
+ 
++    view_details(story, event) {
++        let doc_ids = []; //this.doc_list.map(doc => doc.id);
++        this.scroll_top = this.scroll_area.scrollTop;
++        this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: doc_ids, keywords: this.keywords, caller: 'stories' });
++    }
++
++
+     private openDialog(doc_url) {
+         this.dialog.open({ viewModel: DocPage, model: { doc_src: doc_url }, lock: false, keyboard: ['Enter', 'Escape'] })
+             .whenClosed(response => {
+@@ -809,7 +816,7 @@ export class Stories {
+         let story_list = this.story_list.filter(story => story.used_for == story.used_for)
+         story_list = this.story_list.map(story => story.story_id);
+         story_list = story_list.slice(0, 100);
+-        this.router.navigateToRoute('approve-story', { id: story.story_id, what: 'story' ,story_list: story_list });
++        this.router.navigateToRoute('approve-story', { id: story.story_id, what: 'story', story_list: story_list });
+     }
+ 
+     show_filters_only() {
+diff --git a/src/videos/annotate-video.ts b/src/videos/annotate-video.ts
+index 8680bce..98fff81 100644
+--- a/src/videos/annotate-video.ts
++++ b/src/videos/annotate-video.ts
+@@ -83,6 +83,7 @@ export class AnnotateVideo {
+     };
+     video_date_valid = '';
+     highlight_on= "highlight-on";
++    caller;
+ 
+     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc,
+                 dialog: DialogService, router: Router, ea: EventAggregator, ytKeeper: YtKeeper) {
+@@ -119,6 +120,7 @@ export class AnnotateVideo {
+         this.keywords = params.keywords;
+         this.advanced_search = params.search_type == 'advanced';
+         this.video_id = params.video_id;
++        this.caller = params.caller;
+         if (params.what != 'story') {
+             this.video_name = params.video_name;
+             this.video_src = params.video_src;
+@@ -321,6 +323,8 @@ export class AnnotateVideo {
+             window.close();
+         } else {
+            this.router.navigateBack(); 
++           if (this.caller == 'member')
++                this.router.navigateBack(); 
+         }
+     }
+ 
+@@ -331,7 +335,6 @@ export class AnnotateVideo {
+         this.video_topics = topics;
+         this.undo_list.push({what: 'topics', video_topics: this.curr_info.video_topics});
+         this.curr_info.video_topics = topics.slice(0);
+-        console.log("handle topic change. story_id/story_topics/used4: ", this.video_story.story_id, this.video_topics, this.api.constants) //.story_type.STORY4VIDEO)
+         this.api.call_server_post('members/apply_topics_to_story', {
+             story_id: this.video_story.story_id,
+             story_topics: this.video_topics,
+@@ -358,7 +361,6 @@ export class AnnotateVideo {
+         });
+         this.curr_info.video_date_str = this.video_date_str.slice(0);
+         this.curr_info.video_date_datespan = this.video_date_datespan;
+-        console.log("update video date. event: ", event);
+         this.api.call_server_post('videos/update_video_date',
+             {
+                 video_date_str: event.date_str, video_date_datespan: event.date_span,
