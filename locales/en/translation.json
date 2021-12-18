@@ -728,6 +728,7 @@
     "abcde": "Abcde",
     "a": "A",
     "update": "update",
+    "continue": "Continue",
     "date-hint": "Enter year, month/year or full date",
     "please-update-head": "The system has been updated<br>",
     "please-update-body": "<p>The page will refresh now.<br><p> ",
