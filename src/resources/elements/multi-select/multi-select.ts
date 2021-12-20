@@ -99,6 +99,7 @@ export class MultiSelectCustomElement {
         sub_options = this.misc.deepClone(sub_options);
         let idx = this.options.findIndex(item => (item.name == option.name) && (item.level == option.level));
         let level = option.level ? option.level + 1 : 1;
+        sub_options = sub_options.filter(opt => Boolean(opt)); //irrelevant options must be filtered out
         for (let opt of sub_options) {
             opt.level = level;
             opt.parent = option.id
@@ -398,9 +399,9 @@ export class MultiSelectCustomElement {
         return this.settings.can_set_sign;
     }
 
-    @computedFrom('settings.can_add', 'filter_size', 'selected_options', 'filter')
+    @computedFrom('settings.can_add', 'filter_size', 'filter')
     get can_add() {
-        return this.settings.can_add && this.filter_size == 0 && this.selected_options.length == 0 && this.filter;
+        return this.settings.can_add && this.filter_size == 0 && this.filter;
     }
 
     @computedFrom('settings.can_delete')
