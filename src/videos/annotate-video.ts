@@ -323,8 +323,6 @@ export class AnnotateVideo {
             window.close();
         } else {
            this.router.navigateBack(); 
-           if (this.caller == 'member')
-                this.router.navigateBack(); 
         }
     }
 
