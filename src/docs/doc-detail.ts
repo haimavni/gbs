@@ -191,8 +191,6 @@ export class DocDetail {
             this.router.navigateToRoute('docs'); //strange bug causes it to go prev until the first
         else {
             this.router.navigateBack();
-            if (this.caller == 'member')
-                this.router.navigateBack();
         }
     }
 

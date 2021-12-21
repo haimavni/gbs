@@ -377,7 +377,6 @@ export class MemberDetail {
 
     goto_story_page(story) {
         let what = story.used_for == this.api.constants.story_type.STORY4TERM ? 'term' : 'story';
-        this.router.navigateToRoute('story-detail', {id: story.story_id, what: what});
         switch(story.used_for) {
             case this.api.constants.story_type.STORY4TERM: 
                 this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'term'});
