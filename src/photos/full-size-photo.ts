@@ -1,16 +1,16 @@
-import {MemberGateway} from '../services/gateway';
-import {Router} from 'aurelia-router';
-import {DialogController, DialogService} from 'aurelia-dialog';
-import {autoinject, computedFrom} from 'aurelia-framework';
-import {User} from "../services/user";
-import {Theme} from "../services/theme";
-import {MemberPicker} from "../members/member-picker";
-import {ArticlePicker} from "../articles/article-picker";
+import { MemberGateway } from '../services/gateway';
+import { Router } from 'aurelia-router';
+import { DialogController, DialogService } from 'aurelia-dialog';
+import { autoinject, computedFrom } from 'aurelia-framework';
+import { User } from "../services/user";
+import { Theme } from "../services/theme";
+import { MemberPicker } from "../members/member-picker";
+import { ArticlePicker } from "../articles/article-picker";
 import environment from "../environment";
-import {EventAggregator} from 'aurelia-event-aggregator';
-import {copy_to_clipboard} from "../services/dom_utils";
-import {I18N} from 'aurelia-i18n';
-import {FaceInfo} from './face-info';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { copy_to_clipboard } from "../services/dom_utils";
+import { I18N } from 'aurelia-i18n';
+import { FaceInfo } from './face-info';
 import * as toastr from 'toastr';
 import { Popup } from '../services/popups';
 
@@ -35,7 +35,7 @@ export class FullSizePhoto {
     curr_photo_id;
     slide_list = [];
     slide_index = 0;
-    photo_info = {name: "", photo_date_str: "", photo_date_datespan: 0, photographer: "", photographer_known: true};
+    photo_info = { name: "", photo_date_str: "", photo_date_datespan: 0, photographer: "", photographer_known: true };
     router;
     highlighting = false;
     eventAggregator;
@@ -80,18 +80,18 @@ export class FullSizePhoto {
     image_height = 0;
     image_width = 0;
     keypress_handler;
-    photo_id_rec = {photo_id: 0};
+    photo_id_rec = { photo_id: 0 };
     popup: Popup;
 
     constructor(dialogController: DialogController,
-                dialogService: DialogService,
-                api: MemberGateway,
-                user: User,
-                theme: Theme,
-                router: Router,
-                eventAggregator: EventAggregator,
-                i18n: I18N,
-                popup: Popup) {
+        dialogService: DialogService,
+        api: MemberGateway,
+        user: User,
+        theme: Theme,
+        router: Router,
+        eventAggregator: EventAggregator,
+        i18n: I18N,
+        popup: Popup) {
         this.dialogController = dialogController;
         this.dialogService = dialogService;
         this.api = api;
@@ -177,7 +177,7 @@ export class FullSizePhoto {
     get_faces(photo_id) {
         this.faces = [];
         this.faces_already_identified = new Set();
-        this.api.call_server('photos/get_faces', {photo_id: photo_id})
+        this.api.call_server('photos/get_faces', { photo_id: photo_id })
             .then((data) => {
                 this.faces = data.faces;
                 for (let face of this.faces) {
@@ -190,7 +190,7 @@ export class FullSizePhoto {
 
     get_articles(photo_id) {
         this.articles = [];
-        this.api.call_server('photos/get_articles', {photo_id: photo_id})
+        this.api.call_server('photos/get_articles', { photo_id: photo_id })
             .then((data) => {
                 this.articles = data.articles;
                 for (let article of this.articles) {
@@ -201,7 +201,7 @@ export class FullSizePhoto {
     }
 
     get_photo_info(photo_id) {
-        this.api.call_server('photos/get_photo_info', {photo_id: photo_id})
+        this.api.call_server('photos/get_photo_info', { photo_id: photo_id })
             .then((data) => {
                 this.photo_info.name = data.name;
                 this.photo_info.photographer = data.photographer;
@@ -440,12 +440,12 @@ export class FullSizePhoto {
 
     private jump_to_member(member_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('member-details', {id: member_id, keywords: ""});
+        this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
     }
 
     private jump_to_article(article_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('article-details', {id: article_id, keywords: ""});
+        this.router.navigateToRoute('article-details', { id: article_id, keywords: "" });
     }
 
     mark_face(event) {
@@ -498,7 +498,7 @@ export class FullSizePhoto {
         }
         let el = document.getElementById('face-' + face.member_id);
         let rect = el.getBoundingClientRect();
-        let face_center = {x: rect.left + rect.width / 2, y: rect.top + rect.width / 2};
+        let face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
         let event = customEvent.detail;
         let x = event.pageX - face_center.x;
         let y = event.pageY - face_center.y;
@@ -506,13 +506,13 @@ export class FullSizePhoto {
         r = this.distance(event, face)
         face.action = (r < face.r - 10) ? "moving" : "resizing";
         face.dist = r;
-        this.current_face = {x: face.x, y: face.y, r: face.r, dist: face.dist, photo_id: face.photo_id};
+        this.current_face = { x: face.x, y: face.y, r: face.r, dist: face.dist, photo_id: face.photo_id };
     }
 
     distance(event, face) {
         let el = document.getElementById('face-' + face.member_id);
         let rect = el.getBoundingClientRect();
-        let face_center = {x: rect.left + rect.width / 2, y: rect.top + rect.width / 2};
+        let face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
         let x = event.pageX - face_center.x;
         let y = event.pageY - face_center.y;
         return Math.round(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)))
@@ -675,7 +675,7 @@ export class FullSizePhoto {
         event.stopPropagation();
         let rotate_clockwise: boolean = event.ctrlKey;
         let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
-        this.api.call_server('photos/rotate_selected_photos', {selected_photo_list: [photo_id], rotate_clockwise: rotate_clockwise})
+        this.api.call_server('photos/rotate_selected_photos', { selected_photo_list: [photo_id], rotate_clockwise: rotate_clockwise })
             .then(result => {
                 let angle = rotate_clockwise ? 270 : 90;
                 this.model.final_rotation += angle;
@@ -689,7 +689,7 @@ export class FullSizePhoto {
         event.stopPropagation();
         let card_url;
         let img_src = this.slide[this.slide.side].src;
-        await this.api.call_server_post('photos/get_padded_photo_url', {photo_url: img_src})
+        await this.api.call_server_post('photos/get_padded_photo_url', { photo_url: img_src })
             .then(response => img_src = response.padded_photo_url);
         let img_elem = document.createElement('img');
         await this.loadImage(img_src, img_elem);
@@ -708,24 +708,26 @@ export class FullSizePhoto {
                 current_url = base_url + response.shortcut;
             });
         await this.api.call_server_post('default/create_fb_card',
-            {img_src: img_src, url: current_url,  title: title, description: description})
+            { img_src: img_src, url: current_url, title: title, description: description })
             .then(response => {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
             });
-        let href=`https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        await this.loadImage(img_src, img_elem);  //black magic...
-        let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+        let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
+        this.loadImage(img_src, img_elem)
+            .then(() => {
+                let w: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
+            });
     }
 
     async loadImage(url, elem) {
         return new Promise((resolve, reject) => {
-          elem.onload = () => resolve(elem);
-          elem.onerror = reject;
-          elem.src = url;
+            elem.onload = () => resolve(elem);
+            elem.onerror = reject;
+            elem.src = url;
         });
-      }
-      
+    }
+
 
     toggle_people_articles(event) {
         event.stopPropagation();
@@ -735,7 +737,7 @@ export class FullSizePhoto {
     nobody(event) {
         event.stopPropagation();
         let unrecognize = event.ctrlKey;
-        this.api.call_server('photos/mark_as_recogized', {photo_id: this.slide[this.slide.side].photo_id, unrecognize: unrecognize});
+        this.api.call_server('photos/mark_as_recogized', { photo_id: this.slide[this.slide.side].photo_id, unrecognize: unrecognize });
     }
 
     slide_idx() {
@@ -766,7 +768,7 @@ export class FullSizePhoto {
         let pid = this.slide_list[idx];
         this.photo_id_rec.photo_id = pid;
         this.curr_photo_id = pid;
-        this.api.call_server('photos/get_photo_detail', {photo_id: pid})
+        this.api.call_server('photos/get_photo_detail', { photo_id: pid })
             .then(response => {
                 let p = this.slide[this.slide.side];
                 p.src = response.photo_src;
@@ -841,12 +843,12 @@ export class FullSizePhoto {
                     this.marking_face_active = false;
                     if (face.article_id) {
                         if (face.article_id > 0)
-                            this.api.call_server_post('photos/save_article', {face: face});
+                            this.api.call_server_post('photos/save_article', { face: face });
                         else
                             this.assign_article(face);
                     } else {
                         if (face.member_id > 0)
-                            this.api.call_server_post('photos/save_face', {face: face});
+                            this.api.call_server_post('photos/save_face', { face: face });
                         else
                             this.assign_member(face);
                     }
