@@ -694,6 +694,7 @@ export class FullSizePhoto {
         let img_elem = document.createElement('img');
         await this.loadImage(img_src, img_elem);
         console.log("shared image is: ", img_elem);
+        await sleep(1000);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
