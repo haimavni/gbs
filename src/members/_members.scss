@@ -220,6 +220,10 @@ ux-dialog-containerxxx {
             &.prev {
                 left: 0px;
             }
+            &.config {
+                left: 2px;
+                top: 40%;
+            }
         }
 
         .story-box {
