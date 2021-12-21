@@ -693,6 +693,7 @@ export class FullSizePhoto {
             .then(response => img_src = response.padded_photo_url);
         let img_elem = document.createElement('img');
         await this.loadImage(img_src, img_elem);
+        console.log("shared image is: ", img_elem);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
