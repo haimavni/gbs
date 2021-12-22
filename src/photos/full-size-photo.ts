@@ -718,7 +718,7 @@ export class FullSizePhoto {
 
     async share_on_facebook(event) {
         this.share_on_facebook1(event);
-        await sleep(3000);
+        await sleep(8000);
         this.share_on_facebook1(event);
     }
 
