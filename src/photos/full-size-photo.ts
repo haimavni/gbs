@@ -713,7 +713,7 @@ export class FullSizePhoto {
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         await this.loadImage(img_src, img_elem);
-        let win: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100", false);
+        let win: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
 
     async loadImage(url, elem) {
