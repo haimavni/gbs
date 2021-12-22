@@ -1,9 +1,9 @@
 export class Popup {
     popupWindows = {};
 
-    popup(key, url, params) {
+    popup(key, url, params, replace=true) {
         let hnd = this.popupWindows[key];
-        if (hnd) {
+        if (hnd && replace) {
             hnd.close();
         }
         let w = this.popupWindows[key] = window.open(url, '_blank', params);
