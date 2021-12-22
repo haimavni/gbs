@@ -692,7 +692,9 @@ export class FullSizePhoto {
         await this.api.call_server_post('photos/get_padded_photo_url', { photo_url: img_src })
             .then(response => img_src = response.padded_photo_url);
         let img_elem = document.createElement('img');
+        console.time("first-load-image");
         await this.loadImage(img_src, img_elem);
+        console.timeEnd("first-load-image");
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
@@ -710,11 +712,12 @@ export class FullSizePhoto {
             .then(response => {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
-                console.log("card_url ", card_url);
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
+        console.time("second-load-image");
         await this.loadImage(img_src, img_elem);
-        await sleep(12000);
+        console.time("second-load-image");
+        await sleep(2000);
         let win: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100", false);
         console.log("popup window: ", win);
     }
