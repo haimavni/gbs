@@ -710,10 +710,11 @@ export class FullSizePhoto {
             .then(response => {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
+                console.log("card_url ", card_url);
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         await this.loadImage(img_src, img_elem);
-        await sleep(2000);
+        await sleep(12000);
         let win: Window = this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100", false);
         console.log("popup window: ", win);
     }
