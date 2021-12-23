@@ -711,7 +711,7 @@ export class FullSizePhoto {
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         let width = this.theme.width;
-        let left = width - 526 - 100;
+        let left = width - 526 - 200;
         this.popup.popup('SHARER', href, `height=600,width=526,left=${left},top=100`);
     }
 
