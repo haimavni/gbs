@@ -710,7 +710,7 @@ export class FullSizePhoto {
                 copy_to_clipboard(card_url);
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        this.popup.popup('SHARER', href, "height=700,width=550,left=500,top=100");
+        this.popup.popup('SHARER', href, "height=600,width=526,left=550,top=100");
     }
 
 
