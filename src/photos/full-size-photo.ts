@@ -713,16 +713,16 @@ export class FullSizePhoto {
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         //await this.loadImage(img_src, img_elem);
-        this.popup.popup(pname, href, "height=600,width=800,left=200,top=100", false);
+        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100", false);
     }
 
-    async loadImage(url, elem) {
-        return new Promise((resolve, reject) => {
-            elem.onload = () => resolve(elem);
-            elem.onerror = reject;
-            elem.src = url;
-        });
-    }
+    // async loadImage(url, elem) {
+    //     return new Promise((resolve, reject) => {
+    //         elem.onload = () => resolve(elem);
+    //         elem.onerror = reject;
+    //         elem.src = url;
+    //     });
+    // }
 
 
     toggle_people_articles(event) {
