@@ -691,8 +691,6 @@ export class FullSizePhoto {
         let img_src = this.slide[this.slide.side].src;
         await this.api.call_server_post('photos/get_padded_photo_url', { photo_url: img_src })
             .then(response => img_src = response.padded_photo_url);
-        //let img_elem = document.createElement('img');
-        //await this.loadImage(img_src, img_elem);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
@@ -712,17 +710,8 @@ export class FullSizePhoto {
                 copy_to_clipboard(card_url);
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        //await this.loadImage(img_src, img_elem);
-        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100", false);
+        this.popup.popup('SHARER', href, "height=600,width=800,left=200,top=100");
     }
-
-    // async loadImage(url, elem) {
-    //     return new Promise((resolve, reject) => {
-    //         elem.onload = () => resolve(elem);
-    //         elem.onerror = reject;
-    //         elem.src = url;
-    //     });
-    // }
 
 
     toggle_people_articles(event) {
