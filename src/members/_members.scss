@@ -428,3 +428,15 @@ div.mandatory-missing {
     border: 1px solid red;
     border-radius: 5px;
 }
+
+ux-dialog.config-member-stories {
+    height:100%;
+    background-color:lightgray;
+    padding:10px;
+    &.rtl {
+        direction: rtl;
+    }
+    &.ltr {
+        direction: ltr;
+    }
+}

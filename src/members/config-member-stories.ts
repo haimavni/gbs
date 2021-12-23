@@ -1,6 +1,7 @@
 
 import {autoinject, computedFrom} from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
+import {Theme} from '../services/theme';
 
 @autoinject()
 export class ConfigMemberStories {
@@ -15,9 +16,11 @@ export class ConfigMemberStories {
     active_story_types = {};
     toggled = 0;
     active_types = {};
+    theme: Theme;
 
-    constructor(dialogController: DialogController) {
+    constructor(dialogController: DialogController, theme: Theme) {
         this.dialogController = dialogController;
+        this.theme = theme;
     }
 
     activate(model) {
