@@ -685,14 +685,14 @@ export class FullSizePhoto {
         return false;
     }
 
-    async share_on_facebook1(event, pname) {
+    async share_on_facebook(event) {
         event.stopPropagation();
         let card_url;
         let img_src = this.slide[this.slide.side].src;
         await this.api.call_server_post('photos/get_padded_photo_url', { photo_url: img_src })
             .then(response => img_src = response.padded_photo_url);
-        let img_elem = document.createElement('img');
-        await this.loadImage(img_src, img_elem);
+        //let img_elem = document.createElement('img');
+        //await this.loadImage(img_src, img_elem);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
         let url = `${location.pathname}${location.hash}`;
@@ -712,16 +712,8 @@ export class FullSizePhoto {
                 copy_to_clipboard(card_url);
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        await this.loadImage(img_src, img_elem);
+        //await this.loadImage(img_src, img_elem);
         this.popup.popup(pname, href, "height=600,width=800,left=200,top=100", false);
-    }
-
-    async share_on_facebook(event) {
-        console.log("first call to share")
-        this.share_on_facebook1(event, "SHARER");
-        await sleep(18000);
-        console.log("second call to share")
-        this.share_on_facebook1(event, "SHARER1");
     }
 
     async loadImage(url, elem) {
