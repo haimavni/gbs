@@ -42,3 +42,10 @@ div.member-story-panel {
     }
 }
 
+ux-dialog.config-member-stories {
+    width: 100vw;
+    > ux-dialog-body {
+        width: 100%;
+    }
+}
+

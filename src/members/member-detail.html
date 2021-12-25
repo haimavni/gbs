@@ -114,13 +114,13 @@
                         ${'members.life-summary' & t} ${member_info.first_name}
                     </h4>
                     <i class="fa fa-expand fa-lg"
-                        show.bind="theme.is_desktop && member.member_stories.length > 1 && !life_summary_expanded"
+                        show.bind="theme.is_desktop && member.member_stories.lst.length > 1 && !life_summary_expanded"
                         style="margin-left:32px;float:left;cursor:pointer;"
                         aubs-tooltip="text.bind:expand"
                         click.trigger="toggle_life_summary_size($event)">
                     </i>
                     <i class="fa fa-compress fa-lg"
-                        show.bind="member.member_stories.length > 1 && life_summary_expanded"
+                        show.bind="member.member_stories.lst.length > 1 && life_summary_expanded"
                         style="margin-left:32px;float:left;cursor:pointer;"
                         aubs-tooltip="text.bind:compress"
                         click.trigger="toggle_life_summary_size($event)">
@@ -146,6 +146,7 @@
             </div>
             <!--member stories panel-->
             <div id="stories" class="fr-view row ${theme.font-size} unselectable" ref="bottom_panel"
+                contextmenu.delegate="config_member_stories($event)"
                 show.bind="member.member_stories.length > 1 && ! (user.editing || life_summary_expanded)"
                 css="margin-left:-28px;margin-right:0px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
@@ -204,10 +205,13 @@
                 <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)">
                     <i class="fas fa-chevron-left fa-2x"></i>
                 </div>
+                <div class="slide-control config" click.delegate="config_member_stories($event)">
+                    <i class="fas fa-search fa-lg"></i>
+                </div>
             </div>
         </div>
     </div>
     <div show.bind="false">
-        ${stories_base}
+        ${stories_base_changed}
     </div>
 </template>

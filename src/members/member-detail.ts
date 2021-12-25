@@ -13,6 +13,7 @@ import {MemberEdit} from './member-edit';
 import environment from '../environment';
 import {MemberList} from '../services/member_list';
 import {highlight} from '../services/dom_utils';
+import {ConfigMemberStories} from '../members/config-member-stories';
 
 @autoinject()
 @singleton()
@@ -36,6 +37,7 @@ export class MemberDetail {
     top_height = 271;
     story_box_height = 260;
     stories_base = -1;
+    member_stories = {lst: [], changed: 0};
     life_summary;
     source;
     sub1;
@@ -97,7 +99,7 @@ export class MemberDetail {
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
-        let story = this.member.member_stories.find(itm => itm.story_id == story_id);
+        let story = this.member_stories.lst.find(itm => itm.story_id == story_id);
         if (story) {
             story.preview = data.story_data.preview;
             story.name = data.story_data.name;
@@ -136,7 +138,11 @@ export class MemberDetail {
         this.api.call_server_post('members/get_member_details', {member_id: params.id, what: params.what})
             .then(member => {
                 this.member = member;
-                let life_story = this.member.member_stories[0];
+                this.member_stories.lst = [];
+                for (let st of this.member.member_stories) {
+                    this.member_stories.lst.push(st)
+                }
+                let life_story = this.member_stories.lst[0];
                 if (life_story) {
                     this.biography_dir = this.theme.language_dir(life_story.language);
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
@@ -239,7 +245,7 @@ export class MemberDetail {
     next_story(event, dir = 1) {
         event.stopPropagation();
         this.stories_base += dir;
-        let n = this.member.member_stories.length - 1;
+        let n = this.member_stories.lst.length - 1;
         this.stories_base = (this.stories_base + n - 1) % n + 1;
     }
 
@@ -281,7 +287,7 @@ export class MemberDetail {
     get stories_scroll() {
         if (!this.member) return false;
         let nd = this.num_displayed_stories() + 1;
-        let ns = this.member.member_stories.length;
+        let ns = this.member_stories.lst.length;
         return nd < ns;
     }
 
@@ -290,7 +296,7 @@ export class MemberDetail {
         if (!this.member) return empty_story;
         if (this.stories_base < 0)
             this.stories_base = 0;
-        let n = this.member.member_stories.length;
+        let n = this.member_stories.lst.length;
         let i;
         let N = this.num_displayed_stories();
         if (n <= N + 1) {
@@ -304,7 +310,7 @@ export class MemberDetail {
             i = (n + this.stories_base + idx) % (n - 1) + 1;
         }
         if (i < n) {
-            let rec = this.member.member_stories[i];
+            let rec = this.member_stories.lst[i];
             rec.name = rec.name ? rec.name : ""
             rec.dir = this.theme.language_dir(rec.language);
             return rec
@@ -313,12 +319,12 @@ export class MemberDetail {
         }
     }
 
-    get story_00() {
-        return this.story(0);
-    }
-
-    @computedFrom("stories_base")
+    @computedFrom("stories_base", "member_stories.changed")
     get stories_base_changed() {
+        if (this.member_stories.changed) {
+            this.member_stories.changed = 0;
+            this.stories_base = -1;
+        }
         this.story_0 = this.story(0);
         this.story_1 = this.story(1);
         this.story_2 = this.story(2);
@@ -371,7 +377,6 @@ export class MemberDetail {
 
     goto_story_page(story) {
         let what = story.used_for == this.api.constants.story_type.STORY4TERM ? 'term' : 'story';
-        this.router.navigateToRoute('story-detail', {id: story.story_id, what: what});
         switch(story.used_for) {
             case this.api.constants.story_type.STORY4TERM: 
                 this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'term'});
@@ -380,10 +385,10 @@ export class MemberDetail {
                 this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'story'});
                 break;
             case this.api.constants.story_type.STORY4DOC:
-                this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'back' });
+                this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'member' });
                 break;
             case this.api.constants.story_type.STORY4VIDEO:
-                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: [], search_type: "" });
+                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: [], search_type: "", caller: 'member' });
                 break;
             default:
                 console.log("Unsupported story type ", story.used_for);
@@ -439,7 +444,7 @@ export class MemberDetail {
         }
         let panel_height = this.theme.height - ps_offset - ps_height - footer_height;
         panel_height = Math.max(panel_height, 544);
-        let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
+        let no_member_stories = this.member ? this.member_stories.lst.length < 2 : false;
         if (this.theme.is_desktop) {
             let n = no_member_stories ? 4 : 5;
             //this.member_detail_panel.style.height = `${panel_height - n}px`;
@@ -452,7 +457,7 @@ export class MemberDetail {
         }
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
-            let n = (this.member.member_stories.length > 1) ? 5 : 100;
+            let n = (this.member_stories.lst.length > 1) ? 5 : 100;
             this.top_panel.style.height = `${tph - n}px`;
             this.bottom_panel.style.height = `${bph}px`;
             this.bottom_panel.style.width = '1166px';
@@ -495,6 +500,18 @@ export class MemberDetail {
             this.highlight_on = "highlight-on"
         }
         document.getElementById("word-highlighter").blur();
+    }
+
+    config_member_stories(event) {
+        event.stopPropagation();
+        document.body.classList.add('black-overlay');
+        this.dialog.open({
+            viewModel: ConfigMemberStories,
+            model: {member_stories: this.member_stories, all_member_stories: this.member.member_stories},
+            lock: true
+        }).whenClosed(response => {
+            document.body.classList.remove('black-overlay');
+        });
     }
 
 }

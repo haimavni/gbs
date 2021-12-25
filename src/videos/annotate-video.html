@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div if.bind="user.editing" style="width:500px;margin-top:17px;">
+                <div if.bind="user.editing" style="width:calc(100%-16px);margin-top:17px;">
                     <editable style="background-color:beige;margin-bottom:12px;margin-left:12px;"
                               settings.bind="{show_date:false, class:'story-section', checkable: false}"
                               story.bind="video_story">
