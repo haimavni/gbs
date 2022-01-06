@@ -106,7 +106,7 @@ export class PhotoDetail {
 
     async activate(params, config) {
         this.keywords = params.keywords;
-        this.photo_ids = params.photo_ids;
+        this.photo_ids = params.photo_ids.slice(100);
         this.advanced_search = params.search_type == 'advanced';
         this.what = params.what ? params.what : "";
         await this.update_topic_list();
