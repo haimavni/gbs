@@ -128,7 +128,7 @@ export class FullSizePhoto {
         model.final_rotation = 0;
         this.slide = model.slide;
         this.slide_list = model.slide_list || [];
-        this.slide_list = this.slide_list.slice(100);  //to prevent gateway error 502 when sharing
+        //this.slide_list = this.slide_list.slice(100);  //to prevent gateway error 502 when sharing
         this.settings = model.settings || {};
         this.list_of_ids = model.list_of_ids;
         this.photo_id_rec = model.photo_id_rec;
