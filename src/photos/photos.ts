@@ -375,8 +375,9 @@ export class Photos {
             //this.openDialog(slide);
             let photo_ids = this.photo_list.map(photo => photo.photo_id);
             let idx = photo_ids.findIndex(pi => pi == this.curr_photo_id);
-            let i0 = Math.max(0, idx - 100);
-            photo_ids = photo_ids.slice(i0, i0+200); //to prevent server errors such as "invalid gateway"
+            let n = 60;
+            let i0 = Math.max(0, idx - n);
+            photo_ids = photo_ids.slice(i0, i0+2*n); //to prevent server errors such as "invalid gateway"
             this.router.navigateToRoute('photo-detail', {
                 id: slide.photo_id,
                 keywords: "",
