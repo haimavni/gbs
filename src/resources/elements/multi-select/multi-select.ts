@@ -22,6 +22,7 @@ export class MultiSelectSettings {
     help_topic = 'search-input';
     to_show_untagged = false;
     single = false;
+    start_open = false;
 
     constructor(obj) {
         this.update(obj);
@@ -129,9 +130,11 @@ export class MultiSelectCustomElement {
         }
         this.to_show_untagged = false;
         let g;
+        let b = false;
         if (this.user.editing && option.topic_kind == 0) {  //ready to add sub topics to new topic
             g = 1;
             this.open_group = 2;
+            b = true;
         } else if (this.group_selected) {
             g = 2;  // add it to the sub options
         } else {
@@ -139,6 +142,7 @@ export class MultiSelectCustomElement {
         }
         option.sign = 'plus';
         let item = { option: option, group_number: g };
+        if (this.settings.start_open && this.selected_options.length == 0  && ! b) this.open_group = 1;
         this.selected_options.push(item);
         if (this.user.editing && (option.topic_kind == 1) && (this.selected_options.length == 1)) {
             this.group_selected = true;
@@ -449,6 +453,11 @@ export class MultiSelectCustomElement {
                 this.name_changed(option)
             }
         });
+    }
+
+    on_off_button_margin(first) {
+        if (first || ! this.user.advanced) return 0;
+        return this.settings.can_set_sign ? 40 : this.settings.can_group ? 20 : 0;
     }
 }
 

@@ -89,7 +89,8 @@ export class Stories {
         can_add: false,
         can_delete: false,
         can_group: true,
-        show_only_if_filter: true
+        show_only_if_filter: true,
+        start_open: true
     });
     ea: EventAggregator;
     active_result_types;
