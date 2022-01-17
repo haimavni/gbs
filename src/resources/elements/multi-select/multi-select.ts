@@ -459,6 +459,16 @@ export class MultiSelectCustomElement {
         if (first || ! this.user.advanced) return 0;
         return this.settings.can_set_sign ? 40 : this.settings.can_group ? 20 : 0;
     }
+
+    option_class(first, last) {
+        if (first) {
+            if (last) return 'opt-single'
+            return 'opt-top'
+        } else if (last) {
+            return 'opt-bottom'
+        }
+        return ''
+    }
 }
 
 function clean(obj) {
