@@ -81,6 +81,20 @@
     li.odd-group {
         background-color: lightblue;
     }
+    li.even-group{
+        background-color: lightgreen;
+    }
+    li.opt-top {
+        border-radius: 10px 10px 0 0;
+    } 
+    li.opt-single {
+        border-radius: 10px;
+    }
+    li.opt-bottom {
+        border-radius: 0 0 10px 10px;
+    }
+\
+
 
     /*li.even-group {
         background-color: yellow;
