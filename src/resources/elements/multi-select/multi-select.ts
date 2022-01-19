@@ -330,7 +330,7 @@ export class MultiSelectCustomElement {
 
     calc_moveable(i) {
         for (let item of this.selected_options) {
-            item.moveable = i > 1 && this.can_move_item(item);
+            item.moveable = i > 0 && this.can_move_item(item);
         }
     }
 
@@ -357,6 +357,7 @@ export class MultiSelectCustomElement {
     }
 
     can_move_item(item) {
+        if (! this.settings.can_group) return false;
         if (this.selected_options.length < 2) return false;
         if (!this.open_group) return false;
         if (item.group_number == this.open_group && item.first && item.last) return false;

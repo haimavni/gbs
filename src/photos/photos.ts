@@ -629,7 +629,8 @@ export class Photos {
             name_editable: result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
-            can_group: this.user.editing,
+            can_group: false,
+            start_open: true,
             help_topic: 'photographers-help'
         });
         this.can_pair_photos = this.user.editing && this.selected_photos.size == 2;
