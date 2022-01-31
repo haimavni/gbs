@@ -406,7 +406,8 @@ export class MultiSelectCustomElement {
 
     @computedFrom('settings.can_add', 'filter_size', 'filter')
     get can_add() {
-        return this.settings.can_add && this.filter_size == 0 && this.filter;
+        let filter_selected = this.selected_options.find(opt=>opt.option.name==this.filter);
+        return this.settings.can_add && this.filter_size == 0 && this.filter && !filter_selected;
     }
 
     @computedFrom('settings.can_delete')
