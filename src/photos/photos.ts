@@ -270,7 +270,7 @@ export class Photos {
     update_photo_list() {
         this.scroll_top = 0;
         this.curr_photo_id = 0;
-        console.time('get_photo_list');
+        let t0 = Date.now();
         if (!this.params.user_id)
             this.params.user_id = this.user.id;
         this.params.editing = this.user.editing;
@@ -291,7 +291,8 @@ export class Photos {
                 for (let photo of this.photo_list) {
                     photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }
-                console.timeEnd('get_photo_list');
+                let t1 = Date.now();
+                console.log("Elapsed time is ", t1 - t0);
             });
     }
 
