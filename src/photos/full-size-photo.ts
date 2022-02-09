@@ -887,6 +887,12 @@ export class FullSizePhoto {
         this.dialogController.ok();
     }
 
+    @computedFrom('theme.width')
+    get force_calc_percents() {
+        this.calc_percents();
+        return "";
+    }
+
     calc_percents() {
         let ph = this.slide[this.slide.side].height;
         let pw = this.slide[this.slide.side].width;
