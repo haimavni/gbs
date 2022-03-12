@@ -32,22 +32,28 @@ export class Customize {
     enable_articles_options = ['user.enable-articles-on', 'user.enable-articles-off'];
     enable_books_options = ['user.enable-books-on', 'user.enable-books-off'];
     enable_member_of_the_day_options = ['user.enable-member-of-the-day-on', 'user.enable-member-of-the-day-off'];
+    exclusive_options = ['user.exclusive-on', 'user.exclusive-off'];
+    enable_cuepoints_options = ['user.enable-cuepoints-on', 'user.enable-cuepoints-off'];
+    allow_publishing_options = ['user.allow-publishing-on', 'user.allow-publishing-off'];
+    expose_gallery_options = ['user.expose-gallery-on', 'user.expose-gallery-off'];
 
     //-----------
     auto_reg_option = 'user.by-invitation';
     new_app_option = 'user.new-app-disabled';
     audio_option = 'user.audio-disabled';
     feedback_option = 'user.feedback-on';
+    exclusive_option = 'user.exclusive-off'
     quick_upload_button = 'user.quick-upload-off';
     version_time_option = 'user.version-time-on';
     expose_developer_option = 'user.expose-developer-on';
     enable_articles_option = 'user.enable-articles-off';
+    enable_cuepoints_option = 'user.enable-cuepoints-off';
+    allow_publishing_option = 'user.allow-publishing-off';
+    expose_gallery_option = 'user.expose-gallery-off';
     enable_books_option = 'user.enable-books-on';
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
     cover_photo;
-    cover_photo_width;
-    cover_photo_height;
     user;
     froala_config = {
         iconsTemplate: 'font_awesome_5',
@@ -95,27 +101,28 @@ export class Customize {
         let lang = this.i18n.getLocale();
         let data = this.i18n.i18next.store.data[lang].translation;
         await this.user.readConfiguration();
+        console.log("read configuration ", )
         this.create_key_value_list('', data);
         this.auto_reg_option = this.user.config.enable_auto_registration ? 'user.auto-reg' : 'user.by-invitation';
         this.new_app_option = this.user.config.expose_new_app_button ? 'user.new-app-enabled' : 'user.new-app-disabled';
         this.audio_option = this.user.config.support_audio ? 'user.audio-enabled' : 'user.audio-disabled';
         this.feedback_option = this.user.config.expose_feedback_button ? 'user.feedback-on' : 'user.feedback-off';
+        this.exclusive_option = this.user.config.exclusive ? 'user.exclusive-on' : 'user.exclusive-off';
         this.quick_upload_button = this.user.config.quick_upload_button ? 'user.quick-upload-on' : 'user.quick-upload-off';
         this.expose_developer_option = this.user.config.expose_developer ? 'user.expose-developer-on' : 'user.expose-developer-off';
         this.enable_articles_option = this.user.config.enable_articles ? 'user.enable-articles-on' : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
         this.enable_books_option = this.user.config.enable_books ? 'user.enable-books-on' : 'user.enable-books-off';
         this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
+        this.enable_cuepoints_option = this.user.config.enable_cuepoints ? 'user.enable-cuepoints-on' : 'user.enable-cutpoints-off';
+        this.allow_publishing_option = this.user.config.allow_publishing ? 'user.allow-publishing-on' : 'user.allow-publishing-off';
+        this.expose_gallery_option = this.user.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
-        this.cover_photo_width = this.user.config.cover_photo_width;
-        this.cover_photo_height = this.user.config.cover_photo_height;
         if (! this.cover_photo) {
-            let curr_photo_link = this.user.get_photo_link();
-            if (curr_photo_link.src) {
-                this.cover_photo = curr_photo_link.src;
-                this.cover_photo_width = curr_photo_link.width;
-                this.cover_photo_height = curr_photo_link.height;
+            let cover_photo = this.user.get_photo_link();
+            if (cover_photo) {
+                this.cover_photo = cover_photo;
             }
         }
         this.api.call_server_post('members/get_app_description')
@@ -223,6 +230,15 @@ export class Customize {
             })
     }
 
+    exclusive_option_selected(option) {
+        this.exclusive_option = option;
+        this.api.call_server('admin/set_exclusive_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
     quick_upload_option_selected(option) {
         this.quick_upload_button = option;
         this.api.call_server('admin/set_quick_upload_option', { option: option })
@@ -268,6 +284,35 @@ export class Customize {
             })
     }
 
+    enable_cuepoints_option_selected(option) {
+        this.enable_cuepoints_option = option;
+        this.api.call_server('admin/set_cuepoints_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+    allow_publishing_option_selected(option) {
+        this.allow_publishing_option = option;
+        this.api.call_server('admin/set_publishing_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+    
+    expose_gallery_option_selected(option) {
+        this.expose_gallery_option = option;
+        this.api.call_server('admin/set_expose_gallery_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+    
+    
+
     version_time_option_selected(option) {
         this.version_time_option = option;
         this.api.call_server('admin/set_version_time_option', { option: option })
@@ -302,12 +347,16 @@ export class Customize {
 
     set_cover_photo(event) {
         let cover_photo = this.user.get_photo_link();
-        if (event.ctrlKey) cover_photo.src = "";
-        this.cover_photo = cover_photo.src;
+        if (event.ctrlKey) cover_photo = "";
+        this.cover_photo = cover_photo;
         this.api.call_server_post('admin/cover_photo',
-            {cover_photo: cover_photo.src,
-                cover_photo_width: cover_photo.width,
-                cover_photo_height: cover_photo.height})
+            {cover_photo: cover_photo})
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+        //the following will create a padded photo of fixed dimensions. will obsolete the above
+        this.api.call_server_post('photos/set_cover_photo', {cover_photo: cover_photo})
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();

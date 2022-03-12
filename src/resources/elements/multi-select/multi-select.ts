@@ -22,6 +22,7 @@ export class MultiSelectSettings {
     help_topic = 'search-input';
     to_show_untagged = false;
     single = false;
+    start_open = false;
 
     constructor(obj) {
         this.update(obj);
@@ -99,6 +100,7 @@ export class MultiSelectCustomElement {
         sub_options = this.misc.deepClone(sub_options);
         let idx = this.options.findIndex(item => (item.name == option.name) && (item.level == option.level));
         let level = option.level ? option.level + 1 : 1;
+        sub_options = sub_options.filter(opt => Boolean(opt)); //irrelevant options must be filtered out
         for (let opt of sub_options) {
             opt.level = level;
             opt.parent = option.id
@@ -128,9 +130,11 @@ export class MultiSelectCustomElement {
         }
         this.to_show_untagged = false;
         let g;
+        let b = false;
         if (this.user.editing && option.topic_kind == 0) {  //ready to add sub topics to new topic
             g = 1;
             this.open_group = 2;
+            b = true;
         } else if (this.group_selected) {
             g = 2;  // add it to the sub options
         } else {
@@ -138,6 +142,7 @@ export class MultiSelectCustomElement {
         }
         option.sign = 'plus';
         let item = { option: option, group_number: g };
+        if (this.settings.start_open && this.selected_options.length == 0  && ! b) this.open_group = 1;
         this.selected_options.push(item);
         if (this.user.editing && (option.topic_kind == 1) && (this.selected_options.length == 1)) {
             this.group_selected = true;
@@ -325,7 +330,7 @@ export class MultiSelectCustomElement {
 
     calc_moveable(i) {
         for (let item of this.selected_options) {
-            item.moveable = i > 1 && this.can_move_item(item);
+            item.moveable = i > 0 && this.can_move_item(item);
         }
     }
 
@@ -352,6 +357,7 @@ export class MultiSelectCustomElement {
     }
 
     can_move_item(item) {
+        if (! this.settings.can_group) return false;
         if (this.selected_options.length < 2) return false;
         if (!this.open_group) return false;
         if (item.group_number == this.open_group && item.first && item.last) return false;
@@ -398,9 +404,10 @@ export class MultiSelectCustomElement {
         return this.settings.can_set_sign;
     }
 
-    @computedFrom('settings.can_add', 'filter_size', 'selected_options', 'filter')
+    @computedFrom('settings.can_add', 'filter_size', 'filter')
     get can_add() {
-        return this.settings.can_add && this.filter_size == 0 && this.selected_options.length == 0 && this.filter;
+        let filter_selected = this.selected_options.find(opt=>opt.option.name==this.filter);
+        return this.settings.can_add && this.filter_size == 0 && this.filter && !filter_selected;
     }
 
     @computedFrom('settings.can_delete')
@@ -437,6 +444,7 @@ export class MultiSelectCustomElement {
         event.stopPropagation();
         if (! this.category) return false;
         if (! this.user.privileges.ADMIN) return false;
+        if (! this.user.editing) return false;
         this.dialog.open({
             viewModel: EditTopic, model: { topic: option, can_delete: this.can_delete, category: this.category }, lock: true
         }).whenClosed(result => {
@@ -447,6 +455,21 @@ export class MultiSelectCustomElement {
                 this.name_changed(option)
             }
         });
+    }
+
+    on_off_button_margin(first) {
+        if (first || ! this.user.advanced) return 0;
+        return this.settings.can_set_sign ? 40 : this.settings.can_group ? 20 : 0;
+    }
+
+    option_class(first, last) {
+        if (first) {
+            if (last) return 'opt-single'
+            return 'opt-top'
+        } else if (last) {
+            return 'opt-bottom'
+        }
+        return ''
     }
 }
 

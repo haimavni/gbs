@@ -17,7 +17,7 @@ export class ArticlePicker {
     user;
     eventAggregator;
     articles = [];
-    articleList;
+    articleList: ArticleList;
     selectedId;
     dialogController;
     make_profile_photo = false;
@@ -28,6 +28,10 @@ export class ArticlePicker {
     i18n;
     agent = { size: 9999 };
     article_id;
+    back_to_text;
+    help_topic;
+    multi = false;
+    selected_article_ids = new Set();
 
     constructor(user: User, eventAggregator: EventAggregator, articleList: ArticleList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -41,21 +45,32 @@ export class ArticlePicker {
         this.i18n = i18n;
     }
 
-    created() {
+    prepare_lists() {
         return this.articleList.getArticleList().then(articles => {
             let aList = articles.article_list.slice();
-            this.articles = aList; 
+            this.articles = aList;
             this.articles = this.articles.filter(article => article.id == this.article_id || !this.excluded.has(article.id))
         })
     }
 
-    activate(model) {
+    async activate(model) {
         this.face_identifier = model.face_identifier;
         this.face = model.current_face;
         this.slide = model.slide;
         this.candidates = model.candidates ? model.candidates : [];
         this.excluded = model.excluded ? model.excluded : new Set();
+        this.multi = model.multi;
+        this.back_to_text = model.back_to_text || 'members.back-to-photos';
+        await this.prepare_lists();
         this.filter = '';
+        if (model.preselected) {
+            for (let article_id of model.preselected) {
+                this.selected_article_ids.add(article_id)
+                let article = this.articles.find(art => art.id == article_id);
+                article.selected = 'selected';
+            }
+            this.articles.sort((a, b) => a.selected ? -1 : b.selected ? +1 : 0);
+        }
         this.article_id = model.article_id;
         if (model.article_id > 0) {
             this.articleList.get_article_by_id(model.article_id)
@@ -66,8 +81,20 @@ export class ArticlePicker {
     }
 
     select(article) {
-        this.dialogController.ok({ article_id: article.id, make_profile_photo: this.make_profile_photo });
+        if (this.multi) {
+            if (this.selected_article_ids.has(article.id)) {
+                this.selected_article_ids.delete(article.id);
+                article.selected = ''
+            } else {
+                this.selected_article_ids.add(article.id)
+                article.selected = 'selected'
+            }
+        } else {
+            this.articleList.add_recent(article);
+            this.dialogController.ok({ article_id: article.id, make_profile_photo: this.make_profile_photo });
+        }
     }
+
 
     async create_new_article() {
         let article_ids = [];
@@ -88,6 +115,15 @@ export class ArticlePicker {
                     article_id: response.article_id, new_article: response.article
                 });
             });
+    }
+
+    save() {
+        let article_ids = Array.from(this.selected_article_ids);
+        this.selected_article_ids = new Set();
+        for (let article of this.articles) {
+            article.selected = '';
+        }
+        this.dialogController.ok({ article_ids: article_ids });
     }
 
     @computedFrom('user.editing')

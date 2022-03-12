@@ -3,7 +3,7 @@
     <require from="toastr/build/toastr.min.css"></require>
 
     <div class="page-container ${theme.palette}"
-        css="background-image:url('${theme.files.content_background}'); min-height:${theme.min_height}px;"
+        css="min-height:${theme.min_height}px;"
         dir="${theme.rtltr}">
         <nav class="navbar navbar-default navbar-fixed-top unselectable" role="navigation" if.bind="! theme.hide_menu">
             <div class="navbar-main" style="position: relative;">
@@ -53,7 +53,7 @@
                 <span style="padding-left:15px;padding-right:15px">${theme.page_title & t}</span>
             </div>
         </div>
-        <div id="router-view" css="min-height:${router_view_height};" class="unselectable">
+        <div id="router-view" css="min-height:${router_view_height};overflow-x:hidden;" class="unselectable">
             <router-view ref="theme.router_view"></router-view>
         </div>
         <footer id="footer" if.bind="! theme.hide_title" ref="theme.footer">
@@ -77,6 +77,11 @@
                 <span if.bind="user.config.quick_upload_button" class="footer-item">
                     <button class="btn btn-default footer-button" click.delegate="quick_upload_photo()">
                         ${'user.quick-upload-photo' & t}
+                    </button>
+                </span>
+                <span if.bind="user.config.expose_gallery" class="footer-item">
+                    <button class="btn btn-default footer-button" click.delegate="show_gallery()">
+                        ${'gallery.gallery' & t}
                     </button>
                 </span>
             </div>

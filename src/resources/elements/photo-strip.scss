@@ -25,6 +25,9 @@ photo-strip {
         display: inline-block;
         max-height: 100%;
         user-select: none;
+        &.video {
+            cursor: url(https://tol.life/gbs__test/static/apps_data/images/play.png),pointer;
+        }
     }
 }
 

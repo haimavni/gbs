@@ -25,12 +25,12 @@
         <ux-dialog-body>
             <div class="fr-view" if.bind="show">
                 <div class="justified-story">
-                    <p class="${theme.font_size}" if.bind="! user.editing">
+                    <p class="${theme.font_size}">
                         <compose if.bind="story_text" view-model='./render-story' model.bind="{html:story_text,raw:raw}"></compose>
                     </p>
                 </div>
             </div>
-            <div class="big-story-panel fr-view" if.bind="edit">
+            <div class="big-story-panel ${theme.rtltr} fr-view" if.bind="edit">
                 <froala-editor 
                     value.two-way="story_text"
                     event-handlers.bind="{
@@ -43,8 +43,8 @@
         </ux-dialog-body>
         <ux-dialog-footer if.bind="edit" style="padding-right:16px;">
             <button class="btn btn-danger btn-warning" click.trigger="cancel()">${'stories.cancel' & t}</button>
-            <button class="btn btn-success btn-primary ${dirty_story ? 'btn-warning' : 'disabled'}" click.trigger="save()">${'stories.save' & t}</button>
-            <button if.bind="! story.editable_preview" class="btn btn-basic btn-primary" click.trigger="clean()">${'stories.clean' & t}</button>
+            <button class="btn btn-success btn-primary ${dirty_story ? 'btn-warning' : 'disabled'}" click.delegate="save()">${'stories.save' & t}</button>
+            <button if.bind="! story.editable_preview" class="btn btn-basic btn-primary" click.delegate="clean()">${'stories.clean' & t}</button>
         </ux-dialog-footer>
     </ux-dialog>
 

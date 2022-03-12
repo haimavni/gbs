@@ -52,6 +52,7 @@ export class Members {
     old_editing_mode = false;
     anchor = -1; //for multiple selections
 
+
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, articleList: ArticleList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
         this.api = api;
@@ -374,5 +375,29 @@ export class Members {
     goto_articles() {
         this.router.navigateToRoute('articles');
     }
+
+    @computedFrom('theme.width')
+    get photo_size() {
+        let size = 130;
+        if (!this.theme.is_desktop) {
+            size = 90;
+            let ppl = Math.floor(this.theme.width / size)
+            size= this.theme.width / ppl;
+        }
+        return size - 20;
+    }
+
+    @computedFrom('theme.height')
+    get member_list_height() {
+        if (this.theme.is_desktop)
+            return  this.theme.height - 320;
+        return null;
+    }
+
+    get members_section_class() {
+        if (this.theme.is_desktop) return "container content-area";
+        return null;
+    }
+
 
 }

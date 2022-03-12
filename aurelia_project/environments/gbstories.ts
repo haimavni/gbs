@@ -1,7 +1,7 @@
 export default {
     debug: true,
     testing: false,
-    baseURL: "https://gbstories.org/gbs__test",
+    baseURL: "https://tol.life/gbs__master",
     app: '',
     version: "",
     i18n_ver: ''

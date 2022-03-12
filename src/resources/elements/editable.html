@@ -13,6 +13,7 @@
                 <i if.bind="settings.pushable && user.privileges.ADMIN && user.editing" class="far fa-sm fa-arrow-up is-link" t="[title]stories.push-up" click.trigger="push_story(story)">&nbsp;</i>
                 <i if.bind="settings.pinnable && user.privileges.ADMIN && user.editing" class="fas fa-sm fa-thumbtack is-link ${pinned ? 'pinned' : ''}" t="[title]stories.pin-story" click.trigger="pin_story(story)">&nbsp;</i>
                 <i if.bind="settings.confirmable && user.privileges.TEXT_AUDITOR && user.editing" class="fas fa-sm fa-check-circle is-link " t="[title]stories.approve-story" click.trigger="approve_story(story)">&nbsp;</i>
+                <i if.bind="settings.has_details" class="fas fa-sm fa-bars is-link" t="[title]docs.view-details" click.delegate="view_details(story)">&nbsp;</i>
             </span>
             <span if.bind="settings.show_date &&story.timestamp">${story.timestamp | formatdate} |&nbsp;</span>
             <span if.bind="settings.show_author && story.author">${story.author}:&nbsp;</span>

@@ -11,7 +11,8 @@
         "male-died-in": "נפטר ב-",
         "female-died-in": "נפטרה ב-",
         "to-the-page-of": "לדף של ",
-        "new-message": "הודעה חדשה"
+        "new-message": "הודעה חדשה",
+        "video-sample": "מבחר סרטים"
     },
     "app-title": "סִפּוּרֵי",
     "stories": {
@@ -107,7 +108,9 @@
         "enter-book-name": "הקלד את שם הספר",
         "story-date": "תאריך הסיפור",
         "prev-story": "לסיפור הקודם",
-        "next-story": "לסיפור הבא"
+        "next-story": "לסיפור הבא",
+        "clear-all-filters": "כל הסיפורים",
+        "remove-story-from-book": "הסר את הסיפור מהספר"
     },
     "members": {
         "members": "חברים",
@@ -269,6 +272,12 @@
         "enable-books-on": "אפשר ספרים",
         "enable-member-of-the-day-off": "ללא חבר היום",
         "enable-member-of-the-day-on": "אפשר חבר היום",
+        "enable-cuepoints-on": "כולל נקודות עצירה בסרטים",
+        "enable-cuepoints-off": "ללא נקודות עצירה בסרטים",
+        "allow-publishing-on": "אפשר תצוגה בגלריה",
+        "allow-publishing-off": "אל תאפשר תצוגה בגלריה",
+        "expose-gallery-off": "ללא כפתור גלריה",
+        "expose-gallery-on": "הצג כפתור גלריה",
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",
@@ -276,6 +285,8 @@
         "site-description": "תאור האתר למכונות חיפוש",
         "feedback-on": "הצג כפתור משוב",
         "feedback-off": "ללא כפתור משוב",
+        "exclusive-on": "פתוח רק למשתמשים רשומים",
+        "exclusive-off": "פתוח לכל מי שיש את הקישור",
         "quick-upload-off": "ללא כפתור העלאה מהירה",
         "quick-upload-on": "הצג כפתור העלאה מהירה",
         "version-time-on": "הצג את תאריך הגרסה",
@@ -286,6 +297,8 @@
         "advanced-options": "אפשרויות מתקדמות",
         "advanced-options-off": "ללא אפשרויות מתקדמות",
         "advanced-options-on": "הצג אפשרויות מתקדמות",
+        "registered-only": "האתר פתוח למשתמשים רשומים בלבד",
+        "please-login-if": "אם אתה משתמש רשום, אנא התחבר",
         "sharing": {
             "sharing": "שיתוף",
             "facebook": "שיתוף בפייסבוק",
@@ -293,10 +306,14 @@
             "card-description": "תיאור",
             "continue": "המשך",
             "share-on-facebook": "שתף בפייסבוק",
-            "photo-link-copied": "כתובת התמונה הועתקה בהצלחג",
+            "photo-link-copied": "כתובת התמונה הועתקה בהצלחה",
             "replace-photo": "להצגת תמונה אחרת, צא מחלון זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן",
             "missing-photo": "לא נבחרה תמונה! צא ממסך זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן"
         }
+    },
+    "gallery": {
+        "gallery": "גלריה",
+        "set-app-active": "כלול בגלריה"
     },
     "chats": {
         "chats": "קבוצות דיון",
@@ -405,6 +422,7 @@
         "cancel-indentification": "בטל את הזיהוי",
         "chronological-order": "סדר כרונולוגי",
         "chronological-order-reverse": "סדר כרונולוגי הפוך",
+        "alphabetical-order": "סדר אלפביתי",
         "edit-face-location": "לעריכת מיקום וגודל המעגל, לחץ על הכפתור הימני של העכבר או גרור את שפת המעגל או את תוכו",
         "click-to-identify": "הקלק על פרצוף כדי לזהותו",
         "click-to-identify-article": "הקלק על אובייקט כדי לזהותו",
@@ -416,7 +434,12 @@
         "mark-people": "סמן פרצופים",
         "mark-articles": "סמן אובייקטים",
         "undo-last-change": "בטל את השינוי האחרון",
-        "photo-detail": "סיפורה של התמונה"
+        "photo-detail": "סיפורה של התמונה",
+        "set-slideshow-topics": "קבע כנושאים למצגת הפתיחה",
+        "slideshow-topics-saved": "הנושאים למצגת הפתיחה נשמרו",
+        "exclude-from-main-slideshow": "התמונות שנבחרו לא תוצגנה במצגת הפתיחה",
+        "save-selected-photos": "שמור את השינויים ברשימת התמונות",
+        "cancel-selected-photos": "צא בלי לשמור את השינויים"
     },
     "audios": {
         "audios": "הקלטות",
@@ -460,6 +483,7 @@
         "photographer-name": "שם הצלם",
         "unknown-photographer": "לא ידוע",
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
+        "delete-selected-videos": "מחק את הסרטים שנבחרו",
         "filter": "חפוש מהיר בשמות הסרטונים",
         "edit-filters": "נושאים וצלמים",
         "add-cue": "הוסף קטע",
@@ -467,7 +491,8 @@
         "cue-description": "תיאור הקטע",
         "back-to-videos": "בחזרה לקטע הוידאו",
         "describe-cue": "תאר מה רואים בקטע",
-        "members-in": "מי בקטע?"
+        "members-in": "מי בקטע?",
+        "select-members": "בחר חברים הקשורים לסרט"
     },
     "docs": {
         "docs": "מסמכים",
@@ -497,7 +522,13 @@
         "approved": "מסמכים שכבר אושרו",
         "drag-left-and-right": "גרור כאן שמאלה וימינה",
         "edit-filters": "נושאים ומילות מפתח",
-        "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך"
+        "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך",
+        "click-to-close": "סגור את המסמך",
+        "view-details": "הצג/ערוך פרטים",
+        "doc-date": "תאריך המסמך",
+        "members-in": "חברים הקשורים למסמך",
+        "select-members": "בחר חברים הקשורים למסמך",
+        "fullscreen": "לחזרה F11.תצוגה במסך מלא"
     },
     "terms": {
         "terms": "מונחים",
@@ -630,10 +661,10 @@
         "tablet": "טבלט",
         "smartphone": "טלפון חכם",
         "header-text": "<p>המשוב שלך חשוב להמשך הפיתוח ושיפור חווית המשתמש.</p>",
-        "bad-message": "מה אינני אוהב באתר",
-        "good-message": "מה אני אוהב באתר",
-        "name": "שם. לא חובה!",
-        "email-address": "כתובת דואר אלקטרוני. לא חובה!",
+        "bad-message": "מה אינני אוהב באתר. חובה למלא אם לא מלאת מה את.ה אוהב.ת",
+        "good-message": "מה אני אוהב באתר. חובה למלא אם לא מלאת מה את.ה לא אוהב.ת",
+        "name": "שם",
+        "email-address": "כתובת דואר אלקטרוני. חובה למלא!",
         "message-successful": "המשוב שלך נשמר בהצלחה",
         "device-details": "פרטי המכשיר"
     },
@@ -655,6 +686,7 @@
         "archiver": "ארכיונאי", 
         "tester": "בודק",
         "restricted": "עריכה עצמית בלבד",
+        "video_editor": "עורך סרטים",
         "duplicate-app-name": "מזהה האתר כבר תפוס!",
         "new-app-requested": "בקשתך בטיפול. אנא בדוק את תיבת הדואל שלך. אם לא קבלת הודעה תוך מספר דקות, בדוק את תיבת דואר הזבל.",
         "app-name": "מזהה האתר שלך (באותיות לועזיות)",
@@ -695,6 +727,7 @@
     "abcde": "אבגדה",
     "a": "א",
     "update": "עדכן",
+    "continue": "המשך",
     "date-hint": "הקלד שנה, שנה/חודש או שנה/חודש/יום",
     "please-update-head": "<p dir='rtl'>תוכנת האתר עודכנה</p>",
     "please-update-body": "<p dir='rtl'>הדף ייטען עכשיו מחדש<br><p>",

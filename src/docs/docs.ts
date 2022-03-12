@@ -162,29 +162,24 @@ export class Docs {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
+        //this.scroll_top = this.scroll_area.scrollTop;
     }
 
     upload_files() {
         this.theme.hide_title = true;
-        let dlg;
-        if (this.user.privileges.TESTER) {
-            dlg = this.dialog.open({
-                viewModel: Uploader,
-                model: {
-                    endpoint: 'docs/upload_chunk',
-                    select_objects_text: 'docs.select-docs',
-                    object_names: 'docs.docs',
-                    header_str: 'docs.upload',
-                    file_types: ".pdf",
-                    duplicate_objects_text: "docs.duplicate",
-                    objects_were_selected_text: "docs.docs-were-selected",
-                    what: 'DOCS'
-                }, lock: true
-            })
-        } else {
-            dlg = this.dialog.open({viewModel: UploadDocs, lock: false});
-        }
-        dlg.whenClosed(result => {
+        this.dialog.open({
+            viewModel: Uploader,
+            model: {
+                endpoint: 'docs/upload_chunk',
+                select_objects_text: 'docs.select-docs',
+                object_names: 'docs.docs',
+                header_str: 'docs.upload',
+                file_types: ".pdf",
+                duplicate_objects_text: "docs.duplicate",
+                objects_were_selected_text: "docs.docs-were-selected",
+                what: 'DOCS'
+            }, lock: true
+        }).whenClosed(result => {
             this.theme.hide_title = false
         });
     }
@@ -210,7 +205,7 @@ export class Docs {
                         console.log("doc has no story: ", doc);
                     }
                 }
-                this.scroll_top = 0;
+                //this.scroll_top = 0;
             });
     }
 
@@ -480,6 +475,12 @@ export class Docs {
 
     show_filters_only() {
         this.editing_filters = true;
+    }
+
+    view_details(doc, event) {
+        let doc_ids = this.doc_list.map(doc => doc.id);
+        this.scroll_top = this.scroll_area.scrollTop;
+        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs' });
     }
 
 }

@@ -1,10 +1,10 @@
 <template>
-    <ux-dialog style="padding:12px;">
+    <ux-dialog css="padding:12px;direction:${theme.rtltr}">
         <ux-dialog-header>
             <h3>${'admin.customer-info' & t}</h3>
         </ux-dialog-header>
-        <ux-dialog-body style="padding:10px;max-width:300px;">
-            <form class="form-horizontal" role="form">
+        <ux-dialog-body css="padding:10px;max-width:300px;direction:${theme.rtltr};">
+            <form class="form-horizontal" role="form" id="new-app" >
                 <div class="form-group" style="margin-left:0;margin-right:0;">
                     <input type="text" class="form-control" id="inputFirstName3" t="[placeholder]user.first-name"
                         value.bind="customer_data.first_name">
@@ -25,7 +25,7 @@
                     <input type="text" class="form-control" keypress.trigger="keep_only_valid_domain_chars($event)" id="inputAppName" t="[placeholder]admin.app-name"
                         value.bind="customer_data.app_name">
                 </div>
-                <div if.bind="message" class.bind="message_type" style="margin-top:8px;margin-bottom:12px;padding:8px;">
+                <div if.bind="message" class.bind="message_type" css="margin-top:8px;margin-bottom:12px;padding:8px;">
                     ${message & t}
                 </div>
             </form>

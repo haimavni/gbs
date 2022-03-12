@@ -22,25 +22,26 @@
             </button>
         </div>
         <div class="row">
-            <div class="col-md-7" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
+            <div class="col-md-7" style="display:flex;flex-direction:column;margin-top:16px;padding-left:0;" id="photo-box">
                 <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" />
-
-                <span>
-                    <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
-                    <button class="btn btn-basic" if.bind="user.editing || marked" click.delegate="expose_map()"
-                        style="margin-top:8px;border:solid 2px lightgray;float:left;">
-                        <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
-                    </button>
-                </span>
-                <span dir="${theme.rtltr}" if.bind="photographer_id">${'photos.photographer-name' & t}:
-                    ${photographer_name}</span>
-                <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing"
-                    base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true" enable_days_range.bind="true"
-                    span_size.bind="photo_date_datespan" range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]"
-                    is_valid.bind="photo_date_valid"
-                    change.delegate="update_photo_date($event)">
-                </date-range>
-                <span if.bind="topic_names">${'photos.keywords' & t}: ${topic_names}</span>
+                <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
+                    <span>
+                        <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
+                        <button class="btn btn-basic" if.bind="user.editing || marked" click.delegate="expose_map()"
+                            style="margin-top:8px;border:solid 2px lightgray;float:left;">
+                            <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
+                        </button>
+                    </span>
+                    <span dir="${theme.rtltr}" if.bind="photographer_id">${'photos.photographer-name' & t}:
+                        ${photographer_name}</span>
+                    <date-range label="photos.photo-date" if.bind="photo_date_str || user.editing"
+                        base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true" enable_days_range.bind="true"
+                        span_size.bind="photo_date_datespan" range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]"
+                        is_valid.bind="photo_date_valid"
+                        change.delegate="update_photo_date($event)">
+                    </date-range>
+                    <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}: ${topic_names}</span>
+                </div>
             </div>
             <div class="col-md-5">
                 <div class="row">
@@ -66,8 +67,8 @@
                         <div style="padding-right:0" if.bind="! (map_visible && (user.editing || marked))">
                             <div if.bind="! user.editing" class="row photo-story">
                                 <div class="fr-view" dir="${story_dir}">
-                                    <div class="${theme.font_size}"
-                                        style="position:relative;height:70vh;margin-right:16px;overflow:auto;">
+                                    <div class="${theme.font_size}" id="photo-story">
+                                        <!--style="position:relative;height:70vh;margin-right:16px;overflow:auto;"-->
                                         <p class="${story_dir} ${highlight_on}">
                                             <compose if.bind="photo_story.story_text"
                                                 view-model='../stories/render-story'

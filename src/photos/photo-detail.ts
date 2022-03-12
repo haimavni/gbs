@@ -50,8 +50,8 @@ export class PhotoDetail {
     photo_topics;
     params = {
         selected_topics: [],
-        selected_photographers: [],
-        photo_ids: []
+        selected_photographers: []//,
+        //photo_ids: []
     };
     photo_id_rec = {photo_id: 0};
     photo_ids = [];
@@ -216,7 +216,7 @@ export class PhotoDetail {
             this.photo_width = this.orig_photo_width / ph;
         }
         let el;
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 450; i++) {
             el = document.getElementById('photo-box');
             if (el) break;
             await sleep(20);
@@ -229,7 +229,8 @@ export class PhotoDetail {
             width = 1200;
             console.log("el was not defined...");
         }
-        el.style.paddingRight = `${width - this.photo_width - 15}px`;
+        if (el)
+            el.style.paddingRight = `${width - this.photo_width - 15}px`;
     }
 
     update_photo_caption(event) {
@@ -465,6 +466,11 @@ export class PhotoDetail {
             .then(() => {
                 this.update_topic_list();
             });
+    }
+
+    photographer_name_changed(event) {
+        let p = event.detail.option;
+        this.api.call_server_post('topics/rename_photographer', p);
     }
 
 }

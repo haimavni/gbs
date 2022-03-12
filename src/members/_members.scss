@@ -220,6 +220,10 @@ ux-dialog-containerxxx {
             &.prev {
                 left: 0px;
             }
+            &.config {
+                left: 2px;
+                top: 40%;
+            }
         }
 
         .story-box {
@@ -320,11 +324,7 @@ ux-dialog-containerxxx {
 }
 
 div.member-story-panel {
-    //height: 185px;
     overflow: auto;
-    &.biography {
-        height: 180px;
-    }
     >p {
         padding-bottom: 2px;
         text-align: justify;
@@ -336,7 +336,6 @@ div.member-story-panel {
 
 [dir="rtl"] div.member-story-panel {
     &.biography {
-        border-left: solid 2px darkgray;
         >p.ltr {
             direction: ltr;
         }
@@ -349,7 +348,6 @@ div.member-story-panel {
 
 [dir="ltr"] div.member-story-panel {
     &.biography {
-        border-right: solid 2px darkgray;
         >p.ltr {
             direction: ltr;
         }
@@ -429,4 +427,16 @@ ul.filters {
 div.mandatory-missing {
     border: 1px solid red;
     border-radius: 5px;
+}
+
+ux-dialog.config-member-stories {
+    height:100%;
+    background-color:lightgray;
+    padding:10px;
+    &.rtl {
+        direction: rtl;
+    }
+    &.ltr {
+        direction: ltr;
+    }
 }
