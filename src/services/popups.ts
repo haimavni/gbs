@@ -7,7 +7,6 @@ export class Popup {
             hnd.close();
         }
         let w = this.popupWindows[key] = window.open(url, '_blank', params);
-        let d = w.document;
         return w;
     }
 

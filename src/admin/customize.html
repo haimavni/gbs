@@ -94,6 +94,13 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
+                        <button repeat.for="excl of exclusive_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${excl==exclusive_option ? 'primary' : 'default'} customization"
+                            click.delegate="exclusive_option_selected(excl)">
+                            <span style="font-weight:bolder">${excl & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="qu of quick_upload_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${qu==quick_upload_button ? 'primary' : 'default'} customization"
                             click.delegate="quick_upload_option_selected(qu)">
@@ -134,6 +141,27 @@
                             class="btn btn-${mod==enable_member_of_the_day_option ? 'primary' : 'default'} customization"
                             click.delegate="enable_member_of_the_day_option_selected(mod)">
                             <span style="font-weight:bolder">${mod & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;" if.bind="user.privileges.DEVELOPER">
+                        <button repeat.for="ec of enable_cuepoints_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${ec==enable_cuepoints_option ? 'primary' : 'default'} customization"
+                            click.delegate="enable_cuepoints_option_selected(ec)">
+                            <span style="font-weight:bolder">${ec & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
+                        <button repeat.for="ap of allow_publishing_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${ap==allow_publishing_option ? 'primary' : 'default'} customization"
+                            click.delegate="allow_publishing_option_selected(ap)">
+                            <span style="font-weight:bolder">${ap & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
+                        <button repeat.for="eg of expose_gallery_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${eg==expose_gallery_option ? 'primary' : 'default'} customization"
+                            click.delegate="expose_gallery_option_selected(eg)">
+                            <span style="font-weight:bolder">${eg & t}</span>
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">

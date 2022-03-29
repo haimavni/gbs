@@ -1,18 +1,19 @@
-import { autoinject, computedFrom, singleton } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { I18N } from 'aurelia-i18n';
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Misc } from "../services/misc";
-import { Theme } from "../services/theme";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
-import { StoryWindow } from '../stories/story_window';
-import { MemberEdit } from './member-edit';
+import {autoinject, computedFrom, singleton} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
+import {I18N} from 'aurelia-i18n';
+import {MemberGateway} from '../services/gateway';
+import {User} from "../services/user";
+import {Misc} from "../services/misc";
+import {Theme} from "../services/theme";
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {DialogService} from 'aurelia-dialog';
+import {FullSizePhoto} from '../photos/full-size-photo';
+import {StoryWindow} from '../stories/story_window';
+import {MemberEdit} from './member-edit';
 import environment from '../environment';
-import { MemberList } from '../services/member_list';
-import { highlight } from '../services/dom_utils';
+import {MemberList} from '../services/member_list';
+import {highlight} from '../services/dom_utils';
+import {ConfigMemberStories} from '../members/config-member-stories';
 
 @autoinject()
 @singleton()
@@ -36,9 +37,14 @@ export class MemberDetail {
     top_height = 271;
     story_box_height = 260;
     stories_base = -1;
+    member_stories = {lst: [], changed: 0};
     life_summary;
     source;
-    sub1; sub2; sub3; sub4; sub5;
+    sub1;
+    sub2;
+    sub3;
+    sub4;
+    sub5;
     to_story_page;
     expand;
     compress;
@@ -57,9 +63,15 @@ export class MemberDetail {
     advanced_search = false;
     photo_list_changes_pending = false;
     biography_dir = "";
+    move_to;
+    story_0;
+    story_1;
+    story_2;
+    story_3;
+    story_4;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
-        router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
+                router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
         this.theme = theme;
         this.eventAggregator = eventAggregator;
@@ -74,18 +86,24 @@ export class MemberDetail {
         this.dialog = dialog;
         this.baseURL = environment.baseURL;
         this.life_summary = this.i18n.tr('members.life-summary');
-        this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
-        this.eventAggregator.subscribe('WINDOW-RESIZED', payload => { this.set_heights() });
-        this.eventAggregator.subscribe('PHOTO_PHOTO_LIST_CHANGED', payload => { this.photo_list_changes_pending = true });
+        this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => {
+            this.refresh_story(payload)
+        });
+        this.eventAggregator.subscribe('WINDOW-RESIZED', payload => {
+            this.set_heights()
+        });
+        this.eventAggregator.subscribe('PHOTO_PHOTO_LIST_CHANGED', payload => {
+            this.photo_list_changes_pending = true
+        });
     }
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
-        let story = this.member.member_stories.find(itm => itm.story_id == story_id);
+        let story = this.member_stories.lst.find(itm => itm.story_id == story_id);
         if (story) {
             story.preview = data.story_data.preview;
             story.name = data.story_data.name;
-            this.api.call_server_post('members/get_story', { story_id: story_id })
+            this.api.call_server_post('members/get_story', {story_id: story_id})
                 .then(response => {
                     story.story_text = response.story.story_text;
                 });
@@ -113,17 +131,25 @@ export class MemberDetail {
         this.photo_list_changes_pending = false;
         this.new_member = params.id == 'new' ? this.i18n.tr('members.new-member') : '';
         this.init_member(); //So that changing to a new member does not display most recent one
-        this.source = this.api.call_server_post('members/get_member_photo_list', { member_id: params.id, what: params.what });
-        this.api.call_server_post('members/get_member_details', { member_id: params.id, what: params.what })
+        this.source = this.api.call_server_post('members/get_member_photo_list', {
+            member_id: params.id,
+            what: params.what
+        });
+        this.api.call_server_post('members/get_member_details', {member_id: params.id, what: params.what})
             .then(member => {
                 this.member = member;
-                let life_story = this.member.member_stories[0];
+                this.member_stories.lst = [];
+                for (let st of this.member.member_stories) {
+                    this.member_stories.lst.push(st)
+                }
+                let life_story = this.member_stories.lst[0];
                 if (life_story) {
                     this.biography_dir = this.theme.language_dir(life_story.language);
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
                 this.api.hit('MEMBER', this.member.member_info.id);
                 this.set_heights();
+                let x = this.stories_base_changed;
             });
     }
 
@@ -149,19 +175,40 @@ export class MemberDetail {
     }
 
     attached() {
-        this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
-        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => { this.set_parent(this.member, parent) });
-        this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => { this.dirty_story = dirty });
-        this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => { this.dirty_info = dirty });
+        this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => {
+            this.user = payload
+        });
+        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => {
+            this.set_parent(this.member, parent)
+        });
+        this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => {
+            this.dirty_story = dirty
+        });
+        this.sub4 = this.eventAggregator.subscribe('DirtyInfo', dirty => {
+            this.dirty_info = dirty
+        });
         this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
             if (payload.event.ctrlKey || payload.event.shiftKey) {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
                 return;
             }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+            photo_ids = photo_ids.filter(p => p);
+            let offset = payload.offset;
+            this.misc.save(['member_slides_offset', this.member.member_info.id], offset);
+            if (payload.slide.video_id) {
+                this.router.navigateToRoute('annotate-video', {
+                    video_id: payload.slide.video_id //,
+                });
+            } else {
+                this.router.navigateToRoute('photo-detail',
+                    {id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true});
+            }
         });
         this.set_heights();
+        if (! this.member) return;
+        let offset = this.misc.load(['member_slides_offset', this.member.member_info.id]);
+        if (offset) this.move_to = offset;
     }
 
     detached() {
@@ -189,14 +236,16 @@ export class MemberDetail {
     tryDelete() {
         if (confirm(this.i18n.tr('members.confirm-delete'))) {
             this.memberList.remove_member(this.member.member_info.id)
-                .then(() => { this.router.navigateToRoute('members'); });
+                .then(() => {
+                    this.router.navigateToRoute('members');
+                });
         }
     }
 
     next_story(event, dir = 1) {
         event.stopPropagation();
         this.stories_base += dir;
-        let n = this.member.member_stories.length - 1;
+        let n = this.member_stories.lst.length - 1;
         this.stories_base = (this.stories_base + n - 1) % n + 1;
     }
 
@@ -214,7 +263,11 @@ export class MemberDetail {
             return;
         }
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list }, lock: false }).whenClosed(response => {
+        this.dialog.open({
+            viewModel: FullSizePhoto,
+            model: {slide: slide, slide_list: slide_list},
+            lock: false
+        }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
         });
     }
@@ -234,16 +287,16 @@ export class MemberDetail {
     get stories_scroll() {
         if (!this.member) return false;
         let nd = this.num_displayed_stories() + 1;
-        let ns = this.member.member_stories.length;
+        let ns = this.member_stories.lst.length;
         return nd < ns;
     }
 
     story(idx) {
-        let empty_story = { name: "", story_text: "" };
+        let empty_story = {name: "", story_text: ""};
         if (!this.member) return empty_story;
         if (this.stories_base < 0)
             this.stories_base = 0;
-        let n = this.member.member_stories.length;
+        let n = this.member_stories.lst.length;
         let i;
         let N = this.num_displayed_stories();
         if (n <= N + 1) {
@@ -257,7 +310,7 @@ export class MemberDetail {
             i = (n + this.stories_base + idx) % (n - 1) + 1;
         }
         if (i < n) {
-            let rec = this.member.member_stories[i];
+            let rec = this.member_stories.lst[i];
             rec.name = rec.name ? rec.name : ""
             rec.dir = this.theme.language_dir(rec.language);
             return rec
@@ -266,32 +319,22 @@ export class MemberDetail {
         }
     }
 
-    get story_0() {
-        return this.story(0);
-    }
-
-    @computedFrom("stories_base")
-    get story_1() {
-        return this.story(1);
-    }
-
-    @computedFrom("stories_base")
-    get story_2() {
-        return this.story(2);
-    }
-
-    @computedFrom("stories_base")
-    get story_3() {
-        return this.story(3);
-    }
-
-    @computedFrom("stories_base")
-    get story_4() {
-        return this.story(4);
+    @computedFrom("stories_base", "member_stories.changed")
+    get stories_base_changed() {
+        if (this.member_stories.changed) {
+            this.member_stories.changed = 0;
+            this.stories_base = -1;
+        }
+        this.story_0 = this.story(0);
+        this.story_1 = this.story(1);
+        this.story_2 = this.story(2);
+        this.story_3 = this.story(3);
+        this.story_4 = this.story(4);
+        return false;
     }
 
     detach_photo_from_member(member_id, photo_id, slide_list) {
-        this.api.call_server_post('photos/detach_photo_from_member', { member_id: member_id, photo_id: photo_id })
+        this.api.call_server_post('photos/detach_photo_from_member', {member_id: member_id, photo_id: photo_id})
             .then(response => {
                 if (response.photo_detached) {
                     // now delete slide #photo_id from slide_list:
@@ -312,10 +355,17 @@ export class MemberDetail {
     }
 
     zoom_out(story, what, extra = '') {
-        this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
+        this.dialog.open({
+            viewModel: StoryWindow,
+            model: {story: story, edit: what == 'edit'},
+            lock: what == 'edit'
+        }).whenClosed(response => {
             if (extra == 'life' && what == 'edit' && !this.member.member_info.story_id) {
                 this.member.member_info.story_id = response.output.story_id;
-                this.api.call_server_post('members/set_member_story_id', { member_id: this.member.member_info.id, story_id: response.output.story_id });
+                this.api.call_server_post('members/set_member_story_id', {
+                    member_id: this.member.member_info.id,
+                    story_id: response.output.story_id
+                });
             }
         });
 
@@ -327,12 +377,27 @@ export class MemberDetail {
 
     goto_story_page(story) {
         let what = story.used_for == this.api.constants.story_type.STORY4TERM ? 'term' : 'story';
-        this.router.navigateToRoute('story-detail', { id: story.story_id, what: what });
+        switch(story.used_for) {
+            case this.api.constants.story_type.STORY4TERM: 
+                this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'term'});
+                break;
+            case this.api.constants.story_type.STORY4EVENT: 
+                this.router.navigateToRoute('story-detail', {id: story.story_id, what: 'story'});
+                break;
+            case this.api.constants.story_type.STORY4DOC:
+                this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'member' });
+                break;
+            case this.api.constants.story_type.STORY4VIDEO:
+                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: [], search_type: "", caller: 'member' });
+                break;
+            default:
+                console.log("Unsupported story type ", story.used_for);
+        }
     }
 
     on_height_change(event) {
         event.stopPropagation();
-        let { new_height } = event.detail;
+        let {new_height} = event.detail;
         this.photo_strip_height = new_height;
         //this.panel_height = 680 - new_height;
         this.set_heights();
@@ -357,12 +422,13 @@ export class MemberDetail {
     }
 
     async set_heights() {
-        for (let i = 0; i < 270; i++) {
+        for (let i = 0; i < 470; i++) {
             if (i > 7 && this.member) break;
             if (this.member && this.life_summary_box) break;
             await sleep(20);
         }
-        this._set_heights();
+        if (this.member && this.life_summary_box)
+             this._set_heights();
     }
 
     _set_heights() {
@@ -378,20 +444,20 @@ export class MemberDetail {
         }
         let panel_height = this.theme.height - ps_offset - ps_height - footer_height;
         panel_height = Math.max(panel_height, 544);
-        let no_member_stories = this.member ? this.member.member_stories.length < 2 : false;
+        let no_member_stories = this.member ? this.member_stories.lst.length < 2 : false;
         if (this.theme.is_desktop) {
             let n = no_member_stories ? 4 : 5;
-            this.member_detail_panel.style.height = `${panel_height - n}px`;
+            //this.member_detail_panel.style.height = `${panel_height - n}px`;
             this.member_detail_panel.style.marginRight = '-32px';
         }
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
-        if (this.life_summary_content) {
+        if (this.life_summary_content && this.theme.is_desktop) {
             let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
             this.life_summary_content.style.height = `${tph - lsco}px`;
         }
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
-            let n = (this.member.member_stories.length > 1) ? 5 : 100;
+            let n = (this.member_stories.lst.length > 1) ? 5 : 100;
             this.top_panel.style.height = `${tph - n}px`;
             this.bottom_panel.style.height = `${bph}px`;
             this.bottom_panel.style.width = '1166px';
@@ -402,22 +468,23 @@ export class MemberDetail {
         }
         if (ps_height > 190) bph -= 16;  //just black magic. I have no idea why this is needed
         this.story_box_height = bph - 3;
-        if (this.life_summary_box)
-            if (this.user.editing)
-                this.life_summary_box.style.height = '0%'// `${lsb}px`;
-            else {
-                let n = no_member_stories ? 24 : 1;
-                this.life_summary_box.style.height = `${tph-n}px`;
-            }
-        if (this.life_summary_box1 && ! this.user.editing)
-            this.life_summary_box1.style.height = '99%'// `${lsb}px`;
         if (this.theme.is_desktop) {
-            this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
+            if (this.life_summary_box)
+                if (this.user.editing)
+                    this.life_summary_box.style.height = '0%'// `${lsb}px`;
+                else {
+                    let n = no_member_stories ? 24 : 1;
+                    this.life_summary_box.style.height = `${tph - n}px`;
+                }
+            if (this.life_summary_box1 && !this.user.editing)
+                this.life_summary_box1.style.height = '99%'// `${lsb}px`;
+            //this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
     }
 
     life_summary_contentChanged() {
-        this.set_heights();
+        if (this.theme.is_desktop())
+            this.set_heights();
     }
 
     @computedFrom("story_0.story_text")
@@ -433,6 +500,18 @@ export class MemberDetail {
             this.highlight_on = "highlight-on"
         }
         document.getElementById("word-highlighter").blur();
+    }
+
+    config_member_stories(event) {
+        event.stopPropagation();
+        document.body.classList.add('black-overlay');
+        this.dialog.open({
+            viewModel: ConfigMemberStories,
+            model: {member_stories: this.member_stories, all_member_stories: this.member.member_stories},
+            lock: true
+        }).whenClosed(response => {
+            document.body.classList.remove('black-overlay');
+        });
     }
 
 }

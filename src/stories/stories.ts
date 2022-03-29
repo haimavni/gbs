@@ -89,7 +89,8 @@ export class Stories {
         can_add: false,
         can_delete: false,
         can_group: true,
-        show_only_if_filter: true
+        show_only_if_filter: true,
+        start_open: true
     });
     ea: EventAggregator;
     active_result_types;
@@ -148,7 +149,7 @@ export class Stories {
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
-        this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
+        //this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
         this.update_story_list_debounced = debounce(this.update_story_list, 1700, false);
         this.pickerSettings.place_holder_text = 'stories.enter-book-name';
         this.pickerSettings.can_delete = this.user.editing;
@@ -297,56 +298,79 @@ export class Stories {
         let promise = this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
         this.params.start_name = "";
         promise
-            .then(result => {
+            .then(response => {
                 //this.params.by_last_chat_time = false;
                 //this.params.order_option = this.order_options[0];
                 this.editing_filters = false;
                 //this.params.selected_book = null;
                 //this.story_list = result.story_list;
-                this.no_results = result.no_results;
+                this.no_results = response.no_results;
                 this.highlight_unselectors = this.no_results ? "warning" : "";
                 if (this.no_results) {
                     this.story_list = [];
                 }
+                this.story_list = response.result;
                 for (let story of this.story_list) {
-                    story.title = '<span dir="rtl">' + story.title + '</span>';
+                    story.title = '<span dir="${theme.rtltr}">' + story.title + '</span>';
                 }
-                //this.active_result_types = result.active_result_types;
-                //this.used_for = result.active_result_types[0];
-                console.timeEnd('update-story-list');
+                this.active_result_types = response.active_result_types;
+                if (!this.used_for)
+                    this.used_for = response.active_result_types[0];
                 this.scroll_top = 0;
+                if (!this.active_result_types.find(art => art == this.used_for))
+                    this.used_for = this.active_result_types[0];
+                this.result_type_counters = response.result_type_counters;
+                //this.set_active_type();
+                if (this.params.order_option.value == 'by-name') {
+                    let next_name = this.find_next_name();
+                    this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
+                }
+                if (this.params.selected_book && this.user.editing) {
+                    let book_stories = this.story_list;
+                    let story_ids = book_stories.map(story => story.story_id);
+                    this.checked_stories = new Set(story_ids);
+                    for (let story of book_stories) {
+                        story.checked = true;
+                    }
+                }
+                console.timeEnd('update-story-list');
+                //this.scroll_top = 0;
             });
     }
 
-    handle_chunk(payload) {
-        this.active_result_types = payload.active_result_types;
-        if (this.ready_for_new_story_list) {
-            this.story_list = [];
-            this.scroll_top = 0;
-            if (!this.active_result_types.find(art => art == this.used_for))
-                this.used_for = this.active_result_types[0];
-            this.result_type_counters = payload.result_type_counters;
-        }
-        for (let story of payload.chunk) {
-            story.title = '<span dir="rtl">' + story.title + '</span>';
-        }
-        this.story_list = this.story_list.concat(payload.chunk);
-        this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
-        if (this.ready_for_new_story_list) {
-            if (this.params.order_option.value == 'by-name') {
-                this.set_active_type();
-                let next_name = this.find_next_name();
-                this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
-            }
-            if (this.params.selected_book && this.user.editing) {
-                let book_stories = this.story_list;
-                let story_ids = book_stories.map(story => story.story_id);
-                this.checked_stories = new Set(story_ids);
-                for (let story of book_stories) {
-                    story.checked = true;
-                }
-            }
-        }
+    // handle_chunk(payload) {
+    //     this.active_result_types = payload.active_result_types;
+    //     if (this.ready_for_new_story_list) {
+    //         this.story_list = [];
+    //         this.scroll_top = 0;
+    //         if (!this.active_result_types.find(art => art == this.used_for))
+    //             this.used_for = this.active_result_types[0];
+    //         this.result_type_counters = payload.result_type_counters;
+    //     }
+    //     for (let story of payload.chunk) {
+    //         story.title = '<span dir="rtl">' + story.title + '</span>';
+    //     }
+    //     this.story_list = this.story_list.concat(payload.chunk);
+    //     this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
+    //     if (this.ready_for_new_story_list) {
+    //         if (this.params.order_option.value == 'by-name') {
+    //             this.set_active_type();
+    //             let next_name = this.find_next_name();
+    //             this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
+    //         }
+    //         if (this.params.selected_book && this.user.editing) {
+    //             let book_stories = this.story_list;
+    //             let story_ids = book_stories.map(story => story.story_id);
+    //             this.checked_stories = new Set(story_ids);
+    //             for (let story of book_stories) {
+    //                 story.checked = true;
+    //             }
+    //         }
+    //     }
+    // }
+
+    thumbnail(video_src) {
+        return `https://i.ytimg.com/vi/${video_src}/mq2.jpg`
     }
 
     set_active_type() {
@@ -400,6 +424,9 @@ export class Stories {
             case this.api.constants.story_type.STORY4MEMBER:
                 this.router.navigateToRoute('member-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 break;
+            case this.api.constants.story_type.STORY4ARTICLE:
+                this.router.navigateToRoute('article-details', { id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+                break;
             case this.api.constants.story_type.STORY4PHOTO:
                 let photo_list = this.story_list.filter(itm => itm.used_for == 3);
                 let photo_ids = photo_list.map(itm => itm.story_id);
@@ -414,8 +441,18 @@ export class Stories {
             case this.api.constants.story_type.STORY4DOC:
                 this.openDialog(story.doc_url);
                 break;
+            case this.api.constants.story_type.STORY4VIDEO:
+                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+                break;
         }
     }
+
+    view_details(story, event) {
+        let doc_ids = []; //this.doc_list.map(doc => doc.id);
+        this.scroll_top = this.scroll_area.scrollTop;
+        this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: doc_ids, keywords: this.keywords, caller: 'stories' });
+    }
+
 
     private openDialog(doc_url) {
         this.dialog.open({ viewModel: DocPage, model: { doc_src: doc_url }, lock: false, keyboard: ['Enter', 'Escape'] })
@@ -448,7 +485,7 @@ export class Stories {
     }
 
     clear_all_filters() {
-        console.log("clear all filters");
+        console.log("clear all filters. params before: ", this.params);
         let p = this.params;
         p.base_year = 0;
         p.selected_topics = [];
@@ -726,7 +763,7 @@ export class Stories {
             });
     }
 
-    init_params() {
+    init_params(update=false) {
         this.params = {
             keywords_str: "",
             editing: false,
@@ -754,7 +791,9 @@ export class Stories {
             num_years: 100,
             start_name: ""
         };
-
+        if (update) {
+            this.update_story_list('other')
+        }
     }
 
     add_topic(event) {
@@ -778,7 +817,7 @@ export class Stories {
         let story_list = this.story_list.filter(story => story.used_for == story.used_for)
         story_list = this.story_list.map(story => story.story_id);
         story_list = story_list.slice(0, 100);
-        this.router.navigateToRoute('approve-story', { id: story.story_id, what: 'story' ,story_list: story_list });
+        this.router.navigateToRoute('approve-story', { id: story.story_id, what: 'story', story_list: story_list });
     }
 
     show_filters_only() {

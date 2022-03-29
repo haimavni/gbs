@@ -2,10 +2,12 @@ import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
+import { Theme } from '../services/theme';
 
 @autoinject
 export class AddCustomer {
     api;
+    theme: Theme;
     i18n: I18N;
     controller: DialogController;
     customer_data = {
@@ -20,11 +22,12 @@ export class AddCustomer {
     message_type = '';
     done = false;
 
-    constructor(api: MemberGateway, controller: DialogController, i18n: I18N) {
+    constructor(api: MemberGateway, theme: Theme, controller: DialogController, i18n: I18N) {
         this.api = api;
         this.controller = controller;
         this.i18n = i18n;
         this.customer_data.locale = this.i18n.getLocale();
+        this.theme = theme;
     }
 
     save() {

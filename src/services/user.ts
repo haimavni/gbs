@@ -1,6 +1,6 @@
-import {autoinject, noView, singleton} from "aurelia-framework";
+import {autoinject, computedFrom, noView, singleton} from "aurelia-framework";
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {MemberGateway} from '../services/gateway';
+import {MemberGateway} from './gateway';
 import {I18N} from 'aurelia-i18n';
 import environment from '../environment';
 import {Cookies} from './cookies';
@@ -19,19 +19,16 @@ export class User {
         expose_new_app_button: false,
         support_audio: false,
         cover_photo: "",
-        cover_photo_width: 800,
-        cover_photo_height: 420
+        exclusive: false
     };
+    config_ready = false;
     public id;
     public _advanced;
     private api;
     private i18n;
     private cookies: Cookies;
-    private photo_link = {
-        src: "",
-        width: 800,
-        height: 420
-    }
+    private photo_link_src = "";
+    app_list = [];
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
         this.eventAggregator = eventAggregator;
@@ -73,10 +70,9 @@ export class User {
         return this.api.call_server('default/read_configuration')
             .then(result => {
                 this.config = result.config;
-                if ((!this.photo_link.src) && this.config.cover_photo) {
-                    this.photo_link.src = this.config.cover_photo;
-                    this.photo_link.width = this.config.cover_photo_width;
-                    this.photo_link.height = this.config.cover_photo_height;
+                this.config_ready = true;
+                if ((!this.photo_link_src) && this.config.cover_photo) {
+                    this.photo_link_src = this.config.cover_photo;
                 }
             });
     }
@@ -167,13 +163,29 @@ export class User {
         return this.advanced;
     }
 
-    set_photo_link(photo_link) {
-        this.photo_link = photo_link;
+    set_photo_link(photo_link_src) {
+        this.photo_link_src = photo_link_src;
     }
 
     get_photo_link() {
-        return this.photo_link;
+        return this.photo_link_src;
     }
+
+    get_app_list() {
+        this.api.call_server('gallery/apps_for_gallery', {developer: this.privileges.DEVELOPER, editing: this.editing})
+            .then(response => {
+                this.app_list = response.app_list;
+            });
+
+    }
+
+    @computedFrom('editing', 'app_list')
+    get active_app_list() {
+        if (this.editing && this.privileges.ADMIN) return true;
+        let lst = this.app_list.filter(app => app.active);
+        return lst.length > 0;
+    }
+
 
 }
 

@@ -7,10 +7,31 @@
             can_mark.bind="user.editing"
             location-changed.delegate="location_changed($event)"
     >
-
     </my-map-->
-    <div style="width: 600px;margin-right:auto;margin-left:auto">
-        <button class="btn btn-primary" click.delegate="make_step()">Step forward</button>
+    <div style="display:flex">
+        <button class="btn btn-${use_html5 ? 'primary' : 'basic'}" click.delegate="use_html5=true">Html5</button>
+        <button class="btn btn-${use_html5 ? 'basic' : 'primary'}" click.delegate="use_html5=false">Youtube</button>
+    </div>
+    <div>
+        <button class="btn btn-primary" click.delegate="make_step($event)">Step forward</button>
         <progress-bar final.bind="final" current.bind="current"></progress-bar>
     </div>
+    <div style="width: 600px;margin-right:auto;margin-left:auto" if.bind="false && ! use_html5">
+        <yt-player player.bind="yt_player" video-id="GBpibo4TEdE"></yt-player>
+        <h3 if.bind="yt_player.paused">Paused</h3>
+        <h1>State: ${ytKeeper.playerState}</h1>
+        <h2 if.bind="ytKeeper.paused">Paused</h2>
+    </div>
+    <div style="width: 600px;margin-right:auto;margin-left:auto" if.bind="use_html5">
+        <!--html-player player.bind="player" video_source.bind="html5_source" ref="html5_player"></html-player-->
+        <html-player video_source.bind="html5_source" player.bind="html5_player">BOOM</html-player>
+        <h3 if.bind="html5_player.paused">Paused</h3>
+        <h1>State: ${html5_player.playerState}</h1>
+    </div>
+
+    <compose view-model="../services/yt-keeper"  if.bind="! use_html5"></compose>
+    <h3 if.bind="ytKeeper.paused">Paused</h3>
+    <h1>State: ${ytKeeper.state}</h1>
+    <!--yt-player player.bind="yt_player"></yt-player-->
+
 </template>

@@ -3,8 +3,14 @@ ul.story-list {
 }
 
 div.big-story-panel {
-    padding-left: 30px;
-    padding-right: 30px;
+    &.rtl {
+        padding-left: 30px;
+        padding-right: 15px;
+    }
+    &.ltr {
+        padding-left: 15px;
+        padding-right: 30px;
+    }
     font-size: 0.95em;
 }
 

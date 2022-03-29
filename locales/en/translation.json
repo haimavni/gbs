@@ -12,7 +12,8 @@
         "male-died-in": "Died in ",
         "female-died-in": "Died in",
         "to-the-page-of": "To Member's Page",
-        "new-message": "New Message"
+        "new-message": "New Message",
+        "video-samples": "Video samples"
     },
     "app-title": "GB Stories",
     "stories": {
@@ -108,7 +109,9 @@
         "enter-book-name": "Enter book name",
         "story-date": "Story date",
         "prev-story": "Previous story",
-        "next-story": "Next story"
+        "next-story": "Next story",
+        "clear-all-filters": "Clear all filters",
+        "remove-story-from-book": "Remove story from book"
     },
     "members": {
         "members": "Members",
@@ -271,6 +274,12 @@
         "enable-books-on": "Enable books",
         "enable-member-of-the-day-off": "No member of the day",
         "enable-member-of-the-day-on": "Enable member of the day",
+        "enable-cuepoints-on": "Enable video cuepoints",
+        "enable-cuepoints-off": "Disable video cuepoints",
+        "allow-publishing-on": "Allow displaying in apps gallery",
+        "allow-publishing-off": "Do not allow displaying in apps galler",
+        "expose-gallery-off": "Do not expose Gallery button",
+        "expose-gallery-on": "Expose Gallery button",
         "gallery": "Gallery",
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",
@@ -278,6 +287,8 @@
         "site-description": "Site description for search engines",
         "feedback-off": "Hide feedback button",
         "feedback-on": "Display feedback button",
+        "exclusive-on": "Open for registered users only",
+        "exclusive-off": "Open for any one with the link",
         "quick-upload-off": "Hide quick upload button",
         "quick-upload-on": "Hide quick upload button",
         "version-time-on": "display version time",
@@ -288,6 +299,8 @@
         "advanced-options": "Advanced options",
         "advanced-options-off": "No advanced options",
         "advanced-options-on": "Enable advanced options",
+        "registered-only": "Only registered users may view this site",
+        "please-login-if": "If you are registered, please login",
         "sharing": {
             "sharing": "Sharing",
             "facebook": "Share on Facebook",
@@ -407,6 +420,7 @@
         "cancel-indentification": "Cancel the identification",
         "chronological-order": "Chronological order",
         "chronological-order-reverse": "Chronological order reversed",
+        "alphabetical-order": "Alphabetical order",
         "edit-face-location": "Edit face location",
         "click-to-identify": "Click on a face to identify a person",
         "click-to-identify-article": "Click on an article to identify it",
@@ -418,7 +432,12 @@
         "mark-people": "Mark people faces",
         "mark-articles": "Mark articles",
         "undo-last-change": "Undo last change",
-        "photo-detail": "View photo details"
+        "photo-detail": "View photo details",
+        "set-slideshow-topics": "Slide show topics",
+        "slideshow-topics-saved": "Slideshow topics saved",
+        "exclude-from-main-slideshow": "Exclude from main slideshow",
+        "save-selected-photos": "Save the changes",
+        "cancel-selected-photos": "Cancel the changes"
     },
     "videos": {
         "videos": "Video",
@@ -440,13 +459,15 @@
         "photographer-name": "Photographer name",
         "unknown-photographer": "Unknown",
         "promote-selected-videos": "Promote selected videos",
+        "delete-selected-videos": "Delete selected videos",
         "filter": "Fast search in video titles",
         "edit-filters": "Topics and keywords",
         "add-cue": "Create stopping point",
         "cue-time": "Time",
         "cue-description": "Description",
         "describe-cue": "Describe this segment",
-        "members-in": "Members are in this segment"
+        "members-in": "Members are in this segment",
+        "select-members": "Select associated members"
     },
     "audios": {
         "audios": "Audios",
@@ -497,7 +518,13 @@
         "approved": "Approved Documents",
         "drag-left-and-right": "Drag here left or right",
         "edit-filters": "Topics and keywords",
-        "link-to-doc-created": "Link to the document is ready for pasting in the editor"
+        "link-to-doc-created": "Link to the document is ready for pasting in the editor",
+        "click-to-close": "Click to close",
+        "view-details": "View/edit details",
+        "doc-date": "Document date",
+        "members-in": "Members associated with this document",
+        "select-members": "Select associated members",
+        "fullscreen": "Full screen display. F11 to return"
     },
     "terms": {
         "terms": "Terms",
@@ -563,6 +590,10 @@
         "need-to-show": "Display or edit before sending",
         "place-marker": "Move and resize the map as necessary, then click on the photo place.",
         "successful-save": "Photo information saved successfully"
+    },
+    "gallery": {
+        "gallery": "Gallery",
+        "set-app-active": "Include in gallery"
     },
     "consts": {
         "vis-never": "Never display!",
@@ -630,10 +661,10 @@
         "tablet": "Tablet",
         "smartphone": "Smartphone",
         "header-text": "<p>Your feedback is important.</p>",
-        "bad-message": "What I do not like in the site",
-        "good-message": "What I like in the site",
-        "name": "Name. Not mandatory!",
-        "email-address": "Email address. Not mandatory!",
+        "bad-message": "What I do not like in the site. Mandatory if 'like' side is empty.",
+        "good-message": "What I like in the site. Mandatory if 'dont like' side is empty.",
+        "name": "Enter your name",
+        "email-address": "Email address. Mandatory!",
         "message-successful": "Your message was succesfully sent",
         "device-details": "Device details"
     },
@@ -655,6 +686,7 @@
         "archiver": "Archiver", 
         "tester": "Tester",
         "restricted": "Restricted",
+        "video_editor": "Video editor",
         "duplicate-app-name": "Name is alrady in use!",
         "new-app-requested": "Your request is being processed",
         "app-name": "New site ID",
@@ -696,6 +728,7 @@
     "abcde": "Abcde",
     "a": "A",
     "update": "update",
+    "continue": "Continue",
     "date-hint": "Enter year, month/year or full date",
     "please-update-head": "The system has been updated<br>",
     "please-update-body": "<p>The page will refresh now.<br><p> ",

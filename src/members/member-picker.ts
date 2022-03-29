@@ -34,6 +34,7 @@ export class MemberPicker {
     help_topic;
     multi = false;
     selected_member_ids = new Set();
+    was_empty = true;
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -82,6 +83,7 @@ export class MemberPicker {
         if (model.preselected) {
             console.log("model.preselected: ", model.preselected);
             for (let member_id of model.preselected) {
+                this.was_empty = false;
                 this.selected_member_ids.add(member_id)
                 let member = this.members.find(mem => mem.id == member_id);
                 member.selected = 'selected';

@@ -1,9 +1,10 @@
 import { bindable, inject, DOM, bindingMode, BindingEngine, computedFrom } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Theme } from '../../services/theme';
+import { Misc } from '../../services/misc';
 
 const WAIT = 50;
-@inject(DOM.Element, EventAggregator, BindingEngine, Theme)
+@inject(DOM.Element, EventAggregator, BindingEngine, Theme, Misc)
 export class PhotoStripCustomElement {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) slides = [];
     @bindable source;
@@ -12,6 +13,8 @@ export class PhotoStripCustomElement {
     @bindable settings = { height: 300, arrows: false, slide_show: 0 };
     @bindable id = 0;
     @bindable fullscreen = false;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) move_to;
+    @bindable ({ defaultBindingMode: bindingMode.twoWay }) restart;
     prev_id;
     element;
     width;
@@ -21,44 +24,64 @@ export class PhotoStripCustomElement {
     subscription;
     ready_interval;
     slideShow;
-    theme;
+    theme: Theme;
+    misc: Misc;
     dragging = false;
     slideShowStopped = false;
 
     // refs 
     slideList; // defined by element.ref in the html
 
-    constructor(element, eventAggregator: EventAggregator, bindingEngine, theme: Theme) {
+    constructor(element, eventAggregator: EventAggregator, bindingEngine, theme: Theme, misc: Misc) {
         this.element = element;
         this.eventAggregator = eventAggregator;
         this.bindingEngine = bindingEngine;
         this.theme = theme;
+        this.misc = misc;
     }
 
-    ready() {
+    async ready(what) {
         if (!this) {
             return;
         }
-        if (this.id != this.prev_id) {
+        if (this.id != this.prev_id || this.restart) {
+            if (this.restart) {
+                this.restart = 0;
+                let target = this.slideList;
+                if (target && what == 'attached') {
+                    target.style.left = '0px';
+                    target.setAttribute('data-x', 0);
+                }
+            }
             this.source.then(result => {
-                this.slides = result.photo_list;
-                for (let slide of this.slides) {
+                let slides = result.photo_list;
+                for (let slide of slides) {
                     if (this.theme.rtltr == "rtl" && slide.title && slide.title[0] != '<') {
                         slide.title = '<span dir="rtl">' + slide.title + '</span>';
                     }
                 }
+                this.start_slide_show(slides);
+                //this.misc.cache_images(slides);
                 if (this.calculate_widths()) {
-                    this.prev_id = this.id;
+                	this.prev_id = this.id;
                 }
-                this.shift_photos(0);
+                //this.shift_photos(0);
             });
 
+            //await this.misc.sleep(2000);
             let n = this.settings.slide_show;
             if (n && !this.slideShow) {
                 this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
                 this.shift_photos(0);  //for the case of half empty carousel
             }
         }
+    }
+
+    async start_slide_show(slides) {
+        let n = this.calculate_covering_count(slides);
+        this.slides = slides.slice(0, n);
+        await this.misc.sleep(2000);
+        this.slides = slides;
     }
 
     attached() {
@@ -68,13 +91,12 @@ export class PhotoStripCustomElement {
         this.width = elementRect.width;
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
-        this.ready_interval = setInterval(() => this.ready(), 100);
-        this.ready();
+        this.ready_interval = setInterval(() => this.ready('timer'), 100);
+        this.ready('attached');
         if (! this.theme.is_desktop)
             this.height = Math.round(this.theme.height / 3);
         else this.height = 220;
         this.dispatch_height_change();
-        //this.subscription = this.bindingEngine.collectionObserver(this.slides).subscribe(this.ready);
     }
 
     detached() {
@@ -82,7 +104,6 @@ export class PhotoStripCustomElement {
         clearInterval(this.slideShow);
         this.ready_interval = 0;
         this.slideShow = 0;
-        //this.subscription.dispose();
     }
 
     change_heights(new_height) {
@@ -94,7 +115,7 @@ export class PhotoStripCustomElement {
     drag_photos(event) {
         event.preventDefault();
         let { dx, dy, target } = event.detail;
-        if (Math.abs(dy) > 7 * Math.abs(dx)) { // must be significantly larger, to prevent inadvertant height change
+        if (Math.abs(dy) > 10 * Math.abs(dx)) { // must be significantly larger, to prevent inadvertant height change
             let h = this.height;
             this.height += dy;
             if (this.height < 10) {
@@ -153,10 +174,30 @@ export class PhotoStripCustomElement {
         x = Math.min(Math.max(x, min), max);
 
         // translate the element
-        target.style.left = `${x}px`;
+        if (target && target.style) {
+            target.style.left = `${x}px`;
+        }
 
-        // update the posiion attributes
+        // update the position attributes
         target.setAttribute('data-x', x);
+        return x;
+    }
+
+    async place_photos(x) {
+        let target = this.slideList;
+        for (let i = 0; i < 100; i++) {
+            if(target) break;
+            this.misc.sleep(10);
+            target = this.slideList;
+        }
+        if (!target) return;
+        if (target && target.style) {
+            target.style.left = `${x}px`;
+            target.setAttribute('data-x', x);
+            this.misc.sleep(100);
+            target.style.left = `${x}px`;
+            target.setAttribute('data-x', x);
+        }
     }
 
     dispatch_height_change() {
@@ -201,12 +242,29 @@ export class PhotoStripCustomElement {
             let img = document.getElementById('img-' + slide.photo_id);
             if (img) {
                 img.style.width = w + "px";
-            } else {
-                return false;
             }
         }
         return true;
     }
+
+    calculate_covering_count(slides) {
+        let container_width = this.theme.width;
+        let width = 0;
+        let n = 0;
+        for (let slide of slides) {
+            n += 1;
+            if (!slide) {
+                continue;
+            }
+
+            let r = this.height / slide.height;
+            let w = Math.round(r * slide.width);
+            width += w;
+            if (width > container_width) return n;
+        }
+        return n;
+    }
+
 
     get show_arrows() {
         return this.element.clientWidth < this.slideList.clientWidth;
@@ -219,7 +277,8 @@ export class PhotoStripCustomElement {
         }
         event.stopPropagation();
         if (this.action_key) {
-            this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides });
+            let offset = this.shift_photos(0);
+            this.eventAggregator.publish(this.action_key, { slide: slide, event: event, slide_list: this.slides, offset: offset });
         }
     }
 
@@ -246,5 +305,20 @@ export class PhotoStripCustomElement {
             this.change_heights(height)
         }
         return "";
+    }
+
+    @computedFrom('move_to')
+    get move_to_triggered() {
+        if (! this.move_to) return;
+        this.place_photos(this.move_to);
+        this.move_to = null;
+        return false;
+    }
+
+    @computedFrom('restart')
+    get restart_triggered() {
+       if (! this.restart) return;
+       this.ready('restart');
+       return '';
     }
 }

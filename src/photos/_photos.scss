@@ -68,11 +68,11 @@ div.panel.panel-default {
 .photo-detail {
     margin-left:auto;
     margin-right:auto;
-    min-height:755px;
+    //min-height:755px;
     .detail-header {
         display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
+        //flex-direction: row-reverse;
+        //justify-content: space-between;
     }
     editable div.story-section {
         height: 150px;
@@ -191,4 +191,32 @@ div.photo-story {
     padding-top:8px;
     width:100%;
     height:calc(100vh - 200px);
+}
+
+div.search-box {
+    &.rtl {
+        margin-left: 6px;
+    }
+    &.ltr {
+        margin-right: 6px;
+    }
+}
+
+body.dialog-body ux-dialog-container {
+    background-color: beige;
+    border: solid 5px green;
+    width: 1200px;
+    height: 97vh;
+}
+
+div#photo-story {
+    position:relative;
+    margin-right:30px;
+}
+
+div#full-size-photo {
+    z-index:0;
+    cursor:default;
+    display:flex;
+    flex-direction:column;
 }

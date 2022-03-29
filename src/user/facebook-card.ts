@@ -4,7 +4,6 @@ import { autoinject } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
-import * as toastr from 'toastr';
 import { copy_to_clipboard } from '../services/dom_utils';
 import { Popup } from '../services/popups';
 
@@ -19,7 +18,7 @@ export class FacebookCard {
     message_type;
     title;
     current_url;
-    img;
+    img_src;
     description;
     card_url;
     popup;
@@ -35,9 +34,9 @@ export class FacebookCard {
 
     activate(model) {
         this.current_url = model.current_url;
-        this.img = model.img;
+        this.img_src = model.img_src;
         this.title = this.i18n.tr('app-title');
-        if (this.img && this.img.src) {
+        if (this.img_src) {
             this.message = 'user.sharing.replace-photo';
             this.message_type = 'info';
         } else {
@@ -49,8 +48,7 @@ export class FacebookCard {
     create_card() {
         let title = this.title;
         this.api.call_server_post('default/create_fb_card',
-            {img_src: this.img.src, width: this.img.width, height: this.img.heignt,
-                url: this.current_url, title: title, description: this.description})
+            {img_src: this.img_src, url: this.current_url, title: title, description: this.description})
             .then(response => {
                 this.card_url = response.card_url;
                 copy_to_clipboard(this.card_url)

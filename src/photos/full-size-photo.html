@@ -1,7 +1,6 @@
 <template>
     <require from="./full-size-photo.css"></require>
-    <div class="slide unselectable" click.delegate="mark_face($event)" id="full-size-photo"
-        style="z-index:0;margin-left:32px;cursor:default;display:flex;flex-direction:column;"
+    <div id="full-size-photo"  class="slide unselectable" click.delegate="mark_face($event)" style="margin-left:0;"
         fullscreenchange.delegate="fullscreen_change($event)" interact-draggable.bind="theme.interact_setting"
         interact-dragmove.delegate="drag_move_photo($event)">
         <div style="display:flex;flex-direction:row-reverse;">
@@ -73,7 +72,7 @@
                     </span>
                 </button>
             </div>
-            <div style="display:flex;flex-direction:column;width:32px;">
+            <div id="full-size-photo-toolbar">
                 <help if.bind="!user.editing" topic="annnotated-photo" position="bottom" class="side-tool help">
                 </help>
                 <help if.bind="user.editing" topic="annnotated-photo-editing" position="bottom" class="side-tool help">
@@ -105,7 +104,7 @@
                     click.delegate="toggle_people_articles($event)"><i class="far fa-lg fa-trees"></i></button>
                 <button show.bind="user.editing" aubs-tooltip="text.bind:nobody_there;position.bind:hint_position;" class="side-tool rotate"
                         click.delegate="nobody($event)"><i class="fa fa-lg fa-check"></i></button>
-                <button show.bind="!theme.is_desktop" aubs-tooltip="text.bind:photo_detail;position.bind:hint_position;"
+                <button aubs-tooltip="text.bind:photo_detail;position.bind:hint_position;"
                         class="side-tool detail"
                         click.delegate="close($event)"><i class="fa fa-lg fa-bars"></i></button>
             </div>
@@ -132,6 +131,6 @@
         </div>
     </div>
     <div show.bind="false" class.bind="face_moved"></div>
-    </div>
+    <div show.bind="false" class.bind="force_calc_percents"></div>
 
 </template>
