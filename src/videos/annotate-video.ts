@@ -267,6 +267,15 @@ export class AnnotateVideo {
         this.player.currentTime = cue.time;
     }
 
+    step(cue, gap) {
+        cue.time = cue.time + gap;
+        this.player.currentTime = cue.time;
+        this.api.call_server_post('videos/update_video_cue_points', {
+            video_id: this.video_id,
+            cue_points: this.cue_points
+        });
+    }
+
     remove_cue(cue) {
         let idx = this.cue_points.findIndex(c => c.time == cue.time);
         this.cue_points.splice(idx, 1);
