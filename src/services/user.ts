@@ -19,7 +19,8 @@ export class User {
         expose_new_app_button: false,
         support_audio: false,
         cover_photo: "",
-        exclusive: false
+        exclusive: false,
+        enable_cuepoints: false
     };
     config_ready = false;
     public id;

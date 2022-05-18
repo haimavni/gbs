@@ -186,11 +186,17 @@ export class AnnotateVideo {
     }
 
     async set_video_source() {
+        let good = false;
         for (let i = 0; i < 100; i += 1) {
-            if (this.ytKeeper.player_is_ready) break;
+            if (this.ytKeeper.player_is_ready) {
+                good = true;
+                break;
+            }
             await this.misc.sleep(50);
         }
-        this.ytKeeper.videoSource = this.video_src;
+        if (good)
+            this.ytKeeper.videoSource = this.video_src;
+        else console.log("yt keeper not ready")
     }
 
     init_selected_topics() {

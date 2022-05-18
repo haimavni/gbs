@@ -497,7 +497,7 @@ export class Videos {
         event.stopPropagation();
         event.preventDefault();
         let n_cue_points = 0;
-        let cuepoints_enabled = this.user.privileges.VIDEO_EDITOR || this.user.enable_cuepoints;
+        let cuepoints_enabled = this.user.privileges.VIDEO_EDITOR || this.user.config.enable_cuepoints;
         if (cuepoints_enabled)
             await this.api.call_server_post('videos/video_cue_points', {video_id: video.id}).then(response=> {
                 n_cue_points = response.cue_points.length;
@@ -511,7 +511,8 @@ export class Videos {
                 video_id: video.id,
                 video_src: video.src,
                 video_name: video.name,
-                video_type: video.video_type
+                video_type: video.video_type,
+                cuepoints_enabled: cuepoints_enabled
             });
         }
     }
