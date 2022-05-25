@@ -157,13 +157,9 @@ export class Customize {
         this.app_title = this.i18n.tr('app-title');
     }
 
-    save() {
-        this.theme.set_locale_override('app-title', this.app_title);
-        this.controller.ok();
-    }
-
     save_app_title() {
-        this.theme.set_locale_override('app-title', this.app_title);
+        this.theme.set_locale_override('app-title', {app_title: this.app_title});
+        this.user.store_app_title()
     }
 
     save_app_description() {

@@ -129,10 +129,15 @@
                     <i class="far fa-envelope"></i>&nbsp;&nbsp;Mail
                 </a>
             </li>
-            <li>
+            <li style="border-bottom:solid 1px gray;">
                 <a class="resp-sharing-button__link" href="#" click.delegate="notify_link_copied()"
                     disabled="${current_url ? '' : 'disabled'}">
                     <i class="far fa-link"></i>&nbsp;&nbsp;Copy link
+                </a>
+            </li>
+            <li>
+                <a class="resp-sharing-button__link" href=""#" click.delegate="create_qrcode()">
+                    <i class="far fa-qrcode"></i>&nbsp;&nbsp;Create QR code
                 </a>
             </li>
         </ul>

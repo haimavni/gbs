@@ -78,6 +78,12 @@ export class User {
             });
     }
 
+    store_app_title() {
+        let app_title = this.i18n.tr('app-title');
+        this.api.call_server_post('default/save_app_title', {app_title: app_title})
+    }
+
+ 
     checkIfLoggedIn() {
         return this.api.call_server('default/check_if_logged_in')
             .then(result => {

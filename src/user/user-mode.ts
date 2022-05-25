@@ -14,6 +14,7 @@ import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
 import environment from '../environment';
 import { FacebookCard } from "./facebook-card";
+import { MakeQRCode } from "./make_qrcode";
 
 @autoinject()
 export class UserMode {
@@ -246,6 +247,15 @@ export class UserMode {
             this.theme.hide_title = false;
         });
 
+    }
+
+    create_qrcode() {
+        this.theme.hide_title = true;
+        this.dialog.open({viewModel: MakeQRCode, 
+            model: {url: this.current_url}, lock: false})
+            .whenClosed(response => {
+                this.theme.hide_title = false;
+        })
     }
 
 }
