@@ -37,6 +37,7 @@ export class MakeQRCode {
         this.api.call_server_post('default/create_qrcode', {url: this.url, name: this.qrname})
         .then(response => {
             let download_url = response.download_url;
+            console.log('download url: ', download_url);
             download(download_url);
             this.controller.ok();
         });
