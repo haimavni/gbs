@@ -1,6 +1,7 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { User } from '../services/user';
+import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
 import { Login } from '../user/login';
 import { AddCustomer } from '../admin/add_customer';
@@ -20,6 +21,7 @@ import { MakeQRCode } from "./make_qrcode";
 export class UserMode {
 
     user;
+    misc: Misc;
     theme;
     api;
     dialog;
@@ -38,8 +40,10 @@ export class UserMode {
     adv_options = [{name: 'advanced-options-off', cls: ''}, {name: 'advanced-options-on', cls: ''}];
     font_size_options = [];
 
-    constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
+    constructor(user: User, theme: Theme, misc: Misc, router: Router, dialog: DialogService, 
+        api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
         this.user = user;
+        this.misc = misc;
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
@@ -249,7 +253,15 @@ export class UserMode {
 
     }
 
-    create_qrcode() {
+    async create_qrcode() {
+        for (let i=0; i< 100; i++) {
+            if (this.current_url) break;
+            await this.misc.sleep(50);
+        }
+        if (! this.current_url) {
+            toastr.error("Could not create link");
+            return;
+        }
         this.theme.hide_title = true;
         this.dialog.open({viewModel: MakeQRCode, 
             model: {url: this.current_url}, lock: false})

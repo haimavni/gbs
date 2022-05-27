@@ -53,4 +53,17 @@ export class MakeQRCode {
         return true;
     }
 
+    keep_only_valid_chars(event) {
+        let key = event.key;
+        if (key == "Enter" || key == 'Backspace' || key == 'Delete') {
+            return true;
+        }
+        if (key == '_') return true;
+        if (key == '-') return true;
+        let m = key.match(/[0-9a-zA-Z/]/);
+        if (m) {
+            return true;
+        }
+        return false;
+    }
 }
