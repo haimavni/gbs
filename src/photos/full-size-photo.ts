@@ -492,10 +492,10 @@ export class FullSizePhoto {
     }
 
     public dragstart(face, customEvent: CustomEvent) {
-        customEvent.stopPropagation();
         if (!this.user.editing) {
-            return;
+            return true;
         }
+        customEvent.stopPropagation();
         let el = document.getElementById('face-' + face.member_id);
         let rect = el.getBoundingClientRect();
         let face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
@@ -519,11 +519,11 @@ export class FullSizePhoto {
     }
 
     public dragmove(face, customEvent: CustomEvent) {
-        customEvent.stopPropagation();
-        let event = customEvent.detail;
         if (!this.user.editing) {
             return;
         }
+        customEvent.stopPropagation();
+        let event = customEvent.detail;
         let id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
         let el = document.getElementById(id);
         let current_face = this.current_face;
