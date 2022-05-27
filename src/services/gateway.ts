@@ -113,13 +113,15 @@ export class MemberGateway {
     }
 
     call_server_post(url: string, data?: any) {
+        this.comment(url)
         data = data ? data : {};
         data['ptp_key'] = this.constants.ptp_key;
         data['webpSupported'] = this.themeA.webpSupported;
         let x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
-            .catch(error => toastr.error(error))
+            .catch(error => toastr.error(error + ' in ', url))
             .then((result) => {
+                this.comment(url + ' done');
                 if (result.error) {
                     toastr.error("Server error occured: " + this.tr(result.error));
                     return result;
@@ -130,6 +132,10 @@ export class MemberGateway {
                     return result;
                 }
             });
+    }
+
+    comment(str) {
+        console.log((new Date()).getTime(), ': ', str);
     }
 
     getMemberList() {
