@@ -77,6 +77,7 @@ export class PhotoDetail {
     photo_date_valid = '';
     ea: EventAggregator;
     sub1;
+    editing;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router, ea: EventAggregator) {
         this.api = api;
@@ -109,7 +110,7 @@ export class PhotoDetail {
         this.photo_ids = params.photo_ids;
         this.advanced_search = params.search_type == 'advanced';
         this.what = params.what ? params.what : "";
-        await this.update_topic_list();
+        await this.update_topic_list('activate');
         await this.get_photo_info(params.id);
         if (params.pop_full_photo) {
             this.open_full_size_photo()
@@ -363,7 +364,11 @@ export class PhotoDetail {
         this.api.call_server_post('chats/chatroom_deleted', { story_id: this.photo_story.story_id });
     }
 
-    update_topic_list() {
+    update_topic_list(caller) {
+        console.log('update topic list called by ', caller);
+        if (caller = 'editing' && this.editing == this.user.editing)
+            return;
+        this.editing = this.user.editing;
         let usage = this.user.editing ? {} : { usage: 'P' };
         this.api.call_server_post('topics/get_topic_list', usage)
             .then(result => {
@@ -377,13 +382,13 @@ export class PhotoDetail {
 
     @computedFrom('user.editing')
     get user_editing() {
-        this.update_topic_list();
+        this.update_topic_list('editing');
         return this.user.editing;
     }
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
         this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
-            .then(() => this.update_topic_list());
+            .then(() => this.update_topic_list('add  topic'));
     }
 
     slide_idx() {
@@ -464,7 +469,7 @@ export class PhotoDetail {
         let new_photographer_name = event.detail.new_name;
         this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' })
             .then(() => {
-                this.update_topic_list();
+                this.update_topic_list('add photographer');
             });
     }
 

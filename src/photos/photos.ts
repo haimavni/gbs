@@ -108,7 +108,7 @@ export class Photos {
     curr_photo_id = 0;
     update_photo_list_debounced;
     photos_date_valid = "";
-    editing = false;
+    editing;
     selected_photo_container;
 
     constructor(api: MemberGateway, user: User, cookies: Cookies, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
@@ -176,6 +176,7 @@ export class Photos {
         if (this.topic_list.length > 0) {
             return;
         }
+        console.log("update topic list alled in created");
         this.update_topic_list();
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
