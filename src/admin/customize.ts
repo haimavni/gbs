@@ -54,6 +54,7 @@ export class Customize {
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
     cover_photo;
+    cover_photo_id;
     user;
     froala_config = {
         iconsTemplate: 'font_awesome_5',
@@ -121,8 +122,10 @@ export class Customize {
         this.cover_photo = this.user.config.cover_photo;
         if (! this.cover_photo) {
             let cover_photo = this.user.get_photo_link();
+            let cover_photo_id = this.user.get_curr_photo_id;
             if (cover_photo) {
                 this.cover_photo = cover_photo;
+                this.cover_photo_id = cover_photo_id;
             }
         }
         this.api.call_server_post('members/get_app_description')
@@ -158,7 +161,7 @@ export class Customize {
     }
 
     save_app_title() {
-        this.theme.set_locale_override('app-title', {app_title: this.app_title});
+        this.theme.set_locale_override('app-title', this.app_title);
         this.user.store_app_title()
     }
 
@@ -343,16 +346,22 @@ export class Customize {
 
     set_cover_photo(event) {
         let cover_photo = this.user.get_photo_link();
-        if (event.ctrlKey) cover_photo = "";
+        let cover_photo_id = this.user.get_curr_photo_id();
+        if (event.ctrlKey) {
+            cover_photo = "";
+            cover_photo_id = null;
+        }
         this.cover_photo = cover_photo;
+        this.cover_photo_id = cover_photo_id;
         this.api.call_server_post('admin/cover_photo',
-            {cover_photo: cover_photo})
+            {cover_photo: cover_photo, cover_photo_id: cover_photo_id})
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();
             })
         //the following will create a padded photo of fixed dimensions. will obsolete the above
-        this.api.call_server_post('photos/set_cover_photo', {cover_photo: cover_photo})
+        this.api.call_server_post('photos/set_cover_photo', 
+            {cover_photo: cover_photo, cover_photo_id: this.cover_photo_id})
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();

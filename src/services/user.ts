@@ -29,6 +29,7 @@ export class User {
     private i18n;
     private cookies: Cookies;
     private photo_link_src = "";
+    curr_photo_id;
     app_list = [];
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
@@ -170,12 +171,17 @@ export class User {
         return this.advanced;
     }
 
-    set_photo_link(photo_link_src) {
+    set_photo_link(photo_link_src, photo_id) {
         this.photo_link_src = photo_link_src;
+        this.curr_photo_id = photo_id;
     }
 
     get_photo_link() {
         return this.photo_link_src;
+    }
+
+    get_curr_photo_id() {
+        return this.curr_photo_id;
     }
 
     get_app_list() {

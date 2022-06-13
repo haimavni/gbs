@@ -253,8 +253,9 @@ export class FullSizePhoto {
     copy_photo_url(event) {
         event.stopPropagation();
         let src = this.slide[this.slide.side].src;
+        let photo_id = this.slide[this.slide.side].photo_id;
         copy_to_clipboard(src);
-        this.user.set_photo_link(src);
+        this.user.set_photo_link(src, photo_id);
         let msg = this.i18n.tr('user.sharing.photo-link-copied');
         toastr.success(msg)
         return false;
@@ -689,7 +690,8 @@ export class FullSizePhoto {
         event.stopPropagation();
         let card_url;
         let img_src = this.slide[this.slide.side].src;
-        await this.api.call_server_post('photos/get_padded_photo_url', { photo_url: img_src })
+        let photo_id = this.slide[this.slide.side].photo_id;
+        await this.api.call_server_post('photos/get_padded_photo_url', { photo_url: img_src, photo_id: photo_id }) //photo_url is deprecated
             .then(response => img_src = response.padded_photo_url);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;

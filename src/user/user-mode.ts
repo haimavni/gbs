@@ -242,7 +242,9 @@ export class UserMode {
     async share_on_facebook() {
         this.theme.hide_title = true;
         let padded_photo_url;
-        await this.api.call_server_post('photos/get_padded_photo_url', {photo_url: this.user.get_photo_link()})
+        await this.api.call_server_post('photos/get_padded_photo_url', 
+            {photo_url: this.user.get_photo_link(), 
+             photo_id: this.user.get_curr_photo_id()})
             .then(response => padded_photo_url = response.padded_photo_url)
         this.dialog.open({ viewModel: FacebookCard,
             model: {current_url: this.current_url,
