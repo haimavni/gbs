@@ -30,7 +30,7 @@
                         <span style="position:absolute; left:40px;top:0px;">${'user.font-size' & t}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left">
-                        <li repeat.for="font_size_option of font_size_options" class="${'font-size-' + font_size_option} ${font_size_option.sel}">
+                        <li repeat.for="font_size_option of font_size_options" class="${'font-size-' + font_size_option.size} ${font_size_option.sel}">
                             <a class="dropdown-item" href="#" click.trigger="set_font_size(font_size_option.size)">
                                 ${'abcde' & t}
                             </a>
