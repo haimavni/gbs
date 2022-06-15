@@ -20,7 +20,7 @@ import { MakeQRCode } from "./make_qrcode";
 @autoinject()
 export class UserMode {
 
-    user;
+    user: User;
     misc: Misc;
     theme;
     api;
@@ -242,10 +242,22 @@ export class UserMode {
     async share_on_facebook() {
         this.theme.hide_title = true;
         let padded_photo_url;
+        let photo_url = this.user.get_photo_link();
+        let photo_id;
+        if (photo_url) {
+            photo_id = this.user.get_curr_photo_id();
+        } else {
+            photo_url = this.user.config.cover_photo;
+            photo_id = this.user.config.cover_photo_id;
+        }
+        console.log("photo_url ", photo_url, " photo_id ", photo_id, " user.config: ", this.user.config);
         await this.api.call_server_post('photos/get_padded_photo_url', 
-            {photo_url: this.user.get_photo_link(), 
-             photo_id: this.user.get_curr_photo_id()})
-            .then(response => padded_photo_url = response.padded_photo_url)
+            {photo_url: photo_url, 
+             photo_id: photo_id})
+            .then(response => {
+                padded_photo_url = response.padded_photo_url;
+                console.log("response padded_photo_url ", response);
+            })
         this.dialog.open({ viewModel: FacebookCard,
             model: {current_url: this.current_url,
                 img_src: padded_photo_url}, lock: false })

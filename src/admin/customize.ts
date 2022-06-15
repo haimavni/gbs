@@ -122,7 +122,7 @@ export class Customize {
         this.cover_photo = this.user.config.cover_photo;
         if (! this.cover_photo) {
             let cover_photo = this.user.get_photo_link();
-            let cover_photo_id = this.user.get_curr_photo_id;
+            let cover_photo_id = this.user.get_curr_photo_id();
             if (cover_photo) {
                 this.cover_photo = cover_photo;
                 this.cover_photo_id = cover_photo_id;
@@ -346,22 +346,16 @@ export class Customize {
 
     set_cover_photo(event) {
         let cover_photo = this.user.get_photo_link();
-        let cover_photo_id = this.user.get_curr_photo_id();
-        if (event.ctrlKey) {
-            cover_photo = "";
-            cover_photo_id = null;
+        if (cover_photo == this.cover_photo || ! cover_photo) {
+            toastr.warning(this.i18n.tr("admin.no-new-cover-photo-selected"));
+            return;
         }
+
+        let cover_photo_id = this.user.get_curr_photo_id();
         this.cover_photo = cover_photo;
         this.cover_photo_id = cover_photo_id;
         this.api.call_server_post('admin/cover_photo',
             {cover_photo: cover_photo, cover_photo_id: cover_photo_id})
-            .then(response => {
-                this.user.readConfiguration();
-                this.report_success();
-            })
-        //the following will create a padded photo of fixed dimensions. will obsolete the above
-        this.api.call_server_post('photos/set_cover_photo', 
-            {cover_photo: cover_photo, cover_photo_id: this.cover_photo_id})
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();

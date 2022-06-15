@@ -710,6 +710,7 @@
         "explain-accept-system": "Abandon your changes. Accept new system help message.",
         "promoted-story-expiration": "How many days to keep promoted story?",
         "changes-successfully-saved": "Your changes were successfully saved",
+        "no-new-cover-photo-selected": "No new cover photo selected",
         "cover-photo": "Cover Photo",
         "select-cover-photo1": "To set cover photo, find photo,",
         "select-cover-photo2": "To click the chain icon. then return here."

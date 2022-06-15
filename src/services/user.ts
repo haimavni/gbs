@@ -19,6 +19,7 @@ export class User {
         expose_new_app_button: false,
         support_audio: false,
         cover_photo: "",
+        cover_photo_id: null,
         exclusive: false,
         enable_cuepoints: false
     };
