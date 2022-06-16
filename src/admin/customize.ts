@@ -121,12 +121,21 @@ export class Customize {
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
         if (! this.cover_photo) {
-            let cover_photo = this.user.get_photo_link();
             let cover_photo_id = this.user.get_curr_photo_id();
-            if (cover_photo) {
-                this.cover_photo = cover_photo;
-                this.cover_photo_id = cover_photo_id;
-            }
+            this.api.call_server_post('admin/cover_photo',
+            {cover_photo_id: cover_photo_id})
+            .then(response => {
+                this.user.readConfiguration();
+                //this.report_success();
+            })
+
+
+            // let cover_photo = this.user.get_photo_link();
+            // let cover_photo_id = this.user.get_curr_photo_id();
+            // if (cover_photo) {
+            //     this.cover_photo = cover_photo;
+            //     this.cover_photo_id = cover_photo_id;
+            // }
         }
         this.api.call_server_post('members/get_app_description')
             .then(result => { this.app_description_story = result.story;
@@ -345,17 +354,16 @@ export class Customize {
     }
 
     set_cover_photo(event) {
-        let cover_photo = this.user.get_photo_link();
-        if (cover_photo == this.cover_photo || ! cover_photo) {
+        let cover_photo_id = this.user.get_curr_photo_id();
+        if (cover_photo_id == this.cover_photo_id || ! cover_photo_id) {
             toastr.warning(this.i18n.tr("admin.no-new-cover-photo-selected"));
             return;
         }
 
-        let cover_photo_id = this.user.get_curr_photo_id();
-        this.cover_photo = cover_photo;
+        //this.cover_photo = cover_photo;
         this.cover_photo_id = cover_photo_id;
         this.api.call_server_post('admin/cover_photo',
-            {cover_photo: cover_photo, cover_photo_id: cover_photo_id})
+            {cover_photo_id: cover_photo_id})
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();

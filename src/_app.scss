@@ -33,6 +33,7 @@
     .nav-item {
         color: inherit;
         display: inline-block;
+        font-weight: bold;
         &.active {
             color: blue;
             cursor: default;
