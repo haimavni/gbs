@@ -82,6 +82,7 @@ export class AccessManager {
         r.id = id
         this.api.call_server('admin/toggle_membership', r)
             .then((data) => {
+                console.log("after toggle membership");
                 let user = this.authorized_users.find(u => u.id == data.id);
                 let role = user.roles.find(r => r.role == data.role);
                 role.active = data.active;
