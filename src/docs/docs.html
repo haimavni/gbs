@@ -114,7 +114,7 @@
                         <help if.bind="user.advanced_user" topic="words" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
                         <help if.bind="!user.advanced_user" topic="words-simple" position="left" style="position:absolute;left:0px;top:46px;" params.bind="help_data"></help>
                         <multi-select
-                            options.bind="docs_index"
+                            options.bind="word_index.word_index"
                             selected_options.bind="params.selected_words"
                             keywords.two-way="keywords"
                             place_holder_text="docs.word-index"

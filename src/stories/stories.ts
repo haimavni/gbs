@@ -198,7 +198,7 @@ export class Stories {
             });
         this.word_index.get_word_index()
             .then(response => {
-                this.stories_index = response;
+                this.stories_index = this.word_index.word_index;
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
@@ -258,6 +258,25 @@ export class Stories {
         this.theme.display_header_background = true;
         this.theme.page_title = "stories.place-stories";
         this.scroll_area.scrollTop = this.scroll_top;
+        this.word_index.get_word_index()
+            .then(response => {
+                this.stories_index = response;
+                this.params.selected_words = [];
+                let g = 0;
+                for (let wrd of this.search_words) {
+                    let iw = this.stories_index.find(w => w.name == wrd);
+                    if (iw) {
+                        g += 1;
+                        iw.sign = 'plus'
+                        let item = { group_number: g, first: true, last: true, option: iw };
+                        this.params.selected_words.push(item);
+                    } else { //no such word in the vocabulary.
+                        let idx = this.search_words.findIndex(itm => itm == wrd);
+                        this.search_words = this.search_words.splice(idx, 1);
+                        this.keywords = this.search_words;
+                    }
+                }
+            });
     }
 
     detached() {
@@ -337,38 +356,6 @@ export class Stories {
                 //this.scroll_top = 0;
             });
     }
-
-    // handle_chunk(payload) {
-    //     this.active_result_types = payload.active_result_types;
-    //     if (this.ready_for_new_story_list) {
-    //         this.story_list = [];
-    //         this.scroll_top = 0;
-    //         if (!this.active_result_types.find(art => art == this.used_for))
-    //             this.used_for = this.active_result_types[0];
-    //         this.result_type_counters = payload.result_type_counters;
-    //     }
-    //     for (let story of payload.chunk) {
-    //         story.title = '<span dir="rtl">' + story.title + '</span>';
-    //     }
-    //     this.story_list = this.story_list.concat(payload.chunk);
-    //     this.ready_for_new_story_list = payload.num_stories == this.story_list.length;
-    //     if (this.ready_for_new_story_list) {
-    //         if (this.params.order_option.value == 'by-name') {
-    //             this.set_active_type();
-    //             let next_name = this.find_next_name();
-    //             this.start_name_history = this.misc.update_history(this.start_name_history, next_name, 6);
-    //         }
-    //         if (this.params.selected_book && this.user.editing) {
-    //             let book_stories = this.story_list;
-    //             let story_ids = book_stories.map(story => story.story_id);
-    //             this.checked_stories = new Set(story_ids);
-    //             for (let story of book_stories) {
-    //                 story.checked = true;
-    //             }
-    //         }
-    //     }
-    // }
-
     thumbnail(video_src) {
         return `https://i.ytimg.com/vi/${video_src}/mq2.jpg`
     }

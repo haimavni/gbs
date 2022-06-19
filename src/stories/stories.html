@@ -164,7 +164,7 @@
                         <help topic="words-simple" position="left" style="top:54px;"
                             if.bind="!user.advanced_user"
                             params.bind="help_data"></help>
-                        <multi-select options.bind="stories_index" selected_options.bind="params.selected_words"
+                        <multi-select options.bind="word_index.word_index" selected_options.bind="params.selected_words"
                             keywords.two-way="keywords" place_holder_text="stories.word-index" height="201"
                             highlight_unselectors.bind="highlight_unselectors"
                             ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
