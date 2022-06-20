@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-md-6" if.bind="user.editing && member" style="padding-right:48px;">
                     <div class="row" dir="rtl">
-                        <compose view-model="./member-edit" model.bind="member"></compose>
+                        <compose view-model="./member-edit" model.bind="{member: member}"></compose>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;"

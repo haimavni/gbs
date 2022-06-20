@@ -159,14 +159,15 @@ export class MemberDetail {
         this.life_summary_expanded = false;
     }
 
-    @computedFrom('member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date',
+    @computedFrom('member', 'member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 
+        'member.member_info.date_of_death.date',
         'member.member_info.cause_of_death', 'member.member_info.gender', 'theme.rtltr')
     get life_cycle_text() {
         if (!this.member) return "";
         return this.misc.calc_life_cycle_text(this.member.member_info)
     }
 
-    @computedFrom('member.member_info.Name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name',
+    @computedFrom('member','member.member_info.Name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name',
         'member.member_info.former_last_name', 'member.member_info.NickName')
     get member_display_name() {
         if (!this.member)

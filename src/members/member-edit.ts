@@ -44,8 +44,8 @@ export class MemberEdit {
         });
     }
 
-    activate(member) {
-        this.member = member;
+    activate(model) {
+        this.member = model.member;
         let m = this.member.member_info
         this.member_info_orig = this.misc.deepClone(m);
         if (this.user.privileges.DATA_AUDITOR)

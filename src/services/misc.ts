@@ -24,12 +24,14 @@ export class Misc {
         let death_place = member_info.place_of_death;
         let death_date = member_info.date_of_death ? member_info.date_of_death.date : "";
         let gender = member_info.gender || "M";
-        if (birth_date) {
+        if (birth_date || birth_place) {
             s += this.i18n.tr('members.born-' + gender.toLowerCase()) + " ";
             if (birth_place) {
                 s += this.i18n.tr('members.in-place') + birth_place + " ";
             }
-            s += this.i18n.tr('members.in-date') + birth_date + '.';
+            if (birth_date) {
+                s += this.i18n.tr('members.in-date') + birth_date + '.';
+            }
         }
         if (death_date) {
             let cod_idx = member_info.cause_of_death || 0;

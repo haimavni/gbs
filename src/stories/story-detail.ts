@@ -381,7 +381,7 @@ export class StoryDetail {
         return '';
     }
 
-    @computedFrom('story')
+    @computedFrom('story', 'story.name')
     get story_name() {
         if (this.story) return this.story.name;
         return '';
