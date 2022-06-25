@@ -242,6 +242,7 @@ export class MemberGateway {
             ws.onopen = onopen ? onopen : (function () { });
             ws.onmessage = onmessage;
             ws.onclose = onclose ? onclose : (function () { });
+            console.log("url in web socket: ", url);
             return ws; // supported
         } else return false; // not supported
     }
