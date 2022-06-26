@@ -220,6 +220,7 @@ export class MemberGateway {
     }
 
     handle_ws_message(msg) {
+        console.log("web socket message: ", msg)
         if (msg.data.startsWith('+anonymous')) return;
         if (msg.data.startsWith('-anonymous')) return;
         let obj;
