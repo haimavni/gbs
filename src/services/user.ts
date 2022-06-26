@@ -32,6 +32,7 @@ export class User {
     private photo_link_src = "";
     curr_photo_id;
     app_list = [];
+    _editing_mode_changed = false;
 
     constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
         this.eventAggregator = eventAggregator;
@@ -56,7 +57,14 @@ export class User {
 
     toggle_edit_mode() {
         this.editing = !this.editing;
+        this._editing_mode_changed = true;
         this.eventAggregator.publish('EditModeChange', this);
+    }
+
+    get editing_mode_changed() {
+        let b = this._editing_mode_changed;
+        this._editing_mode_changed = false;
+        return b;
     }
 
     readPrivileges() {

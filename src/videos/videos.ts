@@ -255,7 +255,8 @@ export class Videos {
 
     @computedFrom('user.editing')
     get user_editing() {
-        this.update_topic_list();
+        if (this.user.editing_mode_changed)
+            this.update_topic_list();
         return this.user.editing;
     }
 

@@ -300,8 +300,10 @@ export class Audios {
 
     @computedFrom('user.editing')
     get user_editing() {
-        this.update_topic_list();
-        this.update_recorder_list();
+        if (this.user.editing_mode_changed) {
+            this.update_topic_list();
+            this.update_recorder_list();
+        }
         return this.user.editing;
     }
 

@@ -382,7 +382,8 @@ export class PhotoDetail {
 
     @computedFrom('user.editing')
     get user_editing() {
-        this.update_topic_list('editing');
+        if (this.user.editing_mode_changed)
+            this.update_topic_list('editing');
         return this.user.editing;
     }
     add_topic(event) {
