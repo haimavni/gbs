@@ -204,7 +204,8 @@
         "delete-article": "Delete the object",
         "start-date": "Start date",
         "end-date": "End date",
-        "period": "Period: "
+        "period": "Period: ",
+        "new": "Create new object"
     },
     "quiz": {
         "filters": "Filters",
@@ -434,6 +435,9 @@
         "mark-articles": "Mark articles",
         "undo-last-change": "Undo last change",
         "photo-detail": "View photo details",
+        "create-qr-photo": "Create photo with QR",
+        "printed-photo-width": "Printed photo width",
+        "printed-photo-height": "Printed photo height",
         "set-slideshow-topics": "Slide show topics",
         "slideshow-topics-saved": "Slideshow topics saved",
         "exclude-from-main-slideshow": "Exclude from main slideshow",

@@ -202,7 +202,8 @@
         "delete-article": "מחק את האובייקט",
         "start-date": "תחילת התקופה",
         "end-date": "סוף התקופה",
-        "period": "תקופה: "
+        "period": "תקופה: ",
+        "new": "צור אובייקט חדש"
     },
     "quiz": {
         "filters": "מסננים",
@@ -436,6 +437,9 @@
         "mark-articles": "סמן אובייקטים",
         "undo-last-change": "בטל את השינוי האחרון",
         "photo-detail": "סיפורה של התמונה",
+        "create-qr-photo": "צור תמונה עם קוֹדָר",
+        "printed-photo-width": "רוחב התמונה המודפסת",
+        "printed-photo-height": "גובה התמונה המודפסת",
         "set-slideshow-topics": "קבע כנושאים למצגת הפתיחה",
         "slideshow-topics-saved": "הנושאים למצגת הפתיחה נשמרו",
         "exclude-from-main-slideshow": "התמונות שנבחרו לא תוצגנה במצגת הפתיחה",

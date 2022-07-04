@@ -11,6 +11,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { copy_to_clipboard } from "../services/dom_utils";
 import { I18N } from 'aurelia-i18n';
 import { FaceInfo } from './face-info';
+import { QrPhoto } from './qr-photo';
 import * as toastr from 'toastr';
 import { Popup } from '../services/popups';
 
@@ -61,6 +62,7 @@ export class FullSizePhoto {
     crop_sides;
     rotate;
     photo_detail;
+    create_qr_photo_txt;
     share_on_facebook_txt;
     next_slide_txt;
     prev_slide_txt;
@@ -105,6 +107,7 @@ export class FullSizePhoto {
         this.crop = this.i18n.tr('photos.crop');
         this.rotate = this.i18n.tr('photos.rotate-photo');
         this.photo_detail = this.i18n.tr('photos.photo-detail');
+        this.create_qr_photo_txt = this.i18n.tr('photos.create-qr-photo')
         this.save_crop = this.i18n.tr('photos.save-crop');
         this.cancel_crop = this.i18n.tr('photos.cancel-crop');
         this.share_on_facebook_txt = this.i18n.tr('user.sharing.share-on-facebook');
@@ -727,6 +730,28 @@ export class FullSizePhoto {
         event.stopPropagation();
         let unrecognize = event.ctrlKey;
         this.api.call_server('photos/mark_as_recogized', { photo_id: this.slide[this.slide.side].photo_id, unrecognize: unrecognize });
+    }
+
+    async create_qr_photo(event) {
+        let photo_id = this.slide[this.slide.side].photo_id;
+        let url = `${location.pathname}${location.hash}`;
+        let current_url;
+        await this.api.call_server_post('default/get_shortcut', { url: url })
+            .then(response => {
+                let base_url = `${location.host}`;
+                if (base_url == "localhost:9000") {
+                    base_url = environment.baseURL;  //for the development system
+                }
+                current_url = base_url + response.shortcut;
+            });
+        this.dialogService.open({
+            viewModel: QrPhoto,
+            model: {
+                photo_id: photo_id,
+                shortcut: current_url
+            }, lock: false
+        })   
+
     }
 
     slide_idx() {
