@@ -35,6 +35,11 @@ export class MemberList {
                     });
             }
         });
+        this.eventAggregator.subscribe('MEMBER_DELETED', payload => {
+            let member_id = payload.member_id;
+            let idx = this.members.member_list.findIndex(mem => mem.id == member_id);
+            this.members.member_list = this.members.member_list.splice(idx, 1);
+        });
 
         this.eventAggregator.subscribe('MemberGotProfilePhoto', payload => {
             this.set_profile_photo(payload.member_id, payload.face_photo_url);
