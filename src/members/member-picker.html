@@ -3,7 +3,11 @@
     <div id="member-picker">
         <div class="header">
             <div>
-                <button if.bind="user.editing && filter && agent.size==0 && ! multi" click.delegate="create_new_member()" class="btn btn-success cl-create-btn" disabled.bind="(! gender && ! filter)" if.bind="user.editing">
+                <button if.bind="user.editing && filter && agent.size==0 && ! multi && ! is_excluded" 
+                    click.delegate="create_new_member()" 
+                    class="btn btn-success cl-create-btn" 
+                    disabled.bind="(! gender && ! filter)" 
+                    if.bind="user.editing">
                     ${'members.new' & t} ${filter}
                 </button>
             </div>

@@ -35,6 +35,7 @@ export class MemberPicker {
     multi = false;
     selected_member_ids = new Set();
     was_empty = true;
+    excluded_names = new Set();
 
     constructor(user: User, eventAggregator: EventAggregator, memberList: MemberList, dialogController: DialogController, router: Router, api: MemberGateway, i18n: I18N) {
         this.user = user;
@@ -97,6 +98,14 @@ export class MemberPicker {
                     this.filter = result.first_name + ' ' + result.last_name;
                 })
         }
+        let ex_list = Array.from(this.excluded);
+        for (let member_id of ex_list) {
+            this.memberList.get_member_by_id(member_id)
+                .then(member => {
+                    let name = member.first_name + ' ' + member.last_name;
+                    this.excluded_names.add(name);
+                })
+        }
     }
 
     reorder_members_candidates_first() {
@@ -134,7 +143,7 @@ export class MemberPicker {
 
     async create_new_member() {
         let member_ids = [];
-        await this.api.call_server('members/member_by_name', { name: this.filter })
+        await this.api.call_server('members/member_by_name', { name: this.filter.trim() })
             .then(response => { member_ids = response.member_ids });
         if (this.gender) {
             let parent_of = (this.gender == 'M') ? this.i18n.tr('members.pa-of') : this.i18n.tr('members.ma-of');
@@ -167,6 +176,12 @@ export class MemberPicker {
         let key = 'members.filter';
         if (this.user.editing) key += '-can-add';
         return this.i18n.tr(key);
+    }
+
+    @computedFrom('filter')
+    get is_excluded() {
+        if (this.excluded_names.has(this.filter)) return true;
+        return false;
     }
 
 }

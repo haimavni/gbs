@@ -27,6 +27,7 @@ export class MemberEdit {
     misc;
     date_of_birth_valid = "";
     date_of_death_valid = "";
+    check_before_saving = false;
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
@@ -93,7 +94,13 @@ export class MemberEdit {
 
     save_edited_data() {
         let data = { user_id: this.user.id };
+        if (this.check_before_saving && ! this.dirty_info) {
+            this.check_before_saving = false;
+            return;
+        }
         if (this.dirty_info) {
+            this.member.member_info.last_name = this.member.member_info.last_name.trim();
+            this.member.member_info.first_name = this.member.member_info.first_name.trim();
             data['member_info'] = this.member.member_info;
         } else {
             data['member_id'] = this.member.member_info.id;
@@ -118,6 +125,20 @@ export class MemberEdit {
         else {
             this.member.member_info.gender = 'F'
         }
+    }
+
+    trim_first_name() {
+        let old = this.member.member_info.first_name;
+        this.member.member_info.first_name = this.member.member_info.first_name.trim();
+        if (old != this.member.member_info.first_name)
+            this.check_before_saving = true;
+    }
+
+    trim_last_name() {
+        let old = this.member.member_info.last_name;
+        this.member.member_info.last_name = this.member.member_info.last_name.trim();
+        if (old != this.member.member_info.last_name)
+            this.check_before_saving = true;
     }
 
     handle_editor_changed() {

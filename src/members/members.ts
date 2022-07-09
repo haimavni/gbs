@@ -8,6 +8,7 @@ import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
 import { QState, Question } from '../resources/elements/quiz/quiz-model';
+import * as toastr from 'toastr';
 
 
 @autoinject()
@@ -397,6 +398,28 @@ export class Members {
     get members_section_class() {
         if (this.theme.is_desktop) return "container content-area";
         return null;
+    }
+
+    check_duplicates() {
+        this.api.call_server_post('members/check_duplicates')
+        .then(response => {
+            let duplicates = response.duplicates;
+            if (duplicates.length == 0)
+                toastr.success("No duplicates found")
+            else {
+                toastr.warning(duplicates.length + " duplicates found!");
+                this.selected_members = new Set();
+                for (let itm of duplicates)
+                    for (let mid of itm) {
+                        this.selected_members.add(mid);
+                    }
+                for (let member of this._members) {
+                    if (this.selected_members.has(member.id))
+                        member.selected = 1;
+                }
+                this.filter = 'x'; //so only the duplicates show
+            }
+        })
     }
 
 

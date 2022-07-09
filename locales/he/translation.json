@@ -189,7 +189,8 @@
         "apply-answers": "ישם",
         "already-identified": " כבר מזוהה בתמונה זו",
         "back-to-photos": "בחזרה לתמונות",
-        "back-to-video": "חזרה לקטע הוידאו"
+        "back-to-video": "חזרה לקטע הוידאו",
+        "check-duplicates": "הצג שמות כפולים"
     },
     "articles": {
         "articles": "אובייקטים",

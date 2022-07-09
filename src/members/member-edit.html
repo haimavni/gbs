@@ -101,10 +101,14 @@
                         disabled.bind="true">
                 </div>
                 <div class="form-group ${member.member_info.first_name ? '' : 'mandatory-missing'}">
-                    <input type="text" class="form-control" id="first_name" t="[placeholder]members.first-name" value.bind="member.member_info.first_name">
+                    <input type="text" class="form-control" id="first_name" t="[placeholder]members.first-name" 
+                    value.bind="member.member_info.first_name" 
+                    change.delegate="trim_first_name()">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="last_name" t="[placeholder]members.last-name" value.bind="member.member_info.last_name">
+                    <input type="text" class="form-control" id="last_name" t="[placeholder]members.last-name" 
+                    value.bind="member.member_info.last_name"
+                    change.delegate="trim_last_name()">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="birth_place" t="[placeholder]members.birth-place" value.bind="member.member_info.PlaceOfBirth">

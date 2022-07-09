@@ -191,7 +191,8 @@
         "already-identified": " already indetified in this photo",
         "story-date": "Story date",
         "back-to-photos": "Back to photos",
-        "back-to-video": "Back to video"
+        "back-to-video": "Back to video",
+        "check-duplicates": "Check duplicates"
     },
     "articles": {
         "articles": "Articles",
