@@ -416,8 +416,11 @@ export class Members {
                 for (let member of this._members) {
                     if (this.selected_members.has(member.id))
                         member.selected = 1;
+                    else 
+                        member.selected = 0;
                 }
-                this.filter = 'x'; //so only the duplicates show
+                this.order = "selected;first_name;last_name;first_name";
+                this.memberList.sort_member_list(this.order);
             }
         })
     }
