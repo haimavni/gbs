@@ -7,6 +7,7 @@ import * as download from 'downloadjs';
 import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
 import {ThemeA} from './theme-a';
+import { SSL_OP_EPHEMERAL_RSA } from 'constants';
 
 let THIS;
 
@@ -80,9 +81,15 @@ export class MemberGateway {
                 .withInterceptor(new SimpleInterceptor());
         });
         this.get_constants();
-        this.listen('ALL');
-        this.listen('TASK_MONITOR');
+        this.start_listening();
         THIS = this;
+    }
+
+    async start_listening() {
+        //let first page show up before
+        await sleep(10000);
+        this.listen('ALL');
+        //this.listen('TASK_MONITOR');
     }
 
     tr(s) {
@@ -252,4 +259,8 @@ export class MemberGateway {
         this.call_server('members/count_hit', { what: what, item_id: item_id | 0 })
     }
 
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
