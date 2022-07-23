@@ -81,7 +81,7 @@ export class MemberGateway {
                 .withInterceptor(new SimpleInterceptor());
         });
         this.get_constants();
-        this.start_listening();
+        //this.start_listening();
         THIS = this;
     }
 
@@ -89,6 +89,7 @@ export class MemberGateway {
         //let first page show up before
         await sleep(10000);
         this.listen('ALL');
+        this.listen(this.constants.ptp_key);
         //this.listen('TASK_MONITOR');
     }
 
@@ -206,7 +207,8 @@ export class MemberGateway {
         this.call_server_post('members/get_constants')
             .then(response => {
                 this.constants = response;
-                this.listen(this.constants.ptp_key);
+                this.start_listening();
+                //this.listen(this.constants.ptp_key);
             });
     }
 
