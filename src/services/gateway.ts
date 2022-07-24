@@ -204,11 +204,10 @@ export class MemberGateway {
     }
 
     get_constants() {
-        this.call_server_post('members/get_constants')
+        this.call_server_post('starter/get_constants')
             .then(response => {
                 this.constants = response;
                 this.start_listening();
-                //this.listen(this.constants.ptp_key);
             });
     }
 
