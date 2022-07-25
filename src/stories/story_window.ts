@@ -22,6 +22,7 @@ export class StoryWindow {
     dont_save = false;
     raw: false;
     dirty;
+    images_hidden = false;
     froala_config = {
         iconsTemplate: 'font_awesome_5',
         toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
@@ -71,6 +72,27 @@ export class StoryWindow {
         this.show = !model.edit;
         this.froala_config.key = this.theme.froala_key();
         this.froala_config.language = this.story.language;
+        this.images_hidden = this.hide_images()
+    }
+
+    hide_images() {
+        if (! this.story_text.search('fr-inner'))
+            return false;
+        let pat_str = '<img (.*?)>';
+        let pat = new RegExp(pat_str, 'gi');
+        this.story_text = this.story_text.replace(pat, function(m, m1) {
+            return `<!--img ${m1}-->`
+        })
+        return true;
+
+    }
+
+    restore_images() {
+        let pat_str = '<!--img (.*?)-->';
+        let pat = new RegExp(pat_str, 'gi');
+        this.story_text = this.story_text.replace(pat, function(m, m1) {
+            return `<img ${m1}>`
+        })
     }
 
     initialized(e, editor) {
@@ -92,6 +114,8 @@ export class StoryWindow {
     }
 
     save() {
+        if (this.images_hidden)
+            this.restore_images()
         if (! this.dirty_story) {
             return;
         }
