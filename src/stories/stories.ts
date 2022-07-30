@@ -169,7 +169,7 @@ export class Stories {
 
     add_story(data) {
         console.log("new story ", data);
-        console.log("----- story list---");
+        this.story_list.splice(1, 0, data.story_data)
         console.log("story_list: ", this.story_list);
     }
 
