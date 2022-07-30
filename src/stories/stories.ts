@@ -168,15 +168,14 @@ export class Stories {
     }
 
     add_story(data) {
-        console.log("new story ", data);
-        this.story_list.splice(1, 0, data.story_data)
-        console.log("story_list: ", this.story_list);
+        this.story_list.splice(0, 0, data.story_data)
+        this.story_list = this.story_list.slice(); //force refresh
+        this.used_for = 2;
     }
 
     activate(params, config) {
         this.params.selected_story_visibility = 0;
         if (this.router.isExplicitNavigationBack) return;
-        console.log("story_list: ", this.story_list);
         if (this.story_list && this.story_list.length > 0 && !params.keywords) return;
         if (params.keywords == this.params.keywords_str && this.story_list && this.story_list.length > 0) return;
         if (params.keywords && params.keywords == this.prev_keywords) return;
@@ -458,7 +457,6 @@ export class Stories {
 
     apply_topics_to_selected_stories() {
         this.params.checked_story_list = Array.from(this.checked_stories);
-        console.log("this.params.checked_story_list ", this.params.checked_story_list);
         this.api.call_server_post('members/apply_topics_to_selected_stories', { params: this.params, used_for: this.used_for })
             .then(response => {
                 this.clear_selected_topics_now = true;
@@ -480,7 +478,6 @@ export class Stories {
     }
 
     clear_all_filters() {
-        console.log("clear all filters. params before: ", this.params);
         let p = this.params;
         p.base_year = 0;
         p.selected_topics = [];
