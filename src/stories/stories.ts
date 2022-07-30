@@ -149,6 +149,7 @@ export class Stories {
 
         this.ea.subscribe("GO-SEARCH", payload => { this.simple_search(payload.keywords, true) });
         this.ea.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload) });
+        this.ea.subscribe('NEW_STORY_ADDED', payload => { this.add_story(payload) });
         //this.ea.subscribe('STORY-LIST-CHUNK', payload => { this.handle_chunk(payload) });
         this.update_story_list_debounced = debounce(this.update_story_list, 1700, false);
         this.pickerSettings.place_holder_text = 'stories.enter-book-name';
@@ -166,9 +167,16 @@ export class Stories {
         }
     }
 
+    add_story(data) {
+        console.log("new story ", data);
+        console.log("----- story list---");
+        console.log("story_list: ", this.story_list);
+    }
+
     activate(params, config) {
         this.params.selected_story_visibility = 0;
         if (this.router.isExplicitNavigationBack) return;
+        console.log("story_list: ", this.story_list);
         if (this.story_list && this.story_list.length > 0 && !params.keywords) return;
         if (params.keywords == this.params.keywords_str && this.story_list && this.story_list.length > 0) return;
         if (params.keywords && params.keywords == this.prev_keywords) return;
