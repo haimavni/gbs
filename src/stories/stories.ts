@@ -172,7 +172,7 @@ export class Stories {
         this.story_list = this.story_list.slice(); //force refresh
         this.used_for = 2;
         console.log("add story data: ", data);
-        this.router.navigateToRoute('story-detail', { id: data.story_info.story_id, what: 'story', keywords: [], search_type: this.params.search_type, story_list: this.story_list });
+        this.router.navigateToRoute('story-detail', { id: data.story_data.story_id, what: 'story', keywords: [], search_type: this.params.search_type, story_list: this.story_list });
     }
 
     activate(params, config) {
