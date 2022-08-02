@@ -25,6 +25,7 @@ export class Customize {
     auto_reg_options = ['user.auto-reg', 'user.by-invitation'];
     new_app_options = ['user.new-app-enabled', 'user.new-app-disabled'];
     audio_options = ['user.audio-enabled', 'user.audio-disabled'];
+    terms_options = ['user.terms-enabled', 'user.terms-disabled'];
     feedback_options = ['user.feedback-on', 'user.feedback-off'];
     quick_upload_options = ['user.quick-upload-on', 'user.quick-upload-off'];
     version_time_options = ['user.version-time-on', 'user.version-time-off'];
@@ -41,6 +42,7 @@ export class Customize {
     auto_reg_option = 'user.by-invitation';
     new_app_option = 'user.new-app-disabled';
     audio_option = 'user.audio-disabled';
+    terms_option = 'user.terms-enabled';
     feedback_option = 'user.feedback-on';
     exclusive_option = 'user.exclusive-off'
     quick_upload_button = 'user.quick-upload-off';
@@ -107,6 +109,7 @@ export class Customize {
         this.auto_reg_option = this.user.config.enable_auto_registration ? 'user.auto-reg' : 'user.by-invitation';
         this.new_app_option = this.user.config.expose_new_app_button ? 'user.new-app-enabled' : 'user.new-app-disabled';
         this.audio_option = this.user.config.support_audio ? 'user.audio-enabled' : 'user.audio-disabled';
+        this.terms_option = this.user.config.terms_enabled ? 'user.terms-enabled' : 'user.terms-disabled';
         this.feedback_option = this.user.config.expose_feedback_button ? 'user.feedback-on' : 'user.feedback-off';
         this.exclusive_option = this.user.config.exclusive ? 'user.exclusive-on' : 'user.exclusive-off';
         this.quick_upload_button = this.user.config.quick_upload_button ? 'user.quick-upload-on' : 'user.quick-upload-off';
@@ -228,6 +231,16 @@ export class Customize {
                 this.report_success();
             })
     }
+
+    terms_option_selected(option) {
+        this.terms_option = option;
+        this.api.call_server('admin/set_terms_option', { option: this.terms_option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
 
     feedback_option_selected(option) {
         this.feedback_option = option;

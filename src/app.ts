@@ -247,7 +247,15 @@ export class App {
         this.router.navigateToRoute('gallery', {})
     }
 
-
+    show_menu_item(row) {
+        if (row.title=='audios.audios' && ! this.user.config.support_audio)
+            return false;
+        if (row.title=='terms.terms' && ! this.user.config.terms_enabled)
+            return false;
+        return true;
+    }
+    
+    
 }
 
 @autoinject

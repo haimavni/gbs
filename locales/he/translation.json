@@ -285,6 +285,8 @@
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",
+        "terms-enabled": "אפשר מילון מונחים",
+        "terms-disabled": "ללא מילון מונחים",
         "site-title": "כותרת האתר",
         "site-description": "תאור האתר למכונות חיפוש",
         "feedback-on": "הצג כפתור משוב",

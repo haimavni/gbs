@@ -16,7 +16,7 @@
                     <div class="menu-items">
                         <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}"
                             href.bind="row.href" draggable="false"
-                            if.bind="row.title!='audios.audios' || user.config.support_audio">
+                            if.bind="show_menu_item(row)">
                             ${row.title & t}. ${row.nav}
                         </a>
                     </div>

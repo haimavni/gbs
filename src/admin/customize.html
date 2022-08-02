@@ -87,6 +87,13 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
+                        <button repeat.for="trm of terms_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${trm==terms_option ? 'primary' : 'default'} customization"
+                            click.delegate="terms_option_selected(trm)">
+                            <span style="font-weight:bolder">${trm & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="feed of feedback_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${feed==feedback_option ? 'primary' : 'default'} customization"
                             click.delegate="feedback_option_selected(feed)">
