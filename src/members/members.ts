@@ -74,7 +74,7 @@ export class Members {
             { value: "selected;first_name;last_name;first_name", name: this.i18n.tr('members.by-first-name') },
             { value: "selected;-birth_date", name: this.i18n.tr('members.by-age-young-first') },
             { value: "selected;birth_date", name: this.i18n.tr('members.by-age-old-first') },
-            { value: "selected;-id", name: this.i18n.tr('members.newly-added')}
+            { value: "selected;-id", name: this.i18n.tr('members.newly-added') }
         ];
         if (this.user.privileges.EDITOR) {
             this.sorting_options.push({ value: "has_profile_photo", name: this.i18n.tr('members.profile-missing-first') });
@@ -373,6 +373,7 @@ export class Members {
         }
     }
 
+    
     goto_articles() {
         this.router.navigateToRoute('articles');
     }
@@ -383,7 +384,7 @@ export class Members {
         if (!this.theme.is_desktop) {
             size = 90;
             let ppl = Math.floor(this.theme.width / size)
-            size= this.theme.width / ppl;
+            size = this.theme.width / ppl;
         }
         return size - 20;
     }
@@ -391,7 +392,7 @@ export class Members {
     @computedFrom('theme.height')
     get member_list_height() {
         if (this.theme.is_desktop)
-            return  this.theme.height - 320;
+            return this.theme.height - 320;
         return null;
     }
 
@@ -402,27 +403,27 @@ export class Members {
 
     check_duplicates() {
         this.api.call_server_post('members/check_duplicates')
-        .then(response => {
-            let duplicates = response.duplicates;
-            if (duplicates.length == 0)
-                toastr.success("No duplicates found")
-            else {
-                toastr.warning(duplicates.length + " duplicates found!");
-                this.selected_members = new Set();
-                for (let itm of duplicates)
-                    for (let mid of itm) {
-                        this.selected_members.add(mid);
+            .then(response => {
+                let duplicates = response.duplicates;
+                if (duplicates.length == 0)
+                    toastr.success("No duplicates found")
+                else {
+                    toastr.warning(duplicates.length + " duplicates found!");
+                    this.selected_members = new Set();
+                    for (let itm of duplicates)
+                        for (let mid of itm) {
+                            this.selected_members.add(mid);
+                        }
+                    for (let member of this._members) {
+                        if (this.selected_members.has(member.id))
+                            member.selected = 1;
+                        else
+                            member.selected = 0;
                     }
-                for (let member of this._members) {
-                    if (this.selected_members.has(member.id))
-                        member.selected = 1;
-                    else 
-                        member.selected = 0;
+                    this.order = "selected;first_name;last_name;first_name";
+                    this.memberList.sort_member_list(this.order);
                 }
-                this.order = "selected;first_name;last_name;first_name";
-                this.memberList.sort_member_list(this.order);
-            }
-        })
+            })
     }
 
 

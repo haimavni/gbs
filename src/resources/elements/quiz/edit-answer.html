@@ -16,10 +16,10 @@
         </ux-dialog-body>
         <ux-dialog-footer>
             <button type="button" class="btn btn-primary ${disabled_if}" click.delegate="save()">
-                Save
+                ${'members.save' & t}
             </button>
             <button type="button" if.bind="!done" class="btn btn-info" click.delegate="cancel()">
-                Cancel
+                ${'members.cancel' & t}
             </button>
         </ux-dialog-footer>
     </ux-dialog>

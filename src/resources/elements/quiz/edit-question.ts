@@ -26,6 +26,10 @@ export class EditQuestion {
         this.controller.ok();
     }
 
+    toggle_nota_default(what) {
+        this.question.nota_default = what;
+    }
+
     cancel() {
         //restore original values
         this.question.prompt = this.old_prompt;

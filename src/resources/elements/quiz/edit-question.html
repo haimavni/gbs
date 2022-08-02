@@ -13,14 +13,26 @@
                     <input type="text" class="form-control"  t="[placeholder]quiz.description"
                         value.bind="question.description">
                 </div>
+                <div style="display:flex;flex-direction: row;" >
+                    <button type="button" style="margin-left:3px;"
+                        click.delegate="toggle_nota_default(true)"
+                        class="form-control ${question.nota_default ? 'btn btn-primary' : 'btn btn-info'}">
+                        ${'quiz.none-of-the-above-default' & t}
+                    </button>
+                    <button style="margin-right:3px;" 
+                        click.delegate="toggle_nota_default(false)"
+                        class="form-control ${! question.nota_default ? 'btn btn-primary' : 'btn btn-info'}">
+                        ${'quiz.no-default' & t}
+                    </button>
+                </div>
             </form>
         </ux-dialog-body>
         <ux-dialog-footer>
             <button type="button" class="btn btn-primary ${disabled_if}" click.delegate="save()">
-                Save
-            </button>
+                ${'members.save' & t}
+             </button>
             <button type="button" if.bind="!done" class="btn btn-info" click.delegate="cancel()">
-                Cancel
+                ${'members.cancel' & t}
             </button>
         </ux-dialog-footer>
     </ux-dialog>

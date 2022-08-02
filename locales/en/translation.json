@@ -222,7 +222,9 @@
         "description": "Description",
         "answer-text": "Answer text",
         "clear-all": "Clear",
-        "none-of-the-above": "None of the above"
+        "none-of-the-above": "None of the above",
+        "none-of-the-above-default": "'None of the above' default",
+        "no-default": "No default"
     },
     "user": {
         "hit-counts": "Entries counter",
