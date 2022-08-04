@@ -114,7 +114,7 @@
                     <div if.bind="user.editing" style="padding-right:15px;padding-top:8px;">
                         <div class="fr-view" dir="${story_dir}">
                             <div class="big-story-panel ${theme.font_size} ${theme.rtltr}" style="position:relative;">
-                                <editable if.bind="user.editing"
+                                <editable if.bind="ready_to_edit"
                                     settings.bind="{show_date:false, class:'story-section', checkable: false}"
                                     story.bind="story">
                                 </editable>

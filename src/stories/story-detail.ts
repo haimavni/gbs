@@ -78,6 +78,7 @@ export class StoryDetail {
     btn_next;
     story_date_valid = '';
     move_to;
+    ready_to_edit = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, member_list: MemberList, article_list: ArticleList,
                 theme: Theme, misc: Misc, eventAggregator: EventAggregator, dialog: DialogService) {
@@ -201,6 +202,7 @@ export class StoryDetail {
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
                 }
+                this.ready_to_edit = true;
                 if (what == 'help') return;
                 if (this.new_story) return;
                 this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: story_id, story_type: this.story_type });
