@@ -201,11 +201,11 @@ export class StoryDetail {
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
                 }
+                if (what == 'help') return;
+                if (this.new_story) return;
+                this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: story_id, story_type: this.story_type });
+                this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
             });
-        if (what == 'help') return;
-        if (this.story.story_id == 'new') return;
-        this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: story_id, story_type: this.story_type });
-        this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
     }
 
     next_photo() {
