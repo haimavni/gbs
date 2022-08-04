@@ -203,7 +203,7 @@ export class StoryDetail {
                 }
             });
         if (what == 'help') return;
-        if (this.new_story) return;
+        if (this.story.story_id == 'new') return;
         this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: story_id, story_type: this.story_type });
         this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
     }
