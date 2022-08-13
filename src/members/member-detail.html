@@ -1,15 +1,16 @@
 <template>
-    <div id="member-detail" class="content-area" ref="member_detail_container">
+    <div id="member-detail" class="content-area ${theme.rtltr}" ref="member_detail_container">
         <div class="row" ref="member_header">
             <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" dir="${theme.rtltr}">
-                <i class="far fa-arrow-up pull-left" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
+                <i class="far fa-arrow-up pull-${theme.other_dir}" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
                 <span if.bind="member_info.id">${member_display_name}</span>
                 <span if.bind="! member_info.id">${new_member}</span>
                 <span style="color:white;font-size:85%;margin-right:30px;"> ${life_cycle_text} </span>
             </div>
         </div>
         <div class="row" ref="photo_strip">
-            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height" id.bind="member_info.id"
+            <photo-strip class="col-xs-12" source.bind="source" height.bind="photo_strip_height"
+                         id.bind="member_info.id" move_to.bind="move_to"
                 style="padding:0;"
                 action_key="Zoom" dir="ltr"
                 height_change.delegate="on_height_change($event)"
@@ -17,14 +18,14 @@
             </photo-strip>
         </div>
         <div class="container" ref="member_detail_panel">
-            <div id="member-detail-content" class="row" dir="rtl" ref="top_panel">
+            <div id="member-detail-content" class="row" ref="top_panel">
                 <div class="col-md-6 col-sm-12">
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
-                    <div class="family-chains" ref="family_connections_panel">
-                        <table class="noborder">
-                            <tr if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
-                                <td class="relation-kind">${'parents' & t}</td>
-                                <td>
+                    <div class="family-chains" ref="family_connections_panel" style="display:flex;flex-direction:column;">
+                        <div class="noborder">
+                            <div style="display:flex;flex-direction:row;" if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
+                                <div class="relation-kind">${'parents' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
@@ -43,11 +44,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.siblings.length > 0">
-                                <td class="relation-kind">${'siblings' & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.siblings.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'siblings' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}"
@@ -60,11 +61,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.spouses.length > 0">
-                                <td class="relation-kind">${member.spouses & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.spouses.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${member.spouses & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" 
@@ -76,11 +77,11 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                            <tr if.bind="member.family_connections.children.length> 0">
-                                <td class="relation-kind">${'children' & t}</td>
-                                <td>
+                                </div>
+                            </div>
+                            <div if.bind="member.family_connections.children.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'children' & t}</div>
+                                <div>
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" 
@@ -92,26 +93,28 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                        </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6" if.bind="user.editing && member" style="padding-right:48px;">
                     <div class="row" dir="rtl">
-                        <compose view-model="./member-edit" model.bind="member"></compose>
+                        <compose view-model="./member-edit" model.bind="{member: member}"></compose>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box1"
-                    if.bind="story_0.story_text == '' && ! user.privileges.EDITOR && ! user.editing">
+                <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;"
+                     ref="life_summary_box1"
+                    if.bind="story_0 && story_0.story_text == '' && ! user.privileges.EDITOR && ! user.editing">
                 </div>
-                <div class="col-md-6 col-sm-12 fr-view life-summary" style="margin-bottom:20px;padding-left:20px;padding-bottom:10px;" ref="life_summary_box"
-                        if.bind="(user.privileges.EDITOR || story_0.story_text != '') && ! user.editing">
+                <div class="col-md-6 col-sm-12 fr-view life-summary has-life"
+                     ref="life_summary_box"
+                     if.bind="(user.privileges.EDITOR || story_0 &&  story_0.story_text != '') && ! user.editing">
                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
                         ${'members.life-summary' & t} ${member_info.first_name}
                     </h4>
                     <i class="fa fa-expand fa-lg"
-                        show.bind="member.member_stories.length > 1 && !life_summary_expanded"
+                        show.bind="theme.is_desktop && member.member_stories.length > 1 && !life_summary_expanded"
                         style="margin-left:32px;float:left;cursor:pointer;"
                         aubs-tooltip="text.bind:expand"
                         click.trigger="toggle_life_summary_size($event)">
@@ -135,72 +138,80 @@
                         <i if.bind="user.privileges.EDITOR" class="fas fa-pencil is-link" style="font-size:0.5em;padding-top:8px;padding-left:4px;" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
                         ${story_0.name}
                     </h3>
-                    <div class="member-story-panel ${theme.rtltr}" style="border-left:solid 2px darkgray;height:82%" ref="life_summary_content">
-                            <p class="${theme.font_size} ${highlight_on}" innerhtml.bind="biography ">
+                    <div class="member-story-panel biography" ref="life_summary_content" dir="${biography_dir}">
+                        <p class="${theme.font_size} ${biography_dir} ${highlight_on}" innerhtml.bind="biography">
                         </p>
                     </div>
                 </div>
             </div>
             <!--member stories panel-->
             <div id="stories" class="fr-view row ${theme.font-size} unselectable" ref="bottom_panel"
+                contextmenu.delegate="config_member_stories($event)"
                 show.bind="member.member_stories.length > 1 && ! (user.editing || life_summary_expanded)"
                 css="margin-left:-28px;margin-right:0px;"
                 interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 story-box" css="float:${theme.same_dir};height:${story_box_height}px;padding-right:8px;" click.trigger="goto_story_page(story_1)">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 story-box" css="float:${theme.same_dir};height:${story_box_height}px;padding-right:8px;" 
+                    click.trigger="goto_story_page(story_1)">
                     <div class="member-story-header" show.bind="story_1.story_text != ''" aubs-tooltip="text.bind:to_story_page" >
-                        <h4 dir="rtl">
+                        <h4  ${story_1.dir}>
                             <span class="name" innerhtml.bind="story_1.name"></span>
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel member-story-preview" show.bind="story_1.story_text != ''" css="height:${story_box_height-85}px;">
-                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_1.preview">
+                        <p class="${theme.font_size} ${story_1.dir}" innerhtml.bind="story_1.preview">
                         </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6 hidden-xs story-box" css="float:${theme.same_dir};height:${story_box_height}px;" click.trigger="goto_story_page(story_2)">
                     <div class="member-story-header" show.bind="story_2.story_text != ''" aubs-tooltip="text.bind:to_story_page" >
-                        <h4 dir="rtl">
+                        <h4  ${story_2.dir}>
                             <span class="name" innerhtml.bind="story_2.name"></span>
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel member-story-preview" show.bind="story_2.story_text != ''" css="height:${story_box_height-85}px;">
-                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_2.preview">
+                        <p dir="rtl" class="${theme.font_size} ${story_2.dir}" innerhtml.bind="story_2.preview">
                         </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6 hidden-sm hidden-xs story-box" css="float:${theme.same_dir};height:${story_box_height}px;" click.trigger="goto_story_page(story_3)">
                     <div class="member-story-header" show.bind="story_3.story_text != ''" aubs-tooltip="text.bind:to_story_page" >
-                        <h4 dir="rtl">
+                        <h4  ${story_3.dir}>
                             <span class="name" innerhtml.bind="story_3.name"></span>
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel member-story-preview" show.bind="story_3.story_text != ''" css="height:${story_box_height-85}px;">
-                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_3.preview">
+                        <p dir="rtl" class="${theme.font_size} ${story_3.dir}" innerhtml.bind="story_3.preview">
                         </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6 hidden-md hidden-sm hidden-xs story-box" css="float:${theme.same_dir};height:${story_box_height}px;" click.trigger="goto_story_page(story_4)">
                     <div class="member-story-header" show.bind="story_4.story_text != ''" aubs-tooltip="text.bind:to_story_page">
-                        <h4 dir="rtl">
+                        <h4 class="${story_4.dir}">
                             <span class="name" innerhtml.bind="story_4.name"></span>
                         </h4>
                         <i class="fa fa-play fa-lg fa-rotate-180 to-full-page"></i>
                     </div>
                     <div class="member-story-panel member-story-preview" show.bind="story_4.story_text != ''" css="height:${story_box_height-85}px;">
-                        <p dir="rtl" class="${theme.font_size}" innerhtml.bind="story_4.preview ">
+                        <p class="${theme.font_size} ${story_4.dir}" innerhtml.bind="story_4.preview ">
                         </p>
                     </div>
                 </div>
                 <div if.bind="stories_scroll" class="slide-control next" click.trigger="next_story($event, -1)">
-                    <i class="far fa-chevron-right fa-3x"></i>
+                    <i class="fas fa-chevron-right fa-2x"></i>
                 </div>
                 <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)">
-                    <i class="far fa-chevron-left fa-3x"></i>
+                    <i class="fas fa-chevron-left fa-2x"></i>
+                </div>
+                <div class="slide-control config" click.delegate="config_member_stories($event)">
+                    <i class="fas fa-search fa-lg"></i>
                 </div>
             </div>
         </div>
+    </div>
+    <div show.bind="false">
+        ${stories_base_changed}
     </div>
 </template>

@@ -1,16 +1,19 @@
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
-import { autoinject, singleton, computedFrom } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
-import { DialogService } from 'aurelia-dialog';
-import { AddVideo } from './add-video';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import { format_date } from '../services/my-date';
+import {MemberGateway} from '../services/gateway';
+import {User} from "../services/user";
+import {Theme} from "../services/theme";
+import {autoinject, singleton, computedFrom} from 'aurelia-framework';
+import {I18N} from 'aurelia-i18n';
+import {Router} from 'aurelia-router';
+import {DialogService} from 'aurelia-dialog';
+import {AddVideo} from './add-video';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
+import {format_date} from '../services/my-date';
+import {Popup} from '../services/popups';
+import {Misc} from '../services/misc';
 
 @autoinject
+@singleton()
 class Video {
     photographer_name = "";
     photographer_name_label = "";
@@ -18,6 +21,8 @@ class Video {
     keywords_label = "";
     name = "";
     src = "";
+    thumbnail_url = "";
+    video_type = "";
     id = 0;
     keywords = "";
     video_date_datestr = "";
@@ -51,16 +56,16 @@ export class Videos {
     filter = "";
     video_list: Video[] = [];
     api;
+    popup: Popup;
     user;
     theme;
+    misc;
     i18n;
     router;
     scroll_area;
     scroll_top = 0;
     dialog;
     ea;
-    first_index = 0;
-    videos_per_page = 9;
     photographer_list = [];
     topic_list = [];
     topic_groups = [];
@@ -100,19 +105,23 @@ export class Videos {
     no_topics_yet = false;
     no_photographers_yet = false;
 
-    constructor(api: MemberGateway, user: User, i18n: I18N, theme: Theme, router: Router, dialog: DialogService, ea: EventAggregator) {
+    constructor(api: MemberGateway, user: User, popup: Popup, i18n: I18N, theme: Theme, misc: Misc,
+                router: Router, dialog: DialogService, ea: EventAggregator) {
         this.api = api;
         this.user = user;
+        this.popup = popup;
         this.i18n = i18n;
         this.theme = theme;
         this.dialog = dialog;
         this.ea = ea;
+        this.router = router;
+        this.misc = misc;
     }
 
     video_data(video_rec) {
         switch (video_rec.video_type) {
             case 'youtube':
-                video_rec.src = "//www.youtube.com/embed/" + video_rec.src + "?wmode=opaque";
+                video_rec.thumbnail_url = `https://i.ytimg.com/vi/${video_rec.src}/mq2.jpg`
                 break;
             case 'vimeo':
                 //use the sample below 
@@ -150,31 +159,32 @@ export class Videos {
         this.editing_filters = false;
     }
 
-    update_video_list() {
+    async update_video_list(first_time=false) {
+        if (! first_time) {
+            for (let i=0; i < 100; i++) {
+                if (this.scroll_area) break;
+                this.misc.sleep(30);
+            }
+            if (this.scroll_area) {
+                this.scroll_top = 0;
+                this.scroll_area.scrollTo({left: 0, top: 0, behavior: 'auto'});
+                await this.misc.sleep(100);
+                this.scroll_area.scrollTo({left: 0, top: 0, behavior: 'auto'});
+            }
+        }
         this.params.editing = this.user.editing;
-        this.api.call_server_post('photos/get_video_list', this.params)
+        this.api.call_server_post('videos/get_video_list', this.params)
             .then(response => this.set_video_list(response.video_list));
     }
 
-    attached() {
+    async attached() {
         this.theme.display_header_background = true;
         this.theme.page_title = "videos.video-clips";
-    }
-
-    async created(params, config) {
-        await this.update_topic_list();
-        this.update_video_list();
-        this.ea.subscribe('NEW-VIDEO', msg => {
-            this.add_video(msg.new_video_rec)
-        });
-        this.ea.subscribe('VIDEO-INFO-CHANGED', msg => {
-            this.refresh_video(msg.changes)
-        });
-        this.ea.subscribe('TAGS_MERGED', () => { this.update_topic_list() });
-        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => { this.update_topic_list() });  //for now topics and photogaphers are handled together...
-        this.ea.subscribe('VIDEO-TAGS-CHANGED', response => {
-            this.apply_changes(response.changes)
-        });
+        //let el = document.getElementById('scroll-area');
+        let el = this.scroll_area;
+        el.scrollTo({left: 0, top: this.scroll_top, behavior: 'auto'});
+        await this.misc.sleep(100);
+        el.scrollTo({left: 0, top: this.scroll_top, behavior: 'auto'});
     }
 
     detached() {
@@ -182,8 +192,28 @@ export class Videos {
         this.theme.page_title = "";
     }
 
+    async created(params, config) {
+        await this.update_topic_list();
+        this.update_video_list(true);
+        this.ea.subscribe('NEW-VIDEO', msg => {
+            this.add_video(msg.new_video_rec)
+        });
+        this.ea.subscribe('VIDEO-INFO-CHANGED', msg => {
+            this.refresh_video(msg.changes)
+        });
+        this.ea.subscribe('TAGS_MERGED', () => {
+            this.update_topic_list()
+        });
+        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => {
+            this.update_topic_list()
+        });  //for now topics and photogaphers are handled together...
+        this.ea.subscribe('VIDEO-TAGS-CHANGED', response => {
+            this.apply_changes(response.changes)
+        });
+    }
+
     update_topic_list() {
-        let usage = this.user.editing ? {} : { usage: 'V' };
+        let usage = this.user.editing ? {} : {usage: 'V'};
         this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -206,17 +236,14 @@ export class Videos {
 
     new_video() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: AddVideo, model: { params: {} }, lock: true }).whenClosed(response => {
+        this.dialog.open({viewModel: AddVideo, model: {params: {}}, lock: true}).whenClosed(response => {
             this.theme.hide_title = false;
         });
     }
 
     add_video(new_video_rec) {
         new_video_rec = this.video_data(new_video_rec);
-        this.video_list.push(new_video_rec);
-        let n = this.video_list.length;
-        let r = n % this.videos_per_page
-        this.first_index = n - r;
+        this.video_list.splice(0, 0, new_video_rec);
     }
 
     refresh_video(changes) {
@@ -226,56 +253,22 @@ export class Videos {
         }
     }
 
-    page(step, event) {
-        let idx = this.new_first_index(step);
-        if (idx >= 0) {
-            this.first_index = idx;
-        }
-        event.target.parentElement.blur();
-    }
-
-    new_first_index(step) {
-        let idx = this.first_index + step * this.videos_per_page;
-        if (idx >= 0 && idx < this.length_keeper.len) {
-            return idx;
-        }
-        return -1;
-    }
-
-    _disabled(side) {
-        if (this.length_keeper.len == 0) return true;
-        if (this.first_index >= this.length_keeper.len) {
-            this.first_index = 0;
-        }
-        let idx = this.new_first_index(side);
-        return (idx < 0);
-    }
-
-    @computedFrom('length_keeper.len', 'first_index')
-    get next_disabled() {
-        return this._disabled(+1);
-    }
-
-    @computedFrom('length_keeper.len', 'first_index')
-    get prev_disabled() {
-        return this._disabled(-1);
-    }
-
     @computedFrom('user.editing')
     get user_editing() {
-        this.update_topic_list();
+        if (this.user.editing_mode_changed)
+            this.update_topic_list();
         return this.user.editing;
     }
 
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
+        this.api.call_server_post('topics/add_topic', {topic_name: new_topic_name})
             .then(() => this.update_topic_list());
     }
 
     remove_topic(event) {
         let topic_id = event.detail.option.id;
-        this.api.call_server_post('topics/remove_topic', { topic_id: topic_id })
+        this.api.call_server_post('topics/remove_topic', {topic_id: topic_id})
             .then(() => this.update_topic_list());
     }
 
@@ -340,16 +333,18 @@ export class Videos {
     }
 
     delete_video(video) {
-        this.api.call_server('photos/delete_video', { video_id: video.id })
+        let selecterd_videos = Array.from(this.selected_videos);
+        this.api.call_server('videos/delete_videos', {selected_videos: selecterd_videos})
             .then(() => {
-                let idx = this.video_list.findIndex(v => v.id == video.id);
-                this.video_list.splice(idx, 1);
+                this.video_list = this.video_list.filter(v => ! this.selected_videos.has(v.id));
+                this.video_list = this.video_list.splice(0);
+                this.selected_videos = new Set();
             });
     }
 
     edit_video_info(video) {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: AddVideo, model: { params: video }, lock: true }).whenClosed(response => {
+        this.dialog.open({viewModel: AddVideo, model: {params: video}, lock: true}).whenClosed(response => {
             this.theme.hide_title = false;
         });
     }
@@ -425,7 +420,7 @@ export class Videos {
     }
 
     apply_to_selected() {
-        this.api.call_server_post('photos/apply_to_selected_videos', this.params)
+        this.api.call_server_post('videos/apply_to_selected_videos', this.params)
             .then(response => {
                 this.clear_selected_videos();
                 if (response.new_topic_was_added) {
@@ -445,15 +440,15 @@ export class Videos {
 
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'V' });
+        this.api.call_server_post('topics/add_photographer', {photographer_name: new_photographer_name, kind: 'V'});
     }
 
     remove_photographer(event) {
         let photographer = event.detail.option;
-        this.api.call_server_post('topics/remove_photographer', { photographer: photographer })
-        .then(() => {
-            this.update_topic_list();
-        });
+        this.api.call_server_post('topics/remove_photographer', {photographer: photographer})
+            .then(() => {
+                this.update_topic_list();
+            });
     }
 
     handle_photographer_change(event) {
@@ -468,7 +463,7 @@ export class Videos {
     }
 
     promote_videos() {
-        this.api.call_server_post('photos/promote_videos', { params: this.params })
+        this.api.call_server_post('videos/promote_videos', {params: this.params})
             .then(response => {
                 this.clear_selected_videos();
             });
@@ -497,6 +492,30 @@ export class Videos {
 
     show_filters_only() {
         this.editing_filters = true;
+    }
+
+    async view_video(video, event) {
+        event.stopPropagation();
+        event.preventDefault();
+        let n_cue_points = 0;
+        let cuepoints_enabled = this.user.privileges.VIDEO_EDITOR || this.user.config.enable_cuepoints;
+        if (cuepoints_enabled)
+            await this.api.call_server_post('videos/video_cue_points', {video_id: video.id}).then(response=> {
+                n_cue_points = response.cue_points.length;
+            })
+        if (cuepoints_enabled && (this.user.privileges.VIDEO_EDITOR || n_cue_points > 0)) {
+            let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true`;
+            this.popup.popup('VIDEO', url, "");
+        } else {
+            this.scroll_top = this.scroll_area.scrollTop;
+            this.router.navigateToRoute('annotate-video', {
+                video_id: video.id,
+                video_src: video.src,
+                video_name: video.name,
+                video_type: video.video_type,
+                cuepoints_enabled: cuepoints_enabled
+            });
+        }
     }
 
 }

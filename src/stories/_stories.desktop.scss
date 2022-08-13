@@ -27,3 +27,14 @@ div.big-story-panel {
     padding-right: 36px;
 }
 
+div.full-story {
+    max-height: calc(100vh - 250px);
+    overflow: auto;
+    margin: 10px -22px 0 20px;
+}
+
+div#associated {
+    max-height:calc(100vh - 510px);
+    overflow:auto;
+    overflow-x:hidden;
+}

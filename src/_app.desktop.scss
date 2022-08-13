@@ -77,9 +77,12 @@ $navbar-height: 60px;
     height:45px;
     padding-left:12px;
     padding-right:12px;
-    &.story-detail {  
+    &.story-detail {
         width: 1167px;
         margin-right: -12px;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
     }
 }
 
@@ -93,4 +96,6 @@ $navbar-height: 60px;
     font-size: 90%;
 }
 
-
+div.page-container {
+    background-image: url(https://tol.life/gbs__test/static/apps_data/images/body-bg.jpg)
+}

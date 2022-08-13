@@ -19,13 +19,14 @@
 .panel-vid {
     display: flex;
     padding: 0;
-    iframe {
-        height: 121px;
-        margin-bottom: 16px;
+    //margin-top: -7px;
+    h2 {
+        margin-bottom:16px;
     }
 }
 
 .panel-stories {
+    position: relative;
 
     .panel-stories-header {
         display: flex;
@@ -54,6 +55,7 @@
             position: relative;
 
             .panel-story-header {
+
                 margin: 0;
                 padding: 0;
                 cursor: pointer;
@@ -80,9 +82,56 @@
     }
 }
 
+[dir="ltr"] .panel-stories {
+    direction: ltr;
+    .panel-stories-header {
+        text-align: left;
+        direction: ltr;
+        .full-collection-button {
+            direction: ltr;
+        }
+    }
+
+    .panel-story-segments {
+
+        .panel-story-segment {
+            .story-preview {
+                text-align: left;
+                h4 {
+                    direction: ltr;
+                }
+            }
+        }
+    }
+}
+
+[dir="rtl"] .panel-stories {
+    direction: rtl;
+    .panel-stories-header {
+        text-align: right;
+        direction: rtl;
+        .full-collection-button {
+            direction: rtl;
+        }
+    }
+
+    .panel-story-segments {
+
+        .panel-story-segment {
+            .story-preview {
+                text-align: right;
+                h4 {
+                    direction: rtl;
+                }
+            }
+        }
+    }
+}
+
 .panel-messages {
     background-color: rgba(176,196,222,0.15);
     font-size: 93%;
+    position: relative;
 
     .messages-header {
         margin: 0 0 1rem;
@@ -118,11 +167,24 @@
     }
 }
 
+[dir="rtl"] .panel-messages {
+    direction: rtl;
+    .messages-header {
+        text-align: right;
+    }
+}
+
+[dir="ltr"] .panel-messages {
+    direction: ltr;
+    .messages-header {
+        text-align: left;
+    }
+}
+
 .member-of-the-day {
     background-color: rgba(62,65,66,1.0);
     color: white;
     font-size: 150%;
-    padding-right: 16px;
 
     > div {
         @include container;
@@ -131,17 +193,8 @@
         align-items: center;
     }
 
-    .member-link,
-    .member-text,
-    .member-name {
-        padding-right: 1.5rem;
-        margin-right: 1.5rem;
-        border-right: 2px solid grey;
-    }
-
     .member-prefix {
         width: 100px;
-        text-align: right;
     }
 
     .member-image {
@@ -151,10 +204,54 @@
 
     .member-text {
         flex: 1;
-        text-align: right;
     }
 
     .member-link {
         cursor: pointer;
     }
 }
+
+[dir="rtl"] .member-of-the-day {
+    padding-right: 16px;
+
+    .member-link,
+    .member-text,
+    .member-name {
+        direction: rtl;
+        padding-right: 1.5rem;
+        margin-right: 1.5rem;
+        border-right: 2px solid grey;
+    }
+
+    .member-prefix {
+        text-align: right;
+    }
+
+    .member-text {
+        direction: rtl;
+        text-align: right;
+    }
+}
+
+[dir="ltr"] .member-of-the-day {
+    padding-left: 16px;
+
+    .member-link,
+    .member-text,
+    .member-name {
+        direction: ltr;
+        padding-left: 1.5rem;
+        margin-left: 1.5rem;
+        border-left: 2px solid grey;
+    }
+
+    .member-prefix {
+        text-align: left;
+    }
+
+    .member-text {
+        direction: ltr;
+        text-align: left;
+    }
+}
+

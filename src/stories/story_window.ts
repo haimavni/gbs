@@ -22,6 +22,7 @@ export class StoryWindow {
     dont_save = false;
     raw: false;
     dirty;
+    images_hidden = false;
     froala_config = {
         iconsTemplate: 'font_awesome_5',
         toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
@@ -58,6 +59,9 @@ export class StoryWindow {
         if (! this.story_text) {
              this.story_text = "";
         }
+        if (! this.story.name) {
+            this.story.name = "";
+        }
         if (! this.story.source) {
             this.story.source = this.user.user_name;
         }
@@ -67,11 +71,34 @@ export class StoryWindow {
         this.edit = model.edit;
         this.show = !model.edit;
         this.froala_config.key = this.theme.froala_key();
+        this.froala_config.language = this.story.language;
+        this.images_hidden = this.hide_images()
+    }
+
+    hide_images() {
+        if (! this.story_text.search('fr-inner'))
+            return false;
+        let pat_str = '<img (.*?)>';
+        let pat = new RegExp(pat_str, 'gi');
+        this.story_text = this.story_text.replace(pat, function(m, m1) {
+            return `<!--img ${m1}-->`
+        })
+        return true;
+
+    }
+
+    restore_images() {
+        let pat_str = '<!--img (.*?)-->';
+        let pat = new RegExp(pat_str, 'gi');
+        this.story_text = this.story_text.replace(pat, function(m, m1) {
+            return `<img ${m1}>`
+        })
     }
 
     initialized(e, editor) {
         let el: any = document.getElementsByClassName("fr-element")[0];
-        THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
+        let innerHTML = el.innerHTML || "";
+        THIS_EDITOR.edited_str_orig = innerHTML.slice(0);
     }
 
     content_changed(e, editor) {
@@ -87,6 +114,8 @@ export class StoryWindow {
     }
 
     save() {
+        if (this.images_hidden)
+            this.restore_images()
         if (! this.dirty_story) {
             return;
         }
@@ -128,6 +157,15 @@ export class StoryWindow {
 
     beforeUpdate(images) {
         console.log("before update. images: ", images, " this: ", this);
+    }
+
+    @computedFrom('story', 'story.language')
+    get story_dir() {
+        if (! this.story) return "";
+        if (this.story.language == 'he' || this.story.language == 'ar') {
+            return "rtl"
+        }
+        return "ltr"
     }
 
 }

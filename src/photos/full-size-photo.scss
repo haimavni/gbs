@@ -39,6 +39,7 @@ button.face:hover {
     }
     &.highlighter {
         color: yellow;
+        margin-top:10px;
     }
     &.story {
         color: white;
@@ -67,11 +68,14 @@ button.face:hover {
     &.prev-slide {
         color: white;
     }
+    &.detail {
+        color: white;
+    }
 }
 
 button.navigation-arrow {
     position:absolute;
-    top:250px;
+    top:350px;
     color: rgb(180, 180, 180);
     &:hover {
         color:white;
@@ -164,3 +168,8 @@ div#photo-image {
     }
 }
 
+div#full-size-photo-toolbar{
+    display:flex;
+    flex-direction:column;
+    width:32px;
+}

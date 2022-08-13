@@ -1,19 +1,20 @@
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
-import { WordIndex } from "../services/word_index";
-import { autoinject, computedFrom, singleton } from 'aurelia-framework';
-import { DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
-import { set_intersection, set_union, set_diff } from '../services/set_utils';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import { UploadDocs } from './upload-docs';
-import { Popup } from '../services/popups';
-import { DocPage } from './doc-page';
-import { copy_to_clipboard } from '../services/dom_utils';
+import {MemberGateway} from '../services/gateway';
+import {User} from "../services/user";
+import {Theme} from "../services/theme";
+import {WordIndex} from "../services/word_index";
+import {autoinject, computedFrom, singleton} from 'aurelia-framework';
+import {DialogService} from 'aurelia-dialog';
+import {I18N} from 'aurelia-i18n';
+import {Router} from 'aurelia-router';
+import {set_diff, set_intersection, set_union} from '../services/set_utils';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
+import {UploadDocs} from './upload-docs';
+import {Popup} from '../services/popups';
+import {DocPage} from './doc-page';
+import {copy_to_clipboard} from '../services/dom_utils';
 import * as toastr from 'toastr';
+import {Uploader} from "../services/uploader";
 
 @autoinject
 @singleton()
@@ -82,7 +83,7 @@ export class Docs {
     editing_filters = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
-        word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
+                word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
         this.api = api;
         this.user = user;
         this.theme = theme;
@@ -93,12 +94,12 @@ export class Docs {
         this.ea = ea;
         this.popup = popup;
         this.days_since_upload_options = [
-            { value: 0, name: this.i18n.tr('docs.uploaded-any-time') },
-            { value: 1, name: this.i18n.tr('docs.uploaded-today') },
-            { value: 7, name: this.i18n.tr('docs.uploaded-this-week') },
-            { value: 30, name: this.i18n.tr('docs.uploaded-this-month') },
-            { value: 91, name: this.i18n.tr('docs.uploaded-this-quarter') },
-            { value: 365, name: this.i18n.tr('docs.uploaded-this-year') }
+            {value: 0, name: this.i18n.tr('docs.uploaded-any-time')},
+            {value: 1, name: this.i18n.tr('docs.uploaded-today')},
+            {value: 7, name: this.i18n.tr('docs.uploaded-this-week')},
+            {value: 30, name: this.i18n.tr('docs.uploaded-this-month')},
+            {value: 91, name: this.i18n.tr('docs.uploaded-this-quarter')},
+            {value: 365, name: this.i18n.tr('docs.uploaded-this-year')}
         ];
     }
 
@@ -139,7 +140,7 @@ export class Docs {
                     if (iw) {
                         g += 1;
                         iw.sign = 'plus'
-                        let item = { group_number: g, first: true, last: true, option: iw };
+                        let item = {group_number: g, first: true, last: true, option: iw};
                         this.params.selected_words.push(item);
                     } else { //no such word in the vocabulary.
                         let idx = this.search_words.findIndex(itm => itm == wrd);
@@ -161,18 +162,32 @@ export class Docs {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
+        //this.scroll_top = this.scroll_area.scrollTop;
     }
 
     upload_files() {
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: UploadDocs, lock: false })
-            .whenClosed(result => { this.theme.hide_title = false });
+        this.dialog.open({
+            viewModel: Uploader,
+            model: {
+                endpoint: 'docs/upload_chunk',
+                select_objects_text: 'docs.select-docs',
+                object_names: 'docs.docs',
+                header_str: 'docs.upload',
+                file_types: ".pdf",
+                duplicate_objects_text: "docs.duplicate",
+                objects_were_selected_text: "docs.docs-were-selected",
+                what: 'DOCS'
+            }, lock: true
+        }).whenClosed(result => {
+            this.theme.hide_title = false
+        });
     }
 
     update_doc_list() {
         this.no_results = false;
         this.params.editing = this.user.editing;
-        return this.api.call_server_post('docs/get_doc_list', { params: this.params })
+        return this.api.call_server_post('docs/get_doc_list', {params: this.params})
             .then(result => {
                 //this.doc_list = result.doc_list;
                 this.editing_filters = false;
@@ -190,12 +205,12 @@ export class Docs {
                         console.log("doc has no story: ", doc);
                     }
                 }
-                this.scroll_top = 0;
+                //this.scroll_top = 0;
             });
     }
 
     apply_topics_to_checked_docs() {
-        this.api.call_server_post('docs/apply_to_checked_docs', { params: this.params })
+        this.api.call_server_post('docs/apply_to_checked_docs', {params: this.params})
             .then(response => {
                 this.clear_selected_topics_now = true;
                 this.uncheck_checked_docs();
@@ -244,7 +259,8 @@ export class Docs {
                     }
                 }
             });
-        };
+        }
+
         if (result && result.size > 0) {
             let doc_list = Array.from(result);
             this.num_of_docs = doc_list.length;
@@ -269,7 +285,7 @@ export class Docs {
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', { params: this.params, usage: this.user.editing ? null : 'D' })
+        this.api.call_server_post('topics/get_topic_list', {params: this.params, usage: this.user.editing ? null : 'D'})
             .then(response => {
                 this.topic_list = response.topic_list;
                 this.topic_groups = response.topic_groups;
@@ -323,7 +339,7 @@ export class Docs {
     }
 
     delete_checked_docs() {
-        this.api.call_server_post('docs/delete_checked_docs', { params: this.params })
+        this.api.call_server_post('docs/delete_checked_docs', {params: this.params})
             .then(response => {
                 this.params.checked_doc_list = [];
                 this.checked_docs = new Set();
@@ -412,13 +428,13 @@ export class Docs {
 
     add_topic(event) {
         let new_topic_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_topic', { topic_name: new_topic_name })
+        this.api.call_server_post('topics/add_topic', {topic_name: new_topic_name})
             .then(() => this.update_topic_list());
     }
 
     remove_topic(event) {
         let topic_id = event.detail.option.id;
-        this.api.call_server_post('topics/remove_topic', { topic_id: topic_id })
+        this.api.call_server_post('topics/remove_topic', {topic_id: topic_id})
             .then(() => this.update_topic_list());
     }
 
@@ -440,12 +456,18 @@ export class Docs {
 
     @computedFrom('user.editing')
     get user_editing() {
-        this.update_topic_list();
+        if (this.user.editing_mode_changed)
+            this.update_topic_list();
         return this.user.editing;
     }
 
     private openDialog(doc) {
-        this.dialog.open({ viewModel: DocPage, model: { doc_src: doc.doc_url }, lock: false, keyboard: ['Enter', 'Escape'] })
+        this.dialog.open({
+            viewModel: DocPage,
+            model: {doc_src: doc.doc_url},
+            lock: false,
+            keyboard: ['Enter', 'Escape']
+        })
             .whenClosed(response => {
                 //this.theme.page_title = title;
             });
@@ -454,6 +476,12 @@ export class Docs {
 
     show_filters_only() {
         this.editing_filters = true;
+    }
+
+    view_details(doc, event) {
+        let doc_ids = this.doc_list.map(doc => doc.id);
+        this.scroll_top = this.scroll_area.scrollTop;
+        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs' });
     }
 
 }

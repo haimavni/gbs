@@ -25,6 +25,16 @@ div.member-list.content-area li.list-group-item {
         } 
     }
 }
+div.rtl {
+    select,input {
+        direction: rtl;
+    }
+}
+div.ltr {
+    select,input {
+        direction: ltr;
+    }
+}
 
 .rtl a {
     direction: rtl;
@@ -53,9 +63,15 @@ ul.family a {
 ul.family span {
     position: absolute;
     top: 7px;
+}
+
+[dir="rtl"] ul.family span {
     right: 34px;
 }
 
+[dir="ltr"] ul.family span {
+    left: 34px;
+}
 //member picker
 
 div.member-list {
@@ -132,10 +148,40 @@ ux-dialog-containerxxx {
     }
 }
 
+[dir="rtl"] .family-chains {
+    a {
+        border-right: solid 2px gray;
+        & img {
+            float:right;
+        }
+    }
+    ul {
+        li {
+            float: right;
+        }
+    }
+}
+
+[dir="ltr"] .family-chains {
+    a {
+        border-right: solid 2px gray;
+        & img {
+            float: left;
+        }
+    }
+    ul {
+        li {
+            float: left;
+        }
+    }
+}
+
 .relation-kind
 {
     padding-left: 15px;
     padding-right: 15px;
+    width: 60px;
+    padding-top: 10px;
 }
 
 //member edit
@@ -174,6 +220,10 @@ ux-dialog-containerxxx {
             &.prev {
                 left: 0px;
             }
+            &.config {
+                left: 2px;
+                top: 40%;
+            }
         }
 
         .story-box {
@@ -197,6 +247,16 @@ ux-dialog-containerxxx {
                     left: -10px;
                     top: 4px;
                 }
+                .rtl {
+                    p, h4 {
+                        direction: rtl;
+                    }
+                }
+                .ltr {
+                    p, h4 {
+                        direction: ltr;
+                    }
+                }
             }
 
             .member-story-preview {
@@ -214,22 +274,87 @@ ux-dialog-containerxxx {
     }
 }
 
+[dir="rtl"] #member-detail {
+    padding-left:15px;
+    padding-right:19px;
+    div.life-summary {
+        padding-left:20px;
+        padding-right:32px;
+    }
+    #stories {
+        .story-box {
+            padding-right:8px;
+            &:not(:first-child) {
+                border-right: 0;
+            }
+
+            .member-story-preview {
+                padding-right: 8px;
+            }
+
+            a.goto-story-page {
+                left:-28px;
+            }
+        }
+    }
+}
+
+[dir="ltr"] #member-detail {
+    padding-right:15px;
+    padding-left:19px;
+    div.life-summary {
+        padding-right:20px;
+        padding-left:32px;
+    }
+    #stories {
+        .story-box {
+            padding-left:8px;
+            &:not(:first-child) {
+                border-left: 0;
+            }
+            .member-story-preview {
+                padding-left: 8px;
+            }
+
+            a.goto-story-page {
+                right:-28px;
+            }
+        }
+    }
+}
+
 div.member-story-panel {
-    //height: 185px;
     overflow: auto;
     >p {
         padding-bottom: 2px;
-        padding-left:12px;
         text-align: justify;
-        &.rtl {
-            direction: rtl;
-        }
-        &.ltr {
-            direction: ltr;
-        }
     }
     a {
         color: blue;
+    }
+}
+
+[dir="rtl"] div.member-story-panel {
+    &.biography {
+        >p.ltr {
+            direction: ltr;
+        }
+    }
+    >p {
+        padding-left: 16px;
+        direction: rtl;
+    }
+}
+
+[dir="ltr"] div.member-story-panel {
+    &.biography {
+        >p.ltr {
+            direction: ltr;
+        }
+    }
+    >p {
+        padding-right: 16px;
+        direction: ltr;
     }
 }
 
@@ -302,4 +427,16 @@ ul.filters {
 div.mandatory-missing {
     border: 1px solid red;
     border-radius: 5px;
+}
+
+ux-dialog.config-member-stories {
+    height:100%;
+    background-color:lightgray;
+    padding:10px;
+    &.rtl {
+        direction: rtl;
+    }
+    &.ltr {
+        direction: ltr;
+    }
 }

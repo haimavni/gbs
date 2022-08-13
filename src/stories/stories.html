@@ -78,7 +78,7 @@
                         style="margin-bottom:12px;margin-right:20px">${'stories.edit-filters' & t}
                     </button>
 
-                    <form if.bind="!no_results" class="form-inline" style="margin-right:20px;margin-bottom:6px;">
+                    <form if.bind="!no_results" class="form-inline" style="margin-bottom:6px;">
                         <span if.bind="params.selected_book" style="font-size:120%;font-weight:bolder;">${params.selected_book.name}: </span>
                         <button repeat.for="uf of active_result_types"
                             class="btn btn-${uf==used_for ? 'primary' : 'default'}"
@@ -97,49 +97,45 @@
                             style="float:right;border-bottom:2px solid lightgray;padding-bottom:20px;position:relative;width:100%;margin-bottom:16px;">
                             <div class="outer-story-preview" click.delegate="jump_to_the_full_story($event, story)">
                                 <!--<div style="margin-bottom: 10px;" aubs-tooltip="text.bind:story.topics">-->
-                                <div class="story-preview" style="margin-bottom: 10px;" if.bind="used_for!=8">
+                                <div class="story-preview" style="margin-bottom: 10px;" if.bind="used_for!=18">
                                     <div>
                                         <img if.bind="used_for==3" src.bind="story.photo_src" width="140" />
                                         <img if.bind="used_for==9" src.bind="story.doc_jpg_url" width="140" />
+                                        <img if.bind="used_for==1" src.bind="story.profile_photo_path" width="120" style="border-radius: 50%;" />
+                                        <img if.bind="used_for==8" src.bind="thumbnail(story.video_src)" width="140"/>
                                         <audio controls if.bind="used_for==10">
                                             <source src="${story.audio_path}" type="audio/mpeg">
                                         </audio>
                                     </div>
                                     <editable
-                                        settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, confirmable: params.approval_state.id==2 }"
+                                        settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, confirmable: params.approval_state.id==2, has_details: used_for==9 }"
                                         story.bind="story"
+                                        view_details.delegate="view_details(story, $event)"
                                         change.delegate="toggle_story_selection(story, $event, $index)"
                                         confirm.delegate="approve_story(story, $event)"
                                         info_title.bind="story.name" info_content.bind="story.topics"
                                         class="story-body">
                                     </editable>
                                 </div>
-                                <div class="video-panel" if.bind="used_for==8" style="position:relative">
-                                    <iframe class="video-iframe" src.bind="story.video_src" frameborder="0"
-                                        allowfullscreen="">
-                                    </iframe>
-                                    <span class="video-name" style="position:absolute;padding-right:20px;">
-                                        ${story.name}
-                                    </span>
-                                </div>
-                            </div>
+                           </div>
                         </li>
                     </ul>
 
                 </div>
                 <div class="col-md-4 col-sm-12" if.bind="theme.is_desktop || editing_filters" id="story-filters"
                     css="height:${panel_height}px;overflow:auto;">
+                    <button class="btn btn-basic btn-framed" click.delegate="init_params(true)"
+                        if.bind="is_filtered"
+                        style="margin-right:-16px;margin-left:-16px;">
+                        ${'stories.clear-all-filters' & t}
+                    </button>
                     <div class="row" style="position:relative;" 
                         mouseenter.trigger="scroll(0)">
                         <div style="margin-top: 6px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help if.bind="user.advanced_user && phase == 'not-editing'" topic="tags" position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
-                        <help if.bind="(!user.advanced_user) && phase == 'not-editing'" topic="tags-simple" position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
-                        <help if.bind="phase == 'selecting-stories'" topic="selecting-stories" position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
-                        <help if.bind="phase=='ready-to-edit'" topic="topics.ready-to-edit" , position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
+                        <help if.bind="user.advanced_user && phase == 'not-editing'" topic="tags" position="bottom"></help>
+                        <help if.bind="(!user.advanced_user) && phase == 'not-editing'" topic="tags-simple" position="bottom"></help>
+                        <help if.bind="phase == 'selecting-stories'" topic="selecting-stories" position="bottom"></help>
+                        <help if.bind="phase=='ready-to-edit'" topic="topics.ready-to-edit" , position="bottom"></help>
                         <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" category="topic"
                             selected_options.bind="params.selected_topics" height.bind="220"
                             first_time.bind="no_topics_yet" settings.bind="options_settings"
@@ -152,7 +148,7 @@
                     </div>
                     <div if.bind="user.privileges.ADVANCED && user.privileges.ADMIN && user.editing" class="row"
                         style="margin-top:8px;">
-                        <button class="btn btn-sm btn-defalt ${params.deleted_stories ? 'active' : ''}"
+                        <button class="btn btn-sm btn-default ${params.deleted_stories ? 'active' : ''}"
                             style="border:solid 2px gray" click.trigger="toggle_deleted_stories()"
                             t="[title]stories.undelete">
                             <i class="far fa-trash-alt fa-lg fa-rotate-180"></i>
@@ -162,19 +158,19 @@
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' & t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-bottom:5px;font-size:120%">${'stories.words' & t}</div>
-                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;"
+                        <help topic="words" position="left" style="top:54px;"
                             if.bind="user.advanced_user"
                             params.bind="help_data"></help>
-                        <help topic="words-simple" position="left" style="position:absolute;left:0px;top:46px;"
+                        <help topic="words-simple" position="left" style="top:54px;"
                             if.bind="!user.advanced_user"
                             params.bind="help_data"></help>
-                        <multi-select options.bind="stories_index" selected_options.bind="params.selected_words"
+                        <multi-select options.bind="word_index.word_index" selected_options.bind="params.selected_words"
                             keywords.two-way="keywords" place_holder_text="stories.word-index" height="201"
                             highlight_unselectors.bind="highlight_unselectors"
                             ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
                         </multi-select>
                     </div>
-                    <div class="row" if.bind="user.editing && user.privileges.ADMIN && checked_stories.size > 0">
+                    <div class="row" if.bind="user.editing && user.privileges.ADMIN && checked_stories.size > 0" style="width:99%;">
                         <selector dict.bind="api.constants.story_visibility" width.bind="visibility_width"
                             selectedval.two-way="params.selected_story_visibility">
                         </selector>

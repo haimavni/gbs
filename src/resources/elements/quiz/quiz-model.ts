@@ -20,16 +20,19 @@ export class Question {
     qid = 0;
     input_mode = false;
     is_open = false;
-    editable = false;
+    editable = false; 
     answers: Answer[] = [];
     nota = false;
+    nota_default = false;
 
-    constructor(prompt = "", description = "", qid = 0, editable = true, answers = []) {
+    constructor(prompt = "", description = "", nota_default=false, qid = 0, editable = true, answers = []) {
+        console.log('question constructor prompt ', prompt, " qid: ", qid)
         this.prompt = prompt;
         this.description = description;
         this.qid = qid;
         this.editable = editable;
         this.answers = [];
+        this.nota_default = nota_default;
         for (let answer of answers) {
             this.answers.push(new Answer(this.qid, answer.text, answer.description, answer.aid))
         }

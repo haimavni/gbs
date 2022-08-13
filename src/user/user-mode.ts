@@ -1,6 +1,7 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { User } from '../services/user';
+import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
 import { Login } from '../user/login';
 import { AddCustomer } from '../admin/add_customer';
@@ -13,11 +14,14 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
 import environment from '../environment';
+import { FacebookCard } from "./facebook-card";
+import { MakeQRCode } from "./make_qrcode";
 
 @autoinject()
 export class UserMode {
 
-    user;
+    user: User;
+    misc: Misc;
     theme;
     api;
     dialog;
@@ -29,14 +33,17 @@ export class UserMode {
     locales = ['en', 'he'];
     isChangingLocale = false;
     current_url = "";
+    title = "";
     sharing_subject;
     ea;
     share_menu_open = false;
     adv_options = [{name: 'advanced-options-off', cls: ''}, {name: 'advanced-options-on', cls: ''}];
     font_size_options = [];
 
-    constructor(user: User, theme: Theme, router: Router, dialog: DialogService, api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
+    constructor(user: User, theme: Theme, misc: Misc, router: Router, dialog: DialogService, 
+        api: MemberGateway, popup: Popup, ea: EventAggregator, i18n: I18N) {
         this.user = user;
+        this.misc = misc;
         this.theme = theme;
         this.router = router;
         this.i18n = i18n;
@@ -52,12 +59,13 @@ export class UserMode {
 
     calc_current_info() {
         document.title = this.i18n.tr('app-title');
-        setTimeout(() => {  //if too early, overridden title is till not in effect
+        setTimeout(() => {  //if too early, overridden title is not in effect yet
             this.sharing_subject = encodeURIComponent(document.title);
         }, 4000);
 
         let url = `${location.pathname}${location.hash}`
         this.current_url = null;
+        this.title = document.title;
         this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
@@ -229,6 +237,55 @@ export class UserMode {
         for (let adv of this.adv_options) adv.cls = '';
         let idx = adv_option.name == 'advanced-options-off' ? 0 : 1;
         this.adv_options[idx].cls = 'selected';
+    }
+
+    async share_on_facebook() {
+        this.theme.hide_title = true;
+        let padded_photo_url;
+        let photo_url = this.user.get_photo_link();
+        let photo_id;
+        if (photo_url) {
+            photo_id = this.user.get_curr_photo_id();
+        } else {
+            photo_url = this.user.config.cover_photo;
+            //photo_id = this.user.config.cover_photo_id;
+        }
+        console.log("photo_url ", photo_url, " photo_id ", photo_id, " user.config: ", this.user.config);
+        if (photo_id) {
+            await this.api.call_server_post('photos/get_padded_photo_url', 
+                {photo_url: photo_url, 
+                photo_id: photo_id})
+                .then(response => {
+                    padded_photo_url = response.padded_photo_url;
+                    console.log("response padded_photo_url ", response);
+                })
+            } else {
+                padded_photo_url = photo_url;
+            }
+        this.dialog.open({ viewModel: FacebookCard,
+            model: {current_url: this.current_url,
+                img_src: padded_photo_url}, lock: false })
+            .whenClosed(response => {
+            this.theme.hide_title = false;
+        });
+
+    }
+
+    async create_qrcode() {
+        for (let i=0; i< 100; i++) {
+            if (this.current_url) break;
+            await this.misc.sleep(50);
+        }
+        if (! this.current_url) {
+            toastr.error("Could not create link");
+            return;
+        }
+        this.theme.hide_title = true;
+        this.dialog.open({viewModel: MakeQRCode, 
+            model: {url: this.current_url}, lock: false})
+            .whenClosed(response => {
+                this.theme.hide_title = false;
+        })
     }
 
 }

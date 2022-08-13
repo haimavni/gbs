@@ -3,12 +3,18 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
+import { Misc } from '../services/misc';
 import { highlight } from '../services/dom_utils';
+import { MemberList } from "../services/member_list";
+import { ArticleList } from '../services/article_list';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import {MemberPicker} from "../members/member-picker";
+import {ArticlePicker} from "../articles/article-picker";
+import {PhotoPicker} from "../photos/photo-picker";
 
 @autoinject()
 export class StoryDetail {
@@ -16,6 +22,8 @@ export class StoryDetail {
     i18n;
     story;
     members = [];
+    member_list: MemberList;
+    article_list: ArticleList;
     articles = [];
     candidates = [];
     article_candidates = [];
@@ -24,8 +32,10 @@ export class StoryDetail {
     curr_photo;
     photo_idx = 0;
     source;
+    restart_slides = 0;
     user;
     theme;
+    misc: Misc;
     story_dir;
     new_story = false;
     keywords;
@@ -67,14 +77,20 @@ export class StoryDetail {
     btn_prev;
     btn_next;
     story_date_valid = '';
+    move_to;
+    ready_to_edit = false;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, theme: Theme, eventAggregator: EventAggregator, dialog: DialogService) {
+    constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, member_list: MemberList, article_list: ArticleList,
+                theme: Theme, misc: Misc, eventAggregator: EventAggregator, dialog: DialogService) {
         this.api = api;
         this.router = router;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
+        this.misc = misc;
         this.dialog = dialog;
+        this.member_list = member_list;
+        this.article_list = article_list;
         this.eventAggregator = eventAggregator;
         this.options_settings = new MultiSelectSettings
             ({
@@ -90,7 +106,9 @@ export class StoryDetail {
     attached() {
         this.nudnik = setInterval(() => this.calc_last_filled(), 50);
         this.subscriber = this.eventAggregator.subscribe('Zoom2', payload => {
-            //this.openDialog(payload.slide, payload.event, payload.slide_list) 
+            //this.openDialog(payload.slide, payload.event, payload.slide_list)
+            let offset = payload.offset;
+            this.misc.save(['story_slides_offset', this.story.story_id], offset);
             if (payload.event.ctrlKey) {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
                 return;
@@ -119,7 +137,7 @@ export class StoryDetail {
     detached() {
         this.subscriber.dispose();
         this.subscriber1.dispose();
-        this.nudnik = 0;;
+        this.nudnik = 0;
     }
 
     async activate(params, config) {
@@ -140,6 +158,9 @@ export class StoryDetail {
         await this.update_topic_list();
         this.story_type = (this.used_for == this.api.constants.story_type.STORY4TERM) ? 'term' : (this.used_for == this.api.constants.story_type.STORY4ELP) ? 'help' : 'story';
         this.get_story_details(story_id);
+        let offset = this.misc.load(['story_slides_offset', story_id]);
+        if (offset) this.move_to = offset;
+
     }
 
     get_story_details(story_id) {
@@ -181,10 +202,12 @@ export class StoryDetail {
                 if (this.photos.length > 0) {
                     this.curr_photo = this.photos[0].photo_path;
                 }
+                this.ready_to_edit = true;
+                if (what == 'help') return;
+                if (this.new_story) return;
+                this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: story_id, story_type: this.story_type });
+                this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
             });
-        if (what == 'help') return;
-        this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: story_id, story_type: this.story_type });
-        this.source.then(response => this.has_associated_photos = response.photo_list.length > 0);
     }
 
     next_photo() {
@@ -193,18 +216,60 @@ export class StoryDetail {
     }
 
     update_associated_members() {
+        this.theme.hide_title = true;
         let member_ids = this.members.map(member => Number(member.id));
-        this.router.navigateToRoute('associate-members', { caller_id: this.story.story_id, caller_type: this.story_type, associated_members: member_ids });
+        this.dialog.open({
+            viewModel: MemberPicker,
+            model: {multi: true, back_to_text: 'members.back-to-story', preselected: member_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            let member_ids = Array.from(response.output.member_ids);
+            let member_set = new Set(member_ids);
+            this.api.call_server_post('members/save_group_members', {caller_id: this.story.story_id, caller_type: this.story_type, member_ids: member_ids});
+            this.members = this.member_list.members.member_list.filter(member => member_set.has(member.id))
+        });
     }
 
     update_associated_articles() {
+        this.theme.hide_title = true;
         let article_ids = this.articles.map(article => Number(article.id));
-        this.router.navigateToRoute('associate-articles', { caller_id: this.story.story_id, caller_type: this.story_type, associated_articles: article_ids });
+        this.dialog.open({
+            viewModel: ArticlePicker,
+            model: {multi: true, back_to_text: 'members.back-to-story', preselected: article_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            let article_ids = Array.from(response.output.article_ids);
+            let article_set = new Set(article_ids);
+            this.api.call_server_post('articles/save_group_articles', {caller_id: this.story.story_id, caller_type: this.story_type, article_ids: article_ids});
+            this.articles = this.article_list.articles.article_list.filter(article => article_set.has(article.id));
+        });
     }
+
 
     update_associated_photos() {
         let photo_ids = this.photos.map(photo => Number(photo.id));
-        this.router.navigateToRoute('associate-photos', { caller_id: this.story.story_id, caller_type: this.story_type, associated_photos: photo_ids });
+        this.dialog.open({
+            viewModel: PhotoPicker,
+            model: {associated_photos: photo_ids}
+        }).whenClosed(response => {
+            if (response.wasCancelled) return;
+            photo_ids = response.output.associated_photos;
+            this.api.call_server_post('members/save_photo_group',
+            {user_id: this.user.id, caller_id: this.story.story_id, caller_type: this.story_type, photo_ids: photo_ids})
+                .then(response => {
+                    this.photos = response.photos;
+                    this.has_associated_photos = response.photos.length > 0;
+                    //this.source = new Promise(resolve => resolve({photo_list: this.photos}));
+                    this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: this.story.story_id, story_type: this.story_type });
+                    this.restart_slides = 1;
+                })
+        });
     }
 
     go_back() {
@@ -303,15 +368,15 @@ export class StoryDetail {
         return highlighted_html;
     }
 
-    next_page(event, dif) {
-        let t = this.story_box.scrollTop;
-        let h = this.story_box.clientHeight;
-        t += dif * (h - 24);
-        if (t < 0) {
-            t = 0;
-        }
-        this.story_box.scrollTop = t;
-    }
+    // next_page(event, dif) {
+    //     let t = this.story_box.scrollTop;
+    //     let h = this.story_box.clientHeight;
+    //     t += dif * (h - 24);
+    //     if (t < 0) {
+    //         t = 0;
+    //     }
+    //     this.story_box.scrollTop = t;
+    // }
 
     @computedFrom('story_idx')
     get prev_disabled() {
@@ -319,7 +384,7 @@ export class StoryDetail {
         return '';
     }
 
-    @computedFrom('story')
+    @computedFrom('story', 'story.name')
     get story_name() {
         if (this.story) return this.story.name;
         return '';
@@ -464,6 +529,11 @@ export class StoryDetail {
                     { story_id: this.story.story_id, sorting_key: this.sorting_key });
                 break;
         }
+    }
+
+    remove_story_from_book() {
+        this.api.call_server_post('topics/remove_story_from_book', {story_id: this.story.story_id, book_id: this.book_id})
+            .then(response => {this.book_id = null});
     }
 
 }

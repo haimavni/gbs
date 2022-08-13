@@ -42,12 +42,23 @@ export class QuizCustomElement {
                 this.questions = [];
                 this.checked_answers = [];
                 for (let q of response.questions) {
-                    this.questions.push(new Question(q.prompt, q.description, q.qid, true, q.answers))
+                    this.questions.push(new Question(q.prompt, q.description, q.nota_default, q.qid, true, q.answers))
                 }
                 if (this.questions.length == 0) {
-                    this.questions.push(new Question('', '', 0, true, []))
+                    this.questions.push(new Question('', '', false, 0, true, []))
                 }
+                this.set_defaults();
             })
+    }
+
+    set_defaults() {
+        for (let q of this.questions) {
+            q.nota = q.nota_default;
+            if (q.nota) {
+                this.nota_questions.push(q.qid);
+            }
+        }
+        this.dispatch_event();
     }
 
     get to_show_menu() {
@@ -58,7 +69,7 @@ export class QuizCustomElement {
     question_array_to_questions(questions_arr) {
         let questions: Question[] = [];
         for (let q of questions_arr) {
-            questions.push(new Question(q.prompt, q.description, q.qid, false, q.answers))
+            questions.push(new Question(q.prompt, q.description, q.nota_default, q.qid, false, q.answers))
         }
         return questions;
     }
@@ -79,7 +90,7 @@ export class QuizCustomElement {
             if (answer) {
                 answer.checked = !answer.checked;
                 question.nota = false;
-            } 
+            }
             else {
                 if (question.nota) question.nota = false
                 else {
@@ -142,7 +153,7 @@ export class QuizCustomElement {
             if (this.filter_menu_open) {
                 //create new empty question for adding
                 if (this.questions.length == 0 || Misc.last(this.questions).prompt) {
-                    let q_empty = new Question("", "", 0, true, []);
+                    let q_empty = new Question("", "", false, 0, true, []);
                     q_empty.input_mode = true;
                     this.questions.push(q_empty);
                     this.questions = this.questions.splice(0);
@@ -192,7 +203,7 @@ export class QuizCustomElement {
 
     save_question(question) {
         question.editing_mode = false;
-        this.api.call_server_post('quiz/save_question', { name: this.name, question_id: question.qid, prompt: question.prompt, description: question.description })
+        this.api.call_server_post('quiz/save_question', { name: this.name, question_id: question.qid, prompt: question.prompt, description: question.description, nota_default: question.nota_default })
             .then(response => {
                 question.qid = response.question_id;
                 if (Misc.last(this.questions).prompt) {
@@ -228,7 +239,7 @@ export class QuizCustomElement {
         this.checked_answers = [];
         this.nota_questions = [];
         for (let question of this.questions) {
-            if (question.nota) 
+            if (question.nota)
                 this.nota_questions.push(question.qid);
             for (let answer of question.answers) {
                 if (answer.checked) {

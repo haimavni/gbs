@@ -6,8 +6,11 @@
     opacity: 0.95;
 } */
 
-ux-dialog {
+[dir="rtl"] ux-dialog {
     direction: rtl;
+}
+[dir="ltr"] ux-dialog {
+    direction: ltr;
 }
 ux-dialog>ux-dialog-body {
     max-height:600px;
@@ -127,12 +130,6 @@ button.active {
     background-color: orange;
 }
 
-div.full-story {
-    max-height: 600px;
-    overflow: auto;
-    margin: 10px -22px 0 20px;
-}
-
 p {
     span.highlighted {
         background-color: inherit;
@@ -166,9 +163,13 @@ button.transparent, button.transparent:focus {
     float: left;
 }
 
+[dir="ltr"] button.word-highlighter {
+    float: right;
+}
+
 div.story-preview {
     display: flex;
-    direction: column;
+    flex-direction: row;
     div>img {
         padding-left:10px;
         align-self: stretch;
@@ -220,4 +221,24 @@ ul.story-list {
     margin-top: 16px;
 }
 
+#story-filters {
+    >div>help {
+        position: absolute;
+        top: 32px;
+    }
+}
+[dir="rtl"] #story-filters {
+    >div>help {
+        left: 7px;
+    }
+}
+[dir="ltr"] #story-filters {
+    >div>help {
+        left: 333px;
+    }
+}
+div#associated {
+    display:flex;
+    flex-direction:column;
+}
 

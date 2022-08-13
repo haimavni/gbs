@@ -7,6 +7,7 @@ import * as download from 'downloadjs';
 import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
 import {ThemeA} from './theme-a';
+import { SSL_OP_EPHEMERAL_RSA } from 'constants';
 
 let THIS;
 
@@ -80,9 +81,16 @@ export class MemberGateway {
                 .withInterceptor(new SimpleInterceptor());
         });
         this.get_constants();
-        this.listen('ALL');
-        this.listen('TASK_MONITOR');
+        //this.start_listening();
         THIS = this;
+    }
+
+    async start_listening() {
+        //let first page show up before
+        await sleep(10000);
+        this.listen('ALL');
+        this.listen(this.constants.ptp_key);
+        //this.listen('TASK_MONITOR');
     }
 
     tr(s) {
@@ -101,7 +109,8 @@ export class MemberGateway {
             .catch(error => toastr.error(error))
             .then((result) => {
                 if (result.error) {
-                    toastr.error(this.tr(result.error));
+                    toastr.error('Error occurred: ' + result.error);
+                    return result;
                 } else if (result.user_error) {
                     toastr.warning(this.tr(result.user_error));
                     return result;
@@ -112,15 +121,20 @@ export class MemberGateway {
     }
 
     call_server_post(url: string, data?: any) {
+        let t0 = (new Date()).getTime();
+        console.log(t0 + ': ' + url);
         data = data ? data : {};
         data['ptp_key'] = this.constants.ptp_key;
         data['webpSupported'] = this.themeA.webpSupported;
         let x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
-            .catch(error => toastr.error(error))
+            .catch(error => toastr.error(error + ' in ', url))
             .then((result) => {
+                let t1 = (new Date()).getTime();
+                console.log(t1 +  ': ' +  url +  ' Done in ' + (t1 - t0) +  ' milliseconds');
                 if (result.error) {
-                    toastr.error(this.tr(result.error))
+                    toastr.error("Server error occured: " + this.tr(result.error));
+                    return result;
                 } else if (result.user_error) {
                     toastr.warning(this.tr(result.user_error));
                     return result;
@@ -190,10 +204,10 @@ export class MemberGateway {
     }
 
     get_constants() {
-        this.call_server_post('members/get_constants')
+        this.call_server_post('starter/get_constants')
             .then(response => {
                 this.constants = response;
-                this.listen(this.constants.ptp_key);
+                this.start_listening();
             });
     }
 
@@ -214,6 +228,7 @@ export class MemberGateway {
     }
 
     handle_ws_message(msg) {
+        console.log("web socket message: ", msg)
         if (msg.data.startsWith('+anonymous')) return;
         if (msg.data.startsWith('-anonymous')) return;
         let obj;
@@ -236,6 +251,7 @@ export class MemberGateway {
             ws.onopen = onopen ? onopen : (function () { });
             ws.onmessage = onmessage;
             ws.onclose = onclose ? onclose : (function () { });
+            console.log("url in web socket: ", url);
             return ws; // supported
         } else return false; // not supported
     }
@@ -244,4 +260,8 @@ export class MemberGateway {
         this.call_server('members/count_hit', { what: what, item_id: item_id | 0 })
     }
 
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

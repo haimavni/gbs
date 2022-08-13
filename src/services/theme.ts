@@ -86,7 +86,8 @@ export class Theme {
     }
 
     language_dir(lang) {
-       return  rtl_langs.has(lang) ? "rtl" : "ltr";
+        if (!lang) return this.rtltr;
+        return rtl_langs.has(lang) ? "rtl" : "ltr";
     }
 
     detectTouchScreen() {
@@ -154,21 +155,21 @@ export class Theme {
 
     get_locale_overrides() {
         this.api.call_server('default/get_locale_overrides')
-        .then(response => {
-            let obj = response.locale_overrides;
-            let langs = Object.keys(obj);
-            for (let lang of langs) {
-                this.customize(lang, obj[lang]);
-                this.i18n.setLocale(this.locale);
-            } 
-            document.title = this.i18n.tr('app-title');
-            this.document_title = document.title;
-        });
+            .then(response => {
+                let obj = response.locale_overrides;
+                let langs = Object.keys(obj);
+                for (let lang of langs) {
+                    this.customize(lang, obj[lang]);
+                    this.i18n.setLocale(this.locale);
+                }
+                document.title = this.i18n.tr('app-title');
+                this.document_title = document.title;
+            });
     }
 
     set_locale_override(key, value) {
-        this.api.call_server_post('default/set_locale_override', {lang: this.i18n.getLocale(), key: key, value: value})
-        .then (response => {this.get_locale_overrides()});
+        this.api.call_server_post('default/set_locale_override', { lang: this.i18n.getLocale(), key: key, value: value })
+            .then(response => { this.get_locale_overrides() });
     }
 
     changeLocale(locale) {
@@ -180,7 +181,7 @@ export class Theme {
     }
 
     get palette() {
-        if (this._palette===null) {
+        if (this._palette === null) {
             this._palette = this.cookies.get('palette')
             if (!this._palette) {
                 this._palette = "palette-oldie";
@@ -195,7 +196,7 @@ export class Theme {
     }
 
     get blue_logo() {
-        if (this._blue_logo===null) {
+        if (this._blue_logo === null) {
             this._blue_logo = this.cookies.get('blue-logo')
             if (this._blue_logo == null) {
                 this._blue_logo = 'blue';
@@ -205,7 +206,7 @@ export class Theme {
     }
 
     changeLogoColor() {
-        this._blue_logo =  this._blue_logo == 'blue' ? 'grey' : 'blue'
+        this._blue_logo = this._blue_logo == 'blue' ? 'grey' : 'blue'
         this.cookies.put('blue-logo', this._blue_logo);
     }
 
@@ -241,9 +242,11 @@ export class Theme {
     froala_key() {
         let tol_key = "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17==";
         let gbs_key = "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jpzjntntD-17lF4npd==";
+        let tolife_key = "WD7C5F4H5E3H3c1A6B5A4C3A3B2C2G3C5A4D-17B-13ffbjhA11A-16yew==";
         let host = window.location.hostname;
         if (host == "gbstories.org") return gbs_key;
         if (host == "tol.life") return tol_key;
+        if (host == "tolife.site") return tolife_key;
     }
 
 }

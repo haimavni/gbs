@@ -53,14 +53,19 @@ div.video-page {
          justify-content:flex-start;
          align-items: flex-start;
          div.ctrl>button {
-             height: 38px;
+             height: 32px;
+             margin: 0px 3px;
          }
     }
 }
 
 #video-help {
-    top: 2px;
-    left: 2px;
+    &.rtl {
+        left: 0px;
+    }
+    &.ltr {
+        right: 0px;
+    }
 }
 
 #video-filters {
@@ -68,3 +73,21 @@ div.video-page {
     overflow: auto;
 }
 
+#video-details {
+    .data-area {
+        width: 570px;
+        height: calc(100vh - 200px);
+        overflow: auto;
+    }
+    .video-story-area {
+        position: relative;
+        margin-right: 16px;
+        overflow:auto;
+    }
+    .data-area {
+        .story-section.message-body {
+        height: 100px;
+        }
+    }
+
+}

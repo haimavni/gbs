@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
 import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
@@ -25,6 +25,7 @@ export class Customize {
     auto_reg_options = ['user.auto-reg', 'user.by-invitation'];
     new_app_options = ['user.new-app-enabled', 'user.new-app-disabled'];
     audio_options = ['user.audio-enabled', 'user.audio-disabled'];
+    terms_options = ['user.terms-enabled', 'user.terms-disabled'];
     feedback_options = ['user.feedback-on', 'user.feedback-off'];
     quick_upload_options = ['user.quick-upload-on', 'user.quick-upload-off'];
     version_time_options = ['user.version-time-on', 'user.version-time-off'];
@@ -32,19 +33,30 @@ export class Customize {
     enable_articles_options = ['user.enable-articles-on', 'user.enable-articles-off'];
     enable_books_options = ['user.enable-books-on', 'user.enable-books-off'];
     enable_member_of_the_day_options = ['user.enable-member-of-the-day-on', 'user.enable-member-of-the-day-off'];
+    exclusive_options = ['user.exclusive-on', 'user.exclusive-off'];
+    enable_cuepoints_options = ['user.enable-cuepoints-on', 'user.enable-cuepoints-off'];
+    allow_publishing_options = ['user.allow-publishing-on', 'user.allow-publishing-off'];
+    expose_gallery_options = ['user.expose-gallery-on', 'user.expose-gallery-off'];
 
     //-----------
     auto_reg_option = 'user.by-invitation';
     new_app_option = 'user.new-app-disabled';
     audio_option = 'user.audio-disabled';
+    terms_option = 'user.terms-enabled';
     feedback_option = 'user.feedback-on';
+    exclusive_option = 'user.exclusive-off'
     quick_upload_button = 'user.quick-upload-off';
     version_time_option = 'user.version-time-on';
     expose_developer_option = 'user.expose-developer-on';
     enable_articles_option = 'user.enable-articles-off';
+    enable_cuepoints_option = 'user.enable-cuepoints-off';
+    allow_publishing_option = 'user.allow-publishing-off';
+    expose_gallery_option = 'user.expose-gallery-off';
     enable_books_option = 'user.enable-books-on';
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
+    cover_photo;
+    cover_photo_id;
     user;
     froala_config = {
         iconsTemplate: 'font_awesome_5',
@@ -82,6 +94,7 @@ export class Customize {
             can_group: false,
         });
         THIS_EDITOR = this;
+        this.froala_config.key = this.theme.froala_key();
     }
 
     async attached() {
@@ -91,22 +104,48 @@ export class Customize {
         let lang = this.i18n.getLocale();
         let data = this.i18n.i18next.store.data[lang].translation;
         await this.user.readConfiguration();
+        console.log("read configuration ", )
         this.create_key_value_list('', data);
         this.auto_reg_option = this.user.config.enable_auto_registration ? 'user.auto-reg' : 'user.by-invitation';
         this.new_app_option = this.user.config.expose_new_app_button ? 'user.new-app-enabled' : 'user.new-app-disabled';
         this.audio_option = this.user.config.support_audio ? 'user.audio-enabled' : 'user.audio-disabled';
+        this.terms_option = this.user.config.terms_enabled ? 'user.terms-enabled' : 'user.terms-disabled';
         this.feedback_option = this.user.config.expose_feedback_button ? 'user.feedback-on' : 'user.feedback-off';
+        this.exclusive_option = this.user.config.exclusive ? 'user.exclusive-on' : 'user.exclusive-off';
         this.quick_upload_button = this.user.config.quick_upload_button ? 'user.quick-upload-on' : 'user.quick-upload-off';
         this.expose_developer_option = this.user.config.expose_developer ? 'user.expose-developer-on' : 'user.expose-developer-off';
         this.enable_articles_option = this.user.config.enable_articles ? 'user.enable-articles-on' : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
         this.enable_books_option = this.user.config.enable_books ? 'user.enable-books-on' : 'user.enable-books-off';
         this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
+        this.enable_cuepoints_option = this.user.config.enable_cuepoints ? 'user.enable-cuepoints-on' : 'user.enable-cuepoints-off';
+        this.allow_publishing_option = this.user.config.allow_publishing ? 'user.allow-publishing-on' : 'user.allow-publishing-off';
+        this.expose_gallery_option = this.user.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
+        this.cover_photo = this.user.config.cover_photo;
+        if (! this.cover_photo) {
+            let cover_photo_id = this.user.get_curr_photo_id();
+            this.api.call_server_post('admin/cover_photo',
+            {cover_photo_id: cover_photo_id})
+            .then(response => {
+                this.user.readConfiguration();
+                //this.report_success();
+            })
+
+
+            // let cover_photo = this.user.get_photo_link();
+            // let cover_photo_id = this.user.get_curr_photo_id();
+            // if (cover_photo) {
+            //     this.cover_photo = cover_photo;
+            //     this.cover_photo_id = cover_photo_id;
+            // }
+        }
         this.api.call_server_post('members/get_app_description')
             .then(result => { this.app_description_story = result.story;
                 this.edited_str_orig = result.story.story_text;
              });
+        this.froala_config.key = this.theme.froala_key();
+        this.froala_config.language = this.i18n.getLocale();
     }
 
     create_key_value_list(prefix, data) {
@@ -133,13 +172,9 @@ export class Customize {
         this.app_title = this.i18n.tr('app-title');
     }
 
-    save() {
-        this.theme.set_locale_override('app-title', this.app_title);
-        this.controller.ok();
-    }
-
     save_app_title() {
         this.theme.set_locale_override('app-title', this.app_title);
+        this.user.store_app_title()
     }
 
     save_app_description() {
@@ -197,9 +232,28 @@ export class Customize {
             })
     }
 
+    terms_option_selected(option) {
+        this.terms_option = option;
+        this.api.call_server('admin/set_terms_option', { option: this.terms_option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+
     feedback_option_selected(option) {
         this.feedback_option = option;
         this.api.call_server('admin/set_feedback_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+    exclusive_option_selected(option) {
+        this.exclusive_option = option;
+        this.api.call_server('admin/set_exclusive_option', { option: option })
             .then(response => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -251,6 +305,35 @@ export class Customize {
             })
     }
 
+    enable_cuepoints_option_selected(option) {
+        this.enable_cuepoints_option = option;
+        this.api.call_server('admin/set_cuepoints_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+
+    allow_publishing_option_selected(option) {
+        this.allow_publishing_option = option;
+        this.api.call_server('admin/set_publishing_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+    
+    expose_gallery_option_selected(option) {
+        this.expose_gallery_option = option;
+        this.api.call_server('admin/set_expose_gallery_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+    }
+    
+    
+
     version_time_option_selected(option) {
         this.version_time_option = option;
         this.api.call_server('admin/set_version_time_option', { option: option })
@@ -269,7 +352,7 @@ export class Customize {
     }
 
     report_success() {
-        toastr.success(this.i18n.tr("admin.changes-successfuly saved"))
+        toastr.success(this.i18n.tr("admin.changes-successfully-saved"))
     }
 
     initialized(e, editor) {
@@ -281,6 +364,23 @@ export class Customize {
         let el: any = document.getElementsByClassName("fr-element")[0];
         let s = el.innerHTML;
         THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
+    }
+
+    set_cover_photo(event) {
+        let cover_photo_id = this.user.get_curr_photo_id();
+        if (cover_photo_id == this.cover_photo_id || ! cover_photo_id) {
+            toastr.warning(this.i18n.tr("admin.no-new-cover-photo-selected"));
+            return;
+        }
+
+        //this.cover_photo = cover_photo;
+        this.cover_photo_id = cover_photo_id;
+        this.api.call_server_post('admin/cover_photo',
+            {cover_photo_id: cover_photo_id})
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
     }
 
 }

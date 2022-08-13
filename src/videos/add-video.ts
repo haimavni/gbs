@@ -11,15 +11,15 @@ import { timingSafeEqual } from 'crypto';
 
 @autoinject()
 export class AddVideo {
-    controller;
-    api;
-    theme;
-    user;
-    i18n;
-    header_text;
-    params;
-    old_params;
-    misc;
+    controller: DialogController;
+    api: MemberGateway;
+    theme: Theme;
+    user: User;
+    i18n: I18N;
+    header_text: string;
+    params: { src: string; name: string; };
+    old_params: any;
+    misc: Misc;
     video_date_valid = '';
 
     constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N, user: User, misc: Misc) {
@@ -32,7 +32,7 @@ export class AddVideo {
         this.user = user;
     }
 
-    activate(model) {
+    activate(model: { params: any; }) {
         this.params = model.params;
         if (!this.params) {
             this.params = {
@@ -44,12 +44,12 @@ export class AddVideo {
     }
 
     send() {
-        this.api.call_server_post('photos/save_video', {params: this.params, user_id: this.user.id})
-            .then(response => {
+        this.api.call_server_post('videos/save_video', {params: this.params, user_id: this.user.id})
+            .then((response: { user_error: any; error: any; }) => {
                 if (response.user_error || response.error) {
                     //toastr.warning("<p dir='rtl'>" + this.i18n.tr(response.user_error) + "</p>", '', 10000);
                 } else {
-                    toastr.success("<p dir='rtl'>" + this.i18n.tr('video.message-successful') + "</p>", '', 10000);
+                    toastr.success("<p dir='rtl'>" + this.i18n.tr('videos.message-successful') + "</p>", '', 10000);
                 }
                 this.controller.ok();
             });

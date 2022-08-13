@@ -57,7 +57,7 @@
                     <h3 style="margin-right:-15px;margin-left:-15px;">${'user.customize-dictionary' & t}</h3>
                 </div>
                 <div class="row multi-select-div">
-                    <multi-select options.bind="key_value_list" settings.bind="options_settings" category="topic"
+                    <multi-select options.bind="key_value_list" settings.bind="options_settings" category="locale"
                         name-changed.delegate="dic_item_changed($event)" place_holder_text="user.enter-text-to-replace">
                     </multi-select>
                 </div>
@@ -87,10 +87,24 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
+                        <button repeat.for="trm of terms_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${trm==terms_option ? 'primary' : 'default'} customization"
+                            click.delegate="terms_option_selected(trm)">
+                            <span style="font-weight:bolder">${trm & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
                         <button repeat.for="feed of feedback_options" style="margin-left:8px;width:200px;"
                             class="btn btn-${feed==feedback_option ? 'primary' : 'default'} customization"
                             click.delegate="feedback_option_selected(feed)">
                             <span style="font-weight:bolder">${feed & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
+                        <button repeat.for="excl of exclusive_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${excl==exclusive_option ? 'primary' : 'default'} customization"
+                            click.delegate="exclusive_option_selected(excl)">
+                            <span style="font-weight:bolder">${excl & t}</span>
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
@@ -136,6 +150,27 @@
                             <span style="font-weight:bolder">${mod & t}</span>
                         </button>
                     </div>
+                    <div style="margin-bottom:5px;" if.bind="user.privileges.VIDEO_EDITOR">
+                        <button repeat.for="ec of enable_cuepoints_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${ec==enable_cuepoints_option ? 'primary' : 'default'} customization"
+                            click.delegate="enable_cuepoints_option_selected(ec)">
+                            <span style="font-weight:bolder">${ec & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
+                        <button repeat.for="ap of allow_publishing_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${ap==allow_publishing_option ? 'primary' : 'default'} customization"
+                            click.delegate="allow_publishing_option_selected(ap)">
+                            <span style="font-weight:bolder">${ap & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
+                        <button repeat.for="eg of expose_gallery_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${eg==expose_gallery_option ? 'primary' : 'default'} customization"
+                            click.delegate="expose_gallery_option_selected(eg)">
+                            <span style="font-weight:bolder">${eg & t}</span>
+                        </button>
+                    </div>
                     <div style="margin-bottom:5px;">
                         <label style="margin-left:8px;width:200px;">
                             ${'admin.promoted-story-expiration' & t}
@@ -143,12 +178,24 @@
                         <input type="number" style="margin-left:8px;margin-right:-4px;width:200px;"
                             value.bind="promoted_story_expiration" change.delegate="set_promoted_story_expiration()" />
                     </div>
+                    <div style="margin-bottom:5px;display:flex;">
+                        <label style="margin-left:8px;width:200px;">
+                            ${'admin.cover-photo' & t}
+                        </label>
+                        <a click.delegate="set_cover_photo($event)">
+                            <img if.bind="cover_photo" src.bind="cover_photo" style="cursor:pointer;" width="202"/>
+                            <p if.bind="!cover_photo">
+                                ${'admin.select-cover-photo1' & t}<br>
+                                ${'admin.select-cover-photo2' & t}<br>
+                            </p>
+                        </a>
+                    </div>
                 </div>
             </div>
         </ux-dialog-body>
         <!-- <ux-dialog-footer>
             <button type="button" class="btn btn-primary" click.delegate="save()">${'members.save' & t}</button>
             <button type="button" class="btn btn-info" click.delegate="cancel()">${'members.cancel' & t}</button>
-        </ux-dialog-footer>
-    </ux-dialog> -->
+        </ux-dialog-footer-->
+    </ux-dialog>
 </template>

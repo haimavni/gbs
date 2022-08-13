@@ -10,6 +10,7 @@ export class MemberList {
 
     eventAggregator;
     members = { member_list: null };
+    recent = [];
     api;
 
     constructor(eventAggregator, api) {
@@ -34,10 +35,40 @@ export class MemberList {
                     });
             }
         });
+        this.eventAggregator.subscribe('MEMBER_DELETED', payload => {
+            let member_id = payload.member_id;
+            let idx = this.members.member_list.findIndex(mem => mem.id == member_id);
+            this.members.member_list.splice(idx, 1);
+        });
 
         this.eventAggregator.subscribe('MemberGotProfilePhoto', payload => {
             this.set_profile_photo(payload.member_id, payload.face_photo_url);
         });
+    }
+
+    public add_recent(member) {
+        let idx = this.recent.findIndex(mem => mem.id == member.id);
+        if (idx > 0) {
+            this.recent.splice(idx, 1);
+        }
+        if (idx != 0) {
+            this.recent.splice(0, 0, member);
+        }
+        if (this.recent.length > 20) {
+            this.recent.splice(20, 1);
+        }
+    }
+
+    public get_members() {
+        let recent_ids = this.recent.map(mem => mem.id);
+        let recent_set = new Set(recent_ids);
+        let member_list = this.members.member_list;
+        let result = this.recent;
+        if (member_list) {
+            member_list = member_list.filter(mem => ! recent_set.has(mem.id));
+            result = result.concat(member_list);
+        }
+        return result;
     }
 
     getMemberList(refresh: boolean = false) {

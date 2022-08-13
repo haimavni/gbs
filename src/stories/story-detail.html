@@ -3,35 +3,43 @@
     <div css="margin-top:12px;margin-left:auto;margin-right:auto;min-height:${theme.min_height-120}px"
         class="container content-area">
         <div class="detail-header story-detail">
-            <div style="float:left;cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
-                <button class="transparent btn" disabled.bind="next_disabled" ref="btn_next"
-                    click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">
-                    <i class="far fa-lg fa-arrow-up fa-rotate-90 ${next_class}"></i>
-                </button>
-                <i class="far fa-arrow-up fa-lg" style="cursor:pointer;" t="[title]go-back" click.trigger="go_back()"
-                    if.bind="theme.is_desktop"></i>
-                <button class="transparent btn" disabled.bind="prev_disabled" ref="btn_prev"
-                    click.trigger="go_prev($event)" t="[title]stories.prev-story" if.bind="story_list.length > 1">
-                    <i class="far fa-lg fa-arrow-up fa-rotate-270 ${prev_class}"></i>
+            <div>
+                <div style="float:left;cursor:pointer;padding:0;margin:0;display:flex;padding-top:6px;" if.bind="theme.is_desktop">
+                    <button class="transparent btn" disabled.bind="next_disabled" ref="btn_next"
+                        style="margin:0;padding:0;"
+                        click.trigger="go_next($event)" t="[title]stories.next-story" if.bind="story_list.length > 1">
+                        <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 270 : 90} ${next_class}"></i>
+                    </button>
+                    <i class="far fa-arrow-up fa-lg" t="[title]go-back" click.trigger="go_back()"
+                        style="padding-left:3px;padding-right:3px;cursor:pointer;"
+                        if.bind="theme.is_desktop"></i>
+                    <button class="transparent btn" disabled.bind="prev_disabled" ref="btn_prev"
+                        style="padding:0;"
+                        click.trigger="go_prev($event)" t="[title]stories.prev-story" if.bind="story_list.length > 1">
+                        <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}"></i>
+                    </button>
+                </div>
+                <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()"
+                    chatroom-deleted.delegate="chatroom_deleted()" style="float:left;">
+                </chat-button>
+                <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
+                    class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"
+                    t="[title]stories.highlight-on">
                 </button>
             </div>
             <h3 dir="${story_dir}" style="float: right;margin:0px;">
                 ${story_name}<span if.bind="user.privileges.DEVELOPER">&nbsp;${story.id}</span>
             </h3>
-            <button id="word-highlighter" if.bind="keywords && keywords.length > 0 && ! user.editing"
-                class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()"
-                t="[title]stories.highlight-on">
-            </button>
-            <chat-button chatroom_id.two-way="chatroom_id" new-chatroom.delegate="create_chatroom()"
-                chatroom-deleted.delegate="chatroom_deleted()" style="float:left;">
-            </chat-button>
         </div>
         <div class="row" css="direction:${story_dir};margin-left:-30px;">
             <div class="col-md-5">
-                <photo-strip if.bind="has_associated_photos" source.bind="source" id.bind="story_idx" action_key="Zoom2"
+                <photo-strip if.bind="has_associated_photos" source.bind="source"
+                             id.bind="story_idx" action_key="Zoom2"
+                             move_to.bind="move_to"
+                             restart.bind="restart_slides"
                     style="padding:0;" dir="ltr" settings.bind="{arrows:true, height:220}">
                 </photo-strip>
-                <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;">
+                <div class="row" style="height:fit-content;font-size:150%;padding:12px;margin-top: 20px;display:flex;flex-direction:column;">
                     <div if.bind="user.editing">
                         <form class="form-inline">
                             <button class="btn btn-success btn-sm" click.trigger="update_associated_photos()"
@@ -52,38 +60,10 @@
                     <div if.bind="! user.editing" class="col-md-5">
                     </div>
                 </div>
-                <div style="max-height:550px;overflow:auto;overflow-x:hidden;">
-                    <div if.bind="members.length>0" id="member-list" class="stories-member-list"
-                        style="display:flex;flex-direction:column;">
-                        <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
-                            <span style="float:right;">${'stories.associated-members' & t}</span>
-                        </div>
-                        <ul class="list-group">
-                            <li class="list-group-item" repeat.for="member of members">
-                                <a route-href="route: member-details; params.bind: {id:member.id, keywords: ''}">
-                                    <img src.bind="member.facePhotoURL" />
-                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${member.full_name}
-                                    </h6>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div if.bind="articles.length>0" id="article-list" class="stories-article-list"
-                        style="display:flex;flex-direction:column;margin-top:-24px;">
-                        <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
-                            <span style="float:right;">${'stories.associated-articles' & t}</span>
-                        </div>
-                        <ul class="list-group">
-                            <li class="list-group-item" repeat.for="article of articles">
-                                <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
-                                    <img src.bind="article.facePhotoURL" />
-                                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${article.name}</h6>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="stories-member-list"
-                        style="margin-top:-24px;">
+                <div id="associated">
+                    <compose view-model="../members/member-faces" model.bind="members"></compose>
+                    <compose view-model="../members/article-faces" model.bind="articles"></compose>
+                    <div if.bind="user.editing && candidates.length>0" id="candidate-list" class="stories-member-list">
                         <h4>${'photos.candidates' & t}</h4>
                         <ul class="list-group">
                             <li class="list-group-item" repeat.for="candidate of candidates">
@@ -113,26 +93,28 @@
             <div class="col-md-7" ref="story_box" style="padding-right:0;">
                 <div class="justified-story full-story">
                     <div style="padding-top:8px;margin-left:15px;">
-                        <div class="col-md-4 col-md-offset-8" if.bind="story.source">
+                        <div class="col-md-4 col-md-offset-8" if.bind="story.source" show.bind="theme.is_desktop">
                             <span
-                                css="float:${theme.same_dir};direction:${story_dir};padding-right:12px;padding-left:12px;">${story.source}:</span>
+                                css="float:${theme.same_dir};direction:${story_dir};padding-right:12px;padding-left:12px;">
+                                ${story.source}:
+                            </span>
                         </div>
                     </div>
-                    <div if.bind="! user.editing" style="padding-right:15px;padding-top:8pxl;">
+                    <div if.bind="! user.editing" style="padding-right:15px;padding-top:8px;">
                         <div class="fr-view" dir="${story_dir}">
-                            <div class="big-story-panel ${theme.font_size}" style="position:relative;">
+                            <div class="big-story-panel ${theme.font_size} ${theme.rtltr}" style="position:relative;">
                                 <p class="${story_dir} ${highlight_on}">
                                     <render-story if.bind="highlightedHtml" html.bind="highlightedHtml"></render-story>
-                                    <div class="page-control next" click.trigger="next_page($event, +1)"></div>
-                                    <div class="page-control prev" click.trigger="next_page($event, -1)"></div>
+                                    <!--div class="page-control next" click.trigger="next_page($event, +1)"></div>
+                                    <div class="page-control prev" click.trigger="next_page($event, -1)"></div-->
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div if.bind="user.editing" style="padding-right:15px;padding-top:8pxl;">
+                    <div if.bind="user.editing" style="padding-right:15px;padding-top:8px;">
                         <div class="fr-view" dir="${story_dir}">
-                            <div class="big-story-panel ${theme.font_size}" style="position:relative;">
-                                <editable if.bind="user.editing"
+                            <div class="big-story-panel ${theme.font_size} ${theme.rtltr}" style="position:relative;">
+                                <editable if.bind="ready_to_edit"
                                     settings.bind="{show_date:false, class:'story-section', checkable: false}"
                                     story.bind="story">
                                 </editable>
@@ -143,12 +125,18 @@
                 <!--end of justified -->
                 <div if.bind="user.editing"
                     style="background-color:#eee;height:500px;width:94%;margin-right:8px;margin-top:12px;">
-                    <div style="display:flex;justify-content:spacex-between;" if.bind="book_id">
+                    <div style="display:flex;justify-content:space-between;" if.bind="book_id">
+                        <button class="btn btn-basic"
+                               click.delegate="remove_story_from_book()"
+                               title="${'stories.remove-story-from-book' & t}"
+                               if.bind="user.privileges.ADMIN">
+                            <i class="fa fa-cut" style="color:orange;"></i>
+                        </button>
                         <label style="margin-top:12px;margin-right:15px;font-size:120%;">
                             ${'stories.sorting-key' & t} [${book_name}]
                         </label>
                         <ul
-                            style="display:flex;justify-content:spacex-evenly;flex-direction:row-reverse;margin-top:12px;">
+                            style="display:flex;justify-content:space-evenly;flex-direction:row-reverse;margin-top:12px;">
                             <li repeat.for="idx of [0,1,2,3,4]" style="width:40px;margin-right:10px;">
                                 <input style="width:90%;padding:3px;" type="text" maxlength="3"
                                     value.bind="sorting_key[idx]" disabled="${idx > last_filled_idx ? 'disabled' : ''}"
@@ -187,5 +175,6 @@
                 </div>
             </div>
         </div>
+    </div>
 
 </template>

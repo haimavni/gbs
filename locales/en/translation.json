@@ -12,7 +12,8 @@
         "male-died-in": "Died in ",
         "female-died-in": "Died in",
         "to-the-page-of": "To Member's Page",
-        "new-message": "New Message"
+        "new-message": "New Message",
+        "video-samples": "Video samples"
     },
     "app-title": "GB Stories",
     "stories": {
@@ -72,7 +73,7 @@
         "by-update": "Most recently updated",
         "already-approved": "Story already approved",
         "approve-story": "Approve this story",
-        "initial_version": "Initial version of the story",
+        "initial-version": "Initial version of the story",
         "new-to-old": "New to old",
         "old-to-new": "Old to new",
         "by-name": "By name",
@@ -108,7 +109,9 @@
         "enter-book-name": "Enter book name",
         "story-date": "Story date",
         "prev-story": "Previous story",
-        "next-story": "Next story"
+        "next-story": "Next story",
+        "clear-all-filters": "Clear all filters",
+        "remove-story-from-book": "Remove story from book"
     },
     "members": {
         "members": "Members",
@@ -187,7 +190,9 @@
         "apply-answers": "Apply",
         "already-identified": " already indetified in this photo",
         "story-date": "Story date",
-        "back-to-photos": "Back to photos"
+        "back-to-photos": "Back to photos",
+        "back-to-video": "Back to video",
+        "check-duplicates": "Check duplicates"
     },
     "articles": {
         "articles": "Articles",
@@ -200,7 +205,8 @@
         "delete-article": "Delete the object",
         "start-date": "Start date",
         "end-date": "End date",
-        "period": "Period: "
+        "period": "Period: ",
+        "new": "Create new object"
     },
     "quiz": {
         "filters": "Filters",
@@ -216,10 +222,12 @@
         "description": "Description",
         "answer-text": "Answer text",
         "clear-all": "Clear",
-        "none-of-the-above": "None of the above"
+        "none-of-the-above": "None of the above",
+        "none-of-the-above-default": "'None of the above' default",
+        "no-default": "No default"
     },
     "user": {
-        "hit-counts": "מונה הכניסות",
+        "hit-counts": "Entries counter",
         "login": "Sign in",
         "logout": "Sign out",
         "please-login": "Please sign in",
@@ -248,15 +256,14 @@
         "chat-rooms": "Chat rooms",
         "chats": "Discussions",
         "font-size": "Select font size",
-        "login-successful": "You have logged in successfuly",
+        "login-successful": "You have logged in successfully",
         "share": "Copy the address",
         "number-of-hits": "Number of entries",
         "customize": "Customize",
         "customize-dictionary": "Customize any text",
         "personalize": "Personalize",
-        "select_langauage": "Select language",
+        "select-language": "Select language",
         "select-colors": "Select colors",
-        "sharing": "Sharing",
         "enter-text-to-replace": "Find the text to be replaced, then right-click on it",
         "site-header": "Site header",
         "config": "System definitions",
@@ -271,13 +278,23 @@
         "enable-books-on": "Enable books",
         "enable-member-of-the-day-off": "No member of the day",
         "enable-member-of-the-day-on": "Enable member of the day",
+        "enable-cuepoints-on": "Enable video cuepoints",
+        "enable-cuepoints-off": "Disable video cuepoints",
+        "allow-publishing-on": "Allow displaying in apps gallery",
+        "allow-publishing-off": "Do not allow displaying in apps galler",
+        "expose-gallery-off": "Do not expose Gallery button",
+        "expose-gallery-on": "Expose Gallery button",
         "gallery": "Gallery",
         "audio-enabled": "Audio supported",
         "audio-disabled": "Audio not supported",
+        "terms-enabled": "Terms enabled",
+        "terms-disabled": "Terms disabled",
         "site-title": "Site title",
         "site-description": "Site description for search engines",
         "feedback-off": "Hide feedback button",
         "feedback-on": "Display feedback button",
+        "exclusive-on": "Open for registered users only",
+        "exclusive-off": "Open for any one with the link",
         "quick-upload-off": "Hide quick upload button",
         "quick-upload-on": "Hide quick upload button",
         "version-time-on": "display version time",
@@ -287,7 +304,21 @@
         "quick-upload-photo": "Upload a photo",
         "advanced-options": "Advanced options",
         "advanced-options-off": "No advanced options",
-        "advanced-options-on": "Enable advanced options"
+        "advanced-options-on": "Enable advanced options",
+        "registered-only": "Only registered users may view this site",
+        "please-login-if": "If you are registered, please login",
+        "qrcode-name": "QR code file name (English + digits only)",
+        "sharing": {
+            "sharing": "Sharing",
+            "facebook": "Share on Facebook",
+            "sub-title": "Sub title",
+            "card-description": "Description",
+            "continue": "Continue",
+            "share-on-facebook": "Share on Facebook",
+            "photo-link-copied": "Photo address successfully copied",
+            "replace-photo": "To display a different photo, press Esc and then<br>click on the desired photo and then<b>click the chain icon",
+            "missing-photo": "No photo was selected! press Esc and then<br>click on the desired photo and then<b>click the chain icon"
+        }
     },
     "chats": {
         "chats": "Chats",
@@ -319,8 +350,9 @@
         "uploaded-by-users": "Uploaded by users",
         "uploaded-by-anyone": "Photos from any source",
         "enter-date": "Date or year",
+        "upload-photos": "Upload Photos",
         "upload-in-progress": "Upload in progress...",
-        "photos-uploaded": "Successfuly uploaded - ",
+        "photos-uploaded": "Successfully uploaded - ",
         "photos-duplicate": "Duplicate photos - ",
         "left": "Left",
         "failed": "Failed - ",
@@ -383,6 +415,7 @@
         "crop": "Crop",
         "save-crop": "Save crop",
         "cancel-crop": "Cancel crop",
+        "nobody-there": "Nobody to recognize",
         "next-slide": "Next photo",
         "prev-slide": "Prev photo",
         "recognized": "Recognized photos",
@@ -394,6 +427,7 @@
         "cancel-indentification": "Cancel the identification",
         "chronological-order": "Chronological order",
         "chronological-order-reverse": "Chronological order reversed",
+        "alphabetical-order": "Alphabetical order",
         "edit-face-location": "Edit face location",
         "click-to-identify": "Click on a face to identify a person",
         "click-to-identify-article": "Click on an article to identify it",
@@ -404,7 +438,16 @@
         "to-see-more": "To see more phots make them smaller",
         "mark-people": "Mark people faces",
         "mark-articles": "Mark articles",
-        "undo-last-change": "Undo last change"
+        "undo-last-change": "Undo last change",
+        "photo-detail": "View photo details",
+        "create-qr-photo": "Create photo with QR",
+        "printed-photo-width": "Printed photo width",
+        "printed-photo-height": "Printed photo height",
+        "set-slideshow-topics": "Slide show topics",
+        "slideshow-topics-saved": "Slideshow topics saved",
+        "exclude-from-main-slideshow": "Exclude from main slideshow",
+        "save-selected-photos": "Save the changes",
+        "cancel-selected-photos": "Cancel the changes"
     },
     "videos": {
         "videos": "Video",
@@ -416,7 +459,7 @@
         "apply-to-selected": "Tag the selected videos",
         "video-name": "Name the video clip",
         "send": "Send",
-        "message-successful": "Video was successfuly added",
+        "message-successful": "Video was successfully added",
         "duplicate": "Video clip already exists",
         "unknown-video-type": "Unknown video type",
         "next": "Page forward",
@@ -426,8 +469,15 @@
         "photographer-name": "Photographer name",
         "unknown-photographer": "Unknown",
         "promote-selected-videos": "Promote selected videos",
+        "delete-selected-videos": "Delete selected videos",
         "filter": "Fast search in video titles",
-        "edit-filters": "Topics and keywords"
+        "edit-filters": "Topics and keywords",
+        "add-cue": "Create stopping point",
+        "cue-time": "Time",
+        "cue-description": "Description",
+        "describe-cue": "Describe this segment",
+        "members-in": "Members are in this segment",
+        "select-members": "Select associated members"
     },
     "audios": {
         "audios": "Audios",
@@ -458,7 +508,8 @@
         "select-docs": "Select documents",
         "apply-to-selected": "Tag the selected documents",
         "upload-in-progress": "Upload in progress...",
-        "docs-uploaded": "Successfuly uploaded - ",
+        "docs-were-selected": "Documents were selected",
+        "docs-uploaded": "Successfully uploaded - ",
         "matching-docs": "Documents that contain the selected words",
         "docs-duplicate": "Duplicate documents - ",
         "categories": "Categories selection",
@@ -477,7 +528,13 @@
         "approved": "Approved Documents",
         "drag-left-and-right": "Drag here left or right",
         "edit-filters": "Topics and keywords",
-        "link-to-doc-created": "Link to the document is ready for pasting in the editor"
+        "link-to-doc-created": "Link to the document is ready for pasting in the editor",
+        "click-to-close": "Click to close",
+        "view-details": "View/edit details",
+        "doc-date": "Document date",
+        "members-in": "Members associated with this document",
+        "select-members": "Select associated members",
+        "fullscreen": "Full screen display. F11 to return"
     },
     "terms": {
         "terms": "Terms",
@@ -544,6 +601,10 @@
         "place-marker": "Move and resize the map as necessary, then click on the photo place.",
         "successful-save": "Photo information saved successfully"
     },
+    "gallery": {
+        "gallery": "Gallery",
+        "set-app-active": "Include in gallery"
+    },
     "consts": {
         "vis-never": "Never display!",
         "vis-not-ready": "Not ready yet",
@@ -579,6 +640,7 @@
         "topic-name": "Topic name",
         "topic-description": "Topic description",
         "topic-title": "Edit topic name and description",
+        "locale-title": "Replace a term",
         "photographer-name": "Photographer name",
         "photographer-title": "Edit photographer name",
         "terminology-name": "",
@@ -610,10 +672,10 @@
         "tablet": "Tablet",
         "smartphone": "Smartphone",
         "header-text": "<p>Your feedback is important.</p>",
-        "bad-message": "What I do not like in the site",
-        "good-message": "What I like in the site",
-        "name": "Name. Not mandatory!",
-        "email-address": "Email address. Not mandatory!",
+        "bad-message": "What I do not like in the site. Mandatory if 'like' side is empty.",
+        "good-message": "What I like in the site. Mandatory if 'dont like' side is empty.",
+        "name": "Enter your name",
+        "email-address": "Email address. Mandatory!",
         "message-successful": "Your message was succesfully sent",
         "device-details": "Device details"
     },
@@ -635,6 +697,7 @@
         "archiver": "Archiver", 
         "tester": "Tester",
         "restricted": "Restricted",
+        "video_editor": "Video editor",
         "duplicate-app-name": "Name is alrady in use!",
         "new-app-requested": "Your request is being processed",
         "app-name": "New site ID",
@@ -655,9 +718,13 @@
         "no-messages-to-merge": "No help topics to merge",
         "explain-accept-system": "Abandon your changes. Accept new system help message.",
         "promoted-story-expiration": "How many days to keep promoted story?",
-        "changes-successfuly saved": "Your changes were successfuly saved"
+        "changes-successfully-saved": "Your changes were successfully saved",
+        "no-new-cover-photo-selected": "No new cover photo selected",
+        "cover-photo": "Cover Photo",
+        "select-cover-photo1": "To set cover photo, find photo,",
+        "select-cover-photo2": "To click the chain icon. then return here."
     },
-    "feedbacks": "משוב",
+    "feedbacks": "Feedback",
     "go-back": "Back",
     "parents": "Parents",
     "siblings": "Siblings",
@@ -673,6 +740,7 @@
     "abcde": "Abcde",
     "a": "A",
     "update": "update",
+    "continue": "Continue",
     "date-hint": "Enter year, month/year or full date",
     "please-update-head": "The system has been updated<br>",
     "please-update-body": "<p>The page will refresh now.<br><p> ",
@@ -686,6 +754,7 @@
     "by-old-count": "By old count",
     "enter-search-words": "Enter search words",
     "no-results": "No matching results found",
+    "search-location": "Search location",
     "result1": "Members",
     "result2": "Stories",
     "result3": "Photos",

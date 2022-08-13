@@ -11,7 +11,8 @@
         "male-died-in": "נפטר ב-",
         "female-died-in": "נפטרה ב-",
         "to-the-page-of": "לדף של ",
-        "new-message": "הודעה חדשה"
+        "new-message": "הודעה חדשה",
+        "video-sample": "מבחר סרטים"
     },
     "app-title": "סִפּוּרֵי",
     "stories": {
@@ -71,7 +72,7 @@
         "by-update": " ספורים שעודכנו לאחרונה",
         "already-approved": "הספור כבר מאושר",
         "approve-story": "אשר את הספור",
-        "initial_version": "גרסה ראשונה של הסיפור",
+        "initial-version": "גרסה ראשונה של הסיפור",
         "new-to-old": "חדשים תחילה",
         "old-to-new": "ישנים תחילה",
         "by-name": "לפי שמות הספורים",
@@ -107,7 +108,9 @@
         "enter-book-name": "הקלד את שם הספר",
         "story-date": "תאריך הסיפור",
         "prev-story": "לסיפור הקודם",
-        "next-story": "לסיפור הבא"
+        "next-story": "לסיפור הבא",
+        "clear-all-filters": "כל הסיפורים",
+        "remove-story-from-book": "הסר את הסיפור מהספר"
     },
     "members": {
         "members": "חברים",
@@ -185,7 +188,9 @@
         "no-gender": "טרם הוגדר",
         "apply-answers": "ישם",
         "already-identified": " כבר מזוהה בתמונה זו",
-        "back-to-photos": "בחזרה לתמונות"
+        "back-to-photos": "בחזרה לתמונות",
+        "back-to-video": "חזרה לקטע הוידאו",
+        "check-duplicates": "הצג שמות כפולים"
     },
     "articles": {
         "articles": "אובייקטים",
@@ -198,7 +203,8 @@
         "delete-article": "מחק את האובייקט",
         "start-date": "תחילת התקופה",
         "end-date": "סוף התקופה",
-        "period": "תקופה: "
+        "period": "תקופה: ",
+        "new": "צור אובייקט חדש"
     },
     "quiz": {
         "filters": "מסננים",
@@ -214,7 +220,9 @@
         "description": "הסבר",
         "answer-text": "הקלידו את התשובה",
         "clear-all": "נקה",
-        "none-of-the-above": "אף אחת מהתשובות"
+        "none-of-the-above": "אף אחת מהתשובות",
+        "none-of-the-above-default": "'אף תשובה' כמחדל",
+        "no-default": "ללא ברירת מחדל"
     },
     "user": {
         "login": "התחבר כעורך ",
@@ -254,7 +262,6 @@
         "personalize": "התאמה אישית",
         "select-language": "בחירת שפה",
         "select-colors": "בחירת צבעים",
-        "sharing": "שיתוף",
         "enter-text-to-replace": "מצא את הטקסט שברצונך להחליף ואז הקלק עליו בכפתור הימני",
         "site-header": "כותרת האתר",
         "config": "הגדרות מערכת",
@@ -269,13 +276,23 @@
         "enable-books-on": "אפשר ספרים",
         "enable-member-of-the-day-off": "ללא חבר היום",
         "enable-member-of-the-day-on": "אפשר חבר היום",
+        "enable-cuepoints-on": "כולל נקודות עצירה בסרטים",
+        "enable-cuepoints-off": "ללא נקודות עצירה בסרטים",
+        "allow-publishing-on": "אפשר תצוגה בגלריה",
+        "allow-publishing-off": "אל תאפשר תצוגה בגלריה",
+        "expose-gallery-off": "ללא כפתור גלריה",
+        "expose-gallery-on": "הצג כפתור גלריה",
         "gallery": "גלריה",
         "audio-enabled": "אפשר הקלטות",
         "audio-disabled": "ללא הקלטות",
+        "terms-enabled": "אפשר מילון מונחים",
+        "terms-disabled": "ללא מילון מונחים",
         "site-title": "כותרת האתר",
         "site-description": "תאור האתר למכונות חיפוש",
         "feedback-on": "הצג כפתור משוב",
         "feedback-off": "ללא כפתור משוב",
+        "exclusive-on": "פתוח רק למשתמשים רשומים",
+        "exclusive-off": "פתוח לכל מי שיש את הקישור",
         "quick-upload-off": "ללא כפתור העלאה מהירה",
         "quick-upload-on": "הצג כפתור העלאה מהירה",
         "version-time-on": "הצג את תאריך הגרסה",
@@ -285,7 +302,25 @@
         "quick-upload-photo": "העלה תמונה משלך לאתר",
         "advanced-options": "אפשרויות מתקדמות",
         "advanced-options-off": "ללא אפשרויות מתקדמות",
-        "advanced-options-on": "הצג אפשרויות מתקדמות"
+        "advanced-options-on": "הצג אפשרויות מתקדמות",
+        "registered-only": "האתר פתוח למשתמשים רשומים בלבד",
+        "please-login-if": "אם אתה משתמש רשום, אנא התחבר",
+        "qrcode-name": "QR code file name (English + digits only)",
+        "sharing": {
+            "sharing": "שיתוף",
+            "facebook": "שיתוף בפייסבוק",
+            "sub-title": "כותרת משנה",
+            "card-description": "תיאור",
+            "continue": "המשך",
+            "share-on-facebook": "שתף בפייסבוק",
+            "photo-link-copied": "כתובת התמונה הועתקה בהצלחה",
+            "replace-photo": "להצגת תמונה אחרת, צא מחלון זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן",
+            "missing-photo": "לא נבחרה תמונה! צא ממסך זה, הקלק על התמונה הרצויה, הקלק על סמל השלשלת ואז חזור לכאן"
+        }
+    },
+    "gallery": {
+        "gallery": "גלריה",
+        "set-app-active": "כלול בגלריה"
     },
     "chats": {
         "chats": "קבוצות דיון",
@@ -317,6 +352,7 @@
         "uploaded-by-users": "הועלו על ידי משתמשים",
         "uploaded-by-anyone": "תמונות ממקור כלשהו",
         "enter-date": "תאריך או שנה",
+        "upload-photos": "העלאת תמונות",
         "upload-in-progress": "...התמונות נשלחות לשרת",
         "photos-uploaded": " - תמונות שהועלו בהצלחה",
         "photos-duplicate": " - תמונות שכבר הועלו בעבר",
@@ -381,6 +417,7 @@
         "crop": "חיתוך",
         "save-crop": "שמור את החיתוך",
         "cancel-crop": "בטל את החיתוך",
+        "nobody-there": "אין את מי לזהות",
         "next-slide": "התמונה הבאה",
         "prev-slide": "התמונה הקודמת",
         "recognized": "תמונות שזוהו",
@@ -392,6 +429,7 @@
         "cancel-indentification": "בטל את הזיהוי",
         "chronological-order": "סדר כרונולוגי",
         "chronological-order-reverse": "סדר כרונולוגי הפוך",
+        "alphabetical-order": "סדר אלפביתי",
         "edit-face-location": "לעריכת מיקום וגודל המעגל, לחץ על הכפתור הימני של העכבר או גרור את שפת המעגל או את תוכו",
         "click-to-identify": "הקלק על פרצוף כדי לזהותו",
         "click-to-identify-article": "הקלק על אובייקט כדי לזהותו",
@@ -402,7 +440,16 @@
         "to-see-more": "כדי לראות יותר תמונות הקטן אותן. כשתגדיל אותן מספרן לא יקטן.",
         "mark-people": "סמן פרצופים",
         "mark-articles": "סמן אובייקטים",
-        "undo-last-change": "בטל את השינוי האחרון"
+        "undo-last-change": "בטל את השינוי האחרון",
+        "photo-detail": "סיפורה של התמונה",
+        "create-qr-photo": "צור תמונה עם קוֹדָר",
+        "printed-photo-width": "רוחב התמונה המודפסת",
+        "printed-photo-height": "גובה התמונה המודפסת",
+        "set-slideshow-topics": "קבע כנושאים למצגת הפתיחה",
+        "slideshow-topics-saved": "הנושאים למצגת הפתיחה נשמרו",
+        "exclude-from-main-slideshow": "התמונות שנבחרו לא תוצגנה במצגת הפתיחה",
+        "save-selected-photos": "שמור את השינויים ברשימת התמונות",
+        "cancel-selected-photos": "צא בלי לשמור את השינויים"
     },
     "audios": {
         "audios": "הקלטות",
@@ -446,8 +493,16 @@
         "photographer-name": "שם הצלם",
         "unknown-photographer": "לא ידוע",
         "promote-selected-videos": "קדם את הסרטונים שנבחרו",
+        "delete-selected-videos": "מחק את הסרטים שנבחרו",
         "filter": "חפוש מהיר בשמות הסרטונים",
-        "edit-filters": "נושאים וצלמים"
+        "edit-filters": "נושאים וצלמים",
+        "add-cue": "הוסף קטע",
+        "cue-time": "זמן התחלה",
+        "cue-description": "תיאור הקטע",
+        "back-to-videos": "בחזרה לקטע הוידאו",
+        "describe-cue": "תאר מה רואים בקטע",
+        "members-in": "מי בקטע?",
+        "select-members": "בחר חברים הקשורים לסרט"
     },
     "docs": {
         "docs": "מסמכים",
@@ -477,7 +532,13 @@
         "approved": "מסמכים שכבר אושרו",
         "drag-left-and-right": "גרור כאן שמאלה וימינה",
         "edit-filters": "נושאים ומילות מפתח",
-        "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך"
+        "link-to-doc-created": "קישור למסמך מוכן להדבקה בעורך",
+        "click-to-close": "סגור את המסמך",
+        "view-details": "הצג/ערוך פרטים",
+        "doc-date": "תאריך המסמך",
+        "members-in": "חברים הקשורים למסמך",
+        "select-members": "בחר חברים הקשורים למסמך",
+        "fullscreen": "לחזרה F11.תצוגה במסך מלא"
     },
     "terms": {
         "terms": "מונחים",
@@ -579,6 +640,7 @@
         "topic-name": "שם הנושא",
         "topic-description": "תיאור הנושא",
         "topic-title": "ערוך את שם ותיאור הנושא",
+        "locale-title": "החלף מונח של המערכת",
         "photographer-name": "שם הצלם",
         "photographer-title": "ערוך את שם הצלם",
         "terminology-name": "",
@@ -610,10 +672,10 @@
         "tablet": "טבלט",
         "smartphone": "טלפון חכם",
         "header-text": "<p>המשוב שלך חשוב להמשך הפיתוח ושיפור חווית המשתמש.</p>",
-        "bad-message": "מה אינני אוהב באתר",
-        "good-message": "מה אני אוהב באתר",
-        "name": "שם. לא חובה!",
-        "email-address": "כתובת דואר אלקטרוני. לא חובה!",
+        "bad-message": "מה אינני אוהב באתר. חובה למלא אם לא מלאת מה את.ה אוהב.ת",
+        "good-message": "מה אני אוהב באתר. חובה למלא אם לא מלאת מה את.ה לא אוהב.ת",
+        "name": "שם",
+        "email-address": "כתובת דואר אלקטרוני. חובה למלא!",
         "message-successful": "המשוב שלך נשמר בהצלחה",
         "device-details": "פרטי המכשיר"
     },
@@ -635,6 +697,7 @@
         "archiver": "ארכיונאי", 
         "tester": "בודק",
         "restricted": "עריכה עצמית בלבד",
+        "video_editor": "עורך סרטים",
         "duplicate-app-name": "מזהה האתר כבר תפוס!",
         "new-app-requested": "בקשתך בטיפול. אנא בדוק את תיבת הדואל שלך. אם לא קבלת הודעה תוך מספר דקות, בדוק את תיבת דואר הזבל.",
         "app-name": "מזהה האתר שלך (באותיות לועזיות)",
@@ -655,15 +718,19 @@
         "no-messages-to-merge": "אין הודעות עזרה שצריך למזג",
         "explain-accept-system": "ותר על ההתאמות וקבל את הודעת העזרה של המערכת",
         "promoted-story-expiration": "כמה ימים לשמור סיפור מְקוּדָם?",
-        "changes-successfuly saved": "השינויים נשמרו בהצלחה"
+        "changes-successfully-saved": "השינויים נשמרו בהצלחה",
+        "no-new-cover-photo-selected": "לא נבחרה תמונת שער חדשה",
+        "cover-photo": "תמונת השער",
+        "select-cover-photo1": "כדי לקבוע תמונת שער, צא ומצא תמונה.",
+        "select-cover-photo2": "הקלק על אייקון השלשלת ואז חזור לכאן."
     },
     "go-back": "חזור",
     "parents": "הורים",
     "siblings": "אחים/אחיות",
-    "wife": "בת זוג",
-    "wifes": "בנות זוג",
-    "husband": "בן זוג",
-    "husbands": "בני זוג",
+    "wife": "בת-זוג",
+    "wifes": "בנות-זוג",
+    "husband": "בן-זוג",
+    "husbands": "בני-זוג",
     "children": "ילדים",
     "topics": "נושאים",
     "copy-to-clipboard": "העתק",
@@ -672,6 +739,7 @@
     "abcde": "אבגדה",
     "a": "א",
     "update": "עדכן",
+    "continue": "המשך",
     "date-hint": "הקלד שנה, שנה/חודש או שנה/חודש/יום",
     "please-update-head": "<p dir='rtl'>תוכנת האתר עודכנה</p>",
     "please-update-body": "<p dir='rtl'>הדף ייטען עכשיו מחדש<br><p>",
@@ -685,6 +753,7 @@
     "by-old-count": "קליקים מצטברים",
     "enter-search-words": "הקלידו מילות חיפוש",
     "no-results": "<p dir='rtl'>לא נמצאו תוצאות מתאימות.<br>יש לשנות או להשמיט חלק מהמסננים</p>",
+    "search-location": "חפש מקום",
     "result1": "חברים",
     "result2": "ספורים",
     "result3": "תמונות",

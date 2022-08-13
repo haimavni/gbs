@@ -18,12 +18,21 @@ div.search-input {
         color: gray;
     }
     input {
-        padding-left: 24px;
-        padding-right: 6px;
         padding-bottom: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
         width: 100%;
         height: 32px;
         border:solid 1px gray;
+    }
+    &.rtl input {
         border-right: 0;
+        padding-left: 24px;
+        padding-right: 6px;
+    }
+    &.ltr input {
+        border-left: 0;
+        padding-right: 24px;
+        padding-left: 6px;
     }
 }
