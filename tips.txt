@@ -1,0 +1,9 @@
+to change node version:
+# Remove the version that is currently installed
+sudo apt remove -y nodejs
+
+# Setup sources for the version you want
+curl -sL https://deb.nodesource.com/setup_nn.x | sudo -E bash -
+
+# (Re-)Install Node
+sudo apt-get install -y nodejs
