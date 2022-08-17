@@ -27,7 +27,7 @@
     "bootstrap-sass": "^3.4.1",
     "calculate-pixel-size": "^1.0.0",
     "downloadjs": "^1.4.7",
-    "froala-editor": "^4.0.7",
+    "froala-editor": "^2.8.1",
     "i18next": "^8.4.0",
     "i18next-xhr-backend": "^1.4.1",
     "interactjs": "^1.7.0",
@@ -37,13 +37,14 @@
     "lodash": "^4.17.21",
     "regenerator-runtime": "^0.13.7",
     "requirejs": "^2.3.2",
+
     "tether": "^1.4.0",
     "text": "github:requirejs/text#latest",
+    "rxjs": "^7.5.6",
     "typescript-collections": "^1.2.3",
     "velocity-animate": "^1.5.0",
     "whatwg-fetch": "^2.0.3"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@types/jasmine": "^2.2.0",
     "@types/node": "^6.0.45",
