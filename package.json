@@ -37,13 +37,13 @@
     "lodash": "^4.17.21",
     "regenerator-runtime": "^0.13.7",
     "requirejs": "^2.3.2",
+    "rxjs": "^7.5.6",
     "tether": "^1.4.0",
     "text": "github:requirejs/text#latest",
     "typescript-collections": "^1.2.3",
     "velocity-animate": "^1.5.0",
     "whatwg-fetch": "^2.0.3"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@types/jasmine": "^2.2.0",
     "@types/node": "^6.0.45",
