@@ -1,6 +1,6 @@
 import * as gulp from 'gulp';
 import * as sourcemaps from 'gulp-sourcemaps';
-import * as sass from 'gulp-dart-sass';
+import * as sass from 'gulp-sass';
 import * as project from '../aurelia.json';
 import {build} from 'aurelia-cli';
 
