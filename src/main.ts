@@ -5,7 +5,6 @@ import {Router} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import "froala-editor/js/froala_editor.pkgd.min";
 import "froala-editor/js/languages/he";
-import regeneratorRuntime from "regenerator-runtime";
 
 export function configure(aurelia: Aurelia) {
     try {
