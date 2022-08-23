@@ -6,3 +6,5 @@ src/environment.ts
 aurelia_project/environments/tmp_env.ts
 package-lock.json
 fontawesome
+*.log
+*.dif
