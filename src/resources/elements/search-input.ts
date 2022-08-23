@@ -4,7 +4,7 @@ import {Theme} from '../../services/theme';
 @inject(DOM.Element, Theme)
 export class SearchInputCustomElement {
     @bindable({defaultBindingMode: bindingMode.twoWay}) value;
-    @bindable placeholder = 'type someting';
+    @bindable placeholder = 'type something';
     @bindable height;
     @bindable help_topic = 'search-input';
     element;

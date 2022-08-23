@@ -11,7 +11,7 @@
                         </div>
                         <div class="input-group members-selector" if.bind="user.advanced_user && theme.is_desktop && ! relatives_mode">
                             <select value.bind="order"
-                                style="height:33px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl"
+                                style="height:33px;border-top:solid 2px gray;border-left:solid 2px gray;width:100%;" dir="rtl"
                                 change.trigger="order_changed($event)">
                                 <option repeat.for="option of sorting_options" model.bind="option.value">${option.name}
                                 </option>
