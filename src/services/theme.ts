@@ -240,13 +240,17 @@ export class Theme {
     }
 
     froala_key() {
-        let tol_key = "FD3B2E2C2A8A3wB1B1B1E1E1E4H4B2C10B8jcwuF2wuB-22D-17==";
+        let tol_key = "GF1B2C1A16A1B2pD1D1D1C4E1J4A16B3D8B4klvvI2ptxz==";
         let lifestone_key = "qA2F1G1I2A2D3lA6F6D5G4A1D3C10A3A5F6gptxzsummaG4oinf==";
         //let tolife_key = "WD7C5F4H5E3H3c1A6B5A4C3A3B2C2G3C5A4D-17B-13ffbjhA11A-16yew==";
         let host = window.location.hostname;
         if (host == "tol.life") return tol_key;
         if (host == "lifestone.info") return lifestone_key;
         //if (host == "tolife.site") return tolife_key;
+        //key for tol.life version3/4:
+        //GPD2tA17A1B3D4B2E2sdB-7I-7A2xA-16prdC3E3G3A6B6B5A4E4E3B1==
+        //key for lifestone.info version3/4:
+        //qc1H2pH2A2A1A5B6C5oxI-8prkmuuyC2wqfnD-13C3B2E2E2E3B1A2C7D2F3==
     }
 
 }
