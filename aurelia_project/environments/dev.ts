@@ -1,8 +1,8 @@
 export default {
     debug: true,
-    testing: true,
-    baseURL: "http://gbstories:8000",
-    app: 'gbs__www',
+    testing: false,
+    baseURL: "http://localhost:8000",
+    app: 'adm',
     version: "",
     i18n_ver: ''
 };
