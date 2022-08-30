@@ -246,6 +246,7 @@ export class Theme {
         let host = window.location.hostname;
         if (host == "tol.life") return tol_key;
         if (host == "lifestone.info") return lifestone_key;
+        //if (host == "tolife.site") return tolife_key;
     }
 
 }
