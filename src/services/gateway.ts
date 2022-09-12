@@ -71,9 +71,11 @@ export class MemberGateway {
         this.themeA = themeA;
         let href = window.location.href;
         let app = href.split('/')[3];
-        if (app == '#') {
+        console.log('href: ', href, ' app: ', app)
+        if (app == '#' || app == '') {
             app = environment.app;
         }
+        console.log("================app is ", app)
         httpClient.configure(config => {
             config
                 .useStandardConfiguration()
