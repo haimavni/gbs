@@ -30,6 +30,7 @@ export class WatchVersion {
         if (!enversion) {
             return
         }
+        return
         THIS1.api.call_server('default/get_curr_version')
             .then(response => {
                 if (! response.version) return;
