@@ -77,7 +77,7 @@
     },
     "options": {
       "minify": "stage & prod & tmp_env",
-      "sourcemaps": "haha & tmp_env & dev3",
+      "sourcemaps": "haha & tmp_env & dev",
       "rev": "prod & stage & tmp_env"
     },
     "bundles": [

@@ -77,7 +77,7 @@ export class MemberGateway {
         httpClient.configure(config => {
             config
                 .useStandardConfiguration()
-                .withBaseUrl(environment.baseURL + '/' + app + '/')
+                .withBaseUrl(environment.baseURL + app + '/')
                 .withInterceptor(new SimpleInterceptor());
         });
         this.get_constants();
