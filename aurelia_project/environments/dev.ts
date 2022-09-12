@@ -1,8 +1,8 @@
 export default {
     debug: true,
     testing: false,
-    baseURL: "http://localhost:8000",
-    app: 'adm',
+    baseURL: "https://lifestone.info/",
+    app: 'gbs__test',
     version: "",
     i18n_ver: ''
 };

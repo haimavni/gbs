@@ -1,4 +1,4 @@
-node_modules
+*node_modules*
 .idea
 .DS_STORE
 scripts
@@ -9,3 +9,4 @@ fontawesome
 *.dif
 *.log
 package-lock.json
+node_modules
