@@ -1,7 +1,7 @@
 export default {
     debug: true,
     testing: false,
-    baseURL: "https://tol.life/gbs__master",
+    baseURL: "https://lifestone.info/gbs__test",
     app: '',
     version: "",
     i18n_ver: ''

@@ -160,7 +160,9 @@ export class Stories {
 
     refresh_story(data) {
         let story_id = data.story_data.story_id;
+        console.log("163. find----------------")
         let story = this.story_list.find(itm => itm.story_id == story_id);
+        console.log('after find')
         if (story) {
             story.preview = data.story_data.preview;
             story.name = data.story_data.name;
@@ -211,7 +213,9 @@ export class Stories {
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
+                    console.log("216. before .................")
                     let iw = this.stories_index.find(w => w.name == wrd);
+                    console.log("after")
                     if (iw) {
                         g += 1;
                         iw.sign = 'plus'
@@ -232,7 +236,9 @@ export class Stories {
         this.params.selected_words = [];
         let g = 0;
         for (let wrd of this.search_words) {
+            console.log("239. before find.................")
             let iw = this.stories_index.find(w => w.name == wrd);
+            console.log('after')
             if (iw) {
                 g += 1;
                 iw.sign = 'plus';
@@ -273,7 +279,9 @@ export class Stories {
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
+                    console.log("282. before find=================.")
                     let iw = this.stories_index.find(w => w.name == wrd);
+                    console.log("after")
                     if (iw) {
                         g += 1;
                         iw.sign = 'plus'
@@ -345,8 +353,10 @@ export class Stories {
                 if (!this.used_for)
                     this.used_for = response.active_result_types[0];
                 this.scroll_top = 0;
+                console.log("356. before................")
                 if (!this.active_result_types.find(art => art == this.used_for))
                     this.used_for = this.active_result_types[0];
+                console.log("after")
                 this.result_type_counters = response.result_type_counters;
                 //this.set_active_type();
                 if (this.params.order_option.value == 'by-name') {
@@ -373,7 +383,9 @@ export class Stories {
         let used_for = 0;
         let name = ""
         for (let art of this.active_result_types) {
+            console.log("386. before .................")
             let story = this.story_list.find(st => st.used_for == art)
+            console.log("after")
             if (!name || story.name < name) {
                 used_for = art;
                 name = story.name;
