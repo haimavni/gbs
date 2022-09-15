@@ -1,8 +1,8 @@
 export default {
     debug: false,
     testing: false,
-    baseURL: "http://gbstories:8000",
-    app: 'geva',
+    baseURL: "https://lifestone.info",
+    app: "rishpon",
     version: "",
-    i18n_ver: ''
+    i18n_ver: "",
 };
