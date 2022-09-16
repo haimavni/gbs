@@ -211,7 +211,8 @@ export class Stories {
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
-                    let iw = this.stories_index.find(w => w.name == wrd);
+                    let iw = this.stories_index ? 
+                        this.stories_index.find(w => w.name == wrd) : null;
                     if (iw) {
                         g += 1;
                         iw.sign = 'plus'
@@ -232,7 +233,8 @@ export class Stories {
         this.params.selected_words = [];
         let g = 0;
         for (let wrd of this.search_words) {
-            let iw = this.stories_index.find(w => w.name == wrd);
+            let iw = this.stories_index ? 
+                this.stories_index.find(w => w.name == wrd) : null;
             if (iw) {
                 g += 1;
                 iw.sign = 'plus';
@@ -273,7 +275,8 @@ export class Stories {
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
-                    let iw = this.stories_index.find(w => w.name == wrd);
+                    let iw = this.stories_index ?
+                        this.stories_index.find(w => w.name == wrd) : null;
                     if (iw) {
                         g += 1;
                         iw.sign = 'plus'
