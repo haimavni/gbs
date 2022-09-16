@@ -6,6 +6,12 @@
     "type": "???",
     "url": "???"
   },
+    "scripts": {
+        "dev": "au run",
+        "build": "au build",
+        "gbs": "au run --env gbstories --watch",
+        "geva": "au run --env geva --watch"
+    },
   "license": "MIT",
   "dependencies": {
     "au-table": "^0.1.14",
@@ -37,12 +43,12 @@
     "lodash": "^4.17.21",
     "regenerator-runtime": "^0.13.7",
     "requirejs": "^2.3.2",
-    "rxjs": "^7.5.6",
     "tether": "^1.4.0",
     "text": "github:requirejs/text#latest",
     "typescript-collections": "^1.2.3",
     "velocity-animate": "^1.5.0",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.0",
@@ -55,10 +61,10 @@
     "event-stream": "^3.3.3",
     "gulp": "github:gulpjs/gulp",
     "gulp-changed-in-place": "^2.0.3",
+    "gulp-dart-sass": "^1.0.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^3.1.4",

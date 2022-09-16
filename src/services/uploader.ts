@@ -36,7 +36,12 @@ export class Uploader {
     working = false;
     crc_values = {};
 
-    constructor(api: MemberGateway, user: User, dlg: DialogController, misc: Misc) {
+    constructor(
+        api: MemberGateway,
+        user: User,
+        dlg: DialogController,
+        misc: Misc
+    ) {
         this.api = api;
         this.user = user;
         this.misc = misc;
