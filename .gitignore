@@ -9,3 +9,4 @@ package-lock.json
 *.log
 package-lock.json
 node_modules
+fontawesome
