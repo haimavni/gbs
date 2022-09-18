@@ -208,7 +208,6 @@ export class Stories {
         this.word_index.get_word_index()
             .then(response => {
                 this.stories_index = this.word_index.word_index;
-                console.log("in created, response: ", response, " this.word_index.word_index: ", this.word_index.word_index);
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
@@ -272,8 +271,6 @@ export class Stories {
         this.scroll_area.scrollTop = this.scroll_top;
         this.word_index.get_word_index()
             .then(response => {
-                console.log("in attached. response is ", response);
-                this.stories_index = response;
                 this.params.selected_words = [];
                 let g = 0;
                 for (let wrd of this.search_words) {
@@ -370,6 +367,7 @@ export class Stories {
                 //this.scroll_top = 0;
             });
     }
+
     thumbnail(video_src) {
         return `https://i.ytimg.com/vi/${video_src}/mq2.jpg`
     }
