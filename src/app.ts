@@ -66,7 +66,7 @@ export class App {
         config.map([
             {route: ['home', ''], moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
             {route: 'docs', name: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs', settings: {auth: true}},
-            {route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
+            {route: 'terms', moduleId: '/terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
             {route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios', settings: {auth: true}},
             {route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos', settings: {auth: true}},
             {route: 'photos/*', name: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos', settings: {auth: true}},
