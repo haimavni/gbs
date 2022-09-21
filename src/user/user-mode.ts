@@ -140,7 +140,7 @@ export class UserMode {
     }
 
     merge_help_messages() {
-        let url = `${location.pathname}#/merge-help-messages`;
+        let url = `${location.pathname}/merge-help-messages`;
         this.popup.popup('MERGE-HELP', url, "height=860,width=1700,left=100,top=100");
     }
 
@@ -162,37 +162,37 @@ export class UserMode {
     }
 
     manage_users() {
-        let url = `${location.pathname}#/access-manager`;
+        let url = `${location.pathname}/access-manager`;
         this.popup.popup('OLD_SITE', url, "height=860,width=1700,left=100,top=100");
     }
 
     manage_groups() {
-        let url = `${location.pathname}#/groups-manager`;
+        let url = `${location.pathname}/groups-manager`;
         this.popup.popup('OLD_SITE', url, "height=860,width=1700,left=100,top=100");
     }
 
     chat_rooms() {
-        let url = `${location.pathname}#/chats`;
+        let url = `${location.pathname}/chats`;
         this.popup.popup('CHAT-ROOMS', url, "height=800,width=1800,left=50,top=50");
     }
 
     adhoc_scripts() {
-        let url = `${location.pathname}#/adhoc-scripts`;
+        let url = `${location.pathname}/adhoc-scripts`;
         this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
     }
 
     show_logs() {
-        let url = `${location.pathname}#/show-logs`;
+        let url = `${location.pathname}/show-logs`;
         this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
     }
 
     show_hit_counts() {
-        let url = `${location.pathname}#/hit-counts`;
+        let url = `${location.pathname}/hit-counts`;
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
 
     show_feedbacks() {
-        let url = `${location.pathname}#/feedbacks`;
+        let url = `${location.pathname}/feedbacks`;
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
 

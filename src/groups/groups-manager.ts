@@ -153,13 +153,13 @@ export class GroupManager {
     }
 
     copy_link(group) {
-        let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`;
+        let url = `${location.host}${location.pathname}/upload-photo/${group.id}/*`;
         copy_to_clipboard(url);
         toastr.success(this.i18n.tr('groups.link-copied'))
     }
 
     email_link(group) {
-        let url = `${location.host}${location.pathname}#/upload-photo/${group.id}/*`;
+        let url = `${location.host}${location.pathname}/upload-photo/${group.id}/*`;
         let click = this.i18n.tr('groups.click')
         let to_upload = this.i18n.tr('groups.to-upload')
         let regards = this.i18n.tr('groups.regards')
@@ -205,9 +205,9 @@ export class GroupManager {
     get mail_params() {
         if (this.curr_group_id) {
             this.params.mail_body = "";
-            let url = `${location.host}${location.pathname}#/upload-photo/${this.curr_group_id}/*`;
+            let url = `${location.host}${location.pathname}/upload-photo/${this.curr_group_id}/*`;
             if (url.startsWith('localhost'))
-                url = `https://gbstories.org/gbs_crossing/static/aurelia//index-gbs_crossing.html#/upload-photo/${this.curr_group_id}/*`
+                url = `https://gbstories.org/gbs_crossing/static/aurelia//index-gbs_crossing.html/upload-photo/${this.curr_group_id}/*`
             else {
                 url = 'https://' + url;
             }

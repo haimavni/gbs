@@ -504,7 +504,7 @@ export class Videos {
                 n_cue_points = response.cue_points.length;
             })
         if (cuepoints_enabled && (this.user.privileges.VIDEO_EDITOR || n_cue_points > 0)) {
-            let url = `${location.pathname}#/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true`;
+            let url = `${location.pathname}/annotate-video/${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true`;
             this.popup.popup('VIDEO', url, "");
         } else {
             this.scroll_top = this.scroll_area.scrollTop;
