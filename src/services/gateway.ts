@@ -71,7 +71,8 @@ export class MemberGateway {
         this.themeA = themeA;
         let href = window.location.href;
         let app = href.split('/')[3];
-        if (app == '') {
+        
+        if (href.includes('localhost')) {
             app = environment.app;
         }
         httpClient.configure(config => {
