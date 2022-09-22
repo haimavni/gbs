@@ -132,6 +132,7 @@ export class MemberGateway {
             .then((result) => {
                 let t1 = (new Date()).getTime();
                 console.log(t1 +  ': ' +  url +  ' Done in ' + (t1 - t0) +  ' milliseconds');
+                console.log("Result: ", result)
                 if (result.error) {
                     toastr.error("Server error occured: " + this.tr(result.error));
                     return result;
@@ -139,6 +140,7 @@ export class MemberGateway {
                     toastr.warning(this.tr(result.user_error));
                     return result;
                 } else {
+                    console.log("return result");
                     return result;
                 }
             });

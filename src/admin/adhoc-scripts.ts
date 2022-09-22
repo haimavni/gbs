@@ -45,6 +45,11 @@ export class Terms {
         this.api.call_server_post('plugin_scripts/evaluate_script', { code: this.code })
             .then((data) => {
                 this.results = data.results;
+                console.log("data : ", data);
+                let txt = JSON.stringify(data.results);
+                console.log("txt: ", txt);
+            
+                this.results = txt;
                 let node = this.hj.display(this.results);
                 this.output.innerHTML = "";
                 this.output.appendChild(node);
