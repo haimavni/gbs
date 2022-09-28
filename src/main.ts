@@ -16,7 +16,7 @@ export function configure(aurelia: Aurelia) {
                 let locale_base = environment.baseURL == '' ? 'https://tol.life/static/aurelia/' : '.';
                 return i18n.setup({
                     backend: {
-                        loadPath: locale_base + '/locales/{{lng}}/{{ns}}' + environment.i18n_ver + '.json',
+                        loadPath: locale_base + 'locales/{{lng}}/{{ns}}' + environment.i18n_ver + '.json',
                     },
                     lng: 'he',
                     fallbackLng: 'he',
