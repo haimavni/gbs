@@ -13,7 +13,7 @@ export function configure(aurelia: Aurelia) {
             .plugin('aurelia-froala-editor')
             .plugin('aurelia-i18n', (i18n) => {
                 i18n.i18next.use(Backend);
-                let locale_base = environment.baseURL == '.';
+                let locale_base = '.';
                 return i18n.setup({
                     backend: {
                         loadPath: locale_base + 'locales/{{lng}}/{{ns}}' + environment.i18n_ver + '.json',
