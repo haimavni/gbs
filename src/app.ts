@@ -32,6 +32,7 @@ export class App {
     misc;
 
     constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator, misc: Misc) {
+        console.log("app was created");
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
