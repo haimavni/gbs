@@ -66,7 +66,7 @@ export class App {
         }
         config.addAuthorizeStep(AuthorizeStep);
         config.map([
-            {route: ['home', ''], moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
+            {route: ['home', ''], name: 'home',  moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
             {route: 'docs', name: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs', settings: {auth: true}},
             {route: 'terms', moduleId: '/terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
             {route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios', settings: {auth: true}},
