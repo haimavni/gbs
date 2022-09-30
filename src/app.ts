@@ -150,7 +150,7 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
-        console.log("navigate home");
+        console.log("navigate home. router: ", this.router);
         this.router.navigateToRoute("home");
         console.log("after navigation");
     }
