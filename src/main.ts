@@ -16,7 +16,7 @@ export function configure(aurelia: Aurelia) {
 
                 return i18n.setup({
                     backend: {
-                        loadPath: '/static/aurelia/locales/{{lng}}/{{ns}}' + environment.i18n_ver + '.json',
+                        loadPath: '/gbs__master/static/aurelia/locales/{{lng}}/{{ns}}' + environment.i18n_ver + '.json',
                     },
                     lng: 'he',
                     fallbackLng: 'he',
