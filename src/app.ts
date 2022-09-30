@@ -11,6 +11,7 @@ import {Promote} from './user/promote';
 import {Feedback} from './user/feedback';
 import {AddCustomer} from './admin/add_customer';
 import {Redirect} from 'aurelia-router';
+import { timeStamp } from 'console';
 
 @autoinject
 export class App {
@@ -149,6 +150,9 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
+        console.log("navigate home");
+        this.router.navigateToRoute("home");
+        console.log("after navigation");
     }
 
     feedback() {
