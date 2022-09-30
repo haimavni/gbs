@@ -147,6 +147,7 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
+        this.router.navigateToRoute('home');
     }
 
     feedback() {
