@@ -147,9 +147,6 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
-        console.log("this router before sleep ", this.router);
-        await this.misc.sleep(500);
-        console.log("this router after sleep ", this.router);
     }
 s
     feedback() {
