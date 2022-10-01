@@ -1,5 +1,5 @@
 import environment from './environment';
-import {autoinject, computedFrom} from 'aurelia-framework';
+import {Aurelia, autoinject, computedFrom} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Theme} from './services/theme';
 import {MemberGateway} from './services/gateway';
@@ -14,6 +14,7 @@ import {Redirect} from 'aurelia-router';
 
 @autoinject
 export class App {
+    aurelia: Aurelia;
     baseURL;
     //min_height;
     theme;
@@ -31,8 +32,9 @@ export class App {
     search_history = [];
     misc;
 
-    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator, misc: Misc) {
+    constructor(aurelia: Aurelia, theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator, misc: Misc) {
         console.log("app was created");
+        this.aurelia = aurelia;
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
@@ -149,12 +151,8 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
-        console.log("router before sleep: ", this.router);
-        //this.router.navigateToRoute("home");
-        await this.misc.sleep(600);
-        console.log("this router after sleep: ", this.router);
-        //this.router.navigateToRoute('members');
-        //console.log("after navigation to members");
+        console.log("router: ", this.router);
+        console.log("aurelia: ", this.aurelia);
     }
 
     feedback() {
