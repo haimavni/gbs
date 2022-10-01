@@ -11,7 +11,6 @@ import {Promote} from './user/promote';
 import {Feedback} from './user/feedback';
 import {AddCustomer} from './admin/add_customer';
 import {Redirect} from 'aurelia-router';
-import { timeStamp } from 'console';
 
 @autoinject
 export class App {
