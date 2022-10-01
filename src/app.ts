@@ -155,6 +155,7 @@ export class App {
         await this.misc.sleep(600);
         console.log("this router after sleep: ", this.router);
         this.router.navigateToRoute('members');
+        console.log("after navigation to members");
     }
 
     feedback() {
