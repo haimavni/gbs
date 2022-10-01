@@ -151,8 +151,10 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
-        console.log("router: ", this.router);
-        console.log("aurelia: ", this.aurelia);
+        this.aurelia.start();
+        // console.log("router: ", this.router);
+        // console.log("aurelia: ", this.aurelia);
+
     }
 
     feedback() {
