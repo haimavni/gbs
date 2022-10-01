@@ -8,6 +8,7 @@ import "froala-editor/js/languages/he";
 
 export function configure(aurelia: Aurelia) {
     try {
+        console.log("main. aurelia: ", aurelia);
         aurelia.use
             .standardConfiguration()
             .plugin('aurelia-froala-editor')
