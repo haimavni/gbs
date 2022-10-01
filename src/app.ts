@@ -147,9 +147,11 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
-        this.router.navigateToRoute('home');
+        console.log("this router before sleep ", this.router);
+        await this.misc.sleep(500);
+        console.log("this router after sleep ", this.router);
     }
-
+s
     feedback() {
         this.theme.hide_title = true;
         this.dialog.open({viewModel: Feedback, lock: true}).whenClosed(response => {
