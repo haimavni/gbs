@@ -150,9 +150,10 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
-        console.log("navigate home. router: ", this.router);
-        this.router.navigateToRoute("home");
-        console.log("after navigation");
+        console.log("router before sleep: ", this.router);
+        //this.router.navigateToRoute("home");
+        await this.misc.sleep(600);
+        console.log("this router after sleep: ", this.router);
     }
 
     feedback() {
