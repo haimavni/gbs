@@ -56,8 +56,10 @@ export class App {
 
     async configureRouter(config, router) {
         router.title = 'app-title';
-        // config.options.pushState = true;
-        // config.options.root = '/';
+        if (environment.push_state) {
+            config.options.pushState = true;
+            config.options.root = '/';
+        }
         for (let i=0; i < 100; i+=1) {
             if (this.user.config_ready) break;
             await this.misc.sleep(100);

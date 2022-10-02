@@ -234,7 +234,7 @@ export class UploadPhoto {
     }
 
     view_gallery() {
-        let url = `${location.pathname}/photos/*?user_id=${this.status_record.user_id}`;
+        let url = this.misc.make_url('photos', `*?user_id=${this.status_record.user_id}`)
         this.popup.popup('GALLERY', url, "height=860,width=1700,left=100,top=100");
     }
 

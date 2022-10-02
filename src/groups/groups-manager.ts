@@ -8,6 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { GroupEdit } from './group-edit';
 import { ContactEdit } from './contact-edit';
 import { copy_to_clipboard } from '../services/dom_utils';
+import { Misc } from '../services/misc';
 import * as toastr from 'toastr';
 
 @autoinject()
@@ -16,6 +17,7 @@ export class GroupManager {
     ea;
     i18n;
     theme;
+    misc: Misc;
     group_list = [];
     curr_group;
     curr_group_id = 0;
@@ -38,11 +40,12 @@ export class GroupManager {
     mail_sent = false;
     csv_list = [];
 
-    constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
+    constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, misc: Misc, i18n: I18N) {
         this.api = api;
         this.ea = ea;
         this.dialog = dialog;
         this.theme = theme;
+        this.misc = misc;
         this.i18n = i18n;
         this.user = user;
         this.need_to_show = this.i18n.tr('groups.need-to-show');
@@ -153,13 +156,13 @@ export class GroupManager {
     }
 
     copy_link(group) {
-        let url = `${location.host}${location.pathname}/upload-photo/${group.id}/*`;
+        let url = this.misc.make_url('uplolad_foto', `${group.id}/*`)
         copy_to_clipboard(url);
         toastr.success(this.i18n.tr('groups.link-copied'))
     }
 
     email_link(group) {
-        let url = `${location.host}${location.pathname}/upload-photo/${group.id}/*`;
+        let url = this.misc.make_url('upload-photo', `${group.id}/*`)
         let click = this.i18n.tr('groups.click')
         let to_upload = this.i18n.tr('groups.to-upload')
         let regards = this.i18n.tr('groups.regards')
@@ -205,7 +208,7 @@ export class GroupManager {
     get mail_params() {
         if (this.curr_group_id) {
             this.params.mail_body = "";
-            let url = `${location.host}${location.pathname}/upload-photo/${this.curr_group_id}/*`;
+            let url = this.misc.make_url('upload-photo', `${this.curr_group_id}/*`)
             if (url.startsWith('localhost'))
                 url = `https://gbstories.org/gbs_crossing/static/aurelia//index-gbs_crossing.html/upload-photo/${this.curr_group_id}/*`
             else {
