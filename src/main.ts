@@ -8,14 +8,11 @@ import "froala-editor/js/languages/he";
 
 export function configure(aurelia: Aurelia) {
     try {
-        console.log("main. aurelia: ", aurelia);
-        aurelia.start();
         aurelia.use
             .standardConfiguration()
             .plugin('aurelia-froala-editor')
             .plugin('aurelia-i18n', (i18n) => {
                 i18n.i18next.use(Backend);
-
                 return i18n.setup({
                     backend: {
                         loadPath: '/gbs__master/static/aurelia/locales/{{lng}}/{{ns}}' + environment.i18n_ver + '.json',

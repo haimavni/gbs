@@ -6,12 +6,12 @@
     "type": "???",
     "url": "???"
   },
-    "scripts": {
-        "dev": "au run",
-        "build": "au build",
-        "gbs": "au run --env gbstories --watch",
-        "geva": "au run --env geva --watch"
-    },
+  "scripts": {
+    "dev": "au run",
+    "build": "au build",
+    "gbs": "au run --env gbstories --watch",
+    "geva": "au run --env geva --watch"
+  },
   "license": "MIT",
   "dependencies": {
     "au-table": "^0.1.14",
