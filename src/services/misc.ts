@@ -273,6 +273,7 @@ export class Misc {
 
     make_url(name, rest='') {
         let sep = environment.push_state ? '' : '#';
+        console.log("location: ", location, " host: ", location.host, " pathame: ", location.pathname);
         return `${location.host}${location.pathname}${sep}/${name}/${rest}`;
     }
 
