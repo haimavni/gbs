@@ -1,5 +1,5 @@
 import environment from './environment';
-import {Aurelia, autoinject, computedFrom} from 'aurelia-framework';
+import {autoinject, computedFrom} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Theme} from './services/theme';
 import {MemberGateway} from './services/gateway';
@@ -14,7 +14,6 @@ import {Redirect} from 'aurelia-router';
 
 @autoinject
 export class App {
-    aurelia: Aurelia;
     baseURL;
     //min_height;
     theme;
@@ -32,9 +31,7 @@ export class App {
     search_history = [];
     misc;
 
-    constructor(aurelia: Aurelia, theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator, misc: Misc) {
-        console.log("app was created");
-        this.aurelia = aurelia;
+    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator, misc: Misc) {
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
@@ -69,7 +66,7 @@ export class App {
         config.map([
             {route: ['home', ''], name: 'home',  moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
             {route: 'docs', name: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs', settings: {auth: true}},
-            {route: 'terms', moduleId: '/terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
+            {route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
             {route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios', settings: {auth: true}},
             {route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos', settings: {auth: true}},
             {route: 'photos/*', name: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos', settings: {auth: true}},
