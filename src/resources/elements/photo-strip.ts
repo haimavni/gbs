@@ -68,7 +68,6 @@ export class PhotoStripCustomElement {
                 //this.shift_photos(0);
             });
 
-            //await this.misc.sleep(2000);
             let n = this.settings.slide_show;
             if (n && !this.slideShow) {
                 this.slideShow = setInterval(() => this.auto_next_slide(), n * 10);
@@ -187,14 +186,14 @@ export class PhotoStripCustomElement {
         let target = this.slideList;
         for (let i = 0; i < 100; i++) {
             if(target) break;
-            this.misc.sleep(10);
+            await this.misc.sleep(10);
             target = this.slideList;
         }
         if (!target) return;
         if (target && target.style) {
             target.style.left = `${x}px`;
             target.setAttribute('data-x', x);
-            this.misc.sleep(100);
+            await this.misc.sleep(100);
             target.style.left = `${x}px`;
             target.setAttribute('data-x', x);
         }
