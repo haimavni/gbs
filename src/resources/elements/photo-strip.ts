@@ -42,6 +42,7 @@ export class PhotoStripCustomElement {
 
     async ready(what) {
         if (!this) {
+            console.log("ready - not this")
             return;
         }
         if (this.id != this.prev_id || this.restart) {
@@ -84,9 +85,9 @@ export class PhotoStripCustomElement {
     }
 
     attached() {
+        console.log("attched to slide show")
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
-        let top = elementRect.top + elementRect.height;
         this.width = elementRect.width;
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
@@ -100,7 +101,7 @@ export class PhotoStripCustomElement {
 
     detached() {
         clearInterval(this.ready_interval);
-        clearInterval(this.slideShow);
+        if (this.slideShow) clearInterval(this.slideShow);
         this.ready_interval = 0;
         this.slideShow = 0;
     }
