@@ -125,6 +125,7 @@ export class MemberDetail {
         this.stories_base = -1;
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
+        console.log("activate member detail. photo list changes pending: ", this.photo_list_changes_pending);
         if (this.member && this.member.member_info &&
             this.member.member_info.id == params.id &&
             !this.photo_list_changes_pending) return;
