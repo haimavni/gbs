@@ -148,7 +148,7 @@ export class App {
         ]);
         this.router = router;
     }
-s
+
     feedback() {
         this.theme.hide_title = true;
         this.dialog.open({viewModel: Feedback, lock: true}).whenClosed(response => {

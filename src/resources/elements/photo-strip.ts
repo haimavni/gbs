@@ -42,7 +42,6 @@ export class PhotoStripCustomElement {
 
     async ready(what) {
         if (!this) {
-            console.log("not this=========")
             return;
         }
         if (this.id != this.prev_id || this.restart) {
@@ -79,15 +78,14 @@ export class PhotoStripCustomElement {
     }
 
     async start_slide_show(slides) {
-        console.log("start slide show===============depl")
         let n = this.calculate_covering_count(slides);
         this.slides = slides.slice(0, n);
-        await this.misc.sleep(2000);
+        await this.misc.sleep(500);
         this.slides = slides;
+        this.shift_photos(0);
     }
 
     attached() {
-        console.log("attached===========")
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
         this.width = elementRect.width;
@@ -102,7 +100,6 @@ export class PhotoStripCustomElement {
     }
 
     detached() {
-        console.log("detached..=========")
         clearInterval(this.ready_interval);
         clearInterval(this.slideShow);
         this.ready_interval = 0;
