@@ -42,6 +42,7 @@ export class PhotoStripCustomElement {
 
     async ready(what) {
         if (!this) {
+            console.log("not this=========")
             return;
         }
         if (this.id != this.prev_id || this.restart) {
@@ -78,6 +79,7 @@ export class PhotoStripCustomElement {
     }
 
     async start_slide_show(slides) {
+        console.log("start slide show===============depl")
         let n = this.calculate_covering_count(slides);
         this.slides = slides.slice(0, n);
         await this.misc.sleep(2000);
@@ -85,9 +87,9 @@ export class PhotoStripCustomElement {
     }
 
     attached() {
+        console.log("attached===========")
         const elementRect = this.element.getBoundingClientRect();
         const left = elementRect.left + window.scrollX;
-        let top = elementRect.top + elementRect.height;
         this.width = elementRect.width;
         this.subscription = this.bindingEngine.propertyObserver(this, 'id')
             .subscribe(this.ready);
@@ -100,6 +102,7 @@ export class PhotoStripCustomElement {
     }
 
     detached() {
+        console.log("detached..=========")
         clearInterval(this.ready_interval);
         clearInterval(this.slideShow);
         this.ready_interval = 0;
@@ -187,14 +190,14 @@ export class PhotoStripCustomElement {
         let target = this.slideList;
         for (let i = 0; i < 100; i++) {
             if(target) break;
-            this.misc.sleep(10);
+            await this.misc.sleep(10);
             target = this.slideList;
         }
         if (!target) return;
         if (target && target.style) {
             target.style.left = `${x}px`;
             target.setAttribute('data-x', x);
-            this.misc.sleep(100);
+            await this.misc.sleep(100);
             target.style.left = `${x}px`;
             target.setAttribute('data-x', x);
         }
