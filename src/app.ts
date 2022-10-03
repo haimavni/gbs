@@ -49,7 +49,7 @@ export class App {
     attached() {
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit('APP');
-        this.user.get_app_list();
+        //this.user.get_app_list();
     }
 
     public router;
@@ -62,8 +62,7 @@ export class App {
         }
         config.addAuthorizeStep(AuthorizeStep);
         config.map([
-            {route: '', redirect: 'home'},
-            {route: 'home', moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
+            {route: ['home', ''], moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
             {route: 'docs', name: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs', settings: {auth: true}},
             {route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
             {route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios', settings: {auth: true}},
