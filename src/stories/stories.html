@@ -154,7 +154,7 @@
                             <i class="far fa-trash-alt fa-lg fa-rotate-180"></i>
                         </button>
                     </div>
-                    <div class="row" style="position:relative;padding-top:6px;">
+                    <div class="row" if.bind="user.advanced" style="position:relative;padding-top:6px;">
                         <span if.bind="num_of_stories">${num_of_stories} ${'stories.matching-stories' & t}</span>
                         <span if.bind="! num_of_stories">&nbsp;</span>
                         <div style="margin-bottom:5px;font-size:120%">${'stories.words' & t}</div>
@@ -165,7 +165,6 @@
                             if.bind="!user.advanced_user"
                             params.bind="help_data"></help>
                         <multi-select options.bind="word_index.word_index" selected_options.bind="params.selected_words"
-                            if.bind="user.advanced"
                             keywords.two-way="keywords" place_holder_text="stories.word-index" height="201"
                             highlight_unselectors.bind="highlight_unselectors"
                             ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
