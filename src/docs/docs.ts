@@ -130,25 +130,26 @@ export class Docs {
         });
         if (this.doc_list && this.doc_list.length > 0 && !this.router.isExplicitNavigation) return;
         this.update_topic_list();
-        this.word_index.get_word_index()
-            .then(response => {
-                this.docs_index = response;
-                this.params.selected_words = [];
-                let g = 0;
-                for (let wrd of this.search_words) {
-                    let iw = this.docs_index.find(w => w.name == wrd);
-                    if (iw) {
-                        g += 1;
-                        iw.sign = 'plus'
-                        let item = {group_number: g, first: true, last: true, option: iw};
-                        this.params.selected_words.push(item);
-                    } else { //no such word in the vocabulary.
-                        let idx = this.search_words.findIndex(itm => itm == wrd);
-                        this.search_words = this.search_words.splice(idx, 1);
-                        this.keywords = this.search_words;
+        if (this.user.advanced)
+            this.word_index.get_word_index()
+                .then(response => {
+                    this.docs_index = response;
+                    this.params.selected_words = [];
+                    let g = 0;
+                    for (let wrd of this.search_words) {
+                        let iw = this.docs_index.find(w => w.name == wrd);
+                        if (iw) {
+                            g += 1;
+                            iw.sign = 'plus'
+                            let item = {group_number: g, first: true, last: true, option: iw};
+                            this.params.selected_words.push(item);
+                        } else { //no such word in the vocabulary.
+                            let idx = this.search_words.findIndex(itm => itm == wrd);
+                            this.search_words = this.search_words.splice(idx, 1);
+                            this.keywords = this.search_words;
+                        }
                     }
-                }
-            });
+                });
     }
 
     attached() {

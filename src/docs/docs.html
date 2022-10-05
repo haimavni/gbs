@@ -107,7 +107,7 @@
                             <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
                         </button>
                     </div>
-                    <div class="row" style="position:relative;">
+                    <div class="row" style="position:relative;" if.bind="user.advanced">
                         <span if.bind="num_of_docs">${num_of_docs} ${'docs.matching-docs' & t}</span>
                         <span if.bind="! num_of_docs">&nbsp;</span>
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
