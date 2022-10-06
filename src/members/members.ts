@@ -41,7 +41,7 @@ export class Members {
     other_member_id;
     only_unapproved = "";
     approval_options;
-    max_members_displayed = 1000;
+    max_members_displayed = 10000;
     scroll_area;
     scroll_top = 0;
     questions: Question[] = [];
@@ -52,7 +52,7 @@ export class Members {
     quiz_help_data;
     old_editing_mode = false;
     anchor = -1; //for multiple selections
-
+    agent = { size: 9999 };
 
     constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, articleList: ArticleList, theme: Theme, i18n: I18N, router: Router) {
         this.user = user;
