@@ -1,6 +1,7 @@
 import { autoinject, noView, singleton } from "aurelia-framework";
 import { MemberGateway } from "./gateway";
 import { I18N } from 'aurelia-i18n';
+import environment from "../environment";
 
 @autoinject()
 @singleton()
@@ -268,6 +269,11 @@ export class Misc {
                     if (n == 0) return;
                 });
         }
+    }
+
+    make_url(name, rest='') {
+        let sep = environment.push_state ? '' : '#';
+        return `${location.origin}${location.pathname}${sep}/${name}/${rest}`;
     }
 
 }
