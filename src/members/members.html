@@ -71,6 +71,9 @@
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-right:150px;">
                             ${'articles.articles' & t}
                         </button>
+                        <div style="float:left;padding-top:10px;margin-right:250px;">
+                            <span style="font-size: 150%;color:gray;">${agent.size}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,7 +81,7 @@
             <div id="member-list" class="member-list content-area unselectable"
                 css="height:${member_list_height}px;" ref="scroll_area">
                 <ul class="list-group" style="display:flex;flex-wrap:wrap;padding:0;">
-                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | filterBySet : qualified_members : 'include' : 'id' | take : max_members_displayed | filtervisibility : 0 "
+                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name' : 'last_name' : 'former_first_name' : 'former_last_name' : 'nick_name' | filterBySet : qualified_members : 'include' : 'id' | take : max_members_displayed | filtervisibility : 0 | spy : agent"
                         if.bind="! user.privileges.DATA_AUDITOR || ! only_unapproved || ! member.approved"
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         css="width:${photo_size+20};height:${photo-size+22};"
