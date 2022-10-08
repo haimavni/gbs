@@ -8,6 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { GroupEdit } from './group-edit';
 import { ContactEdit } from './contact-edit';
 import { copy_to_clipboard } from '../services/dom_utils';
+import { Misc } from '../services/misc';
 import * as toastr from 'toastr';
 
 @autoinject()
@@ -16,6 +17,7 @@ export class GroupManager {
     ea;
     i18n;
     theme;
+    misc: Misc;
     group_list = [];
     curr_group;
     curr_group_id = 0;
@@ -38,11 +40,12 @@ export class GroupManager {
     mail_sent = false;
     csv_list = [];
 
-    constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, i18n: I18N) {
+    constructor(api: MemberGateway, ea: EventAggregator, user: User, dialog: DialogService, theme: Theme, misc: Misc, i18n: I18N) {
         this.api = api;
         this.ea = ea;
         this.dialog = dialog;
         this.theme = theme;
+        this.misc = misc;
         this.i18n = i18n;
         this.user = user;
         this.need_to_show = this.i18n.tr('groups.need-to-show');
