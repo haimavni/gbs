@@ -764,5 +764,6 @@
     "result8": "Video",
     "result9": "Document",
     "result10": "Audio",
-    "result12": "Articles"
+    "result12": "Articles",
+    "change-cache": "just to cause different name"
 }
