@@ -9,6 +9,8 @@ import "froala-editor/js/languages/he";
 export function configure(aurelia: Aurelia) {
     try {
         console.log("location:", location);
+        let lst = location.href.split('/');
+        console.log("location.href as list: ", lst);
         aurelia.use
             .standardConfiguration()
             .plugin('aurelia-froala-editor')
