@@ -8,12 +8,14 @@ import "froala-editor/js/languages/he";
 
 export function configure(aurelia: Aurelia) {
     try {
+        let lst = location.href.split('/');
+        let app = lst[3]
         aurelia.use
             .standardConfiguration()
             .plugin('aurelia-froala-editor')
             .plugin('aurelia-i18n', (i18n) => {
                 i18n.i18next.use(Backend);
-                let locale_base = environment.baseURL == '' ? 'https://tol.life/gbs__master/static/aurelia/' : '.';
+                let locale_base = environment.baseURL == '' ? `https://tol.life/${app}/static/aurelia/` : '.';
                 return i18n.setup({
                     backend: {
                         loadPath: locale_base + '/locales/{{lng}}/{{ns}}' + environment.i18n_ver + '.json'

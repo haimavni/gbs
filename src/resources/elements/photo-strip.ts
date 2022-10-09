@@ -101,7 +101,7 @@ export class PhotoStripCustomElement {
 
     detached() {
         clearInterval(this.ready_interval);
-        clearInterval(this.slideShow);
+        if (this.slideShow) clearInterval(this.slideShow);
         this.ready_interval = 0;
         this.slideShow = 0;
     }
