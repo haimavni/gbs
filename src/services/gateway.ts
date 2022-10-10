@@ -65,6 +65,7 @@ export class MemberGateway {
     ptp_connected;
 
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N, themeA: ThemeA) {
+        console.log("location is: ", location);
         this.httpClient = httpClient;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
