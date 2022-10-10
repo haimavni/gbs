@@ -68,9 +68,9 @@ export class MemberGateway {
         let lst = location.href.split('/');
         console.log("construction http client");
         if (location.href.includes('.html')) {
-            let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '/#';
+            let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '#';
             console.log(" reisha is ", s);
-            for (let i=7; i < lst.length; i++) s += lst[i] + '/';
+            for (let i=7; i < lst.length; i++) s += '/' + lst[i];
             alert(" new href: " + s);
             location.href = s;
         }
