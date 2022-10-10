@@ -71,7 +71,7 @@
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-right:150px;">
                             ${'articles.articles' & t}
                         </button>
-                        <div if.bind="theme.is_desktop" style="float:left;padding-top:10px;margin-right:250px;">
+                        <div if.bind="theme.is_desktop && user.advanced_user" style="float:left;padding-top:10px;margin-right:250px;">
                             <span style="font-size: 150%;color:gray;">${agent.size}</span>
                         </div>
                     </div>
