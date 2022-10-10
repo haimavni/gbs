@@ -69,6 +69,7 @@ export class MemberGateway {
         if (location.href.includes('.html')) {
             let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '/#';
             for (let i=7; i++; i < s.length) s += lst[i];
+            alert(" new href: " + s);
             location.href = s;
         }
 
