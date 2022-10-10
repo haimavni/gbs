@@ -66,9 +66,9 @@ export class MemberGateway {
 
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N, themeA: ThemeA) {
         let lst = location.href.split('/');
-        console.log('location.href parts: ', lst);
         if (location.href.includes('.html')) {
-            let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '/#' + lst[7];
+            let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '/#';
+            for (let i=7; i++; i < s.length) s += lst[i];
             location.href = s;
         }
 
