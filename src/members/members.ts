@@ -41,7 +41,6 @@ export class Members {
     other_member_id;
     only_unapproved = "";
     approval_options;
-    max_members_displayed = 10000;
     scroll_area;
     scroll_top = 0;
     questions: Question[] = [];
@@ -426,5 +425,10 @@ export class Members {
             })
     }
 
+    @computedFrom('user.advanced') 
+    get max_members_displayed() {
+        if (this.user.advanced) return 10000;
+        return 1000;
+    }
 
 }

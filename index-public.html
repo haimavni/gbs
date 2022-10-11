@@ -15,21 +15,14 @@
 
 <body aurelia-app="main">
     <script>
-        CheckUrl("scripts/vendor-bundle-[VERSION].js");
-        async function CheckUrl(url)
-        {
-            if (url.indexOf('[') > 0) return;  //for developer
-            const response = await fetch(url, {
-            method: "head",
-            mode: "no-cors"
-            });
-            if (response.status == 404) {
-                //alert("Please refresh");
-                location.reload(true);
-            }
+        // backwared compatibility
+        let lst = location.href.split('/');
+        if (location.href.includes('.html')) {
+            let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '#';
+            for (let i=7; i < lst.length; i++) s += '/' + lst[i];
+            location.href = s;
         }
     </script>
-    <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper" ></script>
 </body>
 
 </html>
