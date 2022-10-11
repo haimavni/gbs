@@ -66,12 +66,12 @@ export class MemberGateway {
 
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N, themeA: ThemeA) {
         //convert old style urls to the new one
-        let lst = location.href.split('/');
-        if (location.href.includes('.html')) {
-            let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '#';
-            for (let i=7; i < lst.length; i++) s += '/' + lst[i];
-            location.href = s;
-        }
+        // let lst = location.href.split('/');
+        // if (location.href.includes('.html')) {
+        //     let s = lst[0] + '//' + lst[2] + '/' + lst[3] + '/' + lst[5] + '#';
+        //     for (let i=7; i < lst.length; i++) s += '/' + lst[i];
+        //     location.href = s;
+        // }
 
         this.httpClient = httpClient;
         this.eventAggregator = eventAggregator;
