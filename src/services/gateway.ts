@@ -72,7 +72,8 @@ export class MemberGateway {
         //     for (let i=7; i < lst.length; i++) s += '/' + lst[i];
         //     location.href = s;
         // }
-        alert('why am i here?');
+        if (location.href.includes('.html'))
+            alert('why am i here?');
         this.httpClient = httpClient;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
