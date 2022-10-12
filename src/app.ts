@@ -150,6 +150,8 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
+        if (environment.push_state)
+            console.log("router: ", router);
     }
 
     feedback() {
