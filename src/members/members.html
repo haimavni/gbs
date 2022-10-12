@@ -68,7 +68,7 @@
                             ${'members.check-duplicates' & t}
                         </button>
                         <button if.bind="user.config.enable_articles && theme.is_desktop && articles_exist && ! user.editing" class="btn btn-primary btn-lg" click.delegate="goto_articles()" 
-                            style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-right:150px;">
+                            style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;">
                             ${'articles.articles' & t}
                         </button>
                         <div if.bind="theme.is_desktop && user.advanced_user" style="float:left;padding-top:10px;margin-right:20px;">
