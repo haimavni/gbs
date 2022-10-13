@@ -49,7 +49,16 @@ export class App {
     attached() {
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit('APP');
+        console.log("app attached");
         //this.user.get_app_list();
+    }
+
+    bind() {
+        console.log("app bind")
+    }
+
+    created(owningView, view) {
+        console.log("app created: ", owningView, view);
     }
 
     public router;
@@ -150,8 +159,10 @@ export class App {
             {route: 'video-list', name: 'video-list', moduleId: './videos/videos-old'}
         ]);
         this.router = router;
-        if (environment.push_state)
+        if (environment.push_state) {
             console.log("router: ", router);
+            console.log("location: ", location);
+        }
     }
 
     feedback() {
