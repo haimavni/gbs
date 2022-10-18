@@ -47,7 +47,7 @@ export class FacebookCard {
 
     create_card() {
         let title = this.title;
-        this.api.call_server_post('default/create_fb_card',
+        this.api.call_server_post('default/make_fb_card',
             {img_src: this.img_src, url: this.current_url, title: title, description: this.description})
             .then(response => {
                 this.card_url = response.card_url;

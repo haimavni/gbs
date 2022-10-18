@@ -708,7 +708,7 @@ export class FullSizePhoto {
                 }
                 current_url = base_url + response.shortcut;
             });
-        await this.api.call_server_post('default/create_fb_card',
+        await this.api.call_server_post('default/make_fb_card',
             { img_src: img_src, url: current_url, title: title, description: description })
             .then(response => {
                 card_url = response.card_url;
