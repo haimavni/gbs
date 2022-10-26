@@ -110,7 +110,7 @@
                 <div class="col-md-6 col-sm-12 fr-view life-summary has-life"
                      ref="life_summary_box"
                      if.bind="(user.privileges.EDITOR || story_0 &&  story_0.story_text != '') && ! user.editing">
-                    <h4 style="margin-top:16px;margin-bottom:0px;color:gray;">
+                    <h4 style="margin-top:16px;margin-bottom:0px;color:gray;" if.bind="user.config.short_bio_title">
                         ${'members.life-summary' & t} ${member_info.first_name}
                     </h4>
                     <i class="fa fa-expand fa-lg"
