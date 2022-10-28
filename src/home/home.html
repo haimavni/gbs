@@ -21,7 +21,7 @@
             </h2>
             <ul class="messages">
                 <li class="message" repeat.for="msg of message_list" draggable="false"
-                    show.bind="user.editing || msg.name.substr(0,2) != '__'">
+                    show.bind="msg.name.substr(0,2) != '__'">
                     <editable story.bind="msg"
                               settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true, pinnable: true}"
                               change.delegate="hande_story_change(msg, $event)"
