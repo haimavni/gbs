@@ -1,7 +1,7 @@
 <template>
     <div id="member-detail" class="content-area ${theme.rtltr}" ref="member_detail_container">
-        <div class="row" ref="member_header">
-            <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" dir="${theme.rtltr}">
+        <div class="row ${member_is_dead}" ref="member_header">
+            <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" style="padding-top:6px;" dir="${theme.rtltr}">
                 <i class="far fa-arrow-up pull-${theme.other_dir}" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
                 <span if.bind="member_info.id">${member_display_name}</span>
                 <span if.bind="! member_info.id">${new_member}</span>
