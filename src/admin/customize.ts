@@ -37,6 +37,7 @@ export class Customize {
     enable_cuepoints_options = ['user.enable-cuepoints-on', 'user.enable-cuepoints-off'];
     allow_publishing_options = ['user.allow-publishing-on', 'user.allow-publishing-off'];
     expose_gallery_options = ['user.expose-gallery-on', 'user.expose-gallery-off'];
+    short_bio_title_options = ['user.short-bio-title-on', 'user.short-bio-title-on'];
 
     //-----------
     auto_reg_option = 'user.by-invitation';
@@ -52,6 +53,7 @@ export class Customize {
     enable_cuepoints_option = 'user.enable-cuepoints-off';
     allow_publishing_option = 'user.allow-publishing-off';
     expose_gallery_option = 'user.expose-gallery-off';
+    short_bio_title_option = 'user.short-bio-title-off';
     enable_books_option = 'user.enable-books-on';
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
@@ -117,10 +119,11 @@ export class Customize {
         this.enable_articles_option = this.user.config.enable_articles ? 'user.enable-articles-on' : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
         this.enable_books_option = this.user.config.enable_books ? 'user.enable-books-on' : 'user.enable-books-off';
-        this.enable_member_of_the_day_option = this.user.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
+        this.enable_member_of_the_day_option = this.user.config.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
         this.enable_cuepoints_option = this.user.config.enable_cuepoints ? 'user.enable-cuepoints-on' : 'user.enable-cuepoints-off';
         this.allow_publishing_option = this.user.config.allow_publishing ? 'user.allow-publishing-on' : 'user.allow-publishing-off';
-        this.expose_gallery_option = this.user.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
+        this.expose_gallery_option = this.user.config.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
+        this.short_bio_title_option = this.user.config.short_bio_title ? 'user.short-bio-title-on' : 'user.short-bio-title-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
         if (! this.cover_photo) {
@@ -330,6 +333,16 @@ export class Customize {
                 this.user.readConfiguration();
                 this.report_success();
             })
+    }
+
+    short_bio_title_option_selected(option) {
+        this.short_bio_title_option = option;
+        this.api.call_server('admin/set_short_bio_title_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
+
     }
     
     

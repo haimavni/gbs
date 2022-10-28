@@ -515,6 +515,15 @@ export class MemberDetail {
         });
     }
 
+    @computedFrom('member.member_info')
+    get member_is_dead() {
+        if (!(this.member && this.member.member_info))
+            return '';
+        if (this.member.member_info.date_of_death.date)
+            return 'zal';
+        return '';
+    }
+
 }
 
 function sleep(ms) {
