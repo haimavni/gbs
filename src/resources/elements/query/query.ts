@@ -24,7 +24,7 @@ export class QueryCustomElement {
     }
 
     attached() {
-        this.api.call_server('user_qureies/available_fields', { table_name: this.table_name })
+        this.api.call_server_post('user_queries/available_fields', { table_name: this.table_name })
             .then(response => {
                 console.log("field list: ", response.field_list)
             })
@@ -32,7 +32,7 @@ export class QueryCustomElement {
     }
 
     apply_query() {
-        this.api.call_server('user_queries/do_query', { table_name: this.table_name, fields: this.fields })
+        this.api.call_server_post('user_queries/do_query', { table_name: this.table_name, fields: this.fields })
             .then(response => {
                 console.log("response: ", response)
             })
