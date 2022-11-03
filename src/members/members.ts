@@ -1,6 +1,8 @@
 import { autoinject, singleton, computedFrom } from "aurelia-framework";
+import { DialogService } from "aurelia-dialog";
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
+import { Query } from "../services/query/query";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MemberList } from '../services/member_list';
 import { ArticleList } from '../services/article_list';
@@ -52,8 +54,10 @@ export class Members {
     old_editing_mode = false;
     anchor = -1; //for multiple selections
     agent = { size: 9999 };
+    dialog: DialogService;
 
-    constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList, articleList: ArticleList, theme: Theme, i18n: I18N, router: Router) {
+    constructor(user: User, api: MemberGateway, eventAggregator: EventAggregator, memberList: MemberList,
+        articleList: ArticleList, theme: Theme, i18n: I18N, router: Router, dialog: DialogService) {
         this.user = user;
         this.api = api;
         this.theme = theme;
@@ -64,6 +68,7 @@ export class Members {
         this.articleList = articleList;
         this._members = [];
         this.eventAggregator.subscribe('EditModeChange', payload => { this.user = payload });
+        this.dialog = dialog
         this.eventAggregator.subscribe('NewMemberAdded', member_details => {
             this.member_added(member_details);
         });
@@ -372,7 +377,7 @@ export class Members {
         }
     }
 
-    
+
     goto_articles() {
         this.router.navigateToRoute('articles');
     }
@@ -423,9 +428,16 @@ export class Members {
                     this.memberList.sort_member_list(this.order);
                 }
             })
+
     }
 
-    @computedFrom('user.advanced') 
+    open_query_editor() {
+        console.log("dialog: ", this.dialog)
+        this.dialog.open({ viewModel: Query, model: {}, lock: false })
+
+    }
+
+    @computedFrom('user.advanced')
     get max_members_displayed() {
         if (this.user.advanced) return 10000;
         return 1000;

@@ -1,0 +1,13 @@
+<template style="direction:ltr;">
+    <ux-dialog css="padding:12px;direction:${theme.rtltr}">
+        <ux-dialog-header>
+            <h3>${'query.query-title' & t}</h3>
+        </ux-dialog-header>
+        <ux-dialog-body css="padding:10px;max-width:800px;direction:${theme.rtltr};">
+        </ux-dialog-body>
+        <ux-dialog-footer>
+            <button type="button" class="btn btn-primary ${disabled_if}" click.delegate="apply_query()">Submit</button>
+            <button type="button" if.bind="!done" class="btn btn-info" click.delegate="cancel()">Cancel</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>
