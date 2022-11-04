@@ -1,5 +1,6 @@
 import { autoinject } from 'aurelia-framework';
-import { MemberGateway } from '.././gateway';
+import { MemberGateway } from '../gateway';
+import { Theme } from '../theme';
 import { I18N } from 'aurelia-i18n';
 import { DialogController } from 'aurelia-dialog';
 
@@ -9,18 +10,23 @@ export class Query {
     table_name = 'TblMembers';
     api;
     i18n;
+    theme: Theme;
     autoClose = 'disabled';
     filter_menu_open = false;
     field_list = [];
+    selected_field_list = [];
     negative = false;
     element;
     dirty;
     dialog: DialogController;
+    filter = '';
+    current_field;
 
-    constructor(api: MemberGateway, i18n: I18N, dialog: DialogController) {
+    constructor(api: MemberGateway, theme: Theme, i18n: I18N, dialog: DialogController) {
         this.api = api;
         this.i18n = i18n;
         this.dialog = dialog;
+        this.theme = theme;
     }
 
     attached() {
@@ -34,11 +40,7 @@ export class Query {
 
     apply_query() {
         //change named values to flat list
-        for (let field of this.field_list) {
-            field.value = this.fix_object_value(field.value);
-        }
-        console.log("this.field_list: ", this.field_list);
-        this.api.call_server_post('user_queries/do_query', { table_name: this.table_name, fields: this.field_list, negative: this.negative })
+        this.api.call_server_post('user_queries/do_query', { table_name: this.table_name, fields: this.selected_field_list, negative: this.negative })
             .then(response => {
                 console.log("response: ", response);
                 this.dialog.ok(response.selected_ids);
@@ -59,15 +61,33 @@ export class Query {
         return result;
     }
 
+    set_current_field(field) {
+        this.current_field = field;
+        console.log("current field: ", this.current_field);
+        for (let fld of this.field_list) {
+            if (fld.name == this.current_field.name) {
+                fld.cls = 'qf-active'
+            } else {
+                fld.cls = '';
+            }
+        }
+    }
+
+    curr_class(field) {
+        if (! this.current_field) return '';
+        return this.current_field.name==field.name ? 'active' : '';
+    }
+
     save_query() {
         
     }
 
     fake_data() {
-        this.field_list = [
+        this.selected_field_list = [
             {field_name: 'date_of_alia', op: '>', value:'1929'},
             {field_name: 'date_of_alia', op: '<', value:'1940'},
-            {field_name: 'date_of_birth', op: '>', value:'1930'}
+            {field_name: 'date_of_birth', op: '>', value:'1930'},
+            {field_name: 'gender', op: '==', value: 'M'}
         ]
 
     }
