@@ -443,4 +443,11 @@ export class Members {
         return 1000;
     }
 
+    @computedFrom('user.editing', 'articles_exist')
+    get show_objects_button() {
+        let b = this.user.config.enable_articles && this.theme.is_desktop && this.articles_exist && ! this.user.editing;
+        b &&= ! this.user.config.objects_in_menu;
+        return b;
+    }
+
 }

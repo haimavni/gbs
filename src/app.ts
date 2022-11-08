@@ -86,6 +86,14 @@ export class App {
             {route: 'photos/*', name: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos', settings: {auth: true}},
             {route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories', settings: {auth: true}},
             //{ route: 'stories-tool/*', name: 'stories', moduleId: './stories/stories', nav: false, title: 'stories.stories' },
+            {
+                route: 'articles',
+                name: 'articles',
+                moduleId: './articles/articles',
+                nav: this.user.config.objects_in_menu,
+                title: 'articles.articles',
+                settings: {auth: true}
+            },
             {route: 'members', name: 'members', moduleId: './members/members', nav: true, title: 'members.members', settings: {auth: true}},
             {
                 route: 'members/:caller_id/*',
@@ -93,14 +101,6 @@ export class App {
                 moduleId: './members/members',
                 nav: false,
                 title: 'members.update-story-members',
-                settings: {auth: true}
-            },
-            {
-                route: 'articles',
-                name: 'articles',
-                moduleId: './articles/articles',
-                nav: false,
-                title: 'articles.articles',
                 settings: {auth: true}
             },
             {

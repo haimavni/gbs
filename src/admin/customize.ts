@@ -38,6 +38,7 @@ export class Customize {
     allow_publishing_options = ['user.allow-publishing-on', 'user.allow-publishing-off'];
     expose_gallery_options = ['user.expose-gallery-on', 'user.expose-gallery-off'];
     short_bio_title_options = ['user.short-bio-title-on', 'user.short-bio-title-on'];
+    objects_in_menu_options = ['user.objects-in-menu-on', 'user.objects-in-menu-off'];
 
     //-----------
     auto_reg_option = 'user.by-invitation';
@@ -54,6 +55,7 @@ export class Customize {
     allow_publishing_option = 'user.allow-publishing-off';
     expose_gallery_option = 'user.expose-gallery-off';
     short_bio_title_option = 'user.short-bio-title-off';
+    objects_in_menu_option = 'user.objects-in-menu-off';
     enable_books_option = 'user.enable-books-on';
     enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
@@ -124,6 +126,7 @@ export class Customize {
         this.allow_publishing_option = this.user.config.allow_publishing ? 'user.allow-publishing-on' : 'user.allow-publishing-off';
         this.expose_gallery_option = this.user.config.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
         this.short_bio_title_option = this.user.config.short_bio_title ? 'user.short-bio-title-on' : 'user.short-bio-title-off';
+        this.objects_in_menu_option = this.user.config.objects_in_menu ? 'user.objects-in-menu-on' : 'user.objects-in-menu-off';
         this.promoted_story_expiration = this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
         if (! this.cover_photo) {
@@ -345,8 +348,16 @@ export class Customize {
 
     }
     
-    
+    objects_always_in_menu_option_selected(option) {
+        this.objects_in_menu_option = option;
+        this.api.call_server('admin/set_objects_in_menu_option', { option: option })
+            .then(response => {
+                this.user.readConfiguration();
+                this.report_success();
+            })
 
+    }
+    
     version_time_option_selected(option) {
         this.version_time_option = option;
         this.api.call_server('admin/set_version_time_option', { option: option })

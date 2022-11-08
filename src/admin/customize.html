@@ -179,6 +179,13 @@
                         </button>
                     </div>
                     <div style="margin-bottom:5px;">
+                        <button repeat.for="oim of objects_in_menu_options" style="margin-left:8px;width:200px;"
+                            class="btn btn-${oim==objects_in_menu_option ? 'primary' : 'default'} customization"
+                            click.delegate="objects_in_menu_option_selected(oim)">
+                            <span style="font-weight:bolder">${sbt & t}</span>
+                        </button>
+                    </div>
+                    <div style="margin-bottom:5px;">
                         <label style="margin-left:8px;width:200px;">
                             ${'admin.promoted-story-expiration' & t}
                         </label>
