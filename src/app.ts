@@ -90,7 +90,7 @@ export class App {
                 route: 'articles',
                 name: 'articles',
                 moduleId: './articles/articles',
-                nav: this.user.config.objects_in_menu,
+                nav: this.user.config.articles_in_menu,
                 title: 'articles.articles',
                 settings: {auth: true}
             },
