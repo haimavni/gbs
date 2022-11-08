@@ -258,9 +258,9 @@ export class App {
         let el1 = document.getElementById("main-search-box");
         let width = el1.offsetWidth;
         let m0 = mrg;
-        if (width < 160 && mrg < 0) {
-            mrg = width + mrg; 
-            console.log("width: ", width, " mrg: ", mrg, " original mrg: ", m0);
+        if (mrg < 0) {
+            mrg = width + mrg;
+            if (mrg > 0) mrg = 0;
         }
         let el = document.getElementById("nav-items");
         el.style.marginRight = `${mrg}px`;
