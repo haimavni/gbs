@@ -257,8 +257,8 @@ export class App {
     menu_items_shift(mrg) {
         let el1 = document.getElementById("main-search-box");
         let width = el1.offsetWidth;
-        if (width < 160 && mrg > 0) {
-            mrg = width - mrg; 
+        if (width < 160 && mrg < 0) {
+            mrg = width + mrg; 
         }
         let el = document.getElementById("nav-items");
         el.style.marginRight = `${mrg}px`;
