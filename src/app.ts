@@ -257,8 +257,10 @@ export class App {
     menu_items_shift(mrg) {
         let el1 = document.getElementById("main-search-box");
         let width = el1.offsetWidth;
+        let m0 = mrg;
         if (width < 160 && mrg < 0) {
             mrg = width + mrg; 
+            console.log("width: ", width, " mrg: ", mrg, " original mrg: ", m0);
         }
         let el = document.getElementById("nav-items");
         el.style.marginRight = `${mrg}px`;
