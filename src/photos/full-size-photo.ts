@@ -303,12 +303,12 @@ export class FullSizePhoto {
             this.assign_member(face)
     }
 
-    assign_article(face) {
+    assign_article(article) {
         this.dialogService.open({
             viewModel: ArticlePicker,
             model: {
                 face_identifier: true,
-                article_id: face.article_id,
+                article_id: article.article_id,
                 excluded: this.articles_already_identified,
                 slide: this.slide,
                 current_face: this.current_face
@@ -317,30 +317,30 @@ export class FullSizePhoto {
             .whenClosed(response => {
                 this.marking_face_active = false;
                 if (response.wasCancelled) {
-                    if (!face.article_id) {
-                        this.hide_face(face);
+                    if (!article.article_id) {
+                        this.hide_face(article);
                     }
-                    //this.remove_face(face); !!! no!
+                    //this.remove_face(article); !!! no!
                     return;
                 }
-                let old_article_id = face.article_id;
+                let old_article_id = article.article_id;
                 let mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
                 if (mi) {
-                    face.name = face.article_id ? mi.name : mi.first_name + ' ' + mi.last_name;
-                    face.article_id = response.output.new_article.article_info.id;
+                    article.name = article.article_id ? mi.name : mi.first_name + ' ' + mi.last_name;
+                    article.article_id = response.output.new_article.article_info.id;
                     return;
                 }
-                face.article_id = response.output.article_id;
+                article.article_id = response.output.article_id;
                 let make_profile_photo = response.output.make_profile_photo;
                 this.api.call_server_post('photos/save_article', {
-                    face: face,
+                    face: article,
                     make_profile_photo: make_profile_photo,
                     old_article_id: old_article_id
                 })
                     .then(response => {
-                        face.name = response.article_name;
+                        article.name = response.article_name;
                         this.eventAggregator.publish('ArticleGotProfilePhoto', {
-                            article_id: face.article_id,
+                            article_id: article.article_id,
                             face_photo_url: response.face_photo_url
                         });
                     });
@@ -495,26 +495,27 @@ export class FullSizePhoto {
         return false;
     }
 
-    public dragstart(face, customEvent: CustomEvent) {
+    public dragstart(face, customEvent: CustomEvent, what) {
         if (!this.user.editing) {
             return true;
         }
         customEvent.stopPropagation();
-        let el = document.getElementById('face-' + face.member_id);
+        let face_id = (what == 'face-') ? what + face.member_id : what + face.article_id
+        let el = document.getElementById(face_id);
         let rect = el.getBoundingClientRect();
         let face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
         let event = customEvent.detail;
         let x = event.pageX - face_center.x;
         let y = event.pageY - face_center.y;
         let r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
-        r = this.distance(event, face)
+        r = this.distance(event, face_id)
         face.action = (r < face.r - 10) ? "moving" : "resizing";
         face.dist = r;
         this.current_face = { x: face.x, y: face.y, r: face.r, dist: face.dist, photo_id: face.photo_id };
     }
 
-    distance(event, face) {
-        let el = document.getElementById('face-' + face.member_id);
+    distance(event, face_id) {
+        let el = document.getElementById(face_id);
         let rect = el.getBoundingClientRect();
         let face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
         let x = event.pageX - face_center.x;
@@ -535,7 +536,7 @@ export class FullSizePhoto {
             current_face.x += event.dx;
             current_face.y += event.dy;
         } else {
-            let dist = this.distance(event, face);
+            let dist = this.distance(event, id);
             current_face.r += dist - current_face.dist;
             current_face.dist = dist;
         }
@@ -565,7 +566,7 @@ export class FullSizePhoto {
         } else {
             let id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
             let el = document.getElementById(id);
-            let dist = this.distance(event, face)
+            let dist = this.distance(event, id)
             face.r += dist - face.dist;
             if (face.r < 18) {
                 this.remove_face(face);

@@ -61,6 +61,7 @@ export class ArticlePicker {
         this.excluded = model.excluded ? model.excluded : new Set();
         this.multi = model.multi;
         this.back_to_text = model.back_to_text || 'members.back-to-photos';
+        this.article_id = model.article_id;
         await this.prepare_lists();
         this.filter = '';
         if (model.preselected) {
@@ -71,7 +72,6 @@ export class ArticlePicker {
             }
             this.articles.sort((a, b) => a.selected ? -1 : b.selected ? +1 : 0);
         }
-        this.article_id = model.article_id;
         if (model.article_id > 0) {
             this.articleList.get_article_by_id(model.article_id)
                 .then(result => {
