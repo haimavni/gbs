@@ -348,7 +348,7 @@ export class Customize {
 
     }
     
-    objects_always_in_menu_option_selected(option) {
+    articles_in_menu_option_selected(option) {
         this.articles_in_menu_option = option;
         this.api.call_server('admin/set_articles_in_menu_option', { option: option })
             .then(response => {

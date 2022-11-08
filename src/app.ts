@@ -254,6 +254,11 @@ export class App {
         el.style.marginRight = `${mr}px`;
     }
 
+    menu_items_shift(mrg) {
+        let el = document.getElementById("nav-items");
+        el.style.marginRight = `${mrg}px`;
+    }
+
     create_new_app() {
         this.dialog.open({viewModel: AddCustomer, lock: true})
     }

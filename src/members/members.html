@@ -71,7 +71,7 @@
                             class="btn btn-basic btn-lg" click.delegate="check_duplicates()">
                             ${'members.check-duplicates' & t}
                         </button>
-                        <button if.bind="user.config.enable_articles && theme.is_desktop && articles_exist && ! user.editing" class="btn btn-primary btn-lg" click.delegate="goto_articles()" 
+                        <button if.bind="show_objects_button" class="btn btn-primary btn-lg" click.delegate="goto_articles()" 
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;">
                             ${'articles.articles' & t}
                         </button>

@@ -13,7 +13,7 @@
                         <div class="input-group" style="padding-top:16px;">
                             <help topic.bind="topic_articles" position="bottom"></help>
                         </div>
-                        <button if.bind="! caller_type && ! user.editing" class="btn btn-primary btn-lg"
+                        <button if.bind="! caller_type && ! user.editing && ! user.config.articles_in_menu" class="btn btn-primary btn-lg"
                             click.delegate="goto_members()"
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-right:150px;">
                             ${'members.members' & t}
