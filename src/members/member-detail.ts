@@ -65,6 +65,7 @@ export class MemberDetail {
     advanced_search = false;
     photo_list_changes_pending = false;
     biography_dir = "";
+    member_id;
     move_to;
     story_0;
     story_1;
@@ -125,6 +126,7 @@ export class MemberDetail {
     }
 
     activate(params, config) {
+        this.member_id = params.id;
         this.stories_base = -1;
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
@@ -202,11 +204,7 @@ export class MemberDetail {
             this.misc.save(['member_slides_offset', this.member.member_info.id], offset);
             let video_id = payload.slide.video_id;
             if (video_id) {
-
-                // this.router.navigateToRoute('annotate-video', {
-                //     video_id: payload.slide.video_id //,
-                // });
-                this.videos.view_video_by_id(video_id);
+                this.videos.view_video_by_id(video_id, this.member_id);
             } else {
                 this.router.navigateToRoute('photo-detail',
                     {id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true});

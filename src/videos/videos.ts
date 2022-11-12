@@ -494,7 +494,7 @@ export class Videos {
         this.editing_filters = true;
     }
 
-    async view_video(video, event) {
+    async view_video(video, event, member_id) {
         if (event) {
             event.stopPropagation();
             event.preventDefault();
@@ -506,7 +506,7 @@ export class Videos {
                 n_cue_points = response.cue_points.length;
             })
         if (cuepoints_enabled && (this.user.privileges.VIDEO_EDITOR || n_cue_points > 0)) {
-            let url = this.misc.make_url('annotate-video', `${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true`)
+            let url = this.misc.make_url('annotate-video', `${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true&memmber_id=${member_id}`)
             this.popup.popup('VIDEO', url, "");
         } else {
             this.scroll_top = this.scroll_area.scrollTop;
@@ -520,20 +520,20 @@ export class Videos {
         }
     }
 
-    async view_video_by_id(video_id) {
+    async view_video_by_id(video_id, member_id=0) {
         console.log("video id: ", video_id);
         //await this.update_video_list();
         let video;
         if (this.video_list.length > 0) {
             video = this.video_list.find(v => v.id==video_id);
-            this.view_video(video, null);
+            this.view_video(video, null, member_id);
             return;
         }
         this.api.call_server_post('videos/get_video_list', this.params)
             .then(response => {
                 this.set_video_list(response.video_list);
                 video = this.video_list.find(v => v.id==video_id);
-                this.view_video(video, null);
+                this.view_video(video, null, member_id);
             });
     }
 

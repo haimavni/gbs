@@ -18,6 +18,7 @@ class CuePoint {
     description: string;
     is_current;
     member_ids = [];
+    cls = '';
 
     constructor(time, description) {
         this.time = time;
@@ -37,6 +38,7 @@ export class AnnotateVideo {
     dialog: DialogService;
     members = [];
     video_id;
+    member_id;
     video_name;
     video_src = "";
     video_type = "youtube";
@@ -120,6 +122,7 @@ export class AnnotateVideo {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
+        this.member_id = params.member_id; //will highlight cuepoints with this member
         this.caller = params.caller;
         if (params.what != 'story') {
             this.video_name = params.video_name;
@@ -167,6 +170,10 @@ export class AnnotateVideo {
                 if (this.cuepoints_enabled)
                     this.set_video_source();
                 this.cue_points = response.cue_points;
+                if (this.member_id)
+                    for (let cue of this.cue_points) {
+                        cue.cls = 'hilited'
+                    }
                 this.set_story(response.video_story)
                 //this.video_name = this.video_story.name || response.video_name;
                 this.photographer_name = response.photographer_name;
