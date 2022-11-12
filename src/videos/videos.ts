@@ -525,7 +525,7 @@ export class Videos {
         for (let i=0; i < 100; i+=1) {
             if (this.video_list.length > 0)
                 break;
-            this.misc.sleep(50);
+            await this.misc.sleep(50);
         }
         console.log("video_list: ", this.video_list);
         let video = this.video_list.find(v => v.id==video_id);
