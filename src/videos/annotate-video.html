@@ -134,7 +134,7 @@
                         </th>
                         </thead>
                         <tbody>
-                        <tr repeat.for="cue of cue_points" class="cue.cls">
+                        <tr repeat.for="cue of cue_points" class="${cue.cls}">
                             <td>
                                 <span style="width:60px">${cue.time | formatTime}</span>
                                 <i class="fa fa-play fa-xs" if.bind="user.editing && cue.is_current" click.delegate="step(cue, +1)" style="margin-right:4px"></i>
