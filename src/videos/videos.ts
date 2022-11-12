@@ -521,7 +521,10 @@ export class Videos {
     }
 
     view_video_by_id(video_id) {
+        console.log("video id: ", video_id);
+        console.log("video_list: ", this.video_list);
         let video = this.video_list.find(v => v.id==video_id);
+        console.log("video: ", video);
         this.view_video(video, null)
     }
 
