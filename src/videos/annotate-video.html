@@ -42,6 +42,10 @@
                               story.bind="video_story">
                     </editable>
                 </div>
+                <div if.bind="members.length > 0">
+                    <!-- faces of members -->
+                    <compose view-model="../members/member-faces" model.bind="members"></compose>
+                </div>
                 <div class="multi-select-div" style="min-height:272px;overflow:hidden;position:relative;" if.bind="user.editing">
                     <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
                         ${'stories.categories' & t}
@@ -127,7 +131,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                         <th css="text-align:${theme.same_dir};" style="width:100px">${'videos.cue-time' & t}</th>
-                        <th style="width:40px"><i class="fa fa-users" style="margin-left:5px;"></i></th>
+                        <th style="width:40px" if.bind="user.editing"><i class="fa fa-users" style="margin-left:5px;"></i></th>
                         <th css="text-align:${theme.same_dir};">${'videos.cue-description' & t}</th>
                         <th if.bind="user.editing" style="width:40px">
                             <i class="fa fa-trash" style="margin-left:5px;"></i>
@@ -142,7 +146,7 @@
                                 <i class="${cue.is_current ? 'fas' : 'far'} fa-circle" click.delegate="jump_to_cue(cue)"
                                    style="float:left;margin-top:4px;cursor:pointer;"></i>
                             </td>
-                            <td>
+                            <td if.bind="user.editing">
                                 <i style="cursor:pointer"
                                    class="fa fa-users"
                                    title="${'videos.members-in' & t}"

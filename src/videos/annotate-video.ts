@@ -2,6 +2,7 @@ import {autoinject, singleton, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {I18N} from 'aurelia-i18n';
 import {MemberGateway} from '../services/gateway';
+import { MemberList } from '../services/member_list';
 import {User} from '../services/user';
 import {Theme} from '../services/theme';
 import {Misc} from '../services/misc';
@@ -32,6 +33,7 @@ export class AnnotateVideo {
     api;
     user: User;
     theme: Theme;
+    member_list: MemberList;
     misc: Misc;
     router: Router;
     i18n;
@@ -86,13 +88,16 @@ export class AnnotateVideo {
     video_date_valid = '';
     highlight_on= "highlight-on";
     caller;
+    cue0: CuePoint = null;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc,
+    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc, member_list: MemberList,
                 dialog: DialogService, router: Router, ea: EventAggregator, ytKeeper: YtKeeper) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
         this.misc = misc;
+        this.member_list = member_list;
+        console.log("member_list: ", this.member_list);
         this.theme = theme;
         this.dialog = dialog;
         this.router = router;
@@ -122,7 +127,7 @@ export class AnnotateVideo {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
-        this.member_id = params.member_id; //will highlight cuepoints with this member
+        this.member_id = +params.member_id; //will highlight cuepoints with this member
         this.caller = params.caller;
         if (params.what != 'story') {
             this.video_name = params.video_name;
@@ -170,11 +175,16 @@ export class AnnotateVideo {
                 if (this.cuepoints_enabled)
                     this.set_video_source();
                 this.cue_points = response.cue_points;
-                if (this.member_id)
+                if (this.member_id) {
+                    this.cue0 = null;
                     for (let cue of this.cue_points) {
-                        if (cue.member_ids.includes(this.member_id))
-                            cue.cls = 'hilited'
+                        if (cue.member_ids.includes(this.member_id)) {
+                            cue.cls = 'hilited';
+                            if (! this.cue0)
+                                this.cue0 = cue;
+                        }
                     }
+                }
                 this.set_story(response.video_story)
                 //this.video_name = this.video_story.name || response.video_name;
                 this.photographer_name = response.photographer_name;
@@ -202,8 +212,13 @@ export class AnnotateVideo {
             }
             await this.misc.sleep(50);
         }
-        if (good)
+        if (good) {
             this.ytKeeper.videoSource = this.video_src;
+            if (this.cue0) {
+                await this.misc.sleep(1000);
+                this.jump_to_cue(this.cue0)
+            }
+        }
         else console.log("yt keeper not ready")
     }
 
@@ -249,7 +264,6 @@ export class AnnotateVideo {
     }
 
     add_cue_point() {
-        console.log("cue points: ", this.cue_points)
         let time = Math.round(this.player.currentTime)
         let cue = new CuePoint(time, '');
         this.cue_points.push(cue);
@@ -273,6 +287,11 @@ export class AnnotateVideo {
         }
         cue.is_current = true;
         this.player.currentTime = cue.time;
+        let member_set = new Set(cue.member_ids);
+        this.member_list.getMemberList()
+        .then(response => {
+            this.members = this.member_list.members.member_list.filter(member => member_set.has(member.id))
+        });
     }
 
     step(cue, gap) {
