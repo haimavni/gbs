@@ -522,11 +522,7 @@ export class Videos {
 
     async view_video_by_id(video_id) {
         console.log("video id: ", video_id);
-        for (let i=0; i < 100; i+=1) {
-            if (this.video_list.length > 0)
-                break;
-            await this.misc.sleep(50);
-        }
+        await this.update_video_list();
         console.log("video_list: ", this.video_list);
         let video = this.video_list.find(v => v.id==video_id);
         console.log("video: ", video);
