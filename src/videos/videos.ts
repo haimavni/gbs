@@ -522,11 +522,19 @@ export class Videos {
 
     async view_video_by_id(video_id) {
         console.log("video id: ", video_id);
-        await this.update_video_list();
-        console.log("video_list: ", this.video_list);
-        let video = this.video_list.find(v => v.id==video_id);
-        console.log("video: ", video);
-        this.view_video(video, null)
+        //await this.update_video_list();
+        let video;
+        if (this.video_list.length > 0) {
+            video = this.video_list.find(v => v.id==video_id);
+            this.view_video(video, null);
+            return;
+        }
+        this.api.call_server_post('videos/get_video_list', this.params)
+            .then(response => {
+                this.set_video_list(response.video_list);
+                video = this.video_list.find(v => v.id==video_id);
+                this.view_video(video, null);
+            });
     }
 
 }
