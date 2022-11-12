@@ -495,8 +495,10 @@ export class Videos {
     }
 
     async view_video(video, event) {
-        event.stopPropagation();
-        event.preventDefault();
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
         let n_cue_points = 0;
         let cuepoints_enabled = this.user.privileges.VIDEO_EDITOR || this.user.config.enable_cuepoints;
         if (cuepoints_enabled)
@@ -516,6 +518,11 @@ export class Videos {
                 cuepoints_enabled: cuepoints_enabled
             });
         }
+    }
+
+    view_video_by_id(video_id) {
+        let video = this.video_list.find(v => v.id==video_id);
+        this.view_video(video, null)
     }
 
 }

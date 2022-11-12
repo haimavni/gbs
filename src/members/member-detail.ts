@@ -14,6 +14,7 @@ import environment from '../environment';
 import {MemberList} from '../services/member_list';
 import {highlight} from '../services/dom_utils';
 import {ConfigMemberStories} from '../members/config-member-stories';
+import {Videos} from '../videos/videos';
 
 @autoinject()
 @singleton()
@@ -23,6 +24,7 @@ export class MemberDetail {
     eventAggregator;
     api;
     misc;
+    videos;
     router;
     i18n;
     member;
@@ -70,13 +72,14 @@ export class MemberDetail {
     story_3;
     story_4;
 
-    constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
+    constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway, videos: Videos,
                 router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
         this.theme = theme;
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.misc = misc;
+        this.videos = videos;
         this.memberList = memberList;
         this.router = router;
         this.i18n = i18n;
@@ -197,10 +200,13 @@ export class MemberDetail {
             photo_ids = photo_ids.filter(p => p);
             let offset = payload.offset;
             this.misc.save(['member_slides_offset', this.member.member_info.id], offset);
-            if (payload.slide.video_id) {
-                this.router.navigateToRoute('annotate-video', {
-                    video_id: payload.slide.video_id //,
-                });
+            let video_id = payload.slide.video_id;
+            if (video_id) {
+
+                // this.router.navigateToRoute('annotate-video', {
+                //     video_id: payload.slide.video_id //,
+                // });
+                this.videos.view_video_by_id(video_id);
             } else {
                 this.router.navigateToRoute('photo-detail',
                     {id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true});
