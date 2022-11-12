@@ -172,7 +172,8 @@ export class AnnotateVideo {
                 this.cue_points = response.cue_points;
                 if (this.member_id)
                     for (let cue of this.cue_points) {
-                        cue.cls = 'hilited'
+                        if (cue.member_ids.includes(this.member_id))
+                            cue.cls = 'hilited'
                     }
                 this.set_story(response.video_story)
                 //this.video_name = this.video_story.name || response.video_name;
