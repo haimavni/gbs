@@ -42,7 +42,7 @@
                               story.bind="video_story">
                     </editable>
                 </div>
-                <div if.bind="members.length > 0">
+                <div if.bind="members.length > 0 && user.config.enable_cuepoints">
                     <!-- faces of members -->
                     <compose view-model="../members/member-faces" model.bind="members"></compose>
                 </div>
@@ -52,6 +52,7 @@
                     </div>
                     <multi-select options.bind="topic_list" category="topic"
                                   selected_options.bind="params.selected_topics" option_groups.bind="topic_groups"
+                                  first_time.bind="no_topics_yet"
                                   new-name.delegate="add_topic($event)" settings.bind="options_settings"
                                   has_groups.bind="has_grouped_topics" place_holder_text="photos.click-topic"
                                   ms-change.delegate="handle_topic_change($event) ">

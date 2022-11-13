@@ -520,9 +520,11 @@ export class Videos {
         }
     }
 
-    async view_video_by_id(video_id, member_id=0) {
-        console.log("video id: ", video_id);
-        //await this.update_video_list();
+    async view_video_by_id(video_id, member_id?, caller_type?, rest?) {
+        if (caller_type=='story') {
+            await this.api.call_server_post('videos/story_id_to_video_id', {id: video_id})
+                .then(response => video_id = response.video_id);
+        }
         let video;
         if (this.video_list.length > 0) {
             video = this.video_list.find(v => v.id==video_id);

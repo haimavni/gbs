@@ -15,6 +15,7 @@ import { Misc } from '../services/misc';
 import { DocPage } from '../docs/doc-page';
 import { debounce } from '../services/debounce';
 import { PickerSettings } from '../resources/elements/picker/picker';
+import { Videos } from '../videos/videos';
 
 @autoinject
 @singleton()
@@ -25,6 +26,7 @@ export class Stories {
     api;
     user;
     theme;
+    videos;
     popup: Popup;
     word_index;
     router;
@@ -111,12 +113,13 @@ export class Stories {
     pickerSettings: PickerSettings = new PickerSettings({can_add: true});
     stories_date_valid = '';
 
-    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
+    constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, videos: Videos,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup, misc: Misc) {
         this.api = api;
         this.user = user;
         this.misc = misc;
         this.theme = theme;
+        this.videos = videos;
         this.word_index = word_index;
         this.dialog = dialog;
         this.i18n = i18n;
@@ -444,7 +447,8 @@ export class Stories {
                 this.openDialog(story.doc_url);
                 break;
             case this.api.constants.story_type.STORY4VIDEO:
-                this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+                //this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+                this.videos.view_video_by_id(story.story_id, 0, 'story', {keywords: keywords, search_type: this.params.search_type });
                 break;
         }
     }
