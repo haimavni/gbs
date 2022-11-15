@@ -70,6 +70,7 @@ export class App {
         router.title = 'app-title';
         if (environment.push_state) {
             config.options.pushState = true;
+            config.options.hasChange = false;
             config.options.root = '/';
         }
         for (let i=0; i < 100; i+=1) {
