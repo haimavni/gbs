@@ -282,6 +282,10 @@ export class AnnotateVideo {
     }
 
     jump_to_cue(cue) {
+        if (cue.is_current) {
+            cue.is_current = false;
+            return;
+        }
         for (let cue of this.cue_points) {
             cue.is_current = false;
         }
