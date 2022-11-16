@@ -282,14 +282,11 @@ export class AnnotateVideo {
     }
 
     jump_to_cue(cue) {
-        if (cue.is_current) {
-            cue.is_current = false;
-            return;
-        }
+        let is_current = cue.is_current;
         for (let cue of this.cue_points) {
             cue.is_current = false;
         }
-        cue.is_current = true;
+        cue.is_current = ! is_current;
         this.player.currentTime = cue.time;
         let member_set = new Set(cue.member_ids);
         this.member_list.getMemberList()
