@@ -509,7 +509,8 @@ export class Videos {
             let url = this.misc.make_url('annotate-video', `${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true&member_id=${member_id}`)
             this.popup.popup('VIDEO', url, "");
         } else {
-            this.scroll_top = this.scroll_area.scrollTop;
+            if (this.scroll_area)
+                this.scroll_top = this.scroll_area.scrollTop;
             this.router.navigateToRoute('annotate-video', {
                 video_id: video.id,
                 video_src: video.src,
