@@ -39,6 +39,7 @@ export class AnnotateVideo {
     i18n;
     dialog: DialogService;
     members = [];
+    all_members = [];
     video_id;
     member_id;
     video_name;
@@ -170,6 +171,7 @@ export class AnnotateVideo {
                 this.video_id = response.video_id;
                 this.video_src = response.video_source;
                 this.members=response.members;
+                this.all_members = this.members;
                 //if (this.video_type == 'youtube')
                 this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
                 if (this.cuepoints_enabled)
@@ -282,11 +284,15 @@ export class AnnotateVideo {
     }
 
     jump_to_cue(cue) {
-        let is_current = cue.is_current;
+        if (cue.is_current) {
+            cue.is_current = false;
+            this.members = this.all_members;
+            return;
+        }
         for (let cue of this.cue_points) {
             cue.is_current = false;
         }
-        cue.is_current = ! is_current;
+        cue.is_current = true;
         this.player.currentTime = cue.time;
         let member_set = new Set(cue.member_ids);
         this.member_list.getMemberList()
