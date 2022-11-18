@@ -572,10 +572,12 @@ export class FullSizePhoto {
                 this.remove_face(face);
             }
         }
-        if (face.article_id)
-            this.articles = this.articles.splice(0)
-        else
+        if (face.article_id) {
+            this.articles = this.articles.splice(0);
+        } else {
             this.faces = this.faces.splice(0);
+        }
+        this.save_face_location(face);
         face.action = null;
     }
 
@@ -872,6 +874,13 @@ export class FullSizePhoto {
         })
 
     }
+
+    save_face_location(face) {
+        if (face.article_id > 0)
+            this.api.call_server_post('photos/save_article', { face: face });
+        else if (face.member_id > 0)
+            this.api.call_server_post('photos/save_face', { face: face });
+        }
 
     @computedFrom("current_face.x", "current_face.y", "current_face.r")
     get face_moved() {
