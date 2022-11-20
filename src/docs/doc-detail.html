@@ -77,6 +77,7 @@
                         <div if.bind="user.editing" style="display:flex;flex-direction:column;">
                             <editable style="background-color:beige;margin-bottom:12px;"
                                 settings.bind="{show_date:false, class:'story-section', checkable: false}"
+                                saved.delegate="update_story_preview($event)"
                                 story.bind="story_about">
                             </editable>
                             <div class="multi-select-div"

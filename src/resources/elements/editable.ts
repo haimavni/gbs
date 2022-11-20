@@ -48,6 +48,7 @@ export class editableCustomElement {
         this.theme.hide_title = true;
         this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
             this.theme.hide_title = false;
+            this.dispatch_event('saved', 'saved', {})
         });
         return false;
     }

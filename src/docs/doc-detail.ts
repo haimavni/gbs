@@ -1,22 +1,13 @@
-import { autoinject, computedFrom, singleton } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
-import { Misc } from '../services/misc';
 import { highlight } from '../services/dom_utils';
-import { MemberList } from "../services/member_list";
-import { ArticleList } from '../services/article_list';
 import { Router } from 'aurelia-router';
-import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { MemberPicker } from "../members/member-picker";
-import { ArticlePicker } from "../articles/article-picker";
-import { PhotoPicker } from "../photos/photo-picker";
-import { runInThisContext } from 'vm';
-import { HitCounts } from '../admin/hit-counts';
 
 @autoinject()
 export class DocDetail {
@@ -107,9 +98,7 @@ export class DocDetail {
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
-                // this.doc_story_about = response.doc_story_about;
                 if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
-                    //this.doc_story.name = this.i18n.tr('photos.new-story');
                     this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
                     this.doc_story_about.name = this.doc_name;
                 }
@@ -312,6 +301,11 @@ export class DocDetail {
         } else {
             console.log("Fullscreen API is not supported");
         }
+    }
+
+    update_story_preview(event) {
+        let story_about_id = this.story_about.story_id;
+        this.api.call_server_post("docs/update_story_preview", {story_id: this.story_id, story_about_id: story_about_id});
     }
 
 }
