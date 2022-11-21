@@ -174,7 +174,6 @@ export class Stories {
         this.story_list.splice(0, 0, data.story_data)
         this.story_list = this.story_list.slice(); //force refresh
         this.used_for = 2;
-        console.log("add story data: ", data);
         this.router.navigateToRoute('story-detail', { id: data.story_data.story_id, what: 'story', keywords: [], search_type: this.params.search_type, story_list: this.story_list });
     }
 
@@ -923,6 +922,12 @@ export class Stories {
                 return true;
             }
         return false;
+    }
+
+    compare_stories(story1, story2) {
+        if (story1.used_for != this.api.constants.story_type.STORY4MEMBER || 
+            story2.used_for != this.api.constants.story_type.STORY4MEMBER) return 0;
+        
     }
 
 }

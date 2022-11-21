@@ -1,7 +1,7 @@
 <template>
     <ux-dialog css="padding:12px;direction:${theme.rtltr};">
         <ux-dialog-header>
-            <h3>${title}</h3>
+            <h3>${title}  <span if.bind="user.privileges.ADMIN">id: ${topic.id}</span></h3>
         </ux-dialog-header>
         <ux-dialog-body>
             <form class="form-horizontal" role="form">
