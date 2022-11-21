@@ -368,6 +368,7 @@ export class Stories {
                         story.checked = true;
                     }
                 }
+                this.story_list.sort((a,b) => this.compare_stories(a, b))
                 console.timeEnd('update-story-list');
                 //this.scroll_top = 0;
             });
@@ -925,9 +926,10 @@ export class Stories {
     }
 
     compare_stories(story1, story2) {
+        //if (! this.sort_alphabeticaly)
         if (story1.used_for != this.api.constants.story_type.STORY4MEMBER || 
             story2.used_for != this.api.constants.story_type.STORY4MEMBER) return 0;
-        
+        return story1.sorting_key < story2.sorting_key ? -1 : story1.sorting_key > story2.sorting_key ? +1 : 0
     }
 
 }
