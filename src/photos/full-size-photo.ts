@@ -84,6 +84,7 @@ export class FullSizePhoto {
     keypress_handler;
     photo_id_rec = { photo_id: 0 };
     popup: Popup;
+    hide_details_icon = false;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -136,6 +137,7 @@ export class FullSizePhoto {
         this.photo_id_rec = model.photo_id_rec;
         this.baseURL = environment.baseURL;
         document.addEventListener('keyup', this.keypress_handler);
+        this.hide_details_icon = ! this.theme.is_desktop && ! this.slide.has_story_text;
     }
 
     deactivate() {

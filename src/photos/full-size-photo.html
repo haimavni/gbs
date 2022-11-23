@@ -144,6 +144,7 @@
                     <i class="fa fa-lg fa-check"></i>
                 </button>
                 <button aubs-tooltip="text.bind:photo_detail;position.bind:hint_position;" 
+                    if.bind="! hide_details_icon"
                     class="side-tool detail"
                     click.delegate="close($event)">
                     <i class="fa fa-lg fa-bars"></i>

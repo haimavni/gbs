@@ -131,7 +131,7 @@ export class Home {
         });
         this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => {
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            if (payload.event.ctrlKey) {
+            if (payload.slide.has_story_text) {
                 this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
             } else {
                 this.openDialog(payload.slide, payload.event, payload.slide_list)
@@ -163,7 +163,7 @@ export class Home {
     private openDialog(slide, event, slide_list) {
         event.stopPropagation();
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list }, lock: false }).whenClosed(response => {
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, hide_details_icon: true }, lock: false }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
         });
     }
