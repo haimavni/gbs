@@ -137,7 +137,7 @@ export class FullSizePhoto {
         this.photo_id_rec = model.photo_id_rec;
         this.baseURL = environment.baseURL;
         document.addEventListener('keyup', this.keypress_handler);
-        this.hide_details_icon = ! this.theme.is_desktop && ! this.slide.has_story_text;
+        this.hide_details_icon = this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;
     }
 
     deactivate() {
