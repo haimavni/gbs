@@ -6,11 +6,10 @@ import { User } from '../services/user';
 import { Cookies } from '../services/cookies';
 import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
+import { ShowPhoto } from '../services/show-photo';
 import { I18N } from 'aurelia-i18n';
 import { MemberList } from '../services/member_list';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
 
 @autoinject
 export class Home {
@@ -26,10 +25,10 @@ export class Home {
     cookies;
     misc;
     theme;
+    show_photo: ShowPhoto;
     stories_sample;
     message_list;
     i18n;
-    dialog;
     eventAggregator;
     subscriber1;
     scroll_area;
@@ -38,7 +37,7 @@ export class Home {
     popup;   //just to force closing all dialogs on routing
 
     constructor(api: MemberGateway, router: Router, user: User, cookies: Cookies, theme: Theme, i18n: I18N,
-                memberList: MemberList, dialog: DialogService,
+                memberList: MemberList, show_photo: ShowPhoto,
                 popup: Popup, eventAggregator: EventAggregator, misc: Misc) {
         this.api = api;
         this.user = user;
@@ -59,7 +58,7 @@ export class Home {
             });
         this.api.call_server_post('videos/get_video_sample')
             .then(response => this.set_video_list(response.video_list));
-        this.dialog = dialog;
+        this.show_photo = show_photo
         this.popup = popup;
         this.eventAggregator = eventAggregator;
     }
@@ -131,11 +130,7 @@ export class Home {
         });
         this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => {
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            if (payload.slide.has_story_text) {
-                this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
-            } else {
-                this.openDialog(payload.slide, payload.event, payload.slide_list)
-            }
+            this.show_photo.show(payload.slide, payload.event, photo_ids)
         });
         this.photo_strip_height = Math.round(this.theme.height / 5);
     }
@@ -158,14 +153,6 @@ export class Home {
 
     jump_to_the_full_story(story) {
         this.router.navigateToRoute('story-detail', { id: story.id, what: 'story' });
-    }
-
-    private openDialog(slide, event, slide_list) {
-        event.stopPropagation();
-        document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, hide_details_icon: true }, lock: false }).whenClosed(response => {
-            document.body.classList.remove('black-overlay');
-        });
     }
 
     on_height_change(event) {

@@ -16,7 +16,6 @@ export class ShowPhoto {
         this.router = router;
     }
 
-    @computedFrom('user.editing')
     public show(photo, event, photo_ids) {
         if (photo.has_story_text || this.user.editing) {
             this.router.navigateToRoute('photo-detail', { id: photo.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
