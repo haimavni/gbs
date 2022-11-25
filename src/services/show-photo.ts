@@ -40,6 +40,7 @@ export class ShowPhoto {
         addr += s
         //let shortcut = null;
         this.misc.url_shortcut = addr;
+        console.log("before dialog, shortcut is ", this.misc.url_shortcut);
         document.body.classList.add('black-overlay');
         this.dialog.open({
             viewModel: FullSizePhoto,
@@ -50,6 +51,7 @@ export class ShowPhoto {
             }, lock: false
         }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
+            console.log("delete short cut")
             this.misc.url_shortcut = null;  //delete it
         });
     }
