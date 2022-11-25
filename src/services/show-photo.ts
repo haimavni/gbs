@@ -34,8 +34,8 @@ export class ShowPhoto {
         if (event)
             event.stopPropagation();
         console.log("window.location: ", window.location);
-        let addr = window.location.origin;
-        addr += `/aurelia#/photos/${slide.photo_id}/*?`
+        let addr = window.location.origin + window.location.pathname;
+        addr += `#/photos/${slide.photo_id}/*?`
         let pids = photo_ids.map(pid => `photo_ids%5B%5D=${pid}`);
         let s = pids.join('&') + '&pop_full_photo=true'
         addr += s
