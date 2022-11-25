@@ -1,7 +1,6 @@
 import {MemberGateway} from '../services/gateway';
 import {User} from "../services/user";
 import {autoinject, singleton, computedFrom} from 'aurelia-framework';
-import {FullSizePhoto} from './full-size-photo';
 import {ShowPhoto} from "../services/show-photo";
 import {Uploader} from '../services/uploader';
 import {DialogService} from 'aurelia-dialog';
@@ -372,12 +371,6 @@ export class Photos {
             let i0 = Math.max(0, idx - n);
             photo_ids = photo_ids.slice(i0, i0+2*n); //limit size to prevent server errors such as "invalid gateway"
             this.show_photo.show(slide, event, photo_ids); 
-            // this.router.navigateToRoute('photo-detail', {
-            //     id: slide.photo_id,
-            //     keywords: "",
-            //     photo_ids: photo_ids,
-            //     pop_full_photo: true
-            // });
         }
     }
 

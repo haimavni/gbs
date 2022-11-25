@@ -183,7 +183,6 @@ export class User {
     set_photo_link(photo_link_src, photo_id) {
         this.photo_link_src = photo_link_src;
         this.curr_photo_id = photo_id;
-        console.log("photo link is ", this.photo_link_src);
     }
 
     get_photo_link() {

@@ -8,7 +8,6 @@ import {Theme} from "../services/theme";
 import {ShowPhoto} from "../services/show-photo";
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {DialogService} from 'aurelia-dialog';
-import {FullSizePhoto} from '../photos/full-size-photo';
 import {StoryWindow} from '../stories/story_window';
 import environment from '../environment';
 import {MemberList} from '../services/member_list';
@@ -196,10 +195,6 @@ export class MemberDetail {
             this.dirty_info = dirty
         });
         this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
-            if (payload.event.ctrlKey || payload.event.shiftKey) {
-                this.openDialog(payload.slide, payload.event, payload.slide_list)
-                return;
-            }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
             let offset = payload.offset;
             this.misc.save(['member_slides_offset', this.member.member_info.id], offset);
@@ -259,22 +254,6 @@ export class MemberDetail {
         let event = customEvent.detail;
         let dir = event.dx < 0 ? 1 : -1;
         this.next_story(event, dir);
-    }
-
-    private openDialog(slide, event, slide_list) {
-        event.stopPropagation();
-        if (event.altKey && event.shiftKey) {
-            this.detach_photo_from_member(this.member.member_info.id, slide.photo_id, slide_list);
-            return;
-        }
-        document.body.classList.add('black-overlay');
-        this.dialog.open({
-            viewModel: FullSizePhoto,
-            model: {slide: slide, slide_list: slide_list},
-            lock: false
-        }).whenClosed(response => {
-            document.body.classList.remove('black-overlay');
-        });
     }
 
     get_profile_photo(member) {

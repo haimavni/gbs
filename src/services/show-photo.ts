@@ -31,7 +31,9 @@ export class ShowPhoto {
         document.body.classList.add('black-overlay');
         this.dialog.open({
             viewModel: FullSizePhoto,
-            model: { slide: slide, slide_list: photo_ids, hide_details_icon: !this.user.editing, list_of_ids: true }, lock: false
+            model: { slide: slide, slide_list: photo_ids, 
+                hide_details_icon: ! (this.user.editing || slide.has_story_text), 
+                list_of_ids: true }, lock: false
         }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
         });

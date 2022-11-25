@@ -10,7 +10,7 @@ import { ArticleList } from '../services/article_list';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
+import {ShowPhoto} from "../services/show-photo";
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import {MemberPicker} from "../members/member-picker";
 import {ArticlePicker} from "../articles/article-picker";
@@ -35,6 +35,7 @@ export class StoryDetail {
     restart_slides = 0;
     user;
     theme;
+    show_photo: ShowPhoto;
     misc: Misc;
     story_dir;
     new_story = false;
@@ -81,12 +82,13 @@ export class StoryDetail {
     ready_to_edit = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, router: Router, member_list: MemberList, article_list: ArticleList,
-                theme: Theme, misc: Misc, eventAggregator: EventAggregator, dialog: DialogService) {
+                theme: Theme, misc: Misc, eventAggregator: EventAggregator, dialog: DialogService, show_photo: ShowPhoto) {
         this.api = api;
         this.router = router;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
+        this.show_photo = show_photo;
         this.misc = misc;
         this.dialog = dialog;
         this.member_list = member_list;
@@ -114,7 +116,7 @@ export class StoryDetail {
                 return;
             }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+            this.show_photo.show(payload.slide, payload.event, photo_ids);
         });
         this.subscriber1 = this.eventAggregator.subscribe('STORY_WAS_SAVED', payload => { this.refresh_story(payload.story_data.story_id) });
     }
@@ -265,7 +267,6 @@ export class StoryDetail {
                 .then(response => {
                     this.photos = response.photos;
                     this.has_associated_photos = response.photos.length > 0;
-                    //this.source = new Promise(resolve => resolve({photo_list: this.photos}));
                     this.source = this.api.call_server_post('members/get_story_photo_list', { story_id: this.story.story_id, story_type: this.story_type });
                     this.restart_slides = 1;
                 })
@@ -307,9 +308,8 @@ export class StoryDetail {
             return;
         }
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list }, lock: false }).whenClosed(response => {
-            document.body.classList.remove('black-overlay');
-        });
+        let photo_ids = slide_list.map(slide => slide.id)
+        this.show_photo.show(slide, event, photo_ids);
     }
 
     detach_photo_from_story(story_id, photo_id, slide_list) {

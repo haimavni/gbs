@@ -1,3 +1,4 @@
+// this file is obsolete now. to be deleted soon
 import { MemberGateway } from '../services/gateway';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
@@ -7,7 +8,6 @@ import { User } from '../services/user';
 import { I18N } from 'aurelia-i18n';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
 import { UserInfo } from './user-info';
 import { Popup } from '../services/popups';
 import * as toastr from 'toastr';
@@ -209,28 +209,6 @@ export class UploadPhoto {
         else
             key = 'groups.' + this.phase;
         return this.i18n.tr(key);
-    }
-
-    openDialog() {
-        if (this.photo_list.length == 0) return;
-        let slide = this.photo_list.find(photo => photo.photo_id == this.status_record.photo_id);
-        if (!slide) {
-            let warning = this.i18n.tr('groups.old-photo-not-found');
-            toastr.warning(warning, 20000);
-            return;
-        }
-        document.body.classList.add('black-overlay');
-        this.user.editing = true;
-        let settings = { no_jump: true, no_photo_info: true };
-        let model = { slide: slide, slide_list: this.photo_list, settings: settings, final_rotation: 0 }
-        this.dialog.open({ viewModel: FullSizePhoto, model: model, lock: false })
-            .whenClosed(response => {
-                document.body.classList.remove('black-overlay');
-                if (model.final_rotation) {
-                    let el = document.getElementById("uploaded-photo");
-                    el.style.transform = `rotate(-${model.final_rotation}deg)`;
-                }
-            });
     }
 
     view_gallery() {
