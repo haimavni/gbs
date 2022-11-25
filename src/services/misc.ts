@@ -288,6 +288,7 @@ export class Misc {
                 if (base_url == "localhost:9000") {
                     base_url = environment.baseURL;  //for the development system
                     this._url_shortcut = base_url + response.shortcut;
+                    console.log("shortcut in misc: ", this._url_shortcut);
                 }
             });
     }

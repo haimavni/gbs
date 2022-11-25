@@ -59,6 +59,7 @@ export class UserMode {
 
     calc_current_info() {
         let shortcut = this.misc.url_shortcut;
+        console.log("shortcut in user mode ", shortcut);
         if (shortcut) {
             copy_to_clipboard(shortcut);
             this.current_url = shortcut;
