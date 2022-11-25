@@ -53,7 +53,6 @@ export class PhotoDetail {
         selected_photographers: []//,
         //photo_ids: []
     };
-    photo_id_rec = {photo_id: 0};
     photo_ids = [];
     what = '';
     can_go_forward = false;
@@ -78,6 +77,7 @@ export class PhotoDetail {
     ea: EventAggregator;
     sub1;
     editing;
+    has_story_text = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, dialog: DialogService, router: Router, ea: EventAggregator) {
         this.api = api;
@@ -138,7 +138,6 @@ export class PhotoDetail {
         return this.api.getPhotoDetail({ photo_id: photo_id, what: this.what })
             .then(response => {
                 this.photo_id = photo_id;
-                this.photo_id_rec.photo_id = photo_id;
                 this.photo_src = response.photo_src;
                 this.set_story(response.photo_story)
                 this.photo_name = this.photo_story.name || response.photo_name;
@@ -150,6 +149,7 @@ export class PhotoDetail {
                     this.photo_story.name = this.i18n.tr('photos.new-story');
                     this.photo_story.story_text = this.i18n.tr('photos.new-story-content');
                 }
+                this.has_story_text = response.has_story_text;
                 this.photo_date_str = response.photo_date_str;
                 this.photo_date_datespan = response.photo_date_datespan;
                 this.orig_photo_width = response.width;
@@ -300,9 +300,9 @@ export class PhotoDetail {
 
     private openDialog(slide, slide_list) {
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, list_of_ids: true, photo_id_rec: this.photo_id_rec }, lock: false })
+        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, list_of_ids: true }, lock: false })
             .whenClosed(response => {
-                this.get_photo_info(this.photo_id_rec.photo_id);
+                this.get_photo_info(this.photo_id);
                 document.body.classList.remove('black-overlay');
             });
     }
@@ -326,7 +326,8 @@ export class PhotoDetail {
             },
             back: back,
             name: this.photo_name,
-            photo_id: this.true_photo_id
+            photo_id: this.true_photo_id,
+            has_story_text: this.has_story_text
         };
         this.openDialog(slide, this.photo_ids);
     }
@@ -365,7 +366,6 @@ export class PhotoDetail {
     }
 
     update_topic_list(caller) {
-        console.log('update topic list called by ', caller);
         if (caller = 'editing' && this.editing == this.user.editing)
             return;
         this.editing = this.user.editing;

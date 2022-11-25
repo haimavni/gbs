@@ -140,7 +140,6 @@ export class MemberGateway {
                     toastr.warning(this.tr(result.user_error));
                     return result;
                 } else {
-                    console.log("return result");
                     return result;
                 }
             });

@@ -18,19 +18,20 @@ export class ShowPhoto {
 
     public show(photo, event, photo_ids) {
         if (photo.has_story_text || this.user.editing) {
-            this.router.navigateToRoute('photo-detail', { id: photo.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+            this.router.navigateToRoute('photo-detail', { id: photo.photo_id, keywords: "", photo_ids: photo_ids, 
+                pop_full_photo: true, has_story_text: photo.has_story_text });
         } else {
             this.openDialog(photo, event, photo_ids)
         }
     }
 
-    private openDialog(slide, event, slide_list) {
+    private openDialog(slide, event, photo_ids) {
         if (event)
             event.stopPropagation();
         document.body.classList.add('black-overlay');
         this.dialog.open({
             viewModel: FullSizePhoto,
-            model: { slide: slide, slide_list: slide_list, hide_details_icon: !this.user.editing }, lock: false
+            model: { slide: slide, slide_list: photo_ids, hide_details_icon: !this.user.editing, list_of_ids: true }, lock: false
         }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
         });

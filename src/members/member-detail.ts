@@ -5,11 +5,11 @@ import {MemberGateway} from '../services/gateway';
 import {User} from "../services/user";
 import {Misc} from "../services/misc";
 import {Theme} from "../services/theme";
+import {ShowPhoto} from "../services/show-photo";
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {DialogService} from 'aurelia-dialog';
 import {FullSizePhoto} from '../photos/full-size-photo';
 import {StoryWindow} from '../stories/story_window';
-import {MemberEdit} from './member-edit';
 import environment from '../environment';
 import {MemberList} from '../services/member_list';
 import {highlight} from '../services/dom_utils';
@@ -24,6 +24,7 @@ export class MemberDetail {
     eventAggregator;
     api;
     misc;
+    show_photo: ShowPhoto;
     videos;
     router;
     i18n;
@@ -74,12 +75,13 @@ export class MemberDetail {
     story_4;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway, videos: Videos,
-                router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
+                router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc, show_photo: ShowPhoto) {
         this.user = user;
         this.theme = theme;
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.misc = misc;
+        this.show_photo = show_photo;
         this.videos = videos;
         this.memberList = memberList;
         this.router = router;
@@ -199,15 +201,13 @@ export class MemberDetail {
                 return;
             }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            photo_ids = photo_ids.filter(p => p);
             let offset = payload.offset;
             this.misc.save(['member_slides_offset', this.member.member_info.id], offset);
             let video_id = payload.slide.video_id;
             if (video_id) {
                 this.videos.view_video_by_id(video_id, this.member_id);
             } else {
-                this.router.navigateToRoute('photo-detail',
-                    {id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true});
+                this.show_photo.show(payload.slide, payload.event, photo_ids); //payload.slide_list);
             }
         });
         this.set_heights();

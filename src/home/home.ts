@@ -130,7 +130,7 @@ export class Home {
         });
         this.subscriber1 = this.eventAggregator.subscribe('Zoom1', payload => {
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            this.show_photo.show(payload.slide, payload.event, photo_ids)
+            this.show_photo.show(payload.slide, payload.event, photo_ids);
         });
         this.photo_strip_height = Math.round(this.theme.height / 5);
     }

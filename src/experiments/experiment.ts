@@ -30,22 +30,11 @@ export class Experiment {
             cur_player = this.html5_player;
             console.log("html5 player: ", this.html5_player);
         } else {
-            //cur_player = this.yt_player;
-            //cur_player = this.ytKeeper.player;
-            //console.log("yt player: ", cur_player);
-            //console.log("youtube_player: ", this.youtube_player);
             cur_player = this.ytKeeper.player;
-            console.log("cur player: ", cur_player);
             cur_player.seekTo(600);
             cur_player.pauseVideo();
         }
         if (event.ctrlKey) {
-            // let ct = this.player.getCurrentTime();
-            // this.player.seekTo(ct + 180);
-            // let ct = this.player.currentTime;
-            //let ct = cur_player.getCurrentTime();
-            //this.player.currentTime = ct + 180;
-            //cur_player.seekTo(ct + 180);
             this.ytKeeper.currentTime = this.ytKeeper.currentTime + 300;
         } else {
             if (this.use_html5)

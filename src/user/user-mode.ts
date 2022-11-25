@@ -250,14 +250,12 @@ export class UserMode {
             photo_url = this.user.config.cover_photo;
             //photo_id = this.user.config.cover_photo_id;
         }
-        console.log("photo_url ", photo_url, " photo_id ", photo_id, " user.config: ", this.user.config);
         if (photo_id) {
             await this.api.call_server_post('photos/get_padded_photo_url', 
                 {photo_url: photo_url, 
                 photo_id: photo_id})
                 .then(response => {
                     padded_photo_url = response.padded_photo_url;
-                    console.log("response padded_photo_url ", response);
                 })
             } else {
                 padded_photo_url = photo_url;

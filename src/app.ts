@@ -299,7 +299,6 @@ class AuthorizeStep {
     }
 
     run(navigationInstruction, next) {
-        console.log("user logged in? ", this.user && this.user.isLoggedIn);
         if (navigationInstruction.getAllInstructions().some(i => i.config.settings.auth)) {
             if (this.user && this.user.config.exclusive && !this.user.isLoggedIn) {
                 return next.cancel(new Redirect('registered-only'));

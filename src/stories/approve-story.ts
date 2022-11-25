@@ -79,7 +79,6 @@ export class ConfirmStory {
 
     next_story() {
         let idx = this.story_list.findIndex(itm => itm == this.story_id);
-        console.log("idx: ", idx, "story id: ", this.story_id, " this.story_list ", this.story_list);
         if (idx < 0) idx = 0;
         if (idx < this.story_list.length - 1) {
             this.story_id = this.story_list[idx + 1]

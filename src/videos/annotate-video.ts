@@ -98,7 +98,6 @@ export class AnnotateVideo {
         this.user = user;
         this.misc = misc;
         this.member_list = member_list;
-        console.log("member_list: ", this.member_list);
         this.theme = theme;
         this.dialog = dialog;
         this.router = router;

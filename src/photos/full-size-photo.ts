@@ -82,7 +82,6 @@ export class FullSizePhoto {
     image_height = 0;
     image_width = 0;
     keypress_handler;
-    photo_id_rec = { photo_id: 0 };
     popup: Popup;
     hide_details_icon = false;
 
@@ -134,7 +133,6 @@ export class FullSizePhoto {
         this.slide_list = model.slide_list || [];
         this.settings = model.settings || {};
         this.list_of_ids = model.list_of_ids;
-        this.photo_id_rec = model.photo_id_rec;
         this.baseURL = environment.baseURL;
         document.addEventListener('keyup', this.keypress_handler);
         this.hide_details_icon = this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;
@@ -785,7 +783,6 @@ export class FullSizePhoto {
 
     get_slide_by_idx_list_ids(idx) {
         let pid = this.slide_list[idx];
-        this.photo_id_rec.photo_id = pid;
         this.curr_photo_id = pid;
         this.api.call_server('photos/get_photo_detail', { photo_id: pid })
             .then(response => {

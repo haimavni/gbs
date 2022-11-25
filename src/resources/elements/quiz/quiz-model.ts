@@ -26,7 +26,6 @@ export class Question {
     nota_default = false;
 
     constructor(prompt = "", description = "", nota_default=false, qid = 0, editable = true, answers = []) {
-        console.log('question constructor prompt ', prompt, " qid: ", qid)
         this.prompt = prompt;
         this.description = description;
         this.qid = qid;
