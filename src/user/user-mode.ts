@@ -58,6 +58,12 @@ export class UserMode {
     }
 
     calc_current_info() {
+        let shortcut = this.misc.url_shortcut;
+        if (shortcut) {
+            copy_to_clipboard(shortcut);
+            this.current_url = shortcut;
+            return;
+        }
         document.title = this.i18n.tr('app-title');
         setTimeout(() => {  //if too early, overridden title is not in effect yet
             this.sharing_subject = encodeURIComponent(document.title);

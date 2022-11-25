@@ -11,6 +11,7 @@ export class Misc {
     api;
     crc_table;
     storage = {};
+    _url_shortcut = null;
 
     constructor(api: MemberGateway, i18n: I18N) {
         this.api = api;
@@ -271,9 +272,28 @@ export class Misc {
         }
     }
 
-    make_url(name, rest='') {
+    make_url(name, rest = '') {
         let sep = environment.push_state ? '' : '#';
         return `${location.origin}${location.pathname}${sep}/${name}/${rest}`;
+    }
+
+    set url_shortcut(url) {
+        if (! url) {
+            this._url_shortcut = null;
+            return; 
+        } 
+        this.api.call_server_post('default/get_shortcut', { url: url })
+            .then(response => {
+                let base_url = `${location.host}`;
+                if (base_url == "localhost:9000") {
+                    base_url = environment.baseURL;  //for the development system
+                    this._url_shortcut = base_url + response.shortcut;
+                }
+            });
+    }
+
+    get url_shortcut() {
+        return this._url_shortcut;
     }
 
 }
