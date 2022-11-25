@@ -33,6 +33,7 @@ export class ShowPhoto {
     private async openDialog(slide, event, photo_ids) {
         if (event)
             event.stopPropagation();
+        console.log("window.location: ", window.location);
         let addr = window.location.origin;
         addr += `/aurelia#/photos/${slide.photo_id}/*?`
         let pids = photo_ids.map(pid => `photo_ids%5B%5D=${pid}`);
@@ -40,7 +41,6 @@ export class ShowPhoto {
         addr += s
         //let shortcut = null;
         this.misc.url_shortcut = addr;
-        console.log("before dialog, shortcut is ", this.misc.url_shortcut);
         document.body.classList.add('black-overlay');
         this.dialog.open({
             viewModel: FullSizePhoto,
@@ -51,7 +51,6 @@ export class ShowPhoto {
             }, lock: false
         }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
-            console.log("delete short cut")
             this.misc.url_shortcut = null;  //delete it
         });
     }
