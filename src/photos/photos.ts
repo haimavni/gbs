@@ -2,7 +2,7 @@ import {MemberGateway} from '../services/gateway';
 import {User} from "../services/user";
 import {autoinject, singleton, computedFrom} from 'aurelia-framework';
 import {FullSizePhoto} from './full-size-photo';
-//import { UploadPhotos } from './upload-photos';
+import {ShowPhoto} from "../services/show-photo";
 import {Uploader} from '../services/uploader';
 import {DialogService} from 'aurelia-dialog';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -109,12 +109,15 @@ export class Photos {
     update_photo_list_debounced;
     photos_date_valid = "";
     selected_photo_container;
+    show_photo: ShowPhoto;
 
-    constructor(api: MemberGateway, user: User, cookies: Cookies, dialog: DialogService, ea: EventAggregator, i18n: I18N, router: Router, theme: Theme, misc: Misc) {
+    constructor(api: MemberGateway, user: User, cookies: Cookies, dialog: DialogService, ea: EventAggregator, 
+                i18n: I18N, router: Router, theme: Theme, misc: Misc, show_photo: ShowPhoto) {
         this.api = api;
         this.user = user;
         this.cookies = cookies;
         this.theme = theme;
+        this.show_photo = show_photo;
         this.dialog = dialog;
         this.i18n = i18n;
         this.with_a_member_text = this.i18n.tr('photos.search-member');
@@ -175,7 +178,6 @@ export class Photos {
         if (this.topic_list.length > 0) {
             return;
         }
-        console.log("update topic list alled in created");
         this.update_topic_list();
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
@@ -316,15 +318,6 @@ export class Photos {
         return this._photo_size;
     }
 
-    private openDialog(slide) {
-        document.body.classList.add('black-overlay');
-        this.dialog.open({viewModel: FullSizePhoto, model: {slide: slide, slide_list: this.photo_list}, lock: false})
-            .whenClosed(response => {
-                document.body.classList.remove('black-overlay');
-                //this.theme.page_title = title;
-            });
-    }
-
     maximize_photo(slide, event, index) {
         this.scroll_top = this.scroll_area.scrollTop;
         let distance_from_right = this._photo_size - event.offsetX;
@@ -373,18 +366,18 @@ export class Photos {
         } else {
             this.curr_photo_id = slide.photo_id;
             event.stopPropagation();
-            //this.openDialog(slide);
             let photo_ids = this.photo_list.map(photo => photo.photo_id);
             let idx = photo_ids.findIndex(pi => pi == this.curr_photo_id);
             let n = 60;
             let i0 = Math.max(0, idx - n);
-            photo_ids = photo_ids.slice(i0, i0+2*n); //to prevent server errors such as "invalid gateway"
-            this.router.navigateToRoute('photo-detail', {
-                id: slide.photo_id,
-                keywords: "",
-                photo_ids: photo_ids,
-                pop_full_photo: true
-            });
+            photo_ids = photo_ids.slice(i0, i0+2*n); //limit size to prevent server errors such as "invalid gateway"
+            this.show_photo.show(slide, event, photo_ids); 
+            // this.router.navigateToRoute('photo-detail', {
+            //     id: slide.photo_id,
+            //     keywords: "",
+            //     photo_ids: photo_ids,
+            //     pop_full_photo: true
+            // });
         }
     }
 
@@ -561,7 +554,6 @@ export class Photos {
         }).whenClosed(response => {
             this.theme.hide_title = false;
             if (response.wasCancelled) return;
-            console.log("output member ids: ", response.output.member_ids);
             this.params.selected_member_ids = Array.from(response.output.member_ids);
             this.update_photo_list()
                 .then(response => {

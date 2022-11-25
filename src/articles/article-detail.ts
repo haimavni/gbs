@@ -5,6 +5,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Misc } from "../services/misc";
 import { Theme } from "../services/theme";
+import {ShowPhoto} from "../services/show-photo";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
@@ -18,6 +19,7 @@ import { highlight } from '../services/dom_utils';
 export class ArticleDetail {
     user;
     theme;
+    show_photo: ShowPhoto;
     eventAggregator;
     api;
     misc;
@@ -55,9 +57,10 @@ export class ArticleDetail {
     photo_list_changes_pending = false;
 
     constructor(user: User, theme: Theme, eventAggregator: EventAggregator, api: MemberGateway,
-        router: Router, i18n: I18N, dialog: DialogService, articleList: ArticleList, misc: Misc) {
+        router: Router, i18n: I18N, dialog: DialogService, articleList: ArticleList, misc: Misc, show_photo: ShowPhoto) {
         this.user = user;
         this.theme = theme;
+        this.show_photo = show_photo;
         this.eventAggregator = eventAggregator;
         this.api = api;
         this.misc = misc;
@@ -131,7 +134,7 @@ export class ArticleDetail {
                 return;
             }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
-            this.router.navigateToRoute('photo-detail', { id: payload.slide.photo_id, keywords: "", photo_ids: photo_ids, pop_full_photo: true });
+            this.show_photo.show(payload.slide, payload.event, photo_ids); 
         });
         this.set_heights();
     }
