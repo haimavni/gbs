@@ -278,6 +278,7 @@ export class Misc {
     }
 
     set url_shortcut(url) {
+        console.log("take shortcut for url ", url);
         if (! url) {
             this._url_shortcut = null;
             return; 
@@ -287,10 +288,10 @@ export class Misc {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
                     base_url = environment.baseURL;  //for the development system
-                    this._url_shortcut = base_url + response.shortcut;
-                    console.log("shortcut in misc: ", this._url_shortcut);
                 }
-            });
+                this._url_shortcut = base_url + response.shortcut;
+                console.log("shortcut in misc: ", this._url_shortcut);
+                });
     }
 
     get url_shortcut() {
