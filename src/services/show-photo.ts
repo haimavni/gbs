@@ -34,6 +34,9 @@ export class ShowPhoto {
         if (event)
             event.stopPropagation();
         let addr = window.location.origin + window.location.pathname;
+        console.log("length of photo_ids: ", photo_ids.length);
+        let idx = photo_ids.findIndex(pid => slide.photo_id==pid);
+        console.log("idx is ", idx);
         photo_ids = photo_ids.slice(0, 50)
         addr += `#/photos/${slide.photo_id}/*?`
         let pids = photo_ids.map(pid => `photo_ids%5B%5D=${pid}`);
