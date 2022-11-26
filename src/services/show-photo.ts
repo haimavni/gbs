@@ -33,11 +33,20 @@ export class ShowPhoto {
     private async openDialog(slide, event, photo_ids) {
         if (event)
             event.stopPropagation();
-        let addr = window.location.origin + window.location.pathname;
-        console.log("length of photo_ids: ", photo_ids.length);
+        let width = 60;  // section width
         let idx = photo_ids.findIndex(pid => slide.photo_id==pid);
-        console.log("idx is ", idx);
-        photo_ids = photo_ids.slice(0, 50)
+        let start = 0;
+        let len = photo_ids.length;
+        if (idx < width) {
+            start = 0
+        } else if (len - idx < width) {
+            start = len - width
+        } else if (len > width) {
+            start = Math.round(idx - width / 2);
+        } 
+
+        photo_ids = photo_ids.slice(start, width)
+        let addr = window.location.origin + window.location.pathname;
         addr += `#/photos/${slide.photo_id}/*?`
         let pids = photo_ids.map(pid => `photo_ids%5B%5D=${pid}`);
         let s = pids.join('&') + '&pop_full_photo=true'
