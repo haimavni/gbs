@@ -96,6 +96,7 @@ export class Customize {
             name_editable: true,
             can_set_sign: false,
             can_group: false,
+            auto_select: false
         });
         THIS_EDITOR = this;
         this.froala_config.key = this.theme.froala_key();
