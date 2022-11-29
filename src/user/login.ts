@@ -1,9 +1,9 @@
 import { DialogController } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { autoinject } from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
+import { MemberGateway } from '../../_OLD/src/services/gateway';
+import { User } from "../../_OLD/src/services/user";
+import { Theme } from "../../_OLD/src/services/theme";
 import * as toastr from 'toastr';
 
 @autoinject()

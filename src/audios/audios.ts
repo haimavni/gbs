@@ -8,7 +8,7 @@ import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { DialogService } from 'aurelia-dialog';
 import { UploadAudios } from './upload-audios';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MultiSelectSettings } from '../../../src/resources/elements/multi-select/multi-select';
 import { format_date } from '../services/my-date';
 import { WordIndex } from "../services/word_index";
 

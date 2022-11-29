@@ -9,7 +9,7 @@ import { ArticleList } from '../services/article_list';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { MemberGateway } from '../services/gateway';
-import { QState, Question } from '../resources/elements/quiz/quiz-model';
+import { QState, Question } from '../../../src/resources/elements/quiz/quiz-model';
 import * as toastr from 'toastr';
 
 

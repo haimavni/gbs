@@ -8,7 +8,7 @@ import { Theme } from "../services/theme";
 import {ShowPhoto} from "../services/show-photo";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
-import { StoryWindow } from '../stories/story_window';
+import { StoryWindow } from '../../../src/stories/story_window';
 import environment from '../environment';
 import { ArticleList } from '../services/article_list';
 import { highlight } from '../services/dom_utils';

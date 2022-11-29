@@ -1,8 +1,8 @@
 import { DialogController } from 'aurelia-dialog';
 import { autoinject, computedFrom } from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
+import { MemberGateway } from '../../_OLD/src/services/gateway';
+import { User } from "../../_OLD/src/services/user";
+import { Theme } from "../../_OLD/src/services/theme";
 
 let THIS_EDITOR;
 

@@ -1,6 +1,6 @@
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
+import { MemberGateway } from '../../_OLD/src/services/gateway';
+import { User } from "../../_OLD/src/services/user";
+import { Theme } from "../../_OLD/src/services/theme";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';

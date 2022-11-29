@@ -7,7 +7,7 @@ import { FullSizePhoto } from './full-size-photo';
 import { DialogService } from 'aurelia-dialog';
 import { highlight } from '../services/dom_utils';
 import { debounce } from '../services/debounce';
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MultiSelectSettings } from '../../../src/resources/elements/multi-select/multi-select';
 import { EventAggregator } from 'aurelia-event-aggregator';
  
 @autoinject()

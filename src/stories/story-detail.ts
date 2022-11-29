@@ -1,20 +1,20 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { MemberGateway } from '../services/gateway';
-import { User } from '../services/user';
-import { Theme } from '../services/theme';
-import { Misc } from '../services/misc';
-import { highlight } from '../services/dom_utils';
-import { MemberList } from "../services/member_list";
-import { ArticleList } from '../services/article_list';
+import { MemberGateway } from '../../_OLD/src/services/gateway';
+import { User } from '../../_OLD/src/services/user';
+import { Theme } from '../../_OLD/src/services/theme';
+import { Misc } from '../../_OLD/src/services/misc';
+import { highlight } from '../../_OLD/src/services/dom_utils';
+import { MemberList } from "../../_OLD/src/services/member_list";
+import { ArticleList } from '../../_OLD/src/services/article_list';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
-import {ShowPhoto} from "../services/show-photo";
+import {ShowPhoto} from "../../_OLD/src/services/show-photo";
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import {MemberPicker} from "../members/member-picker";
-import {ArticlePicker} from "../articles/article-picker";
-import {PhotoPicker} from "../photos/photo-picker";
+import {MemberPicker} from "../../_OLD/src/members/member-picker";
+import {ArticlePicker} from "../../_OLD/src/articles/article-picker";
+import {PhotoPicker} from "../../_OLD/src/photos/photo-picker";
 
 @autoinject()
 export class StoryDetail {

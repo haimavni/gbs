@@ -1,5 +1,5 @@
 import { autoinject, noView, bindable, InlineViewStrategy } from 'aurelia-framework';
-import { Popup } from '../services/popups';
+import { Popup } from '../../_OLD/src/services/popups';
 
 @noView
 @autoinject

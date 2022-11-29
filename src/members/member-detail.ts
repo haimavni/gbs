@@ -8,12 +8,12 @@ import {Theme} from "../services/theme";
 import {ShowPhoto} from "../services/show-photo";
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {DialogService} from 'aurelia-dialog';
-import {StoryWindow} from '../stories/story_window';
+import {StoryWindow} from '../../../src/stories/story_window';
 import environment from '../environment';
 import {MemberList} from '../services/member_list';
 import {highlight} from '../services/dom_utils';
 import {ConfigMemberStories} from '../members/config-member-stories';
-import {Videos} from '../videos/videos';
+import {Videos} from '../../../src/videos/videos';
 
 @autoinject()
 @singleton()

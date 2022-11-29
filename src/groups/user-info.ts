@@ -8,7 +8,7 @@ import { Theme } from "../services/theme";
 import { Misc } from '../services/misc';
 import * as toastr from 'toastr';
 import { Cookies } from '../services/cookies';
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MultiSelectSettings } from '../../../src/resources/elements/multi-select/multi-select';
 
 @autoinject()
 export class UserInfo {

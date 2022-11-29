@@ -1,8 +1,8 @@
 import { DialogController } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { autoinject } from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
-import { Theme } from "../services/theme";
+import { MemberGateway } from '../../_OLD/src/services/gateway';
+import { Theme } from "../../_OLD/src/services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject()

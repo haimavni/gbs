@@ -3,7 +3,7 @@ import { I18N } from "aurelia-i18n";
 import { Router } from "aurelia-router";
 import { Theme } from '../services/theme';
 import { DialogController } from 'aurelia-dialog';
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MultiSelectSettings } from '../../../src/resources/elements/multi-select/multi-select';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import * as toastr from 'toastr';

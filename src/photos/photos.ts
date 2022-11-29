@@ -9,7 +9,7 @@ import {I18N} from 'aurelia-i18n';
 import {Router} from 'aurelia-router';
 import {Theme} from '../services/theme';
 import {MemberPicker} from "../members/member-picker";
-import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
+import {MultiSelectSettings} from '../../../src/resources/elements/multi-select/multi-select';
 import {MyDate, format_date} from '../services/my-date';
 import * as download from 'downloadjs';
 import {set_intersection} from '../services/set_utils';

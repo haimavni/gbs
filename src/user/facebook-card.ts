@@ -1,11 +1,11 @@
 import { DialogController } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { autoinject } from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
-import { copy_to_clipboard } from '../services/dom_utils';
-import { Popup } from '../services/popups';
+import { MemberGateway } from '../../_OLD/src/services/gateway';
+import { User } from "../../_OLD/src/services/user";
+import { Theme } from "../../_OLD/src/services/theme";
+import { copy_to_clipboard } from '../../_OLD/src/services/dom_utils';
+import { Popup } from '../../_OLD/src/services/popups';
 
 @autoinject()
 export class FacebookCard {

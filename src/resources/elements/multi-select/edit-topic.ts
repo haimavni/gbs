@@ -1,10 +1,10 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
-import { MemberGateway } from '../../../services/gateway';
+import { MemberGateway } from '../../../../_OLD/src/services/gateway';
 import { I18N, TCustomAttribute } from 'aurelia-i18n';
-import { Misc } from '../../../services/misc';
-import { Theme } from '../../../services/theme';
-import { User } from '../../../services/user';
+import { Misc } from '../../../../_OLD/src/services/misc';
+import { Theme } from '../../../../_OLD/src/services/theme';
+import { User } from '../../../../_OLD/src/services/user';
 
 @autoinject
 export class EditTopic {

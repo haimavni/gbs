@@ -6,7 +6,7 @@ import { Theme } from '../services/theme';
 import { highlight } from '../services/dom_utils';
 import { Router } from 'aurelia-router';
 import { DialogService } from 'aurelia-dialog';
-import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MultiSelectSettings } from '../../../src/resources/elements/multi-select/multi-select';
 import { MemberPicker } from "../members/member-picker";
 
 @autoinject()

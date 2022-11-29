@@ -1,8 +1,8 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
-import { MemberGateway } from '../../../services/gateway';
+import { MemberGateway } from '../../../../_OLD/src/services/gateway';
 import { I18N, TCustomAttribute } from 'aurelia-i18n';
-import { Misc } from '../../../services/misc';
+import { Misc } from '../../../../_OLD/src/services/misc';
 
 @autoinject
 export class EditItem {

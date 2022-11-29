@@ -1,6 +1,6 @@
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
+import { MemberGateway } from '../../_OLD/src/services/gateway';
+import { User } from "../../_OLD/src/services/user";
+import { Theme } from "../../_OLD/src/services/theme";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
@@ -8,7 +8,7 @@ import { DialogService } from 'aurelia-dialog';
 import { AddVideo } from './add-video';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
-import { format_date } from '../services/my-date';
+import { format_date } from '../../_OLD/src/services/my-date';
 
 @autoinject
 class Video {

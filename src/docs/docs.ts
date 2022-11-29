@@ -8,7 +8,7 @@ import {I18N} from 'aurelia-i18n';
 import {Router} from 'aurelia-router';
 import {set_diff, set_intersection, set_union} from '../services/set_utils';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
+import {MultiSelectSettings} from '../../../src/resources/elements/multi-select/multi-select';
 import {UploadDocs} from './upload-docs';
 import {Popup} from '../services/popups';
 import {DocPage} from './doc-page';

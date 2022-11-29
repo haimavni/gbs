@@ -1,18 +1,18 @@
 import {autoinject, singleton, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {I18N} from 'aurelia-i18n';
-import {MemberGateway} from '../services/gateway';
-import { MemberList } from '../services/member_list';
-import {User} from '../services/user';
-import {Theme} from '../services/theme';
-import {Misc} from '../services/misc';
+import {MemberGateway} from '../../_OLD/src/services/gateway';
+import { MemberList } from '../../_OLD/src/services/member_list';
+import {User} from '../../_OLD/src/services/user';
+import {Theme} from '../../_OLD/src/services/theme';
+import {Misc} from '../../_OLD/src/services/misc';
 import {DialogService} from 'aurelia-dialog';
-import {debounce} from '../services/debounce';
+import {debounce} from '../../_OLD/src/services/debounce';
 import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {MemberPicker} from "../members/member-picker";
-import {YtKeeper} from "../services/yt-keeper";
-import {highlight} from "../services/dom_utils";
+import {MemberPicker} from "../../_OLD/src/members/member-picker";
+import {YtKeeper} from "../../_OLD/src/services/yt-keeper";
+import {highlight} from "../../_OLD/src/services/dom_utils";
 
 class CuePoint {
     time: number;
