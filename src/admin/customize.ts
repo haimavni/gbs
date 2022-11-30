@@ -132,10 +132,10 @@ export class Customize {
         if (! this.cover_photo) {
             let cover_photo_id = this.user.get_curr_photo_id();
             this.api.call_server_post('admin/cover_photo',
-            {cover_photo_id: cover_photo_id})
-            .then(response => {
-                this.user.readConfiguration();
-                //this.report_success();
+                {cover_photo_id: cover_photo_id})
+                .then(response => {
+                    this.user.readConfiguration();
+                    //this.report_success();
             })
 
 
@@ -403,6 +403,7 @@ export class Customize {
             {cover_photo_id: cover_photo_id})
             .then(response => {
                 this.user.readConfiguration();
+                this.cover_photo = response.cover_photo;
                 this.report_success();
             })
     }
