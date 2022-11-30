@@ -1,4 +1,9 @@
+import { DI } from "aurelia";
+
 const date_sep = ".";
+
+export const IMyDate = DI.createInterface<IMyDate>('IMyDate', x => x.singleton(MyDate));
+export type IMyDate = MyDate;
 
 export class MyDate {
     _day;
@@ -9,8 +14,8 @@ export class MyDate {
     constructor(date_str) {
         if (! date_str) date_str = '1';
         date_str = date_str.replace("/", date_sep);
-        let parts = date_str.split(date_sep);
-        let n = parts.length;
+        const parts = date_str.split(date_sep);
+        const n = parts.length;
         switch(n) {
             case 1:
                 this._year = parseInt(parts[0] || '0');
@@ -76,14 +81,14 @@ export class MyDate {
 
     is_valid() {
         if (this._year < 1000 || this._year > 2200) return 'partial';
-        let dl = this.detail_level();
+        const dl = this.detail_level();
         if (dl == 'Y') return 'valid';
         if (dl == 'M') {
             if (0 < this._month && this._month <= 12) return 'valid';
             return 'error';
         }
         if (dl == 'D') {
-            let md = this.month_days(this._month, this._year)
+            const md = this.month_days(this._month, this._year)
             if (0 < this._day && this._day <= md) return 'valid';
             return 'error';
         }
@@ -111,7 +116,7 @@ export class MyDate {
 }
 
 export function format_date(date_str, span=1) {
-    let date = new MyDate(date_str);
+    const date = new MyDate(date_str);
     let s = date.toString();
     if (s.length < 4) return "";
     if (span > 1) {

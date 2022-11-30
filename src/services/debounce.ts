@@ -1,3 +1,5 @@
+/* eslint-disable prefer-rest-params */
+/* eslint-disable @typescript-eslint/no-this-alias */
 // Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -12,12 +14,12 @@ export function debounce(func, wait, immediate) {
     return function executedFunction() {
       // Store the context of this and any
       // parameters passed to executedFunction
-      let context = this;
-      let args = arguments;
+      const context = this;
+      const args = arguments;
           
       // The function to be called after 
       // the debounce time has elapsed
-      let later = function() {
+      const later = function() {
         // null timeout to indicate the debounce ended
         timeout = null;
           
@@ -27,7 +29,7 @@ export function debounce(func, wait, immediate) {
   
       // Determine if you should call the function
       // on the leading or trail end
-      let callNow = immediate && !timeout;
+      const callNow = immediate && !timeout;
       
       // This will reset the waiting every function execution.
       // This is the step that prevents the function from

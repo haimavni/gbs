@@ -3,8 +3,8 @@
  */
 
 function crc32_generate(reversedPolynomial) {
-    var table = new Array()
-    var i, j, n
+    const table = [];
+    let i, j, n;
 
     for (i = 0; i < 256; i++) {
         n = i
@@ -37,9 +37,9 @@ function crc32_final(crc) {
 }
 
 function crc32_compute_string(reversedPolynomial, str) {
-    var table = crc32_generate(reversedPolynomial)
-    var crc = 0
-    var i
+    const table = crc32_generate(reversedPolynomial)
+    let crc = 0
+    let i
 
     crc = crc32_initial()
 
@@ -51,10 +51,10 @@ function crc32_compute_string(reversedPolynomial, str) {
 }
 
 function crc32_compute_buffer(reversedPolynomial, data) {
-    var dataView = new DataView(data)
-    var table = crc32_generate(reversedPolynomial)
-    var crc = 0
-    var i
+    const dataView = new DataView(data)
+    const table = crc32_generate(reversedPolynomial)
+    let crc = 0
+    let i
 
     crc = crc32_initial()
 
@@ -66,7 +66,7 @@ function crc32_compute_buffer(reversedPolynomial, data) {
 }
 
 function crc32_reverse(polynomial) {
-    var reversedPolynomial = 0
+    let reversedPolynomial = 0
 
     for (let i = 0; i < 32; i++) {
         reversedPolynomial = reversedPolynomial << 1

@@ -1,5 +1,4 @@
-import {autoinject, singleton} from "aurelia-framework";
-
+/* eslint-disable @typescript-eslint/no-this-alias */
 let YT;
 enum PlayerStates {
     UNSTARTED = -1,
@@ -10,8 +9,6 @@ enum PlayerStates {
     CUED = 5
 }
 
-@autoinject()
-@singleton()
 export class YtKeeper {
     player;
     player_is_ready;
@@ -27,10 +24,10 @@ export class YtKeeper {
     created() {
         console.log("youtube player created. this player: ", this.player);
         if (this.player) return;
-        let tag = document.createElement('script');
+        const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         tag.id = 'youtube-script';
-        let firstScriptTag = document.getElementsByTagName('script')[0];
+        const firstScriptTag = document.getElementsByTagName('script')[0];
         //let firstScriptTag = document.getElementById('youtube-script');
         console.log("firstScriptTag: ", firstScriptTag);
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);

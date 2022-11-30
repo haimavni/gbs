@@ -1,15 +1,10 @@
+import { DI } from 'aurelia';
 import * as Collections from 'typescript-collections';
-import { autoinject, singleton, noView } from "aurelia-framework";
 
-@autoinject()
-@singleton()
-@noView()
+export const ICache = DI.createInterface<ICache>('ICache', x => x.singleton(Cache));
+export type ICache = Cache;
+
 export class Cache {
-
-    constructor () {
-
-    }
-
     cacheStorage = new Collections.Dictionary<string, any>();
 
     setValue(key, data) {
@@ -25,11 +20,12 @@ export class Cache {
     }
 
     loadOject(key, obj, keys?) {
-        let other = this.getValue(key);
+        const other = this.getValue(key);
+
         if (!keys) {
             keys = Object.keys(other);
         } 
-        for (let k of keys) {
+        for (const k of keys) {
             obj[k] = other[k]
         }
     }

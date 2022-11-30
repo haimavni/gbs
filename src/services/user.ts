@@ -1,16 +1,14 @@
-import {autoinject, computedFrom, noView, singleton} from "aurelia-framework";
-import {EventAggregator} from 'aurelia-event-aggregator';
-import {MemberGateway} from './gateway';
-import {I18N} from 'aurelia-i18n';
+import {IMemberGateway} from './gateway';
+import {I18N} from '@aurelia/i18n';
 import environment from '../environment';
-import {Cookies} from './cookies';
+import {ICookies} from './cookies';
+import { DI, IEventAggregator } from "aurelia";
 
-@autoinject()
-@singleton()
-@noView()
+export const IUser = DI.createInterface<IUser>('IUser', x => x.singleton(User));
+export type IUser = User;
+
 export class User {
     public isLoggedIn: boolean;
-    public eventAggregator: EventAggregator;
     public editing: boolean;
     public user_name;
     public privileges;
@@ -26,24 +24,18 @@ export class User {
     config_ready = false;
     public id;
     public _advanced;
-    private api;
-    private i18n;
-    private cookies: Cookies;
     private photo_link_src = "";
     curr_photo_id;
     app_list = [];
     _editing_mode_changed = false;
 
-    constructor(eventAggregator: EventAggregator, api: MemberGateway, i18n: I18N, cookies: Cookies) {
-        this.eventAggregator = eventAggregator;
-        this.api = api;
-        this.i18n = i18n;
-        this.cookies = cookies;
+    constructor(@IEventAggregator readonly eventAggregator: IEventAggregator, @IMemberGateway readonly api: IMemberGateway, @I18N readonly i18n: I18N, @ICookies readonly cookies: ICookies) {
         this.isLoggedIn = false;
         this.editing = false;
         this.privileges = {EDITOR: true};
         this.readPrivileges();
         this.readConfiguration();
+
         this.eventAggregator.subscribe('ROLE_CHANGED', payload => {
             this.handle_role_change(payload)
         });
@@ -62,7 +54,7 @@ export class User {
     }
 
     get editing_mode_changed() {
-        let b = this._editing_mode_changed;
+        const b = this._editing_mode_changed;
         this._editing_mode_changed = false;
         return b;
     }
@@ -89,7 +81,7 @@ export class User {
     }
 
     store_app_title() {
-        let app_title = this.i18n.tr('app-title');
+        const app_title = this.i18n.tr('app-title');
         this.api.call_server_post('default/save_app_title', {app_title: app_title})
     }
 
@@ -106,12 +98,12 @@ export class User {
         return this.api.call_server('default/login', loginData)
             .then((result) => {
                 if (result.user_error) {
-                    let msg = this.i18n.tr('user.' + result.user_error);
+                    const msg = this.i18n.tr('user.' + result.user_error);
                     throw result.user_error
                 }
                 this.isLoggedIn = !result.unregistered;
-                let keys = Object.keys(result.user);
-                for (let key of keys) {
+                const keys = Object.keys(result.user);
+                for (const key of keys) {
                     this[key] = result.user[key];
                 }
             });
@@ -146,10 +138,10 @@ export class User {
         return this.api.call_server_post('default/register_user', {user_info: loginData})
             .then((result) => {
                 if (result.user_error) {
-                    let msg = this.i18n.tr('user.' + result.user_error);
+                    const msg = this.i18n.tr('user.' + result.user_error);
                     throw result.user_error
                 } else if (result.error) {
-                    let msg = result.error;
+                    const msg = result.error;
                     throw result.error
                 }
             });
@@ -201,10 +193,9 @@ export class User {
 
     }
 
-    @computedFrom('editing', 'app_list')
     get active_app_list() {
         if (this.editing && this.privileges.ADMIN) return true;
-        let lst = this.app_list.filter(app => app.active);
+        const lst = this.app_list.filter(app => app.active);
         return lst.length > 0;
     }
 

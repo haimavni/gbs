@@ -1,26 +1,25 @@
-import { autoinject, singleton, noView, computedFrom } from "aurelia-framework";
-import { Cookies } from './cookies';
-import { supportsWebp} from './dom_utils';
+import { DI } from 'aurelia';
+import { ICookies } from './cookies';
+import { supportsWebp } from './dom_utils';
 
-@autoinject()
-@singleton()
-@noView()
+export const IThemeA = DI.createInterface<IThemeA>('IThemeA', x => x.singleton(ThemeA));
+export type IThemeA = ThemeA;
+
 export class ThemeA {
-    cookies: Cookies;
     webpSupported: boolean;
 
-    constructor(cookies: Cookies) {
-        this.cookies = cookies;
+    constructor(@ICookies readonly cookies: ICookies) {
         this.detectWebSupport();
 
     }
 
     detectWebSupport() {
-        let webpSupported = this.cookies.get('WEBP-SUPPORTED');
+        const webpSupported = this.cookies.get('WEBP-SUPPORTED');
+
         if (webpSupported != 'YES' && webpSupported != 'NO') {
             supportsWebp().then(result => {
                 this.webpSupported  = result;
-                let s = result ? 'YES' : 'NO';
+                const s = result ? 'YES' : 'NO';
                 this.cookies.put('WEBP-SUPPORTED', s)
             })
         } else {

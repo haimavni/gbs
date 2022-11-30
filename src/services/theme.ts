@@ -1,20 +1,19 @@
-import { autoinject, singleton, noView, computedFrom } from "aurelia-framework";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { MemberGateway } from '../services/gateway';
-import { I18N } from 'aurelia-i18n';
-import { Cookies } from './cookies';
-import { DialogService } from 'aurelia-dialog';
+/* eslint-disable @typescript-eslint/no-this-alias */
+import { IMemberGateway } from '../services/gateway';
+import { I18N } from '@aurelia/i18n';
+import { ICookies } from './cookies';
+import { IDialogService } from '@aurelia/runtime-html';
+import { DI, IEventAggregator } from "aurelia";
 
 const rtl_langs = new Set(['he', 'ar']);
 let THEME;
 
-@autoinject()
-@singleton()
-@noView()
+export const ITheme = DI.createInterface<ITheme>('ITheme', x => x.singleton(Theme));
+export type ITheme = Theme;
+
+
 export class Theme {
-    api;
-    eventAggregator: EventAggregator;
-    files: {};
+    files;
     width = 0;
     height = 0;
     display_header_background = false;
@@ -25,7 +24,6 @@ export class Theme {
     _locale;
     askLanguage = false;
     public rtltr;
-    i18n;
     touchScreen = null;
     interact_setting = { interactable: { preventDefault: 'never' } };
     page_title = "";
@@ -40,12 +38,8 @@ export class Theme {
     footer;
     search_debounce = 15000;
     document_title = "";
-    dialog: DialogService;
 
-    constructor(api: MemberGateway, eventAggregator: EventAggregator, cookies: Cookies, i18n: I18N, dialog: DialogService) {
-        this.api = api;
-        this.cookies = cookies;
-        this.eventAggregator = eventAggregator;
+    constructor(@IMemberGateway readonly api: IMemberGateway, @IEventAggregator readonly eventAggregator: IEventAggregator, @ICookies cookies: ICookies,@I18N readonly i18n: I18N, @IDialogService readonly dialog: IDialogService) {
         this.api.call_server('photos/get_theme_data')
             .then(response => {
                 this.files = response.files;
@@ -67,17 +61,20 @@ export class Theme {
 
     async set_locale() {
         await this.get_locale_overrides();
-        let locale = this.i18n.getLocale();
+        const locale = this.i18n.getLocale();
+
         if (this.locale != locale) {
             this.i18n.setLocale(this.locale)
         }
+
         this.rtltr = rtl_langs.has(this.locale) ? "rtl" : "ltr";
         this.same_dir = this.rtltr == "rtl" ? "right" : "left";
         this.other_dir = this.rtltr == "rtl" ? "left" : "right";
+
         try {
-            let userLangs = navigator['languages'];
+            const userLangs = navigator['languages'];
             //let userLangs = navigator.languages;
-            let hasHebrew = userLangs && userLangs.find(lang => lang.startsWith('he'));
+            const hasHebrew = userLangs && userLangs.find(lang => lang.startsWith('he'));
             this.askLanguage = !hasHebrew;
         } catch (e) {
             console.log('error occured in theme: ', e);
@@ -107,9 +104,9 @@ export class Theme {
     }
 
     set_heights() {
-        let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        let result = (w != this.width || h != this.height);
+        const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const result = (w != this.width || h != this.height);
         this.width = w;
         this.height = h;
         this.min_height = this.height - this.footer_height;
@@ -117,7 +114,7 @@ export class Theme {
     }
 
     handle_content_resize() {
-        let changed = this.set_heights();
+        const changed = this.set_heights();
         if (changed) {
             this.eventAggregator.publish('WINDOW-RESIZED', { width: this.width, height: this.height });
         }
@@ -156,9 +153,9 @@ export class Theme {
     get_locale_overrides() {
         this.api.call_server('default/get_locale_overrides')
             .then(response => {
-                let obj = response.locale_overrides;
-                let langs = Object.keys(obj);
-                for (let lang of langs) {
+                const obj = response.locale_overrides;
+                const langs = Object.keys(obj);
+                for (const lang of langs) {
                     this.customize(lang, obj[lang]);
                     this.i18n.setLocale(this.locale);
                 }
@@ -218,7 +215,6 @@ export class Theme {
         }
     }
 
-    @computedFrom('width')
     get is_desktop() {
         return this.width >= 1200;
     }
@@ -229,7 +225,7 @@ export class Theme {
 
     set hide_menu(val) {
         this._hide_menu = val;
-        let el = document.getElementById("router-view");
+        const el = document.getElementById("router-view");
         if (!el) return;
         if (val) {
             el.classList.add('hide-footer')
@@ -240,10 +236,10 @@ export class Theme {
     }
 
     froala_key() {
-        let tol_key = "GF1B2C1A16A1B2pD1D1D1C4E1J4A16B3D8B4klvvI2ptxz==";
-        let lifestone_key = "qA2F1G1I2A2D3lA6F6D5G4A1D3C10A3A5F6gptxzsummaG4oinf==";
+        const tol_key = "GF1B2C1A16A1B2pD1D1D1C4E1J4A16B3D8B4klvvI2ptxz==";
+        const lifestone_key = "qA2F1G1I2A2D3lA6F6D5G4A1D3C10A3A5F6gptxzsummaG4oinf==";
         //let tolife_key = "WD7C5F4H5E3H3c1A6B5A4C3A3B2C2G3C5A4D-17B-13ffbjhA11A-16yew==";
-        let host = window.location.hostname;
+        const host = window.location.hostname;
         if (host == "tol.life") return tol_key;
         if (host == "lifestone.info") return lifestone_key;
         //if (host == "tolife.site") return tolife_key;

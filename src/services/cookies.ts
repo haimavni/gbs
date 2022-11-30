@@ -1,7 +1,14 @@
+/* eslint-disable prefer-rest-params */
+
+import { DI } from "aurelia";
+
+export const ICookies = DI.createInterface<ICookies>('ICookies', x => x.singleton(Cookies));
+export type ICookies = Cookies;
+
 export class Cookies {
   
   get(key) {
-    let cookies = this.getAll();
+    const cookies = this.getAll();
     return cookies && cookies[key] ? cookies[key] : null;
   }
 
@@ -10,12 +17,12 @@ export class Cookies {
   }
 
   getObject(key) {
-    let value = this.get(key);
+    const value = this.get(key);
     return value ? JSON.parse(value) : value;
   }
 
   put(key, value) {
-    let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    const options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
     let expires = options.expires;
     if (value == null) expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
@@ -41,9 +48,9 @@ export class Cookies {
   }
 
   removeAll() {
-    let _this = this;
+    const _this = this;
 
-    let cookies = this.getAll();
+    const cookies = this.getAll();
     Object.keys(cookies).forEach(function (key) {
       return _this.remove(key);
     });
@@ -66,11 +73,11 @@ export class Cookies {
   }
 
   _parse(str) {
-    let obj = {};
-    let pairs = str.split(/ *; */);
+    const obj = {};
+    const pairs = str.split(/ *; */);
     if (pairs[0] === '') return obj;
     for (let i = 0, j = pairs.length; i < j; i += 1) {
-      let pair = pairs[i].split('=');
+      const pair = pairs[i].split('=');
       obj[this._decode(pair[0])] = this._decode(pair[1]);
     }
     return obj;

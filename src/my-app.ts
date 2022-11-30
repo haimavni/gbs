@@ -423,8 +423,8 @@ export class MyApp implements IRouteableComponent {
     }
 
     drag_menu_items(customEvent) {
-        let event = customEvent.detail;
-        let el = document.getElementById("nav-items");
+        const event = customEvent.detail;
+        const el = document.getElementById("nav-items");
         let mrs = el.style.marginRight || "0px";
         mrs = mrs.replace("px", "");
         let mr = parseInt(mrs) - event.dx;
@@ -435,14 +435,14 @@ export class MyApp implements IRouteableComponent {
     }
 
     menu_items_shift(mrg) {
-        let el1 = document.getElementById("main-search-box");
-        let width = el1.offsetWidth;
-        let m0 = mrg;
+        const el1 = document.getElementById("main-search-box");
+        const width = el1.offsetWidth;
+        const m0 = mrg;
         if (mrg < 0) {
             mrg = width + mrg;
             if (mrg > 0) mrg = 0;
         }
-        let el = document.getElementById("nav-items");
+        const el = document.getElementById("nav-items");
         el.style.marginRight = `${mrg}px`;
     }
 

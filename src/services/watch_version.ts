@@ -1,22 +1,22 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import environment from '../environment';
-import { autoinject, singleton, noView } from "aurelia-framework";
-import { MemberGateway } from './gateway';
-import { I18N } from 'aurelia-i18n';
+import { IMemberGateway } from './gateway';
+import { I18N } from '@aurelia/i18n';
 import * as toastr from 'toastr';
+import { DI } from 'aurelia';
 
 let THIS1;
 
-@autoinject()
-@singleton()
-@noView()
+export const IWatchVersion = DI.createInterface<IWatchVersion>('IWatchVersion', x => x.singleton(WatchVersion));
+export type IWatchVersion = WatchVersion;
+
+
 export class WatchVersion {
-    api;
     nudnik;
     user_warned = 0;
-    i18n;
     window;
 
-    constructor(api: MemberGateway, i18n: I18N) {
+    constructor(@IMemberGateway readonly api: IMemberGateway, @I18N readonly i18n: I18N) {
         this.api = api;
         THIS1 = this;
         this.verify_latest_version();
@@ -26,7 +26,8 @@ export class WatchVersion {
     }
 
     verify_latest_version() {
-        let enversion = environment.version;
+        const enversion = environment.version;
+
         if (!enversion) {
             return
         }
@@ -34,9 +35,9 @@ export class WatchVersion {
             .then(response => {
                 if (! response.version) return;
                 if (enversion && environment.version != response.version) {
-                    let msg_head = THIS1.i18n.tr('please-update-head');
-                    let msg_body = THIS1.i18n.tr('please-update-body');
-                    let msg_tail = THIS1.user_warned ? THIS1.i18n.tr('please-update-stubborn') : "";
+                    const msg_head = THIS1.i18n.tr('please-update-head');
+                    const msg_body = THIS1.i18n.tr('please-update-body');
+                    const msg_tail = THIS1.user_warned ? THIS1.i18n.tr('please-update-stubborn') : "";
                     toastr.success(msg_body + msg_tail, msg_head, {timeOut: 60000});
                     THIS1.window.setTimeout(() => { 
                         THIS1.window.location.reload(true);

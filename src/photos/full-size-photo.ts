@@ -1,26 +1,24 @@
-import { MemberGateway } from '../services/gateway';
-import { Router } from 'aurelia-router';
-import { DialogController, DialogService } from 'aurelia-dialog';
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from "../services/user";
+import { ITheme } from "../services/theme";
 import { MemberPicker } from "../members/member-picker";
 import { ArticlePicker } from "../articles/article-picker";
 import environment from "../environment";
-import { EventAggregator } from 'aurelia-event-aggregator';
 import { copy_to_clipboard } from "../services/dom_utils";
-import { I18N } from 'aurelia-i18n';
 import { FaceInfo } from './face-info';
 import { QrPhoto } from './qr-photo';
 import * as toastr from 'toastr';
-import { Popup } from '../services/popups';
+import { IPopup } from '../services/popups';
+import { DI, IEventAggregator } from 'aurelia';import { IRouter } from '@aurelia/router';
+import { IDialogController, IDialogService } from '@aurelia/runtime-html';
+import { I18N } from '@aurelia/i18n';
 
 let THIS;
 
-@autoinject()
+export const IFullSizePhoto = DI.createInterface<IFullSizePhoto>('IFullSizePhoto', x => x.singleton(FullSizePhoto));
+export type IFullSizePhoto = FullSizePhoto;
+
 export class FullSizePhoto {
-    dialogController;
-    dialogService;
     baseURL;
     faces = [];
     articles = [];
@@ -29,19 +27,14 @@ export class FullSizePhoto {
     faces_already_identified = new Set();
     articles_already_identified = new Set();
     api;
-    user;
-    theme;
     model;
     slide;
     curr_photo_id;
     slide_list = [];
     slide_index = 0;
     photo_info = { name: "", photo_date_str: "", photo_date_datespan: 0, photographer: "", photographer_known: true };
-    router;
     highlighting = false;
-    eventAggregator;
     marking_face_active = false;
-    i18n;
     highlight_all;
     fullscreen;
     jump_to_story_page;
@@ -82,27 +75,18 @@ export class FullSizePhoto {
     image_height = 0;
     image_width = 0;
     keypress_handler;
-    popup: Popup;
     hide_details_icon = false;
 
-    constructor(dialogController: DialogController,
-        dialogService: DialogService,
-        api: MemberGateway,
-        user: User,
-        theme: Theme,
-        router: Router,
-        eventAggregator: EventAggregator,
-        i18n: I18N,
-        popup: Popup) {
-        this.dialogController = dialogController;
-        this.dialogService = dialogService;
-        this.api = api;
-        this.user = user;
-        this.theme = theme;
-        this.router = router;
-        this.eventAggregator = eventAggregator;
-        this.i18n = i18n;
-        this.popup = popup;
+    constructor(
+        @IDialogController readonly dialogController: IDialogController,
+        @IDialogService readonly dialogService: IDialogService,
+        @IMemberGateway api: IMemberGateway,
+        @IUser readonly user: IUser,
+        @ITheme readonly theme: ITheme,
+        @IRouter readonly router: IRouter,
+        @IEventAggregator readonly eventAggregator: IEventAggregator,
+        @I18N readonly i18n: I18N,
+        @IPopup readonly popup: IPopup) {
         this.highlight_all = this.i18n.tr('photos.highlight-all');
         this.crop = this.i18n.tr('photos.crop');
         this.rotate = this.i18n.tr('photos.rotate-photo');

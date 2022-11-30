@@ -1,31 +1,27 @@
-import { autoinject, noView, singleton } from "aurelia-framework";
-import { MemberGateway } from "./gateway";
-import { I18N } from 'aurelia-i18n';
+import { IMemberGateway } from "./gateway";
+import { I18N } from '@aurelia/i18n';
 import environment from "../environment";
+import { DI } from "aurelia";
 
-@autoinject()
-@singleton()
-@noView()
+export const IMisc = DI.createInterface<IMisc>('IMisc', x => x.singleton(Misc));
+export type IMisc = Misc;
 export class Misc {
-    i18n;
-    api;
     crc_table;
     storage = {};
     _url_shortcut = null;
 
-    constructor(api: MemberGateway, i18n: I18N) {
-        this.api = api;
-        this.i18n = i18n;
+    constructor(@IMemberGateway readonly api: IMemberGateway, @I18N readonly i18n: I18N) {
         //this.create_table();
     }
 
     calc_life_cycle_text(member_info) {
         let s = "";
-        let birth_place = member_info.PlaceOfBirth;
-        let birth_date = member_info.date_of_birth ? member_info.date_of_birth.date : "";
-        let death_place = member_info.place_of_death;
-        let death_date = member_info.date_of_death ? member_info.date_of_death.date : "";
-        let gender = member_info.gender || "M";
+        const birth_place = member_info.PlaceOfBirth;
+        const birth_date = member_info.date_of_birth ? member_info.date_of_birth.date : "";
+        const death_place = member_info.place_of_death;
+        const death_date = member_info.date_of_death ? member_info.date_of_death.date : "";
+        const gender = member_info.gender || "M";
+        
         if (birth_date || birth_place) {
             s += this.i18n.tr('members.born-' + gender.toLowerCase()) + " ";
             if (birth_place) {
@@ -36,9 +32,9 @@ export class Misc {
             }
         }
         if (death_date) {
-            let cod_idx = member_info.cause_of_death || 0;
+            const cod_idx = member_info.cause_of_death || 0;
             if (!this.api.constants.cause_of_death) return s;
-            let keys = Object.keys(this.api.constants.cause_of_death);
+            const keys = Object.keys(this.api.constants.cause_of_death);
             let cod = "";
             for (let key of keys) {
                 if (this.api.constants.cause_of_death[key] == cod_idx) {
@@ -90,16 +86,16 @@ export class Misc {
     }
 
     make_selection(section, option_names) {
-        let result = [];
-        for (let opt of option_names) {
-            let option = { value: opt, name: this.i18n.tr(section + '.' + opt) };
+        const result = [];
+        for (const opt of option_names) {
+            const option = { value: opt, name: this.i18n.tr(section + '.' + opt) };
             result.push(option)
         }
         return result;
     }
 
     empty_object(obj) {
-        let keys = Object.keys(obj);
+        const keys = Object.keys(obj);
         return keys.length == 0;
     }
 
@@ -119,12 +115,12 @@ export class Misc {
     }
 
     update_history(history, str, max_count = 5) {
-        let i = history.findIndex(option => option == str);
+        const i = history.findIndex(option => option == str);
         if (i > 0) {
             history.splice(i, 1);
         }
         if (i != 0) {
-            let lst = [str];
+            const lst = [str];
             history = lst.concat(history);
         }
         history.splice(max_count, 999);
@@ -138,7 +134,7 @@ export class Misc {
 
     crc32FromArrayBufferOld(ab, crc = null) {
 
-        let table = new Uint32Array([
+        const table = new Uint32Array([
             0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f,
             0xe963a535, 0x9e6495a3, 0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988,
             0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91, 0x1db71064, 0x6ab020f2,
@@ -185,11 +181,11 @@ export class Misc {
         ]);
 
 
-        let ds = new Uint8Array(ab);
+        const ds = new Uint8Array(ab);
 
         if (!crc) crc = 0xffffffff;
 
-        let dsArr = ds;
+        const dsArr = ds;
         for (let i = 0; i < dsArr.byteLength; i++) {
 
             crc = table[(crc ^ dsArr[i]) & 0xFF] ^ (crc >> 8);
@@ -216,7 +212,7 @@ export class Misc {
         crc = crc ? crc : 0xffffffff;
         const input = Uint8Array.from(data);
         for (let i = 0; i < input.byteLength; i++) {
-            let x = input[i];
+            const x = input[i];
             crc = lookup[(x ^ crc) & 0xff] ^ (crc >>> 8);
         }
         return -1 - crc;
@@ -224,9 +220,9 @@ export class Misc {
 
     save(keys: any[], value: any) {
         let obj = this.storage;
-        let key = keys[keys.length - 1]
+        const key = keys[keys.length - 1]
         keys.slice(keys.length - 1)
-        for (let k of keys) {
+        for (const k of keys) {
             if (!obj[k]) {
                 obj[k] = {}
             }
@@ -256,14 +252,14 @@ export class Misc {
     }
 
     async cache_image(url) {
-        let img_elem = document.createElement('img');
+        const img_elem = document.createElement('img');
         await this.loadImage(url, img_elem);
     }
 
     cache_images(image_list) {
         let n = image_list.length;
-        for (let image of image_list) {
-            let img_elem = document.createElement('img');
+        for (const image of image_list) {
+            const img_elem = document.createElement('img');
             this.loadImage(image.src, img_elem)
                 .then(() => {
                     n -= 1;
@@ -273,7 +269,7 @@ export class Misc {
     }
 
     make_url(name, rest = '') {
-        let sep = environment.push_state ? '' : '#';
+        const sep = environment.push_state ? '' : '#';
         return `${location.origin}${location.pathname}${sep}/${name}/${rest}`;
     }
 

@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { fetch } from 'whatwg-fetch';
-import { autoinject } from 'aurelia-framework';
-import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
+import { DI, IEventAggregator } from 'aurelia';
+import { newInstanceOf } from '@aurelia/kernel';
+import { HttpClient, json, Interceptor } from '@aurelia/fetch-client';
 import environment from '../environment';
-import { EventAggregator } from 'aurelia-event-aggregator';
 import * as download from 'downloadjs';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import * as toastr from 'toastr';
 import {ThemeA} from './theme-a';
 import { SSL_OP_EPHEMERAL_RSA } from 'constants';
+
+export const IMemberGateway = DI.createInterface<IMemberGateway>('IMemberGateway', x => x.singleton(MemberGateway));
+export type IMemberGateway = MemberGateway;
 
 let THIS;
 
@@ -24,7 +29,7 @@ export class SimpleInterceptor implements Interceptor {
     }
 
     response(response: Response) {
-        let r = response.json();
+        const r = response.json();
         THIS.pending -= 1;
         return r;
     }
@@ -37,13 +42,7 @@ export class SimpleInterceptor implements Interceptor {
     }
 }
 
-@autoinject()
 export class MemberGateway {
-
-    httpClient;
-    eventAggregator;
-    i18n;
-    themeA: ThemeA;
     constants = {
         visibility: {
             VIS_NEVER: 0,
@@ -61,26 +60,30 @@ export class MemberGateway {
         },
         ptp_key: 0
     };
+
     pending = 0;
     ptp_connected;
 
-    constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N, themeA: ThemeA) {
-        this.httpClient = httpClient;
-        this.eventAggregator = eventAggregator;
-        this.i18n = i18n;
-        this.themeA = themeA;
-        let href = window.location.href;
+    constructor(@newInstanceOf(HttpClient) readonly httpClient: HttpClient, @IEventAggregator readonly eventAggregator: IEventAggregator, @I18N readonly i18n: I18N, @IThemeA readonly themeA: IThemeA) {
+        const href = window.location.href;
+
         let app = href.split('/')[3];
+
         if (href.includes('localhost')) {
             app = environment.app;
         }
+
         httpClient.configure(config => {
             config
                 .useStandardConfiguration()
                 .withBaseUrl(environment.baseURL + '/' + app + '/')
                 .withInterceptor(new SimpleInterceptor());
+
+            return config;
         });
+
         this.get_constants();
+        
         //this.start_listening();
         THIS = this;
     }
@@ -121,16 +124,16 @@ export class MemberGateway {
     }
 
     call_server_post(url: string, data?: any) {
-        let t0 = (new Date()).getTime();
+        const t0 = (new Date()).getTime();
         console.log(t0 + ': ' + url);
         data = data ? data : {};
         data['ptp_key'] = this.constants.ptp_key;
         data['webpSupported'] = this.themeA.webpSupported;
-        let x = JSON.stringify(data);
+        const x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
             .catch(error => toastr.error(error + ' in ', url))
             .then((result) => {
-                let t1 = (new Date()).getTime();
+                const t1 = (new Date()).getTime();
                 console.log(t1 +  ': ' +  url +  ' Done in ' + (t1 - t0) +  ' milliseconds');
                 console.log("Result: ", result)
                 if (result.error) {
@@ -158,20 +161,20 @@ export class MemberGateway {
     }
 
     uploadFiles(user_id, fileList, what, info = {}) {
-        let This = this;
+        const This = this;
         let n = fileList.length;
-        let uploaded_file_ids = [];
-        let failed = [];
-        let duplicates = [];
+        const uploaded_file_ids = [];
+        const failed = [];
+        const duplicates = [];
         This.eventAggregator.publish('FileWasUploaded', { files_left: n });
-        for (let file of fileList) {
-            let fr = new FileReader();
+        for (const file of fileList) {
+            const fr = new FileReader();
             fr.readAsBinaryString(file);
-            let payload = { user_id: user_id }
+            const payload = { user_id: user_id }
             fr.onload = function () {
                 payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result, info: info, webp_supported: THIS.themeA.webpSupported };
                 This.upload(payload, what)
-                    .then(response => {
+                    .then((response: any) => {
                         if (response.upload_result.failed) {
                             failed.push(file.name)
                         } else if (response.upload_result.duplicate) {
@@ -216,7 +219,7 @@ export class MemberGateway {
         let listener;
         await this.call_server('default/get_tornado_host', { group: group })
             .then(data => {
-                let ws = data.ws;
+                const ws = data.ws;
                 listener = this.web2py_websocket(ws, this.handle_ws_message);
                 if (!listener) {
                     alert("html5 websocket not supported by your browser, try Google Chrome");
@@ -241,14 +244,14 @@ export class MemberGateway {
             return;
         }
 
-        let key = obj.key;
-        let data = obj.data;
+        const key = obj.key;
+        const data = obj.data;
         THIS.eventAggregator.publish(key, data);
     }
 
     web2py_websocket(url, onmessage, onopen?, onclose?) {
         if ("WebSocket" in window) {
-            var ws = new WebSocket(url);
+            const ws = new WebSocket(url);
             ws.onopen = onopen ? onopen : (function () { });
             ws.onmessage = onmessage;
             ws.onclose = onclose ? onclose : (function () { });

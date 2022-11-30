@@ -1,22 +1,16 @@
-import { Router } from 'aurelia-router';
-import { DialogService } from 'aurelia-dialog';
-import { FullSizePhoto } from '../photos/full-size-photo';
-import { User } from '../services/user';
-import { Misc } from '../services/misc';
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { IRouter } from '@aurelia/router';
+import { IDialogService } from '@aurelia/runtime-html';
+import { IFullSizePhoto } from '../photos/full-size-photo';
+import { IUser } from '../services/user';
+import { IMisc } from '../services/misc';
+import { DI } from 'aurelia';
 
-@autoinject
+export const IShowPhoto = DI.createInterface<IShowPhoto>('IShowPhoto', x => x.singleton(ShowPhoto));
+export type IShowPhoto = ShowPhoto;
+
 export class ShowPhoto {
-    dialog: DialogService;
-    user: User;
-    misc: Misc;
-    router: Router;
+    constructor(@IRouter readonly router: IRouter, @IUser readonly user: IUser, @IMisc readonly misc: IMisc, @IDialogService readonly dialog: IDialogService) {
 
-    constructor(router: Router, user: User, misc: Misc, dialog: DialogService) {
-        this.user = user;
-        this.misc = misc;
-        this.dialog = dialog;
-        this.router = router;
     }
 
     public show(photo, event, photo_ids) {

@@ -1,18 +1,17 @@
-import { MemberGateway } from "./gateway";
-import { autoinject } from "aurelia-framework";
-import { User } from "./user";
-import { DialogController } from "aurelia-dialog";
-import { Misc } from "./misc";
+/* eslint-disable @typescript-eslint/no-this-alias */
+import { IMemberGateway } from "./gateway";
+import { IUser } from "./user";
+import { IDialogController } from "@aurelia/runtime-html";
+import { IMisc } from "./misc";
+import { DI } from "aurelia";
+
+export const IUploader = DI.createInterface<IUploader>('IUploader', x => x.singleton(Uploader));
+export type IUploader = Uploader;
 
 let This_Uploader;
 
-@autoinject()
 export class Uploader {
-    api: MemberGateway;
-    user: User;
-    misc: Misc;
     files: FileList;
-    dlg: DialogController;
     endpoint;
     what = "";
     file_types = "image/*";
@@ -37,15 +36,11 @@ export class Uploader {
     crc_values = {};
 
     constructor(
-        api: MemberGateway,
-        user: User,
-        dlg: DialogController,
-        misc: Misc
+        @IMemberGateway readonly api: IMemberGateway,
+        @IUser readonly user: IUser,
+        @IDialogController readonly dlg: IDialogController,
+        @IMisc readonly misc: IMisc
     ) {
-        this.api = api;
-        this.user = user;
-        this.misc = misc;
-        this.dlg = dlg;
         This_Uploader = this;
     }
 
@@ -77,18 +72,19 @@ export class Uploader {
 
     async uploadFiles(user_id, fileList, info = {}) {
         //let This_Uploader = this;
-        let n = fileList.length;
-        for (let file of fileList) {
+        const n = fileList.length;
+
+        for (const file of fileList) {
             this.total_size += file.size;
             this.calc_file_crc(file);
         }
         this.working = true;
         for (let i = 0; i < 100; i++) {
-            let n = Object.keys(this.crc_values).length;
+            const n = Object.keys(this.crc_values).length;
             if (n >= fileList.length) break;
             await sleep(100);
         }
-        for (let file of fileList) {
+        for (const file of fileList) {
             this.upload_file(file, user_id);
         }
     }
@@ -119,8 +115,8 @@ export class Uploader {
         if (duplicate) return;
         while (start < file.size) {
             end = Math.min(start + this.chunk_size, file.size);
-            let is_last = end >= file.size;
-            let start0 = start;
+            const is_last = end >= file.size;
+            const start0 = start;
             await this.upload_chunk(file, start0, end, is_last, record_id);
             start += this.chunk_size;
         }
@@ -128,10 +124,10 @@ export class Uploader {
 
     async upload_chunk(file, start, end, is_last, record_id) {
         //await sleep(2000);
-        let blob: Blob = file.slice(start, end);
-        let user_id = this.user.id;
-        let payload = { user_id: user_id };
-        let fr = new FileReader();
+        const blob: Blob = file.slice(start, end);
+        const user_id = this.user.id;
+        const payload = { user_id: user_id };
+        const fr = new FileReader();
         //fr.readAsBinaryString(blob);
         fr.readAsArrayBuffer(blob);
         fr.onloadstart = function (ev) {
@@ -145,7 +141,7 @@ export class Uploader {
         };
         let call_returned = false;
         fr.onload = async function (ev) {
-            let result = Array.from(new Uint8Array(this.result as ArrayBuffer));
+            const result = Array.from(new Uint8Array(this.result as ArrayBuffer));
             //let result = this.result;
             payload["file"] = {
                 user_id: user_id,
@@ -161,7 +157,7 @@ export class Uploader {
             payload["start"] = start;
             payload["end"] = end;
             payload["is_last"] = is_last;
-            let crc = This_Uploader.crc_values[file.name];
+            const crc = This_Uploader.crc_values[file.name];
             payload["crc"] = crc;
             payload["record_id"] = record_id;
             if (This_Uploader.n_concurrent > This_Uploader.high_mark) {
@@ -220,24 +216,24 @@ export class Uploader {
     }
 
     calc_file_crc(file) {
-        let crc = 0;
+        const crc = 0;
         let start = 0;
         let end;
         while (start < file.size) {
             end = Math.min(start + this.chunk_size, file.size);
-            let is_last = end >= file.size;
+            const is_last = end >= file.size;
             this.calc_chunk_crc(file, start, end, crc, is_last);
             start += this.chunk_size;
         }
     }
 
     async calc_chunk_crc(file, start, end, crc = 0, is_last = false) {
-        let blob: Blob = file.slice(start, end);
-        let fr = new FileReader();
+        const blob: Blob = file.slice(start, end);
+        const fr = new FileReader();
         fr.readAsArrayBuffer(blob);
-        let done = false;
+        const done = false;
         fr.onload = async function () {
-            let arr = Array.from(new Uint8Array(this.result as ArrayBuffer));
+            const arr = Array.from(new Uint8Array(this.result as ArrayBuffer));
             crc = This_Uploader.misc.crc32FromArrayBuffer(arr, crc);
             if (is_last) {
                 This_Uploader.crc_values[file.name] = crc;
