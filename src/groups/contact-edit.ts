@@ -20,7 +20,7 @@ export class ContactEdit {
         this.misc = misc;
     }
 
-    activate(params) {
+    loading(params) {
         this.new_contact = params.new_contact
         this.curr_contact = params.curr_contact;
         this.contact_list = params.contact_list;

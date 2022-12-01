@@ -30,7 +30,7 @@ export class ConfirmStory {
         this.user = user;
     }
 
-    activate(params) {
+    loading(params) {
         this.story_id = params.id;
         this.story_list = params.story_list || [];
         this.get_story_versions();

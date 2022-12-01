@@ -20,7 +20,7 @@ export class GroupEdit {
         this.misc = misc;
     }
 
-    activate(params) {
+    loading(params) {
         this.new_group = params.new_group
         this.curr_group = params.curr_group;
         this.group_list = params.group_list;

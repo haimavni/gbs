@@ -14,7 +14,7 @@ export class PhotoPicker {
         this.dc = dc;
     }
 
-    activate(model) {
+    loading(model) {
         this.associated_photos = model.associated_photos;
         console.log("photo picker assoc: ", this.associated_photos);
         this.params = {associated_photos: this.associated_photos};
@@ -23,7 +23,7 @@ export class PhotoPicker {
         document.body.classList.add('dialog-body');
     }
 
-    deactivate() {
+    deloading() {
         this.theme.hide_title = false;
         this.theme.hide_menu = false;
         document.body.classList.remove('dialog-body');

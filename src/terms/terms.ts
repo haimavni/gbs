@@ -2,8 +2,8 @@ import { MemberGateway } from '../../_OLD/src/services/gateway';
 import { User } from "../../_OLD/src/services/user";
 import { Theme } from "../../_OLD/src/services/theme";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 @autoinject
@@ -46,7 +46,7 @@ export class Terms {
         this.router = router;
     }
 
-    activate(params, config) {
+    loading(params, config) {
         this.update_term_list(false);
     }
 

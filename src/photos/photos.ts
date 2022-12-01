@@ -1,11 +1,11 @@
-import {MemberGateway} from '../services/gateway';
-import {User} from "../services/user";
+import {IMemberGateway} from '../services/gateway';
+import {IUser} from "../services/user";
 import {autoinject, singleton, computedFrom} from 'aurelia-framework';
-import {ShowPhoto} from "../services/show-photo";
+import {IShowPhoto} from "../services/show-photo";
 import {Uploader} from '../services/uploader';
 import {DialogService} from 'aurelia-dialog';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {I18N} from 'aurelia-i18n';
+import {I18N} from '@aurelia/i18n';
 import {Router} from 'aurelia-router';
 import {Theme} from '../services/theme';
 import {MemberPicker} from "../members/member-picker";
@@ -183,7 +183,7 @@ export class Photos {
         this.theme.display_header_background = true;
     }
 
-    activate(params, routeConfig) {
+    loading(params, routeConfig) {
         this.selected_photo_container = params;
         if (routeConfig && routeConfig.name == 'associate-photos') {
             this.caller_id = params.caller_id;
@@ -221,7 +221,7 @@ export class Photos {
             this.update_photo_list();
     }
 
-    deactivate() {
+    deloading() {
         this.clear_photo_group();
     }
 

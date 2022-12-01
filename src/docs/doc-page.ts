@@ -14,7 +14,7 @@ export class DocPage {
         this.dialog = dialog;
     }
 
-    activate(model) {
+    loading(model) {
         this.doc_src = model.doc_src;
     }
 

@@ -1,11 +1,10 @@
-import environment from "./environment";
 import { IEventAggregator } from "aurelia";
-import { IRouteableComponent, IRoute } from "@aurelia/router";
-import { Theme } from "./services/theme";
-import { MemberGateway } from "./services/gateway";
-import { User } from "./services/user";
-import { Misc } from "./services/misc";
-import { WatchVersion } from "./services/watch_version";
+import { IRouteableComponent, IRoute, IRouter } from "@aurelia/router";
+import { ITheme } from "./services/theme";
+import { IMemberGateway } from "./services/gateway";
+import { IUser } from "./services/user";
+import { IMisc } from "./services/misc";
+import { IWatchVersion } from "./services/watch_version";
 import { IDialogService } from "@aurelia/runtime-html";
 import { Promote } from "./user/promote";
 import { Feedback } from "./user/feedback";
@@ -14,20 +13,13 @@ import { AddCustomer } from "./admin/add_customer";
 export class MyApp implements IRouteableComponent {
     baseURL;
     //min_height;
-    theme;
     router_view_height;
-    api;
-    user;
-    watcher;
     curr_version;
-    dialog: IDialogService;
     keywords = "";
-    ea;
     search_button_pressed = false;
     clear_keywords_timeout = null;
     search_timeout = null;
     search_history = [];
-    misc;
 
     static routes: IRoute[] = [
         {
@@ -36,7 +28,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./home/home"),
             data: {
                 auth: true,
-                nav: false
+                nav: false,
             },
             title: "",
         },
@@ -46,7 +38,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./docs/docs"),
             data: {
                 auth: true,
-                nav: true
+                nav: true,
             },
             title: "docs.docs",
         },
@@ -56,7 +48,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./terms/terms"),
             data: {
                 auth: true,
-                nav: true
+                nav: true,
             },
             title: "terms.terms",
         },
@@ -66,7 +58,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./audios/audios"),
             data: {
                 auth: true,
-                nav: true
+                nav: true,
             },
             title: "audios.audios",
         },
@@ -76,7 +68,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./videos/videos"),
             data: {
                 auth: true,
-                nav: true
+                nav: true,
             },
             title: "videos.videos",
         },
@@ -86,7 +78,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./photos/photos"),
             data: {
                 auth: true,
-                nav: true
+                nav: true,
             },
             title: "photos.photos",
         },
@@ -96,7 +88,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./stories/stories"),
             data: {
                 auth: true,
-                nav: true
+                nav: true,
             },
             title: "stories.stories",
         },
@@ -106,7 +98,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./articles/articles"),
             data: {
                 auth: true,
-                nav: this.user.config.articles_in_menu
+                nav: this.user.config.articles_in_menu,
             },
             title: "articles.articles",
         },
@@ -116,7 +108,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./members/members"),
             data: {
                 auth: true,
-                nav: true
+                nav: true,
             },
             title: "members.members",
         },
@@ -126,7 +118,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./members/members"),
             data: {
                 auth: true,
-                nav: false
+                nav: false,
             },
             title: "members.update-story-members",
         },
@@ -135,7 +127,7 @@ export class MyApp implements IRouteableComponent {
             id: "associate-articles",
             component: () => import("./articles/articles"),
             data: {
-                nav: false
+                nav: false,
             },
             title: "articles.update-story-articles",
         },
@@ -144,7 +136,7 @@ export class MyApp implements IRouteableComponent {
             id: "associate-photos",
             component: () => import("./photos/photos"),
             data: {
-                nav: false
+                nav: false,
             },
             title: "photos.update-story-photos",
         },
@@ -154,7 +146,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./stories/story-detail"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "approve-story/:id/*",
@@ -167,7 +159,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./stories/story-detail"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "help-detail/:id/*",
@@ -175,7 +167,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./stories/story-detail"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "member-details/:id/*",
@@ -183,7 +175,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./members/member-detail"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "article-details/:id/*",
@@ -191,7 +183,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./articles/article-detail"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "doc-detail/:id/*",
@@ -202,13 +194,13 @@ export class MyApp implements IRouteableComponent {
             path: "members/new",
             id: "member-creation",
             component: () => import("./members/member-edit"),
-            title: "members.newMember"
+            title: "members.newMember",
         },
         {
             path: "members/:id/edit",
             id: "member-edit",
             component: () => import("./members/member-edit"),
-            title: "members.editMember"
+            title: "members.editMember",
         },
         {
             path: "photos/:id/*",
@@ -216,7 +208,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./photos/photo-detail"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "access-manager",
@@ -239,7 +231,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./admin/hit-counts"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "feedbacks",
@@ -252,7 +244,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./user/chats"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "adhoc-scripts",
@@ -285,7 +277,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./games/black-sheep/black-sheep"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "gbrenner/*",
@@ -298,7 +290,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./gallery/gallery"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "annotate-video/:video_id/*",
@@ -306,7 +298,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./videos/annotate-video"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "videos/:id/*",
@@ -314,7 +306,7 @@ export class MyApp implements IRouteableComponent {
             component: () => import("./videos/annotate-video"),
             data: {
                 auth: true,
-            }
+            },
         },
         {
             path: "registered-only",
@@ -325,15 +317,26 @@ export class MyApp implements IRouteableComponent {
             path: "video-list",
             id: "video-list",
             component: () => import("./videos/videos-old"),
-        }
+        },
     ];
+
+    constructor(
+        @IRouter readonly router: IRouter,
+        @ITheme readonly theme: ITheme,
+        @IUser readonly user: IUser,
+        @IWatchVersion readonly watcher: IWatchVersion,
+        @IMemberGateway readonly api: IMemberGateway,
+        @IDialogService readonly dialog: IDialogService,
+        @IMisc readonly misc: IMisc,
+        @IEventAggregator readonly ea: IEventAggregator
+    ) {}
 
     attached() {
         this.router_view_height = this.theme.height - 60 - 117;
 
-        this.api.hit('APP');
+        this.api.hit("APP");
 
-        if (environment.push_state) {
+        if (process.env.push_state) {
             console.log("app attached");
         }
     }
@@ -341,10 +344,10 @@ export class MyApp implements IRouteableComponent {
     feedback() {
         this.theme.hide_title = true;
         this.dialog
-            .open({ viewModel: Feedback, lock: true })
+            .open({ component: Feedback, lock: true })
             .whenClosed((response) => {
                 this.theme.hide_title = false;
-                if (!response.wasCancelled) {
+                if (response.status == 'ok') {
                     //do something?
                 } else {
                     //do something else?
@@ -355,10 +358,10 @@ export class MyApp implements IRouteableComponent {
     contact_us() {
         this.theme.hide_title = true;
         this.dialog
-            .open({ viewModel: Promote, lock: true })
+            .open({ component: Promote, lock: true })
             .whenClosed((response) => {
                 this.theme.hide_title = false;
-                if (!response.wasCancelled) {
+                if (response.status == 'ok') {
                     //do something?
                 } else {
                     //do something else?
@@ -405,7 +408,7 @@ export class MyApp implements IRouteableComponent {
         if (this.router.currentInstruction.config.name == "stories") {
             this.ea.publish("GO-SEARCH", { keywords: this.keywords });
         } else {
-            this.router.navigateToRoute("stories", { keywords: this.keywords });
+            this.router.load("/stories", { keywords: this.keywords });
         }
     }
 
@@ -451,11 +454,11 @@ export class MyApp implements IRouteableComponent {
     }
 
     quick_upload_photo() {
-        this.router.navigateToRoute("upload-photo", { group: 1 });
+        this.router.load("upload-photo/1");
     }
 
     show_gallery() {
-        this.router.navigateToRoute("gallery", {});
+        this.router.load("gallery", {});
     }
 
     show_menu_item(row) {

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import environment from '../environment';
 import { IMemberGateway } from './gateway';
 import { I18N } from '@aurelia/i18n';
 import * as toastr from 'toastr';
@@ -26,7 +25,7 @@ export class WatchVersion {
     }
 
     verify_latest_version() {
-        const enversion = environment.version;
+        const enversion = process.env.version;
 
         if (!enversion) {
             return
@@ -34,7 +33,7 @@ export class WatchVersion {
         THIS1.api.call_server('default/get_curr_version')
             .then(response => {
                 if (! response.version) return;
-                if (enversion && environment.version != response.version) {
+                if (enversion && process.env.version != response.version) {
                     const msg_head = THIS1.i18n.tr('please-update-head');
                     const msg_body = THIS1.i18n.tr('please-update-body');
                     const msg_tail = THIS1.user_warned ? THIS1.i18n.tr('please-update-stubborn') : "";

@@ -1,5 +1,5 @@
 import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { User } from '../../services/user';
 
 @inject(DOM.Element, I18N, User)

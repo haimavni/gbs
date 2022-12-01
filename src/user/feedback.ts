@@ -1,36 +1,26 @@
-import { DialogController } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
-import { autoinject, computedFrom} from 'aurelia-framework';
-import { MemberGateway } from '../../_OLD/src/services/gateway';
-import { Theme } from "../../_OLD/src/services/theme";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import environment from '../environment';
-import * as toastr from 'toastr';
 
-@autoinject()
+import { I18N } from '@aurelia/i18n';
+import { IDialogController } from 'aurelia';
+import * as toastr from 'toastr';
+import { IMemberGateway } from '../services/gateway';
+import { ITheme } from '../services/theme';
+
 export class Feedback {
-    controller;
-    api;
-    theme;
-    i18n;
     header_text;
     params = {
         feedback_bad_message: '',
         feedback_good_message: '',
         feedback_name: '',
         feedback_email: '',
-        code_version: environment.version,
+        code_version: process.env.version,
         device_type:'any-device',
         device_details: ''
     }
     device_type_options;
 
-    constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N) {
-        this.controller = controller;
-        this.api = api;
-        this.theme = theme;
-        this.i18n = i18n;
+    constructor(@IDialogController readonly controller: IDialogController, @IMemberGateway readonly api: IMemberGateway, @ITheme readonly theme: ITheme, @I18N readonly i18n: I18N) {
         this.header_text = 'feedback.header-text';
+
         this.device_type_options = [
             { value: "any-device", name: 'feedback.any-device' },
             { value: "desktop", name: 'feedback.desktop' },
@@ -52,7 +42,6 @@ export class Feedback {
         this.controller.cancel();
     }
 
-    @computedFrom('params.feedback_bad_message', 'params.feedback_good_message', 'params.feedback_email')
     get is_disabled() {
         return ((this.params.feedback_bad_message=='' && this.params.feedback_good_message=='') || ! this.params.feedback_email);
     }

@@ -28,7 +28,7 @@ export class MergeHelpMessages {
         this.explain_accept_system = this.i18n.tr('admin.explain-accept-system');
     }
 
-    activate() {
+    loading() {
         this.api.call_server('help/get_overridden_help_messages')
             .then(response => {
                 this.message_list = response.message_list;

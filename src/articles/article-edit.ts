@@ -1,6 +1,6 @@
 import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { I18N } from 'aurelia-i18n';
+import { IRouter } from '@aurelia/router';
+import { I18N } from '@aurelia/i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Misc } from '../services/misc';
@@ -37,7 +37,7 @@ export class ArticleEdit {
         this.dialog = dialog;
     }
 
-    activate(article) {
+    loading(article) {
         this.article = article;
         let m = this.article.article_info
         this.article_info_orig = this.misc.deepClone(m);

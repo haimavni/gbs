@@ -1,5 +1,5 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { MemberGateway } from '../../_OLD/src/services/gateway';
 import { User } from '../../_OLD/src/services/user';
 import { Theme } from '../../_OLD/src/services/theme';
@@ -7,7 +7,7 @@ import { Misc } from '../../_OLD/src/services/misc';
 import { highlight } from '../../_OLD/src/services/dom_utils';
 import { MemberList } from "../../_OLD/src/services/member_list";
 import { ArticleList } from '../../_OLD/src/services/article_list';
-import { Router } from 'aurelia-router';
+import { IRouter } from '@aurelia/router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import {ShowPhoto} from "../../_OLD/src/services/show-photo";
@@ -142,7 +142,7 @@ export class StoryDetail {
         this.nudnik = 0;
     }
 
-    async activate(params, config) {
+    async loading(params, config) {
         this.keywords = params.keywords;
         this.search_type = params.search_type;
         this.advanced_search = params.search_type == 'advanced';
@@ -274,7 +274,7 @@ export class StoryDetail {
     }
 
     go_back() {
-        this.router.navigateBack();
+        this.router.back();
     }
 
     go_prev(event) {

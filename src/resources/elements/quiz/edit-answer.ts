@@ -16,7 +16,7 @@ export class EditAnswer {
         this.theme = theme;
     }
 
-    activate(answer: Answer) {
+    loading(answer: Answer) {
         this.answer = answer;
         this.old_text = this.answer.text.slice(0);
         this.old_description = this.answer.description.slice(0);

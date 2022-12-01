@@ -11,7 +11,7 @@ export class RenderStory {
         this.popup = popup;
     }
 
-    activate(params) {
+    loading(params) {
         let html = params.html;
         if (!params.raw) {
             let pat_str = '(<a .*?)href=\"(.*?)\"(.*?)>(.*?)</a>';

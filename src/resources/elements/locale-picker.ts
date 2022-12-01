@@ -1,5 +1,5 @@
 import {autoinject, bindable} from 'aurelia-framework';
-import {I18N} from 'aurelia-i18n';
+import {I18N} from '@aurelia/i18n';
 
 @autoinject
 export class LocalePickerCustomElement {

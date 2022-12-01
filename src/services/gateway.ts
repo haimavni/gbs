@@ -70,13 +70,13 @@ export class MemberGateway {
         let app = href.split('/')[3];
 
         if (href.includes('localhost')) {
-            app = environment.app;
+            app = process.env.app;
         }
 
         httpClient.configure(config => {
             config
                 .useStandardConfiguration()
-                .withBaseUrl(environment.baseURL + '/' + app + '/')
+                .withBaseUrl(process.env.baseURL + '/' + app + '/')
                 .withInterceptor(new SimpleInterceptor());
 
             return config;

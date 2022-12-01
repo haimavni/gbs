@@ -1,5 +1,5 @@
 import { DialogController } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { autoinject, computedFrom, bindable } from 'aurelia-framework';
 import { MemberGateway } from '../../services/gateway';
 import { User } from "../../services/user";

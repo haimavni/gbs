@@ -1,5 +1,5 @@
 import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
+import { IRouter } from '@aurelia/router';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { EventAggregator } from 'aurelia-event-aggregator';

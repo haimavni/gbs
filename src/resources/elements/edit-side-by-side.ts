@@ -39,7 +39,7 @@ export class EditSideBySideCustomElement {
         THIS_EDITOR = this;
     }
 
-    activate() {
+    loading() {
         this.froala_config = {
             iconsTemplate: 'font_awesome_5',
             toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',

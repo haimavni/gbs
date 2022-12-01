@@ -3,7 +3,7 @@ import { StoryWindow } from '../../stories/story_window';
 import { User } from '../../services/user';
 import { Theme } from '../../services/theme';
 import { DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 
 @inject(DOM.Element, User, Theme, DialogService, I18N)
 export class editableCustomElement {

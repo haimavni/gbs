@@ -21,7 +21,7 @@ export class AppLink {
         this.api = api;
     }
 
-    activate(params) {
+    loading(params) {
         this.params = params;
     }
 

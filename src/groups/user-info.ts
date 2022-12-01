@@ -1,6 +1,6 @@
 import { PhotoDetail } from './../photos/photo-detail';
 import { DialogController } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
@@ -75,7 +75,7 @@ export class UserInfo {
         });
     }
 
-    activate(params) {
+    loading(params) {
         this.status_record = params;
         this.user.editing = true;
         this.loginData.email = this.cookies.get('USER-EMAIL');

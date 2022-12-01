@@ -5,8 +5,8 @@ import { Theme } from "../../_OLD/src/services/theme";
 import { WordIndex } from "../../_OLD/src/services/word_index";
 import { autoinject, computedFrom, singleton } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
 import { set_intersection, set_union, set_diff } from '../../_OLD/src/services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
@@ -177,7 +177,7 @@ export class Stories {
         this.router.navigateToRoute('story-detail', { id: data.story_data.story_id, what: 'story', keywords: [], search_type: this.params.search_type, story_list: this.story_list });
     }
 
-    activate(params, config) {
+    loading(params, config) {
         this.params.selected_story_visibility = 0;
         if (this.router.isExplicitNavigationBack) return;
         if (this.story_list && this.story_list.length > 0 && !params.keywords) return;

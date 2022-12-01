@@ -1,7 +1,7 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { Theme } from '../services/theme';
 import * as download from 'downloadjs';
 
@@ -30,7 +30,7 @@ export class QrPhoto {
         this.theme = theme;
     }
 
-    activate(params) {
+    loading(params) {
         this.data.photo_id = params.photo_id;
         this.data.shortcut = params.shortcut;
     }

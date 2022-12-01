@@ -6,6 +6,8 @@ import Fetch from "i18next-fetch-backend";
 
 import { MyApp } from "./my-app";
 import { GoogleMapsConfiguration } from "aurelia2-google-maps";
+import { FroalaConfiguration } from "aurelia2-froala-editor";
+import { GoogleAnalyticsConfiguration } from "aurelia2-google-analytics";
 
 const lst = location.href.split("/");
 const app = lst[3];
@@ -43,7 +45,44 @@ Aurelia.register(
                 "https://cdn.rawgit.com/googlemaps/v3-utility-library/tree/master/markerclusterer/images/m", // the base URL where the images representing the clusters will be found. The full URL will be: `{imagePath}{[1-5]}`.`{imageExtension}` e.g. `foo/1.png`. Self-hosting these images is highly recommended. (https://developers.google.com/maps/documentation/javascript/marker-clustering)
             imageExtension: "png",
         },
-    })
+    }),
+    GoogleAnalyticsConfiguration.configure(config => {
+        config.init('UA-141128055-1');
+
+        config.attach({
+            logging: {
+                enabled: true
+            },
+            pageTracking: {
+                enabled: !process.env.debug,
+                getTitle: (payload) => {
+                    return document.title;
+                },
+                // Optional. By default it gets the URL fragment from payload.instruction.fragment.
+                getUrl: (payload) => {
+                    // For example, if you want to get full URL each time override with the following.
+                    return window.location.href;
+                }
+            },
+            clickTracking: {
+                // Set to `false` to disable in non-production environments.
+                enabled: !process.env.debug,
+                // Optional. By default it tracks clicks on anchors and buttons.
+                filter: (element) => {
+                    // For example, if you want to also track clicks on span elements override with the following.
+                    return element instanceof HTMLElement &&
+                        (element.nodeName.toLowerCase() === 'a' ||
+                            element.nodeName.toLowerCase() === 'button' ||
+                            element.nodeName.toLowerCase() === 'span');
+                }
+            },
+            exceptionTracking: {
+                // Set to `false` to disable in non-production environments.
+                enabled: !process.env.debug,
+            }
+        });
+    }),
+    FroalaConfiguration,
 )
     .app(MyApp)
     .start();

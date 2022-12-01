@@ -1,6 +1,6 @@
 import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { User } from '../../../../_OLD/src/services/user';
 import { Theme } from '../../../../_OLD/src/services/theme';
 import { Misc } from '../../../../_OLD/src/services/misc';

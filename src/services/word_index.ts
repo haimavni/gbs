@@ -1,6 +1,8 @@
-import { IEventAggregator } from "aurelia";
+import { DI, IEventAggregator } from "aurelia";
 import { IMemberGateway } from "./gateway";
 
+export const IWordIndex = DI.createInterface<IWordIndex>('IWordIndex', x => x.singleton(WordIndex));
+export type IWordIndex = WordIndex;
 export class WordIndex {
     _word_index = [];
     word_index_length = 1000000;

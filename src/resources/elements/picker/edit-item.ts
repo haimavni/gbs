@@ -1,7 +1,7 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../../../../_OLD/src/services/gateway';
-import { I18N, TCustomAttribute } from 'aurelia-i18n';
+import { I18N, TCustomAttribute } from '@aurelia/i18n';
 import { Misc } from '../../../../_OLD/src/services/misc';
 
 @autoinject
@@ -27,7 +27,7 @@ export class EditItem {
         this.misc = misc;
     }
 
-    activate(params) {
+    loading(params) {
         this.item = params.item;
         this.can_delete = params.can_delete;
         this.old_data = this.misc.deepClone(this.item);

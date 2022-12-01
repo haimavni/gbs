@@ -1,7 +1,8 @@
-export class ArticleFaces {
+import { IRouteableComponent } from '@aurelia/router';
+export class ArticleFaces implements IRouteableComponent {
     articles = [];
 
-    activate(articles) {
+    loading(articles) {
         this.articles = articles;
     }
 }

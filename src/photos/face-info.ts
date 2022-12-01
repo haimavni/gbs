@@ -1,5 +1,5 @@
 import { DialogController, DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { autoinject } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
@@ -30,7 +30,7 @@ export class FaceInfo {
         this.i18n = i18n;
     }
 
-    activate(model) {
+    loading(model) {
         this.face = model.face;
         this.photo_x = model.photo_x;
         this.photo_width = model.photo_width;

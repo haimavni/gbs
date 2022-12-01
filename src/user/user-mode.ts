@@ -11,13 +11,11 @@ import { Popup } from '../../_OLD/src/services/popups';
 import { copy_to_clipboard } from '../../_OLD/src/services/dom_utils';
 import { Customize } from '../../_OLD/src/admin/customize';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import * as toastr from 'toastr';
-import environment from '../environment';
 import { FacebookCard } from "./facebook-card";
 import { MakeQRCode } from "./make_qrcode";
 
-@autoinject()
 export class UserMode {
 
     user: User;
@@ -51,14 +49,14 @@ export class UserMode {
         this.dialog = dialog;
         this.popup = popup;
         this.ea = ea;
-        for (let size of [100,110,120,130,140,150,180]) {
-            let opt = {size: size, sel: ''};
+        for (const size of [100,110,120,130,140,150,180]) {
+            const opt = {size: size, sel: ''};
             this.font_size_options.push(opt);
         }
     }
 
     calc_current_info() {
-        let shortcut = this.misc.url_shortcut;
+        const shortcut = this.misc.url_shortcut;
         console.log("shortcut in user mode ", shortcut);
         if (shortcut) {
             copy_to_clipboard(shortcut);
@@ -70,14 +68,14 @@ export class UserMode {
             this.sharing_subject = encodeURIComponent(document.title);
         }, 4000);
 
-        let url = `${location.pathname}${location.hash}`
+        const url = `${location.pathname}${location.hash}`
         this.current_url = null;
         this.title = document.title;
         this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
-                    base_url = environment.baseURL;  //for the development system
+                    base_url = process.env.baseURL;  //for the development system
                 }
                 let shortcut = base_url + response.shortcut;
                 if (shortcut.includes('undefined')) {  //strange bug...
@@ -90,10 +88,10 @@ export class UserMode {
     }
 
     attached() {
-        let idx = this.user.advanced ? 1 : 0;
+        const idx = this.user.advanced ? 1 : 0;
         this.adv_options[idx].cls = 'selected';
-        let s = this.theme.font_size.substr(10, 3);
-        let size = parseInt(s);
+        const s = this.theme.font_size.substr(10, 3);
+        const size = parseInt(s);
         this.set_font_size(size); //to set the selected class
     }
 
@@ -137,7 +135,7 @@ export class UserMode {
     }
 
     save_help_messages() {
-        let target = this.user.privileges.DEVELOPER ? 'system' : '';
+        const target = this.user.privileges.DEVELOPER ? 'system' : '';
         this.api.call_server('help/save_help_messages_to_csv', { target: target });
     }
 
@@ -147,12 +145,12 @@ export class UserMode {
     }
 
     merge_help_messages() {
-        let url = this.misc.make_url('merge-help-messages')
+        const url = this.misc.make_url('merge-help-messages')
         this.popup.popup('MERGE-HELP', url, "height=860,width=1700,left=100,top=100");
     }
 
     save_letter_templates() {
-        let target = this.user.privileges.DEVELOPER ? 'system' : '';
+        const target = this.user.privileges.DEVELOPER ? 'system' : '';
         this.api.call_server('letters/save_letter_templates_to_csv', { target: target });
     }
 
@@ -169,45 +167,45 @@ export class UserMode {
     }
 
     manage_users() {
-        let url = this.misc.make_url('access-manager');
+        const url = this.misc.make_url('access-manager');
         this.popup.popup('OLD_SITE', url, "height=860,width=1700,left=100,top=100");
     }
 
     manage_groups() {
-        let url = this.misc.make_url('groups-manager');
+        const url = this.misc.make_url('groups-manager');
         this.popup.popup('OLD_SITE', url, "height=860,width=1700,left=100,top=100");
     }
 
     chat_rooms() {
-        let url = this.misc.make_url('chats');
+        const url = this.misc.make_url('chats');
         this.popup.popup('CHAT-ROOMS', url, "height=800,width=1800,left=50,top=50");
     }
 
     adhoc_scripts() {
-        let url = this.misc.make_url('adhoc-scripts');
+        const url = this.misc.make_url('adhoc-scripts');
         this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
     }
 
     show_logs() {
-        let url = this.misc.make_url('show-logs');
+        const url = this.misc.make_url('show-logs');
         this.popup.popup('ADHOC', url, "height=900,width=1800,left=50,top=50");
     }
 
     show_hit_counts() {
-        let url = this.misc.make_url('hit-counts');
+        const url = this.misc.make_url('hit-counts');
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
 
     show_feedbacks() {
-        let url = this.misc.make_url('feedbacks');
+        const url = this.misc.make_url('feedbacks');
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
 
 
     set_font_size(size) {
         this.theme.font_size = "font-size-" + size;
-        for (let fso of this.font_size_options) fso.sel = '';
-        let fso = this.font_size_options.find(fs => fs.size == size);
+        for (const fso of this.font_size_options) fso.sel = '';
+        const fso = this.font_size_options.find(fs => fs.size == size);
         if (fso) fso.sel = 'selected'
     }
 
@@ -241,8 +239,8 @@ export class UserMode {
 
     change_advanced_options(adv_option) {
         this.user.advanced = adv_option.name == 'advanced-options-off' ? false : true;
-        for (let adv of this.adv_options) adv.cls = '';
-        let idx = adv_option.name == 'advanced-options-off' ? 0 : 1;
+        for (const adv of this.adv_options) adv.cls = '';
+        const idx = adv_option.name == 'advanced-options-off' ? 0 : 1;
         this.adv_options[idx].cls = 'selected';
     }
 

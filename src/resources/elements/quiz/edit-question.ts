@@ -16,7 +16,7 @@ export class EditQuestion {
         this.theme = theme;
     }
 
-    activate(question: Question) {
+    loading(question: Question) {
         this.question = question;
         this.old_prompt = this.question.prompt.slice(0);
         this.old_description = this.question.description.slice(0);

@@ -1,6 +1,6 @@
 import {autoinject, singleton, computedFrom} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {I18N} from 'aurelia-i18n';
+import {I18N} from '@aurelia/i18n';
 import {MemberGateway} from '../../_OLD/src/services/gateway';
 import { MemberList } from '../../_OLD/src/services/member_list';
 import {User} from '../../_OLD/src/services/user';
@@ -123,7 +123,7 @@ export class AnnotateVideo {
         //this.theme.hide_menu = true;  restore. add "edit" button if caller is logged in and has the privileges.
     }
 
-    async activate(params, config) {
+    async loading(params, config) {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
@@ -370,7 +370,7 @@ export class AnnotateVideo {
         if (this.cuepoints_enabled) {
             window.close();
         } else {
-           this.router.navigateBack(); 
+           this.router.back(); 
         }
     }
 

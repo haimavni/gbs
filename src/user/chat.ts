@@ -1,20 +1,17 @@
-import { autoinject } from 'aurelia-dependency-injection';
-import { DialogController } from 'aurelia-dialog';
+import { IDialogController } from 'aurelia';
 
-@autoinject
 export class Chat {
     chatroom_id;
-    controller: DialogController;
 
-    constructor(controller: DialogController) {
-        this.controller = controller;
+    constructor(@IDialogController readonly controller: IDialogController) {
+
     }
 
-    activate(model) {
+    loading(model) {
         this.chatroom_id = model.chatroom_id;
     }
 
     room_deleted() {
-        this.controller.close(true, 'deleted')
+        this.controller.closed(true, 'deleted');
     }
 }

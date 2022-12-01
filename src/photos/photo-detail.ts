@@ -1,6 +1,6 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { I18N } from 'aurelia-i18n';
+import { IRouter } from '@aurelia/router';
+import { I18N } from '@aurelia/i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { FullSizePhoto } from './full-size-photo';
@@ -105,7 +105,7 @@ export class PhotoDetail {
         });
     }
 
-    async activate(params, config) {
+    async loading(params, config) {
         this.keywords = params.keywords;
         this.photo_ids = params.photo_ids;
         this.advanced_search = params.search_type == 'advanced';
@@ -333,7 +333,7 @@ export class PhotoDetail {
     }
 
     go_back() {
-        this.router.navigateBack();
+        this.router.back();
     }
 
     @computedFrom('photo_story.story_text', 'story_changed', 'keywords', 'advanced_search')

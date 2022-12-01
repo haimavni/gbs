@@ -10,7 +10,7 @@ export class EditUser {
         this.controller = controller;
     }
 
-    activate(params) {
+    loading(params) {
         this.curr_user = params.curr_user;
     }
 

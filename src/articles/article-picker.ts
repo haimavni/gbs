@@ -3,9 +3,9 @@ import { User } from "../services/user";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { ArticleList } from '../services/article_list';
 import { DialogController } from 'aurelia-dialog';
-import { Router } from 'aurelia-router';
+import { IRouter } from '@aurelia/router';
 import { MemberGateway } from '../services/gateway';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 
 @autoinject()
 export class ArticlePicker {
@@ -53,7 +53,7 @@ export class ArticlePicker {
         })
     }
 
-    async activate(model) {
+    async loading(model) {
         this.face_identifier = model.face_identifier;
         this.face = model.current_face;
         this.slide = model.slide;

@@ -1,11 +1,11 @@
 // this file is obsolete now. to be deleted soon
 import { MemberGateway } from '../services/gateway';
 import { autoinject, computedFrom } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
+import { IRouter } from '@aurelia/router';
 import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
 import { User } from '../services/user';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
 import { UserInfo } from './user-info';
@@ -163,7 +163,7 @@ export class UploadPhoto {
         this.subscriber.dispose();
     }
 
-    activate(params, config) {
+    loading(params, config) {
         this.group_id = params.group;
         this.api.call_server('groups/get_group_info', { group_id: this.group_id })
             .then(response => {
@@ -175,7 +175,7 @@ export class UploadPhoto {
         this.theme.hide_menu = true;
     }
 
-    deactivate() {
+    deloading() {
         this.theme.hide_title = false;
         this.theme.hide_menu = false;
     }

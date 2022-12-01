@@ -174,7 +174,7 @@ export class Customize {
         this.key_value_list = [];
     }
 
-    activate() {
+    loading() {
         this.app_title = this.i18n.tr('app-title');
     }
 

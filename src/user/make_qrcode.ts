@@ -1,64 +1,60 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { DialogController } from 'aurelia-dialog';
-import { MemberGateway } from '../../_OLD/src/services/gateway';
-import { I18N, TCustomAttribute } from 'aurelia-i18n';
-import { Misc } from '../../_OLD/src/services/misc';
-import { Theme } from '../../_OLD/src/services/theme';
-import * as download from 'downloadjs';
+import { IDialogController } from "aurelia";
+import { IMemberGateway } from "../services/gateway";
+import { I18N } from "@aurelia/i18n";
+import { IMisc } from "../services/misc";
+import { ITheme } from "../services/theme";
+import * as download from "downloadjs";
 
-@autoinject
 export class MakeQRCode {
-    api;
-    i18n;
-    controller: DialogController;
     error_message = "";
     qrname = "";
     url;
     title;
     name_placeholder = "";
-    misc;
-    theme;
 
-    constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc, theme: Theme) {
-        this.controller = controller;
-        this.api = api;
-        this.i18n = i18n;
-        this.misc = misc;
-        this.theme = theme;
-    }
+    constructor(
+        @IDialogController readonly controller: IDialogController,
+        @IMemberGateway readonly api: IMemberGateway,
+        @I18N readonly i18n: I18N,
+        @IMisc readonly misc: IMisc,
+        @ITheme readonly theme: ITheme
+    ) {}
 
-    activate(params) {
+    loading(params) {
         this.url = params.url;
-        this.name_placeholder = this.i18n.tr('user.qrcode-name');
+        this.name_placeholder = this.i18n.tr("user.qrcode-name");
     }
 
     save() {
-        this.api.call_server_post('default/create_qrcode', {url: this.url, name: this.qrname})
-        .then(response => {
-            let download_url = response.download_url;
-            download(download_url);
-            this.controller.ok();
-        });
+        this.api
+            .call_server_post("default/create_qrcode", {
+                url: this.url,
+                name: this.qrname,
+            })
+            .then((response) => {
+                const download_url = response.download_url;
+                download(download_url);
+                this.controller.ok();
+            });
     }
 
     cancel() {
         this.controller.cancel();
     }
 
-    @computedFrom('qrname')
     get ready_to_save() {
-        if (! this.qrname) return false;
+        if (!this.qrname) return false;
         return true;
     }
 
     keep_only_valid_chars(event) {
-        let key = event.key;
-        if (key == "Enter" || key == 'Backspace' || key == 'Delete') {
+        const key = event.key;
+        if (key == "Enter" || key == "Backspace" || key == "Delete") {
             return true;
         }
-        if (key == '_') return true;
-        if (key == '-') return true;
-        let m = key.match(/[0-9a-zA-Z/]/);
+        if (key == "_") return true;
+        if (key == "-") return true;
+        const m = key.match(/[0-9a-zA-Z/]/);
         if (m) {
             return true;
         }

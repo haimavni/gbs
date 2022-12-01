@@ -2,8 +2,8 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { autoinject, singleton, computedFrom } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { DialogService } from 'aurelia-dialog';
 import { UploadAudios } from './upload-audios';
@@ -188,7 +188,7 @@ export class Audios {
         this.theme.page_title = "";
     }
 
-    activate(params, config) {
+    loading(params, config) {
         if (this.router.isExplicitNavigationBack) return;
         if (this.audio_list && this.audio_list.length > 0 && !params.keywords) return;
         if (params.keywords == this.params.keywords_str && this.audio_list && this.audio_list.length > 0) return;

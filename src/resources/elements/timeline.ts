@@ -1,5 +1,5 @@
 import { bindable, inject, DOM, bindingMode } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { Theme } from '../../services/theme';
 
 const time_element_width = 11;

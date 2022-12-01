@@ -1,10 +1,10 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
 import { highlight } from '../services/dom_utils';
-import { Router } from 'aurelia-router';
+import { IRouter } from '@aurelia/router';
 import { DialogService } from 'aurelia-dialog';
 import { MultiSelectSettings } from '../../../src/resources/elements/multi-select/multi-select';
 import { MemberPicker } from "../members/member-picker";
@@ -77,7 +77,7 @@ export class DocDetail {
 
     }
 
-    async activate(params, config) {
+    async loading(params, config) {
         this.doc_id = params.id;
         this.caller = params.caller;
         this.keywords = params.keywords;
@@ -179,7 +179,7 @@ export class DocDetail {
         if (this.caller == 'docs')
             this.router.navigateToRoute('docs'); //strange bug causes it to go prev until the first
         else {
-            this.router.navigateBack();
+            this.router.back();
         }
     }
 

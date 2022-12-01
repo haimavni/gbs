@@ -1,6 +1,6 @@
 import { IRouter } from '@aurelia/router';
 import { IDialogService } from '@aurelia/runtime-html';
-import { IFullSizePhoto } from '../photos/full-size-photo';
+import { FullSizePhoto } from '../photos/full-size-photo';
 import { IUser } from '../services/user';
 import { IMisc } from '../services/misc';
 import { DI } from 'aurelia';
@@ -15,7 +15,7 @@ export class ShowPhoto {
 
     public show(photo, event, photo_ids) {
         if (photo.has_story_text || this.user.editing) {
-            this.router.navigateToRoute('photo-detail', {
+            this.router.load('/photo-detail', {
                 id: photo.photo_id, keywords: "", photo_ids: photo_ids,
                 pop_full_photo: true, has_story_text: photo.has_story_text
             });
@@ -27,10 +27,10 @@ export class ShowPhoto {
     private async openDialog(slide, event, photo_ids) {
         if (event)
             event.stopPropagation();
-        let width = 60;  // section width
-        let idx = photo_ids.findIndex(pid => slide.photo_id==pid);
+        const width = 60;  // section width
+        const idx = photo_ids.findIndex(pid => slide.photo_id==pid);
         let start = 0;
-        let len = photo_ids.length;
+        const len = photo_ids.length;
         if (idx < width) {
             start = 0
         } else if (len - idx < width) {
@@ -42,8 +42,8 @@ export class ShowPhoto {
         photo_ids = photo_ids.slice(start, width)
         let addr = window.location.origin + window.location.pathname;
         addr += `#/photos/${slide.photo_id}/*?`
-        let pids = photo_ids.map(pid => `photo_ids%5B%5D=${pid}`);
-        let s = pids.join('&') + '&pop_full_photo=true'
+        const pids = photo_ids.map(pid => `photo_ids%5B%5D=${pid}`);
+        const s = pids.join('&') + '&pop_full_photo=true'
         addr += s
         //let shortcut = null;
         this.misc.url_shortcut = addr;

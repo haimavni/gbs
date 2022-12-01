@@ -6,7 +6,7 @@ import { StoryWindow } from '../../stories/story_window';
 import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Misc } from '../../services/misc';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 
 @inject(DOM.Element, User, MemberGateway, DialogService, EventAggregator, Theme, Misc, I18N)
 @singleton()

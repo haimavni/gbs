@@ -1,5 +1,5 @@
 import { DialogController } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { MemberGateway } from '../../_OLD/src/services/gateway';
 import { Theme } from "../../_OLD/src/services/theme";
@@ -32,7 +32,7 @@ export class AddVideo {
         this.user = user;
     }
 
-    activate(model: { params: any; }) {
+    loading(model: { params: any; }) {
         this.params = model.params;
         if (!this.params) {
             this.params = {

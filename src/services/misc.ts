@@ -1,6 +1,5 @@
 import { IMemberGateway } from "./gateway";
 import { I18N } from '@aurelia/i18n';
-import environment from "../environment";
 import { DI } from "aurelia";
 
 export const IMisc = DI.createInterface<IMisc>('IMisc', x => x.singleton(Misc));
@@ -269,7 +268,7 @@ export class Misc {
     }
 
     make_url(name, rest = '') {
-        const sep = environment.push_state ? '' : '#';
+        const sep = process.env.push_state ? '' : '#';
         return `${location.origin}${location.pathname}${sep}/${name}/${rest}`;
     }
 
@@ -283,7 +282,7 @@ export class Misc {
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
-                    base_url = environment.baseURL;  //for the development system
+                    base_url = process.env.baseURL;  //for the development system
                 }
                 this._url_shortcut = base_url + response.shortcut;
                 console.log("shortcut in misc: ", this._url_shortcut);

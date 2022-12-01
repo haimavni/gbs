@@ -1,21 +1,20 @@
-import { DialogController } from 'aurelia-dialog';
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { MemberGateway } from '../../_OLD/src/services/gateway';
-import { User } from "../../_OLD/src/services/user";
-import { Theme } from "../../_OLD/src/services/theme";
+/* eslint-disable @typescript-eslint/no-this-alias */
+import { DI, IDialogController } from "aurelia";
+import { watch } from "@aurelia/runtime-html";
+import { IMemberGateway } from "../services/gateway";
+import { IUser } from "../services/user";
+import { ITheme } from "../services/theme";
 
 let THIS_EDITOR;
 
-@autoinject
+export const IStoryWindow = DI.createInterface<IStoryWindow>('IStoryWindow', x => x.singleton(StoryWindow));
+export type IStoryWindow = StoryWindow;
+
 export class StoryWindow {
     story;
     story_orig;
     edit;
     show;
-    dialogController: DialogController;
-    api: MemberGateway;
-    user: User;
-    theme;
     story_name_orig;
     story_source_orig;
     story_text;
@@ -24,45 +23,82 @@ export class StoryWindow {
     dirty;
     images_hidden = false;
     froala_config = {
-        iconsTemplate: 'font_awesome_5',
-        toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',
-                'color', 'fontSize', 'align', 'html'],
-        fontSize: ['8', '10', '12', '13', '14', '15', '16', '18', '20', '24', '32', '36', '48', '60', '72', '96'],
-        imageDefaultDisplay: 'inline',
-        imageDefaultAlign: 'right',
+        iconsTemplate: "font_awesome_5",
+        toolbarButtons: [
+            "undo",
+            "redo",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "|",
+            "insertLink",
+            "insertImage",
+            "insertVideo",
+            "|",
+            "color",
+            "fontSize",
+            "align",
+            "html",
+        ],
+        fontSize: [
+            "8",
+            "10",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "18",
+            "20",
+            "24",
+            "32",
+            "36",
+            "48",
+            "60",
+            "72",
+            "96",
+        ],
+        imageDefaultDisplay: "inline",
+        imageDefaultAlign: "right",
         imageUpload: false,
         imageDefaultWidth: 100,
-        videoDefaultDisplay: 'inline',
-        videoDefaultAlign: 'left',
+        videoDefaultDisplay: "inline",
+        videoDefaultAlign: "left",
         VideoDefaultWidth: 160,
         charCounterCount: false,
         linkAlwaysBlank: true,
-        language: 'he', heightMin: 400, heightMax: 400,
+        language: "he",
+        heightMin: 400,
+        heightMax: 400,
         imageUploadRemoteUrls: false,
-        key: ""
+        key: "",
     };
 
-    constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme) {
-        this.dialogController = dialogController;
-        this.api = api;
-        this.user = user;
-        this.theme = theme;
+    constructor(
+        @IDialogController readonly dialogController: IDialogController,
+        @IMemberGateway readonly api: IMemberGateway,
+        @IUser readonly user: IUser,
+        @ITheme readonly theme: ITheme
+    ) {
         THIS_EDITOR = this;
     }
 
-    activate(model) {
+    loading(model) {
         this.story = model.story;
         this.dont_save = model.dont_save;
-        this.raw = model.raw
+        this.raw = model.raw;
         if (!this.story) return;
-        this.story_text = this.story.editable_preview ? this.story.preview : this.story.story_text
-        if (! this.story_text) {
-             this.story_text = "";
+        this.story_text = this.story.editable_preview
+            ? this.story.preview
+            : this.story.story_text;
+        if (!this.story_text) {
+            this.story_text = "";
         }
-        if (! this.story.name) {
+        if (!this.story.name) {
             this.story.name = "";
         }
-        if (! this.story.source) {
+        if (!this.story.source) {
             this.story.source = this.user.user_name;
         }
         this.story_orig = this.story_text.slice();
@@ -72,66 +108,66 @@ export class StoryWindow {
         this.show = !model.edit;
         this.froala_config.key = this.theme.froala_key();
         this.froala_config.language = this.story.language;
-        this.images_hidden = this.hide_images()
+        this.images_hidden = this.hide_images();
     }
 
     hide_images() {
-        if (! this.story_text.search('fr-inner'))
-            return false;
-        let pat_str = '<img (.*?)>';
-        let pat = new RegExp(pat_str, 'gi');
-        this.story_text = this.story_text.replace(pat, function(m, m1) {
-            return `<!--img ${m1}-->`
-        })
+        if (!this.story_text.search("fr-inner")) return false;
+        const pat_str = "<img (.*?)>";
+        const pat = new RegExp(pat_str, "gi");
+        this.story_text = this.story_text.replace(pat, function (m, m1) {
+            return `<!--img ${m1}-->`;
+        });
         return true;
-
     }
 
     restore_images() {
-        let pat_str = '<!--img (.*?)-->';
-        let pat = new RegExp(pat_str, 'gi');
-        this.story_text = this.story_text.replace(pat, function(m, m1) {
-            return `<img ${m1}>`
-        })
+        const pat_str = "<!--img (.*?)-->";
+        const pat = new RegExp(pat_str, "gi");
+        this.story_text = this.story_text.replace(pat, function (m, m1) {
+            return `<img ${m1}>`;
+        });
     }
 
     initialized(e, editor) {
-        let el: any = document.getElementsByClassName("fr-element")[0];
-        let innerHTML = el.innerHTML || "";
+        const el: any = document.getElementsByClassName("fr-element")[0];
+        const innerHTML = el.innerHTML || "";
         THIS_EDITOR.edited_str_orig = innerHTML.slice(0);
     }
 
     content_changed(e, editor) {
-        let el: any = document.getElementsByClassName("fr-element")[0];
-        let s = el.innerHTML;
-        THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
+        const el: any = document.getElementsByClassName("fr-element")[0];
+        const s = el.innerHTML;
+        THIS_EDITOR.dirty = s != THIS_EDITOR.edited_str_orig;
     }
 
-    @computedFrom('story_text', 'story.name', 'story.source', 'dirty')
     get dirty_story() {
-        let dirty = this.dirty || (this.story.name != this.story_name_orig) || (this.story.source != this.story_source_orig);
+        const dirty =
+            this.dirty ||
+            this.story.name != this.story_name_orig ||
+            this.story.source != this.story_source_orig;
         return dirty;
     }
 
     save() {
-        if (this.images_hidden)
-            this.restore_images()
-        if (! this.dirty_story) {
+        if (this.images_hidden) this.restore_images();
+        if (!this.dirty_story) {
             return;
         }
-        let data = { user_id: this.user.id };
+        const data = { user_id: this.user.id };
         if (this.story.editable_preview) {
-            this.story.preview = this.story_text
+            this.story.preview = this.story_text;
         } else {
             this.story.story_text = this.story_text;
         }
         if (this.dont_save) {
-            this.dialogController.ok({edited_text: this.story.story_text});
+            this.dialogController.ok({ edited_text: this.story.story_text });
             return;
-        };
-        data['story_info'] = this.story;
-        this.api.call_server_post('members/save_story_info', data)
-            .then(response => {
+        }
+        data["story_info"] = this.story;
+        this.api
+            .call_server_post("members/save_story_info", data)
+            .then((response) => {
                 this.story_orig = this.story_text;
                 this.story.timestamp = response.info.creation_date;
                 this.story.author = response.info.author;
@@ -148,24 +184,24 @@ export class StoryWindow {
     }
 
     clean() {
-        this.api.call_server_post('members/clean_html_format', {html: this.story_text})
-            .then(response => {
+        this.api
+            .call_server_post("members/clean_html_format", {
+                html: this.story_text,
+            })
+            .then((response) => {
                 this.story_text = response.html;
             });
-
     }
 
     beforeUpdate(images) {
         console.log("before update. images: ", images, " this: ", this);
     }
 
-    @computedFrom('story', 'story.language')
     get story_dir() {
-        if (! this.story) return "";
-        if (this.story.language == 'he' || this.story.language == 'ar') {
-            return "rtl"
+        if (!this.story) return "";
+        if (this.story.language == "he" || this.story.language == "ar") {
+            return "rtl";
         }
-        return "ltr"
+        return "ltr";
     }
-
 }

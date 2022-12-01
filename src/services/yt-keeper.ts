@@ -1,3 +1,5 @@
+import { ICustomElementViewModel } from "aurelia";
+
 /* eslint-disable @typescript-eslint/no-this-alias */
 let YT;
 enum PlayerStates {
@@ -9,7 +11,7 @@ enum PlayerStates {
     CUED = 5
 }
 
-export class YtKeeper {
+export class YtKeeper implements ICustomElementViewModel {
     player;
     player_is_ready;
     playerState;

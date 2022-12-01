@@ -1,6 +1,6 @@
 import { bindable, inject, DOM, bindingMode, computedFrom, autoinject } from 'aurelia-framework';
 import { MemberGateway } from '../../../services/gateway';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { Misc } from '../../../services/misc';
 import { DialogService } from 'aurelia-dialog';
 import { EditQuestion } from './edit-question';

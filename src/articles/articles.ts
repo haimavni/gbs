@@ -3,8 +3,8 @@ import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { ArticleList } from '../services/article_list';
-import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
 import { MemberGateway } from '../services/gateway';
 
 @autoinject()
@@ -44,7 +44,7 @@ export class Articles {
         });
     }
 
-    activate(params, routeConfig) {
+    loading(params, routeConfig) {
         return this.articleList.getArticleList().then(articles => {
             this._articles = articles.article_list;
             for (let article of this._articles) {

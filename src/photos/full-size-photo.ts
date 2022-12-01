@@ -110,19 +110,19 @@ export class FullSizePhoto {
         };
     }
 
-    activate(model) {
+    loading(model) {
         this.model = model;
         model.final_rotation = 0;
         this.slide = model.slide;
         this.slide_list = model.slide_list || [];
         this.settings = model.settings || {};
         this.list_of_ids = model.list_of_ids;
-        this.baseURL = environment.baseURL;
+        this.baseURL = process.env.baseURL;
         document.addEventListener('keyup', this.keypress_handler);
         this.hide_details_icon = this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;
     }
 
-    deactivate() {
+    deloading() {
         this.theme.hide_title = false;
         document.removeEventListener('keyup', this.keypress_handler);
     }
@@ -691,7 +691,7 @@ export class FullSizePhoto {
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
-                    base_url = environment.baseURL;  //for the development system
+                    base_url = process.env.baseURL;  //for the development system
                 }
                 current_url = base_url + response.shortcut;
             });
@@ -727,7 +727,7 @@ export class FullSizePhoto {
             .then(response => {
                 let base_url = `${location.host}`;
                 if (base_url == "localhost:9000") {
-                    base_url = environment.baseURL;  //for the development system
+                    base_url = process.env.baseURL;  //for the development system
                 }
                 current_url = base_url + response.shortcut;
             });

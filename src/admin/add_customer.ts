@@ -1,7 +1,7 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../services/gateway';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { Theme } from '../services/theme';
 
 @autoinject

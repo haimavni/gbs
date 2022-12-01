@@ -1,7 +1,7 @@
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog';
 import { MemberGateway } from '../../../../_OLD/src/services/gateway';
-import { I18N, TCustomAttribute } from 'aurelia-i18n';
+import { I18N, TCustomAttribute } from '@aurelia/i18n';
 import { Misc } from '../../../../_OLD/src/services/misc';
 import { Theme } from '../../../../_OLD/src/services/theme';
 import { User } from '../../../../_OLD/src/services/user';
@@ -33,7 +33,7 @@ export class EditTopic {
         this.user = user;
     }
 
-    activate(params) {
+    loading(params) {
         this.topic = params.topic;
         this.can_delete = params.can_delete;
         this.old_data = this.misc.deepClone(this.topic);

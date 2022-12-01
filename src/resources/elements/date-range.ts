@@ -1,7 +1,7 @@
 import { bindable, inject, bindingMode, computedFrom, DOM } from 'aurelia-framework';
 import { User } from '../../services/user';
 import { Theme } from '../../services/theme';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { MyDate } from '../../services/my-date';
 
 const date_sep = ".";

@@ -2,7 +2,7 @@ import {autoinject, computedFrom} from "aurelia-framework";
 import {I18N} from "aurelia-i18n";
 import {Theme} from '../services/theme';
 import {Misc} from '../services/misc';
-import {MemberGateway} from '../services/gateway';
+import {IMemberGateway} from '../services/gateway';
 import {DialogService} from 'aurelia-dialog';
 import {EditUser} from './edit-user';
 import * as toastr from 'toastr';

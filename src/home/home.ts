@@ -1,13 +1,13 @@
 import { MemberGateway } from '../services/gateway';
 import { Popup } from '../services/popups';
 import { autoinject, computedFrom } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
+import { IRouter } from '@aurelia/router';
 import { User } from '../services/user';
 import { Cookies } from '../services/cookies';
 import { Misc } from '../services/misc';
 import { Theme } from '../services/theme';
 import { ShowPhoto } from '../services/show-photo';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import { MemberList } from '../services/member_list';
 import { EventAggregator } from 'aurelia-event-aggregator';
 

@@ -1,5 +1,5 @@
 export class Gbrenner {
-    activate(params) {
+    loading(params) {
         console.log("gbrenner params ", params)
     }
 }

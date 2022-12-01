@@ -16,7 +16,7 @@ export class Gallery {
         this.user = user;
     }
 
-    activate(params, routeConfig) {
+    loading(params, routeConfig) {
         this.api.call_server('gallery/apps_for_gallery', {developer: this.user.privileges.DEVELOPER, editing: this.user.editing})
             .then(response => {
                 this.app_list = response.app_list;

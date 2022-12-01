@@ -3,10 +3,6 @@ import { IMemberGateway } from "./gateway";
 import { IUser } from "./user";
 import { IDialogController } from "@aurelia/runtime-html";
 import { IMisc } from "./misc";
-import { DI } from "aurelia";
-
-export const IUploader = DI.createInterface<IUploader>('IUploader', x => x.singleton(Uploader));
-export type IUploader = Uploader;
 
 let This_Uploader;
 
@@ -44,7 +40,7 @@ export class Uploader {
         This_Uploader = this;
     }
 
-    activate(model) {
+    loading(model) {
         this.endpoint = model.endpoint;
         this.header_str = model.header_str || "Upload files";
         this.file_types = model.file_types || "image/*";

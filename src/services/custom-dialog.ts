@@ -13,7 +13,7 @@ export class CustomDialog {
         this.controller = controller
     }
 
-    activate(model) {
+    loading(model) {
         this.model = model
     }
 

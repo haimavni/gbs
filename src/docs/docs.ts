@@ -1,10 +1,10 @@
-import {MemberGateway} from '../services/gateway';
-import {User} from "../services/user";
-import {Theme} from "../services/theme";
+import {IMemberGateway} from '../services/gateway';
+import {IUser} from "../services/user";
+import {ITheme} from "../services/theme";
 import {WordIndex} from "../services/word_index";
 import {autoinject, computedFrom, singleton} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
-import {I18N} from 'aurelia-i18n';
+import {I18N} from '@aurelia/i18n';
 import {Router} from 'aurelia-router';
 import {set_diff, set_intersection, set_union} from '../services/set_utils';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -111,7 +111,7 @@ export class Docs {
         }
     }
 
-    activate(params, config) {
+    loading(params, config) {
         if (this.router.isExplicitNavigationBack) return;
         if (this.doc_list && this.doc_list.length > 0 && !params.keywords) return;
         if (params.keywords == this.params.keywords_str && this.doc_list && this.doc_list.length > 0) return;
