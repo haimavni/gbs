@@ -1,12 +1,8 @@
-import { autoinject, computedFrom } from "aurelia-framework";
-import { MemberGateway } from '../services/gateway';
-import { Theme } from '../services/theme';
+import { IMemberGateway } from '../services/gateway';
+import { ITheme } from '../services/theme';
 import * as download from 'downloadjs';
 
-@autoinject()
 export class ShowLogs {
-    api;
-    theme;
     log_files = [];
     displayed_log_file = "";
     log_html = "";
@@ -15,9 +11,8 @@ export class ShowLogs {
         { value: '', keys: ['fn'] }
     ];
 
-    constructor(api: MemberGateway, theme: Theme) {
-        this.api = api;
-        this.theme = theme;
+    constructor(@IMemberGateway readonly api: IMemberGateway, @ITheme readonly theme: ITheme) {
+
     }
 
     attached() {
@@ -43,7 +38,7 @@ export class ShowLogs {
     delete_log_file(file_name) {
         this.api.call_server_post('developer/delete_log_file', { file_name: file_name })
             .then((data) => {
-                let idx = this.log_files.findIndex(lf => lf.fn == file_name);
+                const idx = this.log_files.findIndex(lf => lf.fn == file_name);
                 this.log_files.splice(idx, 1);
             });
     }
@@ -51,7 +46,7 @@ export class ShowLogs {
     download_log_file(file_name) {
         this.api.call_server('developer/download_log_file', { file_name: file_name })
             .then((data) => {
-                let url = data.file_path
+                const url = data.file_path
                 download(url)
             });
     }

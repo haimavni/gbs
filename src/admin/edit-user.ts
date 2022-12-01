@@ -1,13 +1,9 @@
-import { autoinject } from 'aurelia-framework';
-import { DialogController } from 'aurelia-dialog';
+import { IDialogController } from 'aurelia';
 
-@autoinject
 export class EditUser {
     curr_user;
-    controller: DialogController;
 
-    constructor(controller: DialogController) {
-        this.controller = controller;
+    constructor(@IDialogController readonly controller: IDialogController) {
     }
 
     loading(params) {

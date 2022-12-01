@@ -1,5 +1,5 @@
 import { autoinject, computedFrom, singleton } from "aurelia-framework";
-import { I18N } from "aurelia-i18n";
+import { I18N } from "@aurelia/i18n";
 import { Theme } from '../../_OLD/src/services/theme';
 import { MemberGateway } from '../../_OLD/src/services/gateway';
 import { User } from '../../_OLD/src/services/user';

@@ -1,10 +1,8 @@
-<template>
-    <div id="progress_bar">
-        <require from="./progress-bar.css"></require>
-        <div class="progress">
-            <div class="bar" css="width:${percent}%">
-                <p class="percent">${percent}%</p>
-            </div>
+<div id="progress_bar">
+    <import from="./progress-bar.scss"></import>
+    <div class="progress">
+        <div class="bar" css="width:${percent}%">
+            <p class="percent">${percent}%</p>
         </div>
     </div>
-</template>
+</div>

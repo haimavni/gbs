@@ -10,7 +10,7 @@ export class FilterValueConverter {
 
         let array0 = [];
         if (properties[0].charAt(0) == '*') {
-            let p0 = properties[0].slice(1);
+            const p0 = properties[0].slice(1);
             properties.splice(0, 1);
             array0 = array.filter(item => item[p0]);
             array = array.filter(item => !item[p0]);
@@ -22,7 +22,7 @@ export class FilterValueConverter {
             return array;
         }
         value = value.replace(/[-().,]/g, '')
-        let parts = value.toLowerCase().split(" ");
+        const parts = value.toLowerCase().split(" ");
         //parts = parts.filter(s => s != '-' && s != '(' && s != ')');
         let arr = array.filter(item =>
             parts.every(part => properties.some(function (this, property, index, properties) {

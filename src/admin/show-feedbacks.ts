@@ -1,17 +1,11 @@
-import { autoinject } from "aurelia-framework";
-import { Theme } from '../services/theme';
-import { MemberGateway } from '../services/gateway';
+import { ITheme } from '../services/theme';
+import { IMemberGateway } from '../services/gateway';
 
-@autoinject()
 export class ShowFeedbacks {
-
-    theme;
-    api;
-    router;
     items = [];
     pageSize = 15;
 
-    constructor(theme: Theme, api: MemberGateway) {
+    constructor(@ITheme readonly theme: ITheme, @IMemberGateway readonly api: IMemberGateway) {
         this.theme = theme;
         this.api = api;
     }
@@ -28,7 +22,7 @@ export class ShowFeedbacks {
         this.api.call_server('default/get_feedbacks')
             .then(response => {
                 this.items = response.feedbacks;
-                for (let item of this.items) {
+                for (const item of this.items) {
                     item.bad = item.bad.replace('\n', '<br>');
                     item.good = item.good.replace('\n', '<br>');
                 }

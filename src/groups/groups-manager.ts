@@ -1,5 +1,5 @@
 import { autoinject, computedFrom } from "aurelia-framework";
-import { I18N } from "aurelia-i18n";
+import { I18N } from "@aurelia/i18n";
 import { Theme } from '../services/theme';
 import { MemberGateway } from '../services/gateway';
 import { EventAggregator } from 'aurelia-event-aggregator';
