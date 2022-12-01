@@ -10,7 +10,10 @@
   "dependencies": {
     "@aurelia/i18n": "latest",
     "aurelia": "latest",
+    "aurelia2-froala-editor": "^1.0.0",
+    "aurelia2-google-analytics": "^1.0.1",
     "aurelia2-google-maps": "^0.0.17",
+    "aurelia2-google-places": "^1.0.0",
     "aurelia2-table": "^0.0.13",
     "bootstrap-sass": "^3.4.1",
     "calculate-pixel-size": "^1.0.0",
