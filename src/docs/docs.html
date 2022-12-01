@@ -131,6 +131,14 @@
                             </select>
                         </form>
                     </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <form role="form" onsubmit="return false">
+                            <select value.bind="params.order_option" style="height:32px;width:90%;"
+                                change.delegate="handle_order_change($event)">
+                                <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -9,7 +9,6 @@ import {Router} from 'aurelia-router';
 import {set_diff, set_intersection, set_union} from '../services/set_utils';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {MultiSelectSettings} from '../resources/elements/multi-select/multi-select';
-import {UploadDocs} from './upload-docs';
 import {Popup} from '../services/popups';
 import {DocPage} from './doc-page';
 import {copy_to_clipboard} from '../services/dom_utils';
@@ -49,8 +48,13 @@ export class Docs {
         link_class: "basic",
         deleted_docs: false,
         days_since_upload: 0,
-        search_type: 'simple'
+        search_type: 'simple',
+        order_option: { value: "" },
+        start_name: ""
     };
+    order_option = "";
+    order_options;
+    start_name_history = [];
     prev_keywords;
     help_data = {
         num_words: 65056
@@ -101,6 +105,12 @@ export class Docs {
             {value: 91, name: this.i18n.tr('docs.uploaded-this-quarter')},
             {value: 365, name: this.i18n.tr('docs.uploaded-this-year')}
         ];
+        this.order_options = [
+            { name: i18n.tr('docs.recently-uploaded'), value: 'recently-uploaded'},
+            { name: i18n.tr('docs.by-name'), value: 'by-name' },
+            { name: i18n.tr('docs.new-to-old'), value: 'new-to-old' },
+            { name: i18n.tr('docs.old-to-new'), value: 'old-to-new' }
+        ];
     }
 
     refresh_story(data) {
@@ -121,6 +131,7 @@ export class Docs {
         this.params.keywords_str = params.keywords;
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
+        //this.params.order_option = {value: 'by-name'};
         this.update_doc_list();
     }
 
@@ -207,6 +218,7 @@ export class Docs {
                     }
                 }
                 //this.scroll_top = 0;
+                //this.handle_order_change(null);
             });
     }
 
@@ -422,7 +434,9 @@ export class Docs {
             link_class: "basic",
             deleted_docs: false,
             days_since_upload: 0,
-            search_type: 'simple'
+            search_type: 'simple',
+            order_option: { value: "new-to-old" },
+            start_name: ""
         };
 
     }
@@ -483,6 +497,29 @@ export class Docs {
         let doc_ids = this.doc_list.map(doc => doc.id);
         this.scroll_top = this.scroll_area.scrollTop;
         this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs' });
+    }
+
+    handle_order_change(event) {
+        // this.params.start_name = "";
+        // this.start_name_history = [];
+        // this.update_doc_list();
+        switch(this.params.order_option.value) {
+            case 'by-name': 
+                this.doc_list.sort((doc1, doc2) => doc1.name < doc2.name ? -1 : doc1.name > doc2.name ? +1 : 0);
+                break
+            case 'new-to-old':
+                this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? -1 : doc1.doc_date > doc2.doc_date ? +1 : 0);
+                break;
+            case 'old-to-new':
+                this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? +1 : doc1.doc_date > doc2.doc_date ? -1 : 0);
+                break;
+            case 'recently-uploaded':
+                this.doc_list.sort((doc1, doc2) => doc1.id < doc2.id ? +1 : doc1.id > doc2.id ? -1 : 0);
+                break;
+            default:
+                break;
+        }
+        this.scroll_area.scrollTop = 0;
     }
 
 }

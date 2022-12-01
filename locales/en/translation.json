@@ -538,7 +538,11 @@
         "doc-date": "Document date",
         "members-in": "Members associated with this document",
         "select-members": "Select associated members",
-        "fullscreen": "Full screen display. F11 to return"
+        "fullscreen": "Full screen display. F11 to return",
+        "by-name": "Sort by name",
+        "new-to-old": "New documents first",
+        "old-to-new": "Old documents first",
+        "recently-uploaded": "Recently uploaded"
     },
     "terms": {
         "terms": "Terms",
