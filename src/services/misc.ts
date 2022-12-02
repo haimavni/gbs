@@ -12,6 +12,7 @@ export class Misc {
     crc_table;
     storage = {};
     _url_shortcut = null;
+    recent_photo_ids = [];
 
     constructor(api: MemberGateway, i18n: I18N) {
         this.api = api;
@@ -296,6 +297,21 @@ export class Misc {
 
     get url_shortcut() {
         return this._url_shortcut;
+    }
+
+    public keep_photo_id(photo_id) {
+        let idx = this.recent_photo_ids.findIndex((pid) => pid == photo_id);
+        if (idx > 0) {
+            this.recent_photo_ids.splice(idx, 1);
+            this.recent_photo_ids.splice(0, 0, photo_id);
+        } else if (idx < 0) {
+            this.recent_photo_ids.splice(0, 0, photo_id);
+            this.recent_photo_ids = this.recent_photo_ids.slice(0, 5)
+        }
+    }
+
+    public get_recent_photo_ids() {
+        return this.recent_photo_ids;
     }
 
 }

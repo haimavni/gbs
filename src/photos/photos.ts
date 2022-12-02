@@ -69,6 +69,7 @@ export class Photos {
         num_years: 100,
         max_photos_per_line: 8,
         rotate_clockwise: false,
+        recent_photo_ids: []
     };
     topic_list = [];
     no_topics_yet = false;
@@ -202,6 +203,9 @@ export class Photos {
             this.photo_list = [];
         } else {
             this.params.photo_ids = [];
+        }
+        if (this.caller_type) {
+            this.params.recent_photo_ids = this.misc.get_recent_photo_ids();
         }
         let arr = [];
         if (params.associated_photos) {

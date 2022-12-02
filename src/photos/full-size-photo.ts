@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { DialogController, DialogService } from 'aurelia-dialog';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { User } from "../services/user";
+import { Misc } from '../services/misc';
 import { Theme } from "../services/theme";
 import { MemberPicker } from "../members/member-picker";
 import { ArticlePicker } from "../articles/article-picker";
@@ -31,6 +32,7 @@ export class FullSizePhoto {
     api;
     user;
     theme;
+    misc: Misc;
     model;
     slide;
     curr_photo_id;
@@ -90,6 +92,7 @@ export class FullSizePhoto {
         api: MemberGateway,
         user: User,
         theme: Theme,
+        misc: Misc;
         router: Router,
         eventAggregator: EventAggregator,
         i18n: I18N,
@@ -99,6 +102,7 @@ export class FullSizePhoto {
         this.api = api;
         this.user = user;
         this.theme = theme;
+        this.misc = misc;
         this.router = router;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;
@@ -214,6 +218,7 @@ export class FullSizePhoto {
                 }
                 this.photo_info.photo_date_datespan = data.photo_date_datespan;
                 this.photo_info.photo_date_str = data.photo_date_str;
+                this.misc.keep_photo_id(this.slide.photo_id);
             });
 
     }
