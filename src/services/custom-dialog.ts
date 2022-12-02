@@ -1,24 +1,18 @@
-import { DI } from 'aurelia';
-import { DialogController } from '@aurelia/runtime-html';
-
-export const ICustomDialog = DI.createInterface<ICustomDialog>('ICustomDialog', x => x.singleton(CustomDialog));
-export type ICustomDialog = CustomDialog;
+import { ICustomElementViewModel } from 'aurelia';
+import { IDialogController } from '@aurelia/runtime-html';
 
 
-export class CustomDialog {
-    controller: DialogController;
+export class CustomDialog implements ICustomElementViewModel {
     model: any;
 
-    constructor(controller: DialogController) {
-        this.controller = controller
+    static $view = this.model.html;
+
+    constructor(@IDialogController readonly controller: IDialogController) {
+
     }
 
-    loading(model) {
+    activate(model) {
         this.model = model
-    }
-
-    getViewStrategy() {
-        return new InlineViewStrategy(this.model.html) //requires <template></template> tags
     }
 }
 

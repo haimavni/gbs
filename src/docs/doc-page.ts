@@ -1,33 +1,27 @@
-import { Theme } from "../services/theme";
-import { autoinject } from 'aurelia-framework';
-import {DialogController} from 'aurelia-dialog';
+import { ICustomElementViewModel, IDialogController } from "aurelia";
+import { ITheme } from "../services/theme";
 
-
-@autoinject
-export class DocPage {
+export class DocPage implements ICustomElementViewModel {
     doc_src;
-    theme;
-    dialog;
 
-    constructor(theme: Theme, dialog: DialogController) {
-        this.theme = theme;
-        this.dialog = dialog;
-    }
+    constructor(
+        @ITheme readonly theme: ITheme,
+        @IDialogController readonly dialog: IDialogController
+    ) {}
 
-    loading(model) {
+    activate(model) {
         this.doc_src = model.doc_src;
     }
 
     drag_move_doc(customEvent) {
-        if (! this.theme.is_desktop) {
-            let event = customEvent.detail;
-            let el = document.getElementById("doc-area");
+        if (!this.theme.is_desktop) {
+            const event = customEvent.detail;
+            const el = document.getElementById("doc-area");
             let mls = el.style.marginLeft || "0px";
-            mls = mls.replace('px', '');
-            let ml = Math.min(0, parseInt(mls) + event.dx);
+            mls = mls.replace("px", "");
+            const ml = Math.min(0, parseInt(mls) + event.dx);
             el.style.marginLeft = `${ml}px`;
         }
-
     }
 
     close_doc() {

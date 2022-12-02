@@ -1,13 +1,13 @@
-import { IDialogController } from 'aurelia';
+import { ICustomElementViewModel, IDialogController } from 'aurelia';
 
-export class Chat {
+export class Chat implements ICustomElementViewModel {
     chatroom_id;
 
     constructor(@IDialogController readonly controller: IDialogController) {
 
     }
 
-    loading(model) {
+    activate(model) {
         this.chatroom_id = model.chatroom_id;
     }
 

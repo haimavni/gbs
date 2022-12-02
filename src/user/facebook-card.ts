@@ -1,4 +1,4 @@
-import { IDialogController } from "aurelia";
+import { ICustomElementViewModel, IDialogController } from "aurelia";
 import { I18N } from "@aurelia/i18n";
 import { IMemberGateway } from "../services/gateway";
 import { IUser } from "../services/user";
@@ -6,7 +6,7 @@ import { ITheme } from "../services/theme";
 import { copy_to_clipboard } from "../services/dom_utils";
 import { IPopup } from "../services/popups";
 
-export class FacebookCard {
+export class FacebookCard implements ICustomElementViewModel {
     message_type;
     title;
     current_url;
@@ -24,7 +24,7 @@ export class FacebookCard {
         @I18N readonly i18n: I18N
     ) {}
 
-    loading(model) {
+    activate(model) {
         this.current_url = model.current_url;
         this.img_src = model.img_src;
         this.title = this.i18n.tr("app-title");

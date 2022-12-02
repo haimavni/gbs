@@ -1,24 +1,21 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { IMemberGateway } from '../services/gateway';
 import { IUser } from "../services/user";
 import { ITheme } from "../services/theme";
 import { MemberPicker } from "../members/member-picker";
 import { ArticlePicker } from "../articles/article-picker";
-import environment from "../environment";
 import { copy_to_clipboard } from "../services/dom_utils";
 import { FaceInfo } from './face-info';
 import { QrPhoto } from './qr-photo';
 import * as toastr from 'toastr';
 import { IPopup } from '../services/popups';
-import { DI, IEventAggregator } from 'aurelia';import { IRouter } from '@aurelia/router';
+import { ICustomElementViewModel, IEventAggregator } from 'aurelia';import { IRouter } from '@aurelia/router';
 import { IDialogController, IDialogService } from '@aurelia/runtime-html';
 import { I18N } from '@aurelia/i18n';
 
 let THIS;
 
-export const IFullSizePhoto = DI.createInterface<IFullSizePhoto>('IFullSizePhoto', x => x.singleton(FullSizePhoto));
-export type IFullSizePhoto = FullSizePhoto;
-
-export class FullSizePhoto {
+export class FullSizePhoto implements ICustomElementViewModel {
     baseURL;
     faces = [];
     articles = [];
@@ -104,13 +101,15 @@ export class FullSizePhoto {
         this.flip_text = this.i18n.tr('photos.flip');
         this.mark_people_text = this.i18n.tr('photos.mark-people');
         this.mark_articles_text = this.i18n.tr('photos.mark-articles');
+
         THIS = this;
+        
         this.keypress_handler = function (event) {
             THIS.navigate(event);
         };
     }
 
-    loading(model) {
+    activate(model) {
         this.model = model;
         model.final_rotation = 0;
         this.slide = model.slide;
@@ -122,17 +121,17 @@ export class FullSizePhoto {
         this.hide_details_icon = this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;
     }
 
-    deloading() {
+    deactivate() {
         this.theme.hide_title = false;
         document.removeEventListener('keyup', this.keypress_handler);
     }
 
     navigate(event) {
-        let el = document.getElementById('photo-image');
+        const el = document.getElementById('photo-image');
         if (el)
             el.style.transform = null;
         event.stopPropagation();
-        let key = event.key
+        const key = event.key
         if (key == 'ArrowRight') {
             this.next_slide(event);
         } else if (key == 'ArrowLeft') {
@@ -141,7 +140,7 @@ export class FullSizePhoto {
     }
 
     attached() {
-        let idx = this.slide_idx();
+        const idx = this.slide_idx();
         this.can_go_forward = idx + 1 < this.slide_list.length;
         this.can_go_backward = idx > 0;
         let pid = this.slide[this.slide.side].photo_id;
@@ -157,17 +156,13 @@ export class FullSizePhoto {
             this.toggle_highlighting(null);
     }
 
-    detached() {
-
-    }
-
     get_faces(photo_id) {
         this.faces = [];
         this.faces_already_identified = new Set();
         this.api.call_server('photos/get_faces', { photo_id: photo_id })
             .then((data) => {
                 this.faces = data.faces;
-                for (let face of this.faces) {
+                for (const face of this.faces) {
                     face.name = '<span dir="rtl">' + face.name + '</span>';
                     this.faces_already_identified.add(face.member_id);
                 }
@@ -180,7 +175,7 @@ export class FullSizePhoto {
         this.api.call_server('photos/get_articles', { photo_id: photo_id })
             .then((data) => {
                 this.articles = data.articles;
-                for (let article of this.articles) {
+                for (const article of this.articles) {
                     article.name = '<span dir="rtl">' + article.name + '</span>';
                     this.articles_already_identified.add(article.article_id);
                 }
@@ -205,7 +200,7 @@ export class FullSizePhoto {
     save_photo_info(event) {
         event.stopPropagation();
         if (this.photo_date_valid != 'valid') return;
-        let pi = event.detail;
+        const pi = event.detail;
         this.photo_info.photo_date_str = pi.date_str;
         this.photo_info.photo_date_datespan = pi.date_span;
         this.api.call_server_post('photos/save_photo_info', {
@@ -225,7 +220,7 @@ export class FullSizePhoto {
     }
 
     face_location(face) {
-        let d = face.r * 2;
+        const d = face.r * 2;
         return {
             left: (face.x - face.r) + 'px',
             top: (face.y - face.r) + 'px',
@@ -239,11 +234,11 @@ export class FullSizePhoto {
 
     copy_photo_url(event) {
         event.stopPropagation();
-        let src = this.slide[this.slide.side].src;
-        let photo_id = this.slide[this.slide.side].photo_id;
+        const src = this.slide[this.slide.side].src;
+        const photo_id = this.slide[this.slide.side].photo_id;
         copy_to_clipboard(src);
         this.user.set_photo_link(src, photo_id);
-        let msg = this.i18n.tr('user.sharing.photo-link-copied');
+        const msg = this.i18n.tr('user.sharing.photo-link-copied');
         toastr.success(msg)
         return false;
     }
@@ -289,7 +284,7 @@ export class FullSizePhoto {
 
     assign_article(article) {
         this.dialogService.open({
-            viewModel: ArticlePicker,
+            component: ArticlePicker,
             model: {
                 face_identifier: true,
                 article_id: article.article_id,
@@ -307,15 +302,15 @@ export class FullSizePhoto {
                     //this.remove_face(article); !!! no!
                     return;
                 }
-                let old_article_id = article.article_id;
-                let mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
+                const old_article_id = article.article_id;
+                const mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
                 if (mi) {
                     article.name = article.article_id ? mi.name : mi.first_name + ' ' + mi.last_name;
                     article.article_id = response.output.new_article.article_info.id;
                     return;
                 }
                 article.article_id = response.output.article_id;
-                let make_profile_photo = response.output.make_profile_photo;
+                const make_profile_photo = response.output.make_profile_photo;
                 this.api.call_server_post('photos/save_article', {
                     face: article,
                     make_profile_photo: make_profile_photo,
@@ -353,22 +348,22 @@ export class FullSizePhoto {
                     //this.remove_face(face); !!! no!
                     return;
                 }
-                let old_member_id = face.member_id;
-                let mi = (response.output && response.output.new_member) ? response.output.new_member.member_info : null;
+                const old_member_id = face.member_id;
+                const mi = (response.output && response.output.new_member) ? response.output.new_member.member_info : null;
                 if (mi) {
                     face.name = mi.first_name + ' ' + mi.last_name;
                     face.member_id = response.output.new_member.member_info.id;
                     return;
                 }
                 face.member_id = response.output.member_id;
-                let make_profile_photo = response.output.make_profile_photo;
+                const make_profile_photo = response.output.make_profile_photo;
                 this.api.call_server_post('photos/save_face', {
                     face: face,
                     make_profile_photo: make_profile_photo,
                     old_member_id: old_member_id
                 })
                     .then(response => {
-                        let idx = this.candidates.findIndex(m => m.member_id == face.member_id);
+                        const idx = this.candidates.findIndex(m => m.member_id == face.member_id);
                         this.candidates.splice(idx, 1);
                         this.faces_already_identified.add(face.member_id)
                         face.name = response.member_name;
@@ -394,12 +389,12 @@ export class FullSizePhoto {
     }
 
     hide_face(face) {
-        let i = this.faces.indexOf(face);
+        const i = this.faces.indexOf(face);
         this.faces.splice(i, 1);
     }
 
     hide_article(article) {
-        let i = this.articles.indexOf(article);
+        const i = this.articles.indexOf(article);
         this.articles.splice(i, 1);
     }
 
@@ -438,7 +433,7 @@ export class FullSizePhoto {
 
     mark_face(event) {
         if (this.fullscreen_mode) {
-            let width = this.theme.width;
+            const width = this.theme.width;
             if (event.offsetX < width / 4) {
                 this.prev_slide(event)
             } else if (event.offsetX > width * 3 / 4) {
@@ -462,7 +457,7 @@ export class FullSizePhoto {
         if (!photo_id) {
             photo_id = this.slide.photo_id; //todo: ugly
         }
-        let face = {
+        const face = {
             photo_id: photo_id,
             x: event.offsetX, y: event.offsetY, r: 30,
             name: this.i18n.tr("photos.unknown"),
@@ -484,13 +479,13 @@ export class FullSizePhoto {
             return true;
         }
         customEvent.stopPropagation();
-        let face_id = (what == 'face-') ? what + face.member_id : what + face.article_id
-        let el = document.getElementById(face_id);
-        let rect = el.getBoundingClientRect();
-        let face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
-        let event = customEvent.detail;
-        let x = event.pageX - face_center.x;
-        let y = event.pageY - face_center.y;
+        const face_id = (what == 'face-') ? what + face.member_id : what + face.article_id
+        const el = document.getElementById(face_id);
+        const rect = el.getBoundingClientRect();
+        const face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
+        const event = customEvent.detail;
+        const x = event.pageX - face_center.x;
+        const y = event.pageY - face_center.y;
         let r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
         r = this.distance(event, face_id)
         face.action = (r < face.r - 10) ? "moving" : "resizing";
@@ -499,11 +494,11 @@ export class FullSizePhoto {
     }
 
     distance(event, face_id) {
-        let el = document.getElementById(face_id);
-        let rect = el.getBoundingClientRect();
-        let face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
-        let x = event.pageX - face_center.x;
-        let y = event.pageY - face_center.y;
+        const el = document.getElementById(face_id);
+        const rect = el.getBoundingClientRect();
+        const face_center = { x: rect.left + rect.width / 2, y: rect.top + rect.width / 2 };
+        const x = event.pageX - face_center.x;
+        const y = event.pageY - face_center.y;
         return Math.round(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)))
     }
 
@@ -512,19 +507,19 @@ export class FullSizePhoto {
             return;
         }
         customEvent.stopPropagation();
-        let event = customEvent.detail;
-        let id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
-        let el = document.getElementById(id);
-        let current_face = this.current_face;
+        const event = customEvent.detail;
+        const id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
+        const el = document.getElementById(id);
+        const current_face = this.current_face;
         if (face.action === "moving") {
             current_face.x += event.dx;
             current_face.y += event.dy;
         } else {
-            let dist = this.distance(event, id);
+            const dist = this.distance(event, id);
             current_face.r += dist - current_face.dist;
             current_face.dist = dist;
         }
-        let face_location = this.face_location(current_face);
+        const face_location = this.face_location(current_face);
         el.style.left = face_location.left;
         el.style.top = face_location.top;
         el.style.width = face_location.width;
@@ -543,14 +538,14 @@ export class FullSizePhoto {
             return;
         }
         customEvent.stopPropagation();
-        let event = customEvent.detail;
+        const event = customEvent.detail;
         if (face.action === "moving") {
             face.x += event.dx;
             face.y += event.dy;
         } else {
-            let id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
-            let el = document.getElementById(id);
-            let dist = this.distance(event, id)
+            const id = face.article_id ? 'article-' + face.article_id : 'face-' + face.member_id;
+            const el = document.getElementById(id);
+            const dist = this.distance(event, id)
             face.r += dist - face.dist;
             if (face.r < 18) {
                 this.remove_face(face);
@@ -567,10 +562,10 @@ export class FullSizePhoto {
 
     public drag_move_photo(customEvent: CustomEvent) {
         if (!this.theme.is_desktop) {
-            let event = customEvent.detail;
-            let el = document.getElementById("full-size-photo");
-            let mls = el.style.marginLeft.replace('px', '');
-            let ml = Math.min(0, parseInt(mls) + event.dx);
+            const event = customEvent.detail;
+            const el = document.getElementById("full-size-photo");
+            const mls = el.style.marginLeft.replace('px', '');
+            const ml = Math.min(0, parseInt(mls) + event.dx);
             el.style.marginLeft = `${ml}px`;
         }
     }
@@ -598,8 +593,8 @@ export class FullSizePhoto {
     public save_photo_crop(event) {
         //call server to crop and refresh
         event.stopPropagation();
-        let photo_data = this.slide[this.slide.side];
-        let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
+        const photo_data = this.slide[this.slide.side];
+        const photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
         this.api.call_server_post('photos/crop_photo', {
             photo_id: photo_id,
             crop_left: this.crop_left,
@@ -611,7 +606,7 @@ export class FullSizePhoto {
                 photo_data.src = data.photo_src;   //to ensure refresh
                 photo_data.width = this.crop_width;
                 photo_data.height = this.crop_height;
-                for (let face of this.faces) {
+                for (const face of this.faces) {
                     if (!face.x) continue;
                     face.x -= this.crop_left;
                     face.y -= this.crop_top;
@@ -627,18 +622,18 @@ export class FullSizePhoto {
     }
 
     public do_crop(customEvent: CustomEvent) {
-        let event = customEvent.detail;
-        let height = this.slide[this.slide.side].height;
-        let width = this.slide[this.slide.side].width;
+        const event = customEvent.detail;
+        const height = this.slide[this.slide.side].height;
+        const width = this.slide[this.slide.side].width;
         if (this.crop_sides == 'nw' || this.crop_sides == 'sw') {
-            let crop_left = Math.max(this.crop_left + event.dx, 0)
-            let dx = crop_left - this.crop_left;
+            const crop_left = Math.max(this.crop_left + event.dx, 0)
+            const dx = crop_left - this.crop_left;
             this.crop_width -= dx;
             this.crop_left = crop_left;
         }
         if (this.crop_sides == 'nw' || this.crop_sides == 'ne') {
-            let crop_top = Math.max(this.crop_top + event.dy, 0)
-            let dy = crop_top - this.crop_top;
+            const crop_top = Math.max(this.crop_top + event.dy, 0)
+            const dy = crop_top - this.crop_top;
             this.crop_height -= dy;
             this.crop_top = crop_top;
         }
@@ -654,23 +649,23 @@ export class FullSizePhoto {
 
     public start_crop(customEvent: CustomEvent) {
         customEvent.stopPropagation();
-        let event = customEvent.detail;
-        let el: HTMLElement = document.getElementById('cropper');
-        let rect = el.getBoundingClientRect();
-        let we = event.pageX - rect.left < rect.width / 2 ? 'w' : 'e';
-        let ns = event.pageY - rect.top < rect.height / 2 ? 'n' : 's';
+        const event = customEvent.detail;
+        const el: HTMLElement = document.getElementById('cropper');
+        const rect = el.getBoundingClientRect();
+        const we = event.pageX - rect.left < rect.width / 2 ? 'w' : 'e';
+        const ns = event.pageY - rect.top < rect.height / 2 ? 'n' : 's';
         this.crop_sides = ns + we;
     }
 
     rotate_photo(event) {
         event.stopPropagation();
-        let rotate_clockwise: boolean = event.ctrlKey;
-        let photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
+        const rotate_clockwise: boolean = event.ctrlKey;
+        const photo_id = this.slide[this.slide.side].photo_id || this.slide.photo_id; //temporary bug hider
         this.api.call_server('photos/rotate_selected_photos', { selected_photo_list: [photo_id], rotate_clockwise: rotate_clockwise })
             .then(result => {
-                let angle = rotate_clockwise ? 270 : 90;
+                const angle = rotate_clockwise ? 270 : 90;
                 this.model.final_rotation += angle;
-                let el = document.getElementById('photo-image');
+                const el = document.getElementById('photo-image');
                 el.style.transform = `rotate(-${this.model.final_rotation}deg)`;
             })
         return false;
@@ -680,12 +675,12 @@ export class FullSizePhoto {
         event.stopPropagation();
         let card_url;
         let img_src = this.slide[this.slide.side].src;
-        let photo_id = this.slide[this.slide.side].photo_id;
+        const photo_id = this.slide[this.slide.side].photo_id;
         await this.api.call_server_post('photos/get_padded_photo_url', { photo_url: img_src, photo_id: photo_id }) //photo_url is deprecated
             .then(response => img_src = response.padded_photo_url);
-        let title = this.i18n.tr('app-title');
-        let description = this.photo_info.name;
-        let url = `${location.pathname}${location.hash}`;
+        const title = this.i18n.tr('app-title');
+        const description = this.photo_info.name;
+        const url = `${location.pathname}${location.hash}`;
         let current_url;
         await this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
@@ -701,9 +696,9 @@ export class FullSizePhoto {
                 card_url = response.card_url;
                 copy_to_clipboard(card_url);
             });
-        let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
-        let width = this.theme.width;
-        let left = width - 526 - 200;
+        const href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
+        const width = this.theme.width;
+        const left = width - 526 - 200;
         this.popup.popup('SHARER', href, `height=600,width=526,left=${left},top=100`);
     }
 
@@ -715,13 +710,13 @@ export class FullSizePhoto {
 
     nobody(event) {
         event.stopPropagation();
-        let unrecognize = event.ctrlKey;
+        const unrecognize = event.ctrlKey;
         this.api.call_server('photos/mark_as_recogized', { photo_id: this.slide[this.slide.side].photo_id, unrecognize: unrecognize });
     }
 
     async create_qr_photo(event) {
-        let photo_id = this.slide[this.slide.side].photo_id;
-        let url = `${location.pathname}${location.hash}`;
+        const photo_id = this.slide[this.slide.side].photo_id;
+        const url = `${location.pathname}${location.hash}`;
         let current_url;
         await this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
@@ -732,7 +727,7 @@ export class FullSizePhoto {
                 current_url = base_url + response.shortcut;
             });
         this.dialogService.open({
-            viewModel: QrPhoto,
+            component: QrPhoto,
             model: {
                 photo_id: photo_id,
                 shortcut: current_url
@@ -743,14 +738,14 @@ export class FullSizePhoto {
 
     slide_idx() {
         if (this.list_of_ids) {
-            let photo_id = this.slide[this.slide.side].photo_id;
+            const photo_id = this.slide[this.slide.side].photo_id;
             return this.slide_list.findIndex(pid => pid == photo_id);
         }
         return this.slide_list.findIndex(slide => slide.photo_id == this.slide.photo_id);
     }
 
     public has_next(step) {
-        let idx = this.slide_idx();
+        const idx = this.slide_idx();
         return 0 <= (idx + step) && (idx + step) < this.slide_list.length;
     }
 
@@ -759,18 +754,18 @@ export class FullSizePhoto {
             return this.get_slide_by_idx_list_ids(idx);
         }
         this.slide = this.slide_list[idx];
-        let pid = this.slide.photo_id;
+        const pid = this.slide.photo_id;
         this.get_faces(pid);
         this.get_articles(pid);
         this.get_photo_info(pid);
     }
 
     get_slide_by_idx_list_ids(idx) {
-        let pid = this.slide_list[idx];
+        const pid = this.slide_list[idx];
         this.curr_photo_id = pid;
         this.api.call_server('photos/get_photo_detail', { photo_id: pid })
             .then(response => {
-                let p = this.slide[this.slide.side];
+                const p = this.slide[this.slide.side];
                 p.src = response.photo_src;
                 p.photo_id = pid;
                 p.width = response.width;
@@ -781,7 +776,7 @@ export class FullSizePhoto {
 
     public next_slide(event) {
         event.stopPropagation();
-        let idx = this.slide_idx();
+        const idx = this.slide_idx();
         if (idx + 1 < this.slide_list.length) {
             this.get_slide_by_idx(idx + 1);
             this.can_go_forward = idx + 2 < this.slide_list.length;
@@ -796,7 +791,7 @@ export class FullSizePhoto {
 
     public prev_slide(event) {
         event.stopPropagation();
-        let idx = this.slide_idx();
+        const idx = this.slide_idx();
         if (idx > 0) {
             this.get_slide_by_idx(idx - 1)
             this.can_go_forward = true;
@@ -817,13 +812,13 @@ export class FullSizePhoto {
         if (!this.highlighting) {
             this.toggle_highlighting(event);
         }
-        let el = document.getElementById('full-size-photo');
-        let rect = el.getBoundingClientRect(); // as DOMRect;
+        const el = document.getElementById('full-size-photo');
+        const rect = el.getBoundingClientRect(); // as DOMRect;
         this.no_new_faces = true;
         this.current_face = face;
         document.body.classList.add('semi-black-overlay');
         this.dialogService.open({
-            viewModel: FaceInfo,
+            component: FaceInfo,
             host: el,
             model: {
                 face: face,
@@ -835,7 +830,7 @@ export class FullSizePhoto {
             document.body.classList.remove('semi-black-overlay');
             this.no_new_faces = false;
             if (!response.wasCancelled) {
-                let command = response.output.command;
+                const command = response.output.command;
                 if (command == 'cancel-identification') {
                     this.marking_face_active = false;
                     this.remove_face(face)
@@ -865,15 +860,14 @@ export class FullSizePhoto {
             this.api.call_server_post('photos/save_face', { face: face });
         }
 
-    @computedFrom("current_face.x", "current_face.y", "current_face.r")
     get face_moved() {
         if (!this.user.editing) return;
-        let current_face = this.current_face;
+        const current_face = this.current_face;
         if (!current_face) return;
-        let id = current_face.article_id ? 'article-' + current_face.article_id : 'face-' + current_face.member_id;
-        let el = document.getElementById(id);
+        const id = current_face.article_id ? 'article-' + current_face.article_id : 'face-' + current_face.member_id;
+        const el = document.getElementById(id);
         if (!el) return;
-        let face_location = this.face_location(current_face);
+        const face_location = this.face_location(current_face);
         el.style.left = face_location.left;
         el.style.top = face_location.top;
         el.style.width = face_location.width;
@@ -884,7 +878,7 @@ export class FullSizePhoto {
     async makeFullScreen() {
         this.curr_photo_id = this.slide.photo_id;
         this.fullscreen_mode = false;
-        let el = document.getElementById("photo-image");
+        const el = document.getElementById("photo-image");
         if (el.requestFullscreen) {
             el.requestFullscreen();
         } else {
@@ -907,17 +901,16 @@ export class FullSizePhoto {
         this.dialogController.ok();
     }
 
-    @computedFrom('theme.width')
     get force_calc_percents() {
         this.calc_percents();
         return "";
     }
 
     calc_percents() {
-        let ph = this.slide[this.slide.side].height;
-        let pw = this.slide[this.slide.side].width;
-        let sh = this.theme.height;
-        let sw = this.theme.width;
+        const ph = this.slide[this.slide.side].height;
+        const pw = this.slide[this.slide.side].width;
+        const sh = this.theme.height;
+        const sw = this.theme.width;
         let w;
         let h;
         if (ph * sw > pw * sh) {
@@ -935,7 +928,6 @@ export class FullSizePhoto {
         this.fullscreen_top_margin = Math.round((sh - h) / 2);
     }
 
-    @computedFrom('photo_date_valid')
     get incomplete() {
         if (this.photo_date_valid != 'valid')
             return "disabled"

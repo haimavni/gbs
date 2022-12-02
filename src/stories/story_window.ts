@@ -1,6 +1,6 @@
+import { ICustomElementViewModel } from 'aurelia';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { DI, IDialogController } from "aurelia";
-import { watch } from "@aurelia/runtime-html";
 import { IMemberGateway } from "../services/gateway";
 import { IUser } from "../services/user";
 import { ITheme } from "../services/theme";
@@ -10,7 +10,7 @@ let THIS_EDITOR;
 export const IStoryWindow = DI.createInterface<IStoryWindow>('IStoryWindow', x => x.singleton(StoryWindow));
 export type IStoryWindow = StoryWindow;
 
-export class StoryWindow {
+export class StoryWindow implements ICustomElementViewModel {
     story;
     story_orig;
     edit;
@@ -84,7 +84,7 @@ export class StoryWindow {
         THIS_EDITOR = this;
     }
 
-    loading(model) {
+    activate(model) {
         this.story = model.story;
         this.dont_save = model.dont_save;
         this.raw = model.raw;

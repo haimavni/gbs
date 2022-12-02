@@ -1,3 +1,4 @@
+import { ICustomElementViewModel } from 'aurelia';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { IMemberGateway } from "./gateway";
 import { IUser } from "./user";
@@ -6,7 +7,7 @@ import { IMisc } from "./misc";
 
 let This_Uploader;
 
-export class Uploader {
+export class Uploader implements ICustomElementViewModel {
     files: FileList;
     endpoint;
     what = "";
@@ -40,7 +41,7 @@ export class Uploader {
         This_Uploader = this;
     }
 
-    loading(model) {
+    activate(model) {
         this.endpoint = model.endpoint;
         this.header_str = model.header_str || "Upload files";
         this.file_types = model.file_types || "image/*";

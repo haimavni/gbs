@@ -1,8 +1,7 @@
-import { IRouteableComponent } from '@aurelia/router';
-import { IDialogController } from "aurelia";
+import { ICustomElementViewModel, IDialogController } from "aurelia";
 import { ITheme } from "../services/theme";
 
-export class ConfigMemberStories implements IRouteableComponent {
+export class ConfigMemberStories implements ICustomElementViewModel {
     member_stories = { lst: [], changed: 0 };
     all_member_stories = [];
     filter = "";
@@ -19,7 +18,7 @@ export class ConfigMemberStories implements IRouteableComponent {
         @ITheme readonly theme: ITheme
     ) {}
 
-    loading(model) {
+    activate(model) {
         this.member_stories = model.member_stories;
         this.all_member_stories = model.all_member_stories;
         this.story_types = this.get_story_types();

@@ -1,20 +1,15 @@
-import { autoinject } from 'aurelia-framework';
-import { Theme } from '../services/theme';
-import {DialogController} from 'aurelia-dialog';
+import { ICustomElementViewModel, IDialogController } from 'aurelia';
+import { ITheme } from '../services/theme';
 
-@autoinject()
-export class PhotoPicker {
-    theme: Theme;
+export class PhotoPicker implements ICustomElementViewModel {
     associated_photos = [];
-    dc: DialogController;
     params: {};
 
-    constructor(theme: Theme, dc: DialogController) {
-        this.theme = theme;
-        this.dc = dc;
+    constructor(@ITheme readonly theme: ITheme, @IDialogController readonly dc: IDialogController) {
+
     }
 
-    loading(model) {
+    activate(model) {
         this.associated_photos = model.associated_photos;
         console.log("photo picker assoc: ", this.associated_photos);
         this.params = {associated_photos: this.associated_photos};
@@ -23,7 +18,7 @@ export class PhotoPicker {
         document.body.classList.add('dialog-body');
     }
 
-    deloading() {
+    deactivate() {
         this.theme.hide_title = false;
         this.theme.hide_menu = false;
         document.body.classList.remove('dialog-body');

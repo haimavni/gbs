@@ -1,14 +1,14 @@
 import { IDialogService } from "@aurelia/runtime-html";
-import { IRouter, IRouteableComponent } from "@aurelia/router";
+import { IRouter } from "@aurelia/router";
 import { I18N } from "@aurelia/i18n";
 import { IMemberGateway } from "../services/gateway";
 import { IUser } from "../services/user";
 import { IMisc } from "../services/misc";
 import { MemberPicker } from "./member-picker";
 import { IMemberList } from "../services/member_list";
-import { IEventAggregator } from "aurelia";
+import { ICustomElementViewModel, IEventAggregator } from "aurelia";
 
-export class MemberEdit implements IRouteableComponent {
+export class MemberEdit implements ICustomElementViewModel {
     member;
     members;
     member_info_orig;
@@ -44,7 +44,7 @@ export class MemberEdit implements IRouteableComponent {
         });
     }
 
-    loading(model) {
+    activate(model) {
         this.member = model.member;
         const m = this.member.member_info;
         this.member_info_orig = this.misc.deepClone(m);

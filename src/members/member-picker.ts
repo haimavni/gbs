@@ -1,12 +1,12 @@
 import { IDialogController } from "@aurelia/runtime-html";
-import { IEventAggregator } from "aurelia";
+import { ICustomElementViewModel, IEventAggregator } from "aurelia";
 import { IUser } from "../services/user";
 import { IMemberList } from "../services/member_list";
-import { IRouter, IRouteableComponent } from "@aurelia/router";
+import { IRouter } from "@aurelia/router";
 import { IMemberGateway } from "../services/gateway";
 import { I18N } from "@aurelia/i18n";
 
-export class MemberPicker implements IRouteableComponent {
+export class MemberPicker implements ICustomElementViewModel {
     filter = "";
     gender = "";
     face_identifier = false;
@@ -63,7 +63,7 @@ export class MemberPicker implements IRouteableComponent {
         });
     }
 
-    async loading(model) {
+    async activate(model) {
         this.candidates = model.candidates ? model.candidates : [];
         this.child_id = model.child_id;
         this.gender = model.gender;
@@ -94,13 +94,13 @@ export class MemberPicker implements IRouteableComponent {
             );
         }
         if (model.member_id > 0) {
-            this.memberList.get_member_by_id(model.member_id).then((result) => {
+            this.memberList.get_member_by_id(model.member_id).then((result: any) => {
                 this.filter = result.first_name + " " + result.last_name;
             });
         }
         const ex_list = Array.from(this.excluded);
         for (const member_id of ex_list) {
-            this.memberList.get_member_by_id(member_id).then((member) => {
+            this.memberList.get_member_by_id(member_id).then((member: any) => {
                 const name = member.first_name + " " + member.last_name;
                 this.excluded_names.add(name);
             });
