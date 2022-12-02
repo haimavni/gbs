@@ -92,7 +92,7 @@ export class FullSizePhoto {
         api: MemberGateway,
         user: User,
         theme: Theme,
-        misc: Misc;
+        misc: Misc,
         router: Router,
         eventAggregator: EventAggregator,
         i18n: I18N,

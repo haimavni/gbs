@@ -16,8 +16,7 @@ export class PhotoPicker {
 
     activate(model) {
         this.associated_photos = model.associated_photos;
-        console.log("photo picker assoc: ", this.associated_photos);
-        this.params = {associated_photos: this.associated_photos};
+        this.params = {associated_photos: this.associated_photos, show_recent_photo_ids: true};
         this.theme.hide_title = true;
         this.theme.hide_menu = true;
         document.body.classList.add('dialog-body');

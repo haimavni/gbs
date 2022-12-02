@@ -204,7 +204,7 @@ export class Photos {
         } else {
             this.params.photo_ids = [];
         }
-        if (this.caller_type) {
+        if (params.show_recent_photo_ids) {
             this.params.recent_photo_ids = this.misc.get_recent_photo_ids();
         }
         let arr = [];
