@@ -278,7 +278,7 @@ export class DocDetail {
         let member_ids = this.members.map(member => member.id)
         this.dialog.open({
             viewModel: MemberPicker,
-            model: { multi: true, back_to_text: 'members.back-to-video', preselected: member_ids },
+            model: { multi: true, back_to_text: 'members.back-to-doc', preselected: member_ids },
             lock: false,
             rejectOnCancel: false
         }).whenClosed(response => {

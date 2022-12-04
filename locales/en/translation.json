@@ -542,7 +542,8 @@
         "by-name": "Sort by name",
         "new-to-old": "New documents first",
         "old-to-new": "Old documents first",
-        "recently-uploaded": "Recently uploaded"
+        "recently-uploaded": "Recently uploaded",
+        "back-to-doc": "Back to the document"
     },
     "terms": {
         "terms": "Terms",
