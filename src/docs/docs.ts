@@ -174,7 +174,7 @@ export class Docs {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
-        //this.scroll_top = this.scroll_area.scrollTop;
+        //this.scroll_top = this.scroll_area.scrollTop; //No - scrollTop is zero here!
     }
 
     upload_files() {
@@ -217,8 +217,8 @@ export class Docs {
                         console.log("doc has no story: ", doc);
                     }
                 }
-                //this.scroll_top = 0;
-                //this.handle_order_change(null);
+                this.scroll_top = 0;
+                this.handle_order_change(null);
             });
     }
 
@@ -243,6 +243,7 @@ export class Docs {
     }
 
     handle_words_change(event) {
+        this.scroll_top = this.scroll_area.scrollTop;
         let result = null;
         if (!event.detail) {
             return;
@@ -494,13 +495,13 @@ export class Docs {
     }
 
     view_details(doc, event) {
-        let doc_ids = this.doc_list.map(doc => doc.id);
         this.scroll_top = this.scroll_area.scrollTop;
+        let doc_ids = this.doc_list.map(doc => doc.id);
         this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs' });
     }
 
     handle_order_change(event) {
-        // this.params.start_name = "";
+        // this.params.start_name = ""; if order is done in server...
         // this.start_name_history = [];
         // this.update_doc_list();
         switch(this.params.order_option.value) {
@@ -508,7 +509,7 @@ export class Docs {
                 this.doc_list.sort((doc1, doc2) => doc1.name < doc2.name ? -1 : doc1.name > doc2.name ? +1 : 0);
                 break
             case 'new-to-old':
-                this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? -1 : doc1.doc_date > doc2.doc_date ? +1 : 0);
+                this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? -1 : doc1.doc_date > doc2.doc_date ? -1 : 0);
                 break;
             case 'old-to-new':
                 this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? +1 : doc1.doc_date > doc2.doc_date ? -1 : 0);
@@ -519,7 +520,8 @@ export class Docs {
             default:
                 break;
         }
-        this.scroll_area.scrollTop = 0;
+        if (event)  //order was really changed
+            this.scroll_area.scrollTop = 0;
     }
 
 }

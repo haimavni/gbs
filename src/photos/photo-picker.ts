@@ -29,7 +29,6 @@ export class PhotoPicker {
     }
 
     go_back() {
-        console.log("going  back. params: ", this.params);
         this.dc.ok(this.params);
     }
 
