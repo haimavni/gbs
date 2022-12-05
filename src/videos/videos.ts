@@ -84,7 +84,9 @@ export class Videos {
         videos_date_span_size: 3,
         selected_video_list: [],
         user_id: null,
+        order_option: { value: "" }
     };
+    order_options = [];
     options_settings = new MultiSelectSettings({
         clear_filter_after_select: false,
         can_group: true
@@ -116,6 +118,12 @@ export class Videos {
         this.ea = ea;
         this.router = router;
         this.misc = misc;
+        this.order_options = [
+            { name: i18n.tr('videos.recently-uploaded'), value: 'recently-uploaded'},
+            { name: i18n.tr('videos.by-name'), value: 'by-name' },
+            { name: i18n.tr('videos.new-to-old'), value: 'new-to-old' },
+            { name: i18n.tr('videos.old-to-new'), value: 'old-to-new' }
+        ];
     }
 
     video_data(video_rec) {
@@ -174,7 +182,10 @@ export class Videos {
         }
         this.params.editing = this.user.editing;
         this.api.call_server_post('videos/get_video_list', this.params)
-            .then(response => this.set_video_list(response.video_list));
+            .then(response => {
+                this.set_video_list(response.video_list);
+                this.handle_order_change(null);
+            });
     }
 
     async attached() {
@@ -540,4 +551,27 @@ export class Videos {
             });
     }
 
+    handle_order_change(event) {
+        // this.params.start_name = ""; if order is done in server...
+        // this.start_name_history = [];
+        // this.update_doc_list();
+        switch(this.params.order_option.value) {
+            case 'by-name': 
+                this.video_list.sort((vid1, vid2) => vid1.name < vid2.name ? -1 : vid1.name > vid2.name ? +1 : 0);
+                break
+            case 'old-to-new':
+                this.video_list.sort((vid1, vid2) => vid1.video_date_datestr < vid2.video_date_datestr ? -1 : vid1.video_date_datestr > vid2.video_date_datestr ? -1 : 0);
+                break;
+            case 'new-to-old':
+                this.video_list.sort((vid1, vid2) => vid1.video_date_datestr < vid2.video_date_datestr ? +1 : vid1.video_date_datestr > vid2.video_date_datestr ? -1 : 0);
+                break;
+            case 'recently-uploaded':
+                this.video_list.sort((vid1, vid2) => vid1.id < vid2.id ? +1 : vid1.id > vid2.id ? -1 : 0);
+                break;
+            default:
+                break;
+        }
+        if (event)  //order was really changed
+            this.scroll_area.scrollTop = 0;
+    }
 }

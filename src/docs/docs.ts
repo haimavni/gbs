@@ -52,7 +52,6 @@ export class Docs {
         order_option: { value: "" },
         start_name: ""
     };
-    order_option = "";
     order_options;
     start_name_history = [];
     prev_keywords;
@@ -131,7 +130,6 @@ export class Docs {
         this.params.keywords_str = params.keywords;
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
-        //this.params.order_option = {value: 'by-name'};
         this.update_doc_list();
     }
 
@@ -508,10 +506,10 @@ export class Docs {
             case 'by-name': 
                 this.doc_list.sort((doc1, doc2) => doc1.name < doc2.name ? -1 : doc1.name > doc2.name ? +1 : 0);
                 break
-            case 'new-to-old':
+            case 'old-to-new':
                 this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? -1 : doc1.doc_date > doc2.doc_date ? -1 : 0);
                 break;
-            case 'old-to-new':
+            case 'new-to-old':
                 this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? +1 : doc1.doc_date > doc2.doc_date ? -1 : 0);
                 break;
             case 'recently-uploaded':
