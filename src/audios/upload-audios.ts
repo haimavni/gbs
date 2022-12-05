@@ -50,6 +50,7 @@ export class UploadAudios implements ICustomElementViewModel {
         this.ea.subscribe("FileWasUploaded", (response: any) => {
             this.audios_left = response.files_left;
         });
+
         if (this.audios) {
             this.api.uploadFiles(this.user.id, this.audios, "AUDIOS");
         }
