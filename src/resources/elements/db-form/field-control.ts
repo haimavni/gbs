@@ -13,14 +13,15 @@ export enum data_type {
 }
 
 @inject(User, Theme, DOM.Element, I18N)
-export class FieldControl {
+export class FieldControlCustomElement {
     i18n: I18N;
     user: User;
     theme: Theme;
     @bindable name = '';
-    @bindable type: data_type;
+    @bindable type: data_type = null;
     @bindable description = '';
     @bindable options = [];
+    @bindable val = null;
     element;
     ui_selector = '';
     int_val = 0;
@@ -33,15 +34,17 @@ export class FieldControl {
         this.user = user;
         this.theme = theme;
         this.element = element;
+        console.log("field control constructed")
     }
 
-    get data_type() {
-        let result = this.data_type;
+    get field_type() {
+        let result: string = this.type;
         if (this.options.length > 1) {
             result += '-select'
         }
         return result;
     }
+
     dispatch_event() {
         let data: any;
         switch(this.type) {
@@ -65,5 +68,11 @@ export class FieldControl {
             bubbles: true
         });
         this.element.dispatchEvent(changeEvent);
+    }
+
+    selected(opt) {
+        console.log("selected ", opt);
+        this.bool_val = opt.value;
+        this.dispatch_event();
     }
 }

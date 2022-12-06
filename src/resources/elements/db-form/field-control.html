@@ -1,7 +1,8 @@
 <template>
-    <div style="margin-bottom:5px;" if.bind="ui_kind=='bool-opt">
+    Field control
+    <div style="margin-bottom:5px;" if.bind="field_type=='boolean-select'" title.bind="description">
         <button repeat.for="opt of options" style="margin-left:8px;width:200px;"
-            class="btn btn-${bool_val ? 'primary' : 'default'} customization"
+            class="btn btn-${bool_val==opt.value ? 'primary' : 'default'} customization"
             click.delegate="selected(opt)">
             <span style="font-weight:bolder">${opt.name & t}</span>
         </button>
