@@ -7,7 +7,6 @@ import { I18N } from "@aurelia/i18n";
 import { IRouteableComponent, IRouter } from "@aurelia/router";
 import { set_diff, set_intersection, set_union } from "../services/set_utils";
 import { MultiSelectSettings } from "../resources/elements/multi-select/multi-select";
-import { UploadDocs } from "./upload-docs";
 import { IPopup } from "../services/popups";
 import { DocPage } from "./doc-page";
 import { copy_to_clipboard } from "../services/dom_utils";
@@ -189,7 +188,7 @@ export class Docs implements IRouteableComponent {
         this.theme.hide_title = true;
         this.dialog
             .open({
-                component: Uploader,
+                component: () => Uploader,
                 model: {
                     endpoint: "docs/upload_chunk",
                     select_objects_text: "docs.select-docs",
@@ -386,14 +385,6 @@ export class Docs implements IRouteableComponent {
         this.update_doc_list();
     }
 
-    @computedFrom(
-        "user.editing",
-        "has_grouped_topics",
-        "params.selected_topics",
-        "user.editing",
-        "params.checked_doc_list",
-        "checked_docs"
-    )
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -502,7 +493,6 @@ export class Docs implements IRouteableComponent {
         this.openDialog(doc);
     }
 
-    @computedFrom("user.editing")
     get user_editing() {
         if (this.user.editing_mode_changed) this.update_topic_list();
         return this.user.editing;
@@ -511,7 +501,7 @@ export class Docs implements IRouteableComponent {
     private openDialog(doc) {
         this.dialog
             .open({
-                viewModel: DocPage,
+                component:  () =>  DocPage,
                 model: { doc_src: doc.doc_url },
                 lock: false,
                 keyboard: ["Enter", "Escape"],
@@ -528,11 +518,7 @@ export class Docs implements IRouteableComponent {
     view_details(doc, event) {
         const doc_ids = this.doc_list.map((doc) => doc.id);
         this.scroll_top = this.scroll_area.scrollTop;
-        this.router.navigateToRoute("doc-detail", {
-            id: doc.id,
-            doc_ids: doc_ids,
-            keywords: this.keywords,
-            caller: "docs",
-        });
+        
+        this.router.load(`/doc-detail/${doc.id}/${doc_ids}/${this.keywords}/docs`);
     }
 }

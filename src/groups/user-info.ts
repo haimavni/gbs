@@ -1,26 +1,25 @@
-import { PhotoDetail } from './../photos/photo-detail';
-import { DialogController } from 'aurelia-dialog';
-import { I18N } from '@aurelia/i18n';
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
-import { Misc } from '../services/misc';
-import * as toastr from 'toastr';
-import { Cookies } from '../services/cookies';
-import { MultiSelectSettings } from '../../../src/resources/elements/multi-select/multi-select';
+import { I18N } from "@aurelia/i18n";
+import { IDialogController } from "aurelia";
+import { IMemberGateway } from "../services/gateway";
+import { IUser } from "../services/user";
+import { ITheme } from "../services/theme";
+import { IMisc } from "../services/misc";
+import * as toastr from "toastr";
+import { ICookies } from "../services/cookies";
+import { MultiSelectSettings } from "../resources/elements/multi-select/multi-select";
 
-@autoinject()
 export class UserInfo {
-    controller;
-    api;
-    user;
-    theme;
-    i18n;
-    loginData = { email: '', password: '', first_name: '', last_name: "", confirm_password: "" };
-    login_failed: boolean = false;
-    message: string = "";
-    message_type: string = "";
+    loginData = {
+        email: "",
+        password: "",
+        first_name: "",
+        last_name: "",
+        confirm_password: "",
+    };
+
+    login_failed = false;
+    message = "";
+    message_type = "";
     status_record;
     NOT_REGISTERING = 0;
     REGISTERING = 1;
@@ -28,7 +27,6 @@ export class UserInfo {
     registering = this.NOT_REGISTERING;
     user_id = -1;
     new_user = false;
-    cookies: Cookies;
     consent;
     explain_dates_range;
     topic_list = [];
@@ -40,19 +38,18 @@ export class UserInfo {
     photographers_settings: MultiSelectSettings;
     num_text_rows = 3;
     selected_topics = [];
-    misc;
     login_error_message = "";
     photo_date_valid = "";
 
-    constructor(controller: DialogController, api: MemberGateway, user: User,
-        theme: Theme, cookies: Cookies, i18n: I18N, misc: Misc) {
-        this.controller = controller;
-        this.api = api;
-        this.user = user;
-        this.theme = theme;
-        this.misc = misc;
-        this.i18n = i18n;
-        this.cookies = cookies;
+    constructor(
+        @IDialogController readonly controller: IDialogController,
+        @IMemberGateway readonly api: IMemberGateway,
+        @IUser readonly user: IUser,
+        @ITheme readonly theme: ITheme,
+        @ICookies readonly cookies: ICookies,
+        @I18N readonly i18n: I18N,
+        @IMisc readonly misc: IMisc
+    ) {
         this.consent = this.i18n.tr("groups.consent");
         this.explain_dates_range = this.i18n.tr("groups.explain-dates-range");
         this.options_settings = new MultiSelectSettings({
@@ -62,7 +59,7 @@ export class UserInfo {
             can_add: true,
             can_group: false,
             show_only_if_filter: true,
-            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
+            empty_list_message: this.i18n.tr("photos.no-topics-yet"),
         });
         this.photographers_settings = new MultiSelectSettings({
             clear_filter_after_select: true,
@@ -71,20 +68,21 @@ export class UserInfo {
             can_group: false,
             single: true,
             show_only_if_filter: true,
-            empty_list_message: this.i18n.tr('photos.no-photographers-yet')
+            empty_list_message: this.i18n.tr("photos.no-photographers-yet"),
         });
     }
 
     loading(params) {
         this.status_record = params;
         this.user.editing = true;
-        this.loginData.email = this.cookies.get('USER-EMAIL');
+        this.loginData.email = this.cookies.get("USER-EMAIL");
         this.update_topic_list();
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', { usage: 'P' })
-            .then(result => {
+        this.api
+            .call_server_post("topics/get_topic_list", { usage: "P" })
+            .then((result) => {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
                 this.photographer_list = result.photographer_list;
@@ -95,80 +93,95 @@ export class UserInfo {
 
     attempt_login() {
         this.login_error_message = "";
-        this.api.call_server('groups/attempt_login', { email: this.loginData.email })
-            .then(response => {
+        this.api
+            .call_server("groups/attempt_login", {
+                email: this.loginData.email,
+            })
+            .then((response) => {
                 if (response.warning_message) {
-                    this.login_error_message = 'user.' + response.warning_message;
+                    this.login_error_message =
+                        "user." + response.warning_message;
                     this.new_user = true;
                 } else {
                     this.user_id = response.user_id;
                     this.new_user = this.user_id == 0;
-                    this.cookies.put('USER-EMAIL', this.loginData.email);
+                    this.cookies.put("USER-EMAIL", this.loginData.email);
                 }
-            })
+            });
     }
 
     do_register() {
-        this.api.call_server('groups/register_user', this.loginData)
-            .then(response => {
+        this.api
+            .call_server("groups/register_user", this.loginData)
+            .then((response) => {
                 this.user_id = response.user_id;
                 this.new_user = false;
                 //this.status_record.is_logged_in = true;
-            })
+            });
     }
 
-    @computedFrom('loginData.first_name', 'loginData.last_name', 'loginData.password', 'loginData.confirm_password')
     get missing_fields() {
-        if (this.loginData.first_name && this.loginData.last_name && this.loginData.password && (this.loginData.password == this.loginData.confirm_password))
-            return ''
-        return 'disabled'
+        if (
+            this.loginData.first_name &&
+            this.loginData.last_name &&
+            this.loginData.password &&
+            this.loginData.password == this.loginData.confirm_password
+        )
+            return "";
+        return "disabled";
     }
 
-    @computedFrom('user_id', 'loginData.email', 'new_user')
     get login_phase() {
         if (this.loginData.email) {
             if (this.user_id > 0) {
                 this.status_record.is_logged_in = true;
                 this.status_record.user_id = this.user_id;
-                return 'is_logged-in';
+                return "is_logged-in";
             } else {
-                if (this.new_user) return 'registering';
-                return 'attempting'
+                if (this.new_user) return "registering";
+                return "attempting";
             }
         }
-        return 'init';
+        return "init";
     }
 
     next_photo() {
         this.status_record.map_visible = false;
         this.status_record.photo_uploaded = false;
-        this.status_record.photo_url = '';
-        this.status_record.photo_info.photo_story = '';
+        this.status_record.photo_url = "";
+        this.status_record.photo_info.photo_story = "";
         this.status_record.duplicate = false;
         this.status_record.photo_details_saved = false;
     }
 
     save_photo_info() {
-        this.api.call_server_post('groups/save_photo_info', { photo_id: this.status_record.photo_id, photo_info: this.status_record.photo_info })
-            .then(result => {
-                this.status_record.photo_details_saved = true;
-                this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
-                toastr.success(this.i18n.tr("groups.successful-save"))
+        this.api
+            .call_server_post("groups/save_photo_info", {
+                photo_id: this.status_record.photo_id,
+                photo_info: this.status_record.photo_info,
             })
+            .then((result) => {
+                this.status_record.photo_details_saved = true;
+                this.status_record.old_data = this.misc.deepClone(
+                    this.status_record.photo_info
+                );
+                toastr.success(this.i18n.tr("groups.successful-save"));
+            });
     }
 
     cancel_changes() {
-        this.status_record.photo_info = this.misc.deepClone(this.status_record.old_data);
+        this.status_record.photo_info = this.misc.deepClone(
+            this.status_record.old_data
+        );
     }
 
-    @computedFrom('status_record.old_data', 'status_record.photo_info.photo_name', 'status_record.photo_info.photo_story',
-        'status_record.photo_info.photographer_name', 'status_record.photo_info.photo_date_str', 'status_record.photo_info.photo_date_datespan')
     get dirty() {
-        let _dirty = JSON.stringify(this.status_record.photo_info) != JSON.stringify(this.status_record.old_data);
+        const _dirty =
+            JSON.stringify(this.status_record.photo_info) !=
+            JSON.stringify(this.status_record.old_data);
         return _dirty;
     }
 
-    @computedFrom('status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 'status_record.photo_info.photo_date_str')
     get missing_photo_info() {
         if (!this.status_record.photo_info.photo_name) return true;
         if (!this.status_record.photo_info.photo_story) return true;
@@ -179,8 +192,14 @@ export class UserInfo {
     init_selected_topics() {
         this.selected_topics = [];
         let i = 0;
-        for (let opt of this.status_record.photo_info.photo_topics) {
-            let itm = { option: opt, first: i == 0, last: i == this.status_record.photo_info.photo_topics.length - 1, group_number: i + 1 }
+        for (const opt of this.status_record.photo_info.photo_topics) {
+            const itm = {
+                option: opt,
+                first: i == 0,
+                last:
+                    i == this.status_record.photo_info.photo_topics.length - 1,
+                group_number: i + 1,
+            };
             this.selected_topics.push(itm);
             i += 1;
         }
@@ -188,26 +207,28 @@ export class UserInfo {
 
     handle_topic_change(event) {
         if (!event.detail) return;
-        this.selected_topics = event.detail.selected_options
-        let topics = this.selected_topics.map(top => top.option);
+        this.selected_topics = event.detail.selected_options;
+        const topics = this.selected_topics.map((top) => top.option);
         this.status_record.photo_info.photo_topics = topics;
-        this.api.call_server_post('photos/apply_topics_to_photo', { photo_id: this.status_record.photo_id, topics: this.status_record.photo_info.photo_topics });
+        this.api.call_server_post("photos/apply_topics_to_photo", {
+            photo_id: this.status_record.photo_id,
+            topics: this.status_record.photo_info.photo_topics,
+        });
     }
 
-    @computedFrom('status_record.photo_id')
     get dummy() {
         this.init_selected_topics();
         this.init_photographer();
-        return false
+        return false;
     }
 
     async expose_map(event) {
-        this.status_record.map_visible = ! this.status_record.map_visible;
+        this.status_record.map_visible = !this.status_record.map_visible;
         if (this.status_record.map_visible && event.ctrlKey) {
             this.status_record.calibrating = true;
             await sleep(100);
-            console.log("CALIBRATING")
-            let old_zoom = this.status_record.photo_info.zoom;
+            console.log("CALIBRATING");
+            const old_zoom = this.status_record.photo_info.zoom;
             for (let zoom = 0; zoom < 24; zoom += 1) {
                 await sleep(10);
                 this.status_record.photo_info.zoom = zoom;
@@ -218,15 +239,16 @@ export class UserInfo {
         }
     }
 
-    @computedFrom("status_record.map_visible")
     get view_hide_map() {
-        let txt = 'photos.' + (this.status_record.map_visible ? 'hide-map' : 'view-map')
-        return this.i18n.tr(txt)
+        const txt =
+            "photos." +
+            (this.status_record.map_visible ? "hide-map" : "view-map");
+        return this.i18n.tr(txt);
     }
 
     init_photographer() {
         //not ready yet
-        return
+        return;
         // this.selected_photographers = [];
         // if (this.status_record.photo_info.photographer_id) {
         //     let itm = { option: { id: this.photographer_id, name: this.photographer_name } };
@@ -234,16 +256,12 @@ export class UserInfo {
         // }
     }
 
-    @computedFrom('photo_date_valid')
     get incomplete() {
-        if (this.photo_date_valid != 'valid')
-            return "disabled"
-        return ''
+        if (this.photo_date_valid != "valid") return "disabled";
+        return "";
     }
-
 }
 
-
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

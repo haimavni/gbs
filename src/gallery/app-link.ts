@@ -1,9 +1,5 @@
-import {Theme} from '../services/theme';
-import {User} from '../services/user';
-import {autoinject} from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
+import { IMemberGateway } from "../services/gateway";
 
-@autoinject
 export class AppLink {
     params = {
         host: "",
@@ -13,12 +9,11 @@ export class AppLink {
         logo_path: "",
         cover_photo: "",
         allow_publishing: false,
-        active: false
-    }
-    api: MemberGateway;
+        active: false,
+    };
 
-    constructor(api: MemberGateway) {
-        this.api = api;
+    constructor(@IMemberGateway readonly api: IMemberGateway) {
+
     }
 
     loading(params) {
@@ -26,8 +21,9 @@ export class AppLink {
     }
 
     set_app_activity() {
-        this.api.call_server_post('gallery/modify_app_state', {active: this.params.active, app: this.params.app});
+        this.api.call_server_post("gallery/modify_app_state", {
+            active: this.params.active,
+            app: this.params.app,
+        });
     }
-
-
 }

@@ -1,4 +1,4 @@
-import { ICustomElementViewModel } from "aurelia";
+import { DI, ICustomElementViewModel } from "aurelia";
 
 /* eslint-disable @typescript-eslint/no-this-alias */
 let YT;
@@ -10,6 +10,9 @@ enum PlayerStates {
     BUFFERING,
     CUED = 5
 }
+
+export const IYtKeeper = DI.createInterface<IYtKeeper>('IYtKeeper', x => x.singleton(YtKeeper));
+export type IYtKeeper = YtKeeper;
 
 export class YtKeeper implements ICustomElementViewModel {
     player;

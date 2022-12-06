@@ -1,11 +1,7 @@
-import { MemberGateway } from '../../services/gateway';
-import { autoinject } from 'aurelia-framework';
-import { Theme } from '../../services/theme';
+import { IMemberGateway } from '../../services/gateway';
+import { ITheme } from '../../services/theme';
 
-@autoinject
 export class BlackSheep {
-    api;
-    theme;
     black_loc = 12;
     white_locs = new Set([0, 1, 2, 100, 101, 11, 110, 111, 12, 21, 22]);
     mode = 'placing'; // solving-display
@@ -13,7 +9,7 @@ export class BlackSheep {
     curr_step_idx = 0;
     failed = false;
     
-    constructor(api: MemberGateway, theme: Theme) {
+    constructor(@IMemberGateway readonly api: IMemberGateway, @ITheme readonly theme: ITheme) {
         this.api = api;
         this.theme = theme;
     }
@@ -23,7 +19,7 @@ export class BlackSheep {
     }
 
     status(r, c, m) {
-        let n = 100 * m + 10 * r + c;
+        const n = 100 * m + 10 * r + c;
         if (this.black_loc == n) return 'black';
         if (this.white_locs.has(n)) return 'white';
         return 'lightgray';
@@ -44,7 +40,7 @@ export class BlackSheep {
     }
 
     mutate(r, c, m, event) {
-        let n = 100 * m + 10 * r + c;
+        const n = 100 * m + 10 * r + c;
         if (this.black_loc == n) {
             this.black_loc = -1
         }
@@ -58,12 +54,12 @@ export class BlackSheep {
     }
 
     refresh() {
-        for (let loc of [0, 1, 2, 3, 10, 11, 12, 20, 21, 22, 100, 101, 110, 111]) {
-            let locs = '' + loc;
-            let el = document.getElementById(locs)
-            let c = loc % 10;
-            let r = (loc - c) / 10;
-            let m = (loc - c - r * 10) / 100;
+        for (const loc of [0, 1, 2, 3, 10, 11, 12, 20, 21, 22, 100, 101, 110, 111]) {
+            const locs = '' + loc;
+            const el = document.getElementById(locs)
+            const c = loc % 10;
+            const r = (loc - c) / 10;
+            const m = (loc - c - r * 10) / 100;
             if (el) {
                 el.style.backgroundColor = this.status(r, c, m);
             }
@@ -75,7 +71,7 @@ export class BlackSheep {
     }
 
     solve() {
-        let arr = Array.from(this.white_locs);
+        const arr = Array.from(this.white_locs);
         this.api.call_server_post('games/solve_black_sheep', { black_loc: this.black_loc, white_locs: arr })
             .then(response => {
                 this.solution_steps = response.solution_steps;
@@ -88,10 +84,10 @@ export class BlackSheep {
     }
 
     next() {
-        let step = this.solution_steps[this.curr_step_idx];
+        const step = this.solution_steps[this.curr_step_idx];
         this.curr_step_idx += 1;
         this.white_locs.delete(step[1]);
-        let black = step[0];
+        const black = step[0];
         if (black) {
             this.black_loc = step[3]
         } else {
@@ -103,9 +99,9 @@ export class BlackSheep {
 
     prev() {
         this.curr_step_idx -= 1;
-        let step = this.solution_steps[this.curr_step_idx];
+        const step = this.solution_steps[this.curr_step_idx];
         this.white_locs.add(step[1]);
-        let black = step[0];
+        const black = step[0];
         if (black) {
             this.black_loc = step[2]
         } else {

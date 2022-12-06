@@ -41,7 +41,7 @@ export class FaceInfo implements ICustomElementViewModel {
 
     async attached() {
         await sleep(100);
-        
+
         if (this.ux_dialog) {
             const parent = this.ux_dialog.parentNode;
             if (parent) {

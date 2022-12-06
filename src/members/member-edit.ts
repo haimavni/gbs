@@ -152,7 +152,7 @@ export class MemberEdit implements ICustomElementViewModel {
         if (event.ctrlKey) return this.remove_parent("pa");
         this.dialog
             .open({
-                component: MemberPicker,
+                component: () => MemberPicker,
                 model: {
                     gender: "M",
                     child_name: this.member.member_info.full_name,
@@ -184,7 +184,7 @@ export class MemberEdit implements ICustomElementViewModel {
         if (event.ctrlKey) return this.remove_parent("ma");
         this.dialog
             .open({
-                component: MemberPicker,
+                component: () => MemberPicker,
                 model: {
                     gender: "F",
                     child_name: this.member.member_info.full_name,

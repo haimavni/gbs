@@ -359,7 +359,7 @@ export class MemberDetail implements IRouteableComponent {
     zoom_out(story, what, extra = "") {
         this.dialog
             .open({
-                component: StoryWindow,
+                component: () => StoryWindow,
                 model: { story: story, edit: what == "edit" },
                 lock: what == "edit",
             })
@@ -535,7 +535,7 @@ export class MemberDetail implements IRouteableComponent {
         document.body.classList.add("black-overlay");
         this.dialog
             .open({
-                component: ConfigMemberStories,
+                component: () => ConfigMemberStories,
                 model: {
                     member_stories: this.member_stories,
                     all_member_stories: this.member.member_stories,

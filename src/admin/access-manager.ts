@@ -89,13 +89,13 @@ export class AccessManager {
         }
         this.dialog
             .open({
-                component: EditUser,
+                component: () => EditUser,
                 model: { curr_user: this.curr_user },
                 lock: true,
             })
             .whenClosed((response) => {
                 if (response.status === 'cancel') {
-                    this.dialog.close()
+                    this.dialog.closeAll()
                 } else {
                     this.save();
                 }

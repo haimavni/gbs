@@ -56,7 +56,9 @@ export class MemberGateway {
             STORY4PHOTO: 3,
             STORY4TERM: 4,
             STORY4MESSAGE: 5,
-            STORY4HELP: 6
+            STORY4HELP: 6,
+            STORY4DOC: 7,
+            STORY4VIDEO: 8,
         },
         ptp_key: 0
     };

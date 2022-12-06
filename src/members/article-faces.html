@@ -1,16 +1,14 @@
-<template>
-    <div if.bind="articles.length>0" id="article-list" class="stories-article-list"
-         style="display:flex;flex-direction:column;margin-top:-24px;">
-        <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
-            <span style="float:right;">${'stories.associated-articles' & t}</span>
-        </div>
-        <ul class="list-group">
-            <li class="list-group-item" repeat.for="article of articles">
-                <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
-                    <img src.bind="article.facePhotoURL"/>
-                    <h6 dir="${theme.rtltr}" class="list-group-item-heading">${article.name}</h6>
-                </a>
-            </li>
-        </ul>
-    </div>
-</template>
+<div if.bind="articles.length>0" id="article-list" class="stories-article-list"
+    style="display:flex;flex-direction:column;margin-top:-24px;">
+   <div style="padding-right:10px;margin-bottom:5px;font-size:130%;">
+       <span style="float:right;">${'stories.associated-articles' & t}</span>
+   </div>
+   <ul class="list-group">
+       <li class="list-group-item" repeat.for="article of articles">
+           <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
+               <img src.bind="article.facePhotoURL"/>
+               <h6 dir="${theme.rtltr}" class="list-group-item-heading">${article.name}</h6>
+           </a>
+       </li>
+   </ul>
+</div>

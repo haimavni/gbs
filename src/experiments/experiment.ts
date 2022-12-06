@@ -1,13 +1,10 @@
-import { autoinject, singleton } from 'aurelia-framework';
-import { User } from '../services/user';
-import {YtKeeper} from '../services/yt-keeper';
+import { IUser } from "../services/user";
+import { IYtKeeper } from "../services/yt-keeper";
 
-@autoinject
-@singleton()
 export class Experiment {
-    longitude: number = 35.22;
-    latitude: number = 31.77;
-    zoom: number = 10;
+    longitude = 35.22;
+    latitude = 31.77;
+    zoom = 10;
     can_mark = true;
     user: User;
     to_show = false;
@@ -19,7 +16,8 @@ export class Experiment {
     use_html5 = true;
     curr_vid_idx = 0;
     yt_urls = ["GBpibo4TEdE", "WhuzYxmaPlc", "OTnLL_2-Dj8"];
-    html5_source = "http://tol.com:8000/gbs__test/static/apps_data/gbs/videos/vid003.mp4";
+    html5_source =
+        "http://tol.com:8000/gbs__test/static/apps_data/gbs/videos/vid003.mp4";
     ytKeeper: YtKeeper;
     youtube_player;
 
@@ -44,7 +42,7 @@ export class Experiment {
                 this.ytKeeper.paused = false;
                 this.ytKeeper.paused = true;
             }
-            this.curr_vid_idx = ((this.curr_vid_idx + 1) % this.yt_urls.length);
+            this.curr_vid_idx = (this.curr_vid_idx + 1) % this.yt_urls.length;
             cur_player.stopVideo();
         }
     }
@@ -62,5 +60,4 @@ export class Experiment {
         this.zoom = detail.zoom;
         //this.markers = detail.markers;
     }
-
 }
