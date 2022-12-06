@@ -221,7 +221,7 @@ export class Photos {
             this.update_photo_list();
     }
 
-    deloading() {
+    unloading() {
         this.clear_photo_group();
     }
 
