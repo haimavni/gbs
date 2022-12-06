@@ -13,4 +13,9 @@ export class Experiment {
         this.user = user;
     }
 
+    handle_data_change(event) {
+        let detail = event.detail;
+        console.log("detail: ", detail);
+    }
+
 }

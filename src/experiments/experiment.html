@@ -2,7 +2,8 @@
     <div style="margin-top:50px;margin-right:200px;margin-left:200px;">
         bool val: ${bool_val}
         <field-control name="boom" type="boolean" bool_val.bind="bool_val" description="True or false" 
-            options.bind="options">
+            options.bind="options"
+            change.delegate="handle_data_change($event)">
             field control here
         </field-control>
     </div>

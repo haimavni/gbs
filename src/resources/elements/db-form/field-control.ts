@@ -63,7 +63,8 @@ export class FieldControlCustomElement {
         }
         let changeEvent = new CustomEvent('change', {
             detail: {
-                data: data
+                data: data,
+                field_name: this.name
             },
             bubbles: true
         });
