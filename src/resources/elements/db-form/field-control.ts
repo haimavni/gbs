@@ -23,13 +23,16 @@ export class FieldControlCustomElement {
     @bindable type: data_type = null;
     @bindable description = '';
     @bindable options = [];
-    @bindable val = null;
+    //@bindable val = null;
+    @bindable relation = null;
+    @bindable has_relation = false;
     element;
     ui_selector = '';
-    int_val = 0;
-    bool_val = false;
-    str_val = '';
-    date_val = '01.01.01'
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) int_val = 0;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) date_val = "01.01.01";
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) bool_val = false;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) str_val = '';
+    relations = ["<", "<=", "==", ">=", ">"]    
 
     constructor(user: User, theme: Theme, element, i18n) {
         this.i18n = i18n;
@@ -66,7 +69,8 @@ export class FieldControlCustomElement {
         let changeEvent = new CustomEvent('data_change', {
             detail: {
                 data: data,
-                field_name: this.name
+                field_name: this.name,
+                relation: this.relation
             },
             bubbles: true
         });

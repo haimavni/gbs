@@ -1,22 +1,59 @@
 <template>
-    Field control
-    <div style="margin-bottom:5px;" if.bind="field_type=='boolean-select'" title.bind="description">
-        <button repeat.for="opt of options" style="margin-left:8px;width:200px;"
-            class="btn btn-${bool_val==opt.value ? 'primary' : 'default'} customization"
-            click.delegate="selected(opt)">
-            <span style="font-weight:bolder">${opt.name & t}</span>
-        </button>
-    </div>
-    <div style="margin-bottom:5px;width:300px;" if.bind="field_type=='integer-select'" title.bind="description">
-        <select class="form-control" 
-            value.bind="int_val" 
-            change.delegate="handle_change($event)"
-            style="margin-bottom:14px;">
-            <option repeat.for="opt of options" 
-                value.bind="opt.value">
-                ${opt.name & t}
-            </option>
-        </select> 
+    <div style="display:flex;flex-direction:row">
+        <div style="margin-bottom:5px;" if.bind="field_type=='boolean-select'" title.bind="description">
+            <button repeat.for="opt of options" style="margin-left:8px;width:200px;"
+                class="btn btn-${bool_val==opt.value ? 'primary' : 'default'} customization"
+                click.delegate="selected(opt)">
+                <span style="font-weight:bolder">${opt.name & t}</span>
+            </button>
+        </div>
+        <div style="margin-bottom:5px;width:300px;" if.bind="field_type=='integer-select'" title.bind="description">
+            <select class="form-control" value.bind="int_val" change.delegate="handle_change($event)"
+                style="margin-bottom:14px;">
+                <option repeat.for="opt of options" value.bind="opt.value">
+                    ${opt.name & t}
+                </option>
+            </select>
+        </div>
+        <div style="margin-bottom:5px;width:300px;display:flex;flex-direction:row;" if.bind="field_type=='integer'"
+            title.bind="description">
+            <label style="margin-left:8px;">
+                ${name & t}
+            </label>
+            <select 
+                class="form-control" 
+                style="width:60px;margin-left:8px;margin-right:8px;"
+                value.bind="relation" 
+                if.bind="has_relation" 
+                change.delegate="handle_change($event)">
+                <option repeat.for="rel of relations">
+                    ${rel}
+                </option>
+            </select>
+            <input type="number" value.bind="int_val" change.delegate="handle_change($event)" />
+        </div>
+        <div style="margin-bottom:5px;width:300px;display:flex;flex-direction:row;" if.bind="field_type=='date'"
+            title.bind="description">
+            <label style="margin-left:8px;">
+                ${name & t}
+            </label>
+            <select 
+                class="form-control" 
+                style="width:60px;margin-left:8px;margin-right:8px;"
+                value.bind="relation" 
+                if.bind="has_relation" 
+                change.delegate="handle_change($event)">
+                <option repeat.for="rel of relations">
+                    ${rel}
+                </option>
+            </select>
+            <date-range 
+                base_date_str.bind="date_val", 
+                range_options.bind="[1]" 
+                label.bind="name" 
+                change.delegate="handle_change($event)">
+            </date-range>
+        </div>
     </div>
 
 </template>
