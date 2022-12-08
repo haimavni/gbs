@@ -38,6 +38,7 @@ export function configure(config) {
         './elements/progress-bar',
         './elements/video/yt-player',
         './elements/video/html-player',
-        './elements/db-form/field-control'
+        './elements/db-form/field-control',
+        './elements/db-form/table-form'
     ]);
 }

@@ -4,6 +4,8 @@ import { I18N } from 'aurelia-i18n';
 import { User } from '../../../services/user';
 import { Theme } from '../../../services/theme';
 import { Misc } from '../../../services/misc';
+import { timeStamp } from 'console';
+import { runInThisContext } from 'vm';
 
 export enum data_type {
     F_STRING='string',
@@ -61,7 +63,7 @@ export class FieldControlCustomElement {
                 data = this.date_val;
                 break;
         }
-        let changeEvent = new CustomEvent('change', {
+        let changeEvent = new CustomEvent('data_change', {
             detail: {
                 data: data,
                 field_name: this.name
@@ -74,6 +76,11 @@ export class FieldControlCustomElement {
     selected(opt) {
         console.log("selected ", opt);
         this.bool_val = opt.value;
+        this.dispatch_event();
+    }
+
+    handle_change(event) {
+        console.log("select integer changed. integer_val: ", this.int_val);
         this.dispatch_event();
     }
 }

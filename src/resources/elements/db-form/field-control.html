@@ -7,5 +7,16 @@
             <span style="font-weight:bolder">${opt.name & t}</span>
         </button>
     </div>
+    <div style="margin-bottom:5px;width:300px;" if.bind="field_type=='integer-select'" title.bind="description">
+        <select class="form-control" 
+            value.bind="int_val" 
+            change.delegate="handle_change($event)"
+            style="margin-bottom:14px;">
+            <option repeat.for="opt of options" 
+                value.bind="opt.value">
+                ${opt.name & t}
+            </option>
+        </select> 
+    </div>
 
 </template>
