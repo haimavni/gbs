@@ -43,7 +43,7 @@ export class QrPhoto {
         if (this.disabled_if) return;
         this.api.call_server_post('photos/create_qr_photo', {data: this.data})
         .then(response => {
-            let download_url = response.download_url;
+            const download_url = response.download_url;
             console.log('download url: ', download_url);
             if (download_url)
                 download(download_url);
@@ -57,7 +57,7 @@ export class QrPhoto {
 
     @computedFrom('data.width', 'data.height')
     get disabled_if() {
-        let ready = this.data.width || this.data.height;
+        const ready = this.data.width || this.data.height;
         return ready ? '' : 'disabled';
     }
 
