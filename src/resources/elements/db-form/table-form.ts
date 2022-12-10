@@ -1,13 +1,19 @@
-import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
-import { DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
-import { User } from '../../../services/user';
-import { Theme } from '../../../services/theme';
-import { Misc } from '../../../services/misc';
-import { data_type } from './field-control';
+import {
+    bindable,
+    inject,
+    DOM,
+    bindingMode,
+    computedFrom,
+} from "aurelia-framework";
+import { DialogService } from "aurelia-dialog";
+import { I18N } from "aurelia-i18n";
+import { User } from "../../../services/user";
+import { Theme } from "../../../services/theme";
+import { Misc } from "../../../services/misc";
+import { data_type } from "./field-control";
 import { Query } from "../../../services/query/query";
-import { MemberGateway } from '../../../services/gateway';
-import { forEach } from 'typescript-collections/dist/lib/arrays';
+import { MemberGateway } from "../../../services/gateway";
+import { forEach } from "typescript-collections/dist/lib/arrays";
 
 @inject(User, Theme, DOM.Element, I18N, MemberGateway)
 export class TableFormCustomElement {
@@ -17,7 +23,7 @@ export class TableFormCustomElement {
     api: MemberGateway;
     element;
     field_list = [];
-    @bindable table_name = '';
+    @bindable table_name = "";
     @bindable record_id = null;
 
     constructor(user: User, theme: Theme, element, i18n, api) {
@@ -29,12 +35,16 @@ export class TableFormCustomElement {
     }
 
     attached() {
-        this.api.call_server_post('user_queries/available_fields', { table_name: this.table_name, record_id: this.record_id })
-            .then(response => {
-                console.log("field list: ", response.field_list);
-                this.field_list = response.field_list
+        this.api
+            .call_server_post("user_queries/available_fields", {
+                table_name: this.table_name,
+                record_id: this.record_id,
             })
-       //this.fake_data();
+            .then((response) => {
+                console.log("field list: ", response.field_list);
+                this.field_list = response.field_list;
+            });
+        //this.fake_data();
     }
 
     get_field_info(field) {
@@ -43,21 +53,20 @@ export class TableFormCustomElement {
             type: field.type,
             description: field.description,
             current_value: field.current_value,
-            options: this.parse_options(field.options)
-        }
+            options: this.parse_options(field.options),
+        };
         return result;
     }
 
-    parse_options(options) {
-        let lst = options.split('|');
+    parse_options(options): any[] {
+        let lst = options.split("|");
         let result = [];
         for (let elem of lst) {
-            let parts = elem.split('=')
-            let name = parts[0]
-            let value = parts[1]
-            result.push({name: name, value: value})
+            let parts = elem.split("=");
+            let name = parts[0];
+            let value = parts[1];
+            result.push({ name: name, value: value });
         }
-        return result
+        return result;
     }
-
 }
