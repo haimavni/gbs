@@ -200,6 +200,7 @@
         "filter-can-add": "Enter article name or name of a new article",
         "life-summary": "About",
         "article-name": "Article name",
+        "already-identified": " already indetified in this photo",
         "save": "Save",
         "cancel": "Cancel",
         "delete-article": "Delete the object",
