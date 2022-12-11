@@ -204,6 +204,7 @@
         "save": "Save",
         "cancel": "Cancel",
         "delete-article": "Delete the object",
+        "confirm-delete": "Are you sure you want to delete article?",
         "start-date": "Start date",
         "end-date": "End date",
         "period": "Period: ",
