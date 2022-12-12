@@ -1,19 +1,18 @@
-import { autoinject, computedFrom, bindable, bindingMode } from 'aurelia-framework';
-import { Theme } from '../../services/theme';
-import { Misc } from '../../services/misc';
+import { bindable, BindingMode } from 'aurelia';
+import { ITheme } from '../../services/theme';
+import { IMisc } from '../../services/misc';
 
 let THIS_EDITOR;
 
-@autoinject
 export class EditSideBySideCustomElement {
     @bindable fixed_str;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) edited_str;
+    @bindable({ mode: BindingMode.twoWay }) edited_str;
     @bindable height = 520;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) init = false;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) dirty = false;
-    theme: Theme;
-    misc;
+    @bindable({ mode: BindingMode.twoWay }) init = false;
+    @bindable({ mode: BindingMode.twoWay }) dirty = false;
+
     edited_str_orig = null;
+
     froala_config = {
         iconsTemplate: 'font_awesome_5',
         toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertVideo', '|',

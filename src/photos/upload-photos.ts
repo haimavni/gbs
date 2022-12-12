@@ -1,19 +1,10 @@
-import { autoinject } from 'aurelia-framework';
-import { IRouter } from '@aurelia/router';
-import { MemberGateway } from '../services/gateway';
-import { User } from '../services/user';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { DialogController } from 'aurelia-dialog';
+import { IDialogController, IEventAggregator } from 'aurelia';
+import { IRouter, IRouteableComponent } from '@aurelia/router';
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from '../services/user';
 
-@autoinject()
-export class UploadPhotos {
-
-    api;
-    router;
+export class UploadPhotos implements IRouteableComponent {
     photos: FileList;
-    user: User;
-    ea: EventAggregator;
-    dc: DialogController;
     upload_finished = false;
     uploaded;
     duplicates;
@@ -22,13 +13,13 @@ export class UploadPhotos {
     working = false;
     host_name;
 
-    constructor(api: MemberGateway, router: Router, user: User, ea: EventAggregator, dc: DialogController) {
-        this.api = api;
-        this.router = router;
-        this.user = user;
-        this.ea = ea;
-        this.dc = dc;
-    }
+    constructor(
+        @IMemberGateway readonly api: IMemberGateway,
+        @IRouter readonly router: IRouter,
+        @IUser readonly user: IUser,
+        @IEventAggregator readonly ea: IEventAggregator,
+        @IDialogController readonly dc: IDialogController
+    ) {}
 
     attached() {
         this.host_name = window.location.hostname;
@@ -40,7 +31,7 @@ export class UploadPhotos {
 
     save() {
         this.working = true;
-        this.ea.subscribe('FilesUploaded', response => {
+        this.ea.subscribe('FilesUploaded', (response: any) => {
             this.working = false;
             this.upload_finished = true;
             this.uploaded = response.uploaded;
@@ -50,16 +41,11 @@ export class UploadPhotos {
                 this.dc.ok(response);
             }, 1500);
         });
-        this.ea.subscribe('FileWasUploaded', response => {
-            this.photos_left = response.files_left
+        this.ea.subscribe('FileWasUploaded', (response: any) => {
+            this.photos_left = response.files_left;
         });
         if (this.photos) {
-            this.api.uploadFiles(
-                this.user.id,
-                this.photos,
-                'PHOTOS'
-            );
+            this.api.uploadFiles(this.user.id, this.photos, 'PHOTOS');
         }
     }
-
 }
