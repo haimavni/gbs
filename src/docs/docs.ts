@@ -49,7 +49,7 @@ export class Docs {
         deleted_docs: false,
         days_since_upload: 0,
         search_type: 'simple',
-        order_option: { value: "" },
+        order_option: { value: "by-name" },
         start_name: ""
     };
     order_options;
@@ -105,8 +105,8 @@ export class Docs {
             {value: 365, name: this.i18n.tr('docs.uploaded-this-year')}
         ];
         this.order_options = [
-            { name: i18n.tr('docs.recently-uploaded'), value: 'recently-uploaded'},
             { name: i18n.tr('docs.by-name'), value: 'by-name' },
+            { name: i18n.tr('docs.recently-uploaded'), value: 'recently-uploaded'},
             { name: i18n.tr('docs.new-to-old'), value: 'new-to-old' },
             { name: i18n.tr('docs.old-to-new'), value: 'old-to-new' }
         ];
@@ -434,7 +434,7 @@ export class Docs {
             deleted_docs: false,
             days_since_upload: 0,
             search_type: 'simple',
-            order_option: { value: "new-to-old" },
+            order_option: { value: "by-name" },
             start_name: ""
         };
 
