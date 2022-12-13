@@ -3,6 +3,7 @@ import { User } from '../../../services/user';
 import { Theme } from '../../../services/theme';
 import { MemberGateway } from '../../../services/gateway';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import {I18N} from 'aurelia-i18n';
 
 @inject(DOM.Element, User, Theme, MemberGateway, EventAggregator)
 //@singleton()
@@ -12,6 +13,7 @@ export class ChatroomCustomElement {
     theme: Theme;
     api: MemberGateway;
     ea: EventAggregator;
+    i18n: I18N;
     @bindable room_number;
     @bindable room_index;
     messages = [];
@@ -25,10 +27,11 @@ export class ChatroomCustomElement {
     editing = false;
     was_logged_in = false;
 
-    constructor(element, user: User, theme: Theme, api: MemberGateway, ea: EventAggregator) {
+    constructor(element, user: User, theme: Theme, i18n: I18N, api: MemberGateway, ea: EventAggregator) {
         this.element = element;
         this.user = user;
         this.theme = theme;
+        this.i18n = i18n;
         this.api = api;
         this.ea = ea;
     }
@@ -127,6 +130,7 @@ export class ChatroomCustomElement {
     }
 
     delete_chatroom() {
+        if (! confirm(this.i18n.tr('chats.confirm-delete'))) return;
         this.api.call_server('chats/delete_chatroom', { room_number: this.room_number })
             .then(response => {
                 this.dispatch_event('deleted');

@@ -334,7 +334,8 @@
         "enter-search-words": "מילות חיפוש",
         "send-message": "שלח",
         "to-participate": "הקלק כאן כדי להשתתף",
-        "explain-registration": "כדי להשתתף בדיונים יש לבצע הרשמה חד-פעמית"
+        "explain-registration": "כדי להשתתף בדיונים יש לבצע הרשמה חד-פעמית",
+        "confirm-delete": "המחיקה היא סופית. בטוח שברצונך למחוק את חדר הדיונים הזה?"
     },
     "photos": {
         "photos": "תמונות",
