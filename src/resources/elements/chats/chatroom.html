@@ -2,12 +2,12 @@
     <div css="background-color: lightgray;height:${theme.height-129}px" class="chatroom ${theme.rtltr}">
         <div style="padding:16px 5px 0px 5px;">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                <div css="float:${theme.same_dir};direction:${theme.rtltr};" if.bind="!editing">
+                <div css="float:${theme.same_dir};direction:${theme.rtltr};background-color:lightgray;" if.bind="!editing">
                     <h4 style="width:100%;margin:0;padding:0 5px 0 5px;">${chatroom_name}</h4>
                 </div>
                 <div if.bind="editing">
                     <input style="font-size: 95%;margin-bottom:3px;float: left;width: 200px;height:28px;" dir="rtl"
-                        type="text" value.bind="chatroom_name" placeholder="Enter chatroom name"
+                        type="text" value.bind="chatroom_name" placeholder="${'enter-chatroom-name' & t}"
                         class="form-control input-small" />
                 </div>
                 <div style="cursor:pointer;margin-left:16px;">
