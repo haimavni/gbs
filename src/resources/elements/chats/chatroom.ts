@@ -5,7 +5,7 @@ import { MemberGateway } from '../../../services/gateway';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import {I18N} from 'aurelia-i18n';
 
-@inject(DOM.Element, User, Theme, MemberGateway, EventAggregator)
+@inject(DOM.Element, User, Theme, I18N, MemberGateway, EventAggregator)
 //@singleton()
 export class ChatroomCustomElement {
     element;
