@@ -333,7 +333,8 @@
         "send-message": "Send",
         "to-participate": "In order to participate click here",
         "explain-registration": "One-time registration is needed to become active",
-        "confirm-delete": "Deletion can not be undone. Are you sure you want to delete chatroom?"
+        "confirm-delete": "Deletion can not be undone. Are you sure you want to delete chatroom?",
+        "enter-chatroom-name": "Enter new chatroom name"
     },
     "photos": {
         "photos": "Photos",
