@@ -63,6 +63,7 @@ export class MemberGateway {
     };
     pending = 0;
     ptp_connected;
+    timezone;
 
     constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N, themeA: ThemeA) {
         this.httpClient = httpClient;
@@ -82,6 +83,7 @@ export class MemberGateway {
         });
         this.get_constants();
         //this.start_listening();
+        this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         THIS = this;
     }
 
@@ -126,6 +128,7 @@ export class MemberGateway {
         data = data ? data : {};
         data['ptp_key'] = this.constants.ptp_key;
         data['webpSupported'] = this.themeA.webpSupported;
+        data['timezone'] = this.timezone;
         let x = JSON.stringify(data);
         return this.httpClient.fetch(url, { method: "POST", body: x })
             .catch(error => toastr.error(error + ' in ', url))
