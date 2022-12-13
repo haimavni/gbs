@@ -7,7 +7,7 @@
                 </div>
                 <div if.bind="editing">
                     <input style="font-size: 95%;margin-bottom:3px;float: left;width: 200px;height:28px;" dir="rtl"
-                        type="text" value.bind="chatroom_name" placeholder="${'enter-chatroom-name' & t}"
+                        type="text" value.bind="chatroom_name" placeholder="${'chats.enter-chatroom-name' & t}"
                         class="form-control input-small" />
                 </div>
                 <div style="cursor:pointer;margin-left:16px;">
@@ -15,7 +15,12 @@
                         click.delegate="delete_chatroom()"></i>
                     <i class="fas fa-pencil" if.bind="user.privileges.CHAT_MODERATOR && ! editing"
                         click.delegate="edit_chatroom_name()"></i>
-                    <i class="fas fa-save" if.bind="editing" click.delegate="save_chatroom_name()"></i>
+                    <i class="fas fa-save" 
+                        if.bind="editing" 
+                        style="background-color:green;color:white;" 
+                        disabled.bind="chatroom_name.length==0"
+                        click.delegate="save_chatroom_name()">
+                    </i>
                 </div>
             </div>
             <div if.bind="messages.length > 5">
