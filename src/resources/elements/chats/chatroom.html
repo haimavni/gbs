@@ -43,8 +43,11 @@
                             <span if.bind="user.privileges.CHAT_MODERATOR || user.debugging"
                                 style="margin-left:10px;cursor:pointer;">
                                 <i class="fa fa-trash" click.delegate="delete_message(msg, $index)"></i>
-                                <i class="fas fa-pencil" if.bind="edited_message_id == 0" as-custom-element="elementName".delegate="edit_message(msg, $index)"></i>
-                                <i class="fas fa-save" if.bind="edited_message_id == msg.id" as-custom-element="elementName".delegate="edit_message(msg, $index)"></i>
+                                <i class="fas fa-pencil" if.bind="edited_message_id == 0" 
+                                    as-custom-element="elementName"
+                                    click.delegate="edit_message(msg, $index)"></i>
+                                <i class="fas fa-save" if.bind="edited_message_id == msg.id" 
+                                    as-custom-element="elementName"></i>
                             </span>
                         </span>
                         <span if.bind="msg.id != edited_message_id" innerhtml.bind="msg.message"></span>
