@@ -1,17 +1,11 @@
-import { bindable, inject, DOM, bindingMode, BindingEngine, computedFrom } from 'aurelia-framework';
+import { bindable, ICustomElementViewModel } from 'aurelia';
 
-export class ProgressBarCustomElement {
-    @bindable final: number = 100;
-    @bindable current: number = 0;
+export class ProgressBarCustomElement implements ICustomElementViewModel {
+    @bindable final = 100;
+    @bindable current = 0;
 
-    constructor() {
-
-    }
-
-    @computedFrom('current')
     get percent() {
-        if (! this.current) return 0;
-        return Math.round(100 * this.current / this.final);
+        if (!this.current) return 0;
+        return Math.round((100 * this.current) / this.final);
     }
-
 }

@@ -1,22 +1,19 @@
-import { bindable, bindingMode, inject, DOM } from 'aurelia-framework';
-import {Theme} from '../../services/theme';
+import { bindable, BindingMode, INode } from 'aurelia';
+import { ITheme } from '../../services/theme';
 
-@inject(DOM.Element, Theme)
 export class SearchInputCustomElement {
-    @bindable({defaultBindingMode: bindingMode.twoWay}) value;
+    @bindable({ mode: BindingMode.twoWay }) value;
     @bindable placeholder = 'type something';
     @bindable height;
     @bindable help_topic = 'search-input';
-    element;
-    theme: Theme;
 
-    constructor(element, theme) {
-        this.element = element;
-        this.theme = theme;
-    }
+    constructor(
+        @INode readonly element: HTMLElement,
+        @ITheme readonly theme: ITheme
+    ) {}
 
     clear_text(event) {
-        this.value = "";
+        this.value = '';
     }
 
     input_changed(event) {
@@ -29,14 +26,12 @@ export class SearchInputCustomElement {
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('filter-change', {
+        const changeEvent = new CustomEvent('filter-change', {
             detail: {
                 value: this.value,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
     }
-    
-
 }

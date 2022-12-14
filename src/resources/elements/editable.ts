@@ -1,13 +1,12 @@
-import { bindable, inject, DOM, computedFrom } from 'aurelia-framework';
+import { bindable, IDialogService, INode } from 'aurelia';
 import { StoryWindow } from '../../stories/story_window';
-import { User } from '../../services/user';
-import { Theme } from '../../services/theme';
-import { DialogService } from 'aurelia-dialog';
+import { IUser } from '../../services/user';
+import { ITheme } from '../../services/theme';
 import { I18N } from '@aurelia/i18n';
 
-@inject(DOM.Element, User, Theme, DialogService, I18N)
 export class editableCustomElement {
     @bindable story;
+
     @bindable settings = {
         show_date: false,
         show_time: false,
@@ -20,36 +19,44 @@ export class editableCustomElement {
         pushable: false,
         pinnable: false,
         confirmable: false,
-        has_details: false
+        has_details: false,
     };
-    @bindable info_title = "";
-    @bindable info_content = "";
+
+    @bindable info_title = '';
+    @bindable info_content = '';
     @bindable pinned = false;
-    element;
-    user;
-    theme;
-    dialog;
     width;
-    i18n;
     updated_by;
 
-    constructor(element, user, theme, dialog, i18n) {
+    constructor(
+        @INode readonly element: HTMLElement,
+        @IUser readonly user: IUser,
+        @ITheme readonly theme: ITheme,
+        @IDialogService readonly dialog: IDialogService,
+        @I18N readonly i18n: I18N
+    ) {
         this.element = element;
         this.dialog = dialog;
         this.user = user;
         this.theme = theme;
         this.i18n = i18n;
-        this.updated_by = this.i18n.tr('stories.updated-by')
+        this.updated_by = this.i18n.tr('stories.updated-by');
     }
 
     zoom_out(story, what, event) {
         event.stopPropagation(); //todo: attempt to prevent the default selection
         event.preventDefault();
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: StoryWindow, model: { story: story, edit: what == 'edit' }, lock: what == 'edit' }).whenClosed(response => {
-            this.theme.hide_title = false;
-            this.dispatch_event('saved', 'saved', {})
-        });
+        this.dialog
+            .open({
+                component: () => StoryWindow,
+                model: { story: story, edit: what == 'edit' },
+                lock: what == 'edit',
+            })
+            .whenClosed((response) => {
+                this.theme.hide_title = false;
+                this.dispatch_event('saved', 'saved', {});
+            });
         return false;
     }
 
@@ -70,8 +77,15 @@ export class editableCustomElement {
         event.stopPropagation(); //todo: attempt to prevent the default selection
         event.preventDefault();
         this.story.checked = !this.story.checked;
-        let keys = { altKey: event.altKey, ctrlKey: event.ctrlKey, shiftKey: event.shiftKey };
+
+        const keys = {
+            altKey: event.altKey,
+            ctrlKey: event.ctrlKey,
+            shiftKey: event.shiftKey,
+        };
+
         this.dispatch_event('check', 'change', keys);
+
         return false;
     }
 
@@ -92,27 +106,24 @@ export class editableCustomElement {
     }
 
     dispatch_event(action, what, keys) {
-        let changeEvent = new CustomEvent(what, {
+        const changeEvent = new CustomEvent(what, {
             detail: {
                 checked: this.story.checked,
                 action: action,
-                keys: keys
+                keys: keys,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
     }
 
-    @computedFrom('story.checked')
     get checked() {
         if (this.story) return this.story.checked;
         return false;
     }
 
-    @computedFrom('story.name')
     get story_name() {
         if (this.story) return this.story.name;
         return this.i18n.tr('stories.new-story');
     }
-
 }

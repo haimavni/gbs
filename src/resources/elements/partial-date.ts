@@ -1,16 +1,13 @@
-import { bindable, inject, DOM, computedFrom } from 'aurelia-framework';
+import { bindable, INode, ICustomElementViewModel } from 'aurelia';
 
-@inject(DOM.Element)
-export class PartialDateCustomElement {
+export class PartialDateCustomElement implements ICustomElementViewModel {
     @bindable decade = '192';
     @bindable year = '8';
     @bindable month = '07';
     @bindable day = '17';
     @bindable date_str: string;
-    element;
 
-    constructor(element, user, dialog) {
-        this.element = element;
+    constructor(@INode readonly element: HTMLElement) {
     }
 
     bind() {
@@ -24,7 +21,7 @@ export class PartialDateCustomElement {
         } else {
             date_str = date_str + "-??-??";
         }
-        let lst = date_str.split('-');
+        const lst = date_str.split('-');
         this.decade = lst[0].substring(0, 3);
         this.year = lst[0].substring(3,4);
         this.month = lst[1];
@@ -72,7 +69,7 @@ export class PartialDateCustomElement {
 
     split_date_str() {
         if (this.date_str) {
-            let lst = this.date_str.split('-');
+            const lst = this.date_str.split('-');
             this.decade = lst[0].substring(0, 3);
             this.year = lst[0].substring(3, 4);
             this.month = lst[1];
@@ -81,8 +78,10 @@ export class PartialDateCustomElement {
     }
 
     focus(fieldName) {
-        let el = this.element.querySelector('#' + fieldName);
-        let inputs = el.getElementsByTagName("INPUT");
+        const el = this.element.querySelector('#' + fieldName);
+        const inputs = el.getElementsByTagName("INPUT");
+
+        // @ts-ignore
         inputs[0].focus();
     }
 

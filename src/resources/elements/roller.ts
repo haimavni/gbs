@@ -1,6 +1,6 @@
-import { bindable, inject, DOM } from 'aurelia-framework';
+import { bindable, IDialogService, INode } from 'aurelia';
+import { IUser } from '../../services/user';
 
-@inject(DOM.Element)
 export class RollerCustomElement {
     @bindable option_list = [];
     @bindable current;
@@ -10,11 +10,12 @@ export class RollerCustomElement {
     @bindable left;
 
     idx = 0;
-    element;
 
-    constructor(element, user, dialog) {
-        this.element = element;
-    }
+    constructor(
+        @INode readonly element: HTMLElement,
+        @IUser readonly user: IUser,
+        @IDialogService readonly dialog: IDialogService
+    ) {}
 
     shift(dif) {
         let i = this.idx + dif;
@@ -29,5 +30,4 @@ export class RollerCustomElement {
         this.width = this.maxlen * this.charWidth + 2; //2 for the boundaries
         this.left = (this.width - 10) / 2;
     }
-
 }
