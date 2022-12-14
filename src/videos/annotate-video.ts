@@ -1,25 +1,23 @@
-import { autoinject, singleton, computedFrom } from "aurelia-framework";
-import { IRouter } from "@aurelia/router";
-import { I18N } from "@aurelia/i18n";
-import { IMemberGateway } from "../../_OLD/src/services/gateway";
-import { IMemberList } from "../../_OLD/src/services/member_list";
-import { User } from "../../_OLD/src/services/user";
-import { Theme } from "../../_OLD/src/services/theme";
-import { Misc } from "../../_OLD/src/services/misc";
-import { DialogService } from "aurelia-dialog";
-import { debounce } from "../services/debounce";
-import { MultiSelectSettings } from "../resources/elements/multi-select/multi-select";
-import { EventAggregator } from "aurelia-event-aggregator";
-import { MemberPicker } from "../../_OLD/src/members/member-picker";
-import { YtKeeper } from "../../_OLD/src/services/yt-keeper";
-import { highlight } from "../../_OLD/src/services/dom_utils";
+import { IDialogService, IEventAggregator } from 'aurelia';
+import { IRouter } from '@aurelia/router';
+import { I18N } from '@aurelia/i18n';
+import { IMemberGateway } from '../services/gateway';
+import { IMemberList } from '../services/member_list';
+import { IUser } from '../services/user';
+import { ITheme } from '../services/theme';
+import { IMisc } from '../services/misc';
+import { debounce } from '../services/debounce';
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { MemberPicker } from '../members/member-picker';
+import { YtKeeper } from '../services/yt-keeper';
+import { highlight } from '../services/dom_utils';
 
 class CuePoint {
     time: number;
     description: string;
     is_current;
     member_ids = [];
-    cls = "";
+    cls = '';
 
     constructor(time, description) {
         this.time = time;
@@ -27,24 +25,14 @@ class CuePoint {
     }
 }
 
-@autoinject()
-@singleton()
 export class AnnotateVideo {
-    api;
-    user: User;
-    theme: Theme;
-    member_list: MemberList;
-    misc: Misc;
-    router: Router;
-    i18n;
-    dialog: DialogService;
     members = [];
     all_members = [];
     video_id;
     member_id;
     video_name;
-    video_src = "";
-    video_type = "youtube";
+    video_src = '';
+    video_type = 'youtube';
     video_url;
     cuepoints_enabled;
     video_is_ready;
@@ -65,7 +53,7 @@ export class AnnotateVideo {
     video_story;
     chatroom_id = null;
     photographer_id;
-    photographer_name = "";
+    photographer_name = '';
     video_date_str;
     video_date_datespan;
     params = {
@@ -73,83 +61,75 @@ export class AnnotateVideo {
         selected_photographers: [],
     };
     undo_list = [];
-    ea: EventAggregator;
     selected_member_ids = [];
     video_info;
     ytKeeper;
     keywords = [];
     advanced_search;
     curr_info = {
-        video_date_str: "",
+        video_date_str: '',
         video_date_datespan: 0,
         photographer_id: 0,
-        photographer_name: "",
+        photographer_name: '',
         video_topics: [],
     };
-    video_date_valid = "";
-    highlight_on = "highlight-on";
+    video_date_valid = '';
+    highlight_on = 'highlight-on';
     caller;
     cue0: CuePoint = null;
 
     constructor(
-        api: MemberGateway,
-        i18n: I18N,
-        user: User,
-        theme: Theme,
-        misc: Misc,
-        member_list: MemberList,
-        dialog: DialogService,
-        router: Router,
-        ea: EventAggregator,
+        @IMemberGateway readonly api: IMemberGateway,
+        @I18N readonly i18n: I18N,
+        @IUser readonly user: IUser,
+        @ITheme readonly theme: ITheme,
+        @IMisc readonly misc: IMisc,
+        @IMemberList readonly member_list: IMemberList,
+        @IDialogService readonly dialog: IDialogService,
+        @IRouter readonly router: IRouter,
+        @IEventAggregator readonly ea: IEventAggregator,
         ytKeeper: YtKeeper
     ) {
-        this.api = api;
-        this.i18n = i18n;
-        this.user = user;
-        this.misc = misc;
-        this.member_list = member_list;
-        this.theme = theme;
-        this.dialog = dialog;
-        this.router = router;
-        this.ea = ea;
         this.ytKeeper = ytKeeper;
+
         this.options_settings = new MultiSelectSettings({
             hide_higher_options: true,
             clear_filter_after_select: false,
             can_set_sign: false,
             can_add: true,
             can_group: false,
-            empty_list_message: this.i18n.tr("photos.no-topics-yet"),
+            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
         });
+
         this.photographers_settings = new MultiSelectSettings({
             clear_filter_after_select: true,
             can_add: true,
             can_set_sign: false,
             can_group: false,
             single: true,
-            empty_list_message: this.i18n.tr("photos.no-photographers-yet"),
+            empty_list_message: this.i18n.tr('photos.no-photographers-yet'),
         });
         //this.theme.hide_menu = true;  restore. add "edit" button if caller is logged in and has the privileges.
     }
 
     async loading(params, config) {
         this.keywords = params.keywords;
-        this.advanced_search = params.search_type == "advanced";
+        this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
         this.member_id = +params.member_id; //will highlight cuepoints with this member
         this.caller = params.caller;
-        if (params.what != "story") {
+        if (params.what != 'story') {
             this.video_name = params.video_name;
             this.video_src = params.video_src;
-            this.video_type = params.video_type || "youtube";
-            if (this.video_type == "youtube")
+            this.video_type = params.video_type || 'youtube';
+            if (this.video_type == 'youtube')
                 this.video_url =
-                    "https://www.youtube.com/embed/" +
+                    'https://www.youtube.com/embed/' +
                     this.video_src +
-                    "?wmode=opaque";
+                    '?wmode=opaque';
         }
         this.cuepoints_enabled = params.cuepoints_enabled;
-        if (this.video_type == "youtube" && this.cuepoints_enabled) {
+        if (this.video_type == 'youtube' && this.cuepoints_enabled) {
             this.player = this.ytKeeper;
         }
         this.cue_points = [];
@@ -158,9 +138,9 @@ export class AnnotateVideo {
     }
 
     update_topic_list() {
-        let usage = this.user.editing ? {} : { usage: "V" };
+        const usage = this.user.editing ? {} : { usage: 'V' };
         this.api
-            .call_server_post("topics/get_topic_list", usage)
+            .call_server_post('topics/get_topic_list', usage)
             .then((result) => {
                 this.topic_list = result.topic_list;
                 this.photographer_list = result.photographer_list;
@@ -170,16 +150,16 @@ export class AnnotateVideo {
     }
 
     set_story(story) {
-        this.video_story = "";
+        this.video_story = '';
         this.video_story = story;
         this.video_name = story.name;
     }
 
     get_video_info(video_id, what = null) {
         return this.api
-            .call_server_post("videos/get_video_info", {
+            .call_server_post('videos/get_video_info', {
                 video_id: video_id,
-                by_story_id: what == "story",
+                by_story_id: what == 'story',
                 cuepoints_enabled: this.cuepoints_enabled,
             })
             .then((response) => {
@@ -189,16 +169,16 @@ export class AnnotateVideo {
                 this.all_members = this.members;
                 //if (this.video_type == 'youtube')
                 this.video_url =
-                    "https://www.youtube.com/embed/" +
+                    'https://www.youtube.com/embed/' +
                     this.video_src +
-                    "?wmode=opaque";
+                    '?wmode=opaque';
                 if (this.cuepoints_enabled) this.set_video_source();
                 this.cue_points = response.cue_points;
                 if (this.member_id) {
                     this.cue0 = null;
-                    for (let cue of this.cue_points) {
+                    for (const cue of this.cue_points) {
                         if (cue.member_ids.includes(this.member_id)) {
-                            cue.cls = "hilited";
+                            cue.cls = 'hilited';
                             if (!this.cue0) this.cue0 = cue;
                         }
                     }
@@ -208,10 +188,10 @@ export class AnnotateVideo {
                 this.photographer_name = response.photographer_name;
                 this.photographer_id = response.photographer_id;
                 this.video_topics = response.video_topics;
-                if (this.video_story.story_id == "new") {
-                    this.video_story.name = this.i18n.tr("videos.new-story");
+                if (this.video_story.story_id == 'new') {
+                    this.video_story.name = this.i18n.tr('videos.new-story');
                     this.video_story.story_text = this.i18n.tr(
-                        "videos.new-story-content"
+                        'videos.new-story-content'
                     );
                 }
                 this.video_date_str = response.video_date_str;
@@ -238,15 +218,15 @@ export class AnnotateVideo {
                 await this.misc.sleep(1000);
                 this.jump_to_cue(this.cue0);
             }
-        } else console.log("yt keeper not ready");
+        } else console.log('yt keeper not ready');
     }
 
     init_selected_topics() {
-        let selected_topics = [];
+        const selected_topics = [];
         let i = 0;
-        for (let opt of this.video_topics) {
-            opt.sign = "";
-            let itm = {
+        for (const opt of this.video_topics) {
+            opt.sign = '';
+            const itm = {
                 option: opt,
                 first: i == 0,
                 last: i == this.video_topics.length - 1,
@@ -258,24 +238,17 @@ export class AnnotateVideo {
         this.params.selected_topics = selected_topics;
     }
 
-    @computedFrom("video_topics")
     get topic_names() {
-        if (!this.video_topics) return "";
-        let topic_name_list = this.video_topics.map((itm) => itm.name);
-        return topic_name_list.join(";");
+        if (!this.video_topics) return '';
+        const topic_name_list = this.video_topics.map((itm) => itm.name);
+        return topic_name_list.join(';');
     }
 
-    @computedFrom(
-        "photo_story.story_text",
-        "story_changed",
-        "keywords",
-        "advanced_search"
-    )
     get highlightedHtml() {
         if (!this.video_story) {
-            return "";
+            return '';
         }
-        let highlighted_html = highlight(
+        const highlighted_html = highlight(
             this.video_story.story_text,
             this.keywords,
             this.advanced_search
@@ -283,15 +256,14 @@ export class AnnotateVideo {
         return highlighted_html;
     }
 
-    @computedFrom("user.editing")
     get video_dates_class() {
-        return this.user.editing ? "video-dates" : "blabla";
+        return this.user.editing ? 'video-dates' : 'blabla';
     }
 
     init_photographer() {
         this.params.selected_photographers = [];
         if (this.photographer_id) {
-            let itm = {
+            const itm = {
                 option: {
                     id: this.photographer_id,
                     name: this.photographer_name,
@@ -302,20 +274,20 @@ export class AnnotateVideo {
     }
 
     add_cue_point() {
-        let time = Math.round(this.player.currentTime);
-        let cue = new CuePoint(time, "");
+        const time = Math.round(this.player.currentTime);
+        const cue = new CuePoint(time, '');
         this.cue_points.push(cue);
         this.cue_points = this.cue_points.sort(
             (cue1, cue2) => cue1.time - cue2.time
         );
-        this.api.call_server_post("videos/update_video_cue_points", {
+        this.api.call_server_post('videos/update_video_cue_points', {
             video_id: this.video_id,
             cue_points: this.cue_points,
         });
     }
 
     cue_description_changed(cue) {
-        this.api.call_server_post("videos/update_video_cue_points", {
+        this.api.call_server_post('videos/update_video_cue_points', {
             video_id: this.video_id,
             cue_points: this.cue_points,
         });
@@ -327,12 +299,12 @@ export class AnnotateVideo {
             this.members = this.all_members;
             return;
         }
-        for (let cue of this.cue_points) {
+        for (const cue of this.cue_points) {
             cue.is_current = false;
         }
         cue.is_current = true;
         this.player.currentTime = cue.time;
-        let member_set = new Set(cue.member_ids);
+        const member_set = new Set(cue.member_ids);
         this.member_list.getMemberList().then((response) => {
             this.members = this.member_list.members.member_list.filter(
                 (member) => member_set.has(member.id)
@@ -343,16 +315,16 @@ export class AnnotateVideo {
     step(cue, gap) {
         cue.time = cue.time + gap;
         this.player.currentTime = cue.time;
-        this.api.call_server_post("videos/update_video_cue_points", {
+        this.api.call_server_post('videos/update_video_cue_points', {
             video_id: this.video_id,
             cue_points: this.cue_points,
         });
     }
 
     remove_cue(cue) {
-        let idx = this.cue_points.findIndex((c) => c.time == cue.time);
+        const idx = this.cue_points.findIndex((c) => c.time == cue.time);
         this.cue_points.splice(idx, 1);
-        this.api.call_server_post("videos/update_video_cue_points", {
+        this.api.call_server_post('videos/update_video_cue_points', {
             video_id: this.video_id,
             cue_poins: this.cue_points,
         });
@@ -362,20 +334,20 @@ export class AnnotateVideo {
         this.theme.hide_title = true;
         this.dialog
             .open({
-                viewModel: MemberPicker,
+                component: () => MemberPicker,
                 model: {
                     multi: true,
-                    back_to_text: "members.back-to-video",
+                    back_to_text: 'members.back-to-video',
                     preselected: cue.member_ids,
                 },
                 lock: false,
                 rejectOnCancel: false,
             })
-            .whenClosed((response) => {
+            .whenClosed((response: any) => {
                 this.theme.hide_title = false;
-                if (response.wasCancelled) return;
+                if (response.status == 'cancel') return;
                 cue.member_ids = Array.from(response.output.member_ids);
-                this.api.call_server_post("videos/update_cue_members", {
+                this.api.call_server_post('videos/update_cue_members', {
                     video_id: this.video_id,
                     time: cue.time,
                     member_ids: cue.member_ids,
@@ -388,21 +360,21 @@ export class AnnotateVideo {
         let member_ids = this.members.map((member) => member.id);
         this.dialog
             .open({
-                viewModel: MemberPicker,
+                component: () => MemberPicker,
                 model: {
                     multi: true,
-                    back_to_text: "members.back-to-video",
+                    back_to_text: 'members.back-to-video',
                     preselected: member_ids,
                 },
                 lock: false,
                 rejectOnCancel: false,
             })
-            .whenClosed((response) => {
+            .whenClosed((response: any) => {
                 this.theme.hide_title = false;
-                if (response.wasCancelled) return;
+                if (response.status === 'cancel') return;
                 member_ids = Array.from(response.output.member_ids);
                 this.api
-                    .call_server_post("videos/update_video_members", {
+                    .call_server_post('videos/update_video_members', {
                         video_id: this.video_id,
                         member_ids: member_ids,
                     })
@@ -412,10 +384,9 @@ export class AnnotateVideo {
             });
     }
 
-    @computedFrom("player.currentTime")
     get already_in() {
-        let t = Math.round(this.player.currentTime);
-        let cue = this.cue_points.find((c) => c.time == t);
+        const t = Math.round(this.player.currentTime);
+        const cue = this.cue_points.find((c) => c.time == t);
         return Boolean(cue);
     }
 
@@ -431,14 +402,14 @@ export class AnnotateVideo {
     handle_topic_change(event) {
         if (!event.detail) return;
         this.selected_topics = event.detail.selected_options;
-        let topics = this.selected_topics.map((top) => top.option);
+        const topics = this.selected_topics.map((top) => top.option);
         this.video_topics = topics;
         this.undo_list.push({
-            what: "topics",
+            what: 'topics',
             video_topics: this.curr_info.video_topics,
         });
         this.curr_info.video_topics = topics.slice(0);
-        this.api.call_server_post("members/apply_topics_to_story", {
+        this.api.call_server_post('members/apply_topics_to_story', {
             story_id: this.video_story.story_id,
             story_topics: this.video_topics,
             used_for: this.api.constants.story_type.STORY4VIDEO,
@@ -446,9 +417,9 @@ export class AnnotateVideo {
     }
 
     add_topic(event) {
-        let new_topic_name = event.detail.new_name;
+        const new_topic_name = event.detail.new_name;
         this.api
-            .call_server_post("topics/add_topic", {
+            .call_server_post('topics/add_topic', {
                 topic_name: new_topic_name,
             })
             .then(() => this.update_topic_list());
@@ -457,9 +428,9 @@ export class AnnotateVideo {
     update_video_date(customEvent) {
         customEvent.stopPropagation();
         if (!this.video_date_valid) return;
-        let event = customEvent.detail;
+        const event = customEvent.detail;
         this.undo_list.push({
-            what: "story-date",
+            what: 'story-date',
             story_date: {
                 video_date_str: this.curr_info.video_date_str,
                 video_date_datespan: this.curr_info.video_date_datespan,
@@ -467,7 +438,7 @@ export class AnnotateVideo {
         });
         this.curr_info.video_date_str = this.video_date_str.slice(0);
         this.curr_info.video_date_datespan = this.video_date_datespan;
-        this.api.call_server_post("videos/update_video_date", {
+        this.api.call_server_post('videos/update_video_date', {
             video_date_str: event.date_str,
             video_date_datespan: event.date_span,
             video_id: this.video_id,
@@ -475,19 +446,19 @@ export class AnnotateVideo {
     }
 
     undo() {
-        let command = this.undo_list.pop();
+        const command = this.undo_list.pop();
         switch (command.what) {
-            case "topics":
+            case 'topics':
                 this.video_topics = command.video_topics.slice(0);
                 this.curr_info.video_topics = command.video_topics.slice(0);
                 this.init_selected_topics();
-                this.api.call_server_post("members/apply_topics_to_story", {
+                this.api.call_server_post('members/apply_topics_to_story', {
                     story_id: this.video_story.story_id,
                     story_topics: this.video_topics,
                     used_for: this.video_story.used_for,
                 });
                 break;
-            case "story-date":
+            case 'story-date':
                 this.video_date_str = command.story_date.video_date_str;
                 this.curr_info.video_date_str =
                     command.story_date.video_date_str;
@@ -495,7 +466,7 @@ export class AnnotateVideo {
                     command.story_date.video_date_datespan;
                 this.curr_info.video_date_datespan =
                     command.story_date.video_date_datespan;
-                this.api.call_server_post("members/update_story_date", {
+                this.api.call_server_post('members/update_story_date', {
                     story_date_str: this.video_date_str,
                     story_date_datespan: this.video_date_datespan,
                     story_id: this.video_story.story_id,
@@ -505,11 +476,11 @@ export class AnnotateVideo {
     }
 
     add_photographer(event) {
-        let new_photographer_name = event.detail.new_name;
+        const new_photographer_name = event.detail.new_name;
         this.api
-            .call_server_post("topics/add_photographer", {
+            .call_server_post('topics/add_photographer', {
                 photographer_name: new_photographer_name,
-                kind: "P",
+                kind: 'P',
             })
             .then(() => {
                 this.update_topic_list();
@@ -517,8 +488,8 @@ export class AnnotateVideo {
     }
 
     photographer_name_changed(event) {
-        let p = event.detail.option;
-        this.api.call_server_post("topics/rename_photographer", p);
+        const p = event.detail.option;
+        this.api.call_server_post('topics/rename_photographer', p);
     }
 
     handle_photographer_change(event) {
@@ -529,11 +500,11 @@ export class AnnotateVideo {
             this.photographer_id =
                 this.params.selected_photographers[0].option.id;
         } else {
-            this.photographer_name = "";
+            this.photographer_name = '';
             this.photographer_id = null;
         }
         this.undo_list.push({
-            what: "photographer",
+            what: 'photographer',
             photographer: {
                 id: this.curr_info.photographer_id,
                 name: this.curr_info.photographer_name,
@@ -541,7 +512,7 @@ export class AnnotateVideo {
         });
         this.curr_info.photographer_id = this.photographer_id;
         this.curr_info.photographer_name = this.photographer_name.slice(0);
-        this.api.call_server_post("videos/assign_video_photographer", {
+        this.api.call_server_post('videos/assign_video_photographer', {
             video_id: this.video_id,
             photographer_id: this.photographer_id,
         });
@@ -549,11 +520,11 @@ export class AnnotateVideo {
 
     toggle_highlight_on() {
         if (this.highlight_on) {
-            this.highlight_on = "";
+            this.highlight_on = '';
         } else {
-            this.highlight_on = "highlight-on";
+            this.highlight_on = 'highlight-on';
         }
-        document.getElementById("word-highlighter").blur();
+        document.getElementById('word-highlighter').blur();
     }
 
     get video_width() {
@@ -563,7 +534,7 @@ export class AnnotateVideo {
 
     get video_height() {
         if (this.theme.is_desktop) return 390;
-        let height = Math.round((this.theme.width * 390) / 640);
+        const height = Math.round((this.theme.width * 390) / 640);
         return height;
     }
 }

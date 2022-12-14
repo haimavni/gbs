@@ -1,33 +1,31 @@
-import { bindable, inject, DOM, bindingMode, computedFrom, autoinject } from 'aurelia-framework';
-import { MemberGateway } from '../../../services/gateway';
+import { bindable, BindingMode, IDialogService, INode } from 'aurelia';
+import { IMemberGateway } from '../../../services/gateway';
 import { I18N } from '@aurelia/i18n';
 import { Misc } from '../../../services/misc';
-import { DialogService } from 'aurelia-dialog';
 import { EditQuestion } from './edit-question';
 import { EditAnswer } from './edit-answer';
 import { Question, Answer, QState } from './quiz-model';
 
-@inject(DOM.Element, MemberGateway, I18N, DialogService)
 export class QuizCustomElement {
     @bindable q_state: QState;
     @bindable name;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) questions: Question[] = [];
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) checked_answers = [];
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) nota_questions = [];  //for which user selected "none of the above"
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) to_clear_now = false;
+    @bindable({ mode: BindingMode.twoWay }) questions: Question[] = [];
+    @bindable({ mode: BindingMode.twoWay }) checked_answers = [];
+    @bindable({ mode: BindingMode.twoWay }) nota_questions = []; //for which user selected "none of the above"
+    @bindable({ mode: BindingMode.twoWay }) to_clear_now = false;
     @bindable help_data;
-    api;
-    i18n;
     autoClose = 'disabled';
     filter_menu_open = false;
     EDITING;
     USING;
-
-    element;
     dirty;
-    dialog: DialogService;
 
-    constructor(element, api: MemberGateway, i18n: I18N, dialog: DialogService) {
+    constructor(
+        @INode readonly element: HTMLElement,
+        @IMemberGateway readonly api: IMemberGateway,
+        @I18N readonly i18n: I18N,
+        @IDialogService readonly dialog: IDialogService
+    ) {
         this.api = api;
         this.i18n = i18n;
         this.EDITING = QState.EDITING;
@@ -37,22 +35,34 @@ export class QuizCustomElement {
     }
 
     attached() {
-        this.api.call_server('quiz/read_menu', { name: this.name })
-            .then(response => {
+        this.api
+            .call_server('quiz/read_menu', { name: this.name })
+            .then((response) => {
                 this.questions = [];
                 this.checked_answers = [];
-                for (let q of response.questions) {
-                    this.questions.push(new Question(q.prompt, q.description, q.nota_default, q.qid, true, q.answers))
+                for (const q of response.questions) {
+                    this.questions.push(
+                        new Question(
+                            q.prompt,
+                            q.description,
+                            q.nota_default,
+                            q.qid,
+                            true,
+                            q.answers
+                        )
+                    );
                 }
                 if (this.questions.length == 0) {
-                    this.questions.push(new Question('', '', false, 0, true, []))
+                    this.questions.push(
+                        new Question('', '', false, 0, true, [])
+                    );
                 }
                 this.set_defaults();
-            })
+            });
     }
 
     set_defaults() {
-        for (let q of this.questions) {
+        for (const q of this.questions) {
             q.nota = q.nota_default;
             if (q.nota) {
                 this.nota_questions.push(q.qid);
@@ -64,22 +74,30 @@ export class QuizCustomElement {
     get to_show_menu() {
         if (this.q_state != QState.USING) return true;
         if (this.questions.length == 0) return false;
-        return (this.questions.length > 1 || this.questions[0].qid > 0);
+        return this.questions.length > 1 || this.questions[0].qid > 0;
     }
     question_array_to_questions(questions_arr) {
-        let questions: Question[] = [];
-        for (let q of questions_arr) {
-            questions.push(new Question(q.prompt, q.description, q.nota_default, q.qid, false, q.answers))
+        const questions: Question[] = [];
+        for (const q of questions_arr) {
+            questions.push(
+                new Question(
+                    q.prompt,
+                    q.description,
+                    q.nota_default,
+                    q.qid,
+                    false,
+                    q.answers
+                )
+            );
         }
         return questions;
     }
 
-    toggled(state) {
-    }
+    toggled(state) {}
 
     apply_answer(question, answer) {
         if (this.q_state == QState.APPLYING) {
-            for (let ans of question.answers) {
+            for (const ans of question.answers) {
                 if (ans.aid == answer.aid) {
                     ans.checked = !ans.checked;
                 } else {
@@ -90,12 +108,10 @@ export class QuizCustomElement {
             if (answer) {
                 answer.checked = !answer.checked;
                 question.nota = false;
-            }
-            else {
-                if (question.nota) question.nota = false
+            } else {
+                if (question.nota) question.nota = false;
                 else {
-                    for (let ans of question.answers)
-                        ans.checked = false;
+                    for (const ans of question.answers) ans.checked = false;
                     question.nota = true;
                 }
             }
@@ -122,21 +138,24 @@ export class QuizCustomElement {
     }
 
     q_toggled(question: Question, event) {
-        for (let q of this.questions) {
+        for (const q of this.questions) {
             if (q.qid != question.qid) {
                 q.is_open = false;
             }
         }
         if (this.q_state == QState.EDITING) {
-            if (question.answers.length == 0 || Misc.last(question.answers).text) {
-                let ans: Answer = new Answer(question.qid)
-                question.answers.push(ans)
+            if (
+                question.answers.length == 0 ||
+                Misc.last(question.answers).text
+            ) {
+                const ans: Answer = new Answer(question.qid);
+                question.answers.push(ans);
             }
         } else if (this.q_state == QState.APPLYING) {
             let found = false;
-            for (let ans of question.answers) {
+            for (const ans of question.answers) {
                 if (ans.checked) {
-                    found = true
+                    found = true;
                 } else if (found) {
                     ans.checked = false;
                 }
@@ -147,29 +166,36 @@ export class QuizCustomElement {
     main_filter_toggled() {
         this.filter_menu_open = !this.filter_menu_open;
         if (this.q_state == QState.EDITING) {
-            for (let question of this.questions) {
+            for (const question of this.questions) {
                 question.is_open = false;
             }
             if (this.filter_menu_open) {
                 //create new empty question for adding
-                if (this.questions.length == 0 || Misc.last(this.questions).prompt) {
-                    let q_empty = new Question("", "", false, 0, true, []);
+                if (
+                    this.questions.length == 0 ||
+                    Misc.last(this.questions).prompt
+                ) {
+                    const q_empty = new Question('', '', false, 0, true, []);
                     q_empty.input_mode = true;
                     this.questions.push(q_empty);
                     this.questions = this.questions.splice(0);
                 }
             } else {
                 //remove the extra empty question
-                if (this.questions.length > 0 && !Misc.last(this.questions).prompt) {
+                if (
+                    this.questions.length > 0 &&
+                    !Misc.last(this.questions).prompt
+                ) {
                     this.questions.pop();
                 }
             }
         }
     }
     edit_question(question: Question, event) {
-        this.dialog.open({ viewModel: EditQuestion, model: question, lock: true })
-            .whenClosed(response => {
-                if (!response.wasCancelled) {
+        this.dialog
+            .open({ component: () => EditQuestion, model: question, lock: true })
+            .whenClosed((response) => {
+                if (response.status === 'ok') {
                     this.save_question(question);
                 }
             });
@@ -179,9 +205,10 @@ export class QuizCustomElement {
     }
 
     edit_answer(question, answer) {
-        this.dialog.open({ viewModel: EditAnswer, model: answer, lock: true })
-            .whenClosed(response => {
-                if (!response.wasCancelled) {
+        this.dialog
+            .open({ component: () => EditAnswer, model: answer, lock: true })
+            .whenClosed((response) => {
+                if (response.status === 'ok') {
                     this.save_answer(question, answer);
                 }
             });
@@ -192,43 +219,56 @@ export class QuizCustomElement {
 
     save_answer(question, answer) {
         answer.editing_mode = false;
-        this.api.call_server_post('quiz/save_answer', { question_id: question.qid, answer_id: answer.aid, text: answer.text, description: answer.description })
-            .then(response => {
+        this.api
+            .call_server_post('quiz/save_answer', {
+                question_id: question.qid,
+                answer_id: answer.aid,
+                text: answer.text,
+                description: answer.description,
+            })
+            .then((response) => {
                 answer.aid = response.answer_id;
-                if ((Misc.last(question.answers).text)) {
+                if (Misc.last(question.answers).text) {
                     question.answers.push(new Answer(question.qid));
                 }
-            })
+            });
     }
 
     save_question(question) {
         question.editing_mode = false;
-        this.api.call_server_post('quiz/save_question', { name: this.name, question_id: question.qid, prompt: question.prompt, description: question.description, nota_default: question.nota_default })
-            .then(response => {
+        this.api
+            .call_server_post('quiz/save_question', {
+                name: this.name,
+                question_id: question.qid,
+                prompt: question.prompt,
+                description: question.description,
+                nota_default: question.nota_default,
+            })
+            .then((response) => {
                 question.qid = response.question_id;
                 if (Misc.last(this.questions).prompt) {
                     this.questions.push(new Question());
                 }
-            })
+            });
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('q-change', {
+        const changeEvent = new CustomEvent('q-change', {
             detail: {
                 q_state: this.q_state,
                 checked_answers: this.checked_answers,
-                nota_questions: this.nota_questions
+                nota_questions: this.nota_questions,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
     }
 
     clear_all_answers() {
         this.checked_answers = [];
-        for (let question of this.questions) {
+        for (const question of this.questions) {
             question.nota = false;
-            for (let answer of question.answers) {
+            for (const answer of question.answers) {
                 answer.checked = false;
             }
         }
@@ -238,52 +278,49 @@ export class QuizCustomElement {
     calc_checked_answers() {
         this.checked_answers = [];
         this.nota_questions = [];
-        for (let question of this.questions) {
-            if (question.nota)
-                this.nota_questions.push(question.qid);
-            for (let answer of question.answers) {
+        for (const question of this.questions) {
+            if (question.nota) this.nota_questions.push(question.qid);
+            for (const answer of question.answers) {
                 if (answer.checked) {
-                    this.checked_answers.push(answer.aid)
+                    this.checked_answers.push(answer.aid);
                 }
             }
         }
     }
 
-    @computedFrom('q_state')
     get dummy() {
-        this.questions = this.questions.filter(q => q.prompt);
-        for (let q of this.questions) {
+        this.questions = this.questions.filter((q) => q.prompt);
+        for (const q of this.questions) {
             q.is_open = false;
-            q.answers = q.answers.filter(a => a.text);
-            for (let a of q.answers) {
+            q.answers = q.answers.filter((a) => a.text);
+            for (const a of q.answers) {
                 a.checked = false;
             }
         }
-        this.dirty = "";
+        this.dirty = '';
         this.checked_answers = [];
         this.filter_menu_open = false;
         //bug: the menu closes even though q_state is editing
         //this.autoClose = (this.q_state == QState.EDITING) ? 'disabled' : 'outside';
-        return "";
+        return '';
     }
 
     is_dirty() {
         let drt;
-        for (let question of this.questions) {
+        for (const question of this.questions) {
             if (question.nota) return true;
-            for (let ans of question.answers) {
+            for (const ans of question.answers) {
                 if (ans.checked) return true;
             }
         }
         return false;
     }
 
-    @computedFrom('to_clear_now')
     get clear_now() {
         if (this.to_clear_now) {
             this.clear_all();
         }
-        return "";
+        return '';
     }
 
     clear_all() {
@@ -293,5 +330,4 @@ export class QuizCustomElement {
         this.filter_menu_open = false;
         this.dispatch_event();
     }
-
 }

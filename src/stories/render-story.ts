@@ -1,8 +1,10 @@
-import { autoinject, noView, bindable, InlineViewStrategy } from 'aurelia-framework';
-import { Popup } from '../../_OLD/src/services/popups';
+import { customElement } from 'aurelia';
+import { Popup } from '../services/popups';
 
-@noView
-@autoinject
+@customElement({
+    name: 'render-story',
+    template: ''
+})
 export class RenderStory {
     html;
     popup;
@@ -14,8 +16,8 @@ export class RenderStory {
     loading(params) {
         let html = params.html;
         if (!params.raw) {
-            let pat_str = '(<a .*?)href=\"(.*?)\"(.*?)>(.*?)</a>';
-            let pat = new RegExp(pat_str, 'gi');
+            const pat_str = '(<a .*?)href="(.*?)"(.*?)>(.*?)</a>';
+            const pat = new RegExp(pat_str, 'gi');
             html = html.replace(/\n/g, '');
             html = html.replace(pat, function (m, m1, m2, m3, m4) {
                 if (m4 == "המשך" || m4 == "Link") return m;
@@ -27,14 +29,10 @@ export class RenderStory {
     }
 
     popup_window(name, url) {
-        let w = window.outerWidth - 200;
-        let h = window.outerHeight - 200;
-        let params = "height=" + h + ",width=" + w + ",left=100,top=100";
+        const w = window.outerWidth - 200;
+        const h = window.outerHeight - 200;
+        const params = "height=" + h + ",width=" + w + ",left=100,top=100";
         this.popup.popup(name, url, params);
-    }
-
-    getViewStrategy() {
-        return new InlineViewStrategy(this.html);
     }
 
 }
