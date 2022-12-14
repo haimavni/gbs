@@ -9,7 +9,7 @@
             </a>
         </div>
         <div class="col-md-2" style="text-align:center">
-            <h3 style="margin-top: 0">${'chats.chats' & t}</h3>
+            <h3 style="margin-top: 0;font-weight:600;">${'chats.chats' & t}</h3>
         </div>
         <div class="col-md-1" style="padding-top:5px;">
             <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_right()" style="float:left;">
@@ -18,20 +18,35 @@
         </div>
         <div class="col-md-4" style="text-align:center">
             <form class="form-horizontal" role="form" onsubmit="return false;">
-                <div if.bind="user.privileges.CHAT_MODERATOR" style="padding-top:0px;margin-right:10px;">
-                    <a href style="padding:0;margin:0;height:32px;float:left;margin-right:6px;padding-top:5px;" click.trigger="add_chatroom()">
-                        <i class="far fa-lg ${new_chatroom_name_visible ? 'fa-save' : 'fa-plus'}"></i>
-                    </a>
-                    <a href style="padding:0;margin:0;height:32px;float:left;padding-top:5px;" 
+                <div if.bind="user.privileges.CHAT_MODERATOR || user.debugging"
+                    disabled.bind="new_chatroom_name == '' ? 'disabled' : ''"
+                    style="padding-top:0px;margin-right:10px;">
+                    <button class="btn btn-default"
+                        if.bind="new_chatroom_name_visible"
+                        style="padding:0;margin:0;height:32px;float:left;margin-right:6px;padding-top:5px;border:none;" 
+                        click.trigger="add_chatroom()">
+                        <i class="fas fa-lg fa-save"></i>
+                    </button>
+                    <button class="btn btn-default"
+                        if.bind="! new_chatroom_name_visible"
+                        style="padding:4px;margin:4px;margin-top: 6px;
+                            background-color: green; color: white;float:left;margin-right:6px;padding-top:px;" 
+                        click.trigger="add_chatroom()">
+                        <i class="fas fa-lg fa-plus"></i> ${'chats.open-new-chatroom' & t}
+                    </button>
+                    <button class="btn btn-default" style="padding:0;margin:0;height:32px;float:left;padding-top:5px;border:none;" 
                         if.bind="new_chatroom_name_visible"
                         click.trigger="cancel_add_chatroom()">
                         <i class="far fa-lg fa-times-circle"></i>
-                    </a>
+                    </button>
                 </div>
-                <div style="margin:5px;" show.bind="new_chatroom_name_visible">
+                <div 
+                    style="margin:5px;" 
+                    show.bind="new_chatroom_name_visible">
                     <input
+                        id="chatroom-name"
                         style="font-size: 95%;margin-bottom:3px;margin-left:16px;float:left;width: 240px;height:28px;"
-                        dir="rtl" type="text" value.bind="new_chatroom_name" placeholder="${'enter-chatroom-name' & t}"
+                        dir="rtl" type="text" value.bind="new_chatroom_name" placeholder="${'chats.enter-chatroom-name' & t}"
                         class="form-control input-small" />
                 </div>
             </form>

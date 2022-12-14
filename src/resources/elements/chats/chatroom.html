@@ -1,9 +1,9 @@
 <template>
     <div css="background-color: lightgray;height:${theme.height-129}px" class="chatroom ${theme.rtltr}">
-        <div style="padding:16px 5px 0px 5px;">
+        <div style="padding:8px 5px 8px 5px;background-color:grey;color:white;">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                <div css="float:${theme.same_dir};direction:${theme.rtltr};background-color:lightgray;" if.bind="!editing">
-                    <h4 style="width:100%;margin:0;padding:0 5px 0 5px;">${chatroom_name}</h4>
+                <div css="float:${theme.same_dir};direction:${theme.rtltr};" if.bind="!editing">
+                    <h4 style="width:100%;margin:0;padding:0 5px 0 5px;font-weight:600;">${chatroom_name}</h4>
                 </div>
                 <div if.bind="editing">
                     <input style="font-size: 95%;margin-bottom:3px;float: left;width: 200px;height:28px;" dir="rtl"
@@ -11,14 +11,14 @@
                         class="form-control input-small" />
                 </div>
                 <div style="cursor:pointer;margin-left:16px;">
-                    <i class="fas fa-trash" if.bind="user.privileges.CHAT_MODERATOR"
+                    <i class="fas fa-trash" if.bind="user.privileges.CHAT_MODERATOR || user.debugging"
                         click.delegate="delete_chatroom()"></i>
-                    <i class="fas fa-pencil" if.bind="user.privileges.CHAT_MODERATOR && ! editing"
+                    <i class="fas fa-pencil" if.bind="(user.privileges.CHAT_MODERATOR || user.debugging) && ! editing"
                         click.delegate="edit_chatroom_name()"></i>
                     <i class="fas fa-save" 
                         if.bind="editing" 
                         style="background-color:green;color:white;" 
-                        disabled.bind="chatroom_name.length==0"
+                        disabled.bind="chatroom_name == '' ? 'disabled' : ''"
                         click.delegate="save_chatroom_name()">
                     </i>
                 </div>
@@ -40,10 +40,11 @@
                     <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'"
                         class="chat-message">
                         <span style="font-weight:bold;display:flex;justify-content:space-between;">${msg.timestamp}: ${msg.sender_name}
-                            <span if.bind="user.privileges.CHAT_MODERATOR"
+                            <span if.bind="user.privileges.CHAT_MODERATOR || user.debugging"
                                 style="margin-left:10px;cursor:pointer;">
                                 <i class="fa fa-trash" click.delegate="delete_message(msg, $index)"></i>
-                                <i class="fas fa-pencil" click.delegate="edit_message(msg, $index)"></i>
+                                <i class="fas fa-pencil" if.bind="edited_message_id == 0" as-custom-element="elementName".delegate="edit_message(msg, $index)"></i>
+                                <i class="fas fa-save" if.bind="edited_message_id == msg.id" as-custom-element="elementName".delegate="edit_message(msg, $index)"></i>
                             </span>
                         </span>
                         <span if.bind="msg.id != edited_message_id" innerhtml.bind="msg.message"></span>

@@ -66,6 +66,8 @@ export class ChatroomGroupCustomElement {
             this.new_chatroom_name_visible = false;
         }
         else {
+            let el = document.getElementById('chatroom-name');
+            if (el) el.focus();
             this.new_chatroom_name_visible = true;
         }
     }
