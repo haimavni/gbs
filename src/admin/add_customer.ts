@@ -30,6 +30,14 @@ export class AddCustomer {
         this.theme = theme;
     }
 
+    activate(model) {
+        if (model) {
+            this.customer_data.first_name = model.first_name;
+            this.customer_data.last_name = model.last_name;
+            this.customer_data.email = model.email;
+        }
+    }
+
     save() {
         if (this.done) {
             this.controller.ok();

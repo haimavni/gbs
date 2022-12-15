@@ -8,8 +8,16 @@
             <div class="panel-body">
                 <form role="form">
                     <div class="form-group">
-                        <input required type="text" name="name" id="name" class="form-control input-sm lowercase" value.bind="contact_name"
-                            t="[placeholder]promote-name">
+                        <input required type="text" name="first-name" 
+                            id="first-name" class="form-control input-sm lowercase" 
+                            value.bind="contact_first_name"
+                            t="[placeholder]promote-first-name">
+                    </div>
+                    <div class="form-group">
+                        <input required type="text" name="last-name" 
+                            id="last-name" class="form-control input-sm lowercase" 
+                            value.bind="contact_last_name"
+                            t="[placeholder]promote-last-name">
                     </div>
                     <div class="form-group">
                         <input required type="email" name="email" id="email" class="form-control input-sm lowercase" value.bind="contact_email"
@@ -27,9 +35,16 @@
                 </form>
             </div>
         </ux-dialog-body>
-        <ux-dialog-footer style="padding-right:32px;">
+        <ux-dialog-footer style="padding-right:32px;display:flex;flex-direction:row;">
             <button class="btn btn-danger btn-warning" click.trigger="cancel()">${'stories.cancel' & t}</button>
-            <button class="btn btn-success btn-primary" click.trigger="send()">${'promote-send' & t}</button>
+            <button class="btn btn-success btn-primary ${disabled_if}" click.trigger="send()">${'promote-send' & t}</button>
+            <div class="checkbox" 
+                style="background-color:lightgrey;border-radius:5px;margin-top:6px;margin-bottom:0px;padding-top:6px;padding-right:5px;">
+                <label for="create-app" style="margin-left:5px;margin-right:5px;">
+                <input id="create-app" type="checkbox" value.bind="create_app" checked.bind="create_app">
+                   <span style="margin-left:6px;margin-right:20px;">${'user.create-new-app' & t}</span>
+                </label>
+            </div>
         </ux-dialog-footer>
     </ux-dialog>
 </template>

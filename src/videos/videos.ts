@@ -22,6 +22,7 @@ class Video {
     name = "";
     src = "";
     thumbnail_url = "";
+    duration = 0;
     video_type = "";
     id = 0;
     keywords = "";
@@ -35,20 +36,6 @@ class Video {
         this.video_date_label = video_date_label;
         this.keywords_label = keywords_label;
     }
-
-    get video_info_content() {
-        let date_range = format_date(this.video_date_datestr, this.video_date_datespan);
-        let content = `
-        <ul>
-            <li>${this.photographer_name_label}:&nbsp;${this.photographer_name}</li>
-            <li>${this.video_date_label}:&nbsp;${date_range}</li>
-            <li>${this.keywords_label}:&nbsp;${this.keywords}</li>
-        </ul>
-        `
-        return content;
-    }
-
-}
 
 @autoinject
 @singleton()
@@ -128,9 +115,6 @@ export class Videos {
 
     video_data(video_rec) {
         switch (video_rec.video_type) {
-            case 'youtube':
-                video_rec.thumbnail_url = `https://i.ytimg.com/vi/${video_rec.src}/mq2.jpg`
-                break;
             case 'vimeo':
                 //use the sample below 
                 // <iframe src="https://player.vimeo.com/video/38324835" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
@@ -490,15 +474,29 @@ export class Videos {
         let vdr = this.i18n.tr('videos.video-date-range');
         let date_range = format_date(video.video_date_datestr, video.video_date_datespan);
         let keywords = video.keywords ? video.keywords : "";
-        let kw_label = this.i18n.tr('videos.keywords')
+        let kw_label = this.i18n.tr('videos.keywords');
+        let duration_label = this.i18n.tr('videos.duration');
+        let duration_li = '';
+        if (video.duration) {
+            let duration_str = this.secs_to_str(video.duration);
+            duration_li = `<li if.bind="duration_str">${duration_label}:&nbsp;${duration_str}</li>`
+        }
         let content = `
         <ul>
             <li>${pn}:&nbsp;${video.photographer_name}</li>
             <li>${vdr}:&nbsp;${date_range}</li>
             <li>${kw_label}:&nbsp;${keywords}</li>
+            ${duration_li}
         </ul>
         `
         return content;
+    }
+
+    secs_to_str(seconds) {
+        if (!seconds) return '';
+        const result = new Date(seconds * 1000).toISOString();
+        const start = seconds < 3600 ? 14 : 11;
+        return result.slice(start, 19);
     }
 
     show_filters_only() {

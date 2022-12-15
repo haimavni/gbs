@@ -491,4 +491,13 @@ export class AnnotateVideo {
         return height;
     }
 
+    @computedFrom('user.editing')
+    get user_editing() {
+        if (this.user.editing_mode_changed)
+            this.update_topic_list();
+        return this.user.editing;
+    }
+
+
+
 }

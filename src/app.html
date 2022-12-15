@@ -67,7 +67,7 @@
                 </span>
                 <span if.bind="user.config.expose_developer" class="footer-item">
                     <button class="btn btn-default footer-button" click.delegate="contact_us()">
-                        Built by LifeStone
+                        ${'admin.about-lifestone' & t}
                     </button>
                 </span>
                 <span if.bind="user.config.expose_version_time" style="direction:ltr" class="footer-item">${curr_version}</span>
