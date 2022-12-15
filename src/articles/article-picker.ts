@@ -1,12 +1,17 @@
-import { IDialogController, IEventAggregator, ICustomElementViewModel } from "aurelia";
-import { IUser } from "../services/user";
-import { IArticleList } from "../services/article_list";
-import { IRouter } from "@aurelia/router";
-import { IMemberGateway } from "../services/gateway";
-import { I18N } from "@aurelia/i18n";
+import {
+    IDialogController,
+    IEventAggregator,
+    ICustomElementViewModel,
+} from 'aurelia';
+
+import { IUser } from '../services/user';
+import { IArticleList } from '../services/article_list';
+import { IRouter } from '@aurelia/router';
+import { IMemberGateway } from '../services/gateway';
+import { I18N } from '@aurelia/i18n';
 
 export class ArticlePicker implements ICustomElementViewModel {
-    filter = "";
+    filter = '';
     face_identifier = false;
     face;
     slide;
@@ -31,7 +36,7 @@ export class ArticlePicker implements ICustomElementViewModel {
         @IMemberGateway readonly api: IMemberGateway,
         @I18N readonly i18n: I18N
     ) {
-        this.eventAggregator.subscribe("EditModeChange", (payload: IUser) => {
+        this.eventAggregator.subscribe('EditModeChange', (payload: IUser) => {
             this.user = payload;
         });
     }
@@ -55,12 +60,12 @@ export class ArticlePicker implements ICustomElementViewModel {
         this.candidates = model.candidates ? model.candidates : [];
         this.excluded = model.excluded ? model.excluded : new Set();
         this.multi = model.multi;
-        this.back_to_text = model.back_to_text || "members.back-to-photos";
+        this.back_to_text = model.back_to_text || 'members.back-to-photos';
         this.article_id = model.article_id;
 
         await this.prepare_lists();
 
-        this.filter = "";
+        this.filter = '';
 
         if (model.preselected) {
             for (const article_id of model.preselected) {
@@ -68,7 +73,7 @@ export class ArticlePicker implements ICustomElementViewModel {
                 const article = this.articles.find(
                     (art) => art.id == article_id
                 );
-                article.selected = "selected";
+                article.selected = 'selected';
             }
             this.articles.sort((a, b) =>
                 a.selected ? -1 : b.selected ? +1 : 0
@@ -87,10 +92,10 @@ export class ArticlePicker implements ICustomElementViewModel {
         if (this.multi) {
             if (this.selected_article_ids.has(article.id)) {
                 this.selected_article_ids.delete(article.id);
-                article.selected = "";
+                article.selected = '';
             } else {
                 this.selected_article_ids.add(article.id);
-                article.selected = "selected";
+                article.selected = 'selected';
             }
         } else {
             this.articleList.add_recent(article);
@@ -104,21 +109,21 @@ export class ArticlePicker implements ICustomElementViewModel {
     async create_new_article() {
         let article_ids = [];
         await this.api
-            .call_server("articles/article_by_name", { name: this.filter })
+            .call_server('articles/article_by_name', { name: this.filter })
             .then((response) => {
                 article_ids = response.article_ids;
             });
         for (const article_id of article_ids) {
             if (this.excluded.has(article_id)) {
                 const msg =
-                    this.filter + this.i18n.tr("articles.already-identified");
+                    this.filter + this.i18n.tr('articles.already-identified');
                 alert(msg);
                 return;
             }
         }
-        const default_name = this.i18n.tr("articles.default-name");
+        const default_name = this.i18n.tr('articles.default-name');
         this.api
-            .call_server("articles/create_new_article", {
+            .call_server('articles/create_new_article', {
                 photo_id: this.slide.photo_id,
                 face_x: this.face.x,
                 face_y: this.face.y,
@@ -138,16 +143,16 @@ export class ArticlePicker implements ICustomElementViewModel {
         const article_ids = Array.from(this.selected_article_ids);
         this.selected_article_ids = new Set();
         for (const article of this.articles) {
-            article.selected = "";
+            article.selected = '';
         }
         this.dialogController.ok({ article_ids: article_ids });
     }
 
     get place_holder() {
-        let key = "articles.filter";
+        let key = 'articles.filter';
 
         if (this.user.editing) {
-            key += "-can-add";
+            key += '-can-add';
         }
 
         return this.i18n.tr(key);

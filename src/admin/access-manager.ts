@@ -1,10 +1,10 @@
-import { IDialogService } from "aurelia";
-import { I18N } from "@aurelia/i18n";
-import { ITheme } from "../services/theme";
-import { IMisc } from "../services/misc";
-import { IMemberGateway } from "../services/gateway";
-import { EditUser } from "./edit-user";
-import * as toastr from "toastr";
+import { IDialogService } from 'aurelia';
+import { I18N } from '@aurelia/i18n';
+import { ITheme } from '../services/theme';
+import { IMisc } from '../services/misc';
+import { IMemberGateway } from '../services/gateway';
+import { EditUser } from './edit-user';
+import * as toastr from 'toastr';
 
 export class AccessManager {
     authorized_users = [];
@@ -13,10 +13,10 @@ export class AccessManager {
     user_to_delete;
     pageSize = 15;
     filters = [
-        { value: "", keys: ["first_name", "last_name", "email"] },
-        { value: "all-users", custom: this.statusFilter },
+        { value: '', keys: ['first_name', 'last_name', 'email'] },
+        { value: 'all-users', custom: this.statusFilter },
     ];
-    statuses = ["all-users", "registered-users", "unregistered-users"];
+    statuses = ['all-users', 'registered-users', 'unregistered-users'];
 
     constructor(
         @IMemberGateway readonly api: IMemberGateway,
@@ -38,42 +38,42 @@ export class AccessManager {
     }
 
     get_authorized_users() {
-        this.api.call_server("admin/get_authorized_users").then((data) => {
+        this.api.call_server('admin/get_authorized_users').then((data) => {
             this.authorized_users = data.authorized_users;
         });
     }
 
     role_class(r) {
         const class_of_role = {
-            DEVELOPER: "fa-cogs",
-            ACCESS_MANAGER: "fa-th",
-            ADMIN: "fa-star",
-            TESTER: "fa-certificate",
-            EDITOR: "fa-pencil",
-            COMMENTATOR: "fa-comment",
-            PHOTO_UPLOADER: "fa-camera",
-            VIDEO_EDITOR: "fa-video",
-            CHATTER: "fa-comments",
-            CHAT_MODERATOR: "fa-anchor",
-            TEXT_AUDITOR: "fa-shield",
-            DATA_AUDITOR: "fa-thumbs-up",
-            HELP_AUTHOR: "fa-life-saver fa-pencil",
-            ADVANCED: "fa-user-md",
-            MAIL_WATCHER: "fa-envelope",
-            ARCHIVER: "fa-archive",
-            RESTRICTED: "fa-do-not-enter",
+            DEVELOPER: 'fa-cogs',
+            ACCESS_MANAGER: 'fa-th',
+            ADMIN: 'fa-star',
+            TESTER: 'fa-certificate',
+            EDITOR: 'fa-pencil',
+            COMMENTATOR: 'fa-comment',
+            PHOTO_UPLOADER: 'fa-camera',
+            VIDEO_EDITOR: 'fa-video',
+            CHATTER: 'fa-comments',
+            CHAT_MODERATOR: 'fa-anchor',
+            TEXT_AUDITOR: 'fa-shield',
+            DATA_AUDITOR: 'fa-thumbs-up',
+            HELP_AUTHOR: 'fa-life-saver fa-pencil',
+            ADVANCED: 'fa-user-md',
+            MAIL_WATCHER: 'fa-envelope',
+            ARCHIVER: 'fa-archive',
+            RESTRICTED: 'fa-do-not-enter',
         };
         return class_of_role[r.role];
     }
 
     role_title(r) {
-        const role = "admin." + r.role.toLowerCase();
+        const role = 'admin.' + r.role.toLowerCase();
         return this.i18n.tr(role);
     }
 
     toggle_membership(r, id) {
         r.id = id;
-        this.api.call_server("admin/toggle_membership", r).then((data) => {
+        this.api.call_server('admin/toggle_membership', r).then((data) => {
             const user = this.authorized_users.find((u) => u.id == data.id);
             const role = user.roles.find((r) => r.role == data.role);
             role.active = data.active;
@@ -85,7 +85,7 @@ export class AccessManager {
             this.curr_user_orig = this.misc.deepClone(user_data);
             this.curr_user = user_data;
         } else {
-            this.curr_user = { last_name: "" };
+            this.curr_user = { last_name: '' };
         }
         this.dialog
             .open({
@@ -95,7 +95,7 @@ export class AccessManager {
             })
             .whenClosed((response) => {
                 if (response.status === 'cancel') {
-                    this.dialog.closeAll()
+                    this.dialog.closeAll();
                 } else {
                     this.save();
                 }
@@ -104,24 +104,24 @@ export class AccessManager {
 
     unlock_user(uid) {
         this.api
-            .call_server("admin/unlock_user", { user_id: uid })
+            .call_server('admin/unlock_user', { user_id: uid })
             .then((result) => {
-                toastr.success("The user can now login");
+                toastr.success('The user can now login');
             });
     }
 
     resend_verification_email(uid) {
         this.api
-            .call_server("admin/resend_verification_email", { user_id: uid })
+            .call_server('admin/resend_verification_email', { user_id: uid })
             .then((result) => {
-                toastr.success("Verification email was sent");
+                toastr.success('Verification email was sent');
             });
     }
 
     delete_user(usr) {
         this.user_to_delete = usr;
-        if (confirm("OK to delete?")) {
-            this.api.call_server_post("admin/delete_user", usr).then((data) => {
+        if (confirm('OK to delete?')) {
+            this.api.call_server_post('admin/delete_user', usr).then((data) => {
                 const uid = parseInt(data.id);
                 const idx = this.authorized_users.findIndex(
                     (item) => item.id == data.id
@@ -133,7 +133,7 @@ export class AccessManager {
 
     save() {
         this.api
-            .call_server_post("admin/add_or_update_user", this.curr_user)
+            .call_server_post('admin/add_or_update_user', this.curr_user)
             .then((data) => {
                 if (data.error || data.user_error) {
                     return;
@@ -147,21 +147,21 @@ export class AccessManager {
                         }
                     });
                 setTimeout(function () {
-                    this.dialog.close("good");
+                    this.dialog.close('good');
                 });
             });
     }
 
     statusFilter(filterValue, user) {
         let r = user.registration_key;
-        if (!r) r = "";
+        if (!r) r = '';
         switch (filterValue) {
-            case "all-users":
+            case 'all-users':
                 return true;
-            case "registered-users":
-                return r == "";
-            case "unregistered-users":
-                return r != "";
+            case 'registered-users':
+                return r == '';
+            case 'unregistered-users':
+                return r != '';
         }
         return true;
     }

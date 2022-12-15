@@ -3,8 +3,7 @@ import { IDialogController } from 'aurelia';
 export class EditUser {
     curr_user;
 
-    constructor(@IDialogController readonly controller: IDialogController) {
-    }
+    constructor(@IDialogController readonly controller: IDialogController) {}
 
     loading(params) {
         this.curr_user = params.curr_user;
@@ -17,5 +16,4 @@ export class EditUser {
     cancel() {
         this.controller.cancel();
     }
-
 }

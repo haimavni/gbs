@@ -8,8 +8,11 @@ export class BlackSheep {
     solution_steps = [];
     curr_step_idx = 0;
     failed = false;
-    
-    constructor(@IMemberGateway readonly api: IMemberGateway, @ITheme readonly theme: ITheme) {
+
+    constructor(
+        @IMemberGateway readonly api: IMemberGateway,
+        @ITheme readonly theme: ITheme
+    ) {
         this.api = api;
         this.theme = theme;
     }
@@ -42,9 +45,8 @@ export class BlackSheep {
     mutate(r, c, m, event) {
         const n = 100 * m + 10 * r + c;
         if (this.black_loc == n) {
-            this.black_loc = -1
-        }
-        else if (this.white_locs.has(n)) {
+            this.black_loc = -1;
+        } else if (this.white_locs.has(n)) {
             this.white_locs.delete(n);
             this.black_loc = n;
         } else {
@@ -54,9 +56,11 @@ export class BlackSheep {
     }
 
     refresh() {
-        for (const loc of [0, 1, 2, 3, 10, 11, 12, 20, 21, 22, 100, 101, 110, 111]) {
+        for (const loc of [
+            0, 1, 2, 3, 10, 11, 12, 20, 21, 22, 100, 101, 110, 111,
+        ]) {
             const locs = '' + loc;
-            const el = document.getElementById(locs)
+            const el = document.getElementById(locs);
             const c = loc % 10;
             const r = (loc - c) / 10;
             const m = (loc - c - r * 10) / 100;
@@ -72,11 +76,15 @@ export class BlackSheep {
 
     solve() {
         const arr = Array.from(this.white_locs);
-        this.api.call_server_post('games/solve_black_sheep', { black_loc: this.black_loc, white_locs: arr })
-            .then(response => {
+        this.api
+            .call_server_post('games/solve_black_sheep', {
+                black_loc: this.black_loc,
+                white_locs: arr,
+            })
+            .then((response) => {
                 this.solution_steps = response.solution_steps;
                 this.failed = this.solution_steps.length == 0;
-            })
+            });
     }
 
     get has_solution() {
@@ -89,7 +97,7 @@ export class BlackSheep {
         this.white_locs.delete(step[1]);
         const black = step[0];
         if (black) {
-            this.black_loc = step[3]
+            this.black_loc = step[3];
         } else {
             this.white_locs.delete(step[2]);
             this.white_locs.add(step[3]);
@@ -103,7 +111,7 @@ export class BlackSheep {
         this.white_locs.add(step[1]);
         const black = step[0];
         if (black) {
-            this.black_loc = step[2]
+            this.black_loc = step[2];
         } else {
             this.white_locs.delete(step[3]);
             this.white_locs.add(step[2]);

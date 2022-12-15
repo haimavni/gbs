@@ -1,12 +1,11 @@
-import { IUser } from "../services/user";
-import { IYtKeeper } from "../services/yt-keeper";
+import { IUser } from '../services/user';
+import { IYtKeeper } from '../services/yt-keeper';
 
 export class Experiment {
     longitude = 35.22;
     latitude = 31.77;
     zoom = 10;
     can_mark = true;
-    user: User;
     to_show = false;
     final = 3000;
     current = 0;
@@ -15,10 +14,9 @@ export class Experiment {
     html5_player;
     use_html5 = true;
     curr_vid_idx = 0;
-    yt_urls = ["GBpibo4TEdE", "WhuzYxmaPlc", "OTnLL_2-Dj8"];
+    yt_urls = ['GBpibo4TEdE', 'WhuzYxmaPlc', 'OTnLL_2-Dj8'];
     html5_source =
-        "http://tol.com:8000/gbs__test/static/apps_data/gbs/videos/vid003.mp4";
-    ytKeeper: YtKeeper;
+        'http://tol.com:8000/gbs__test/static/apps_data/gbs/videos/vid003.mp4';
     youtube_player;
 
     make_step(event) {
@@ -26,7 +24,7 @@ export class Experiment {
         let cur_player: any;
         if (this.use_html5) {
             cur_player = this.html5_player;
-            console.log("html5 player: ", this.html5_player);
+            console.log('html5 player: ', this.html5_player);
         } else {
             cur_player = this.ytKeeper.player;
             cur_player.seekTo(600);
@@ -47,13 +45,13 @@ export class Experiment {
         }
     }
 
-    constructor(user: User, ytKeeper: YtKeeper) {
-        this.user = user;
-        this.ytKeeper = ytKeeper;
-    }
+    constructor(
+        @IUser readonly user: IUser,
+        @IYtKeeper readonly ytKeeper: IYtKeeper
+    ) {}
 
     location_changed(event) {
-        let detail = event.detail;
+        const detail = event.detail;
         console.log(detail);
         this.longitude = detail.longitude;
         this.latitude = detail.latitude;

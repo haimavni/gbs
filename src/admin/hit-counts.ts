@@ -1,15 +1,15 @@
-import { I18N } from "@aurelia/i18n";
-import { IRouter } from "@aurelia/router";
-import { ITheme } from "../services/theme";
-import { IMemberGateway } from "../services/gateway";
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
+import { ITheme } from '../services/theme';
+import { IMemberGateway } from '../services/gateway';
 
 export class HitCounts {
     total_count;
     itemized_counts;
     what_options;
-    what_option = "MEMBER";
+    what_option = 'MEMBER';
     order_options;
-    order_option = "NEW";
+    order_option = 'NEW';
     items = [];
     pageSize = 15;
 
@@ -20,14 +20,14 @@ export class HitCounts {
         @I18N readonly i18n: I18N
     ) {
         this.what_options = [
-            { value: "MEMBER", name: this.i18n.tr("members.members") },
-            { value: "PHOTO", name: this.i18n.tr("photos.photos") },
-            { value: "EVENT", name: this.i18n.tr("stories.stories") },
-            { value: "TERM", name: this.i18n.tr("terms.terms") },
+            { value: 'MEMBER', name: this.i18n.tr('members.members') },
+            { value: 'PHOTO', name: this.i18n.tr('photos.photos') },
+            { value: 'EVENT', name: this.i18n.tr('stories.stories') },
+            { value: 'TERM', name: this.i18n.tr('terms.terms') },
         ];
         this.order_options = [
-            { value: "NEW", name: this.i18n.tr("by-new-count") },
-            { value: "OLD", name: this.i18n.tr("by-old-count") },
+            { value: 'NEW', name: this.i18n.tr('by-new-count') },
+            { value: 'OLD', name: this.i18n.tr('by-old-count') },
         ];
     }
 
@@ -35,13 +35,13 @@ export class HitCounts {
         this.theme.display_header_background = true;
         this.theme.hide_title = true;
         this.theme.hide_menu = true;
-        this.theme.page_title = "user.number-of-hits";
+        this.theme.page_title = 'user.number-of-hits';
         this.get_statistics();
     }
 
     get_statistics() {
         this.api
-            .call_server("default/get_hit_statistics", {
+            .call_server('default/get_hit_statistics', {
                 order: this.order_option,
             })
             .then((response) => {

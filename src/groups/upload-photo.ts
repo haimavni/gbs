@@ -1,14 +1,14 @@
 import { IRouteableComponent } from '@aurelia/router';
 // this file is obsolete now. to be deleted soon
-import { IMemberGateway } from "../services/gateway";
-import { IDialogService, IEventAggregator } from "aurelia";
-import { IRouter } from "@aurelia/router";
-import { IMisc } from "../services/misc";
-import { ITheme } from "../services/theme";
-import { IUser } from "../services/user";
-import { I18N } from "@aurelia/i18n";
-import { IPopup } from "../services/popups";
-import { debounce } from "../services/debounce";
+import { IMemberGateway } from '../services/gateway';
+import { IDialogService, IEventAggregator } from 'aurelia';
+import { IRouter } from '@aurelia/router';
+import { IMisc } from '../services/misc';
+import { ITheme } from '../services/theme';
+import { IUser } from '../services/user';
+import { I18N } from '@aurelia/i18n';
+import { IPopup } from '../services/popups';
+import { debounce } from '../services/debounce';
 
 export class UploadPhoto implements IRouteableComponent {
     group_id;
@@ -21,19 +21,19 @@ export class UploadPhoto implements IRouteableComponent {
     status_record = {
         photo_uploaded: false,
         user_id: -1,
-        photo_url: "",
+        photo_url: '',
         photo_id: 0,
         duplicate: false,
         photo_details_saved: false,
-        old_data: "",
+        old_data: '',
         map_visible: false,
         calibrating: false,
         photo_info: {
-            photo_name: "",
-            photo_story: "",
-            photo_date_str: "",
+            photo_name: '',
+            photo_story: '',
+            photo_date_str: '',
             photo_date_datespan: 0,
-            photographer_name: "",
+            photographer_name: '',
             photographer_id: 0,
             photo_topics: [],
             latitude: 31.772,
@@ -42,7 +42,7 @@ export class UploadPhoto implements IRouteableComponent {
         },
     };
     params = {
-        selected_order_option: "upload-time-order",
+        selected_order_option: 'upload-time-order',
         user_id: null,
         count_limit: 100,
         editing: false,
@@ -51,7 +51,7 @@ export class UploadPhoto implements IRouteableComponent {
     photo_list = [];
     photo_height = 620;
     unknown_photographer;
-    explain_gallery = "The full site will be openedin a separate window.";
+    explain_gallery = 'The full site will be openedin a separate window.';
     //google maps data
     tracked_zoom = 0;
     longitude_distance = 0;
@@ -82,9 +82,9 @@ export class UploadPhoto implements IRouteableComponent {
         @IMisc readonly misc: IMisc
     ) {
         this.unknown_photographer = this.i18n.tr(
-            "groups.unknown-photographer-name"
+            'groups.unknown-photographer-name'
         );
-        this.explain_gallery = this.i18n.tr("groups.explain-gallery");
+        this.explain_gallery = this.i18n.tr('groups.explain-gallery');
         //
         this.update_photo_location_debounced = debounce(
             this.update_photo_location,
@@ -95,7 +95,7 @@ export class UploadPhoto implements IRouteableComponent {
 
     attached() {
         this.subscriber = this.ea.subscribe(
-            "GROUP-PHOTO-UPLOADED",
+            'GROUP-PHOTO-UPLOADED',
             (msg: any) => {
                 this.photos = [];
                 this.status_record.photo_url = msg.photo_url;
@@ -107,7 +107,7 @@ export class UploadPhoto implements IRouteableComponent {
                 this.status_record.photo_info.photo_date_datespan =
                     msg.photo_date_datespan;
                 this.status_record.photo_info.photographer_name =
-                    msg.photographer_name || "";
+                    msg.photographer_name || '';
                 this.status_record.photo_info.photo_topics = msg.photo_topics;
                 this.status_record.photo_info.photographer_id =
                     msg.photographer_id;
@@ -116,7 +116,7 @@ export class UploadPhoto implements IRouteableComponent {
                 this.status_record.old_data = this.misc.deepClone(
                     this.status_record.photo_info
                 );
-                const el = document.getElementById("group-photo-area");
+                const el = document.getElementById('group-photo-area');
                 this.photo_height = el.offsetHeight;
                 this.update_photo_list();
             }
@@ -144,11 +144,11 @@ export class UploadPhoto implements IRouteableComponent {
         this.params.user_id = this.status_record.user_id;
         this.params.editing = this.user.editing;
         return this.api
-            .call_server_post("photos/get_photo_list", this.params)
+            .call_server_post('photos/get_photo_list', this.params)
             .then((result) => {
                 this.photo_list = result.photo_list;
                 for (const photo of this.photo_list) {
-                    photo.title = '<span dir="rtl">' + photo.title + "</span>";
+                    photo.title = '<span dir="rtl">' + photo.title + '</span>';
                 }
             });
     }
@@ -160,7 +160,7 @@ export class UploadPhoto implements IRouteableComponent {
     loading(params, config) {
         this.group_id = params.group;
         this.api
-            .call_server("groups/get_group_info", { group_id: this.group_id })
+            .call_server('groups/get_group_info', { group_id: this.group_id })
             .then((response) => {
                 this.logo_url = response.logo_url;
                 this.title = response.title;
@@ -176,39 +176,39 @@ export class UploadPhoto implements IRouteableComponent {
     }
 
     save() {
-        this.api.uploadFiles(this.status_record.user_id, this.photos, "PHOTO", {
+        this.api.uploadFiles(this.status_record.user_id, this.photos, 'PHOTO', {
             group_id: this.group_id,
             ptp_key: this.api.constants.ptp_key,
         });
     }
 
     get phase() {
-        if (this.status_record.user_id < 1) return "not-logged-in";
-        this.status_record.photo_uploaded = this.status_record.photo_url != "";
-        if (this.photos.length > 0) return "ready-to-save";
+        if (this.status_record.user_id < 1) return 'not-logged-in';
+        this.status_record.photo_uploaded = this.status_record.photo_url != '';
+        if (this.photos.length > 0) return 'ready-to-save';
         if (this.status_record.photo_url) {
             this.status_record.photo_uploaded = true;
-            return "photo-uploaded";
+            return 'photo-uploaded';
         }
-        return "ready-to-select";
+        return 'ready-to-select';
     }
 
     get help_message() {
         let key;
-        if (this.status_record.map_visible) key = "groups.place-marker";
-        else key = "groups." + this.phase;
+        if (this.status_record.map_visible) key = 'groups.place-marker';
+        else key = 'groups.' + this.phase;
         return this.i18n.tr(key);
     }
 
     view_gallery() {
         const url = this.misc.make_url(
-            "photos",
+            'photos',
             `*?user_id=${this.status_record.user_id}`
         );
         this.popup.popup(
-            "GALLERY",
+            'GALLERY',
             url,
-            "height=860,width=1700,left=100,top=100"
+            'height=860,width=1700,left=100,top=100'
         );
     }
 
@@ -265,7 +265,7 @@ export class UploadPhoto implements IRouteableComponent {
 
     update_photo_location() {
         if (!this.status_record.photo_info.longitude) return;
-        this.api.call_server_post("photos/update_photo_location", {
+        this.api.call_server_post('photos/update_photo_location', {
             photo_id: this.status_record.photo_id,
             longitude: this.status_record.photo_info.longitude,
             latitude: this.status_record.photo_info.latitude,

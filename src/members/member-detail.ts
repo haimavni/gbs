@@ -1,20 +1,20 @@
-import { IRouter, IRouteableComponent } from "@aurelia/router";
-import { IEventAggregator, IDialogService } from "aurelia";
-import { I18N } from "@aurelia/i18n";
-import { IMemberGateway } from "../services/gateway";
-import { IUser } from "../services/user";
-import { IMisc } from "../services/misc";
-import { ITheme } from "../services/theme";
-import { IShowPhoto } from "../services/show-photo";
-import { StoryWindow } from "../stories/story_window";
-import { IMemberList } from "../services/member_list";
-import { highlight } from "../services/dom_utils";
-import { ConfigMemberStories } from "../members/config-member-stories";
-import { IVideos } from "../videos/videos";
+import { IRouter, IRouteableComponent } from '@aurelia/router';
+import { IEventAggregator, IDialogService } from 'aurelia';
+import { I18N } from '@aurelia/i18n';
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from '../services/user';
+import { IMisc } from '../services/misc';
+import { ITheme } from '../services/theme';
+import { IShowPhoto } from '../services/show-photo';
+import { StoryWindow } from '../stories/story_window';
+import { IMemberList } from '../services/member_list';
+import { highlight } from '../services/dom_utils';
+import { ConfigMemberStories } from '../members/config-member-stories';
+import { IVideos } from '../videos/videos';
 
 export class MemberDetail implements IRouteableComponent {
     member;
-    new_member = "";
+    new_member = '';
     baseURL;
     dirty_info = false;
     dirty_story = false;
@@ -45,10 +45,10 @@ export class MemberDetail implements IRouteableComponent {
     life_summary_box;
     life_summary_box1;
     keywords = [];
-    highlight_on = "highlight-on";
+    highlight_on = 'highlight-on';
     advanced_search = false;
     photo_list_changes_pending = false;
-    biography_dir = "";
+    biography_dir = '';
     member_id;
     move_to;
     story_0;
@@ -70,21 +70,21 @@ export class MemberDetail implements IRouteableComponent {
         @IMisc readonly misc: IMisc,
         @IShowPhoto readonly show_photo: IShowPhoto
     ) {
-        this.to_story_page = this.i18n.tr("members.to-story-page");
-        this.expand = this.i18n.tr("members.expand-life-summary");
-        this.compress = this.i18n.tr("members.compress-life-summary");
+        this.to_story_page = this.i18n.tr('members.to-story-page');
+        this.expand = this.i18n.tr('members.expand-life-summary');
+        this.compress = this.i18n.tr('members.compress-life-summary');
         this.dialog = dialog;
         this.baseURL = process.env.baseURL;
-        this.life_summary = this.i18n.tr("members.life-summary");
+        this.life_summary = this.i18n.tr('members.life-summary');
 
-        this.eventAggregator.subscribe("STORY_WAS_SAVED", (payload) => {
+        this.eventAggregator.subscribe('STORY_WAS_SAVED', (payload) => {
             this.refresh_story(payload);
         });
-        this.eventAggregator.subscribe("WINDOW-RESIZED", (payload) => {
+        this.eventAggregator.subscribe('WINDOW-RESIZED', (payload) => {
             this.set_heights();
         });
         this.eventAggregator.subscribe(
-            "PHOTO_PHOTO_LIST_CHANGED",
+            'PHOTO_PHOTO_LIST_CHANGED',
             (payload) => {
                 this.photo_list_changes_pending = true;
             }
@@ -100,7 +100,7 @@ export class MemberDetail implements IRouteableComponent {
             story.preview = data.story_data.preview;
             story.name = data.story_data.name;
             this.api
-                .call_server_post("members/get_story", { story_id: story_id })
+                .call_server_post('members/get_story', { story_id: story_id })
                 .then((response) => {
                     story.story_text = response.story.story_text;
                 });
@@ -108,7 +108,7 @@ export class MemberDetail implements IRouteableComponent {
     }
 
     get disabled_if() {
-        return this.dirty_info ? "disabled" : "";
+        return this.dirty_info ? 'disabled' : '';
     }
 
     get member_info() {
@@ -120,7 +120,7 @@ export class MemberDetail implements IRouteableComponent {
         this.member_id = params.id;
         this.stories_base = -1;
         this.keywords = params.keywords;
-        this.advanced_search = params.search_type == "advanced";
+        this.advanced_search = params.search_type == 'advanced';
         if (
             this.member &&
             this.member.member_info &&
@@ -130,17 +130,17 @@ export class MemberDetail implements IRouteableComponent {
             return;
         this.photo_list_changes_pending = false;
         this.new_member =
-            params.id == "new" ? this.i18n.tr("members.new-member") : "";
+            params.id == 'new' ? this.i18n.tr('members.new-member') : '';
         this.init_member(); //So that changing to a new member does not display most recent one
         this.source = this.api.call_server_post(
-            "members/get_member_photo_list",
+            'members/get_member_photo_list',
             {
                 member_id: params.id,
                 what: params.what,
             }
         );
         this.api
-            .call_server_post("members/get_member_details", {
+            .call_server_post('members/get_member_details', {
                 member_id: params.id,
                 what: params.what,
             })
@@ -156,9 +156,9 @@ export class MemberDetail implements IRouteableComponent {
                         life_story.language
                     );
                     life_story.topic =
-                        this.life_summary + " " + this.member.member_info.name; //the first one is always the biography
+                        this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
-                this.api.hit("MEMBER", this.member.member_info.id);
+                this.api.hit('MEMBER', this.member.member_info.id);
                 this.set_heights();
                 const x = this.stories_base_changed;
             });
@@ -171,36 +171,42 @@ export class MemberDetail implements IRouteableComponent {
     }
 
     get life_cycle_text() {
-        if (!this.member) return "";
+        if (!this.member) return '';
         return this.misc.calc_life_cycle_text(this.member.member_info);
     }
 
     get member_display_name() {
-        if (!this.member) return "";
+        if (!this.member) return '';
         return this.misc.calc_member_display_name(this.member.member_info);
     }
 
     attached() {
         this.sub1 = this.eventAggregator.subscribe(
-            "EditModeChange",
+            'EditModeChange',
             (payload) => {
-                this.user = payload;
+                this.user = payload as any;
             }
         );
-        this.sub2 = this.eventAggregator.subscribe("ParentFound", (parent) => {
+        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => {
             this.set_parent(this.member, parent);
         });
-        this.sub3 = this.eventAggregator.subscribe("DirtyStory", (dirty: boolean) => {
-            this.dirty_story = dirty;
-        });
-        this.sub4 = this.eventAggregator.subscribe("DirtyInfo", (dirty: boolean) => {
-            this.dirty_info = dirty;
-        });
-        this.sub5 = this.eventAggregator.subscribe("Zoom", (payload: any) => {
+        this.sub3 = this.eventAggregator.subscribe(
+            'DirtyStory',
+            (dirty: boolean) => {
+                this.dirty_story = dirty;
+            }
+        );
+        this.sub4 = this.eventAggregator.subscribe(
+            'DirtyInfo',
+            (dirty: boolean) => {
+                this.dirty_info = dirty;
+            }
+        );
+        this.sub5 = this.eventAggregator.subscribe('Zoom', (payload: any) => {
             const photo_ids = payload.slide_list.map((photo) => photo.photo_id);
             const offset = payload.offset;
             this.misc.save(
-                ["member_slides_offset", this.member.member_info.id],
+                ['member_slides_offset', this.member.member_info.id],
                 offset
             );
             const video_id = payload.slide.video_id;
@@ -213,7 +219,7 @@ export class MemberDetail implements IRouteableComponent {
         this.set_heights();
         if (!this.member) return;
         const offset = this.misc.load([
-            "member_slides_offset",
+            'member_slides_offset',
             this.member.member_info.id,
         ]);
         if (offset) this.move_to = offset;
@@ -232,7 +238,7 @@ export class MemberDetail implements IRouteableComponent {
         if (parent.deleted) {
             parent = null;
         }
-        if (gender == "M") {
+        if (gender == 'M') {
             this.member.family_connections.parents.pa = parent;
         } else {
             this.member.family_connections.parents.ma = parent;
@@ -243,11 +249,11 @@ export class MemberDetail implements IRouteableComponent {
     }
 
     tryDelete() {
-        if (confirm(this.i18n.tr("members.confirm-delete"))) {
+        if (confirm(this.i18n.tr('members.confirm-delete'))) {
             this.memberList
                 .remove_member(this.member.member_info.id)
                 .then(() => {
-                    this.router.load("/members");
+                    this.router.load('/members');
                 });
         }
     }
@@ -270,7 +276,7 @@ export class MemberDetail implements IRouteableComponent {
         if (member && member.facePhotoURL) {
             return member.facePhotoURL;
         } else {
-            return "x"; //process.env.baseURL + "/gbs/static/images/dummy_face.png";
+            return 'x'; //process.env.baseURL + "/gbs/static/images/dummy_face.png";
         }
     }
 
@@ -292,7 +298,7 @@ export class MemberDetail implements IRouteableComponent {
     }
 
     story(idx) {
-        const empty_story = { name: "", story_text: "" };
+        const empty_story = { name: '', story_text: '' };
         if (!this.member) return empty_story;
         if (this.stories_base < 0) this.stories_base = 0;
         const n = this.member_stories.lst.length;
@@ -310,7 +316,7 @@ export class MemberDetail implements IRouteableComponent {
         }
         if (i < n) {
             const rec = this.member_stories.lst[i];
-            rec.name = rec.name ? rec.name : "";
+            rec.name = rec.name ? rec.name : '';
             rec.dir = this.theme.language_dir(rec.language);
             return rec;
         } else {
@@ -333,7 +339,7 @@ export class MemberDetail implements IRouteableComponent {
 
     detach_photo_from_member(member_id, photo_id, slide_list) {
         this.api
-            .call_server_post("photos/detach_photo_from_member", {
+            .call_server_post('photos/detach_photo_from_member', {
                 member_id: member_id,
                 photo_id: photo_id,
             })
@@ -351,26 +357,26 @@ export class MemberDetail implements IRouteableComponent {
                         slide_list.splice(idx, 1);
                     }
                 } else {
-                    alert("detaching photo failed!");
+                    alert('detaching photo failed!');
                 }
             });
     }
 
-    zoom_out(story, what, extra = "") {
+    zoom_out(story, what, extra = '') {
         this.dialog
             .open({
                 component: () => StoryWindow,
-                model: { story: story, edit: what == "edit" },
-                lock: what == "edit",
+                model: { story: story, edit: what == 'edit' },
+                lock: what == 'edit',
             })
             .whenClosed((response: any) => {
                 if (
-                    extra == "life" &&
-                    what == "edit" &&
+                    extra == 'life' &&
+                    what == 'edit' &&
                     !this.member.member_info.story_id
                 ) {
                     this.member.member_info.story_id = response.output.story_id;
-                    this.api.call_server_post("members/set_member_story_id", {
+                    this.api.call_server_post('members/set_member_story_id', {
                         member_id: this.member.member_info.id,
                         story_id: response.output.story_id,
                     });
@@ -385,8 +391,8 @@ export class MemberDetail implements IRouteableComponent {
     goto_story_page(story) {
         const what =
             story.used_for == this.api.constants.story_type.STORY4TERM
-                ? "term"
-                : "story";
+                ? 'term'
+                : 'story';
         switch (story.used_for) {
             case this.api.constants.story_type.STORY4TERM:
                 this.router.load(`/story-detail/${story.story_id}/term`);
@@ -395,24 +401,28 @@ export class MemberDetail implements IRouteableComponent {
                 this.router.load(`/story-detail/${story.story_id}/story`);
                 break;
             case this.api.constants.story_type.STORY4DOC:
-                this.router.load("/doc-detail", {
-                    id: story.story_id,
-                    doc_ids: [],
-                    keywords: [],
-                    caller: "member",
+                this.router.load('/doc-detail', {
+                    parameters: {
+                        id: story.story_id,
+                        doc_ids: [],
+                        keywords: [],
+                        caller: 'member',
+                    },
                 });
                 break;
             case this.api.constants.story_type.STORY4VIDEO:
-                this.router.load("/annotate-video", {
-                    video_id: story.story_id,
-                    what: "story",
-                    keywords: [],
-                    search_type: "",
-                    caller: "member",
+                this.router.load('/annotate-video', {
+                    parameters: {
+                        video_id: story.story_id,
+                        what: 'story',
+                        keywords: [],
+                        search_type: '',
+                        caller: 'member',
+                    },
                 });
                 break;
             default:
-                console.log("Unsupported story type ", story.used_for);
+                console.log('Unsupported story type ', story.used_for);
         }
     }
 
@@ -471,7 +481,7 @@ export class MemberDetail implements IRouteableComponent {
         if (this.theme.is_desktop) {
             const n = no_member_stories ? 4 : 5;
             //this.member_detail_panel.style.height = `${panel_height - n}px`;
-            this.member_detail_panel.style.marginRight = "-32px";
+            this.member_detail_panel.style.marginRight = '-32px';
         }
         const tph =
             this.life_summary_expanded || no_member_stories
@@ -486,8 +496,8 @@ export class MemberDetail implements IRouteableComponent {
             const n = this.member_stories.lst.length > 1 ? 5 : 100;
             this.top_panel.style.height = `${tph - n}px`;
             this.bottom_panel.style.height = `${bph}px`;
-            this.bottom_panel.style.width = "1166px";
-            this.bottom_panel.style.marginRight = "0px";
+            this.bottom_panel.style.width = '1166px';
+            this.bottom_panel.style.marginRight = '0px';
         } else {
             this.top_panel.style.height = null;
             this.bottom_panel.style.height = null;
@@ -497,13 +507,13 @@ export class MemberDetail implements IRouteableComponent {
         if (this.theme.is_desktop) {
             if (this.life_summary_box)
                 if (this.user.editing)
-                    this.life_summary_box.style.height = "0%"; // `${lsb}px`;
+                    this.life_summary_box.style.height = '0%'; // `${lsb}px`;
                 else {
                     const n = no_member_stories ? 24 : 1;
                     this.life_summary_box.style.height = `${tph - n}px`;
                 }
             if (this.life_summary_box1 && !this.user.editing)
-                this.life_summary_box1.style.height = "99%"; // `${lsb}px`;
+                this.life_summary_box1.style.height = '99%'; // `${lsb}px`;
             //this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
     }
@@ -523,16 +533,16 @@ export class MemberDetail implements IRouteableComponent {
 
     toggle_highlight_on() {
         if (this.highlight_on) {
-            this.highlight_on = "";
+            this.highlight_on = '';
         } else {
-            this.highlight_on = "highlight-on";
+            this.highlight_on = 'highlight-on';
         }
-        document.getElementById("word-highlighter").blur();
+        document.getElementById('word-highlighter').blur();
     }
 
     config_member_stories(event) {
         event.stopPropagation();
-        document.body.classList.add("black-overlay");
+        document.body.classList.add('black-overlay');
         this.dialog
             .open({
                 component: () => ConfigMemberStories,
@@ -543,14 +553,14 @@ export class MemberDetail implements IRouteableComponent {
                 lock: true,
             })
             .whenClosed((response) => {
-                document.body.classList.remove("black-overlay");
+                document.body.classList.remove('black-overlay');
             });
     }
 
     get member_is_dead() {
-        if (!(this.member && this.member.member_info)) return "";
-        if (this.member.member_info.date_of_death.date) return "zal";
-        return "";
+        if (!(this.member && this.member.member_info)) return '';
+        if (this.member.member_info.date_of_death.date) return 'zal';
+        return '';
     }
 }
 

@@ -1,133 +1,129 @@
-<template>
-    <div class='doc-detail content-area ${theme.rtltr}"'>
-        <div class="detail-header">
-            <div style="cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
-                <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
-                    new-chatroom.delegate="create_chatroom()" chatroom-deleted.delegate="chatroom_deleted($event)">
-                </chat-button>
-                <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='rtl' ? 90 : 270} ${next_class}" t="[title]photos.next-slide"
-                    click.trigger="go_next($event)" if.bind="doc_ids.length > 1"></i>
-                <i class="far fa-lg fa-arrow-up" t="[title]go-back" click.trigger="go_back()"
-                    if.bind="theme.is_desktop"></i>
-                <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}" t="[title]photos.prev-slide"
-                    click.trigger="go_prev($event)" if.bind="doc_ids.length > 1"></i>
-            </div>
-            <h3 dir="${theme.rtltr}" style="float: right;margin:0px;">
-                ${doc_name || ''}
-            </h3>
+<div class='doc-detail content-area ${theme.rtltr}"'>
+    <div class="detail-header">
+        <div style="cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
+            <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
+                new-chatroom.delegate="create_chatroom()" chatroom-deleted.delegate="chatroom_deleted($event)">
+            </chat-button>
+            <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='rtl' ? 90 : 270} ${next_class}" t="[title]photos.next-slide"
+                click.trigger="go_next($event)" if.bind="doc_ids.length > 1"></i>
+            <i class="far fa-lg fa-arrow-up" t="[title]go-back" click.trigger="go_back()"
+                if.bind="theme.is_desktop"></i>
+            <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}" t="[title]photos.prev-slide"
+                click.trigger="go_prev($event)" if.bind="doc_ids.length > 1"></i>
         </div>
-        <div class="row">
-            <div class="col-md-6" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
-                <!-- <embed src.bind="doc_src + '#view=FitH'" width="500px" height="480px" /> -->
-                <div style="margin-left:0;width:572px;height:360px;position:relative">
-                    <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
-                    style="width:40px;position:absolute;left:80px;top:20px;background-color:rgba(0,0,0,0);border:0;color:white;"
-                    click.delegate="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
-                    <iframe if.bind="doc_src" src.bind="doc_src" width="100%" height="100%" allow="fullscreen" id="doc-frame"></iframe>
-                </div>
-                <button if.bind="user.editing"
-                        class="btn btn-primary btn-framed"
-                        style="margin-top:8px;font-size:108%;"
-                        click.delegate="select_doc_members()">
-                    <i style="cursor:pointer"
-                       class="fa fa-users"
-                       title="${'docs.members-in' & t}">
-                    </i>
-                    ${'docs.select-members' & t}
-                </button>
-                <div if.bind="members.length>0">
-                    <compose view-model="../members/member-faces" model.bind="members"></compose>
-                </div>
-                <!-- <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" /> -->
-                <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
-                    <span>
-                        <span dir="${theme.rtltr}" if.bind="doc_name">${doc_name}</span>
-                    </span>
-                    <date-range label="docs.doc-date" if.bind="doc_date_str || user.editing"
-                        base_date_str.bind="doc_date_str" hide_label_if_no_date.bind="true"
-                        enable_days_range.bind="true" span_size.bind="doc_date_datespan"
-                        range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]" is_valid.bind="doc_date_valid"
-                        change.delegate="update_doc_date($event)">
-                    </date-range>
-                    <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}:
-                        ${topic_names}</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-8">
-                        <span style="float:right;direction:rtl"
-                            if.bind="photo_story.source">${photo_story.source}:</span>
-                        <span if.bind="! photo_story.source">&nbsp;</span>
-                    </div>
-                </div>
-                <div class="row" style="padding-right:15px;">
-                    <div class="fr-view" dir="rtl">
-                        <div if.bind="! user.editing" class="row video-story" style="margin-top:8px;">
-                            <div class="fr-view" dir="${story_dir}">
-                                <div class="${theme.font_size} video-story-area">
-                                    <p class="${story_dir} ${highlight_on}" innerhtml.bind="highlightedHtml" if.bind="story_about && story_about.story_text">
-                                        <!-- <compose if.bind="story_about && story_about.story_text" view-model='../stories/render-story'
-                                            model.bind="{html:highlightedHtml}">
-                                        </compose> -->
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div if.bind="user.editing" style="display:flex;flex-direction:column;">
-                            <editable style="background-color:beige;margin-bottom:12px;"
-                                settings.bind="{show_date:false, class:'story-section', checkable: false}"
-                                saved.delegate="update_story_preview($event)"
-                                story.bind="story_about">
-                            </editable>
-                            <div class="multi-select-div"
-                                style="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;">
-                                <div class="multi-select-div" style="margin-bottom:15px;position:relative;"
-                                    dir="${theme.rtltr}">
-                                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
-                                        ${'stories.categories'
-                                        & t}</div>
-                                    <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit" ,
-                                        position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                                    <help if.bind="phase=='applying-to-photos'" topic="apply-to-selected-photos" ,
-                                        position="bottom" style="position:absolute;left:2px;top:2px;"></help>
-                                    <help if.bind="phase=='photos-not-editing'" topic="tags"
-                                        position="${theme.is_desktop ? 'bottom' : 'right'}"
-                                        style="position:absolute;left:2px;top:2px;"></help>
-                                    <multi-select options.bind="topic_list" category="topic"
-                                        selected_options.bind="params.selected_topics" first_time.bind="no_topics_yet"
-                                        option_groups.bind="topic_groups" new-name.delegate="add_topic($event)"
-                                        settings.bind="options_settings" has_groups.bind="has_grouped_topics"
-                                        place_holder_text="photos.click-topic"
-                                        ms-change.delegate="handle_topic_change($event) ">
-                                    </multi-select>
-                                </div>
-                                <!-- <div class="multi-select-div" dir="${theme.rtltr}">
-                                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
-                                        ${'photos.photographers' & t}</div>
-                                    <multi-select options.bind="photographer_list" category="photographer"
-                                        place_holder_text="photos.click-photographer"
-                                        selected_options.bind="params.selected_photographers"
-                                        settings.bind="photographers_settings" first_time.bind="no_photographers_yet"
-                                        new-name.delegate="add_photographer($event)"
-                                        name-changed.delegate="photographer_name_changed($event)"
-                                        ms-change.delegate="handle_photographer_change($event)">
-                                    </multi-select>
-                                </div> -->
-                                <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
-                                    <button if.bind="undo_list.length > 0" class="btn btn-warning" style="width:90%;"
-                                        click.delegate="undo()">
-                                        <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->
+        <h3 dir="${theme.rtltr}" style="float: right;margin:0px;">
+            ${doc_name || ''}
+        </h3>
     </div>
-
-
-</template>
+    <div class="row">
+        <div class="col-md-6" style="display:flex;flex-direction:column;margin-top:16px;" id="photo-box">
+            <!-- <embed src.bind="doc_src + '#view=FitH'" width="500px" height="480px" /> -->
+            <div style="margin-left:0;width:572px;height:360px;position:relative">
+                <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
+                style="width:40px;position:absolute;left:80px;top:20px;background-color:rgba(0,0,0,0);border:0;color:white;"
+                click.delegate="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
+                <iframe if.bind="doc_src" src.bind="doc_src" width="100%" height="100%" allow="fullscreen" id="doc-frame"></iframe>
+            </div>
+            <button if.bind="user.editing"
+                    class="btn btn-primary btn-framed"
+                    style="margin-top:8px;font-size:108%;"
+                    click.delegate="select_doc_members()">
+                <i style="cursor:pointer"
+                   class="fa fa-users"
+                   title="${'docs.members-in' & t}">
+                </i>
+                ${'docs.select-members' & t}
+            </button>
+            <div if.bind="members.length>0">
+                <compose view-model="../members/member-faces" model.bind="members"></compose>
+            </div>
+            <!-- <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" /> -->
+            <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
+                <span>
+                    <span dir="${theme.rtltr}" if.bind="doc_name">${doc_name}</span>
+                </span>
+                <date-range label="docs.doc-date" if.bind="doc_date_str || user.editing"
+                    base_date_str.bind="doc_date_str" hide_label_if_no_date.bind="true"
+                    enable_days_range.bind="true" span_size.bind="doc_date_datespan"
+                    range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]" is_valid.bind="doc_date_valid"
+                    change.delegate="update_doc_date($event)">
+                </date-range>
+                <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}:
+                    ${topic_names}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                    <span style="float:right;direction:rtl"
+                        if.bind="photo_story.source">${photo_story.source}:</span>
+                    <span if.bind="! photo_story.source">&nbsp;</span>
+                </div>
+            </div>
+            <div class="row" style="padding-right:15px;">
+                <div class="fr-view" dir="rtl">
+                    <div if.bind="! user.editing" class="row video-story" style="margin-top:8px;">
+                        <div class="fr-view" dir="${story_dir}">
+                            <div class="${theme.font_size} video-story-area">
+                                <p class="${story_dir} ${highlight_on}" innerhtml.bind="highlightedHtml" if.bind="story_about && story_about.story_text">
+                                    <!-- <compose if.bind="story_about && story_about.story_text" view-model='../stories/render-story'
+                                        model.bind="{html:highlightedHtml}">
+                                    </compose> -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div if.bind="user.editing" style="display:flex;flex-direction:column;">
+                        <editable style="background-color:beige;margin-bottom:12px;"
+                            settings.bind="{show_date:false, class:'story-section', checkable: false}"
+                            saved.delegate="update_story_preview($event)"
+                            story.bind="story_about">
+                        </editable>
+                        <div class="multi-select-div"
+                            style="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;">
+                            <div class="multi-select-div" style="margin-bottom:15px;position:relative;"
+                                dir="${theme.rtltr}">
+                                <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
+                                    ${'stories.categories'
+                                    & t}</div>
+                                <help if.bind="phase=='photos-ready-to-edit'" topic="photos.ready-to-edit" ,
+                                    position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                                <help if.bind="phase=='applying-to-photos'" topic="apply-to-selected-photos" ,
+                                    position="bottom" style="position:absolute;left:2px;top:2px;"></help>
+                                <help if.bind="phase=='photos-not-editing'" topic="tags"
+                                    position="${theme.is_desktop ? 'bottom' : 'right'}"
+                                    style="position:absolute;left:2px;top:2px;"></help>
+                                <multi-select options.bind="topic_list" category="topic"
+                                    selected_options.bind="params.selected_topics" first_time.bind="no_topics_yet"
+                                    option_groups.bind="topic_groups" new-name.delegate="add_topic($event)"
+                                    settings.bind="options_settings" has_groups.bind="has_grouped_topics"
+                                    place_holder_text="photos.click-topic"
+                                    ms-change.delegate="handle_topic_change($event) ">
+                                </multi-select>
+                            </div>
+                            <!-- <div class="multi-select-div" dir="${theme.rtltr}">
+                                <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
+                                    ${'photos.photographers' & t}</div>
+                                <multi-select options.bind="photographer_list" category="photographer"
+                                    place_holder_text="photos.click-photographer"
+                                    selected_options.bind="params.selected_photographers"
+                                    settings.bind="photographers_settings" first_time.bind="no_photographers_yet"
+                                    new-name.delegate="add_photographer($event)"
+                                    name-changed.delegate="photographer_name_changed($event)"
+                                    ms-change.delegate="handle_photographer_change($event)">
+                                </multi-select>
+                            </div> -->
+                            <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
+                                <button if.bind="undo_list.length > 0" class="btn btn-warning" style="width:90%;"
+                                    click.delegate="undo()">
+                                    <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->
+</div>

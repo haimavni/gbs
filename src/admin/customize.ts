@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
-import { IDialogController } from "aurelia";
-import { I18N } from "@aurelia/i18n";
-import { IRouter } from "@aurelia/router";
-import { ITheme } from "../services/theme";
-import { MultiSelectSettings } from "../resources/elements/multi-select/multi-select";
-import { IMemberGateway } from "../services/gateway";
-import { IUser } from "../services/user";
-import * as toastr from "toastr";
+import { IDialogController } from 'aurelia';
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
+import { ITheme } from '../services/theme';
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from '../services/user';
+import * as toastr from 'toastr';
 
 let THIS_EDITOR;
 
@@ -15,108 +14,108 @@ export class Customize {
     app_description;
     key_value_list = [];
     options_settings: MultiSelectSettings;
-    auto_reg_options = ["user.auto-reg", "user.by-invitation"];
-    new_app_options = ["user.new-app-enabled", "user.new-app-disabled"];
-    audio_options = ["user.audio-enabled", "user.audio-disabled"];
-    terms_options = ["user.terms-enabled", "user.terms-disabled"];
-    feedback_options = ["user.feedback-on", "user.feedback-off"];
-    quick_upload_options = ["user.quick-upload-on", "user.quick-upload-off"];
-    version_time_options = ["user.version-time-on", "user.version-time-off"];
+    auto_reg_options = ['user.auto-reg', 'user.by-invitation'];
+    new_app_options = ['user.new-app-enabled', 'user.new-app-disabled'];
+    audio_options = ['user.audio-enabled', 'user.audio-disabled'];
+    terms_options = ['user.terms-enabled', 'user.terms-disabled'];
+    feedback_options = ['user.feedback-on', 'user.feedback-off'];
+    quick_upload_options = ['user.quick-upload-on', 'user.quick-upload-off'];
+    version_time_options = ['user.version-time-on', 'user.version-time-off'];
     expose_developer_options = [
-        "user.expose-developer-on",
-        "user.expose-developer-off",
+        'user.expose-developer-on',
+        'user.expose-developer-off',
     ];
     enable_articles_options = [
-        "user.enable-articles-on",
-        "user.enable-articles-off",
+        'user.enable-articles-on',
+        'user.enable-articles-off',
     ];
-    enable_books_options = ["user.enable-books-on", "user.enable-books-off"];
+    enable_books_options = ['user.enable-books-on', 'user.enable-books-off'];
     enable_member_of_the_day_options = [
-        "user.enable-member-of-the-day-on",
-        "user.enable-member-of-the-day-off",
+        'user.enable-member-of-the-day-on',
+        'user.enable-member-of-the-day-off',
     ];
-    exclusive_options = ["user.exclusive-on", "user.exclusive-off"];
+    exclusive_options = ['user.exclusive-on', 'user.exclusive-off'];
     enable_cuepoints_options = [
-        "user.enable-cuepoints-on",
-        "user.enable-cuepoints-off",
+        'user.enable-cuepoints-on',
+        'user.enable-cuepoints-off',
     ];
     allow_publishing_options = [
-        "user.allow-publishing-on",
-        "user.allow-publishing-off",
+        'user.allow-publishing-on',
+        'user.allow-publishing-off',
     ];
     expose_gallery_options = [
-        "user.expose-gallery-on",
-        "user.expose-gallery-off",
+        'user.expose-gallery-on',
+        'user.expose-gallery-off',
     ];
     short_bio_title_options = [
-        "user.short-bio-title-on",
-        "user.short-bio-title-on",
+        'user.short-bio-title-on',
+        'user.short-bio-title-on',
     ];
     articles_in_menu_options = [
-        "user.articles-in-menu-on",
-        "user.articles-in-menu-off",
+        'user.articles-in-menu-on',
+        'user.articles-in-menu-off',
     ];
 
     //-----------
-    auto_reg_option = "user.by-invitation";
-    new_app_option = "user.new-app-disabled";
-    audio_option = "user.audio-disabled";
-    terms_option = "user.terms-enabled";
-    feedback_option = "user.feedback-on";
-    exclusive_option = "user.exclusive-off";
-    quick_upload_button = "user.quick-upload-off";
-    version_time_option = "user.version-time-on";
-    expose_developer_option = "user.expose-developer-on";
-    enable_articles_option = "user.enable-articles-off";
-    enable_cuepoints_option = "user.enable-cuepoints-off";
-    allow_publishing_option = "user.allow-publishing-off";
-    expose_gallery_option = "user.expose-gallery-off";
-    short_bio_title_option = "user.short-bio-title-off";
-    articles_in_menu_option = "user.articles-in-menu-off";
-    enable_books_option = "user.enable-books-on";
-    enable_member_of_the_day_option = "user.enable-member-of-the-day-on";
+    auto_reg_option = 'user.by-invitation';
+    new_app_option = 'user.new-app-disabled';
+    audio_option = 'user.audio-disabled';
+    terms_option = 'user.terms-enabled';
+    feedback_option = 'user.feedback-on';
+    exclusive_option = 'user.exclusive-off';
+    quick_upload_button = 'user.quick-upload-off';
+    version_time_option = 'user.version-time-on';
+    expose_developer_option = 'user.expose-developer-on';
+    enable_articles_option = 'user.enable-articles-off';
+    enable_cuepoints_option = 'user.enable-cuepoints-off';
+    allow_publishing_option = 'user.allow-publishing-off';
+    expose_gallery_option = 'user.expose-gallery-off';
+    short_bio_title_option = 'user.short-bio-title-off';
+    articles_in_menu_option = 'user.articles-in-menu-off';
+    enable_books_option = 'user.enable-books-on';
+    enable_member_of_the_day_option = 'user.enable-member-of-the-day-on';
     promoted_story_expiration = 7;
     cover_photo;
     cover_photo_id;
     froala_config = {
-        iconsTemplate: "font_awesome_5",
-        toolbarButtons: ["undo", "redo"],
+        iconsTemplate: 'font_awesome_5',
+        toolbarButtons: ['undo', 'redo'],
         fontSize: [
-            "8",
-            "10",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "18",
-            "20",
-            "24",
-            "32",
-            "36",
-            "48",
-            "60",
-            "72",
-            "96",
+            '8',
+            '10',
+            '12',
+            '13',
+            '14',
+            '15',
+            '16',
+            '18',
+            '20',
+            '24',
+            '32',
+            '36',
+            '48',
+            '60',
+            '72',
+            '96',
         ],
-        imageDefaultDisplay: "inline",
-        imageDefaultAlign: "right",
+        imageDefaultDisplay: 'inline',
+        imageDefaultAlign: 'right',
         imageUpload: false,
         imageDefaultWidth: 100,
-        videoDefaultDisplay: "inline",
-        videoDefaultAlign: "left",
+        videoDefaultDisplay: 'inline',
+        videoDefaultAlign: 'left',
         VideoDefaultWidth: 160,
         charCounterCount: false,
         linkAlwaysBlank: true,
-        language: "he",
+        language: 'he',
         heightMin: 100,
         heightMax: 100,
-        padding: "10px",
+        padding: '10px',
         imageUploadRemoteUrls: false,
-        key: "",
+        key: '',
     };
     dirty = false;
-    edited_str_orig = "";
+    edited_str_orig = '';
     app_description_story;
 
     constructor(
@@ -139,72 +138,72 @@ export class Customize {
     }
 
     async attached() {
-        this.app_title = this.i18n.tr("app-title");
+        this.app_title = this.i18n.tr('app-title');
         this.theme.hide_title = true;
         this.theme.hide_menu = true;
         const lang = this.i18n.getLocale();
         const data = this.i18n.i18next.store.data[lang].translation;
         await this.user.readConfiguration();
-        this.create_key_value_list("", data);
+        this.create_key_value_list('', data);
         this.auto_reg_option = this.user.config.enable_auto_registration
-            ? "user.auto-reg"
-            : "user.by-invitation";
+            ? 'user.auto-reg'
+            : 'user.by-invitation';
         this.new_app_option = this.user.config.expose_new_app_button
-            ? "user.new-app-enabled"
-            : "user.new-app-disabled";
+            ? 'user.new-app-enabled'
+            : 'user.new-app-disabled';
         this.audio_option = this.user.config.support_audio
-            ? "user.audio-enabled"
-            : "user.audio-disabled";
+            ? 'user.audio-enabled'
+            : 'user.audio-disabled';
         this.terms_option = this.user.config.terms_enabled
-            ? "user.terms-enabled"
-            : "user.terms-disabled";
+            ? 'user.terms-enabled'
+            : 'user.terms-disabled';
         this.feedback_option = this.user.config.expose_feedback_button
-            ? "user.feedback-on"
-            : "user.feedback-off";
+            ? 'user.feedback-on'
+            : 'user.feedback-off';
         this.exclusive_option = this.user.config.exclusive
-            ? "user.exclusive-on"
-            : "user.exclusive-off";
+            ? 'user.exclusive-on'
+            : 'user.exclusive-off';
         this.quick_upload_button = this.user.config.quick_upload_button
-            ? "user.quick-upload-on"
-            : "user.quick-upload-off";
+            ? 'user.quick-upload-on'
+            : 'user.quick-upload-off';
         this.expose_developer_option = this.user.config.expose_developer
-            ? "user.expose-developer-on"
-            : "user.expose-developer-off";
+            ? 'user.expose-developer-on'
+            : 'user.expose-developer-off';
         this.enable_articles_option = this.user.config.enable_articles
-            ? "user.enable-articles-on"
-            : "user.enable-articles-off";
+            ? 'user.enable-articles-on'
+            : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time
-            ? "user.version-time-on"
-            : "user.version-time-off";
+            ? 'user.version-time-on'
+            : 'user.version-time-off';
         this.enable_books_option = this.user.config.enable_books
-            ? "user.enable-books-on"
-            : "user.enable-books-off";
+            ? 'user.enable-books-on'
+            : 'user.enable-books-off';
         this.enable_member_of_the_day_option = this.user.config
             .enable_member_of_the_day_option
-            ? "user.enable-member-of-the-day-on"
-            : "user.enable-member-of-the-day-off";
+            ? 'user.enable-member-of-the-day-on'
+            : 'user.enable-member-of-the-day-off';
         this.enable_cuepoints_option = this.user.config.enable_cuepoints
-            ? "user.enable-cuepoints-on"
-            : "user.enable-cuepoints-off";
+            ? 'user.enable-cuepoints-on'
+            : 'user.enable-cuepoints-off';
         this.allow_publishing_option = this.user.config.allow_publishing
-            ? "user.allow-publishing-on"
-            : "user.allow-publishing-off";
+            ? 'user.allow-publishing-on'
+            : 'user.allow-publishing-off';
         this.expose_gallery_option = this.user.config.expose_gallery
-            ? "user.expose-gallery-on"
-            : "user.expose-gallery-off";
+            ? 'user.expose-gallery-on'
+            : 'user.expose-gallery-off';
         this.short_bio_title_option = this.user.config.short_bio_title
-            ? "user.short-bio-title-on"
-            : "user.short-bio-title-off";
+            ? 'user.short-bio-title-on'
+            : 'user.short-bio-title-off';
         this.articles_in_menu_option = this.user.config.articles_in_menu
-            ? "user.articles-in-menu-on"
-            : "user.articles-in-menu-off";
+            ? 'user.articles-in-menu-on'
+            : 'user.articles-in-menu-off';
         this.promoted_story_expiration =
             this.user.config.promoted_story_expiration;
         this.cover_photo = this.user.config.cover_photo;
         if (!this.cover_photo) {
             const cover_photo_id = this.user.get_curr_photo_id();
             this.api
-                .call_server_post("admin/cover_photo", {
+                .call_server_post('admin/cover_photo', {
                     cover_photo_id: cover_photo_id,
                 })
                 .then((response) => {
@@ -220,7 +219,7 @@ export class Customize {
             // }
         }
         this.api
-            .call_server_post("members/get_app_description")
+            .call_server_post('members/get_app_description')
             .then((result) => {
                 this.app_description_story = result.story;
                 this.edited_str_orig = result.story.story_text;
@@ -233,8 +232,8 @@ export class Customize {
         const keys = Object.keys(data);
         for (const key of keys) {
             const v = data[key];
-            const p = prefix ? prefix + "." : "";
-            if (typeof v == "string") {
+            const p = prefix ? prefix + '.' : '';
+            if (typeof v == 'string') {
                 const itm = { id: p + key, name: v, topic_kind: 2 };
                 this.key_value_list.push(itm);
             } else {
@@ -250,11 +249,11 @@ export class Customize {
     }
 
     loading() {
-        this.app_title = this.i18n.tr("app-title");
+        this.app_title = this.i18n.tr('app-title');
     }
 
     save_app_title() {
-        this.theme.set_locale_override("app-title", this.app_title);
+        this.theme.set_locale_override('app-title', this.app_title);
         this.user.store_app_title();
     }
 
@@ -263,10 +262,10 @@ export class Customize {
             return;
         }
         const data = { user_id: this.user.id };
-        data["story_info"] = this.app_description_story;
-        data["pinned"] = true;
+        data['story_info'] = this.app_description_story;
+        data['pinned'] = true;
         this.api
-            .call_server_post("members/save_story_info", data)
+            .call_server_post('members/save_story_info', data)
             .then((response) => {
                 this.edited_str_orig = this.app_description_story.story_text;
                 this.dirty = false;
@@ -290,7 +289,7 @@ export class Customize {
     auto_reg_option_selected(option) {
         this.auto_reg_option = option;
         this.api
-            .call_server("admin/set_user_registration_options", {
+            .call_server('admin/set_user_registration_options', {
                 option: this.auto_reg_option,
             })
             .then((response) => {
@@ -302,7 +301,7 @@ export class Customize {
     new_app_option_selected(option) {
         this.new_app_option = option;
         this.api
-            .call_server("admin/set_new_app_options", {
+            .call_server('admin/set_new_app_options', {
                 option: this.new_app_option,
             })
             .then((response) => {
@@ -314,7 +313,7 @@ export class Customize {
     audio_option_selected(option) {
         this.audio_option = option;
         this.api
-            .call_server("admin/set_audio_option", {
+            .call_server('admin/set_audio_option', {
                 option: this.audio_option,
             })
             .then((response) => {
@@ -326,7 +325,7 @@ export class Customize {
     terms_option_selected(option) {
         this.terms_option = option;
         this.api
-            .call_server("admin/set_terms_option", {
+            .call_server('admin/set_terms_option', {
                 option: this.terms_option,
             })
             .then((response) => {
@@ -338,7 +337,7 @@ export class Customize {
     feedback_option_selected(option) {
         this.feedback_option = option;
         this.api
-            .call_server("admin/set_feedback_option", { option: option })
+            .call_server('admin/set_feedback_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -348,7 +347,7 @@ export class Customize {
     exclusive_option_selected(option) {
         this.exclusive_option = option;
         this.api
-            .call_server("admin/set_exclusive_option", { option: option })
+            .call_server('admin/set_exclusive_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -358,7 +357,7 @@ export class Customize {
     quick_upload_option_selected(option) {
         this.quick_upload_button = option;
         this.api
-            .call_server("admin/set_quick_upload_option", { option: option })
+            .call_server('admin/set_quick_upload_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -368,7 +367,7 @@ export class Customize {
     expose_developer_option_selected(option) {
         this.expose_developer_option = option;
         this.api
-            .call_server("admin/set_developer_option", { option: option })
+            .call_server('admin/set_developer_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -378,7 +377,7 @@ export class Customize {
     enable_articles_option_selected(option) {
         this.enable_articles_option = option;
         this.api
-            .call_server("admin/set_articles_option", { option: option })
+            .call_server('admin/set_articles_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -388,7 +387,7 @@ export class Customize {
     enable_books_option_selected(option) {
         this.enable_books_option = option;
         this.api
-            .call_server("admin/set_books_option", { option: option })
+            .call_server('admin/set_books_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -398,7 +397,7 @@ export class Customize {
     enable_member_of_the_day_option_selected(option) {
         this.enable_member_of_the_day_option = option;
         this.api
-            .call_server("admin/set_member_of_the_day_option", {
+            .call_server('admin/set_member_of_the_day_option', {
                 option: option,
             })
             .then((response) => {
@@ -410,7 +409,7 @@ export class Customize {
     enable_cuepoints_option_selected(option) {
         this.enable_cuepoints_option = option;
         this.api
-            .call_server("admin/set_cuepoints_option", { option: option })
+            .call_server('admin/set_cuepoints_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -420,7 +419,7 @@ export class Customize {
     allow_publishing_option_selected(option) {
         this.allow_publishing_option = option;
         this.api
-            .call_server("admin/set_publishing_option", { option: option })
+            .call_server('admin/set_publishing_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -430,7 +429,7 @@ export class Customize {
     expose_gallery_option_selected(option) {
         this.expose_gallery_option = option;
         this.api
-            .call_server("admin/set_expose_gallery_option", { option: option })
+            .call_server('admin/set_expose_gallery_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -440,7 +439,7 @@ export class Customize {
     short_bio_title_option_selected(option) {
         this.short_bio_title_option = option;
         this.api
-            .call_server("admin/set_short_bio_title_option", { option: option })
+            .call_server('admin/set_short_bio_title_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -450,7 +449,7 @@ export class Customize {
     articles_in_menu_option_selected(option) {
         this.articles_in_menu_option = option;
         this.api
-            .call_server("admin/set_articles_in_menu_option", {
+            .call_server('admin/set_articles_in_menu_option', {
                 option: option,
             })
             .then((response) => {
@@ -462,7 +461,7 @@ export class Customize {
     version_time_option_selected(option) {
         this.version_time_option = option;
         this.api
-            .call_server("admin/set_version_time_option", { option: option })
+            .call_server('admin/set_version_time_option', { option: option })
             .then((response) => {
                 this.user.readConfiguration();
                 this.report_success();
@@ -471,7 +470,7 @@ export class Customize {
 
     set_promoted_story_expiration() {
         this.api
-            .call_server("admin/set_promoted_story_expiration", {
+            .call_server('admin/set_promoted_story_expiration', {
                 promoted_story_expiration: this.promoted_story_expiration,
             })
             .then((response) => {
@@ -481,16 +480,16 @@ export class Customize {
     }
 
     report_success() {
-        toastr.success(this.i18n.tr("admin.changes-successfully-saved"));
+        toastr.success(this.i18n.tr('admin.changes-successfully-saved'));
     }
 
     initialized(e, editor) {
-        const el: any = document.getElementsByClassName("fr-element")[0];
+        const el: any = document.getElementsByClassName('fr-element')[0];
         THIS_EDITOR.edited_str_orig = el.innerHTML.slice(0);
     }
 
     content_changed(e, editor) {
-        const el: any = document.getElementsByClassName("fr-element")[0];
+        const el: any = document.getElementsByClassName('fr-element')[0];
         const s = el.innerHTML;
         THIS_EDITOR.dirty = s != THIS_EDITOR.edited_str_orig;
     }
@@ -498,14 +497,14 @@ export class Customize {
     set_cover_photo(event) {
         const cover_photo_id = this.user.get_curr_photo_id();
         if (cover_photo_id == this.cover_photo_id || !cover_photo_id) {
-            toastr.warning(this.i18n.tr("admin.no-new-cover-photo-selected"));
+            toastr.warning(this.i18n.tr('admin.no-new-cover-photo-selected'));
             return;
         }
 
         //this.cover_photo = cover_photo;
         this.cover_photo_id = cover_photo_id;
         this.api
-            .call_server_post("admin/cover_photo", {
+            .call_server_post('admin/cover_photo', {
                 cover_photo_id: cover_photo_id,
             })
             .then((response) => {

@@ -1,19 +1,19 @@
-import { IDialogController } from "aurelia";
-import { IMemberGateway } from "../services/gateway";
-import { I18N } from "@aurelia/i18n";
-import { ITheme } from "../services/theme";
+import { IDialogController } from 'aurelia';
+import { IMemberGateway } from '../services/gateway';
+import { I18N } from '@aurelia/i18n';
+import { ITheme } from '../services/theme';
 
 export class AddCustomer {
     customer_data = {
-        first_name: "",
-        last_name: "",
-        password: "",
-        email: "",
-        app_name: "",
-        locale: "",
+        first_name: '',
+        last_name: '',
+        password: '',
+        email: '',
+        app_name: '',
+        locale: '',
     };
-    message = "";
-    message_type = "";
+    message = '';
+    message_type = '';
     done = false;
 
     constructor(
@@ -31,19 +31,19 @@ export class AddCustomer {
             return;
         }
         if (!this.all_fields_given()) {
-            this.message_type = "error";
-            this.message = "admin.fields-missing";
+            this.message_type = 'error';
+            this.message = 'admin.fields-missing';
             return;
         }
         this.api
-            .call_server("init_app/request_new_app", this.customer_data)
+            .call_server('init_app/request_new_app', this.customer_data)
             .then((response) => {
                 if (!response.error_message) {
-                    this.message_type = "success";
-                    this.message = "admin.new-app-requested";
+                    this.message_type = 'success';
+                    this.message = 'admin.new-app-requested';
                     this.done = true;
                 } else {
-                    this.message_type = "error";
+                    this.message_type = 'error';
                     this.message = response.error_message;
                 }
             });
@@ -54,8 +54,8 @@ export class AddCustomer {
     }
 
     get disabled_if() {
-        this.message = "";
-        return this.all_fields_given() ? "" : "disabled";
+        this.message = '';
+        return this.all_fields_given() ? '' : 'disabled';
     }
 
     all_fields_given() {
@@ -70,10 +70,10 @@ export class AddCustomer {
 
     keep_only_valid_domain_chars(event) {
         const key = event.key;
-        if (key == "Enter" || key == "Backspace" || key == "Delete") {
+        if (key == 'Enter' || key == 'Backspace' || key == 'Delete') {
             return true;
         }
-        if (key == "_") return true;
+        if (key == '_') return true;
         const m = key.match(/[0-9a-zA-Z/]/);
         if (m) {
             return true;
