@@ -36,6 +36,7 @@ class Video {
         this.video_date_label = video_date_label;
         this.keywords_label = keywords_label;
     }
+}
 
 @autoinject
 @singleton()
