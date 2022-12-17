@@ -32,4 +32,14 @@
         </field-control>
     </div>
 
+    <div>
+        <input type="text" value.bind="message_content" placeholder="Enter data to be sent" />
+        <button class="btn btn-default" click.delegate="tease_server()">Send</button>
+        <ul>
+            <li repeat.for="msg of incoming_messages">
+                ${msg.data}
+            </li>
+        </ul>
+    </div>
+
 </template>
