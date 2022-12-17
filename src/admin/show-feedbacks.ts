@@ -1,10 +1,9 @@
 import { autoinject } from "aurelia-framework";
-import { Theme } from '../services/theme';
-import { MemberGateway } from '../services/gateway';
+import { Theme } from "../services/theme";
+import { MemberGateway } from "../services/gateway";
 
 @autoinject()
 export class ShowFeedbacks {
-
     theme;
     api;
     router;
@@ -25,14 +24,12 @@ export class ShowFeedbacks {
     }
 
     get_feedbacks() {
-        this.api.call_server('default/get_feedbacks')
-            .then(response => {
-                this.items = response.feedbacks;
-                for (let item of this.items) {
-                    item.bad = item.bad.replace('\n', '<br>');
-                    item.good = item.good.replace('\n', '<br>');
-                }
-            })
+        this.api.call_server("default/get_feedbacks").then((response) => {
+            this.items = response.feedbacks;
+            for (let itm of this.items) {
+                if (itm.message)
+                    itm.message = itm.message.replace("\n", "<br>");
+            }
+        });
     }
-
 }

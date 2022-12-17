@@ -15,8 +15,7 @@ export class Feedback {
     i18n;
     header_text;
     params = {
-        feedback_bad_message: '',
-        feedback_good_message: '',
+        feedback_message: '',
         feedback_name: '',
         feedback_email: '',
         code_version: environment.version,
@@ -30,7 +29,7 @@ export class Feedback {
         this.api = api;
         this.theme = theme;
         this.i18n = i18n;
-        this.header_text = 'feedback.header-text';
+        this.header_text = this.i18n.tr('feedback.header-text') + this.i18n.tr('feedback.header-text1');
         this.device_type_options = [
             { value: "any-device", name: 'feedback.any-device' },
             { value: "desktop", name: 'feedback.desktop' },
@@ -40,7 +39,7 @@ export class Feedback {
     }
 
     send() {
-        if (this.params.feedback_bad_message=='' && this.params.feedback_good_message=='') return;
+        if (this.params.feedback_message=='') return;
         this.api.call_server_post('default/save_feedback', this.params)
             .then(() => {
                 toastr.success("<p dir='rtl'>" + this.i18n.tr('feedback.message-successful') + "</p>", '', 6000);
@@ -52,9 +51,9 @@ export class Feedback {
         this.controller.cancel();
     }
 
-    @computedFrom('params.feedback_bad_message', 'params.feedback_good_message', 'params.feedback_email')
+    @computedFrom('params.feedback_message', 'params.feedback_email')
     get is_disabled() {
-        return ((this.params.feedback_bad_message=='' && this.params.feedback_good_message=='') || ! this.params.feedback_email);
+        return (this.params.feedback_message=='' || ! this.params.feedback_email);
     }
 
 

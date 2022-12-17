@@ -17,8 +17,7 @@
                         <th>Email</th>
                         <th>Device Type</th>
                         <th>Device Details</th>
-                        <th>Negative</th>
-                        <th>Positive</th>
+                        <th>Message</th>
                         <th>Version</th>
                     </tr>
                 </thead>
@@ -28,8 +27,7 @@
                         <td>${item.email}</td>
                         <td>${item.device_type}</td>
                         <td>${item.device_details}</td>
-                        <td style="direction:rtl" innerhtml.bind="item.bad"></td>
-                        <td style="direction:rtl" innerhtml.bind="item.good"></td>
+                        <td style="direction:rtl" innerhtml.bind="item.message"></td>
                         <td>${item.version}</td>
                     </tr>
                 </tbody>

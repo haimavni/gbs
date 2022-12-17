@@ -2,7 +2,7 @@
     <require="./promote.css"></require>
         <ux-dialog css="direction:${theme.rtltr};width:43em;">
             <ux-dialog-header style="padding-right:32px;">
-                <h4 class="panel-title" innerhtml.bind="header_text & t"></h4>
+                <h4 class="panel-title" innerhtml.bind="header_text"></h4>
             </ux-dialog-header>
             <ux-dialog-body>
                 <div class="panel-body">
@@ -22,13 +22,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea required name="message" id="bad-message" class="form-control" value.bind="params.feedback_bad_message" rows="6"
-                                t="[placeholder]feedback.bad-message" />
-                            </textarea>
-                        </div>
-                        <div class="form-group">
-                            <textarea required name="message" id="good-message" class="form-control" value.bind="params.feedback_good_message" rows="6"
-                                t="[placeholder]feedback.good-message" />
+                            <textarea required name="message" id="message" class="form-control" value.bind="params.feedback_message" rows="6"
+                                t="[placeholder]feedback.message" />
                             </textarea>
                         </div>
                         <div class="form-group">
