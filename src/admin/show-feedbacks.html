@@ -1,7 +1,7 @@
 <template>
     <require from="./admin.css"></require>
     <section class="container content-area" style="padding-right:30px;" dir="ltr">
-        <div style="width: 1200px;margin-right:auto;margin-left:auto;height:800px;overflow:auto;">
+        <div style="width: 100%;margin-right:auto;margin-left:auto;height:100%;overflow:auto;">
             <table class="table table-striped" aurelia-table="data.bind: items; display-data.bind: $displayData;
                 current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">
                 <col style="width:8%">
@@ -15,20 +15,20 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Device Type</th>
-                        <th>Device Details</th>
+                        <!-- <th>Device Type</th>
+                        <th>Device Details</th> -->
                         <th>Message</th>
-                        <th>Version</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr repeat.for="item of $displayData">
                         <td css="direction:${theme.rtltr}">${item.name}</td>
                         <td>${item.email}</td>
-                        <td>${item.device_type}</td>
-                        <td>${item.device_details}</td>
+                        <!-- <td>${item.device_type}</td>
+                        <td>${item.device_details}</td> -->
                         <td style="direction:rtl" innerhtml.bind="item.message"></td>
-                        <td>${item.version}</td>
+                        <td>${item.date}</td>
                     </tr>
                 </tbody>
             </table>
