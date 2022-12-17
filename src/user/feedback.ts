@@ -18,11 +18,11 @@ export class Feedback {
         feedback_message: '',
         feedback_name: '',
         feedback_email: '',
-        code_version: environment.version,
-        device_type:'any-device',
-        device_details: ''
+        code_version: environment.version //,
+        // device_type:'any-device',
+        // device_details: ''
     }
-    device_type_options;
+    //device_type_options;
 
     constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N) {
         this.controller = controller;
@@ -30,12 +30,12 @@ export class Feedback {
         this.theme = theme;
         this.i18n = i18n;
         this.header_text = this.i18n.tr('feedback.header-text') + this.i18n.tr('feedback.header-text1');
-        this.device_type_options = [
-            { value: "any-device", name: 'feedback.any-device' },
-            { value: "desktop", name: 'feedback.desktop' },
-            { value: "tablet", name: 'feedback.tablet' },
-            { value: "smartphone", name: 'feedback.smartphone' }
-        ];
+        // this.device_type_options = [
+        //     // { value: "any-device", name: 'feedback.any-device' },
+        //     // { value: "desktop", name: 'feedback.desktop' },
+        //     { value: "tablet", name: 'feedback.tablet' },
+        //     { value: "smartphone", name: 'feedback.smartphone' }
+        // ];
     }
 
     send() {
