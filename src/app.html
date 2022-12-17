@@ -70,7 +70,7 @@
                         ${'admin.about-lifestone' & t}
                     </button>
                 </span>
-                <span if.bind="user.config.expose_version_time" style="direction:ltr" class="footer-item">${curr_version}</span>
+                <span if.bind="user.config.expose_version_time || user.privileges.DEVELOPER" style="direction:ltr" class="footer-item">${curr_version}</span>
                 <span if.bind="user.config.expose_feedback_button" class="footer-item">
                     <button class="btn btn-default footer-button" click.delegate="feedback()">
                         ${'feedback.feedback' & t}
