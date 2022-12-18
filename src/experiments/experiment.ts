@@ -26,7 +26,7 @@ export class Experiment {
     }
 
     created() {
-        this.eventSource = new EventSource('sse/subscribe');
+        this.eventSource = new EventSource('https://tol.life/gbs__master/sse/subscribe?channel=all');
         this.eventSource.onmessage = this.handle_incoming_message;
     }
 
