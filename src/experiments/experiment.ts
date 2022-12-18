@@ -36,7 +36,7 @@ export class Experiment {
     }
 
     tease_server() {
-        this.api.call_server_post('sse/tease', {data: this.message_content})
+        this.api.call_server_post('sse/tease', {data: this.message_content, channel: "all"})
         .then(response => this.message_content = "");
     }
 
