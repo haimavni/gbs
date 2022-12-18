@@ -72,7 +72,7 @@ export class Videos {
         videos_date_span_size: 3,
         selected_video_list: [],
         user_id: null,
-        order_option: { value: "" }
+        order_option: { value: "by-name" }
     };
     order_options = [];
     options_settings = new MultiSelectSettings({
@@ -107,8 +107,8 @@ export class Videos {
         this.router = router;
         this.misc = misc;
         this.order_options = [
-            { name: i18n.tr('videos.recently-uploaded'), value: 'recently-uploaded'},
             { name: i18n.tr('videos.by-name'), value: 'by-name' },
+            { name: i18n.tr('videos.recently-uploaded'), value: 'recently-uploaded'},
             { name: i18n.tr('videos.new-to-old'), value: 'new-to-old' },
             { name: i18n.tr('videos.old-to-new'), value: 'old-to-new' }
         ];
