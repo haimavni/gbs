@@ -42,7 +42,9 @@ export class Experiment {
         this.eventSource = new EventSource(
             `sse/subscribe?channel=${this.channel}`
         );
-        this.eventSource.onmessage = this.handle_incoming_message;
+        this.eventSource.onmessage = (event) => this.handle_incoming_message(event);
+        this.eventSource.onopen = (event) => {console.log("connection has been established ", event)}
+        this.eventSource.onerror = (event) => {console.log("an error has occured ", event)}
     }
 
     tease_server() {
