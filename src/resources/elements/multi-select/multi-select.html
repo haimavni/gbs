@@ -50,6 +50,7 @@
             if.bind="options && options.length > 0 && (filter.length > 0 || (! settings.show_only_if_filter)) ">
             <ul css="width:${width}px;" if.bind="true || unselected_options===[]">
                 <li if.bind="can_show_untagged" class="${to_show_untagged ? 'active' : 'ready'} untag-button"
+                    style="cursor:pointer"
                     click.delegate="show_untagged()">${show_untagged_caption}
                 </li>
                 <li
