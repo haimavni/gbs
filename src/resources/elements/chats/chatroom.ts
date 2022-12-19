@@ -83,7 +83,6 @@ export class ChatroomCustomElement {
                 this.messages = data.messages;
                 this.scroll_to_bottom();
             });
-        let info = { user_message: '' };
         this.listener = this.api.listen('CHATROOM' + this.room_number);
         this.subscription = this.ea.subscribe('INCOMING_MESSAGE' + this.room_number, (msg) => {
             this.handle_incoming_message(msg);
