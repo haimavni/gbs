@@ -445,7 +445,7 @@ export class AnnotateVideo {
 
     add_photographer(event) {
         let new_photographer_name = event.detail.new_name;
-        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'P' })
+        this.api.call_server_post('topics/add_photographer', { photographer_name: new_photographer_name, kind: 'V' })
             .then(() => {
                 this.update_topic_list();
             });
