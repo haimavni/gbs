@@ -47,6 +47,7 @@ export class Docs {
         checked_doc_list: [],
         link_class: "basic",
         deleted_docs: false,
+        show_untagged: false,
         days_since_upload: 0,
         search_type: 'simple',
         order_option: { value: "by-name" },
@@ -293,6 +294,7 @@ export class Docs {
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
+        this.params.show_untagged = event.detail.show_untagged;
         this.update_doc_list();
     }
 
@@ -381,6 +383,7 @@ export class Docs {
             can_add: result == "ready-to-edit",
             can_delete: result == "ready-to-edit",
             hide_higher_options: this.checked_docs.size > 0 && this.user.editing,
+            show_untagged: this.user.editing,
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             help_topic: 'topics-help'
         });
@@ -432,6 +435,7 @@ export class Docs {
             checked_doc_list: [],
             link_class: "basic",
             deleted_docs: false,
+            show_untagged: false,
             days_since_upload: 0,
             search_type: 'simple',
             order_option: { value: "by-name" },

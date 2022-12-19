@@ -68,6 +68,7 @@ export class Videos {
         selected_days_since_upload: 0,
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
+        show_untagged: false,
         videos_date_datestr: "",
         videos_date_span_size: 3,
         selected_video_list: [],
@@ -362,6 +363,7 @@ export class Videos {
             can_set_sign: true, //result == "photos-ready-to-edit",
             can_add: result == "photos-ready-to-edit",
             can_delete: result == "photos-ready-to-edit",
+            show_untagged: this.user.editing,
             empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             hide_higher_options: this.selected_videos.size > 0 && this.user.editing,
             help_topic: 'topics-help'
@@ -455,6 +457,7 @@ export class Videos {
     handle_topic_change(event) {
         if (!event.detail) return;
         this.params.selected_topics = event.detail.selected_options;
+        this.params.show_untagged = event.detail.show_untagged;
         this.update_video_list();
     }
 
