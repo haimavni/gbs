@@ -17,9 +17,9 @@ export class ChatButtonCustomElement {
         this.element = element;
     }
 
-    @computedFrom('user.isLoggedIn', 'chatroom_id')
+    //@computedFrom('user.isLoggedIn', 'chatroom_id')
     get can_chat() {
-        return true; //this.user.isLoggedIn || this.chatroom_id;
+        return this.user.config.show_chat_buttons; //this.user.isLoggedIn || this.chatroom_id;
     }
 
     @computedFrom('chatroom_id')
