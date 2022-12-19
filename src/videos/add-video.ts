@@ -17,10 +17,11 @@ export class AddVideo {
     user: User;
     i18n: I18N;
     header_text: string;
-    params: { src: string; name: string; };
+    params: { src: string; name: string; id: Number};
     old_params: any;
     misc: Misc;
     video_date_valid = '';
+    title = "";
 
     constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N, user: User, misc: Misc) {
         this.controller = controller;
@@ -38,9 +39,11 @@ export class AddVideo {
             this.params = {
                 src: '',
                 name: '',
+                id: null
             }
         }
         this.old_params = this.misc.deepClone(this.params);
+        this.title = this.params.id ? 'videos.edit-video-info': 'videos.add-video';
     }
 
     send() {
