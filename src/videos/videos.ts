@@ -340,9 +340,13 @@ export class Videos {
     }
 
     refresh_video_thumbnails() {
-        let selecterd_videos = Array.from(this.selected_videos);
-        this.api.call_server('videos/refresh_video_thumbnails', {selected_videos: selecterd_videos})
+        let selected_videos = Array.from(this.selected_videos);
+        this.api.call_server('videos/refresh_video_thumbnails', {selected_videos: selected_videos})
             .then(() => {
+                const video_list = this.video_list.filter(v => this.selected_videos.has(v.id));
+                for (let video of video_list) {
+                    video.selected = false;
+                }
                 this.selected_videos = new Set();
             });
 
