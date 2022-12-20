@@ -50,6 +50,7 @@
                             <help topic="family-connections" position="bottom"></help>
                         </div>
                         <quiz
+                            if.bind="user.privileges.DEVELOPER"
                             q_state.bind="q_state" 
                             questions.bind="questions" 
                             to_clear_now.bind="to_clear_now"
