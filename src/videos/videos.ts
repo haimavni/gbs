@@ -329,7 +329,7 @@ export class Videos {
         this.params.selected_video_list = Array.from(this.selected_videos);
     }
 
-    delete_video(video) {
+    delete_videos() {
         let selecterd_videos = Array.from(this.selected_videos);
         this.api.call_server('videos/delete_videos', {selected_videos: selecterd_videos})
             .then(() => {
@@ -337,6 +337,15 @@ export class Videos {
                 this.video_list = this.video_list.splice(0);
                 this.selected_videos = new Set();
             });
+    }
+
+    refresh_video_thumbnails() {
+        let selecterd_videos = Array.from(this.selected_videos);
+        this.api.call_server('videos/refresh_video_thumbnails', {selected_videos: selecterd_videos})
+            .then(() => {
+                this.selected_videos = new Set();
+            });
+
     }
 
     edit_video_info(video) {

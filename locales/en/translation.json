@@ -489,6 +489,7 @@
         "describe-cue": "Describe this segment",
         "members-in": "Members are in this segment",
         "select-members": "Select associated members",
+        "refresh-videos-info": "Refesh videos info",
         "by-name": "Sort by name",
         "new-to-old": "New videos first",
         "old-to-new": "Old videos first",

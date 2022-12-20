@@ -25,33 +25,42 @@
                             <div if.bind="phase=='videos-were-selected' && user.privileges.ADMIN"
                                  class="ctrl">
                                 <button
-                                        class="btn btn-default btn-md"
-                                        click.trigger="promote_videos()">
+                                    class="btn btn-default btn-md"
+                                    click.trigger="promote_videos()">
                                     ${'videos.promote-selected-videos' & t}
                                 </button>
                             </div>
                             <div if.bind="phase=='videos-were-selected' && user.privileges.ADMIN"
                                  class="ctrl">
                                 <button
-                                        class="btn btn-warning btn-md"
-                                        click.trigger="delete_videos()">
-                                        <i class="fas fa-trash-alt" click.delegate="delete_video(video)"></i>
-                                    <!--span>${'videos.delete-selected-videos' & t}</span-->
+                                    class="btn btn-warning btn-md"
+                                    click.trigger="delete_videos()">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                            <div if.bind="phase=='videos-were-selected' && user.privileges.ADMIN"
+                                 class="ctrl">
+                                <button
+                                    class="btn btn-secondary btn-md"
+                                    click.trigger="refresh_video_thumbnails()">
+                                    <i class="fas fa-images"></i>
+                                    ${'videos.refresh-videos-info' & t}
+                                    Refresh videos info
                                 </button>
                             </div>
                             <div if.bind="phase=='videos-were-selected'" class="ctrl">
                                 <button
-                                        disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.videos_date_datestr == ''"
-                                        class="btn btn-default btn-md"
-                                        click.trigger="apply_to_selected()">
+                                    disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.videos_date_datestr == ''"
+                                    class="btn btn-default btn-md"
+                                    click.trigger="apply_to_selected()">
                                     ${'videos.apply-to-selected' & t}
                                 </button>
                                 <help topic="apply-to-selected-photos" position="bottom"></help>
                             </div>
                             <div class="ctrl" if.bind="phase=='can-merge-topics'">
                                 <button
-                                        class="btn btn-default btn-md"
-                                        click.trigger="save_merges($event)">
+                                    class="btn btn-default btn-md"
+                                    click.trigger="save_merges($event)">
                                     ${'photos.save-merges' & t}
                                 </button>
                                 <help topic="photos.can-modify-tags" , position="bottom"></help>
