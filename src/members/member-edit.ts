@@ -1,21 +1,21 @@
-import { IDialogService } from "@aurelia/runtime-html";
-import { IRouter } from "@aurelia/router";
-import { I18N } from "@aurelia/i18n";
-import { IMemberGateway } from "../services/gateway";
-import { IUser } from "../services/user";
-import { IMisc } from "../services/misc";
-import { MemberPicker } from "./member-picker";
-import { IMemberList } from "../services/member_list";
-import { ICustomElementViewModel, IEventAggregator } from "aurelia";
+import { IDialogService } from '@aurelia/runtime-html';
+import { IRouter } from '@aurelia/router';
+import { I18N } from '@aurelia/i18n';
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from '../services/user';
+import { IMisc } from '../services/misc';
+import { MemberPicker } from './member-picker';
+import { IMemberList } from '../services/member_list';
+import { ICustomElementViewModel, IEventAggregator } from 'aurelia';
 
 export class MemberEdit implements ICustomElementViewModel {
     member;
     members;
     member_info_orig;
     life_story_orig;
-    update_info = "";
-    date_of_birth_valid = "";
-    date_of_death_valid = "";
+    update_info = '';
+    date_of_birth_valid = '';
+    date_of_death_valid = '';
     check_before_saving = false;
 
     constructor(
@@ -28,15 +28,14 @@ export class MemberEdit implements ICustomElementViewModel {
         @IMemberList readonly memberList: IMemberList,
         @IMisc readonly misc: IMisc
     ) {
-
-        this.eventAggregator.subscribe("EditModeChange", (payload: any) => {
+        this.eventAggregator.subscribe('EditModeChange', (payload: any) => {
             this.user = payload;
         });
 
-        this.eventAggregator.subscribe("EditorContentChanged", () => {
+        this.eventAggregator.subscribe('EditorContentChanged', () => {
             this.handle_editor_changed();
         });
-        
+
         this.dialog = dialog;
         this.memberList = memberList;
         this.memberList.getMemberList().then((members) => {
@@ -51,10 +50,10 @@ export class MemberEdit implements ICustomElementViewModel {
         if (this.user.privileges.DATA_AUDITOR) m.approved = true;
         this.life_story_orig = this.member.story_info.story_text.slice();
         if (this.user.privileges.DATA_AUDITOR && m.updater_id) {
-            const s = " " + this.i18n.tr("members.updated-on-date") + " ";
+            const s = ' ' + this.i18n.tr('members.updated-on-date') + ' ';
             this.update_info = m.updater_name + s + m.update_time;
         } else {
-            this.update_info = "";
+            this.update_info = '';
         }
     }
 
@@ -62,21 +61,21 @@ export class MemberEdit implements ICustomElementViewModel {
         const dirty =
             JSON.stringify(this.member.member_info) !=
             JSON.stringify(this.member_info_orig);
-        this.eventAggregator.publish("DirtyInfo", dirty);
+        this.eventAggregator.publish('DirtyInfo', dirty);
         return dirty;
     }
 
     prev_member() {
-        this.handle_member(this.member.member_info.id, "prev");
+        this.handle_member(this.member.member_info.id, 'prev');
     }
 
     next_member() {
-        this.handle_member(this.member.member_info.id, "next");
+        this.handle_member(this.member.member_info.id, 'next');
     }
 
     handle_member(member_id, direction) {
         if (this.dirty_info) return;
-        const dif = direction == "next" ? +1 : -1;
+        const dif = direction == 'next' ? +1 : -1;
         let member_idx = this.members.member_list.findIndex(
             (mem) => mem.id == member_id
         );
@@ -101,13 +100,13 @@ export class MemberEdit implements ICustomElementViewModel {
                 this.member.member_info.last_name.trim();
             this.member.member_info.first_name =
                 this.member.member_info.first_name.trim();
-            data["member_info"] = this.member.member_info;
+            data['member_info'] = this.member.member_info;
         } else {
-            data["member_id"] = this.member.member_info.id;
+            data['member_id'] = this.member.member_info.id;
         }
         const id = this.member.member_info.id;
         this.api
-            .call_server_post("members/save_member_info", data)
+            .call_server_post('members/save_member_info', data)
             .then((response) => {
                 this.member_info_orig = this.misc.deepClone(
                     this.member.member_info
@@ -119,12 +118,12 @@ export class MemberEdit implements ICustomElementViewModel {
     }
 
     toggle_gender() {
-        if (this.member.member_info.gender == "F") {
-            this.member.member_info.gender = "M";
-        } else if (this.member.member_info.gender == "M") {
-            this.member.member_info.gender = "F";
+        if (this.member.member_info.gender == 'F') {
+            this.member.member_info.gender = 'M';
+        } else if (this.member.member_info.gender == 'M') {
+            this.member.member_info.gender = 'F';
         } else {
-            this.member.member_info.gender = "F";
+            this.member.member_info.gender = 'F';
         }
     }
 
@@ -145,16 +144,16 @@ export class MemberEdit implements ICustomElementViewModel {
     }
 
     handle_editor_changed() {
-        alert("editor content changed");
+        alert('editor content changed');
     }
 
     find_father(event) {
-        if (event.ctrlKey) return this.remove_parent("pa");
+        if (event.ctrlKey) return this.remove_parent('pa');
         this.dialog
             .open({
                 component: () => MemberPicker,
                 model: {
-                    gender: "M",
+                    gender: 'M',
                     child_name: this.member.member_info.full_name,
                     child_id: this.member.member_info.id,
                 },
@@ -166,7 +165,7 @@ export class MemberEdit implements ICustomElementViewModel {
                 this.member.member_info.father_id = response.output.member_id;
                 if (response.output.new_member) {
                     const new_member = {
-                        gender: "M",
+                        gender: 'M',
                         id: this.member.member_info.father_id,
                         name: response.output.new_member.name,
                         facePhotoURL: response.output.new_member.face_url,
@@ -176,17 +175,17 @@ export class MemberEdit implements ICustomElementViewModel {
                 const father = this.get_member_data(
                     this.member.member_info.father_id
                 );
-                this.eventAggregator.publish("ParentFound", father);
+                this.eventAggregator.publish('ParentFound', father);
             });
     }
 
     find_mother(event) {
-        if (event.ctrlKey) return this.remove_parent("ma");
+        if (event.ctrlKey) return this.remove_parent('ma');
         this.dialog
             .open({
                 component: () => MemberPicker,
                 model: {
-                    gender: "F",
+                    gender: 'F',
                     child_name: this.member.member_info.full_name,
                     child_id: this.member.member_info.id,
                 },
@@ -198,7 +197,7 @@ export class MemberEdit implements ICustomElementViewModel {
                 this.member.member_info.mother_id = response.output.member_id;
                 if (response.output.new_member) {
                     const new_member = {
-                        gender: "F",
+                        gender: 'F',
                         id: this.member.member_info.mother_id,
                         name: response.output.new_member.name,
                         facePhotoURL: response.output.new_member.face_url,
@@ -208,13 +207,13 @@ export class MemberEdit implements ICustomElementViewModel {
                 const mother = this.get_member_data(
                     this.member.member_info.mother_id
                 );
-                this.eventAggregator.publish("ParentFound", mother);
+                this.eventAggregator.publish('ParentFound', mother);
             });
     }
 
     remove_parent(who) {
         this.member.family_connections.parents[who] = null;
-        this.api.call_server_post("members/remove_parent", {
+        this.api.call_server_post('members/remove_parent', {
             member_id: this.member.member_info.id,
             who: who,
         });
@@ -232,16 +231,16 @@ export class MemberEdit implements ICustomElementViewModel {
     }
 
     get incomplete() {
-        if (!this.member.member_info.visibility) return "";
+        if (!this.member.member_info.visibility) return '';
         if (
-            this.date_of_birth_valid != "valid" ||
-            this.date_of_death_valid != "valid" ||
-            (this.member.member_info.gender != "F" &&
-                this.member.member_info.gender != "M") ||
+            this.date_of_birth_valid != 'valid' ||
+            this.date_of_death_valid != 'valid' ||
+            (this.member.member_info.gender != 'F' &&
+                this.member.member_info.gender != 'M') ||
             !this.member.member_info.first_name
         )
-            return "disabled";
-        return "";
+            return 'disabled';
+        return '';
     }
 
     setup(modalContainer: Element, modalOverlay: Element) {}

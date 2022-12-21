@@ -1,31 +1,25 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { DialogController } from 'aurelia-dialog';
-import { MemberGateway } from '../../../../_OLD/src/services/gateway';
-import { I18N, TCustomAttribute } from '@aurelia/i18n';
-import { Misc } from '../../../../_OLD/src/services/misc';
+import { IDialogController } from 'aurelia';
+import { IMemberGateway } from '../../../services/gateway';
+import { I18N } from '@aurelia/i18n';
+import { IMisc } from '../../../services/misc';
 
-@autoinject
 export class EditItem {
-    api;
-    i18n;
-    controller: DialogController;
-    error_message = "";
+    error_message = '';
     item;
     old_data;
     can_delete = false;
     has_description = false;
     category = '';
     title;
-    name_placeholder = "";
-    description_placeholder = "";
-    misc;
+    name_placeholder = '';
+    description_placeholder = '';
 
-    constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc) {
-        this.controller = controller;
-        this.api = api;
-        this.i18n = i18n;
-        this.misc = misc;
-    }
+    constructor(
+        @IDialogController readonly controller: IDialogController,
+        @IMemberGateway readonly api: IMemberGateway,
+        @I18N readonly i18n: I18N,
+        @IMisc readonly misc: IMisc
+    ) {}
 
     loading(params) {
         this.item = params.item;
@@ -38,28 +32,31 @@ export class EditItem {
         key = 'picker.' + this.category + '-name';
         this.name_placeholder = this.i18n.tr(key);
         if (this.has_description) {
-            key = 'picker.' + this.category + '-description'
+            key = 'picker.' + this.category + '-description';
             this.description_placeholder = this.i18n.tr(key);
         }
     }
 
     save() {
         if (this.category != 'item') {
-            this.controller.ok({command: 'modify-item'});
+            this.controller.ok({ command: 'modify-item' });
             return;
         }
-        this.api.call_server_post('topics/update_item_name_and_description', {item: this.item})
+        this.api
+            .call_server_post('topics/update_item_name_and_description', {
+                item: this.item,
+            })
             .then((data) => {
                 if (data.user_error) {
                     this.error_message = this.i18n.tr(data.user_error);
                     return;
                 }
-                this.controller.ok({command: 'skip'});
+                this.controller.ok({ command: 'skip' });
             });
     }
 
     remove_item() {
-        this.controller.ok({command: 'remove-item'})
+        this.controller.ok({ command: 'remove-item' });
     }
 
     cancel() {
@@ -68,11 +65,13 @@ export class EditItem {
         this.controller.cancel();
     }
 
-    @computedFrom('item.name', 'item.description')
     get ready_to_save() {
-        if (! this.item.name) return false;
-        if (this.item.name == this.old_data.name && this.item.description == this.old_data.description) return false;
+        if (!this.item.name) return false;
+        if (
+            this.item.name == this.old_data.name &&
+            this.item.description == this.old_data.description
+        )
+            return false;
         return true;
     }
-
 }

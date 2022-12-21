@@ -1,13 +1,17 @@
-import { IEventAggregator } from "aurelia";
-import { IUser } from "../services/user";
-import { ITheme } from "../services/theme";
-import { IArticleList } from "../services/article_list";
-import { I18N } from "@aurelia/i18n";
-import { IRouter, IRouteableComponent, RoutingInstruction } from "@aurelia/router";
-import { IMemberGateway } from "../services/gateway";
+import { IEventAggregator } from 'aurelia';
+import { IUser } from '../services/user';
+import { ITheme } from '../services/theme';
+import { IArticleList } from '../services/article_list';
+import { I18N } from '@aurelia/i18n';
+import {
+    IRouter,
+    IRouteableComponent,
+    RoutingInstruction,
+} from '@aurelia/router';
+import { IMemberGateway } from '../services/gateway';
 
 export class Articles implements IRouteableComponent {
-    filter = "";
+    filter = '';
     _articles = [];
     faces_per_line = 8;
     win_width;
@@ -29,10 +33,10 @@ export class Articles implements IRouteableComponent {
         @IRouter readonly router: IRouter
     ) {
         this._articles = [];
-        this.eventAggregator.subscribe("EditModeChange", (payload: IUser) => {
+        this.eventAggregator.subscribe('EditModeChange', (payload: IUser) => {
             this.user = payload;
         });
-        this.eventAggregator.subscribe("NewArticleAdded", (article_details) => {
+        this.eventAggregator.subscribe('NewArticleAdded', (article_details) => {
             this.article_added(article_details);
         });
     }
@@ -43,7 +47,7 @@ export class Articles implements IRouteableComponent {
             for (const article of this._articles) {
                 article.rand = Math.random() * 1000;
             }
-            if (instruction.component.name == "associate-articles") {
+            if (instruction.component.name == 'associate-articles') {
                 this.caller_id = params.caller_id;
                 this.caller_type = params.caller_type;
                 let arr;
@@ -69,14 +73,14 @@ export class Articles implements IRouteableComponent {
     attached() {
         this.theme.display_header_background = true;
         this.theme.page_title = this.caller_type
-            ? "articles." + this.caller_type
-            : "articles.articles";
+            ? 'articles.' + this.caller_type
+            : 'articles.articles';
         this.scroll_area.scrollTop = this.scroll_top;
     }
 
     detached() {
         this.theme.display_header_background = false;
-        this.theme.page_title = "";
+        this.theme.page_title = '';
     }
 
     article_added(article_details) {
@@ -102,6 +106,7 @@ export class Articles implements IRouteableComponent {
             this.toggle_selection(article, event);
         } else {
             this.scroll_top = this.scroll_area.scrollTop;
+
             this.router.load(`/article-details/${article.id}`);
         }
     }
@@ -111,19 +116,19 @@ export class Articles implements IRouteableComponent {
     }
 
     get topic_articles() {
-        if (this.caller_type == "story" || this.caller_type == "term") {
-            return "select-articles";
+        if (this.caller_type == 'story' || this.caller_type == 'term') {
+            return 'select-articles';
         } else {
-            return "articles";
+            return 'articles';
         }
     }
 
     save_article_group(group_id) {
         const article_ids = Array.from(this.selected_articles);
         const caller_type = this.caller_type;
-        this.caller_type = "";
+        this.caller_type = '';
         this.api
-            .call_server_post("articles/save_group_articles", {
+            .call_server_post('articles/save_group_articles', {
                 user_id: this.user.id,
                 caller_id: this.caller_id,
                 caller_type: caller_type,
@@ -131,16 +136,20 @@ export class Articles implements IRouteableComponent {
             })
             .then((response) => {
                 this.clear_article_group();
-                if (caller_type == "story") {
-                    this.router.navigateToRoute("story-detail", {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4EVENT,
+                if (caller_type == 'story') {
+                    this.router.load(`/story-detail`, {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4EVENT,
+                        },
                     });
                 }
-                if (caller_type == "term") {
-                    this.router.navigateToRoute("term-detail", {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4TERM,
+                if (caller_type == 'term') {
+                    this.router.load(`/term-detail`, {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4TERM,
+                        },
                     });
                 }
             });
@@ -154,7 +163,7 @@ export class Articles implements IRouteableComponent {
     }
 
     goto_members() {
-        this.router.load("/members");
+        this.router.load('/members');
     }
 
     toggle_selection(article, event) {

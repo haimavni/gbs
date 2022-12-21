@@ -32,9 +32,7 @@ export class EditSideBySideCustomElement {
         key: ""
     }
 
-    constructor(theme: Theme, misc: Misc) {
-        this.theme = theme;
-        this.misc = misc;
+    constructor(@ITheme readonly theme: ITheme, @IMisc readonly misc: IMisc) {
         THIS_EDITOR = this;
     }
 
@@ -69,8 +67,8 @@ export class EditSideBySideCustomElement {
 
     focus(e, editor) {
         if (THIS_EDITOR.init) {
-            let el: any = document.getElementsByClassName("fr-element")[0];
-            let s = el.innerHTML;
+            const el: any = document.getElementsByClassName("fr-element")[0];
+            const s = el.innerHTML;
             THIS_EDITOR.edited_str_orig = s.slice(0);
             THIS_EDITOR.init = false;
             THIS_EDITOR.dirty = false;
@@ -79,8 +77,8 @@ export class EditSideBySideCustomElement {
     }
 
     content_changed(e, editor) {
-        let el: any = document.getElementsByClassName("fr-element")[0];
-        let s = el.innerHTML;
+        const el: any = document.getElementsByClassName("fr-element")[0];
+        const s = el.innerHTML;
 
         THIS_EDITOR.dirty = (s != THIS_EDITOR.edited_str_orig);
     }
@@ -109,10 +107,10 @@ export class EditSideBySideCustomElement {
     }
 
     dispatch_event(what) {
-        let event = new CustomEvent(what, {
+        const event = new CustomEvent(what, {
             bubbles: true
         });
-        let element = document.getElementById("my-editor")
+        const element = document.getElementById("my-editor")
         element.dispatchEvent(event);
     }
 

@@ -14,6 +14,7 @@ export class User {
     public user_name;
     public privileges;
     public config = {
+        articles_in_menu: false,
         enable_auto_registration: false,
         expose_new_app_button: false,
         support_audio: false,

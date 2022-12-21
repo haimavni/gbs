@@ -1,26 +1,21 @@
-import { DialogService } from 'aurelia-dialog';
-import { inject, DOM, noView, bindable, InlineViewStrategy, bindingMode } from 'aurelia-framework';
+import { bindable, BindingMode, IDialogService, INode } from 'aurelia';
 import { CustomDialog } from '../../services/custom-dialog';
-import { Theme } from '../../services/theme';
+import { ITheme } from '../../services/theme';
 
-@inject(DOM.Element, DialogService, Theme)
 export class DlgStringCustomElement {
     @bindable title;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) str;
+    @bindable({ mode: BindingMode.twoWay }) str;
     @bindable placeholder;
     @bindable anchor;
-    element;
-    dialogService: DialogService;
-    theme;
 
-    constructor(element, dialogService: DialogService, theme: Theme) {
-        this.element = element;
-        this.dialogService = dialogService;
-        this.theme = theme;
-    }
+    constructor(
+        @INode readonly element: HTMLElement,
+        @IDialogService readonly dialogService: IDialogService,
+        @ITheme readonly theme: ITheme
+    ) {}
 
     inputString() {
-        let model = {
+        const model = {
             title: this.title,
             placeholder: this.placeholder,
             str: this.str,
@@ -32,31 +27,28 @@ export class DlgStringCustomElement {
                             <button click.trigger="controller.ok(model.str)" style="margin:15px"><i class="fa fa-check"></i></button>
                         </form>
                         </div>
-                </template>`
-        }
+                </template>`,
+        };
         this.theme.hide_title = true;
-        this.dialogService.open({ viewModel: CustomDialog, model: model, lock: false })
-            .whenClosed(response => {
+        this.dialogService
+            .open({ component: () => CustomDialog, model: model, lock: false })
+            .whenClosed((response) => {
                 this.theme.hide_title = false;
-                if (!response.wasCancelled) {
+                if (response.status !== 'ok') {
                     this.str = model.str;
                     this.dispatch_event();
-                } else {
                 }
-
             });
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('str-change', {
+        const changeEvent = new CustomEvent('str-change', {
             detail: {
-                string_value: this.str
+                string_value: this.str,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
-        this.str = "";
+        this.str = '';
     }
-
-
 }

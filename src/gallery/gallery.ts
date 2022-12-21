@@ -1,6 +1,6 @@
-import { IMemberGateway } from "../services/gateway";
-import { ITheme } from "../services/theme";
-import { IUser } from "../services/user";
+import { IMemberGateway } from '../services/gateway';
+import { ITheme } from '../services/theme';
+import { IUser } from '../services/user';
 
 export class Gallery {
     app_list = [];
@@ -9,12 +9,11 @@ export class Gallery {
         @IMemberGateway readonly api: IMemberGateway,
         @ITheme readonly theme: ITheme,
         @IUser readonly user: IUser
-    ) {
-    }
+    ) {}
 
     loading(params) {
         this.api
-            .call_server("gallery/apps_for_gallery", {
+            .call_server('gallery/apps_for_gallery', {
                 developer: this.user.privileges.DEVELOPER,
                 editing: this.user.editing,
             })
@@ -27,6 +26,6 @@ export class Gallery {
         // this.theme.display_header_background = true;
         // this.theme.hide_title = true;
         // this.theme.hide_menu = true;
-        this.theme.page_title = "gallery.gallery";
+        this.theme.page_title = 'gallery.gallery';
     }
 }

@@ -1,37 +1,29 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { DialogController } from 'aurelia-dialog';
-import { MemberGateway } from '../../../../_OLD/src/services/gateway';
-import { I18N, TCustomAttribute } from '@aurelia/i18n';
-import { Misc } from '../../../../_OLD/src/services/misc';
-import { Theme } from '../../../../_OLD/src/services/theme';
-import { User } from '../../../../_OLD/src/services/user';
+import { IDialogController } from 'aurelia';
+import { IMemberGateway } from '../../../services/gateway';
+import { I18N } from '@aurelia/i18n';
+import { IMisc } from '../../../services/misc';
+import { ITheme } from '../../../services/theme';
+import { IUser } from '../../../services/user';
 
-@autoinject
 export class EditTopic {
-    api;
-    i18n;
-    controller: DialogController;
-    error_message = "";
+    error_message = '';
     topic;
     old_data;
     can_delete = false;
     has_description = false;
     category = '';
     title;
-    name_placeholder = "";
-    description_placeholder = "";
-    misc;
-    theme;
-    user: User;
+    name_placeholder = '';
+    description_placeholder = '';
 
-    constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc, theme: Theme, user: User) {
-        this.controller = controller;
-        this.api = api;
-        this.i18n = i18n;
-        this.misc = misc;
-        this.theme = theme;
-        this.user = user;
-    }
+    constructor(
+        @IDialogController readonly controller: IDialogController,
+        @IMemberGateway readonly api: IMemberGateway,
+        @I18N readonly i18n: I18N,
+        @IMisc readonly misc: IMisc,
+        @ITheme readonly theme: ITheme,
+        @IUser readonly user: IUser
+    ) {}
 
     loading(params) {
         this.topic = params.topic;
@@ -44,28 +36,31 @@ export class EditTopic {
         key = 'multi-select.' + this.category + '-name';
         this.name_placeholder = this.i18n.tr(key);
         if (this.has_description) {
-            key = 'multi-select.' + this.category + '-description'
+            key = 'multi-select.' + this.category + '-description';
             this.description_placeholder = this.i18n.tr(key);
         }
     }
 
     save() {
         if (this.category != 'topic') {
-            this.controller.ok({command: 'rename'});
+            this.controller.ok({ command: 'rename' });
             return;
         }
-        this.api.call_server_post('topics/update_topic_name_and_description', {topic: this.topic})
+        this.api
+            .call_server_post('topics/update_topic_name_and_description', {
+                topic: this.topic,
+            })
             .then((data) => {
                 if (data.user_error) {
                     this.error_message = this.i18n.tr(data.user_error);
                     return;
                 }
-                this.controller.ok({command: 'skip'});
+                this.controller.ok({ command: 'skip' });
             });
     }
 
     remove_topic() {
-        this.controller.ok({command: 'remove-topic'})
+        this.controller.ok({ command: 'remove-topic' });
     }
 
     cancel() {
@@ -74,11 +69,13 @@ export class EditTopic {
         this.controller.cancel();
     }
 
-    @computedFrom('topic.name', 'topic.description')
     get ready_to_save() {
-        if (! this.topic.name) return false;
-        if (this.topic.name == this.old_data.name && this.topic.description == this.old_data.description) return false;
+        if (!this.topic.name) return false;
+        if (
+            this.topic.name == this.old_data.name &&
+            this.topic.description == this.old_data.description
+        )
+            return false;
         return true;
     }
-
 }

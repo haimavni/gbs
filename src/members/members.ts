@@ -1,17 +1,17 @@
-import { IDialogService, IEventAggregator } from "aurelia";
-import { IUser } from "../services/user";
-import { ITheme } from "../services/theme";
-import { Query } from "../services/query/query";
-import { IMemberList } from "../services/member_list";
-import { IArticleList } from "../services/article_list";
-import { I18N } from "@aurelia/i18n";
-import { IRouter } from "@aurelia/router";
-import { IMemberGateway } from "../services/gateway";
-import { QState, Question } from "../resources/elements/quiz/quiz-model";
-import * as toastr from "toastr";
+import { IDialogService, IEventAggregator } from 'aurelia';
+import { IUser } from '../services/user';
+import { ITheme } from '../services/theme';
+import { Query } from '../services/query/query';
+import { IMemberList } from '../services/member_list';
+import { IArticleList } from '../services/article_list';
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
+import { IMemberGateway } from '../services/gateway';
+import { QState, Question } from '../resources/elements/quiz/quiz-model';
+import * as toastr from 'toastr';
 
 export class Members {
-    filter = "";
+    filter = '';
     _members = [];
     articles_exist = false;
     selectedId;
@@ -19,7 +19,7 @@ export class Members {
     win_width;
     sorting_options;
     selected_members = new Set([]);
-    order = "";
+    order = '';
     member_group_list;
     caller_id;
     caller_type;
@@ -28,7 +28,7 @@ export class Members {
     relatives_path;
     origin_member_id;
     other_member_id;
-    only_unapproved = "";
+    only_unapproved = '';
     approval_options;
     scroll_area;
     scroll_top = 0;
@@ -62,60 +62,60 @@ export class Members {
         this.memberList = memberList;
         this.articleList = articleList;
         this._members = [];
-        this.eventAggregator.subscribe("EditModeChange", (payload: any) => {
+        this.eventAggregator.subscribe('EditModeChange', (payload: any) => {
             this.user = payload;
         });
         this.dialog = dialog;
-        this.eventAggregator.subscribe("NewMemberAdded", (member_details) => {
+        this.eventAggregator.subscribe('NewMemberAdded', (member_details) => {
             this.member_added(member_details);
         });
         this.sorting_options = [
             {
-                value: "selected;-has_profile_photo",
-                name: this.i18n.tr("members.random-order"),
+                value: 'selected;-has_profile_photo',
+                name: this.i18n.tr('members.random-order'),
             },
             {
-                value: "selected;last_name;first_name",
-                name: this.i18n.tr("members.by-last-name"),
+                value: 'selected;last_name;first_name',
+                name: this.i18n.tr('members.by-last-name'),
             },
             {
-                value: "selected;first_name;last_name;first_name",
-                name: this.i18n.tr("members.by-first-name"),
+                value: 'selected;first_name;last_name;first_name',
+                name: this.i18n.tr('members.by-first-name'),
             },
             {
-                value: "selected;-birth_date",
-                name: this.i18n.tr("members.by-age-young-first"),
+                value: 'selected;-birth_date',
+                name: this.i18n.tr('members.by-age-young-first'),
             },
             {
-                value: "selected;birth_date",
-                name: this.i18n.tr("members.by-age-old-first"),
+                value: 'selected;birth_date',
+                name: this.i18n.tr('members.by-age-old-first'),
             },
             {
-                value: "selected;-id",
-                name: this.i18n.tr("members.newly-added"),
+                value: 'selected;-id',
+                name: this.i18n.tr('members.newly-added'),
             },
         ];
-        
+
         if (this.user.privileges.EDITOR) {
             this.sorting_options.push({
-                value: "has_profile_photo",
-                name: this.i18n.tr("members.profile-missing-first"),
+                value: 'has_profile_photo',
+                name: this.i18n.tr('members.profile-missing-first'),
             });
         }
         this.approval_options = [
-            { value: "", name: this.i18n.tr("members.all-members") },
-            { value: "x", name: this.i18n.tr("members.unapproved-only") },
+            { value: '', name: this.i18n.tr('members.all-members') },
+            { value: 'x', name: this.i18n.tr('members.unapproved-only') },
         ];
-        this.quiz_help_data = { items: this.i18n.tr("members.members") };
+        this.quiz_help_data = { items: this.i18n.tr('members.members') };
     }
 
     loading(params, routeConfig) {
-        return this.memberList.getMemberList().then((members) => {
+        return this.memberList.getMemberList().then((members: any) => {
             this._members = members.member_list;
             for (const member of this._members) {
                 member.rand = Math.random() * 1000;
             }
-            if (routeConfig.name == "associate-members") {
+            if (routeConfig.name == 'associate-members') {
                 this.caller_id = params.caller_id;
                 this.caller_type = params.caller_type;
                 let arr;
@@ -139,19 +139,19 @@ export class Members {
     }
 
     attached() {
-        this.articleList.getArticleList().then((articles) => {
+        this.articleList.getArticleList().then((articles: any) => {
             this.articles_exist = articles.article_list.length > 0;
         });
         this.theme.display_header_background = true;
         this.theme.page_title = this.caller_type
-            ? "members." + this.caller_type
-            : "members.members";
+            ? 'members.' + this.caller_type
+            : 'members.members';
         this.scroll_area.scrollTop = this.scroll_top;
     }
 
     detached() {
         this.theme.display_header_background = false;
-        this.theme.page_title = "";
+        this.theme.page_title = '';
     }
 
     member_added(member_details) {
@@ -210,7 +210,7 @@ export class Members {
 
     get_relatives_path() {
         this.api
-            .call_server_post("members/get_relatives_path", {
+            .call_server_post('members/get_relatives_path', {
                 origin_member_id: this.origin_member_id,
                 other_member_id: this.other_member_id,
             })
@@ -224,7 +224,7 @@ export class Members {
         const member_id = lst[0];
         this.origin_member_id = member_id;
         this.api
-            .call_server_post("members/get_all_relatives", {
+            .call_server_post('members/get_all_relatives', {
                 member_id: member_id,
             })
             .then((response) => {
@@ -239,7 +239,7 @@ export class Members {
             this.relatives_path = null;
             this.relatives_mode = false;
         } else {
-            this.filter = "";
+            this.filter = '';
             this.calc_relative_list();
         }
     }
@@ -312,9 +312,9 @@ export class Members {
     save_member_group(group_id) {
         const member_ids = Array.from(this.selected_members);
         const caller_type = this.caller_type;
-        this.caller_type = "";
+        this.caller_type = '';
         this.api
-            .call_server_post("members/save_group_members", {
+            .call_server_post('members/save_group_members', {
                 user_id: this.user.id,
                 caller_id: this.caller_id,
                 caller_type: caller_type,
@@ -322,16 +322,20 @@ export class Members {
             })
             .then((response) => {
                 this.clear_member_group();
-                if (caller_type == "story") {
-                    this.router.load("/story-detail", {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4EVENT,
+                if (caller_type == 'story') {
+                    this.router.load('/story-detail', {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4EVENT,
+                        },
                     });
                 }
-                if (caller_type == "term") {
-                    this.router.load("/term-detail", {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4TERM,
+                if (caller_type == 'term') {
+                    this.router.load('/term-detail', {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4TERM,
+                        },
                     });
                 }
             });
@@ -352,11 +356,11 @@ export class Members {
             return this.relative_list;
         }
         if (
-            this.order == "selected;birth_date" ||
-            this.order == "selected;-birth_date"
+            this.order == 'selected;birth_date' ||
+            this.order == 'selected;-birth_date'
         ) {
             return this._members.filter(
-                (member) => member.birth_date != "0001-01-01"
+                (member) => member.birth_date != '0001-01-01'
             );
         }
 
@@ -364,10 +368,10 @@ export class Members {
     }
 
     get topic_members() {
-        if (this.caller_type == "story" || this.caller_type == "term") {
-            return "select-members";
+        if (this.caller_type == 'story' || this.caller_type == 'term') {
+            return 'select-members';
         } else {
-            return "members";
+            return 'members';
         }
     }
 
@@ -401,7 +405,7 @@ export class Members {
 
     apply_changes() {
         const item_list = Array.from(this.selected_members);
-        this.api.call_server_post("quiz/apply_answers", {
+        this.api.call_server_post('quiz/apply_answers', {
             item_list: item_list,
             checked_answers: this.checked_answers,
         });
@@ -424,7 +428,7 @@ export class Members {
                 return;
             }
             this.api
-                .call_server_post("members/qualified_members", {
+                .call_server_post('members/qualified_members', {
                     checked_answers: this.checked_answers,
                     nota_questions: this.nota_questions,
                 })
@@ -433,12 +437,11 @@ export class Members {
                         response.qualified_members
                     );
                 });
-        } else if (this.q_state == QState.APPLYING) {
         }
     }
 
     goto_articles() {
-        this.router.load("articles");
+        this.router.load('articles');
     }
 
     get photo_size() {
@@ -457,19 +460,19 @@ export class Members {
     }
 
     get members_section_class() {
-        if (this.theme.is_desktop) return "container content-area";
+        if (this.theme.is_desktop) return 'container content-area';
         return null;
     }
 
     check_duplicates() {
         this.api
-            .call_server_post("members/check_duplicates")
+            .call_server_post('members/check_duplicates')
             .then((response) => {
                 const duplicates = response.duplicates;
                 if (duplicates.length == 0)
-                    toastr.success("No duplicates found");
+                    toastr.success('No duplicates found');
                 else {
-                    toastr.warning(duplicates.length + " duplicates found!");
+                    toastr.warning(duplicates.length + ' duplicates found!');
                     this.selected_members = new Set();
                     for (const itm of duplicates)
                         for (const mid of itm) {
@@ -480,15 +483,15 @@ export class Members {
                             member.selected = 1;
                         else member.selected = 0;
                     }
-                    this.order = "selected;first_name;last_name;first_name";
+                    this.order = 'selected;first_name;last_name;first_name';
                     this.memberList.sort_member_list(this.order);
                 }
             });
     }
 
     open_query_editor() {
-        console.log("dialog: ", this.dialog);
-        this.dialog.open({ component: Query, model: {}, lock: false });
+        console.log('dialog: ', this.dialog);
+        this.dialog.open({ component: () => Query, model: {}, lock: false });
     }
 
     get max_members_displayed() {

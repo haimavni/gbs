@@ -1,14 +1,14 @@
-import { IDialogController } from "@aurelia/runtime-html";
-import { ICustomElementViewModel, IEventAggregator } from "aurelia";
-import { IUser } from "../services/user";
-import { IMemberList } from "../services/member_list";
-import { IRouter } from "@aurelia/router";
-import { IMemberGateway } from "../services/gateway";
-import { I18N } from "@aurelia/i18n";
+import { IDialogController } from '@aurelia/runtime-html';
+import { ICustomElementViewModel, IEventAggregator } from 'aurelia';
+import { IUser } from '../services/user';
+import { IMemberList } from '../services/member_list';
+import { IRouter } from '@aurelia/router';
+import { IMemberGateway } from '../services/gateway';
+import { I18N } from '@aurelia/i18n';
 
 export class MemberPicker implements ICustomElementViewModel {
-    filter = "";
-    gender = "";
+    filter = '';
+    gender = '';
     face_identifier = false;
     face;
     members = [];
@@ -38,7 +38,7 @@ export class MemberPicker implements ICustomElementViewModel {
     ) {
         this.members = [];
 
-        this.eventAggregator.subscribe("EditModeChange", (payload: any) => {
+        this.eventAggregator.subscribe('EditModeChange', (payload: any) => {
             this.user = payload;
         });
     }
@@ -75,33 +75,35 @@ export class MemberPicker implements ICustomElementViewModel {
         this.help_topic = model.help_topic;
         await this.prepare_lists();
         this.multi = model.multi;
-        this.filter = "";
-        this.back_to_text = model.back_to_text || "members.back-to-photos";
+        this.filter = '';
+        this.back_to_text = model.back_to_text || 'members.back-to-photos';
         for (const member of this.members) {
-            member.selected = "";
+            member.selected = '';
         }
         if (model.preselected) {
-            console.log("model.preselected: ", model.preselected);
+            console.log('model.preselected: ', model.preselected);
             for (const member_id of model.preselected) {
                 this.was_empty = false;
                 this.selected_member_ids.add(member_id);
                 const member = this.members.find((mem) => mem.id == member_id);
-                member.selected = "selected";
-                console.log("member: ", member);
+                member.selected = 'selected';
+                console.log('member: ', member);
             }
             this.members.sort((a, b) =>
                 a.selected ? -1 : b.selected ? +1 : 0
             );
         }
         if (model.member_id > 0) {
-            this.memberList.get_member_by_id(model.member_id).then((result: any) => {
-                this.filter = result.first_name + " " + result.last_name;
-            });
+            this.memberList
+                .get_member_by_id(model.member_id)
+                .then((result: any) => {
+                    this.filter = result.first_name + ' ' + result.last_name;
+                });
         }
         const ex_list = Array.from(this.excluded);
         for (const member_id of ex_list) {
             this.memberList.get_member_by_id(member_id).then((member: any) => {
-                const name = member.first_name + " " + member.last_name;
+                const name = member.first_name + ' ' + member.last_name;
                 this.excluded_names.add(name);
             });
         }
@@ -120,10 +122,10 @@ export class MemberPicker implements ICustomElementViewModel {
         if (this.multi) {
             if (this.selected_member_ids.has(member.id)) {
                 this.selected_member_ids.delete(member.id);
-                member.selected = "";
+                member.selected = '';
             } else {
                 this.selected_member_ids.add(member.id);
-                member.selected = "selected";
+                member.selected = 'selected';
             }
         } else {
             this.memberList.add_recent(member);
@@ -138,7 +140,7 @@ export class MemberPicker implements ICustomElementViewModel {
         const member_ids = Array.from(this.selected_member_ids);
         this.selected_member_ids = new Set();
         for (const member of this.members) {
-            member.selected = "";
+            member.selected = '';
         }
         this.dialogController.ok({ member_ids: member_ids });
     }
@@ -146,17 +148,17 @@ export class MemberPicker implements ICustomElementViewModel {
     async create_new_member() {
         let member_ids = [];
         await this.api
-            .call_server("members/member_by_name", { name: this.filter.trim() })
+            .call_server('members/member_by_name', { name: this.filter.trim() })
             .then((response) => {
                 member_ids = response.member_ids;
             });
         if (this.gender) {
             const parent_of =
-                this.gender == "M"
-                    ? this.i18n.tr("members.pa-of")
-                    : this.i18n.tr("members.ma-of");
+                this.gender == 'M'
+                    ? this.i18n.tr('members.pa-of')
+                    : this.i18n.tr('members.ma-of');
             this.api
-                .call_server("members/create_parent", {
+                .call_server('members/create_parent', {
                     gender: this.gender,
                     child_name: this.child_name,
                     child_id: this.child_id,
@@ -173,14 +175,14 @@ export class MemberPicker implements ICustomElementViewModel {
                 if (this.excluded.has(member_id)) {
                     const msg =
                         this.filter +
-                        this.i18n.tr("members.already-identified");
+                        this.i18n.tr('members.already-identified');
                     alert(msg);
                     return;
                 }
             }
-            const default_name = this.i18n.tr("members.default-name");
+            const default_name = this.i18n.tr('members.default-name');
             this.api
-                .call_server("members/create_new_member", {
+                .call_server('members/create_new_member', {
                     photo_id: this.face.photo_id,
                     face_x: this.face.x,
                     face_y: this.face.y,
@@ -198,8 +200,8 @@ export class MemberPicker implements ICustomElementViewModel {
     }
 
     get place_holder() {
-        let key = "members.filter";
-        if (this.user.editing) key += "-can-add";
+        let key = 'members.filter';
+        if (this.user.editing) key += '-can-add';
         return this.i18n.tr(key);
     }
 

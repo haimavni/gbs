@@ -616,9 +616,12 @@ export class Photos implements IRouteableComponent {
     private jump_to_photo(slide) {
         this.curr_photo_id = slide.photo_id;
         this.scroll_top = this.scroll_area.scrollTop;
-        this.router.navigateToRoute('photo-detail', {
-            id: this.curr_photo_id,
-            keywords: '',
+
+        this.router.load(`/photo-detail`, {
+            parameters: {
+                id: this.curr_photo_id,
+                keywords: '',
+            }
         });
     }
 
@@ -707,15 +710,19 @@ export class Photos implements IRouteableComponent {
             .then((response) => {
                 this.clear_photo_group();
                 if (caller_type == 'story') {
-                    this.router.navigateToRoute('story-detail', {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4EVENT,
+                    this.router.load(`/story-detail`, {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4EVENT,
+                        }
                     });
                 }
                 if (caller_type == 'term') {
-                    this.router.navigateToRoute('term-detail', {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4TERM,
+                    this.router.load(`/term-detail`, {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4TERM,
+                        }
                     });
                 }
             });

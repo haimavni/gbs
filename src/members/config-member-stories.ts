@@ -1,10 +1,10 @@
-import { ICustomElementViewModel, IDialogController } from "aurelia";
-import { ITheme } from "../services/theme";
+import { ICustomElementViewModel, IDialogController } from 'aurelia';
+import { ITheme } from '../services/theme';
 
 export class ConfigMemberStories implements ICustomElementViewModel {
     member_stories = { lst: [], changed: 0 };
     all_member_stories = [];
-    filter = "";
+    filter = '';
     story_types = new Set();
     orig_story_types = new Set();
     is_multi_type = false;
@@ -71,7 +71,7 @@ export class ConfigMemberStories implements ICustomElementViewModel {
         this.active_story_types = {};
         const arr = Array.from(this.story_types);
         for (const a of arr) {
-            this.active_story_types["result" + a] = true;
+            this.active_story_types['result' + a] = true;
         }
     }
 }

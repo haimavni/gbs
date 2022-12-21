@@ -423,12 +423,23 @@ export class FullSizePhoto implements ICustomElementViewModel {
 
     private jump_to_member(member_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('member-details', { id: member_id, keywords: "" });
+        this.router.load(`/member-details`, {
+            parameters: {
+                id: member_id,
+                keywords: ''
+            }
+        });
     }
 
     private jump_to_article(article_id) {
         this.dialogController.ok();
-        this.router.navigateToRoute('article-details', { id: article_id, keywords: "" });
+
+        this.router.load(`/article-details`, {
+            parameters: {
+                id: article_id,
+                keywords: ''
+            }
+        });
     }
 
     mark_face(event) {
@@ -727,7 +738,7 @@ export class FullSizePhoto implements ICustomElementViewModel {
                 current_url = base_url + response.shortcut;
             });
         this.dialogService.open({
-            component: QrPhoto,
+            component: () => QrPhoto,
             model: {
                 photo_id: photo_id,
                 shortcut: current_url
@@ -818,7 +829,7 @@ export class FullSizePhoto implements ICustomElementViewModel {
         this.current_face = face;
         document.body.classList.add('semi-black-overlay');
         this.dialogService.open({
-            component: FaceInfo,
+            component: () => FaceInfo,
             host: el,
             model: {
                 face: face,
@@ -829,7 +840,7 @@ export class FullSizePhoto implements ICustomElementViewModel {
         }).whenClosed(response => {
             document.body.classList.remove('semi-black-overlay');
             this.no_new_faces = false;
-            if (!response.wasCancelled) {
+            if (response.status === 'ok') {
                 const command = response.output.command;
                 if (command == 'cancel-identification') {
                     this.marking_face_active = false;

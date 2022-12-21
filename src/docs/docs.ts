@@ -518,7 +518,13 @@ export class Docs implements IRouteableComponent {
     view_details(doc, event) {
         const doc_ids = this.doc_list.map((doc) => doc.id);
         this.scroll_top = this.scroll_area.scrollTop;
-        
-        this.router.load(`/doc-detail/${doc.id}/${doc_ids}/${this.keywords}/docs`);
+
+        this.router.load(`/doc-detail`, {
+            parameters: {
+                id: doc.id,
+                doc_ids: doc_ids,
+                keywords: this.keywords,
+            }
+        });
     }
 }

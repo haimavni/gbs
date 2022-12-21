@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { IEventAggregator, IDialogService } from "aurelia";
-import { IRouter } from "@aurelia/router";
-import { I18N } from "@aurelia/i18n";
-import { IMemberGateway } from "../services/gateway";
-import { IUser } from "../services/user";
-import { IMisc } from "../services/misc";
-import { ITheme } from "../services/theme";
-import { IShowPhoto } from "../services/show-photo";
-import { StoryWindow } from "../stories/story_window";
-import { IArticleList } from "../services/article_list";
-import { highlight } from "../services/dom_utils";
+import { IEventAggregator, IDialogService } from 'aurelia';
+import { IRouter } from '@aurelia/router';
+import { I18N } from '@aurelia/i18n';
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from '../services/user';
+import { IMisc } from '../services/misc';
+import { ITheme } from '../services/theme';
+import { IShowPhoto } from '../services/show-photo';
+import { StoryWindow } from '../stories/story_window';
+import { IArticleList } from '../services/article_list';
+import { highlight } from '../services/dom_utils';
 
 export class ArticleDetail {
     article;
-    new_article = "";
+    new_article = '';
     baseURL;
     dirty_info = false;
     dirty_story = false;
@@ -40,7 +40,7 @@ export class ArticleDetail {
     life_summary_content;
     life_summary_box;
     keywords = [];
-    highlight_on = "highlight-on";
+    highlight_on = 'highlight-on';
     advanced_search = false;
     photo_list_changes_pending = false;
 
@@ -56,20 +56,20 @@ export class ArticleDetail {
         @IMisc readonly misc: IMisc,
         @IShowPhoto readonly show_photo: IShowPhoto
     ) {
-        this.to_story_page = this.i18n.tr("members.to-story-page");
-        this.expand = this.i18n.tr("members.expand-life-summary");
-        this.compress = this.i18n.tr("members.compress-life-summary");
+        this.to_story_page = this.i18n.tr('members.to-story-page');
+        this.expand = this.i18n.tr('members.expand-life-summary');
+        this.compress = this.i18n.tr('members.compress-life-summary');
         this.dialog = dialog;
         this.baseURL = process.env.baseURL;
-        this.life_summary = this.i18n.tr("articles.life-summary");
-        this.eventAggregator.subscribe("STORY_WAS_SAVED", (payload) => {
+        this.life_summary = this.i18n.tr('articles.life-summary');
+        this.eventAggregator.subscribe('STORY_WAS_SAVED', (payload) => {
             this.refresh_story(payload);
         });
-        this.eventAggregator.subscribe("WINDOW-RESIZED", (payload) => {
+        this.eventAggregator.subscribe('WINDOW-RESIZED', (payload) => {
             this.set_heights();
         });
         this.eventAggregator.subscribe(
-            "ARTICLE_PHOTO_LIST_CHANGED",
+            'ARTICLE_PHOTO_LIST_CHANGED',
             (payload) => {
                 this.photo_list_changes_pending = true;
             }
@@ -85,7 +85,7 @@ export class ArticleDetail {
             story.preview = data.story_data.preview;
             story.name = data.story_data.name;
             this.api
-                .call_server_post("articles/get_story", { story_id: story_id })
+                .call_server_post('articles/get_story', { story_id: story_id })
                 .then((response) => {
                     story.story_text = response.story.story_text;
                 });
@@ -93,7 +93,7 @@ export class ArticleDetail {
     }
 
     get disabled_if() {
-        return this.dirty_info ? "disabled" : "";
+        return this.dirty_info ? 'disabled' : '';
     }
 
     loading(params, config) {
@@ -106,16 +106,16 @@ export class ArticleDetail {
             return;
         this.photo_list_changes_pending = false;
         this.new_article =
-            params.id == "new" ? this.i18n.tr("articles.new-article") : "";
+            params.id == 'new' ? this.i18n.tr('articles.new-article') : '';
         this.init_article(); //So that changing to a new article does not display most recent one
         this.keywords = params.keywords;
-        this.advanced_search = params.search_type == "advanced";
+        this.advanced_search = params.search_type == 'advanced';
         this.source = this.api.call_server_post(
-            "articles/get_article_photo_list",
+            'articles/get_article_photo_list',
             { article_id: params.id, what: params.what }
         );
         this.api
-            .call_server_post("articles/get_article_details", {
+            .call_server_post('articles/get_article_details', {
                 article_id: params.id,
                 what: params.what,
             })
@@ -125,10 +125,10 @@ export class ArticleDetail {
                 if (life_story) {
                     life_story.topic =
                         this.life_summary +
-                        " " +
+                        ' ' +
                         this.article.article_info.name; //the first one is always the biography
                 }
-                this.api.hit("ARTICLE", this.article.article_info.id);
+                this.api.hit('ARTICLE', this.article.article_info.id);
                 this.set_heights();
             });
     }
@@ -141,21 +141,27 @@ export class ArticleDetail {
 
     attached() {
         this.sub1 = this.eventAggregator.subscribe(
-            "EditModeChange",
+            'EditModeChange',
             (payload: any) => {
                 this.user = payload;
             }
         );
 
-        this.sub2 = this.eventAggregator.subscribe("DirtyStory", (dirty: boolean) => {
-            this.dirty_story = dirty;
-        });
+        this.sub2 = this.eventAggregator.subscribe(
+            'DirtyStory',
+            (dirty: boolean) => {
+                this.dirty_story = dirty;
+            }
+        );
 
-        this.sub3 = this.eventAggregator.subscribe("DirtyInfo", (dirty: boolean) => {
-            this.dirty_info = dirty;
-        });
+        this.sub3 = this.eventAggregator.subscribe(
+            'DirtyInfo',
+            (dirty: boolean) => {
+                this.dirty_info = dirty;
+            }
+        );
 
-        this.sub4 = this.eventAggregator.subscribe("Zoom3", (payload: any) => {
+        this.sub4 = this.eventAggregator.subscribe('Zoom3', (payload: any) => {
             const photo_ids = payload.slide_list.map((photo) => photo.photo_id);
             this.show_photo.show(payload.slide, payload.event, photo_ids);
         });
@@ -171,11 +177,11 @@ export class ArticleDetail {
     }
 
     tryDelete() {
-        if (confirm(this.i18n.tr("articles.confirm-delete"))) {
+        if (confirm(this.i18n.tr('articles.confirm-delete'))) {
             this.articleList
                 .remove_article(this.article.article_info.id)
                 .then(() => {
-                    this.router.load("articles");
+                    this.router.load('articles');
                 });
         }
     }
@@ -212,7 +218,7 @@ export class ArticleDetail {
     }
 
     story(idx) {
-        const empty_story = { name: "", story_text: "" };
+        const empty_story = { name: '', story_text: '' };
         if (!this.article) return empty_story;
         const n = this.article.article_stories.length;
         let i;
@@ -229,7 +235,7 @@ export class ArticleDetail {
         }
         if (i < n) {
             const rec = this.article.article_stories[i];
-            rec.name = rec.name ? rec.name : "";
+            rec.name = rec.name ? rec.name : '';
             return rec;
         } else {
             return empty_story;
@@ -258,7 +264,7 @@ export class ArticleDetail {
 
     detach_photo_from_article(article_id, photo_id, slide_list) {
         this.api
-            .call_server_post("photos/detach_photo_from_article", {
+            .call_server_post('photos/detach_photo_from_article', {
                 article_id: article_id,
                 photo_id: photo_id,
             })
@@ -272,27 +278,27 @@ export class ArticleDetail {
                         slide_list.splice(idx, 1);
                     }
                 } else {
-                    alert("detaching photo failed!");
+                    alert('detaching photo failed!');
                 }
             });
     }
 
-    zoom_out(story, what, extra = "") {
+    zoom_out(story, what, extra = '') {
         this.dialog
             .open({
-                component: StoryWindow,
-                model: { story: story, edit: what == "edit" },
-                lock: what == "edit",
+                component: () => StoryWindow,
+                model: { story: story, edit: what == 'edit' },
+                lock: what == 'edit',
             })
             .whenClosed((response: any) => {
                 if (
-                    extra == "life" &&
-                    what == "edit" &&
+                    extra == 'life' &&
+                    what == 'edit' &&
                     !this.article.article_info.story_id
                 ) {
                     this.article.article_info.story_id =
                         response.output.story_id;
-                    this.api.call_server_post("articles/set_article_story_id", {
+                    this.api.call_server_post('articles/set_article_story_id', {
                         article_id: this.article.article_info.id,
                         story_id: response.output.story_id,
                     });
@@ -305,9 +311,17 @@ export class ArticleDetail {
     }
 
     goto_story_page(story) {
-        const what = story.used_for == this.api.constants.story_type.STORY4TERM ? "term" : "story";
+        const what =
+            story.used_for == this.api.constants.story_type.STORY4TERM
+                ? 'term'
+                : 'story';
 
-        this.router.load(`/story-detail/${story.story_id}/${what}`);
+        this.router.load(`/story-detail`, {
+            parameters: {
+                id: story.story_id,
+                what: what,
+            },
+        });
     }
 
     on_height_change(event) {
@@ -353,7 +367,7 @@ export class ArticleDetail {
         panel_height = Math.max(panel_height, 544);
         if (this.theme.is_desktop) {
             this.article_detail_panel.style.height = `${panel_height}px`;
-            this.article_detail_panel.style.marginRight = "-32px";
+            this.article_detail_panel.style.marginRight = '-32px';
         }
         const no_article_stories = this.article
             ? this.article.article_stories.length < 2
@@ -368,15 +382,15 @@ export class ArticleDetail {
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
             this.top_panel.style.height = `${tph}px`;
             this.bottom_panel.style.height = `${bph}px`;
-            this.bottom_panel.style.width = "1166px";
-            this.bottom_panel.style.marginRight = "0px";
+            this.bottom_panel.style.width = '1166px';
+            this.bottom_panel.style.marginRight = '0px';
         } else {
             this.top_panel.style.height = null;
             this.bottom_panel.style.height = null;
         }
         if (this.photo_strip_height > 190) bph -= 16; //just black magic. I have no idea why this is needed
         this.story_box_height = bph - 2;
-        this.life_summary_box.style.height = "90%"; // `${lsb}px`;
+        this.life_summary_box.style.height = '90%'; // `${lsb}px`;
     }
 
     life_summary_contentChanged() {
@@ -394,20 +408,20 @@ export class ArticleDetail {
 
     toggle_highlight_on() {
         if (this.highlight_on) {
-            this.highlight_on = "";
+            this.highlight_on = '';
         } else {
-            this.highlight_on = "highlight-on";
+            this.highlight_on = 'highlight-on';
         }
-        document.getElementById("word-highlighter").blur();
+        document.getElementById('word-highlighter').blur();
     }
 
     get life_cycle_text() {
-        if (!this.article) return "";
+        if (!this.article) return '';
         const ai = this.article.article_info;
-        const date_start = ai.date_start ? ai.date_start.date : "";
-        if (!date_start) return "";
-        let s = this.i18n.tr("articles.period") + date_start + " - ";
-        const date_end = ai.date_end ? ai.date_end.date : "";
+        const date_start = ai.date_start ? ai.date_start.date : '';
+        if (!date_start) return '';
+        let s = this.i18n.tr('articles.period') + date_start + ' - ';
+        const date_end = ai.date_end ? ai.date_end.date : '';
         s += date_end;
         return s;
     }

@@ -1,11 +1,11 @@
-import { IDialogController } from "aurelia";
-import { IMemberGateway } from "../services/gateway";
-import { IMisc } from "../services/misc";
+import { IDialogController } from 'aurelia';
+import { IMemberGateway } from '../services/gateway';
+import { IMisc } from '../services/misc';
 
 export class GroupEdit {
     curr_group;
     new_group = false;
-    error_message = "";
+    error_message = '';
     group_list;
     curr_group_orig = {};
 
@@ -13,15 +13,13 @@ export class GroupEdit {
         @IDialogController readonly controller: IDialogController,
         @IMemberGateway readonly api: IMemberGateway,
         @IMisc readonly misc: IMisc
-    ) {
-
-    }
+    ) {}
 
     loading(params) {
         this.new_group = params.new_group;
         this.curr_group = params.curr_group;
         this.group_list = params.group_list;
-        
+
         if (this.new_group) {
             return;
         }
@@ -31,7 +29,7 @@ export class GroupEdit {
 
     save() {
         this.api
-            .call_server_post("groups/add_or_update_group", this.curr_group)
+            .call_server_post('groups/add_or_update_group', this.curr_group)
             .then((data) => {
                 if (data.error || data.user_error) {
                     this.error_message = data.user_error;
@@ -41,7 +39,7 @@ export class GroupEdit {
                 if (this.new_group) {
                     this.group_list.push(data.group_data);
                 }
-                
+
                 this.controller.ok();
             });
     }
@@ -52,7 +50,7 @@ export class GroupEdit {
                 this.curr_group[f] = this.curr_group_orig[f];
             }
         }
-        
+
         this.controller.cancel();
     }
 }

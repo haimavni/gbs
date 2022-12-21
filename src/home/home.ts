@@ -1,20 +1,20 @@
 /* eslint-disable no-global-assign */
-import { IMemberGateway } from "../services/gateway";
-import { IPopup } from "../services/popups";
-import { IEventAggregator } from "aurelia";
-import { IRouter } from "@aurelia/router";
-import { IUser } from "../services/user";
-import { ICookies } from "../services/cookies";
-import { IMisc } from "../services/misc";
-import { ITheme } from "../services/theme";
-import { IShowPhoto } from "../services/show-photo";
-import { IMemberList } from "../services/member_list";
-import { I18N } from "@aurelia/i18n";
+import { IMemberGateway } from '../services/gateway';
+import { IPopup } from '../services/popups';
+import { IEventAggregator } from 'aurelia';
+import { IRouter } from '@aurelia/router';
+import { IUser } from '../services/user';
+import { ICookies } from '../services/cookies';
+import { IMisc } from '../services/misc';
+import { ITheme } from '../services/theme';
+import { IShowPhoto } from '../services/show-photo';
+import { IMemberList } from '../services/member_list';
+import { I18N } from '@aurelia/i18n';
 
 export class Home {
     photo_list;
     video_list = [];
-    member_of_the_day = { gender: "", name: "" };
+    member_of_the_day = { gender: '', name: '' };
     member_prefix;
     was_born_in;
     died_in;
@@ -38,22 +38,22 @@ export class Home {
         @IEventAggregator readonly eventAggregator: IEventAggregator,
         @IMisc readonly misc: IMisc
     ) {
-        const x = this.cookies.get("SLIDESHOW-TOPICS");
+        const x = this.cookies.get('SLIDESHOW-TOPICS');
         const slideshow_topics = JSON.parse(x);
-        this.photo_list = this.api.call_server_post("photos/get_photo_list", {
-            selected_recognition: "recognized",
+        this.photo_list = this.api.call_server_post('photos/get_photo_list', {
+            selected_recognition: 'recognized',
             selected_topics: slideshow_topics,
             no_slide_show: true,
         });
         this.api
-            .call_server_post("members/get_stories_sample")
+            .call_server_post('members/get_stories_sample')
             .then((result) => (this.stories_sample = result.stories_sample));
         memberList.getMemberList(); //to load in the background
-        this.api.call_server_post("members/get_message_list").then((result) => {
+        this.api.call_server_post('members/get_message_list').then((result) => {
             this.message_list = result.message_list;
         });
         this.api
-            .call_server_post("videos/get_video_sample")
+            .call_server_post('videos/get_video_sample')
             .then((response) => this.set_video_list(response.video_list));
         this.show_photo = show_photo;
         this.popup = popup;
@@ -73,20 +73,20 @@ export class Home {
     }
 
     add_message() {
-        const name = this.i18n.tr("home.new-message");
+        const name = this.i18n.tr('home.new-message');
         this.message_list.splice(0, 0, {
             story_id: null,
             name: name,
             used_for: this.api.constants.story_type.STORY4MESSAGE,
-            story_text: "",
-            preview: "",
+            story_text: '',
+            preview: '',
         });
     }
 
     push_story(story, customEvent) {
         event = customEvent.detail;
         this.api
-            .call_server_post("members/push_message_up", {
+            .call_server_post('members/push_message_up', {
                 story_id: story.story_id,
             })
             .then((response) => {
@@ -103,7 +103,7 @@ export class Home {
     pin_story(story, customEvent) {
         event = customEvent.detail;
         this.api
-            .call_server_post("members/pin_message", {
+            .call_server_post('members/pin_message', {
                 story_id: story.story_id,
             })
             .then((response) => {
@@ -126,7 +126,7 @@ export class Home {
         event = customEvent.detail;
         if (story.deleted) {
             this.api
-                .call_server_post("members/delete_story", {
+                .call_server_post('members/delete_story', {
                     story_id: story.story_id,
                 })
                 .then((response) => {
@@ -140,25 +140,25 @@ export class Home {
 
     attached() {
         this.api
-            .call_server_post("members/get_random_member")
+            .call_server_post('members/get_random_member')
             .then((result) => {
                 this.member_of_the_day = result.member_data;
                 if (!this.member_of_the_day) return;
                 this.member_prefix =
-                    this.member_of_the_day.gender == "F"
-                        ? "home.female-member-of-the-day"
-                        : "home.male-member-of-the-day";
+                    this.member_of_the_day.gender == 'F'
+                        ? 'home.female-member-of-the-day'
+                        : 'home.male-member-of-the-day';
                 this.was_born_in =
-                    this.member_of_the_day.gender == "F"
-                        ? "home.female-was-born-in"
-                        : "home.male-was-born-in";
+                    this.member_of_the_day.gender == 'F'
+                        ? 'home.female-was-born-in'
+                        : 'home.male-was-born-in';
                 this.died_in =
-                    this.member_of_the_day.gender == "F"
-                        ? "home.female-died-in"
-                        : "home.male-died-in";
+                    this.member_of_the_day.gender == 'F'
+                        ? 'home.female-died-in'
+                        : 'home.male-died-in';
             });
         this.subscriber1 = this.eventAggregator.subscribe(
-            "Zoom1",
+            'Zoom1',
             (payload: any) => {
                 const photo_ids = payload.slide_list.map(
                     (photo) => photo.photo_id
@@ -182,7 +182,7 @@ export class Home {
     }
 
     goto_full_collection() {
-        this.router.load("/stories");
+        this.router.load('/stories');
     }
 
     jump_to_the_full_story(story) {
