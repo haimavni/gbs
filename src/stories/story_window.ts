@@ -72,24 +72,19 @@ export class StoryWindow {
         this.show = !model.edit;
         this.froala_config.key = this.theme.froala_key();
         this.froala_config.language = this.story.language;
-        //if (model.hide_images)
-            this.images_hidden = this.hide_images()
+        this.images_hidden = this.hide_images()
     }
 
     hide_images() {
-        console.log("enter hide images")
+        //work around froala bug where images have a caption
         if (! this.story_text.search('fr-inner'))
             return false;
-        console.log("do the hiding");
         this.story_text = this.story_text.replace('\n', '');
-        //let pat_str = '(<span class="fr-img-caption)(.*?)(<img )(.*?>)';
         let pat_str = '(<span class="fr-img-caption(.*?)>)([^>]*?>)([^>]*?>)'; //<img .*?>)';
         let pat = new RegExp(pat_str, 'gi');
         this.story_text = this.story_text.replace(pat, function(m, m1, m2, m3, m4) {
-            console.log("---m: ", m, " ---m1: ", m1, " ---m2: ", m2, " ---m3: ", m3, " ---m4: ", m4);
-            let m40 = m4.replace('<', '<!--').replace('>', '-->');
+            const m40 = m4.replace('<', '<!--').replace('>', '-->');
             const result = `${m1}${m3}${m40}`
-            console.log("result: ", result)
             return `${m1}${m3}${m40}`
         })
         return true;
