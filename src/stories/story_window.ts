@@ -3,6 +3,7 @@ import { autoinject, computedFrom } from 'aurelia-framework';
 import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
+import { Misc } from "../services/misc";
 
 let THIS_EDITOR;
 
@@ -15,7 +16,8 @@ export class StoryWindow {
     dialogController: DialogController;
     api: MemberGateway;
     user: User;
-    theme;
+    theme: Theme;
+    misc: Misc;
     story_name_orig;
     story_source_orig;
     story_text;
@@ -39,14 +41,20 @@ export class StoryWindow {
         linkAlwaysBlank: true,
         language: 'he', heightMin: 400, heightMax: 400,
         imageUploadRemoteUrls: false,
-        key: ""
+        key: "",
+        events: {
+            'initialized': function() {
+                console.log("got the focus")
+            }
+        }
     };
 
-    constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme) {
+    constructor(dialogController: DialogController, api: MemberGateway, user: User, theme: Theme, misc: Misc) {
         this.dialogController = dialogController;
         this.api = api;
         this.user = user;
         this.theme = theme;
+        this.misc =  misc;
         THIS_EDITOR = this;
     }
 
@@ -82,16 +90,18 @@ export class StoryWindow {
         this.story_text = this.story_text.replace('\n', '');
         let pat_str = '(<span class="fr-img-caption(.*?)>)([^>]*?>)([^>]*?>)'; //<img .*?>)';
         let pat = new RegExp(pat_str, 'gi');
-        this.story_text = this.story_text.replace(pat, function(m, m1, m2, m3, m4) {
-            const m40 = m4.replace('<', '<!--').replace('>', '-->');
-            const result = `${m1}${m3}${m40}`
-            return `${m1}${m3}${m40}`
-        })
+        this.story_text = this.story_text.replace(pat, 
+            function(m, m1, m2, m3, m4) {
+                const m40 = m4.replace('<', '<!--').replace('>', '-->');
+                return `${m1}${m3}${m40}`
+            });
+        //this.restore_images(); images show but we get exceptions
         return true;
 
     }
 
-    restore_images() {
+    async restore_images() {
+        //await this.misc.sleep(1000);
         let pat_str = '<!--img (.*?)-->';
         let pat = new RegExp(pat_str, 'gi');
         this.story_text = this.story_text.replace(pat, function(m, m1) {
