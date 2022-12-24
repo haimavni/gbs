@@ -252,9 +252,14 @@ export class MemberGateway {
     web2py_websocket(url, onmessage, onopen?, onclose?) {
         if ("WebSocket" in window) {
             var ws = new WebSocket(url);
-            ws.onopen = onopen ? onopen : (function () { });
+            ws.onopen = onopen ? onopen : (event) => {
+                console.log("websocket opened. event: ", event) 
+            };
             ws.onmessage = onmessage;
-            ws.onclose = onclose ? onclose : (function () { });
+            ws.onclose = onclose ? onclose : (event) => {
+                console.log("websocket closed. event: ", event);
+                THIS.start_listening();
+            };
             console.log("url in web socket: ", url);
             return ws; // supported
         } else return false; // not supported
