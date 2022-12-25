@@ -416,9 +416,9 @@ export class MultiSelectCustomElement {
         return this.settings.can_delete;
     }
 
-    @computedFrom('settings.show_untagged')
+    @computedFrom('settings.show_untagged', 'selected_options_set.size')
     get can_show_untagged() {
-        return this.settings.show_untagged;
+        return this.settings.show_untagged && this.selected_options_set.size == 0;
     }
 
     @computedFrom('agent.size')
