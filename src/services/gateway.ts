@@ -249,7 +249,7 @@ export class MemberGateway {
         THIS.eventAggregator.publish(key, data);
     }
 
-    web2py_websocket(url, onmessage, onopen?, onclose?) {
+     web2py_websocket(url, onmessage, onopen?, onclose?) {
         if ("WebSocket" in window) {
             var ws = new WebSocket(url);
             ws.onopen = onopen ? onopen : (event) => {
@@ -258,11 +258,17 @@ export class MemberGateway {
             ws.onmessage = onmessage;
             ws.onclose = onclose ? onclose : (event) => {
                 console.log("websocket closed. event: ", event);
-                THIS.start_listening();
+                ws.close();
+                THIS.reconnect(url, onmessage, onopen, onclose);
             };
             console.log("url in web socket: ", url);
             return ws; // supported
         } else return false; // not supported
+    }
+
+    async reconnect(url, onmessage, onopen, onclose) {
+        await sleep(2500);
+        THIS.web2py_socket(url, onmessage, onopen, onclose);
     }
 
     hit(what, item_id?) {
