@@ -26,6 +26,7 @@
     }
     li.untag-button {
         padding-bottom: 3px;
+        padding-top: 2px;
         border-radius: 8px;
         font-weight: bolder;
         padding-right: 5px;
@@ -35,8 +36,8 @@
             color: white;
         }
         &.ready {
-            background-color: lightblue;
-            color: black;
+            background-color: grey;
+            color: white;
         }
     }
 

@@ -7,9 +7,9 @@ import * as download from 'downloadjs';
 import { I18N } from 'aurelia-i18n';
 import * as toastr from 'toastr';
 import {ThemeA} from './theme-a';
-import { SSL_OP_EPHEMERAL_RSA } from 'constants';
 
 let THIS;
+let init_websocket;
 
 function params(data) {
     return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
@@ -85,6 +85,7 @@ export class MemberGateway {
         //this.start_listening();
         this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         THIS = this;
+        init_websocket = THIS.web2py_socket;
     }
 
     async start_listening() {
@@ -227,7 +228,9 @@ export class MemberGateway {
                 if (group == this.constants.ptp_key) {
                     this.ptp_connected = true;
                 }
+                init_websocket = this.web2py_websocket;
             });
+
         return listener;
     }
 
@@ -253,7 +256,7 @@ export class MemberGateway {
         if ("WebSocket" in window) {
             const ws = new WebSocket(url);
             ws.onopen = onopen ? onopen : (event) => {
-                console.log("websocket opened. event: ", event) 
+                console.log("websocket opened. event: ", event);
             };
             ws.onmessage = onmessage;
             ws.onclose = onclose ? onclose : (event) => {
@@ -267,8 +270,7 @@ export class MemberGateway {
 
     async reconnect(url, onmessage, onopen, onclose) {
         await sleep(2500);
-        console.log("in reconnect. THIS: ", THIS, " this: ", this);
-        THIS.web2py_socket(url, onmessage, onopen, onclose);
+        init_websocket(url, onmessage, onopen, onclose);
     }
 
     hit(what, item_id?) {
