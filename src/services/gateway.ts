@@ -251,7 +251,7 @@ export class MemberGateway {
 
      web2py_websocket(url, onmessage, onopen?, onclose?) {
         if ("WebSocket" in window) {
-            var ws = new WebSocket(url);
+            const ws = new WebSocket(url);
             ws.onopen = onopen ? onopen : (event) => {
                 console.log("websocket opened. event: ", event) 
             };
@@ -261,13 +261,13 @@ export class MemberGateway {
                 ws.close();
                 THIS.reconnect(url, onmessage, onopen, onclose);
             };
-            console.log("url in web socket: ", url);
             return ws; // supported
         } else return false; // not supported
     }
 
     async reconnect(url, onmessage, onopen, onclose) {
         await sleep(2500);
+        console.log("in reconnect. THIS: ", THIS, " this: ", this);
         THIS.web2py_socket(url, onmessage, onopen, onclose);
     }
 
