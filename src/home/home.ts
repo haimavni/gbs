@@ -68,8 +68,9 @@ export class Home {
     }
 
     video_data(v) {
+        console.log("---------v: ", v);
         return {
-            src: this.thumbnail(v.src),
+            src: v.thumbnail_url,
             video_id: v.video_id,
             name: v.name
         }
