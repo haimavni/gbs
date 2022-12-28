@@ -11,6 +11,7 @@ import {Promote} from './user/promote';
 import {Feedback} from './user/feedback';
 import {AddCustomer} from './admin/add_customer';
 import {Redirect} from 'aurelia-router';
+import { MemberList } from './services/member_list';
 
 @autoinject
 export class App {
@@ -30,8 +31,10 @@ export class App {
     search_timeout = null;
     search_history = [];
     misc;
+    member_list: MemberList;
 
-    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, ea: EventAggregator, misc: Misc) {
+    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, 
+        ea: EventAggregator, misc: Misc, member_list: MemberList) {
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
@@ -41,6 +44,7 @@ export class App {
         this.dialog = dialog;
         this.ea = ea;
         this.misc = misc;
+        this.member_list = member_list;
         this.ea.subscribe('GOTO-PHOTO-PAGE', payload => {
             this.router.navigateToRoute('photos', payload);
         });
@@ -195,6 +199,10 @@ export class App {
 
     go_search(event) {
         //if (ifempty && this.keywords) return; //not to duplicate on change. used only to display random list of stories
+        // if (this.member_list.maybe_a_member(this.keywords)) {
+        //     alert("may be searching a member")
+        // }
+        
         if (this.clear_keywords_timeout) {
             clearTimeout(this.clear_keywords_timeout);
             this.clear_keywords_timeout = null;

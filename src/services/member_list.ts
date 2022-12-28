@@ -131,4 +131,16 @@ export class MemberList {
             })
     }
 
+    // maybe_a_member(str: string) {
+    //     console.log("Entered may be a member. str: ", str);//, " member_list: ", this.members);
+    //     if (! this.members || ! this.members.member_list) return false;
+    //     const lst = str.split(' ');
+    //     if (lst.length > 2) return false;
+    //     for (let s of lst) {
+    //         const idx = this.members.member_list.findIndex(mem => mem.firs_name == s || mem.last_name == s || mem.nick_name == s);
+    //         if (idx >= 0) return true;
+    //     }
+    //     return false;
+    // }
+
 }
