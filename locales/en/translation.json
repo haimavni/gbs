@@ -192,7 +192,10 @@
         "story-date": "Story date",
         "back-to-photos": "Back to photos",
         "back-to-video": "Back to video",
-        "check-duplicates": "Check duplicates"
+        "check-duplicates": "Check duplicates",
+        "what-to-search": "Where do want to search?",
+        "search-members": "Search member list",
+        "search-stories": "Search in stories"
     },
     "articles": {
         "articles": "Articles",

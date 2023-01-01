@@ -190,7 +190,10 @@
         "already-identified": " כבר מזוהה בתמונה זו",
         "back-to-photos": "בחזרה לתמונות",
         "back-to-video": "חזרה לקטע הוידאו",
-        "check-duplicates": "הצג שמות כפולים"
+        "check-duplicates": "הצג שמות כפולים",
+        "what-to-search": "איפה ברצונך לחפש?",
+        "search-members": "חפש ברשימת החברים",
+        "search-stories": "חפש בתוכן הסיפורים"
     },
     "articles": {
         "articles": "פריטים",

@@ -1,0 +1,29 @@
+<template >
+    <ux-dialog css="padding:12px;direction:${theme.rtltr}">
+        <ux-dialog-header>
+            <h3>${'members.what-to-search' & t}</h3>
+        </ux-dialog-header>
+        <ux-dialog-body
+            css="padding:10px;max-width:300px;direction:${theme.rtltr};"
+        >
+            <!-- ${'members.explain-search-options' & t} -->
+        </ux-dialog-body>
+        <ux-dialog-footer>
+            <button
+                type="button"
+                class="btn btn-primary ${disabled_if}"
+                click.delegate="go_search_members()"
+            >
+                ${'members.search-members' & t}
+            </button>
+            <button
+                type="button"
+                if.bind="!done"
+                class="btn btn-info"
+                click.delegate="go_search_stories()"
+            >
+            ${'members.search-stories' & t}
+            </button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>
