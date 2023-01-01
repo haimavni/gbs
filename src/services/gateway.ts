@@ -150,7 +150,7 @@ export class MemberGateway {
     }
 
     getMemberList() {
-        return this.httpClient.fetch('members/member_list')
+        return this.call_server('members/member_list')
     }
 
     getStoryDetail(story) {

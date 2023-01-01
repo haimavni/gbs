@@ -91,6 +91,9 @@ export class Members {
     }
 
     activate(params, routeConfig) {
+        if (params.filter) {
+            this.filter = params.filter;
+        }
         return this.memberList.getMemberList().then(members => {
             this._members = members.member_list;
             for (let member of this._members) {

@@ -12,6 +12,10 @@ import {Feedback} from './user/feedback';
 import {AddCustomer} from './admin/add_customer';
 import {Redirect} from 'aurelia-router';
 import { MemberList } from './services/member_list';
+<<<<<<< HEAD
+=======
+import { SelectSearch } from './services/select-search';
+>>>>>>> master
 
 @autoinject
 export class App {
@@ -32,9 +36,22 @@ export class App {
     search_history = [];
     misc;
     member_list: MemberList;
+<<<<<<< HEAD
 
     constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, 
         ea: EventAggregator, misc: Misc, member_list: MemberList) {
+=======
+    
+    constructor(
+        theme: Theme, 
+        api: MemberGateway, 
+        user: User, 
+        watcher: WatchVersion, 
+        dialog: DialogService, 
+        ea: EventAggregator, 
+        misc: Misc, 
+        member_list: MemberList) {
+>>>>>>> master
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
@@ -106,6 +123,14 @@ export class App {
                 moduleId: './members/members',
                 nav: false,
                 title: 'members.update-story-members',
+                settings: {auth: true}
+            },
+            {
+                route: 'members/:filter/*',
+                name: 'filtered-members',
+                moduleId: './members/members',
+                nav: false,
+                title: 'members.members',
                 settings: {auth: true}
             },
             {
@@ -198,11 +223,6 @@ export class App {
     }
 
     go_search(event) {
-        //if (ifempty && this.keywords) return; //not to duplicate on change. used only to display random list of stories
-        // if (this.member_list.maybe_a_member(this.keywords)) {
-        //     alert("may be searching a member")
-        // }
-        
         if (this.clear_keywords_timeout) {
             clearTimeout(this.clear_keywords_timeout);
             this.clear_keywords_timeout = null;
@@ -225,11 +245,28 @@ export class App {
         this.invoke_search(true);
     }
 
-    invoke_search(from_btn: boolean) {
+    async invoke_search(from_btn: boolean) {
         //this.theme.change_search_debounce(from_btn);
         this.keywords = this.keywords.trim();
         if (this.keywords == "") return;
-        if (this.clear_keywords_timeout) clearTimeout(this.clear_keywords_timeout);
+        let maybe_promise = this.member_list.maybe_a_member(this.keywords);
+        let maybe;
+        await maybe_promise.then(response => {
+                maybe = response
+        });
+        if (maybe) {
+            await this.dialog.open({viewModel: SelectSearch, lock: false}).whenClosed(response => {
+                if (response.wasCancelled) {
+                    maybe = false;
+                }
+            });
+            if (maybe) {
+                this.router.navigateToRoute("members", {filter: this.keywords});
+                return;
+            }
+        }
+       if (this.clear_keywords_timeout) 
+            clearTimeout(this.clear_keywords_timeout);
         this.clear_keywords_timeout = setTimeout(() => {
             this.clear_keywords()
         }, 10000);
