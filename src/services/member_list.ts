@@ -2,7 +2,6 @@ import { inject, noView, singleton } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { MemberGateway } from "../services/gateway";
 import { sort_array } from "../services/sort_array";
-import { stringify } from "querystring";
 
 @inject(EventAggregator, MemberGateway)
 @noView()

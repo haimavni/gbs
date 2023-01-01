@@ -12,10 +12,7 @@ import {Feedback} from './user/feedback';
 import {AddCustomer} from './admin/add_customer';
 import {Redirect} from 'aurelia-router';
 import { MemberList } from './services/member_list';
-<<<<<<< HEAD
-=======
 import { SelectSearch } from './services/select-search';
->>>>>>> master
 
 @autoinject
 export class App {
@@ -36,11 +33,6 @@ export class App {
     search_history = [];
     misc;
     member_list: MemberList;
-<<<<<<< HEAD
-
-    constructor(theme: Theme, api: MemberGateway, user: User, watcher: WatchVersion, dialog: DialogService, 
-        ea: EventAggregator, misc: Misc, member_list: MemberList) {
-=======
     
     constructor(
         theme: Theme, 
@@ -51,7 +43,6 @@ export class App {
         ea: EventAggregator, 
         misc: Misc, 
         member_list: MemberList) {
->>>>>>> master
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
         this.theme = theme;
