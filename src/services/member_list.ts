@@ -2,7 +2,6 @@ import { inject, noView, singleton } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { MemberGateway } from "../services/gateway";
 import { sort_array } from "../services/sort_array";
-import { stringify } from "querystring";
 
 @inject(EventAggregator, MemberGateway)
 @noView()
@@ -167,7 +166,9 @@ export class MemberList {
                     (mem) =>
                         mem.first_name == s ||
                         mem.last_name == s ||
-                        mem.nick_name == s
+                        mem.nick_name == s ||
+                        mem.former_first_name == s ||
+                        mem.former_last_name == s
                 );
                 if (idx >= 0) result = true;
             }
