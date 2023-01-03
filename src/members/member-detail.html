@@ -23,23 +23,24 @@
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
                     <div class="family-chains" ref="family_connections_panel" style="display:flex;flex-direction:column;">
                         <div class="noborder">
-                            <div style="display:flex;flex-direction:row;" if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
+                            <div style="display:flex;flex-direction:row;" 
+                                if.bind="member.family_connections.parents && (member.family_connections.parents.par1 || member.family_connections.parents.par2)">
                                 <div class="relation-kind">${'parents' & t}</div>
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
-                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.pa.id, keywords: ''}" style="float:right;">
-                                                <img src.bind="get_profile_photo(member.family_connections.parents.pa)" />
+                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.par1"
+                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.par1.id, keywords: ''}" style="float:right;">
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.par1)" />
                                                 <span>
-                                                    ${member.family_connections.parents.pa.name}
+                                                    ${member.family_connections.parents.par1.name}
                                                 </span>
                                             </a>
-                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
-                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.ma.id, keywords: ''}" style="float:right;">
-                                                <img src.bind="get_profile_photo(member.family_connections.parents.ma)" />
+                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.par2"
+                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.par2.id, keywords: ''}" style="float:right;">
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.par2)" />
                                                 <span>
-                                                    ${member.family_connections.parents.ma.name}
+                                                    ${member.family_connections.parents.par2.name}
                                                 </span>
                                             </a>
                                         </li>

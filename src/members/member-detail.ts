@@ -219,18 +219,25 @@ export class MemberDetail {
         this.sub5.dispose();
     }
 
-    set_parent(member, parent) {
+    set_parent(data) {
+        let parent = data.parent;
         let gender = parent.gender;
         if (parent.deleted) {
             parent = null;
         }
-        if (gender == 'M') {
-            this.member.family_connections.parents.pa = parent
-        } else {
-            this.member.family_connections.parents.ma = parent
-        }
-        this.member.family_connections.hasFamilyConnections =
-            this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
+        let key = gender == 'M' ? 'pa' : 'ma';
+        if (data.parent_num == 2) key += 2;
+        this.member.family_connections.parents[key] = parent;
+        // if (gender == 'M') {
+        //     this.member.family_connections.parents.pa = parent
+        // } else {
+        //     this.member.family_connections.parents.ma = parent
+        // }
+        let hfc = false;
+        for (let g of ['pa', 'ma', 'pa2', 'ma2'])
+            if ( this.member.family_connections.parents[g]) hfc = true;
+        this.member.family_connections.hasFamilyConnections = hfc;
+            // this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
     }
 
     tryDelete() {
