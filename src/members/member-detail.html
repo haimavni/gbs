@@ -23,6 +23,23 @@
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
                     <div class="family-chains" ref="family_connections_panel" style="display:flex;flex-direction:column;">
                         <div class="noborder">
+                            <div if.bind="member.family_connections.grand_parents.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'grand-parents' & t}</div>
+                                <div>
+                                    <ul class="family">
+                                        <li>
+                                            <a type="button" class="btn btn-default ${disabled_if}"
+                                                repeat.for="grand of member.family_connections.grand_parents" 
+                                                    route-href="route: member-details; params.bind: {id:grand.id, keywords: ''}">
+                                                <img src.bind="get_profile_photo(grand)" />
+                                                <span>
+                                                    ${grand.name}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div style="display:flex;flex-direction:row;" 
                                 if.bind="member.family_connections.parents && (member.family_connections.parents.par1 || member.family_connections.parents.par2)">
                                 <div class="relation-kind">${'parents' & t}</div>
@@ -69,7 +86,8 @@
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" 
+                                            <a type="button" 
+                                                class="btn btn-default ${disabled_if} ${spouse.together}" repeat.for="spouse of member.family_connections.spouses" 
                                                 route-href="route: member-details; params.bind: {id:spouse.id, keywords: ''}">
                                                 <img src.bind="get_profile_photo(spouse)" />
                                                 <span>

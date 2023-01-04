@@ -453,6 +453,7 @@ export class MemberDetail {
         if (this.life_summary_content && this.theme.is_desktop) {
             let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
             this.life_summary_content.style.height = `${tph - lsco}px`;
+            this.family_connections_panel.style.height = `${tph - lsco}px`;
         }
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
