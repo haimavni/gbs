@@ -156,6 +156,8 @@ export class MemberDetail {
                 this.api.hit('MEMBER', this.member.member_info.id);
                 this.set_heights();
                 let x = this.stories_base_changed;
+                console.log("===family connections: ", this.member.family_connections)
+                
             });
     }
 
@@ -185,8 +187,8 @@ export class MemberDetail {
         this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => {
             this.user = payload
         });
-        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => {
-            this.set_parent(this.member, parent)
+        this.sub2 = this.eventAggregator.subscribe('ParentFound', (data) => {
+            this.set_parent(data)
         });
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => {
             this.dirty_story = dirty
@@ -233,10 +235,16 @@ export class MemberDetail {
         // } else {
         //     this.member.family_connections.parents.ma = parent
         // }
-        let hfc = false;
-        for (let g of ['pa', 'ma', 'pa2', 'ma2'])
-            if ( this.member.family_connections.parents[g]) hfc = true;
-        this.member.family_connections.hasFamilyConnections = hfc;
+        let n = 0;
+        let pars = this.member.family_connections.parents;
+        for (let g of ['pa', 'ma', 'pa2', 'ma2']){
+            if (pars[g]) {
+                n += 1;
+                pars["par"+n] = pars[g];
+            }
+        }
+        console.log("--------in set parent. pars: ", pars)
+        this.member.family_connections.hasFamilyConnections ||= (n > 0);
             // this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
     }
 
