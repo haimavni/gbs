@@ -24,7 +24,9 @@
                 <tbody>
                     <tr repeat.for="item of $displayData">
                         <td css="direction:${theme.rtltr}">${item.name}</td>
-                        <td>${item.email}</td>
+                        <td>
+                            <a href="mailto:${item.email}">${item.email}</a>
+                        </td>
                         <!-- <td>${item.device_type}</td>
                         <td>${item.device_details}</td> -->
                         <td style="direction:rtl" innerhtml.bind="item.message"></td>
