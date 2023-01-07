@@ -12,7 +12,8 @@ import {StoryWindow} from '../stories/story_window';
 import environment from '../environment';
 import {MemberList} from '../services/member_list';
 import {highlight} from '../services/dom_utils';
-import {ConfigMemberStories} from '../members/config-member-stories';
+import {ConfigMemberStories} from './config-member-stories';
+import {Divorce} from './divorce';
 import {Videos} from '../videos/videos';
 
 @autoinject()
@@ -522,6 +523,22 @@ export class MemberDetail {
             return 'zal';
         return '';
     }
+
+    divorce(spouse_id) {
+        console.log("divorce ", spouse_id, " from ", this.member_id);
+        //event.stopPropagation();
+        document.body.classList.add('black-overlay');
+        this.dialog.open({
+            viewModel: Divorce,
+            model: {member_id: this.member_id, spouse_id: spouse_id},
+            lock: true
+        }).whenClosed(response => {
+            console.log("===response: ", response);
+            this.api.call_server('members/divorce', 
+                {member_id: this.member_id, spouse_id: spouse_id, hide_spouse: response.output.hide_spouse})
+            document.body.classList.remove('black-overlay');
+        });
+}
 
 }
 

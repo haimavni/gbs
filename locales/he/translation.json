@@ -193,7 +193,11 @@
         "check-duplicates": "הצג שמות כפולים",
         "what-to-search": "איפה ברצונך לחפש?",
         "search-members": "חפש ברשימת החברים",
-        "search-stories": "חפש בתוכן הסיפורים"
+        "search-stories": "חפש בתוכן הסיפורים",
+        "are-divorced": "גרושים",
+        "divorced": "גרושים!",
+        "divorced-hidden": "לא יוצגו כבני זוג",
+        "mistake": "טעות"
     },
     "articles": {
         "articles": "פריטים",
@@ -791,5 +795,6 @@
     "result8": "סרטים",
     "result9": "מסמכים",
     "result10": "הקלטות",
-    "result12": "פריטים"
+    "result12": "פריטים",
+    "and": "ו"
 }
