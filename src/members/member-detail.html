@@ -87,7 +87,7 @@
                                     <ul class="family">
                                         <li>
                                             <a type="button" 
-                                                class="btn btn-default ${disabled_if} ${spouse.together}" repeat.for="spouse of member.family_connections.spouses" 
+                                                class="btn btn-default ${disabled_if} ${spouse.marital_status}" repeat.for="spouse of member.family_connections.spouses" 
                                                 route-href="route: member-details; params.bind: {id:spouse.id, keywords: ''}"
                                                 contextmenu.delegate="divorce(spouse.id)">
                                                 <img src.bind="get_profile_photo(spouse)" />

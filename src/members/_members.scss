@@ -159,6 +159,9 @@ div.family-buttons {
         &.together {
             box-shadow: 5px 5px lightgreen;
         }
+        &.divorced {
+            box-shadow: 5px 5px lightgray;
+        }
     }
     ul {
         list-style-type: none;
