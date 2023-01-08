@@ -798,5 +798,9 @@
     "result10": "Audio",
     "result12": "Articles",
     "change-cache": "just to cause different name",
-    "and": " and "
+    "and": " and ",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "date": "Date"
 }

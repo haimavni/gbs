@@ -525,8 +525,9 @@ export class MemberDetail {
     }
 
     divorce(spouse_id) {
-        console.log("divorce ", spouse_id, " from ", this.member_id);
         //event.stopPropagation();
+        if (!this.user.editing || !this.user.privileges.ADMIN) 
+            return;
         document.body.classList.add('black-overlay');
         this.dialog.open({
             viewModel: Divorce,
