@@ -89,7 +89,7 @@
                                             <a type="button" 
                                                 class="btn btn-default ${disabled_if} ${spouse.marital_status}" repeat.for="spouse of member.family_connections.spouses" 
                                                 route-href="route: member-details; params.bind: {id:spouse.id, keywords: ''}"
-                                                contextmenu.delegate="divorce(spouse.id)">
+                                                contextmenu.delegate="divorce(spouse.id, 'spouse')">
                                                 <img src.bind="get_profile_photo(spouse)" />
                                                 <span>
                                                     ${spouse.name}
@@ -105,7 +105,8 @@
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" 
-                                                route-href="route: member-details; params.bind: {id:child.id, keywords: ''}">
+                                                route-href="route: member-details; params.bind: {id:child.id, keywords: ''}"
+                                                contextmenu.delegate="divorce(child.id, 'child')">
                                                 <img src.bind="get_profile_photo(child)" />
                                                 <span>
                                                     ${child.name}

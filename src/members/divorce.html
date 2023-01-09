@@ -8,7 +8,7 @@
         <ux-dialog-footer>   
             <button click.delegate="do_divorce(1)">${'members.divorced' & t}</button>
             <button click.delegate="do_divorce(2)">${'members.divorced-hidden' & t}</button>
-            <button click.delegate="cancel()">${'members.mistake' & t}</button>
+            <button click.delegate="undo_divorce()">${'members.not-divorced' & t}</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>

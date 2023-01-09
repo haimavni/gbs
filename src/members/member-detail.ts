@@ -156,9 +156,6 @@ export class MemberDetail {
                 }
                 this.api.hit('MEMBER', this.member.member_info.id);
                 this.set_heights();
-                let x = this.stories_base_changed;
-                console.log("===family connections: ", this.member.family_connections)
-                
             });
     }
 
@@ -244,9 +241,7 @@ export class MemberDetail {
                 pars["par"+n] = pars[g];
             }
         }
-        console.log("--------in set parent. pars: ", pars)
         this.member.family_connections.hasFamilyConnections ||= (n > 0);
-            // this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
     }
 
     tryDelete() {
@@ -524,23 +519,26 @@ export class MemberDetail {
         return '';
     }
 
-    divorce(spouse_id) {
+    divorce(mem_id, who) {
         //event.stopPropagation();
         if (!this.user.editing || !this.user.privileges.ADMIN) 
             return;
         document.body.classList.add('black-overlay');
         this.dialog.open({
             viewModel: Divorce,
-            model: {member_id: this.member_id, spouse_id: spouse_id},
+            model: {member_id: this.member_id, mem_id: mem_id, who},
             lock: true
         }).whenClosed(response => {
-            console.log("===response: ", response);
+            const spouse_id = response.output.spouse_id;
             this.api.call_server('members/divorce', 
-                {member_id: this.member_id, spouse_id: spouse_id, hide_spouse: response.output.hide_spouse})
+                {what: response.output.what, member_id: this.member_id, spouse_id: spouse_id, 
+                    hide_spouse: response.output.hide_spouse})
+                .then(response => {
+                    this.member.family_connections.spouses = response.spouses;
+                })
             document.body.classList.remove('black-overlay');
         });
-}
-
+    }
 }
 
 function sleep(ms) {

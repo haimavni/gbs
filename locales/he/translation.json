@@ -194,10 +194,10 @@
         "what-to-search": "איפה ברצונך לחפש?",
         "search-members": "חפש ברשימת החברים",
         "search-stories": "חפש בתוכן הסיפורים",
-        "are-divorced": "גרושים",
-        "divorced": "גרושים!",
+        "are-divorced": "פרודים",
+        "divorced": "יוצגו כבני זוג פרודים",
         "divorced-hidden": "לא יוצגו כבני זוג",
-        "mistake": "טעות"
+        "not-divorced": "לא נפרדו"
     },
     "articles": {
         "articles": "פריטים",
