@@ -157,8 +157,6 @@ export class MemberDetail {
                 this.api.hit('MEMBER', this.member.member_info.id);
                 this.set_heights();
                 let x = this.stories_base_changed;
-                console.log("===family connections: ", this.member.family_connections)
-                
             });
     }
 
@@ -244,7 +242,6 @@ export class MemberDetail {
                 pars["par"+n] = pars[g];
             }
         }
-        console.log("--------in set parent. pars: ", pars)
         this.member.family_connections.hasFamilyConnections ||= (n > 0);
             // this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
     }
@@ -534,12 +531,11 @@ export class MemberDetail {
             model: {member_id: this.member_id, spouse_id: spouse_id},
             lock: true
         }).whenClosed(response => {
-            console.log("===response: ", response);
             this.api.call_server('members/divorce', 
                 {member_id: this.member_id, spouse_id: spouse_id, hide_spouse: response.output.hide_spouse})
             document.body.classList.remove('black-overlay');
         });
-}
+    }
 
 }
 
