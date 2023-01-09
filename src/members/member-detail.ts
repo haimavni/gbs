@@ -521,18 +521,23 @@ export class MemberDetail {
         return '';
     }
 
-    divorce(spouse_id) {
+    divorce(mem_id, who) {
         //event.stopPropagation();
         if (!this.user.editing || !this.user.privileges.ADMIN) 
             return;
         document.body.classList.add('black-overlay');
         this.dialog.open({
             viewModel: Divorce,
-            model: {member_id: this.member_id, spouse_id: spouse_id},
+            model: {member_id: this.member_id, mem_id: mem_id, who: who},
             lock: true
         }).whenClosed(response => {
+            const spouse_id = response.output.spouse_id
+            const what = response.output.what;
             this.api.call_server('members/divorce', 
-                {member_id: this.member_id, spouse_id: spouse_id, hide_spouse: response.output.hide_spouse})
+                {member_id: this.member_id, spouse_id: spouse_id, hide_spouse: response.output.hide_spouse, what: what})
+                .then(response => {
+                    this.member.family_connections.spouses = response.spouses;
+                });
             document.body.classList.remove('black-overlay');
         });
     }
