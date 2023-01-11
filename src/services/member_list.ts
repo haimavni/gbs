@@ -166,7 +166,9 @@ export class MemberList {
                     (mem) =>
                         mem.first_name == s ||
                         mem.last_name == s ||
-                        mem.nick_name == s
+                        mem.nick_name == s ||
+                        mem.former_first_name == s ||
+                        mem.former_last_name == s
                 );
                 if (idx >= 0) result = true;
             }

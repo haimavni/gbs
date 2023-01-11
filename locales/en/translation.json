@@ -195,7 +195,11 @@
         "check-duplicates": "Check duplicates",
         "what-to-search": "Where do want to search?",
         "search-members": "Search member list",
-        "search-stories": "Search in stories"
+        "search-stories": "Search in stories",
+        "are-divorced": "are divorced",
+        "divorced": "Divorced",
+        "divorced-hidden": "Dont show as spouses",
+        "not-divorced": "Not divorced"
     },
     "articles": {
         "articles": "Articles",
@@ -753,6 +757,7 @@
     "feedbacks": "Feedback",
     "go-back": "Back",
     "parents": "Parents",
+    "grand-parents": "Grand parents",
     "siblings": "Siblings",
     "wife": "Wife",
     "wifes": "Wives",
@@ -792,5 +797,10 @@
     "result9": "Document",
     "result10": "Audio",
     "result12": "Articles",
-    "change-cache": "just to cause different name"
+    "change-cache": "just to cause different name",
+    "and": " and ",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "date": "Date"
 }

@@ -10,13 +10,62 @@
         </div>
     </div>
     <div class="row unselectable">
-        <div class="col-md-6 family-chains">
-            <div class="row">
-                <div class="col-md-6">
-                    <a type="button" class="btn btn-default" style="height:32px;padding-top:2px;font-size:16px;" click.trigger="find_father($event)">${'members.father' & t}</a>
+        <div class="col-md-6 family-buttons">
+            <div style="display:flex;flex-direction:row;margin-right:-15px;">
+                <!-- <div> -->
+                <!-- style="display:flex;flex-direction:row;margin-right:-15px;" -->
+                <div if.bind="family_type=='mf' || family_type=='mm'">
+                    <button 
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'M', 1)">${'members.father' & t}
+                    </button>
                 </div>
-                <div class="col-md-6" style="padding-right:0px;">
-                    <a type="button" class="btn btn-default" style="height:32px;padding-top:2px;font-size:16px;" click.trigger="find_mother($event)">${'members.mother' & t}</a>
+                <div style="padding-right:0px;" if.bind="family_type=='mf' || family_type=='ff'">
+                    <button
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'F', 1)">${'members.mother' & t}
+                    </button>
+                </div>
+                <div if.bind="family_type=='mm'">
+                    <button  
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'M', 2)">${'members.father' & t}
+                    </button>
+                </div>
+                <div style="padding-right:0px;" if.bind="family_type=='ff'">
+                    <button
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'F', 2)">${'members.mother' & t}
+                    </button>
+                <!-- </div> -->
+                </div>
+                <div style="padding-right:0px;margin-right:24px;align-self:flex-end;">
+                    <button
+                        class="btn btn-sm btn-${family_type=='mf' ? 'primary' : 'default'} family-type" 
+                        click.trigger="set_family_type('mf')">
+                        <i class="fas fa-male fa-sm"></i>
+                        <i class="fas fa-female fa-sm"></i>
+                    </button>
+                </div>
+                <div style="padding-right:0px;">
+                    <button
+                        class="btn btn-sm btn-${family_type=='mm' ? 'primary' : 'default'} family-type" 
+                        click.trigger="set_family_type('mm')">
+                        <i class="fas fa-male fa-sm"></i>
+                        <i class="fas fa-male fa-sm"></i>
+                    </button>
+                </div>
+                <div style="padding-right:0px;">
+                    <button
+                        class="btn btn-sm btn-${family_type=='ff' ? 'primary' : 'default'} family-type" 
+                        click.trigger="set_family_type('ff')">
+                        <i class="fas fa-female fa-sm"></i>
+                        <i class="fas fa-female fa-sm"></i>
+                    </button>
                 </div>
             </div>
         </div>

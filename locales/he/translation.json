@@ -193,7 +193,11 @@
         "check-duplicates": "הצג שמות כפולים",
         "what-to-search": "איפה ברצונך לחפש?",
         "search-members": "חפש ברשימת החברים",
-        "search-stories": "חפש בתוכן הסיפורים"
+        "search-stories": "חפש בתוכן הסיפורים",
+        "are-divorced": "פרודים",
+        "divorced": "יוצגו כבני זוג פרודים",
+        "divorced-hidden": "לא יוצגו כבני זוג",
+        "not-divorced": "לא נפרדו"
     },
     "articles": {
         "articles": "פריטים",
@@ -752,6 +756,7 @@
     },
     "go-back": "חזור",
     "parents": "הורים",
+    "grand-parents": "סבים/סבתות",
     "siblings": "אחים/אחיות",
     "wife": "בת-זוג",
     "wifes": "בנות-זוג",
@@ -790,5 +795,10 @@
     "result8": "סרטים",
     "result9": "מסמכים",
     "result10": "הקלטות",
-    "result12": "פריטים"
+    "result12": "פריטים",
+    "and": "ו",
+    "name": "שם",
+    "email": "דואר אלקטרוני",
+    "message": "הודעה",
+    "date": "תאריך"
 }

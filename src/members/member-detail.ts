@@ -12,7 +12,8 @@ import {StoryWindow} from '../stories/story_window';
 import environment from '../environment';
 import {MemberList} from '../services/member_list';
 import {highlight} from '../services/dom_utils';
-import {ConfigMemberStories} from '../members/config-member-stories';
+import {ConfigMemberStories} from './config-member-stories';
+import {Divorce} from './divorce';
 import {Videos} from '../videos/videos';
 
 @autoinject()
@@ -185,8 +186,8 @@ export class MemberDetail {
         this.sub1 = this.eventAggregator.subscribe('EditModeChange', payload => {
             this.user = payload
         });
-        this.sub2 = this.eventAggregator.subscribe('ParentFound', (parent) => {
-            this.set_parent(this.member, parent)
+        this.sub2 = this.eventAggregator.subscribe('ParentFound', (data) => {
+            this.set_parent(data)
         });
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => {
             this.dirty_story = dirty
@@ -219,18 +220,30 @@ export class MemberDetail {
         this.sub5.dispose();
     }
 
-    set_parent(member, parent) {
+    set_parent(data) {
+        let parent = data.parent;
         let gender = parent.gender;
         if (parent.deleted) {
             parent = null;
         }
-        if (gender == 'M') {
-            this.member.family_connections.parents.pa = parent
-        } else {
-            this.member.family_connections.parents.ma = parent
+        let key = gender == 'M' ? 'pa' : 'ma';
+        if (data.parent_num == 2) key += 2;
+        this.member.family_connections.parents[key] = parent;
+        // if (gender == 'M') {
+        //     this.member.family_connections.parents.pa = parent
+        // } else {
+        //     this.member.family_connections.parents.ma = parent
+        // }
+        let n = 0;
+        let pars = this.member.family_connections.parents;
+        for (let g of ['pa', 'ma', 'pa2', 'ma2']){
+            if (pars[g]) {
+                n += 1;
+                pars["par"+n] = pars[g];
+            }
         }
-        this.member.family_connections.hasFamilyConnections =
-            this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
+        this.member.family_connections.hasFamilyConnections ||= (n > 0);
+            // this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
     }
 
     tryDelete() {
@@ -438,6 +451,7 @@ export class MemberDetail {
         if (this.life_summary_content && this.theme.is_desktop) {
             let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
             this.life_summary_content.style.height = `${tph - lsco}px`;
+            this.family_connections_panel.style.height = `${tph - lsco}px`;
         }
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
@@ -505,6 +519,27 @@ export class MemberDetail {
         if (this.member.member_info.date_of_death.date)
             return 'zal';
         return '';
+    }
+
+    divorce(mem_id, who) {
+        //event.stopPropagation();
+        if (!this.user.editing || !this.user.privileges.ADMIN) 
+            return;
+        document.body.classList.add('black-overlay');
+        this.dialog.open({
+            viewModel: Divorce,
+            model: {member_id: this.member_id, mem_id: mem_id, who: who},
+            lock: true
+        }).whenClosed(response => {
+            const spouse_id = response.output.spouse_id
+            const what = response.output.what;
+            this.api.call_server('members/divorce', 
+                {member_id: this.member_id, spouse_id: spouse_id, hide_spouse: response.output.hide_spouse, what: what})
+                .then(response => {
+                    this.member.family_connections.spouses = response.spouses;
+                });
+            document.body.classList.remove('black-overlay');
+        });
     }
 
 }

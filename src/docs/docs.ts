@@ -482,7 +482,7 @@ export class Docs {
     private openDialog(doc) {
         this.dialog.open({
             viewModel: DocPage,
-            model: {doc_src: doc.doc_url},
+            model: {doc_src: doc.doc_url, keywords: this.search_words},
             lock: false,
             keyboard: ['Enter', 'Escape']
         })

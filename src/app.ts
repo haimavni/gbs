@@ -169,6 +169,7 @@ export class App {
             {route: 'show-logs', name: 'show-logs', moduleId: './admin/show-logs'},
             {route: 'customize', name: 'customize', moduleId: './admin/customize'},
             {route: 'experiment', name: 'experiment', moduleId: './experiments/experiment'},
+            {route: 'test-db-form', name: 'test-db-form', moduleId: './experiments/test-db-form'},
             {
                 route: 'black-sheep',
                 name: 'black-sheep',

@@ -23,23 +23,41 @@
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
                     <div class="family-chains" ref="family_connections_panel" style="display:flex;flex-direction:column;">
                         <div class="noborder">
-                            <div style="display:flex;flex-direction:row;" if.bind="member.family_connections.parents && (member.family_connections.parents.pa || member.family_connections.parents.ma)">
+                            <div if.bind="member.family_connections.grand_parents.length > 0" style="display:flex;flex-direction:row;">
+                                <div class="relation-kind">${'grand-parents' & t}</div>
+                                <div>
+                                    <ul class="family">
+                                        <li>
+                                            <a type="button" class="btn btn-default ${disabled_if}"
+                                                repeat.for="grand of member.family_connections.grand_parents" 
+                                                    route-href="route: member-details; params.bind: {id:grand.id, keywords: ''}">
+                                                <img src.bind="get_profile_photo(grand)" />
+                                                <span>
+                                                    ${grand.name}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="display:flex;flex-direction:row;" 
+                                if.bind="member.family_connections.parents && (member.family_connections.parents.par1 || member.family_connections.parents.par2)">
                                 <div class="relation-kind">${'parents' & t}</div>
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.pa"
-                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.pa.id, keywords: ''}" style="float:right;">
-                                                <img src.bind="get_profile_photo(member.family_connections.parents.pa)" />
+                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.par1"
+                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.par1.id, keywords: ''}" style="float:right;">
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.par1)" />
                                                 <span>
-                                                    ${member.family_connections.parents.pa.name}
+                                                    ${member.family_connections.parents.par1.name}
                                                 </span>
                                             </a>
-                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.ma"
-                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.ma.id, keywords: ''}" style="float:right;">
-                                                <img src.bind="get_profile_photo(member.family_connections.parents.ma)" />
+                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.par2"
+                                                route-href="route: member-details; params.bind: {id:member.family_connections.parents.par2.id, keywords: ''}" style="float:right;">
+                                                <img src.bind="get_profile_photo(member.family_connections.parents.par2)" />
                                                 <span>
-                                                    ${member.family_connections.parents.ma.name}
+                                                    ${member.family_connections.parents.par2.name}
                                                 </span>
                                             </a>
                                         </li>
@@ -68,8 +86,10 @@
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}" repeat.for="spouse of member.family_connections.spouses" 
-                                                route-href="route: member-details; params.bind: {id:spouse.id, keywords: ''}">
+                                            <a type="button" 
+                                                class="btn btn-default ${disabled_if} ${spouse.marital_status}" repeat.for="spouse of member.family_connections.spouses" 
+                                                route-href="route: member-details; params.bind: {id:spouse.id, keywords: ''}"
+                                                contextmenu.delegate="divorce(spouse.id, 'spouse')">
                                                 <img src.bind="get_profile_photo(spouse)" />
                                                 <span>
                                                     ${spouse.name}
@@ -85,7 +105,8 @@
                                     <ul class="family">
                                         <li>
                                             <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" 
-                                                route-href="route: member-details; params.bind: {id:child.id, keywords: ''}">
+                                                route-href="route: member-details; params.bind: {id:child.id, keywords: ''}"
+                                                contextmenu.delegate="divorce(child.id, 'child')">
                                                 <img src.bind="get_profile_photo(child)" />
                                                 <span>
                                                     ${child.name}

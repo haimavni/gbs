@@ -91,9 +91,14 @@ export class DocDetail {
     get_doc_info(doc_id) {
         this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id, caller: this.caller })
             .then(response => {
+                let search_str = "";
+                if (this.keywords && this.keywords.length > 0) {
+                    const keywords = this.keywords.join(' ');
+                    search_str = '#search=%22' + keywords + '%22';
+                }
                 this.doc_id = response.doc_id;
                 this.doc = response.doc;
-                this.doc_src = response.doc_src;
+                this.doc_src = response.doc_src + search_str;
                 this.story_about = response.story_about;
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;

@@ -28,6 +28,7 @@ export class MemberEdit {
     date_of_birth_valid = "";
     date_of_death_valid = "";
     check_before_saving = false;
+    family_type = "mf";
 
     constructor(user: User, eventAggregator: EventAggregator, api: MemberGateway, router: Router, i18n: I18N, dialog: DialogService, memberList: MemberList, misc: Misc) {
         this.user = user;
@@ -47,7 +48,12 @@ export class MemberEdit {
 
     activate(model) {
         this.member = model.member;
-        let m = this.member.member_info
+        let parents = this.member.family_connections.parents;
+        if (parents) {
+            if (parents.pa2) this.family_type = "mm";
+            if (parents.ma2) this.family_type = "ff";
+        }
+        const m = this.member.member_info;
         this.member_info_orig = this.misc.deepClone(m);
         if (this.user.privileges.DATA_AUDITOR)
             m.approved = true;
@@ -145,43 +151,43 @@ export class MemberEdit {
         alert('editor content changed');
     }
 
-    find_father(event) {
+    find_parent(event, parent_gender, parent_num) {
         if (event.ctrlKey)
-            return this.remove_parent('pa');
+            return this.remove_parent(parent_gender, parent_num)
         this.dialog.open({
-            viewModel: MemberPicker, model: { gender: 'M', child_name: this.member.member_info.full_name, child_id: this.member.member_info.id }, lock: false,
-            position: this.setup, rejectOnCancel: true
+            viewModel: MemberPicker, model: { 
+                gender: parent_gender, 
+                child_name: this.member.member_info.full_name, 
+                child_id: this.member.member_info.id }, 
+                lock: false,
+                position: this.setup, 
+                rejectOnCancel: true
         }).whenClosed(response => {
-            this.member.member_info.father_id = response.output.member_id;
+            let which_parent = parent_gender == 'M' ? 'father' : 'mother';
+            if (parent_num == 2) which_parent += '2'
+            const key = which_parent + '_id'
+            this.member.member_info[key] = response.output.member_id;
             if (response.output.new_member) {
-                let new_member = {gender: 'M', id: this.member.member_info.father_id, name: response.output.new_member.name, facePhotoURL: response.output.new_member.face_url};
+                let new_member = {
+                    gender: parent_gender, 
+                    id: this.member.member_info[key], 
+                    name: response.output.new_member.name, 
+                    facePhotoURL: response.output.new_member.face_url};
                 this.memberList.add_member(new_member);
             }
-            let father = this.get_member_data(this.member.member_info.father_id);
-            this.eventAggregator.publish('ParentFound', father);
+            let parent = this.get_member_data(this.member.member_info[key]);
+            this.eventAggregator.publish('ParentFound', {parent: parent, parent_num: parent_num});
         });
     }
 
-    find_mother(event) {
-        if (event.ctrlKey)
-            return this.remove_parent('ma');
-        this.dialog.open({
-            viewModel: MemberPicker, model: { gender: 'F', child_name: this.member.member_info.full_name, child_id: this.member.member_info.id }, lock: false,
-            position: this.setup, rejectOnCancel: true
-        }).whenClosed(response => {
-            this.member.member_info.mother_id = response.output.member_id;
-            if (response.output.new_member) {
-                let new_member = {gender: 'F', id: this.member.member_info.mother_id, name: response.output.new_member.name, facePhotoURL: response.output.new_member.face_url};
-                this.memberList.add_member(new_member);
-            }
-            let mother = this.get_member_data(this.member.member_info.mother_id);
-            this.eventAggregator.publish('ParentFound', mother);
-        });
-    }
 
-    remove_parent(who) {
+    remove_parent(parent_gender, parent_num) {
+        let who = parent_gender == 'M' ? 'pa' : 'ma';
+        if (parent_num == 2) who += '2';
         this.member.family_connections.parents[who] = null;
-        this.api.call_server_post('members/remove_parent', {member_id: this.member.member_info.id, who: who});
+        this.api.call_server_post('members/remove_parent', {
+            member_id: this.member.member_info.id, who: who
+        });
     }
 
     get_member_data(member_id) {
@@ -203,6 +209,10 @@ export class MemberEdit {
     }
 
     setup(modalContainer: Element, modalOverlay: Element) {
+    }
+    
+    set_family_type(ft) {
+        this.family_type = ft;
     }
 
 }
