@@ -199,12 +199,12 @@ export class MemberGateway {
         payload = JSON.stringify(payload);
         switch (what) {
             case 'PHOTOS': return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload });
-            case 'DOCS': return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
-            case 'AUDIOS': return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload });
-            case 'GROUP-LOGO': return this.httpClient.fetch(`groups/upload_logo`, { method: 'POST', body: payload });
-            case 'APPLOGO': return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload });
-            case 'PHOTO': return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload });
-            case 'CONTACTS': return this.httpClient.fetch(`groups/upload_contacts`, { method: 'POST', body: payload });
+            case 'DOCS'     : return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
+            case 'AUDIOS'   : return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload });
+            case 'GROUPLOGO': return this.httpClient.fetch(`groups/upload_group_logo`, { method: 'POST', body: payload });
+            case 'APPLOGO'  : return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload });
+            case 'PHOTO'    : return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload });
+            case 'CONTACTS' : return this.httpClient.fetch(`groups/upload_contacts`, { method: 'POST', body: payload });
         }
     }
 
@@ -235,7 +235,7 @@ export class MemberGateway {
     }
 
     handle_ws_message(msg) {
-        console.log("web socket message: ", msg)
+        //console.log("web socket message: ", msg)
         if (msg.data.startsWith('+anonymous')) return;
         if (msg.data.startsWith('-anonymous')) return;
         let obj;
@@ -256,11 +256,11 @@ export class MemberGateway {
         if ("WebSocket" in window) {
             const ws = new WebSocket(url);
             ws.onopen = onopen ? onopen : (event) => {
-                console.log("websocket opened. event: ", event);
+                //console.log("websocket opened. event: ", event);
             };
             ws.onmessage = onmessage;
             ws.onclose = onclose ? onclose : (event) => {
-                console.log("websocket closed. event: ", event);
+                //console.log("websocket closed. event: ", event);
                 ws.close();
                 THIS.reconnect(url, onmessage, onopen, onclose);
             };

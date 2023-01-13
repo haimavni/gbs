@@ -137,13 +137,14 @@ export class GroupManager {
             })
     }
 
-    upload_logo(group) {
+    upload_logo(group, event: Event) {
+        event.stopPropagation()
         if (!group.logo_images) return;
         this.api.uploadFiles(
             this.user.id,
             group.logo_images,
-            'GROUP-LOGO',
-            { group_id: group.id }
+            'GROUPLOGO',
+            { group_id: group.id, ptp_key: this.api.constants.ptp_key}
         )
     }
 
@@ -190,7 +191,8 @@ export class GroupManager {
         if (this.theme.rtltr == 'rtl') {
             mail_body = '<div dir="rtl">' + mail_body + '</div>';
         }
-        mail_body = encodeURI(mail_body);
+        //mail_body = encodeURI(mail_body);
+        console.log("mail body: ", mail_body);
         this.api.call_server_post('groups/mail_contacts', { group_id: this.curr_group_id, mail_body: mail_body, from_name: this.curr_group.title })
             .then(response => {
                 this.mail_sent = true;

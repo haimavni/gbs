@@ -149,7 +149,9 @@ export class UserInfo {
     }
 
     save_photo_info() {
-        this.api.call_server_post('groups/save_photo_info', { photo_id: this.status_record.photo_id, photo_info: this.status_record.photo_info })
+        this.api.call_server_post('groups/save_photo_info', {
+             photo_id: this.status_record.photo_id, 
+             photo_info: this.status_record.photo_info })
             .then(result => {
                 this.status_record.photo_details_saved = true;
                 this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);

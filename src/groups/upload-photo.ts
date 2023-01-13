@@ -12,6 +12,7 @@ import { UserInfo } from './user-info';
 import { Popup } from '../services/popups';
 import * as toastr from 'toastr';
 import { debounce } from '../services/debounce';
+import { FullSizePhoto } from '../photos/full-size-photo';
 
 @autoinject
 export class UploadPhoto {
@@ -35,6 +36,8 @@ export class UploadPhoto {
         user_id: -1,
         photo_url: '',
         photo_id: 0,
+        photo_width: 0,
+        photo_height: 0,
         duplicate: false,
         photo_details_saved: false,
         old_data: '',
@@ -62,7 +65,7 @@ export class UploadPhoto {
     photo_list = [];
     photo_height = 620;
     unknown_photographer;
-    explain_gallery = "The full site will be openedin a separate window."
+    explain_gallery = "The full site will be opened in a separate window."
     //google maps data
     tracked_zoom: number = 0;
     longitude_distance = 0;
@@ -118,6 +121,8 @@ export class UploadPhoto {
         this.subscriber = this.ea.subscribe('GROUP-PHOTO-UPLOADED', msg => {
             this.photos = [];
             this.status_record.photo_url = msg.photo_url;
+            this.status_record.photo_width = msg.photo_width;
+            this.status_record.photo_height = msg.photo_height;
             this.status_record.photo_id = msg.photo_id;
             this.status_record.photo_info.photo_name = msg.photo_name;
             this.status_record.photo_info.photo_story = msg.photo_story;
@@ -180,7 +185,8 @@ export class UploadPhoto {
         this.theme.hide_menu = false;
     }
 
-    save() {
+    save(event: Event) {
+        event.stopPropagation();
         this.api.uploadFiles(
             this.status_record.user_id,
             this.photos,
@@ -269,6 +275,36 @@ export class UploadPhoto {
             longitude: this.status_record.photo_info.longitude,
             latitude: this.status_record.photo_info.latitude,
             zoom: this.tracked_zoom
+        });
+    }
+
+    openDialog() {
+        let slide = {
+            side: 'front',
+            front: {
+                src: this.status_record.photo_url,
+                width: this.status_record.photo_width,
+                height: this.status_record.photo_height,
+                photo_id: this.status_record.photo_id
+            },
+            back: null,
+            name: this.status_record.photo_info.photo_name,
+            photo_id: this.status_record.photo_id,
+            has_story_text: true
+        };
+
+        const photo_ids = []; 
+        this.dialog.open({
+            viewModel: FullSizePhoto,
+            model: {
+                slide: slide, 
+                slide_list: photo_ids,
+                hide_details_icon: !(this.user.editing || slide.has_story_text),
+                list_of_ids: true
+            }, lock: false
+        }).whenClosed(response => {
+            document.body.classList.remove('black-overlay');
+            this.misc.url_shortcut = null;  //delete it
         });
     }
 

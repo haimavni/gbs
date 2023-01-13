@@ -14,7 +14,7 @@
         </div>
         <div class="photo-area" id="group-photo-area">
             <div class="buttons" if.bind="phase != 'photo-uploaded' && ! status_record.map_visible">
-                <form submit.delegate="save()">
+                <form submit.delegate="save($event)">
                     <div class="form-group" if.bind="phase=='ready-to-select'">
                         <label class="control-label ${status_record.user_id <= 0 ? 'disabled' : ''}" for="photos">
                             <i class="far fa-browser fa-sm">&nbsp;&nbsp;</i>${'groups.select-photo' & t}
