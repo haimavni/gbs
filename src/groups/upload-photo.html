@@ -37,14 +37,24 @@
                 </a>
             </div>
             <div show.bind="status_record.map_visible">
-                <google-map longitude.two-way="status_record.photo_info.longitude"
+                <!-- <google-map longitude.two-way="status_record.photo_info.longitude"
                     latitude.two-way="status_record.photo_info.latitude" zoom.bind="status_record.photo_info.zoom"
                     map-click.delegate="create_marker($event)" bounds-change.delegate="bounds_changed($event)"
                     markers.bind="markers" auto-update-bounds="true" style="height:720px;">
-                </google-map>
-            </div>
+                </google-map> -->
+                <my-map
+                    ignore.bind="ignore"
+                    longitude.bind="status_record.photo_info.longitude"
+                    latitude.bind="status_record.photo_info.latitude"
+                    zoom.bind="status_record.photo_info.zoom"
+                    can_mark.bind="user.editing"
+                    marked.bind="marked"
+                    location-changed.delegate="location_changed($event)"
+                >
+                </my-map>
+             </div>
         </div>
-        <!--end photo areqa-->
+        <!--end photo area-->
         <div class="footer-area1">
             <span style="font-size: 150%;padding:6px;" innerhtml.bind="help_message"></span>
             <p if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' & t}

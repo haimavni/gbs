@@ -11,7 +11,7 @@ import { DialogService } from 'aurelia-dialog';
 import { UserInfo } from './user-info';
 import { Popup } from '../services/popups';
 import * as toastr from 'toastr';
-import { debounce } from '../services/debounce';
+// import { debounce } from '../services/debounce';
 import { FullSizePhoto } from '../photos/full-size-photo';
 
 @autoinject
@@ -67,38 +67,46 @@ export class UploadPhoto {
     unknown_photographer;
     explain_gallery = "The full site will be opened in a separate window."
     //google maps data
-    tracked_zoom: number = 0;
-    longitude_distance = 0;
-    has_location = false;
-    markers = [];
-    map_zoom_stops = [
-        179.96079168489473,
-        176.7492823600056,
-        150.69030712520617,
-        97.57795738362208,
-        52.552012683220006,
-        26.745894508089606,
-        13.430570314236096,
-        6.722440301673341,
-        3.362112939656562,
-        1.681168017396189,
-        0.8405979505421683,
-        0.4203007179514806,
-        0.2101505768092089,
-        0.10507531563373007,
-        0.05253766122050152,
-        0.02626883103573263,
-        0.013134415571016689,
-        0.0065672077921696825,
-        0.0032836038969072945,
-        0.0016418019485477942,
-        0.0008209009742863316,
-        0.00041045048714138943,
-        0.00020522524357602379,
-        0.00010261262179511732,
-        0.00020522524357602379
-    ];
-    update_photo_location_debounced;
+    // tracked_zoom: number = 0;
+    // longitude_distance = 0;
+    // has_location = false;
+    // markers = [];
+    // map_zoom_stops = [
+    //     179.96079168489473,
+    //     176.7492823600056,
+    //     150.69030712520617,
+    //     97.57795738362208,
+    //     52.552012683220006,
+    //     26.745894508089606,
+    //     13.430570314236096,
+    //     6.722440301673341,
+    //     3.362112939656562,
+    //     1.681168017396189,
+    //     0.8405979505421683,
+    //     0.4203007179514806,
+    //     0.2101505768092089,
+    //     0.10507531563373007,
+    //     0.05253766122050152,
+    //     0.02626883103573263,
+    //     0.013134415571016689,
+    //     0.0065672077921696825,
+    //     0.0032836038969072945,
+    //     0.0016418019485477942,
+    //     0.0008209009742863316,
+    //     0.00041045048714138943,
+    //     0.00020522524357602379,
+    //     0.00010261262179511732,
+    //     0.00020522524357602379
+    // ];
+    // update_photo_location_debounced;
+    //------------------google maps data----------------
+    // longitude = null;
+    // latitude = null;
+    // zoom = null;
+    marked = false;
+    back;
+    map_visible = false;
+    ignore = true;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator,
         i18n: I18N, router: Router, popup: Popup, theme: Theme, misc: Misc) {
@@ -114,7 +122,7 @@ export class UploadPhoto {
         this.unknown_photographer = this.i18n.tr('groups.unknown-photographer-name');
         this.explain_gallery = this.i18n.tr('groups.explain-gallery');
         //
-        this.update_photo_location_debounced = debounce(this.update_photo_location, 1500, false);
+        //this.update_photo_location_debounced = debounce(this.update_photo_location, 1500, false);
     }
 
     attached() {
@@ -131,7 +139,7 @@ export class UploadPhoto {
             this.status_record.photo_info.photographer_name = msg.photographer_name || '';
             this.status_record.photo_info.photo_topics = msg.photo_topics;
             this.status_record.photo_info.photographer_id = msg.photographer_id;
-            this.handle_geo(msg);
+            //this.handle_geo(msg);
             this.status_record.duplicate = msg.duplicate;
             this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
             let el = document.getElementById('group-photo-area');
@@ -140,17 +148,17 @@ export class UploadPhoto {
         });
     }
 
-    async handle_geo(msg) {
-        if (msg.longitude) {
-            this.status_record.photo_info.longitude = msg.longitude;
-            this.status_record.photo_info.latitude = msg.latitude;
-            this.markers = [{latitude: this.status_record.photo_info.latitude, longitude:  this.status_record.photo_info.longitude}];
-            await sleep(200);
-            this.status_record.photo_info.zoom = msg.zoom - 1;
-            await sleep(200);
-            this.status_record.photo_info.zoom = msg.zoom;
-        }
-    }
+    // async handle_geo(msg) {
+    //     if (msg.longitude) {
+    //         this.status_record.photo_info.longitude = msg.longitude;
+    //         this.status_record.photo_info.latitude = msg.latitude;
+    //         this.markers = [{latitude: this.status_record.photo_info.latitude, longitude:  this.status_record.photo_info.longitude}];
+    //         await sleep(200);
+    //         this.status_record.photo_info.zoom = msg.zoom - 1;
+    //         await sleep(200);
+    //         this.status_record.photo_info.zoom = msg.zoom;
+    //     }
+    // }
 
     update_photo_list() {
         this.params.user_id = this.status_record.user_id;
@@ -224,59 +232,98 @@ export class UploadPhoto {
 
     //-----------------google maps functions--------------
 
-    bounds_changed(event) {
-        let x = event.detail.bounds.Ya;
-        if (! x) return;
-        let longitude_distance = x.j - x.i;
-        if (! longitude_distance) return;
-        this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
-        if (this.status_record.calibrating) {
-            this.map_zoom_stops[this.status_record.photo_info.zoom] = longitude_distance;
-        }
-        this.update_photo_location_debounced();
+    // bounds_changed(event) {
+    //     let x = event.detail.bounds.Ya;
+    //     if (! x) return;
+    //     let longitude_distance = x.j - x.i;
+    //     if (! longitude_distance) return;
+    //     this.tracked_zoom = this.calc_tracked_zoom(longitude_distance);
+    //     if (this.status_record.calibrating) {
+    //         this.map_zoom_stops[this.status_record.photo_info.zoom] = longitude_distance;
+    //     }
+    //     this.update_photo_location_debounced();
+    // }
+
+    // calc_tracked_zoom(longitude_distance) {
+    //     let zoom = 0;
+    //     for (let dist of this.map_zoom_stops) {
+    //         if (dist <= longitude_distance) {
+    //             let r = longitude_distance / dist;
+    //             if (r > 1.2) {
+    //                 zoom -= 1;
+    //             }
+    //             return zoom
+    //         }
+    //         else zoom += 1;
+    //     }
+    //     return 24;
+    // }
+
+    // async create_marker(event) {
+    //     event.stopPropagation();
+    //     if (!this.user.editing) return;
+    //     let tracked_zoom = this.tracked_zoom;
+    //     this.status_record.photo_info.zoom = tracked_zoom - 1;  //black magic. without it zoom becomes extremely high
+    //     let latLng = event.detail.latLng;
+    //     this.status_record.photo_info.latitude = latLng.lat();
+    //     this.status_record.photo_info.longitude = latLng.lng();
+    //     this.markers = [{ latitude: this.status_record.photo_info.latitude, longitude: this.status_record.photo_info.longitude }];
+    //     //for some reason, the above changes zoom to an extremely high value
+    //     this.update_photo_location();
+    //     await sleep(100);
+    //     this.status_record.photo_info.zoom = tracked_zoom;
+    //     await sleep(100);
+    //     return false;
+    // }
+
+    // update_photo_location() {
+    //     if (!this.status_record.photo_info.longitude) return;
+    //     this.api.call_server_post('photos/update_photo_location', {
+    //         photo_id: this.status_record.photo_id,
+    //         longitude: this.status_record.photo_info.longitude,
+    //         latitude: this.status_record.photo_info.latitude,
+    //         zoom: this.tracked_zoom
+    //     });
+    // }
+    async update_location_data(latitude, longitude, zoom) {
+        this.ignore = true;
+        this.marked =  longitude != null;
+        this.latitude = latitude || +31.772;
+        this.longitude = longitude || 35.217;
+        this.zoom = zoom || 8;
+        await sleep(2000);
+        this.ignore = false;
     }
 
-    calc_tracked_zoom(longitude_distance) {
-        let zoom = 0;
-        for (let dist of this.map_zoom_stops) {
-            if (dist <= longitude_distance) {
-                let r = longitude_distance / dist;
-                if (r > 1.2) {
-                    zoom -= 1;
-                }
-                return zoom
-            }
-            else zoom += 1;
-        }
-        return 24;
-    }
-
-    async create_marker(event) {
-        event.stopPropagation();
-        if (!this.user.editing) return;
-        let tracked_zoom = this.tracked_zoom;
-        this.status_record.photo_info.zoom = tracked_zoom - 1;  //black magic. without it zoom becomes extremely high
-        let latLng = event.detail.latLng;
-        this.status_record.photo_info.latitude = latLng.lat();
-        this.status_record.photo_info.longitude = latLng.lng();
-        this.markers = [{ latitude: this.status_record.photo_info.latitude, longitude: this.status_record.photo_info.longitude }];
-        //for some reason, the above changes zoom to an extremely high value
-        this.update_photo_location();
-        await sleep(100);
-        this.status_record.photo_info.zoom = tracked_zoom;
-        await sleep(100);
-        return false;
+    expose_map() {
+        this.map_visible = !this.map_visible;
     }
 
     update_photo_location() {
-        if (!this.status_record.photo_info.longitude) return;
-        this.api.call_server_post('photos/update_photo_location', {
-            photo_id: this.status_record.photo_id,
-            longitude: this.status_record.photo_info.longitude,
-            latitude: this.status_record.photo_info.latitude,
-            zoom: this.tracked_zoom
-        });
+        if (! this.user.editing) return;
+        this.api.call_server_post('photos/update_photo_location', { photo_id: this.status_record.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
     }
+
+    location_changed(event) {
+        event.stopPropagation();
+        if (! this.user.editing) return;
+        let detail = event.detail;
+        let longitude = null;
+        let latitude = null;
+        if (detail.what == 'marker-placed') {
+            longitude = this.longitude;
+            latitude = this.latitude;
+        }
+        this.api.call_server_post('photos/update_photo_location',
+            { photo_id: this.status_record.photo_id, longitude: this.longitude, latitude: this.latitude, zoom: this.zoom });
+    }
+
+    @computedFrom("map_visible")
+    get view_hide_map() {
+        let txt = 'photos.' + (this.map_visible ? 'hide-map' : 'view-map')
+        return this.i18n.tr(txt)
+    }
+
 
     openDialog() {
         let slide = {
