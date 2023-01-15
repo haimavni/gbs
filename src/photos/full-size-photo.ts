@@ -86,6 +86,7 @@ export class FullSizePhoto {
     keypress_handler;
     popup: Popup;
     hide_details_icon = false;
+    topic_names;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -137,6 +138,7 @@ export class FullSizePhoto {
         this.slide_list = model.slide_list || [];
         this.settings = model.settings || {};
         this.list_of_ids = model.list_of_ids;
+        this.topic_names = model.topic_names;
         this.baseURL = environment.baseURL;
         document.addEventListener('keyup', this.keypress_handler);
         this.hide_details_icon = this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;

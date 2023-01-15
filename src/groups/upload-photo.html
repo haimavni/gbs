@@ -37,11 +37,6 @@
                 </a>
             </div>
             <div show.bind="status_record.map_visible">
-                <!-- <google-map longitude.two-way="status_record.photo_info.longitude"
-                    latitude.two-way="status_record.photo_info.latitude" zoom.bind="status_record.photo_info.zoom"
-                    map-click.delegate="create_marker($event)" bounds-change.delegate="bounds_changed($event)"
-                    markers.bind="markers" auto-update-bounds="true" style="height:720px;">
-                </google-map> -->
                 <my-map
                     ignore.bind="ignore"
                     longitude.bind="status_record.photo_info.longitude"
@@ -50,6 +45,8 @@
                     can_mark.bind="user.editing"
                     marked.bind="marked"
                     location-changed.delegate="location_changed($event)"
+                    width.bind="width"
+                    height.bind="height"
                 >
                 </my-map>
              </div>

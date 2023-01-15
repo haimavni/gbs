@@ -299,7 +299,9 @@ export class PhotoDetail {
 
     private openDialog(slide, slide_list) {
         document.body.classList.add('black-overlay');
-        this.dialog.open({ viewModel: FullSizePhoto, model: { slide: slide, slide_list: slide_list, list_of_ids: true }, lock: false })
+        this.dialog.open({ 
+            viewModel: FullSizePhoto, 
+            model: { slide: slide, slide_list: slide_list, list_of_ids: true, topic_names: this.topic_names }, lock: false })
             .whenClosed(response => {
                 this.get_photo_info(this.photo_id);
                 document.body.classList.remove('black-overlay');
