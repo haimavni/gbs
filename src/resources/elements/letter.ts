@@ -59,9 +59,7 @@ export class LetterCustomElement {
     }
 
     apply_params() {
-        console.log("template: ", this.letter_template, "params: ", this.params);
         this.mail_body = this.misc.extrapolate(this.letter_template, this.params);
-        console.log("mail body: ", this.mail_body);
     }
 
     edit_letter_template(event) {
