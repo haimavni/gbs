@@ -59,7 +59,8 @@ export class ShowPhoto {
             model: {
                 slide: slide, slide_list: photo_ids,
                 hide_details_icon: !(this.user.editing || slide.has_story_text),
-                list_of_ids: true
+                list_of_ids: true,
+                topic_names: slide.keywords
             }, lock: false
         }).whenClosed(response => {
             document.body.classList.remove('black-overlay');
