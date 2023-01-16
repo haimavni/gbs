@@ -97,7 +97,7 @@ export class App {
             {route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios', settings: {auth: true}},
             {route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos', settings: {auth: true}},
             {route: 'photos/*', name: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos', settings: {auth: true}},
-            {route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories', settings: {auth: true}},
+            {route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories', settings: {auth: true, is_main: 'is_main'}},
             //{ route: 'stories-tool/*', name: 'stories', moduleId: './stories/stories', nav: false, title: 'stories.stories' },
             {
                 route: 'articles',

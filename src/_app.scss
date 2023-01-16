@@ -34,6 +34,13 @@
         color: inherit;
         display: inline-block;
         font-weight: bold;
+        background-color: #eeeeee;
+        border-radius: 5px;
+        margin-left: 2px;
+        &.is_main {
+            background-color: turquoise;
+            font-size: 200%;
+        }
         &.active {
             color: blue;
             cursor: default;

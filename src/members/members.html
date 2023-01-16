@@ -49,7 +49,7 @@
                         <div class="input-group" style="padding-top:16px;" if.bind="relatives_mode">
                             <help topic="family-connections" position="bottom"></help>
                         </div>
-                        <quiz
+                        <!-- <quiz
                             if.bind="user.privileges.DEVELOPER"
                             q_state.bind="q_state" 
                             questions.bind="questions" 
@@ -58,12 +58,12 @@
                             name="members"
                             help_data.bind="quiz_help_data" 
                             q-change.delegate="questions_changed($event)">
-                        </quiz>
-                        <button class="btn btn-default" if.bind="user.debugging || user.privileges.DEVELOPER"
+                        </quiz> -->
+                        <!-- <button class="btn btn-default" if.bind="user.debugging || user.privileges.DEVELOPER"
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-left:4px;"                            
                             click.delegate="open_query_editor()">
                             Select members by query
-                        </button>
+                        </button> -->
                         <button if.bind="changes_pending" class="btn btn-primary btn-lg" click.delegate="apply_changes()" 
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray">
                             ${'members.apply-answers' & t}
