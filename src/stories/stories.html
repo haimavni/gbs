@@ -81,7 +81,8 @@
                     <form if.bind="!no_results" class="form-inline" style="margin-bottom:6px;">
                         <span if.bind="params.selected_book" style="font-size:120%;font-weight:bolder;">${params.selected_book.name}: </span>
                         <button repeat.for="uf of active_result_types"
-                            class="btn btn-${uf==used_for ? 'primary' : 'default'}"
+                            class="btn btn-${uf==used_for ? 'primary' : 'secondary'}"
+                            style="margin-left:4px;"
                             click.delegate="select_used_for(uf)">
                             <span style="font-size:70%;">${result_type_counters[uf]}</span>&nbsp;&nbsp;<span
                                 style="font-weight:bolder">${'result' + uf & t}</span>
