@@ -90,7 +90,7 @@
                 <span if.bind="topic_names && ! user.editing">${'photos.keywords' & t}: ${topic_names}</span>
                 <div style="margin-top: 10px;margin-bottom:2px;font-size:120%" if.bind="user.editing">
                     <button if.bind="undo_list.length > 0" class="btn btn-warning" style="width:90%;"
-                            click.delegate="undo()">
+                            click.trigger="undo()">
                         <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
                     </button>
                 </div>
@@ -101,7 +101,7 @@
                 <button if.bind="user.editing"
                         class="btn btn-primary btn-framed"
                         style="margin-top:8px;font-size:108%;"
-                        click.delegate="select_video_members()">
+                        click.trigger="select_video_members()">
                     <i style="cursor:pointer"
                        class="fa fa-users"
                        title="${'videos.members-in' & t}">
@@ -122,7 +122,7 @@
                     <!--yt-player if.bind="video_type=='youtube'" player.bind="yt_player" video-id.bind="video_src" player_is_ready.bind="player_is_ready"></yt-player-->
                     <compose view-model="../services/yt-keeper" if.bind="video_type=='youtube'"></compose>
                 </div>
-                <button class="btn btn-primary" click.delegate="add_cue_point()"
+                <button class="btn btn-primary" click.trigger="add_cue_point()"
                         if.bind="user.editing && user.privileges.VIDEO_EDITOR"
                         disabled.bind="(!player.paused) || already_in">
                     ${'videos.add-cue' & t}
@@ -142,16 +142,16 @@
                         <tr repeat.for="cue of cue_points" class="${cue.cls}">
                             <td>
                                 <span style="width:60px">${cue.time | formatTime}</span>
-                                <i class="fa fa-play fa-xs" if.bind="user.editing && cue.is_current" click.delegate="step(cue, +1)" style="margin-right:4px"></i>
-                                <i class="fa fa-play fa-xs fa-rotate-180" if.bind="user.editing && cue.is_current" click.delegate="step(cue, -1)"></i>
-                                <i class="${cue.is_current ? 'fas' : 'far'} fa-circle" click.delegate="jump_to_cue(cue)"
+                                <i class="fa fa-play fa-xs" if.bind="user.editing && cue.is_current" click.trigger="step(cue, +1)" style="margin-right:4px"></i>
+                                <i class="fa fa-play fa-xs fa-rotate-180" if.bind="user.editing && cue.is_current" click.trigger="step(cue, -1)"></i>
+                                <i class="${cue.is_current ? 'fas' : 'far'} fa-circle" click.trigger="jump_to_cue(cue)"
                                    style="float:left;margin-top:4px;cursor:pointer;"></i>
                             </td>
                             <td if.bind="user.editing">
                                 <i style="cursor:pointer"
                                    class="fa fa-users"
                                    title="${'videos.members-in' & t}"
-                                   click.delegate="select_members(cue)">
+                                   click.trigger="select_members(cue)">
                                 </i>
                             </td>
                             <td>
@@ -165,7 +165,7 @@
                                        style="height:28px;width:100%;"/>
                                 </span>
                             </td>
-                            <td if.bind="user.editing" style="width:40px" click.delegate="remove_cue(cue)">
+                            <td if.bind="user.editing" style="width:40px" click.trigger="remove_cue(cue)">
                                 <i style="margin-right:5px;cursor:pointer;" class="fa fa-trash"></i>
                             </td>
                         </tr>

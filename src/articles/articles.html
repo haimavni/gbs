@@ -14,7 +14,7 @@
                             <help topic.bind="topic_articles" position="bottom"></help>
                         </div>
                         <button if.bind="! caller_type && ! user.editing && ! user.config.articles_in_menu" class="btn btn-primary btn-lg"
-                            click.delegate="goto_members()"
+                            click.trigger="goto_members()"
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-right:150px;">
                             ${'members.members' & t}
                         </button>
@@ -32,7 +32,7 @@
                 <ul class="list-group">
                     <li repeat.for="article of articles | filter : filter : 'name' | take : max_articles_displayed"
                         class="list-group-item ${article.id === $parent.selectedId ? 'active' : ''}" dir="rtl">
-                        <a click.delegate="article_clicked(article, $event)" 
+                        <a click.trigger="article_clicked(article, $event)" 
                             tapandhold="500"
                             style="color:black;cursor:pointer;">
                             <img src.bind="article.facePhotoURL"

@@ -37,21 +37,21 @@ export class GoogleMaps {
     private markerClustering: MarkerClustering;
     private _currentInfoWindow: any = null;
 
-    @bindable longitude: number = 0;
-    @bindable latitude: number = 0;
-    @bindable zoom: number = 8;
-    @bindable disableDefaultUi: boolean = false;
+    @bindable longitude = 0;
+    @bindable latitude = 0;
+    @bindable zoom = 8;
+    @bindable disableDefaultUi = false;
     @bindable markers: any = [];
-    @bindable autoUpdateBounds: boolean = false;
-    @bindable autoInfoWindow: boolean = true;
+    @bindable autoUpdateBounds = false;
+    @bindable autoInfoWindow = true;
     @bindable mapType = 'ROADMAP';
     @bindable options = {};
     @bindable mapLoaded: any;
-    @bindable drawEnabled: boolean = false;
+    @bindable drawEnabled = false;
     @bindable drawMode = 'MARKER';
     @bindable polygons: any = [];
     @bindable drawingControl: true;
-    @bindable drawingControlOptions: {};
+    @bindable drawingControlOptions;
 
     public map: any = null;
     public _renderedMarkers: any[] = [];

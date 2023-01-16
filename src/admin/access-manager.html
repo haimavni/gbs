@@ -6,7 +6,7 @@
     <div style="height:730px;width:1200px;margin-left:auto;margin-right:auto;overflow:auto;">
         <div class="form-inline">
             <div class="form-group">
-                <a href class="btn btn-primary" click.delegate="add_or_update()"style="margin-bottom:1em;">
+                <a href class="btn btn-primary" click.trigger="add_or_update()"style="margin-bottom:1em;">
                     ${'admin.add-user' & t}
                 </a>
             </div>
@@ -41,25 +41,25 @@
                     <td>${item.last_name}</td>
                     <td class="center">
                         <span repeat.for="r of item.roles">
-                            <a href title="${role_title(r)}" click.delegate="toggle_membership(r, item.id)">
+                            <a href title="${role_title(r)}" click.trigger="toggle_membership(r, item.id)">
                                 <i class="far ${role_class(r)} ${r.active ? 'is_active' : ''}"></i>
                             </a>
                         </span>
                     </td>
                     <!--<td>${item.created}</td>-->
                     <td class="center">
-                        <a href click.delegate="add_or_update(item)">
+                        <a href click.trigger="add_or_update(item)">
                             <i class="fas fa-pencil" title="Edit User Data" ></i>
                         </a>
-                        <a href click.delegate="unlock_user(item.id)" show.bind="item.status=='Unconfirmed'">
+                        <a href click.trigger="unlock_user(item.id)" show.bind="item.status=='Unconfirmed'">
                             <i class="far fa-unlock" title="Unlock User" ></i>
                         </a>
                     </td>
                     <td class="center">
-                        <a href click.delegate="resend_verification_email(item.id)" show.bind="item.status=='Unconfirmed'">
+                        <a href click.trigger="resend_verification_email(item.id)" show.bind="item.status=='Unconfirmed'">
                             <i class="far fa-envelope" title="Resend Verification Email"></i>
                         </a>
-                        <a href title="Delete" click.delegate="delete_user(item)">
+                        <a href title="Delete" click.trigger="delete_user(item)">
                             <i class="far fa-trash"></i>
                         </a>
                     </td>

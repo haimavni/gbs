@@ -1,4 +1,4 @@
-<div id="full-size-photo" class="slide unselectable" click.delegate="mark_face($event)" style="margin-left:0;"
+<div id="full-size-photo" class="slide unselectable" click.trigger="mark_face($event)" style="margin-left:0;"
     fullscreenchange.delegate="fullscreen_change($event)" interact-draggable.bind="theme.interact_setting"
     interact-dragmove.delegate="drag_move_photo($event)">
     <div style="display:flex;flex-direction:row-reverse;">
@@ -12,12 +12,12 @@
                     interact-dragstart.delegate="start_crop($event)">
                 </div>
                 <!-- <div class="fullscreen-navigator prev" if.bind="fullscreen_mode && can_go_backward"> -->
-                <span if.bind="fullscreen_mode && can_go_backward" class="prev" click.delegate="prev_slide($event)">
+                <span if.bind="fullscreen_mode && can_go_backward" class="prev" click.trigger="prev_slide($event)">
                     < 
                 </span>
                 <span if.bind="fullscreen_mode && can_go_forward" 
                     class="next"
-                    click.delegate="next_slide($event)">
+                    click.trigger="next_slide($event)">
                     >
                 </span>
                 <!-- </div> -->
@@ -33,10 +33,10 @@
                     height.bind="image_height" 
                     width.bind="image_width" />
             </div>
-            <button class="navigation-arrow right" click.delegate="next_slide($event)">
+            <button class="navigation-arrow right" click.trigger="next_slide($event)">
                 >
             </button>
-            <button class="navigation-arrow left" click.delegate="prev_slide($event)">
+            <button class="navigation-arrow left" click.trigger="prev_slide($event)">
                 < 
             </button>
             <button dir="rtl" repeat.for="face of faces" click.trigger="handle_face(face, $event, $index)"
@@ -80,77 +80,77 @@
             </button>
             <button aubs-tooltip="text.bind:copy_photo_url_text;position.bind:hint_position;"
                 class="side-tool copy-to-clipboard" 
-                click.delegate="copy_photo_url($event)">
+                click.trigger="copy_photo_url($event)">
                 <i class="fa fa-lg fa-link"></i>
             </button>
             <button aubs-tooltip="text.bind:share_on_facebook_txt;position.bind:hint_position;"
                 class="side-tool crop" 
-                click.delegate="share_on_facebook($event)">
+                click.trigger="share_on_facebook($event)">
                 <i class="fab fa-lg fa-facebook-f" style="color:orange;"></i>
             </button>
             <button if.bind="slide.back" 
                 aubs-tooltip="text.bind:flip_text;position.bind:hint_position;"
                 class="side-tool flip-sides"
-                click.delegate="flip_photo($event)">
+                click.trigger="flip_photo($event)">
                 <i class="fa fa-lg fa-yin-yang"></i>
             </button>
             <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" 
                 class="side-tool full-screen"
-                click.delegate="makeFullScreen()">
+                click.trigger="makeFullScreen()">
                 <i class="fa fa-lg fa-expand"></i>
             </button>
             <button show.bind="user.editing && ! cropping"
                 aubs-tooltip="text.bind:crop;position.bind:hint_position;" 
                 class="side-tool crop"
-                click.delegate="crop_photo($event)">
+                click.trigger="crop_photo($event)">
                 <i class="fa fa-lg fa-crop-alt"></i>
             </button>
             <button show.bind="cropping" 
                 aubs-tooltip="text.bind:save_crop;position.bind:hint_position;"
                 class="side-tool crop" 
-                click.delegate="save_photo_crop($event)">
+                click.trigger="save_photo_crop($event)">
                 <i class="fa fa-lg fa-save" style="color:orange;"></i>
             </button>
             <button show.bind="cropping" 
                 aubs-tooltip="text.bind:cancel_crop;position.bind:hint_position;"
                 class="side-tool cancel-crop" 
-                click.delegate="cancel_photo_crop($event)">
+                click.trigger="cancel_photo_crop($event)">
                 <i class="fa fa-lg fa-undo" style="color:orange;"></i>
             </button>
             <button show.bind="user.editing" 
                 aubs-tooltip="text.bind:rotate;position.bind:hint_position;"
                 class="side-tool rotate" 
-                click.delegate="rotate_photo($event)">
+                click.trigger="rotate_photo($event)">
                 <i class="fa fa-lg fa-undo"></i>
             </button>
             <button show.bind="user.config.enable_articles && user.editing && marking_articles"
                 aubs-tooltip="text.bind:mark_people_text;position.bind:hint_position;" 
                 class="side-tool crop"
-                click.delegate="toggle_people_articles($event)">
+                click.trigger="toggle_people_articles($event)">
                 <i class="far fa-lg fa-smile"></i>
             </button>
             <button show.bind="user.config.enable_articles && user.editing && !marking_articles"
                 aubs-tooltip="text.bind:mark_articles_text;position.bind:hint_position;" 
                 class="side-tool crop"
-                click.delegate="toggle_people_articles($event)">
+                click.trigger="toggle_people_articles($event)">
                 <i class="far fa-lg fa-trees"></i>
             </button>
             <button show.bind="user.editing" 
                 aubs-tooltip="text.bind:nobody_there;position.bind:hint_position;"
                 class="side-tool rotate" 
-                click.delegate="nobody($event)">
+                click.trigger="nobody($event)">
                 <i class="fa fa-lg fa-check"></i>
             </button>
             <button aubs-tooltip="text.bind:photo_detail;position.bind:hint_position;" 
                 if.bind="! hide_details_icon"
                 class="side-tool detail"
-                click.delegate="close($event)">
+                click.trigger="close($event)">
                 <i class="fa fa-lg fa-bars"></i>
             </button>
             <button aubs-tooltip="text.bind:create_qr_photo_txt;position.bind:hint_position;" 
                 class="side-tool detail"
                 if.bind="user.privileges.ADMIN"
-                click.delegate="create_qr_photo($event)">
+                click.trigger="create_qr_photo($event)">
                 <i class="fa fa-lg fa-qrcode"></i>
             </button>
         </div>

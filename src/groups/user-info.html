@@ -73,7 +73,7 @@
                     </div>
                     <div if.bind="status_record.photo_uploaded" style="width:242px;">
                         <button class="btn btn-basic" if.bind="user.editing || status_record.has_location"
-                            click.delegate="expose_map($event)"
+                            click.trigger="expose_map($event)"
                             style="margin-top:8px;margin-bottom:6px;border:solid 2px lightgray;width:100%;">
                             <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
                         </button>

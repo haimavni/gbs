@@ -26,7 +26,7 @@
                     <div if.bind="card_url" style="width:100%;height:32px;margin-top:6px;background-color:green;display:flex;justify-content: space-evenly;padding-top:4px;">
                         <a class="resp-sharing-button__link"
                             style="color:white;"
-                            click.delegate="submit_it()">
+                            click.trigger="submit_it()">
                             <i class="fab fa-facebook-f"></i>&nbsp;&nbsp;${'user.sharing.share-on-facebook' & t}
                         </a>
                     </div>

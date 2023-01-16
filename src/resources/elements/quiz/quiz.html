@@ -8,7 +8,7 @@
             </button>
             <button class="btn btn-basic btn-lg" 
                 if.bind="dirty" t="[title]quiz.clear-all"
-                click.delegate="clear_all()">
+                click.trigger="clear_all()">
                 ${'quiz.clear-all' & t}
             </button>
             <help topic="using-quiz" style="margin-top:18px;" if.bind="q_state==USING" params.bind="help_data"

@@ -24,17 +24,17 @@
                         ${item.fn}
                     </td>
                     <td class="center">
-                        <a href="#" title="Delete" click.delegate="delete_log_file(item.fn)">
+                        <a href="#" title="Delete" click.trigger="delete_log_file(item.fn)">
                             <i class="far fa-trash"></i>
                         </a>
                     </td>
                     <td class="center">
-                        <a href="#" title="Download" click.delegate="download_log_file(item.fn)">
+                        <a href="#" title="Download" click.trigger="download_log_file(item.fn)">
                             <i class="far fa-download"></i>
                         </a>
                     </td>
                     <td class="border-right center">
-                        <a href="" click.delegate="show_log_file(item.fn)">
+                        <a href="" click.trigger="show_log_file(item.fn)">
                             <i class="fa fa-play fa-lg ${item.fn==displayed_log_file ? 'selected-file fa-2x': ''}"></i>
                         </a>
                     </td>

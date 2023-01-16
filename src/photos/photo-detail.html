@@ -25,7 +25,7 @@
             <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
                 <span>
                     <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
-                    <button class="btn btn-basic" if.bind="user.editing || marked" click.delegate="expose_map()"
+                    <button class="btn btn-basic" if.bind="user.editing || marked" click.trigger="expose_map()"
                         style="margin-top:8px;border:solid 2px lightgray;float:left;">
                         <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
                     </button>
@@ -117,7 +117,7 @@
                                 </div>
                                 <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
                                     <button if.bind="undo_list.length > 0" class="btn btn-warning"
-                                        style="width:90%;" click.delegate="undo()">
+                                        style="width:90%;" click.trigger="undo()">
                                         <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
                                     </button>
                                 </div>

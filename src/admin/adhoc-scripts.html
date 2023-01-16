@@ -7,16 +7,16 @@
         <div class="row toolbar">
             <div class="col-md-10" style="padding-left:20px;">
                 <div class="btn-group" style="margin-bottom:15px;">
-                    <button class="btn btn-primary" click.delegate="evaluate_script(code)">
+                    <button class="btn btn-primary" click.trigger="evaluate_script(code)">
                     Evaluate
                 </button>
-                    <button type="button" tabindex="-1" class="btn btn-default" click.delegate="prev_code(code)" disabled.bind="prev_disabled">
+                    <button type="button" tabindex="-1" class="btn btn-default" click.trigger="prev_code(code)" disabled.bind="prev_disabled">
                     <i class="fa fa-large fa-chevron-left" ></i>
                 </button>
-                    <button type="button" tabindex="-1" class="btn btn-default" click.delegate="next_code(code)" disabled.bind="next_disabled">
+                    <button type="button" tabindex="-1" class="btn btn-default" click.trigger="next_code(code)" disabled.bind="next_disabled">
                     <i class="fa fa-large fa-chevron-right" ></i>
                 </button>
-                    <button type="button" tabindex="-1" class="btn btn-default" click.delegate="delete(code)">
+                    <button type="button" tabindex="-1" class="btn btn-default" click.trigger="delete(code)">
                     <i class="far fa-large fa-trash-alt" ></i>
                 </button>
                     <i class="fa fa-search"> </i>

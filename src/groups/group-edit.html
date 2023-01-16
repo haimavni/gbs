@@ -20,7 +20,7 @@
     <ux-dialog-footer>
         <button type="button" class="btn btn-primary"
             disabled="${curr_group.title && curr_group.description ? '' : 'disabled'}"
-            click.delegate="save()">${'groups.save' & t}</button>
-        <button type="button" class="btn btn-info" click.delegate="cancel()">${'groups.cancel' & t}</button>
+            click.trigger="save()">${'groups.save' & t}</button>
+        <button type="button" class="btn btn-info" click.trigger="cancel()">${'groups.cancel' & t}</button>
     </ux-dialog-footer>
 </ux-dialog>

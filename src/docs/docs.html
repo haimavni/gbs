@@ -7,7 +7,7 @@
                         <div class="form-group">
                             <button class="btn btn-basic btn-sm btn-framed" 
                                 if.bind="! theme.is_desktop" 
-                                click.delegate="show_filters_only()"
+                                click.trigger="show_filters_only()"
                                 style="margin-bottom:12px">${'docs.edit-filters' & t}
                             </button>
                         </div>
@@ -58,7 +58,7 @@
                                     <img src.bind="doc.doc_jpg_url" width="128px"/>
                                 </a>
                                 <img if.bind="theme.is_desktop" 
-                                    click.delegate="jump_to_the_full_doc($event, doc)"
+                                    click.trigger="jump_to_the_full_doc($event, doc)"
                                     src.bind="doc.doc_jpg_url" width="128px"/>
                             </div>
                             <div style="width:100%;">

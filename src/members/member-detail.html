@@ -207,7 +207,7 @@
             <div if.bind="stories_scroll" class="slide-control prev" click.trigger="next_story($event, +1)">
                 <i class="fas fa-chevron-left fa-2x"></i>
             </div>
-            <div class="slide-control config" click.delegate="config_member_stories($event)">
+            <div class="slide-control config" click.trigger="config_member_stories($event)">
                 <i class="fas fa-search fa-lg"></i>
             </div>
         </div>

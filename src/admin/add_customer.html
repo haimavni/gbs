@@ -30,7 +30,7 @@
         </form>
     </ux-dialog-body>
     <ux-dialog-footer>
-        <button type="button" class="btn btn-primary ${disabled_if}" click.delegate="save()">${done ? 'Close' : 'Submit'}</button>
-        <button type="button" if.bind="!done" class="btn btn-info" click.delegate="cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary ${disabled_if}" click.trigger="save()">${done ? 'Close' : 'Submit'}</button>
+        <button type="button" if.bind="!done" class="btn btn-info" click.trigger="cancel()">Cancel</button>
     </ux-dialog-footer>
 </ux-dialog>

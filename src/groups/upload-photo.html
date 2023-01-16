@@ -31,14 +31,14 @@
         </div>
         <div if.bind="phase=='photo-uploaded' && ! status_record.map_visible"
             class="picture ${photo_list.length > 0 ? 'photos-ready' : 'photos-not-ready'}">
-            <a click.delegate="openDialog()">
+            <a click.trigger="openDialog()">
                 <img src.bind="status_record.photo_url" height.bind="photo_height" id="uploaded-photo" />
             </a>
         </div>
         <div show.bind="status_record.map_visible">
             <google-map longitude.two-way="status_record.photo_info.longitude"
                 latitude.two-way="status_record.photo_info.latitude" zoom.bind="status_record.photo_info.zoom"
-                map-click.delegate="create_marker($event)" bounds-change.delegate="bounds_changed($event)"
+                map-click.trigger="create_marker($event)" bounds-change.delegate="bounds_changed($event)"
                 markers.bind="markers" auto-update-bounds="true" style="height:720px;">
             </google-map>
         </div>
@@ -53,7 +53,7 @@
     <div class="gallery-area">
         <p innerhtml.bind="explain_gallery"></p>
         <button class="btn btn-primary btn-block" disabled="${status_record.user_id < 1 ? 'disabled' : ''}"
-            click.delegate="view_gallery()">
+            click.trigger="view_gallery()">
             ${"groups.view-gallery" & t}
         </button>
     </div>

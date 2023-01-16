@@ -16,10 +16,10 @@
             </form>
             <ul style="height:170px;overflow:auto;margin-top:5px;width:420px;margin-right:-20px;">
                 <li repeat.for="message of message_list | filter : filter : 'name'">
-                    <button click.delegate="select_message(message)" class="btn btn-default ${message.done}" style="width:300px;text-align:right;" disabled.bind="dirty ? 'disabled' : ''">
+                    <button click.trigger="select_message(message)" class="btn btn-default ${message.done}" style="width:300px;text-align:right;" disabled.bind="dirty ? 'disabled' : ''">
                         ${message.name}
                     </button>
-                    <button class="btn btn-success" style="width:36px;height:32px;" click.delegate="accept_system(message)" 
+                    <button class="btn btn-success" style="width:36px;height:32px;" click.trigger="accept_system(message)" 
                         aubs-popover="body.bind:explain_accept_system;position:left;"
                         title.bind="explain_accept_system"
                         disabled.bind="message.done || dirty ? 'disabled' : '' ">

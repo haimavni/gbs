@@ -24,7 +24,7 @@
     <ux-dialog-footer>
         <button type="button" class="btn btn-primary"
             disabled="${curr_contact.email && curr_contact.first_name &&   curr_contact.last_name ? '' : 'disabled'}"
-            click.delegate="save()">${'groups.save' & t}</button>
-        <button type="button" class="btn btn-info" click.delegate="cancel()">${'groups.cancel' & t}</button>
+            click.trigger="save()">${'groups.save' & t}</button>
+        <button type="button" class="btn btn-info" click.trigger="cancel()">${'groups.cancel' & t}</button>
     </ux-dialog-footer>
 </ux-dialog>

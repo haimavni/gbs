@@ -17,7 +17,7 @@
             </div>
             <div class="form-group" style="margin-left:0;margin-right:0;">
                 <div class="qpos-list">
-                    <button repeat.for="qp of qpositions" type="button" click.delegate="set_qposition(qp)"
+                    <button repeat.for="qp of qpositions" type="button" click.trigger="set_qposition(qp)"
                         class="qpos ${data.position == qp ? 'active' : ''}">
                         <i class="fa fa-xs fa-square ${qp}"></i>
                     </button>
@@ -26,9 +26,9 @@
         </form>
     </ux-dialog-body>
     <ux-dialog-footer>
-        <button type="button" class="btn btn-primary ${disabled_if}" click.delegate="save()">${'photos.save' &
+        <button type="button" class="btn btn-primary ${disabled_if}" click.trigger="save()">${'photos.save' &
             t}</button>
-        <button type="button" if.bind="!done" class="btn btn-info" click.delegate="cancel()">${'photos.cancel' &
+        <button type="button" if.bind="!done" class="btn btn-info" click.trigger="cancel()">${'photos.cancel' &
             t}</button>
     </ux-dialog-footer>
 </ux-dialog>

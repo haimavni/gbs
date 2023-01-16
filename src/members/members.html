@@ -57,19 +57,19 @@
                             q-change.delegate="questions_changed($event)">
                         </quiz>
                         <button class="btn btn-default" if.bind="user.debugging || user.privileges.DEVELOPER"
-                            style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-left:4px;"                            click.delegate="open_query_editor()">
+                            style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-left:4px;"                            click.trigger="open_query_editor()">
                             Select members by query
                         </button>
-                        <button if.bind="changes_pending" class="btn btn-primary btn-lg" click.delegate="apply_changes()" 
+                        <button if.bind="changes_pending" class="btn btn-primary btn-lg" click.trigger="apply_changes()" 
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray">
                             ${'members.apply-answers' & t}
                         </button>
                         <button if.bind="user.privileges.ADMIN && user.editing && theme.is_desktop"
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray"
-                            class="btn btn-basic btn-lg" click.delegate="check_duplicates()">
+                            class="btn btn-basic btn-lg" click.trigger="check_duplicates()">
                             ${'members.check-duplicates' & t}
                         </button>
-                        <button if.bind="show_objects_button" class="btn btn-primary btn-lg" click.delegate="goto_articles()" 
+                        <button if.bind="show_objects_button" class="btn btn-primary btn-lg" click.trigger="goto_articles()" 
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;">
                             ${'articles.articles' & t}
                         </button>
@@ -88,7 +88,7 @@
                         class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${not_ready(member) ? 'not_ready' : ''} ${member.selected}"
                         css="width:${photo_size+20};height:${photo-size+22};"
                         dir="rtl">
-                        <a click.delegate="member_clicked(member, $event, $index)" tapandhold="500"
+                        <a click.trigger="member_clicked(member, $event, $index)" tapandhold="500"
                             longtouch.delegate="toggle_selection(member, $event)" disabled.bind="not_ready(member)"
                             style="color:black;cursor:pointer;">
                             <img src.bind="member.facePhotoURL"

@@ -12,10 +12,10 @@
                 </div>
                 <div style="cursor:pointer;margin-left:16px;">
                     <i class="fas fa-trash" if.bind="user.privileges.CHAT_MODERATOR"
-                        click.delegate="delete_chatroom()"></i>
+                        click.trigger="delete_chatroom()"></i>
                     <i class="fas fa-pencil" if.bind="user.privileges.CHAT_MODERATOR && ! editing"
-                        click.delegate="edit_chatroom_name()"></i>
-                    <i class="fas fa-save" if.bind="editing" click.delegate="save_chatroom_name()"></i>
+                        click.trigger="edit_chatroom_name()"></i>
+                    <i class="fas fa-save" if.bind="editing" click.trigger="save_chatroom_name()"></i>
                 </div>
             </div>
             <div if.bind="messages.length > 5">
@@ -37,8 +37,8 @@
                         <span style="font-weight:bold;display:flex;justify-content:space-between;">${msg.timestamp}: ${msg.sender_name}
                             <span if.bind="user.privileges.CHAT_MODERATOR"
                                 style="margin-left:10px;cursor:pointer;">
-                                <i class="fa fa-trash" click.delegate="delete_message(msg, $index)"></i>
-                                <i class="fas fa-pencil" click.delegate="edit_message(msg, $index)"></i>
+                                <i class="fa fa-trash" click.trigger="delete_message(msg, $index)"></i>
+                                <i class="fas fa-pencil" click.trigger="edit_message(msg, $index)"></i>
                             </span>
                         </span>
                         <span if.bind="msg.id != edited_message_id" innerhtml.bind="msg.message"></span>

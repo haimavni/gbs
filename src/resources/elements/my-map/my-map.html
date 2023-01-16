@@ -13,7 +13,7 @@
             longitude.two-way="longitude"
             latitude.two-way="latitude"
             map-loaded.call="map_loaded(map, $event)"
-            map-click.delegate="create_marker($event)"
+            map-click.trigger="create_marker($event)"
             bounds-change.delegate="bounds_changed($event)"
             markers.bind="markers"
             zoom.bind="zoom"

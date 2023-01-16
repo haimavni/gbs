@@ -108,7 +108,7 @@
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
             <li style="border-bottom:solid 1px gray;">
                 <a class="resp-sharing-button__link"
-                   click.delegate="share_on_facebook()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
+                   click.trigger="share_on_facebook()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
                 </a>
             </li>
             <li style="border-bottom:solid 1px gray;">
@@ -130,13 +130,13 @@
                 </a>
             </li>
             <li style="border-bottom:solid 1px gray;">
-                <a class="resp-sharing-button__link" href="#" click.delegate="notify_link_copied()"
+                <a class="resp-sharing-button__link" href="#" click.trigger="notify_link_copied()"
                     disabled="${current_url ? '' : 'disabled'}">
                     <i class="far fa-link"></i>&nbsp;&nbsp;Copy link
                 </a>
             </li>
             <li>
-                <a class="resp-sharing-button__link" href=""#" click.delegate="create_qrcode()">
+                <a class="resp-sharing-button__link" href=""#" click.trigger="create_qrcode()">
                     <i class="far fa-qrcode"></i>&nbsp;&nbsp;Create QR code
                 </a>
             </li>

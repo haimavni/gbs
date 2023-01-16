@@ -67,7 +67,7 @@
                         <h4>${'photos.candidates' & t}</h4>
                         <ul class="list-group">
                             <li class="list-group-item" repeat.for="candidate of candidates">
-                                <a click.delegate="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
+                                <a click.trigger="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
                                     <img src.bind="candidate.facePhotoURL" />
                                     <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.full_name}
                                     </h6>
@@ -80,7 +80,7 @@
                         <h4>${'photos.article-candidates' & t}</h4>
                         <ul class="list-group">
                             <li class="list-group-item" repeat.for="candidate of article_candidates">
-                                <a click.delegate="accept_article_candidate(candidate.id, $index)"
+                                <a click.trigger="accept_article_candidate(candidate.id, $index)"
                                     style="cursor:pointer;">
                                     <img src.bind="candidate.facePhotoURL" />
                                     <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.name}</h6>
@@ -127,7 +127,7 @@
                     style="background-color:#eee;height:500px;width:94%;margin-right:8px;margin-top:12px;">
                     <div style="display:flex;justify-content:space-between;" if.bind="book_id">
                         <button class="btn btn-basic"
-                               click.delegate="remove_story_from_book()"
+                               click.trigger="remove_story_from_book()"
                                title="${'stories.remove-story-from-book' & t}"
                                if.bind="user.privileges.ADMIN">
                             <i class="fa fa-cut" style="color:orange;"></i>
@@ -168,7 +168,7 @@
                     </div>
                     <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
                         <button if.bind="undo_list.length > 0" class="btn btn-warning" style="width:90%;"
-                            click.delegate="undo()">
+                            click.trigger="undo()">
                             <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
                         </button>
                     </div>

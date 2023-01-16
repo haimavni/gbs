@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <button
                                 class="btn btn-success"
-                                click.delegate="save_app_title()"
+                                click.trigger="save_app_title()"
                             >
                                 <i class="fas fa-save"></i>
                             </button>
@@ -60,7 +60,7 @@
                     </button>
                     <button
                         class="btn btn-success"
-                        click.delegate="save_app_description()"
+                        click.trigger="save_app_description()"
                         disabled.bind="dirty ? '' : 'disabled'"
                     >
                         <i class="fas fa-save"></i>
@@ -106,7 +106,7 @@
                         repeat.for="uf of auto_reg_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${uf==auto_reg_option ? 'primary' : 'default'} customization"
-                        click.delegate="auto_reg_option_selected(uf)"
+                        click.trigger="auto_reg_option_selected(uf)"
                     >
                         <span style="font-weight: bolder">${uf & t}</span>
                     </button>
@@ -116,7 +116,7 @@
                         repeat.for="na of new_app_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${na==new_app_option ? 'primary' : 'default'} customization"
-                        click.delegate="new_app_option_selected(na)"
+                        click.trigger="new_app_option_selected(na)"
                     >
                         <span style="font-weight: bolder">${na & t}</span>
                     </button>
@@ -126,7 +126,7 @@
                         repeat.for="aud of audio_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${aud==audio_option ? 'primary' : 'default'} customization"
-                        click.delegate="audio_option_selected(aud)"
+                        click.trigger="audio_option_selected(aud)"
                     >
                         <span style="font-weight: bolder">${aud & t}</span>
                     </button>
@@ -136,7 +136,7 @@
                         repeat.for="trm of terms_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${trm==terms_option ? 'primary' : 'default'} customization"
-                        click.delegate="terms_option_selected(trm)"
+                        click.trigger="terms_option_selected(trm)"
                     >
                         <span style="font-weight: bolder">${trm & t}</span>
                     </button>
@@ -146,7 +146,7 @@
                         repeat.for="feed of feedback_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${feed==feedback_option ? 'primary' : 'default'} customization"
-                        click.delegate="feedback_option_selected(feed)"
+                        click.trigger="feedback_option_selected(feed)"
                     >
                         <span style="font-weight: bolder">${feed & t}</span>
                     </button>
@@ -156,7 +156,7 @@
                         repeat.for="excl of exclusive_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${excl==exclusive_option ? 'primary' : 'default'} customization"
-                        click.delegate="exclusive_option_selected(excl)"
+                        click.trigger="exclusive_option_selected(excl)"
                     >
                         <span style="font-weight: bolder">${excl & t}</span>
                     </button>
@@ -166,7 +166,7 @@
                         repeat.for="qu of quick_upload_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${qu==quick_upload_button ? 'primary' : 'default'} customization"
-                        click.delegate="quick_upload_option_selected(qu)"
+                        click.trigger="quick_upload_option_selected(qu)"
                     >
                         <span style="font-weight: bolder">${qu & t}</span>
                     </button>
@@ -176,7 +176,7 @@
                         repeat.for="vt of version_time_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${vt==version_time_option ? 'primary' : 'default'} customization"
-                        click.delegate="version_time_option_selected(vt)"
+                        click.trigger="version_time_option_selected(vt)"
                     >
                         <span style="font-weight: bolder">${vt & t}</span>
                     </button>
@@ -186,7 +186,7 @@
                         repeat.for="edo of expose_developer_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${edo==expose_developer_option ? 'primary' : 'default'} customization"
-                        click.delegate="expose_developer_option_selected(edo)"
+                        click.trigger="expose_developer_option_selected(edo)"
                     >
                         <span style="font-weight: bolder">${edo & t}</span>
                     </button>
@@ -196,7 +196,7 @@
                         repeat.for="aro of enable_articles_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${aro==enable_articles_option ? 'primary' : 'default'} customization"
-                        click.delegate="enable_articles_option_selected(aro)"
+                        click.trigger="enable_articles_option_selected(aro)"
                     >
                         <span style="font-weight: bolder">${aro & t}</span>
                     </button>
@@ -206,7 +206,7 @@
                         repeat.for="eb of enable_books_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${eb==enable_books_option ? 'primary' : 'default'} customization"
-                        click.delegate="enable_books_option_selected(eb)"
+                        click.trigger="enable_books_option_selected(eb)"
                     >
                         <span style="font-weight: bolder">${eb & t}</span>
                     </button>
@@ -216,7 +216,7 @@
                         repeat.for="mod of enable_member_of_the_day_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${mod==enable_member_of_the_day_option ? 'primary' : 'default'} customization"
-                        click.delegate="enable_member_of_the_day_option_selected(mod)"
+                        click.trigger="enable_member_of_the_day_option_selected(mod)"
                     >
                         <span style="font-weight: bolder">${mod & t}</span>
                     </button>
@@ -229,7 +229,7 @@
                         repeat.for="ec of enable_cuepoints_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${ec==enable_cuepoints_option ? 'primary' : 'default'} customization"
-                        click.delegate="enable_cuepoints_option_selected(ec)"
+                        click.trigger="enable_cuepoints_option_selected(ec)"
                     >
                         <span style="font-weight: bolder">${ec & t}</span>
                     </button>
@@ -239,7 +239,7 @@
                         repeat.for="ap of allow_publishing_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${ap==allow_publishing_option ? 'primary' : 'default'} customization"
-                        click.delegate="allow_publishing_option_selected(ap)"
+                        click.trigger="allow_publishing_option_selected(ap)"
                     >
                         <span style="font-weight: bolder">${ap & t}</span>
                     </button>
@@ -249,7 +249,7 @@
                         repeat.for="eg of expose_gallery_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${eg==expose_gallery_option ? 'primary' : 'default'} customization"
-                        click.delegate="expose_gallery_option_selected(eg)"
+                        click.trigger="expose_gallery_option_selected(eg)"
                     >
                         <span style="font-weight: bolder">${eg & t}</span>
                     </button>
@@ -259,7 +259,7 @@
                         repeat.for="sbt of short_bio_title_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${sbt==short_bio_title_option ? 'primary' : 'default'} customization"
-                        click.delegate="short_bio_title_option_selected(sbt)"
+                        click.trigger="short_bio_title_option_selected(sbt)"
                     >
                         <span style="font-weight: bolder">${sbt & t}</span>
                     </button>
@@ -269,7 +269,7 @@
                         repeat.for="aim of articles_in_menu_options"
                         style="margin-left: 8px; width: 200px"
                         class="btn btn-${aim==articles_in_menu_option ? 'primary' : 'default'} customization"
-                        click.delegate="articles_in_menu_option_selected(aim)"
+                        click.trigger="articles_in_menu_option_selected(aim)"
                     >
                         <span style="font-weight: bolder">${aim & t}</span>
                     </button>
@@ -293,7 +293,7 @@
                     <label style="margin-left: 8px; width: 200px">
                         ${'admin.cover-photo' & t}
                     </label>
-                    <a click.delegate="set_cover_photo($event)">
+                    <a click.trigger="set_cover_photo($event)">
                         <img
                             if.bind="cover_photo"
                             src.bind="cover_photo"
@@ -310,7 +310,7 @@
         </div>
     </ux-dialog-body>
     <!-- <ux-dialog-footer>
-        <button type="button" class="btn btn-primary" click.delegate="save()">${'members.save' & t}</button>
-        <button type="button" class="btn btn-info" click.delegate="cancel()">${'members.cancel' & t}</button>
+        <button type="button" class="btn btn-primary" click.trigger="save()">${'members.save' & t}</button>
+        <button type="button" class="btn btn-info" click.trigger="cancel()">${'members.cancel' & t}</button>
     </ux-dialog-footer-->
 </ux-dialog>

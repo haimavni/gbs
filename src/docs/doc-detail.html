@@ -21,13 +21,13 @@
             <div style="margin-left:0;width:572px;height:360px;position:relative">
                 <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
                 style="width:40px;position:absolute;left:80px;top:20px;background-color:rgba(0,0,0,0);border:0;color:white;"
-                click.delegate="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
+                click.trigger="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
                 <iframe if.bind="doc_src" src.bind="doc_src" width="100%" height="100%" allow="fullscreen" id="doc-frame"></iframe>
             </div>
             <button if.bind="user.editing"
                     class="btn btn-primary btn-framed"
                     style="margin-top:8px;font-size:108%;"
-                    click.delegate="select_doc_members()">
+                    click.trigger="select_doc_members()">
                 <i style="cursor:pointer"
                    class="fa fa-users"
                    title="${'docs.members-in' & t}">
@@ -115,7 +115,7 @@
                             </div> -->
                             <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
                                 <button if.bind="undo_list.length > 0" class="btn btn-warning" style="width:90%;"
-                                    click.delegate="undo()">
+                                    click.trigger="undo()">
                                     <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
                                 </button>
                             </div>

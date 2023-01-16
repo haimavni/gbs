@@ -12,7 +12,7 @@ export class MyMapCustomElement {
     @bindable marked = false;
     @bindable ignore = false;
     back;
-    tracked_zoom: number = 0;
+    tracked_zoom = 0;
     longitude_distance = 0;
     markers = [];
     google_maps: any;

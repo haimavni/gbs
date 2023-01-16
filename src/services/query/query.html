@@ -17,7 +17,7 @@
                             <li repeat.for="field of field_list" show.bind="field.description.includes(filter)"
                                 style="cursor:pointer;"
                                 class.bind="field.cls"}
-                                click.delegate="set_current_field(field)">
+                                click.trigger="set_current_field(field)">
                                 <span>
                                     ${field.description}
                                 </span>
@@ -34,8 +34,8 @@
             </div>
         </ux-dialog-body>
         <ux-dialog-footer>
-            <button type="button" class="btn btn-primary ${disabled_if}" click.delegate="apply_query()">Submit</button>
-            <button type="button" if.bind="!done" class="btn btn-info" click.delegate="cancel()">Cancel</button>
+            <button type="button" class="btn btn-primary ${disabled_if}" click.trigger="apply_query()">Submit</button>
+            <button type="button" if.bind="!done" class="btn btn-info" click.trigger="cancel()">Cancel</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>
