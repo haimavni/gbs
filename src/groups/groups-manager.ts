@@ -187,12 +187,18 @@ export class GroupManager {
 
     mail_contacts() {
         if (!this.params.mail_body) return;
-        let mail_body = this.params.mail_body;
+        let mail_body: string = this.params.mail_body;
         if (this.theme.rtltr == 'rtl') {
             mail_body = '<div dir="rtl">' + mail_body + '</div>';
         }
+        const personal = Boolean(mail_body.includes("[#"))
         //mail_body = encodeURI(mail_body);
-        this.api.call_server_post('groups/mail_contacts', { group_id: this.curr_group_id, mail_body: mail_body, from_name: this.curr_group.title })
+        this.api.call_server_post('groups/mail_contacts', { 
+            group_id: this.curr_group_id, 
+            mail_body: mail_body, 
+            from_name: this.curr_group.title,
+            personal: personal
+         })
             .then(response => {
                 this.mail_sent = true;
                 this.curr_group_id = 0;
