@@ -754,6 +754,13 @@
         "select-cover-photo2": "הקלק על אייקון השלשלת ואז חזור לכאן.",
         "about-lifestone": "אודות Lifestone"
     },
+    "screen": {
+        "low-screen": "שפר את חווית הצפייה שלך",
+        "explain": "כדי להמנע מגלילה, עבור למסך מלא (F11)",
+        "explain1": "לחיצה על קונטרול ומינוס מקטינה את האותיות",
+        "got-it": "הבנתי",
+        "dont-show-again": "אל תציג שוב"
+    },
     "go-back": "חזור",
     "parents": "הורים",
     "grand-parents": "סבים/סבתות",

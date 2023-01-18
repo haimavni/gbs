@@ -4,6 +4,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {Theme} from './services/theme';
 import {MemberGateway} from './services/gateway';
 import {User} from './services/user';
+import {Cookies} from './services/cookies';
 import {Misc} from './services/misc';
 import {WatchVersion} from './services/watch_version';
 import {DialogService} from 'aurelia-dialog';
@@ -13,6 +14,7 @@ import {AddCustomer} from './admin/add_customer';
 import {Redirect} from 'aurelia-router';
 import { MemberList } from './services/member_list';
 import { SelectSearch } from './services/select-search';
+import { NotifyLowScreen } from './services/notify-low-screen';
 
 @autoinject
 export class App {
@@ -31,7 +33,8 @@ export class App {
     clear_keywords_timeout = null;
     search_timeout = null;
     search_history = [];
-    misc;
+    misc: Misc;
+    cookies: Cookies;
     member_list: MemberList;
     
     constructor(
@@ -42,6 +45,7 @@ export class App {
         dialog: DialogService, 
         ea: EventAggregator, 
         misc: Misc, 
+        cookies: Cookies,
         member_list: MemberList) {
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
@@ -52,6 +56,7 @@ export class App {
         this.dialog = dialog;
         this.ea = ea;
         this.misc = misc;
+        this.cookies = cookies;
         this.member_list = member_list;
         this.ea.subscribe('GOTO-PHOTO-PAGE', payload => {
             this.router.navigateToRoute('photos', payload);
@@ -59,11 +64,15 @@ export class App {
     }
 
     attached() {
+        if (this.cookies.get('NO-SCREEN-ALERT')) return;
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit('APP');
         if (environment.push_state)
             console.log("app attached");
-        //this.user.get_app_list();
+        const screen_height = document.documentElement.clientHeight;
+        if (screen_height < 900) {
+            this.dialog.open({viewModel: NotifyLowScreen, lock: false});
+        }
     }
 
     bind() {

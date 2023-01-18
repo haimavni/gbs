@@ -239,7 +239,7 @@ export class Photos {
     get user_editing() {
         if (this.user.editing_mode_changed) {
             this.update_topic_list();
-            if (this.user.editing && this.user.privileges.RESTRICTED) {
+            if (this.user.privileges.RESTRICTED) {
                 this.update_photo_list();
             }
         }
