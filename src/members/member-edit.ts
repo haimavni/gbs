@@ -180,6 +180,33 @@ export class MemberEdit {
         });
     }
 
+    find_spouse(event) {
+        this.dialog.open({
+            viewModel: MemberPicker, model: { 
+                gender: this.spouse_gender(),
+                child_name: this.member.member_info.full_name, 
+                child_id: this.member.member_info.id }, 
+                lock: false,
+                position: this.setup, 
+                rejectOnCancel: true
+        }).whenClosed(response => {
+            // let which_parent = parent_gender == 'M' ? 'father' : 'mother';
+            // if (parent_num == 2) which_parent += '2'
+            // const key = which_parent + '_id'
+            // this.member.member_info[key] = response.output.member_id;
+            // if (response.output.new_member) {
+            //     let new_member = {
+            //         gender: parent_gender, 
+            //         id: this.member.member_info[key], 
+            //         name: response.output.new_member.name, 
+            //         facePhotoURL: response.output.new_member.face_url};
+            //     this.memberList.add_member(new_member);
+            // }
+            // let parent = this.get_member_data(this.member.member_info[key]);
+            // this.eventAggregator.publish('ParentFound', {parent: parent, parent_num: parent_num});
+        });
+    }
+
 
     remove_parent(parent_gender, parent_num) {
         let who = parent_gender == 'M' ? 'pa' : 'ma';
@@ -213,6 +240,20 @@ export class MemberEdit {
     
     set_family_type(ft) {
         this.family_type = ft;
+    }
+
+    spouse_gender() {
+        if (this.family_type == "ff") return "F";
+        if (this.family_type == "mm") return "M";
+        if (this.member.member_info.gender == "F") return "M";
+        return "F";
+    }
+
+    @computedFrom('family_type', 'member.member_info.gender')
+    get spouse_label() {
+        const gender = this.spouse_gender();
+        if (gender == "M") return "husband";
+        return "wife";
     }
 
 }

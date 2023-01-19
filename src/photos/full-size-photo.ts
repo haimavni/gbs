@@ -85,7 +85,6 @@ export class FullSizePhoto {
     image_width = 0;
     keypress_handler;
     popup: Popup;
-    hide_details_icon = false;
     topic_names;
 
     constructor(dialogController: DialogController,
@@ -141,7 +140,6 @@ export class FullSizePhoto {
         this.topic_names = model.topic_names;
         this.baseURL = environment.baseURL;
         document.addEventListener('keyup', this.keypress_handler);
-        this.hide_details_icon = this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;
     }
 
     deactivate() {
@@ -963,6 +961,11 @@ export class FullSizePhoto {
         if (this.photo_date_valid != 'valid')
             return "disabled"
         return ''
+    }
+
+    @computedFrom('user.editing')
+    get hide_details_icon() {
+        return this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;
     }
 
     image_loaded() {

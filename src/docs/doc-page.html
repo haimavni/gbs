@@ -1,10 +1,12 @@
 <template>
     <div class="doc-page"
          click.delegate="close_doc()">
-        <i class="far fa-times-circle"> </i>
+        <i class="far fa-times-circle"></i>
         ${'docs.click-to-close' & t}
+        <!-- <i class="fas fa-expand" click.trigger="go_full_screen($event)"></i> -->
     </div>
     <div id="doc-area"
+        click.trigger="go_full_page()"
         interact-draggable.bind="theme.interact_setting"
         interact-dragmove.delegate="drag_move_doc($event)" >
         <span if.bind="! theme.is_desktop">${'docs.drag-left-and-right' & t}</span>

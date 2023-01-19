@@ -122,17 +122,18 @@ div.family-buttons {
     flex-direction:row;
     margin-right:-15px;
     button {
-        width: 60px;
+        width: 40px;
+        padding-right:4px;
         height:32px;
         border-radius: 5px;
         font-size: 12px;
         padding-top:2px;
         font-size:16px;
         &.family-type {
-            width: 30px;
+            width: 28px;
             padding: 0px;
             padding-top:2px;
-            margin-right:8px;
+            margin-right:4px;
         }
     }
 }

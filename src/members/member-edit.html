@@ -41,7 +41,13 @@
                         style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
                         click.trigger="find_parent($event, 'F', 2)">${'members.mother' & t}
                     </button>
-                <!-- </div> -->
+                </div>
+                <div>
+                    <button  
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;width:100%;padding-left:2px;padding-right:2px;a" 
+                        click.trigger="find_spouse($event)">${spouse_label & t}
+                    </button>
                 </div>
                 <div style="padding-right:0px;margin-right:24px;align-self:flex-end;">
                     <button
