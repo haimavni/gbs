@@ -85,13 +85,26 @@
                         <button type="button" tabindex="-1" class="btn btn-default ${dirty_story || dirty_info ? 'disabled' : ''}" click.trigger="prev_member()">
                             <i class="fa fa-large fa-chevron-right" ></i>
                         </button>
-                        <button type="button" class="btn btn-default ${member.member_info.gender ? '' : 'btn-danger'}" href click.trigger="toggle_gender()"
+                        <!-- <button type="button" class="btn btn-default ${member.member_info.gender ? '' : 'btn-danger'}" href 
+                            click.trigger="toggle_gender()"
                             t="[title]members.gender">
                             <i class="fa fa-male fa-small" if.bind="member.member_info.gender=='M' || !member.member_info.gender"></i>
                             <i class="fa fa-female fa-small" if.bind="member.member_info.gender=='F'"></i>
+                        </button> -->
+                        <button type="button" class="btn ${gender_class_f} female" href 
+                            click.trigger="set_gender('F')"
+                            style="margin-left:8px;"
+                            t="[title]members.gender">
+                            <i class="fa fa-female fa-small"></i>
+                        </button>
+                        <button type="button" class="btn ${gender_class_m} male" href 
+                            click.trigger="set_gender('M')"
+                            t="[title]members.gender">
+                            <i class="fa fa-male fa-small"></i>
                         </button>
                         <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button" type="button" class="btn btn-default"
                             disabled.bind="incomplete"
+                            style="margin-left:8px;"
                             click.trigger="save_edited_data()" t="[title]members.save">
                             <i class="fa  fa-large fa-save"></i>
                         </button>

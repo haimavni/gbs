@@ -134,6 +134,26 @@ export class MemberEdit {
         }
     }
 
+    gender_class(gender) {
+        if (this.member.member_info.gender == gender) return "btn-primary";
+        if (!this.member.member_info.gender) return "mandatory-missing";
+        return "btn-default";
+    }
+
+    @computedFrom('member.member_info.gender')
+    get gender_class_f() {
+        return this.gender_class("F");
+    }
+
+    @computedFrom('member.member_info.gender')
+    get gender_class_m() {
+        return this.gender_class("M");
+    }
+
+    set_gender(gender) {
+        this.member.member_info.gender = gender;
+    }
+
     trim_first_name() {
         let old = this.member.member_info.first_name;
         this.member.member_info.first_name = this.member.member_info.first_name.trim();
@@ -233,6 +253,7 @@ export class MemberEdit {
         if (!this.member.member_info.visibility) return '';
         if (this.date_of_birth_valid != 'valid' || this.date_of_death_valid != 'valid' || (this.member.member_info.gender != "F" && this.member.member_info.gender != "M") || ! this.member.member_info.first_name)
             return "disabled"
+        if (!this.member.member_info.gender) return "disabled";
         return ''
     }
 

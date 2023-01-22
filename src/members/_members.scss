@@ -455,6 +455,19 @@ div.mandatory-missing {
     border-radius: 5px;
 }
 
+button.mandatory-missing {
+    border-top: solid 1px red;
+    border-bottom: solid 1px red;
+    &.female {
+        border-left: solid 1px red;
+        border-right: solid 2px white;
+    }
+    &.male {
+        border-right: solid 1px red;
+        border-left: solid 2px white;
+    }
+}
+
 ux-dialog.config-member-stories {
     height:100%;
     background-color:lightgray;
