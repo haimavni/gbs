@@ -12,6 +12,7 @@ export class MemberPicker {
 
     filter = "";
     gender = "";
+    what = "";
     face_identifier = false;
     face;
     user;
@@ -50,13 +51,16 @@ export class MemberPicker {
     }
 
     prepare_lists() {
-        return this.memberList.getMemberList().then(members => {
-            //let parents = members.member_list.slice();
-            let parents = this.memberList.get_members().slice();
+        return this.memberList.getMemberList().then(mem_list => {
+            //let members = members.member_list.slice();
+            let members = this.memberList.get_members().slice();
             if (this.gender) {
-                parents = parents.filter(member => member.gender == this.gender);
+                members = members.filter(member => member.gender == this.gender);
             }
-            this.members = parents;
+            if (this.excluded) {
+                members = members.filter(member => ! this.excluded.has(member.id))
+            }
+            this.members = members;
             if (this.candidates) {
                 this.reorder_members_candidates_first();
             }
@@ -68,6 +72,7 @@ export class MemberPicker {
         this.candidates = model.candidates ? model.candidates : [];
         this.child_id = model.child_id;
         this.gender = model.gender;
+        this.what = model.what || "";
         this.child_name = model.child_name;  //the child for whom we select parent
         this.face_identifier = model.face_identifier;
         this.face = model.current_face;
@@ -145,7 +150,7 @@ export class MemberPicker {
         let member_ids = [];
         await this.api.call_server('members/member_by_name', { name: this.filter.trim() })
             .then(response => { member_ids = response.member_ids });
-        if (this.gender) {
+        if (this.what == "parent") {
             let parent_of = (this.gender == 'M') ? this.i18n.tr('members.pa-of') : this.i18n.tr('members.ma-of');
             this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name, child_id: this.child_id, parent_of: parent_of })
                 .then(response => {

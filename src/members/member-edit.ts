@@ -69,7 +69,8 @@ export class MemberEdit {
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name',
         'member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.NickName', 'member.member_info.mother_id', 'member.member_info.father_id',
         'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 'member.member_info.cause_of_death',
-        'member.member_info.gender', 'member.story_info.life_story', 'member.member_info.visibility', 'member.member_info.approved', 'member.member_info.title')
+        'member.member_info.gender', 'member.story_info.life_story', 'member.member_info.visibility', 'member.member_info.approved', 'member.member_info.title',
+        'member.member_info.spouse_id')
     get dirty_info() {
         let dirty = JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
         this.eventAggregator.publish('DirtyInfo', dirty);
@@ -156,7 +157,8 @@ export class MemberEdit {
             return this.remove_parent(parent_gender, parent_num)
         this.dialog.open({
             viewModel: MemberPicker, model: { 
-                gender: parent_gender, 
+                gender: parent_gender,
+                what: "parent",
                 child_name: this.member.member_info.full_name, 
                 child_id: this.member.member_info.id }, 
                 lock: false,
@@ -181,29 +183,28 @@ export class MemberEdit {
     }
 
     find_spouse(event) {
+        const spouses = this.member.family_connections.spouses.map(mem => mem.id);
+        const spouse_set = new Set(spouses);
+        spouse_set.add(this.member.member_info.id);
         this.dialog.open({
             viewModel: MemberPicker, model: { 
                 gender: this.spouse_gender(),
+                what: "spouse",
+                excluded: spouse_set,
                 child_name: this.member.member_info.full_name, 
                 child_id: this.member.member_info.id }, 
                 lock: false,
                 position: this.setup, 
                 rejectOnCancel: true
         }).whenClosed(response => {
-            // let which_parent = parent_gender == 'M' ? 'father' : 'mother';
-            // if (parent_num == 2) which_parent += '2'
-            // const key = which_parent + '_id'
-            // this.member.member_info[key] = response.output.member_id;
-            // if (response.output.new_member) {
-            //     let new_member = {
-            //         gender: parent_gender, 
-            //         id: this.member.member_info[key], 
-            //         name: response.output.new_member.name, 
-            //         facePhotoURL: response.output.new_member.face_url};
-            //     this.memberList.add_member(new_member);
-            // }
-            // let parent = this.get_member_data(this.member.member_info[key]);
-            // this.eventAggregator.publish('ParentFound', {parent: parent, parent_num: parent_num});
+            if (response.wasCancelled) return;
+            this.member.member_info.spouse_id = response.output.member_id;
+            let spouse;
+            this.memberList.get_member_by_id(this.member.member_info.spouse_id)
+            .then(spouse1 => {
+                spouse = spouse1;
+                this.eventAggregator.publish('SpouseFound', {spouse: spouse});
+            });
         });
     }
 
