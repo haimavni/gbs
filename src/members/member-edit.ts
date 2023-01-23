@@ -106,19 +106,22 @@ export class MemberEdit {
             return;
         }
         if (this.dirty_info) {
-            this.member.member_info.last_name = this.member.member_info.last_name.trim();
+            if (this.member.member_info.last_name)
+                this.member.member_info.last_name = this.member.member_info.last_name.trim();
             this.member.member_info.first_name = this.member.member_info.first_name.trim();
             data['member_info'] = this.member.member_info;
         } else {
             data['member_id'] = this.member.member_info.id;
         }
         let id = this.member.member_info.id;
+        const new_member = ! id;
         this.api.call_server_post('members/save_member_info', data)
             .then(response => {
                 this.member_info_orig = this.misc.deepClone(this.member.member_info);
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = this.misc.deepClone(this.member);
+                if (new_member) this.router.navigateToRoute('members');
             });
     }
 
