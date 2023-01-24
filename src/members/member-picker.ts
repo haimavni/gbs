@@ -28,6 +28,7 @@ export class MemberPicker {
     api;
     child_name;
     child_id;
+    spouse_id;
     member_id;
     i18n;
     agent = { size: 9999 };
@@ -71,6 +72,7 @@ export class MemberPicker {
     async activate(model) {
         this.candidates = model.candidates ? model.candidates : [];
         this.child_id = model.child_id;
+        this.spouse_id = model.spouse_id;
         this.gender = model.gender;
         this.what = model.what || "";
         this.child_name = model.child_name;  //the child for whom we select parent
@@ -150,7 +152,14 @@ export class MemberPicker {
         let member_ids = [];
         await this.api.call_server('members/member_by_name', { name: this.filter.trim() })
             .then(response => { member_ids = response.member_ids });
-        if (this.what == "parent") {
+        if (this.what == "spouse") {
+            this.api.call_server('members/create_spouse', { gender: this.gender, name: this.filter})
+                .then(response => {
+                    this.dialogController.ok({
+                        member_id: response.member_id, new_member: response.member
+                    });
+                })
+        } else if (this.what == "parent") {
             let parent_of = (this.gender == 'M') ? this.i18n.tr('members.pa-of') : this.i18n.tr('members.ma-of');
             this.api.call_server('members/create_parent', { gender: this.gender, child_name: this.child_name, child_id: this.child_id, parent_of: parent_of })
                 .then(response => {

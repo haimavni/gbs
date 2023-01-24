@@ -124,8 +124,8 @@ export class MemberDetail {
 
     @computedFrom('member')
     get member_info() {
-        if (this.member) return this.member.member_info
-        return {};
+        if (this.member) return this.member.member_info;
+        return {member_info: {}};
     }
 
     activate(params, config) {
