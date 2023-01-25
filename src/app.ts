@@ -70,7 +70,7 @@ export class App {
         if (environment.push_state)
             console.log("app attached");
         const screen_height = document.documentElement.clientHeight;
-        if (screen_height < 900) {
+        if (screen_height < 900 && this.theme.is_desktop) {
             this.dialog.open({viewModel: NotifyLowScreen, lock: false});
         }
     }
