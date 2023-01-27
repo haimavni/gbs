@@ -1,149 +1,147 @@
-<template>
-    <section class="container content-area" css="height: ${win_height-304}px;">
-        <div class="video-page row content-area">
-            <div class="row">
-                <div class="col-md-9" if.bind="! editing_filters">
-                    <div class="row" style="margin-bottom:15px;">
-                        <div class="col-md-12 ctrls-group">
-                            <button class="btn btn-basic btn-sm btn-framed"
-                                    if.bind="! theme.is_desktop"
-                                    click.trigger="show_filters_only()"
-                                    css="margin-${theme.other_dir}:6px;margin-${theme.same_dir}:-16px;">
-                                ${'videos.edit-filters' & t}
-                            </button>
-                            <div class="input-group" id="videos-name-search" style="margin:0px 3px;">
-                                <search-input value.bind="filter" placeholder="videos.filter"
-                                              height="30"></search-input>
-                            </div>
-                            <div if.bind="phase=='photos-ready-to-edit'" class="ctrl">
-                                <button click.trigger="new_video()" class="btn btn-success cl-create-btn"
-                                        style="height:32px;margin-right:4px;">
-                                    <i class="far fa-plus-square"></i>
-                                    ${'videos.new' & t}
-                                </button>
-                            </div>
-                            <div if.bind="phase=='videos-were-selected' && user.privileges.ADMIN"
-                                 class="ctrl">
-                                <button
-                                        class="btn btn-default btn-md"
-                                        click.trigger="promote_videos()">
-                                    ${'videos.promote-selected-videos' & t}
-                                </button>
-                            </div>
-                            <div if.bind="phase=='videos-were-selected' && user.privileges.ADMIN"
-                                 class="ctrl">
-                                <button
-                                        class="btn btn-warning btn-md"
-                                        click.trigger="delete_videos()">
-                                        <i class="fas fa-trash-alt" click.trigger="delete_video(video)"></i>
-                                    <!--span>${'videos.delete-selected-videos' & t}</span-->
-                                </button>
-                            </div>
-                            <div if.bind="phase=='videos-were-selected'" class="ctrl">
-                                <button
-                                        disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.videos_date_datestr == ''"
-                                        class="btn btn-default btn-md"
-                                        click.trigger="apply_to_selected()">
-                                    ${'videos.apply-to-selected' & t}
-                                </button>
-                                <help topic="apply-to-selected-photos" position="bottom"></help>
-                            </div>
-                            <div class="ctrl" if.bind="phase=='can-merge-topics'">
-                                <button
-                                        class="btn btn-default btn-md"
-                                        click.trigger="save_merges($event)">
-                                    ${'photos.save-merges' & t}
-                                </button>
-                                <help topic="photos.can-modify-tags" , position="bottom"></help>
-                            </div>
-                            <div if.bind="phase=='can-create-group'" class="form-group">
-                                <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
-                                    ${'photos.save-topic-group' & t}
-                                </button>
-                                <help topic="photos.can-create-group" , position="bottom"></help>
-                            </div>
-                            <div class="form-group" if.bind="user.editing" style="margin-top:0px;margin-bottom:0px;">
-                                <help topic="how-to-select-videos" position="bottom"></help>
-                            </div>
+<section class="container content-area" css="height: ${win_height-304}px;">
+    <div class="video-page row content-area">
+        <div class="row">
+            <div class="col-md-9" if.bind="! editing_filters">
+                <div class="row" style="margin-bottom:15px;">
+                    <div class="col-md-12 ctrls-group">
+                        <button class="btn btn-basic btn-sm btn-framed"
+                                if.bind="! theme.is_desktop"
+                                click.trigger="show_filters_only()"
+                                css="margin-${theme.other_dir}:6px;margin-${theme.same_dir}:-16px;">
+                            ${'videos.edit-filters' & t}
+                        </button>
+                        <div class="input-group" id="videos-name-search" style="margin:0px 3px;">
+                            <search-input value.bind="filter" placeholder="videos.filter"
+                                          height="30"></search-input>
                         </div>
-                    </div>
-                    <div style="display:flex;">
-                        <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
-                        </h3>
-                        <div class="video-panel ${empty ? 'empty-videos' : ''}" ref="scroll_area" id="scroll-area">
-                            <div repeat.for="video of video_list | filter: filter : '*selected' : 'name'"
-                                class="fr-video fr-fvc fr-draggable fr-dvi"
-                                contenteditable="false" draggable="true">
-                                <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;">
-                                    <img src.bind="video.thumbnail_url" width="257" click.trigger="view_video(video, $event)"/>
-                                    <span class="video-name" style="margin-top:-6px;">
-                                        <span>
-                                            <info title.bind="video_info_title(video)"
-                                                  content.bind="video_info_content(video)"></info>
-                                        </span>
-                                        <span if.bind="user.editing">
-                                            <i class="fa${video.selected ? 's' : 'r'} fa-circle"
-                                               click.trigger="toggle_selection(video, $event, $index)"></i>
-                                            <i class="fas fa-pencil" click.trigger="edit_video_info(video)"></i>
-                                        </span>
-                                        <span>
-                                            ${video.name}
-                                        </span>
-                                    </span>
-                                </div>
-                            </div>
+                        <div if.bind="phase=='photos-ready-to-edit'" class="ctrl">
+                            <button click.trigger="new_video()" class="btn btn-success cl-create-btn"
+                                    style="height:32px;margin-right:4px;">
+                                <i class="far fa-plus-square"></i>
+                                ${'videos.new' & t}
+                            </button>
+                        </div>
+                        <div if.bind="phase=='videos-were-selected' && user.privileges.ADMIN"
+                             class="ctrl">
+                            <button
+                                    class="btn btn-default btn-md"
+                                    click.trigger="promote_videos()">
+                                ${'videos.promote-selected-videos' & t}
+                            </button>
+                        </div>
+                        <div if.bind="phase=='videos-were-selected' && user.privileges.ADMIN"
+                             class="ctrl">
+                            <button
+                                    class="btn btn-warning btn-md"
+                                    click.trigger="delete_videos()">
+                                    <i class="fas fa-trash-alt" click.trigger="delete_video(video)"></i>
+                                <!--span>${'videos.delete-selected-videos' & t}</span-->
+                            </button>
+                        </div>
+                        <div if.bind="phase=='videos-were-selected'" class="ctrl">
+                            <button
+                                    disabled.bind="params.selected_topics.length==0 && params.selected_photographers.length != 1 && params.videos_date_datestr == ''"
+                                    class="btn btn-default btn-md"
+                                    click.trigger="apply_to_selected()">
+                                ${'videos.apply-to-selected' & t}
+                            </button>
+                            <help topic="apply-to-selected-photos" position="bottom"></help>
+                        </div>
+                        <div class="ctrl" if.bind="phase=='can-merge-topics'">
+                            <button
+                                    class="btn btn-default btn-md"
+                                    click.trigger="save_merges($event)">
+                                ${'photos.save-merges' & t}
+                            </button>
+                            <help topic="photos.can-modify-tags" , position="bottom"></help>
+                        </div>
+                        <div if.bind="phase=='can-create-group'" class="form-group">
+                            <button class="btn btn-basic btn-md" click.trigger="save_topic_group($event)">
+                                ${'photos.save-topic-group' & t}
+                            </button>
+                            <help topic="photos.can-create-group" , position="bottom"></help>
+                        </div>
+                        <div class="form-group" if.bind="user.editing" style="margin-top:0px;margin-bottom:0px;">
+                            <help topic="how-to-select-videos" position="bottom"></help>
                         </div>
                     </div>
                 </div>
-
-                <div id="video-filters" class="col-md-3" if.bind="theme.width > 1200 || editing_filters">
-                    <span show.bind="false">${user_editing}</span>
-                    <div class="row" style="margin-bottom:15px;position:relative;">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit" , id="video-help"
-                              position="bottom" class="${theme.rtltr}"></help>
-                        <help if.bind="user.advanced_user && phase=='photos-not-editing'" id="video-help"
-                              class="${theme.rtltr}" topic="tags"
-                              position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
-                        <help if.bind="(!user.advanced_user) && phase=='photos-not-editing'" id="video-help"
-                              class="${theme.rtltr}" topic="tags-simple"
-                              position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
-                        <multi-select options.bind="topic_list"
-                                      category="topic"
-                                      selected_options.bind="params.selected_topics"
-                                      settings.bind="options_settings"
-                                      first_time.bind="no_topics_yet"
-                                      has_groups.bind="has_grouped_topics"
-                                      option_groups.bind="topic_groups"
-                                      name="topics"
-                                      highlight_unselectors.bind="highlight_unselectors"
-                                      new-name.delegate="add_topic($event)"
-                                      remove-option.delegate="remove_topic($event)"
-                                      name-changed.delegate="topic_name_changed($event)"
-                                      place_holder_text="photos.click-topic"
-                                      clear_selections_now.bind="clear_selected_topics_now"
-                                      ms-change.delegate="handle_topic_change($event) ">
-                        </multi-select>
-                    </div>
-                    <div class="row">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'videos.photographers' & t}
+                <div style="display:flex;">
+                    <h3 if.bind="empty" innerhtml.bind="'no-results' & t">
+                    </h3>
+                    <div class="video-panel ${empty ? 'empty-videos' : ''}" ref="scroll_area" id="scroll-area">
+                        <div repeat.for="video of video_list | filter: filter : '*selected' : 'name'"
+                            class="fr-video fr-fvc fr-draggable fr-dvi"
+                            contenteditable="false" draggable="true">
+                            <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;">
+                                <img src.bind="video.thumbnail_url" width="257" click.trigger="view_video(video, $event)"/>
+                                <span class="video-name" style="margin-top:-6px;">
+                                    <span>
+                                        <info title.bind="video_info_title(video)"
+                                              content.bind="video_info_content(video)"></info>
+                                    </span>
+                                    <span if.bind="user.editing">
+                                        <i class="fa${video.selected ? 's' : 'r'} fa-circle"
+                                           click.trigger="toggle_selection(video, $event, $index)"></i>
+                                        <i class="fas fa-pencil" click.trigger="edit_video_info(video)"></i>
+                                    </span>
+                                    <span>
+                                        ${video.name}
+                                    </span>
+                                </span>
+                            </div>
                         </div>
-                        <multi-select options.bind="photographer_list"
-                                      topic.bind="photographer"
-                                      place_holder_text="photos.click-photographer"
-                                      selected_options.bind="params.selected_photographers"
-                                      first_time.bind="no_photographers_yet"
-                                      settings.bind="photographers_settings"
-                                      has_groups.bind="has_grouped_photographers"
-                                      new-name.delegate="add_photographer($event)"
-                                      remove-option.delegate="remove_photographer($event)"
-                                      name-changed.delegate="photographer_name_changed($event)"
-                                      clear_selections_now.bind="clear_selected_phototgraphers_now"
-                                      ms-change.delegate="handle_photographer_change($event)">
-                        </multi-select>
                     </div>
                 </div>
             </div>
+
+            <div id="video-filters" class="col-md-3" if.bind="theme.width > 1200 || editing_filters">
+                <span show.bind="false">${user_editing}</span>
+                <div class="row" style="margin-bottom:15px;position:relative;">
+                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
+                    <help if.bind="phase=='photos-ready-to-edit'" topic="videos.ready-to-edit" , id="video-help"
+                          position="bottom" class="${theme.rtltr}"></help>
+                    <help if.bind="user.advanced_user && phase=='photos-not-editing'" id="video-help"
+                          class="${theme.rtltr}" topic="tags"
+                          position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
+                    <help if.bind="(!user.advanced_user) && phase=='photos-not-editing'" id="video-help"
+                          class="${theme.rtltr}" topic="tags-simple"
+                          position="${! theme.is_desktop ? 'right' : 'bottom'}"></help>
+                    <multi-select options.bind="topic_list"
+                                  category="topic"
+                                  selected_options.bind="params.selected_topics"
+                                  settings.bind="options_settings"
+                                  first_time.bind="no_topics_yet"
+                                  has_groups.bind="has_grouped_topics"
+                                  option_groups.bind="topic_groups"
+                                  name="topics"
+                                  highlight_unselectors.bind="highlight_unselectors"
+                                  new-name.trigger="add_topic($event)"
+                                  remove-option.trigger="remove_topic($event)"
+                                  name-changed.trigger="topic_name_changed($event)"
+                                  place_holder_text="photos.click-topic"
+                                  clear_selections_now.bind="clear_selected_topics_now"
+                                  ms-change.trigger="handle_topic_change($event) ">
+                    </multi-select>
+                </div>
+                <div class="row">
+                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'videos.photographers' & t}
+                    </div>
+                    <multi-select options.bind="photographer_list"
+                                  topic.bind="photographer"
+                                  place_holder_text="photos.click-photographer"
+                                  selected_options.bind="params.selected_photographers"
+                                  first_time.bind="no_photographers_yet"
+                                  settings.bind="photographers_settings"
+                                  has_groups.bind="has_grouped_photographers"
+                                  new-name.trigger="add_photographer($event)"
+                                  remove-option.trigger="remove_photographer($event)"
+                                  name-changed.trigger="photographer_name_changed($event)"
+                                  clear_selections_now.bind="clear_selected_phototgraphers_now"
+                                  ms-change.trigger="handle_photographer_change($event)">
+                    </multi-select>
+                </div>
+            </div>
         </div>
-    </section>
-</template>
+    </div>
+</section>

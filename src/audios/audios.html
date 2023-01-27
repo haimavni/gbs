@@ -1,123 +1,121 @@
-<template>
-    <section class="container content-area audios">
-        <div class="audio-page row content-area" dir.bind="theme.rtltr">
-            <div class="row" style="width:100%;">
-                <div class="col-md-8 col-sm-12" style="padding:0;">
-                    <div class="row" style="margin-bottom:15px;padding-right:15px;">
-                        <form style="display:flex;height:34px;">
-                            <div if.bind="phase == 'audios-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! got_duplicates && ! working"
-                                t="[title]user.upload-files" class="input-group">
-                                <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
-                                    <i class="far fa-plus-square"></i>
-                                    ${'audios.upload' & t}
-                                </a>
-                            </div>
-                            <div class="form-group" if.bind="user.editing && checked_audios.size>0">
-                                <button class="btn btn-warning btn-md" click.trigger="delete_checked_audios()">
-                                    <i class="far fa-trash-alt fa-xs"></i>
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <button if.bind="user.editing && checked_audios.size > 0 && (params.selected_topics.length>0 || params.selected_recorders.length > 0)"
-                                    click.trigger="apply_topics_to_checked_audios()"
-                                    class="btn btn-basic btn-md">
-                                    ${'audios.apply-to-selected' & t}
-                                </button>
-                            </div>
-                            <div class="form-group" if.bind="user.editing">
-                                <help topic="how-to-select-audios" position="bottom"></help>
-                            </div>
-                        </form>
-                    </div>
-                    <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
-                    </h3>
-                    <ul ref="scroll_area" 
-                        css="height: ${win_height-400}px;overflow:auto;margin-right:-40px;padding-left:6px;"
-                        class="unselectable audio-list ${no_results ? 'empty-audios' : ''}">
-                        <li repeat.for="audio of audio_list | filter: filter : 'name' : 'author' | take : 9999"
-                            dir="${theme.rtltr}">
-                            <div class="one-audio story-preview"
-                                style="height:120px;margin-bottom:10px;width:100%;display:flex;">
-                                <div style="border-left:solid 3px lightgray;width:42%;">
-                                    <audio controls>
-                                        <source src="${audio.audio_path}" type="audio/mpeg">
-                                    </audio>
-                                </div>
-                                <editable style="width: 58%;"
-                                    settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
-                                    story.bind="audio.story" change.delegate="toggle_selection(audio, $event, $index)"
-                                    info_title.bind="audio.name" info_content.bind="audio.keywords" class="story-body">
-                                </editable>
-                            </div>
-                        </li>
-                    </ul>
+<section class="container content-area audios">
+    <div class="audio-page row content-area" dir.bind="theme.rtltr">
+        <div class="row" style="width:100%;">
+            <div class="col-md-8 col-sm-12" style="padding:0;">
+                <div class="row" style="margin-bottom:15px;padding-right:15px;">
+                    <form style="display:flex;height:34px;">
+                        <div if.bind="phase == 'audios-ready-to-edit' && user.privileges.PHOTO_UPLOADER && ! caller_type && ! got_duplicates && ! working"
+                            t="[title]user.upload-files" class="input-group">
+                            <a href click.trigger="upload_files()" class="btn btn-success cl-create-btn">
+                                <i class="far fa-plus-square"></i>
+                                ${'audios.upload' & t}
+                            </a>
+                        </div>
+                        <div class="form-group" if.bind="user.editing && checked_audios.size>0">
+                            <button class="btn btn-warning btn-md" click.trigger="delete_checked_audios()">
+                                <i class="far fa-trash-alt fa-xs"></i>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <button if.bind="user.editing && checked_audios.size > 0 && (params.selected_topics.length>0 || params.selected_recorders.length > 0)"
+                                click.trigger="apply_topics_to_checked_audios()"
+                                class="btn btn-basic btn-md">
+                                ${'audios.apply-to-selected' & t}
+                            </button>
+                        </div>
+                        <div class="form-group" if.bind="user.editing">
+                            <help topic="how-to-select-audios" position="bottom"></help>
+                        </div>
+                    </form>
                 </div>
-                <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop" css="height: ${win_height-340}px;overflow:auto;">
-                    <div style="position:relative;">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
-                        <help if.bind="user.advanced_user && phase=='not-editing'" topic="tags" position="bottom"
-                            style="position:absolute;left:0px;top:26px;z-index:100;"></help>
-                        <help if.bind="(! user.advanced_user) && phase=='not-editing'" topic="tags-simple" position="bottom"
-                            style="position:absolute;left:0px;top:26px;z-index:100;"></help>
-                        <help if.bind="phase=='ready-to-edit'" topic="audios.ready-to-edit" position="bottom"
-                            style="position:absolute;left:0px;top:26px;"></help>
-                        <span show.bind="false">${user_editing}</span>
-                        <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" category="topic"
-                            selected_options.bind="params.selected_topics" height.bind="220"
-                            settings.bind="options_settings" has_groups.bind="has_grouped_topics"
-                            highlight_unselectors.bind="highlight_unselectors"
-                            option_groups.bind="topic_groups" ms-change.delegate="handle_topic_change($event)"
-                            new-name.delegate="add_topic($event)" name-changed.delegate="topic_name_changed($event)"
-                            remove-option.delegate="remove_topic($event)"
-                            clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
-                        </multi-select>
-                    </div>
-                    <div class="row multi-select-div">
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'audios.recorders' & t}</div>
-                        <multi-select options.bind="recorder_list"
-                            category="recorder"
-                            place_holder_text="audios.click-recorder"
-                            selected_options.bind="params.selected_recorders"
-                            settings.bind="recorders_settings"
-                            has_groups.bind="has_grouped_recorders"
-                            new-name.delegate="add_recorder($event)"
-                            remove-option.delegate="remove_recorder($event)"
-                            name-changed.delegate="recorder_name_changed($event)"
-                            clear_selections_now.bind="clear_selected_phototgraphers_now"
-                            ms-change.delegate="handle_recorder_change($event)">
-                        </multi-select>
-                    </div>
-                    <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
-                        <button class="btn btn-xs ${params.deleted_audios ? 'active' : ''}"
-                            click.trigger="toggle_deleted_audios()" t="[title]stories.undelete">
-                            <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
-                        </button>
-                    </div>
-                    <div style="position:relative;">
-                        <span if.bind="num_of_audios">${num_of_audios} ${'audios.matching-audios' & t}</span>
-                        <span if.bind="! num_of_audios">&nbsp;</span>
-                        <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
-                        <help topic="words" position="left" style="position:absolute;left:0px;top:46px;"
-                            if.bind="user.advanced_user"
-                            params.bind="help_data"></help>
-                        <help topic="words-simple" position="left" style="position:absolute;left:0px;top:46px;"
-                            if.bind="!user.advanced_user"
-                            params.bind="help_data"></help>
-                        <multi-select options.bind="audios_index" selected_options.bind="params.selected_words"
-                            keywords.two-way="keywords" place_holder_text="audios.word-index" height="201"
-                            ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
-                        </multi-select>
-                    </div>
-                    <div style="margin-top: 20px;" if.bind="user.editing">
-                        <form role="form">
-                            <select value.bind="params.days_since_upload" style="height:32px;width:87%;"
-                                change.delegate="handle_age_change($event)">
-                                <option repeat.for="option of days_since_upload_options" model.bind="option">
-                                    ${option.name}</option>
-                            </select>
-                        </form>
-                    </div>
+                <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
+                </h3>
+                <ul ref="scroll_area" 
+                    css="height: ${win_height-400}px;overflow:auto;margin-right:-40px;padding-left:6px;"
+                    class="unselectable audio-list ${no_results ? 'empty-audios' : ''}">
+                    <li repeat.for="audio of audio_list | filter: filter : 'name' : 'author' | take : 9999"
+                        dir="${theme.rtltr}">
+                        <div class="one-audio story-preview"
+                            style="height:120px;margin-bottom:10px;width:100%;display:flex;">
+                            <div style="border-left:solid 3px lightgray;width:42%;">
+                                <audio controls>
+                                    <source src="${audio.audio_path}" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            <editable style="width: 58%;"
+                                settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true}"
+                                story.bind="audio.story" change.trigger="toggle_selection(audio, $event, $index)"
+                                info_title.bind="audio.name" info_content.bind="audio.keywords" class="story-body">
+                            </editable>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="audio-filters" class="col-md-4 col-sm-12" if.bind="editing_filters || theme.is_desktop" css="height: ${win_height-340}px;overflow:auto;">
+                <div style="position:relative;">
+                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
+                    <help if.bind="user.advanced_user && phase=='not-editing'" topic="tags" position="bottom"
+                        style="position:absolute;left:0px;top:26px;z-index:100;"></help>
+                    <help if.bind="(! user.advanced_user) && phase=='not-editing'" topic="tags-simple" position="bottom"
+                        style="position:absolute;left:0px;top:26px;z-index:100;"></help>
+                    <help if.bind="phase=='ready-to-edit'" topic="audios.ready-to-edit" position="bottom"
+                        style="position:absolute;left:0px;top:26px;"></help>
+                    <span show.bind="false">${user_editing}</span>
+                    <multi-select options.bind="topic_list" place_holder_text="photos.click-topic" category="topic"
+                        selected_options.bind="params.selected_topics" height.bind="220"
+                        settings.bind="options_settings" has_groups.bind="has_grouped_topics"
+                        highlight_unselectors.bind="highlight_unselectors"
+                        option_groups.bind="topic_groups" ms-change.trigger="handle_topic_change($event)"
+                        new-name.trigger="add_topic($event)" name-changed.trigger="topic_name_changed($event)"
+                        remove-option.trigger="remove_topic($event)"
+                        clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
+                    </multi-select>
+                </div>
+                <div class="row multi-select-div">
+                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'audios.recorders' & t}</div>
+                    <multi-select options.bind="recorder_list"
+                        category="recorder"
+                        place_holder_text="audios.click-recorder"
+                        selected_options.bind="params.selected_recorders"
+                        settings.bind="recorders_settings"
+                        has_groups.bind="has_grouped_recorders"
+                        new-name.trigger="add_recorder($event)"
+                        remove-option.trigger="remove_recorder($event)"
+                        name-changed.trigger="recorder_name_changed($event)"
+                        clear_selections_now.bind="clear_selected_phototgraphers_now"
+                        ms-change.trigger="handle_recorder_change($event)">
+                    </multi-select>
+                </div>
+                <div if.bind="user.privileges.ADVANCED && user.editing" class="row">
+                    <button class="btn btn-xs ${params.deleted_audios ? 'active' : ''}"
+                        click.trigger="toggle_deleted_audios()" t="[title]stories.undelete">
+                        <i class="far fa-trash-alt fa-rotate-180 fa-xs"></i>
+                    </button>
+                </div>
+                <div style="position:relative;">
+                    <span if.bind="num_of_audios">${num_of_audios} ${'audios.matching-audios' & t}</span>
+                    <span if.bind="! num_of_audios">&nbsp;</span>
+                    <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.words' & t}</div>
+                    <help topic="words" position="left" style="position:absolute;left:0px;top:46px;"
+                        if.bind="user.advanced_user"
+                        params.bind="help_data"></help>
+                    <help topic="words-simple" position="left" style="position:absolute;left:0px;top:46px;"
+                        if.bind="!user.advanced_user"
+                        params.bind="help_data"></help>
+                    <multi-select options.bind="audios_index" selected_options.bind="params.selected_words"
+                        keywords.two-way="keywords" place_holder_text="audios.word-index" height="201"
+                        ms-change.trigger="handle_words_change($event)" settings.bind="words_settings">
+                    </multi-select>
+                </div>
+                <div style="margin-top: 20px;" if.bind="user.editing">
+                    <form role="form">
+                        <select value.bind="params.days_since_upload" style="height:32px;width:87%;"
+                            change.trigger="handle_age_change($event)">
+                            <option repeat.for="option of days_since_upload_options" model.bind="option">
+                                ${option.name}</option>
+                        </select>
+                    </form>
                 </div>
             </div>
-    </section>
-</template>
+        </div>
+</section>

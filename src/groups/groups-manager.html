@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <letter topic="invitation-to-contribute" mail_body.bind="params.mail_body"
                         editing_template.bind="editing_template" button_text.bind="button_text"
-                        send.delegate="send_the_letter()" params.bind="mail_params">
+                        send.trigger="send_the_letter()" params.bind="mail_params">
                     </letter>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                         <td>${item.title}</td>
                         <td>${item.description}</td>
                         <td style="margin:0;padding:0;">
-                            <form class="form-inline" submit.delegate="upload_logo(item)">
+                            <form class="form-inline" submit.trigger="upload_logo(item)">
                                 <div class="form-group">
                                     <label for="logo-image-${item.id}" style="margin:0;">
                                         <img height="20" src.bind="item.logo_url"

@@ -2,7 +2,7 @@
     <div class="input-group search-filter" if.bind="options.length > 0 || first_time">
         <search-input value.bind="filter" placeholder.bind="settings.place_holder_text" height="32"
             help_topic.bind="settings.help_topic">
-            <!--filter-change.delegate="enter_word($event)"-->
+            <!--filter-change.trigger="enter_word($event)"-->
         </search-input>
     </div>
     <button if.bind="can_add" class="btn btn-success btn-sm cl-create-btn"
@@ -23,7 +23,7 @@
                 </div>
             </li>
             <li repeat.for="option of options | filter: filter : 'name' | spy : agent">
-                <div class="option-item" contextmenu.delegate="edit_option_dialog(option, $event)"
+                <div class="option-item" contextmenu.trigger="edit_option_dialog(option, $event)"
                     aubs-popover="body.bind:option.description;position:right;disabled.bind:!option.description">
                     <a click.trigger="select_option(option)">
                         ${option.name}

@@ -7,7 +7,7 @@
 
     <div class="panel main-panel unselectable" css="height:${panel_height}px;"
          interact-draggable.bind="theme.interact_setting"
-         interact-dragend.delegate="drag_end_panel($event)">
+         interact-dragend.trigger="drag_end_panel($event)">
         <div class="panel-messages" ref="scroll_area" if.bind="theme.is_desktop || active_part== 3">
             <i class="fas fa-caret-right fa-4x" style="position:absolute;left: 0;top:0;color:lightblue;"
                if.bind="! theme.is_desktop"></i>
@@ -22,10 +22,10 @@
                     show.bind="msg.name.substr(0,2) != '__'">
                     <editable story.bind="msg"
                               settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true, pinnable: true}"
-                              change.delegate="hande_story_change(msg, $event)"
-                              pushup.delegate="push_story(msg, $event)"
+                              change.trigger="hande_story_change(msg, $event)"
+                              pushup.trigger="push_story(msg, $event)"
                               pinned.bind="msg.pinned"
-                              pin.delegate="pin_story(msg, $event)">
+                              pin.trigger="pin_story(msg, $event)">
                     </editable>
                 </li>
             </ul>

@@ -82,10 +82,10 @@
                         </div>
                         <multi-select options.bind="topic_list" category="topic"
                             selected_options.bind="selected_topics" first_time.bind="no_topics_yet"
-                            option_groups.bind="topic_groups" new-name.delegate="add_topic($event)"
+                            option_groups.bind="topic_groups" new-name.trigger="add_topic($event)"
                             settings.bind="options_settings" has_groups.bind="has_grouped_topics"
                             place_holder_text="photos.click-topic"
-                            ms-change.delegate="handle_topic_change($event) ">
+                            ms-change.trigger="handle_topic_change($event) ">
                         </multi-select>
                     </div>
                     <div style="display:flex;justify-content:space-between">

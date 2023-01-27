@@ -1,71 +1,68 @@
-<template>
-    <div class="btn-group dropdown quiz"
-        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled(); is-open.bind: filter_menu_open">
-        <div style="display:flex" if.bind="to_show_menu">
-            <button class="btn btn-basic btn-lg dropdown-toggle ${dirty}" aubs-dropdown-toggle t="[title]quiz.filters">
-                ${main_button_text}
-                <span class="caret"></span>
+<div class="btn-group dropdown quiz"
+aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled(); is-open.bind: filter_menu_open">
+<div style="display:flex" if.bind="to_show_menu">
+    <button class="btn btn-basic btn-lg dropdown-toggle ${dirty}" aubs-dropdown-toggle t="[title]quiz.filters">
+        ${main_button_text}
+        <span class="caret"></span>
+    </button>
+    <button class="btn btn-basic btn-lg" 
+        if.bind="dirty" t="[title]quiz.clear-all"
+        click.trigger="clear_all()">
+        ${'quiz.clear-all' & t}
+    </button>
+    <help topic="using-quiz" style="margin-top:18px;" if.bind="q_state==USING" params.bind="help_data"
+        position="bottom"></help>
+    <help topic="editing-quiz" style="margin-top:18px;" if.bind="q_state!=USING" params.bind="help_data"
+        position="bottom"></help>
+</div>
+<ul class="dropdown-menu dropdown-menu-right filters">
+    <li class="dropdown-item" repeat.for="question of questions" title.bind="question.description">
+        <div class="btn-group dropdown border-right"
+            aubs-dropdown="auto-close.bind: autoClose; is-open.bind: question.is_open; on-toggle.call: q_toggled(question, $event)">
+            <button class="btn btn-link btn-md dropdown-toggle"
+                style="text-decoration:none;position:relative;margin-bottom:10px;width:100%;"
+                aubs-dropdown-toggle>
+                <span class="question ${question.checked} ${question.is_open ? 'open' : ''}">
+                    <i if.bind="q_state==EDITING" class="fas fa-sm fa-pencil"
+                        click.trigger="edit_question(question, $event)"></i>
+                    ${question.prompt || i18n.tr('quiz.new-question')}
+                </span>
+                <span class="caret" class="${theme.rtltr} anti"></span>
             </button>
-            <button class="btn btn-basic btn-lg" 
-                if.bind="dirty" t="[title]quiz.clear-all"
-                click.trigger="clear_all()">
-                ${'quiz.clear-all' & t}
-            </button>
-            <help topic="using-quiz" style="margin-top:18px;" if.bind="q_state==USING" params.bind="help_data"
-                position="bottom"></help>
-            <help topic="editing-quiz" style="margin-top:18px;" if.bind="q_state!=USING" params.bind="help_data"
-                position="bottom"></help>
+            <ul class="dropdown-menu dropdown-menu-right answers"
+                style="padding-right:6px;padding-left:5px;min-width:180px;" if.bind="question.qid">
+                <li repeat.for="answer of question.answers" title.bind="answer.description"
+                    style="margin-bottom:5px;" class="answer ${answer.checked ? 'checked' : ''}">
+                    <div class="btn-group dropdown border-right"
+                        aubs-dropdown="auto-close.bind: autoClose;">
+                        <button style="float:right;text-decoration:none;padding:0;width:100%;"
+                            class="dropdown-item btn btn-link btn-md " href="#"
+                            click.trigger="apply_answer(question, answer)">
+                            <span class="answer ${answer.checked ? 'checked' : ''}" style="float:right">
+                                <i if.bind="q_state==EDITING" class="fas fa-sm fa-pencil" style="float:right"
+                                    click.trigger="edit_answer(question, answer)">
+                                </i>
+                                ${answer.text || i18n.tr('quiz.new-option') }
+                            </span>
+                        </button>
+                    </div>
+                </li>
+                <li if.bind="!user.editing" style="margin-bottom:5px;" class="answer ${question.nota ? 'checked' : ''}">
+                    <div class="btn-group dropdown border-right"
+                        aubs-dropdown="auto-close.bind: autoClose;">
+                        <button style="float:right;text-decoration:none;padding:0;width:100%;"
+                            class="dropdown-item btn btn-link btn-md " href="#"
+                            click.trigger="apply_answer(question, null)">
+                            <span class="answer ${question.nota ? 'checked' : ''}" style="float:right">
+                                ${i18n.tr('quiz.none-of-the-above') }
+                            </span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <ul class="dropdown-menu dropdown-menu-right filters">
-            <li class="dropdown-item" repeat.for="question of questions" title.bind="question.description">
-                <div class="btn-group dropdown border-right"
-                    aubs-dropdown="auto-close.bind: autoClose; is-open.bind: question.is_open; on-toggle.call: q_toggled(question, $event)">
-                    <button class="btn btn-link btn-md dropdown-toggle"
-                        style="text-decoration:none;position:relative;margin-bottom:10px;width:100%;"
-                        aubs-dropdown-toggle>
-                        <span class="question ${question.checked} ${question.is_open ? 'open' : ''}">
-                            <i if.bind="q_state==EDITING" class="fas fa-sm fa-pencil"
-                                click.trigger="edit_question(question, $event)"></i>
-                            ${question.prompt || i18n.tr('quiz.new-question')}
-                        </span>
-                        <span class="caret" class="${theme.rtltr} anti"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right answers"
-                        style="padding-right:6px;padding-left:5px;min-width:180px;" if.bind="question.qid">
-                        <li repeat.for="answer of question.answers" title.bind="answer.description"
-                            style="margin-bottom:5px;" class="answer ${answer.checked ? 'checked' : ''}">
-                            <div class="btn-group dropdown border-right"
-                                aubs-dropdown="auto-close.bind: autoClose;">
-                                <button style="float:right;text-decoration:none;padding:0;width:100%;"
-                                    class="dropdown-item btn btn-link btn-md " href="#"
-                                    click.trigger="apply_answer(question, answer)">
-                                    <span class="answer ${answer.checked ? 'checked' : ''}" style="float:right">
-                                        <i if.bind="q_state==EDITING" class="fas fa-sm fa-pencil" style="float:right"
-                                            click.trigger="edit_answer(question, answer)">
-                                        </i>
-                                        ${answer.text || i18n.tr('quiz.new-option') }
-                                    </span>
-                                </button>
-                            </div>
-                        </li>
-                        <li if.bind="!user.editing" style="margin-bottom:5px;" class="answer ${question.nota ? 'checked' : ''}">
-                            <div class="btn-group dropdown border-right"
-                                aubs-dropdown="auto-close.bind: autoClose;">
-                                <button style="float:right;text-decoration:none;padding:0;width:100%;"
-                                    class="dropdown-item btn btn-link btn-md " href="#"
-                                    click.trigger="apply_answer(question, null)">
-                                    <span class="answer ${question.nota ? 'checked' : ''}" style="float:right">
-                                        ${i18n.tr('quiz.none-of-the-above') }
-                                    </span>
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <span show.bind="false">${dummy}</span>
-    <span show.bind="false">${clear_now}</span>
-
-</template>
+    </li>
+</ul>
+</div>
+<span show.bind="false">${dummy}</span>
+<span show.bind="false">${clear_now}</span>

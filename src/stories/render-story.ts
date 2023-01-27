@@ -37,7 +37,7 @@ export class RenderStory implements ICustomElementViewModel {
             });
         }
         //apply modifications here
-        this.html = '<template>' + html + '</template>';
+        this.html = html;
     }
 
     popup_window(name, url) {

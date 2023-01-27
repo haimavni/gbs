@@ -64,8 +64,8 @@
                             <div style="width:100%;">
                                 <div style="margin-bottom: 10px;width:100%;" class="story-preview ${theme.rtltr}">
                                     <editable settings.bind="{show_author:true, show_date:false, class:'story-section', checkable: true, has_details: true}"
-                                        story.bind="doc.story" change.delegate="toggle_selection(doc, $event, $index)"
-                                        view_details.delegate="view_details(doc, $event)"
+                                        story.bind="doc.story" change.trigger="toggle_selection(doc, $event, $index)"
+                                        view_details.trigger="view_details(doc, $event)"
                                         info_title.bind="doc.name" info_content.bind="doc.keywords"
                                         class="story-body">
                                     </editable>
@@ -92,10 +92,10 @@
                         has_groups.bind="has_grouped_topics"
                         highlight_unselectors.bind="highlight_unselectors"
                         option_groups.bind="topic_groups"
-                        ms-change.delegate="handle_topic_change($event)"
-                        new-name.delegate="add_topic($event)"
-                        name-changed.delegate="topic_name_changed($event)"
-                        remove-option.delegate="remove_topic($event)"
+                        ms-change.trigger="handle_topic_change($event)"
+                        new-name.trigger="add_topic($event)"
+                        name-changed.trigger="topic_name_changed($event)"
+                        remove-option.trigger="remove_topic($event)"
                         clear_selections_now.bind="clear_selected_topics_now"
                         style="margin-top:5px;">
                     </multi-select>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="row" style="margin-top: 20px;" if.bind="user.editing">
                     <form role="form">
-                        <select value.bind="params.days_since_upload" style="height:32px;width:90%;" change.delegate="handle_age_change($event)">
+                        <select value.bind="params.days_since_upload" style="height:32px;width:90%;" change.trigger="handle_age_change($event)">
                             <option repeat.for="option of days_since_upload_options" model.bind="option">${option.name}</option>
                         </select>
                     </form>

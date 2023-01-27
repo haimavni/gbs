@@ -19,15 +19,13 @@ export class DlgStringCustomElement {
             title: this.title,
             placeholder: this.placeholder,
             str: this.str,
-            html: `<template>
-                        <div style="background-color:beige;padding:20px;">
+            html: `<div style="background-color:beige;padding:20px;">
                         <h3 style="width:100%; margin-bottom:12px;text-align:center;">\${model.title}</h3>
                         <form class="form-inline" dir="rtl">
                             <input type="text" value.bind="model.str" placeholder.bind="model.placeholder" style="margin:15px;padding:6px;">
                             <button click.trigger="controller.ok(model.str)" style="margin:15px"><i class="fa fa-check"></i></button>
                         </form>
-                        </div>
-                </template>`,
+                        </div>`,
         };
         this.theme.hide_title = true;
         this.dialogService

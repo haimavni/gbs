@@ -1,11 +1,10 @@
-<template>
     <!--button class="btn btn-default" click.trigger="to_show=!to_show">Show/Hide</button>
     <my-map show.bind="to_show"
             longitude.bind="longitude"
             latitude.bind="latitude"
             zoom.bind="zoom"
             can_mark.bind="user.editing"
-            location-changed.delegate="location_changed($event)"
+            location-changed.trigger="location_changed($event)"
     >
     </my-map-->
     <!-- <div style="display:flex">
@@ -37,5 +36,3 @@
         Testing
         <query></query>
     </div>
-
-</template>

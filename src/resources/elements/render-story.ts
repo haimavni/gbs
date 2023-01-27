@@ -13,11 +13,9 @@ export class RenderStoryCustomElement implements ICustomElementViewModel {
         html = html.replace(/\n/g, '');
         html = html.replace(pat, function (m, m1, m2, m3, m4) {
             return `<a href=${m2} target="_blank">${m4}</a>`;
-            //return m + 'target="_blank" ' + m1 + m2 + m3 + m4;
-            //return m1 + " click.trigger=\"popup_window('POPUP', '" + m2 + "')\"" + m3 + '>' + m4 + "</a>"
         });
         //apply modifications here
-        this.html = html; //'<template>' + html + '</template>';
+        this.html = html;
     }
 
     popup_window(name, url) {

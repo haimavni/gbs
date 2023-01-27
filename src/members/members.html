@@ -54,7 +54,7 @@
                             checked_answers.bind="checked_answers" 
                             name="members"
                             help_data.bind="quiz_help_data" 
-                            q-change.delegate="questions_changed($event)">
+                            q-change.trigger="questions_changed($event)">
                         </quiz>
                         <button class="btn btn-default" if.bind="user.debugging || user.privileges.DEVELOPER"
                             style="height:36px;margin-top:16px;font-size:small;border:1px solid lightgray;margin-left:4px;"                            click.trigger="open_query_editor()">
@@ -89,7 +89,7 @@
                         css="width:${photo_size+20};height:${photo-size+22};"
                         dir="rtl">
                         <a click.trigger="member_clicked(member, $event, $index)" tapandhold="500"
-                            longtouch.delegate="toggle_selection(member, $event)" disabled.bind="not_ready(member)"
+                            longtouch.trigger="toggle_selection(member, $event)" disabled.bind="not_ready(member)"
                             style="color:black;cursor:pointer;">
                             <img src.bind="member.facePhotoURL"
                                 css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" width.bind="photo_size" height.bind="photo_size"/>

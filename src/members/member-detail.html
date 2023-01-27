@@ -12,7 +12,7 @@
                      id.bind="member_info.id" move_to.bind="move_to"
             style="padding:0;"
             action_key="Zoom" dir="ltr"
-            height_change.delegate="on_height_change($event)"
+            height_change.trigger="on_height_change($event)"
             settings.bind="{arrows:true, height:220}">
         </photo-strip>
     </div>
@@ -148,10 +148,10 @@
         </div>
         <!--member stories panel-->
         <div id="stories" class="fr-view row ${theme.font-size} unselectable" ref="bottom_panel"
-            contextmenu.delegate="config_member_stories($event)"
+            contextmenu.trigger="config_member_stories($event)"
             show.bind="member.member_stories.length > 1 && ! (user.editing || life_summary_expanded)"
             css="margin-left:-28px;margin-right:0px;"
-            interact-draggable.bind="theme.interact_setting" interact-dragend.delegate="shift_stories($event)" dir="rtl">
+            interact-draggable.bind="theme.interact_setting" interact-dragend.trigger="shift_stories($event)" dir="rtl">
             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 story-box" css="float:${theme.same_dir};height:${story_box_height}px;padding-right:8px;" 
                 click.trigger="goto_story_page(story_1)">
                 <div class="member-story-header" show.bind="story_1.story_text != ''" aubs-tooltip="text.bind:to_story_page" >

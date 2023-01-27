@@ -5,10 +5,10 @@
     </div>
     <form class="form-inline" style="padding-top:16px;direction:rtl1;">
         <div class="input-group" style="padding-top:16px;">
-            <select value.bind="what_option" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.delegate="change_what($event)">
+            <select value.bind="what_option" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.trigger="change_what($event)">
                 <option dir="rtl" repeat.for="option of what_options" model.bind="option.value">${option.name}</option>
             </select>
-            <select value.bind="order_option" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.delegate="change_order_option($event)">
+            <select value.bind="order_option" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.trigger="change_order_option($event)">
                 <option dir="rtl" repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
             </select>
 

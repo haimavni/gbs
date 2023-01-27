@@ -1,64 +1,62 @@
-<template>
-    <div css="background-color: lightgray;height:${theme.height-129}px" class="chatroom ${theme.rtltr}">
-        <div style="padding:16px 5px 0px 5px;">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                <div css="float:${theme.same_dir};direction:${theme.rtltr};" if.bind="!editing">
-                    <h4 style="width:100%;margin:0;padding:0 5px 0 5px;">${chatroom_name}</h4>
-                </div>
-                <div if.bind="editing">
-                    <input style="font-size: 95%;margin-bottom:3px;float: left;width: 200px;height:28px;" dir="rtl"
-                        type="text" value.bind="chatroom_name" placeholder="Enter chatroom name"
-                        class="form-control input-small" />
-                </div>
-                <div style="cursor:pointer;margin-left:16px;">
-                    <i class="fas fa-trash" if.bind="user.privileges.CHAT_MODERATOR"
-                        click.trigger="delete_chatroom()"></i>
-                    <i class="fas fa-pencil" if.bind="user.privileges.CHAT_MODERATOR && ! editing"
-                        click.trigger="edit_chatroom_name()"></i>
-                    <i class="fas fa-save" if.bind="editing" click.trigger="save_chatroom_name()"></i>
-                </div>
+<div css="background-color: lightgray;height:${theme.height-129}px" class="chatroom ${theme.rtltr}">
+    <div style="padding:16px 5px 0px 5px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div css="float:${theme.same_dir};direction:${theme.rtltr};" if.bind="!editing">
+                <h4 style="width:100%;margin:0;padding:0 5px 0 5px;">${chatroom_name}</h4>
             </div>
-            <div if.bind="messages.length > 5">
-                <form class="form-horizontal" role="form">
-                    <input css="font-size: 95%;margin-bottom:3px;width: 100%;" dir="${theme.rtltr}" type="text"
-                        value.bind="messages_filter" t="[placeholder]chats.enter-search-words"
-                        class="form-control input-small" />
-                </form>
+            <div if.bind="editing">
+                <input style="font-size: 95%;margin-bottom:3px;float: left;width: 200px;height:28px;" dir="rtl"
+                    type="text" value.bind="chatroom_name" placeholder="Enter chatroom name"
+                    class="form-control input-small" />
+            </div>
+            <div style="cursor:pointer;margin-left:16px;">
+                <i class="fas fa-trash" if.bind="user.privileges.CHAT_MODERATOR"
+                    click.trigger="delete_chatroom()"></i>
+                <i class="fas fa-pencil" if.bind="user.privileges.CHAT_MODERATOR && ! editing"
+                    click.trigger="edit_chatroom_name()"></i>
+                <i class="fas fa-save" if.bind="editing" click.trigger="save_chatroom_name()"></i>
             </div>
         </div>
-        <div>
-            <div class="col-sm-12" scroll-glue
-                css="padding:10px;height:${theme.height-311}px;overflow:auto;direction:${theme.rtltr};"
-                ref="scroll_area">
-                <quick-login explanation.bind="'chats.to-participate'" explain_registration.bind="'chats.explain-registration'"></quick-login>
-                <ul class="${theme.rtltr}">
-                    <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'"
-                        class="chat-message">
-                        <span style="font-weight:bold;display:flex;justify-content:space-between;">${msg.timestamp}: ${msg.sender_name}
-                            <span if.bind="user.privileges.CHAT_MODERATOR"
-                                style="margin-left:10px;cursor:pointer;">
-                                <i class="fa fa-trash" click.trigger="delete_message(msg, $index)"></i>
-                                <i class="fas fa-pencil" click.trigger="edit_message(msg, $index)"></i>
-                            </span>
-                        </span>
-                        <span if.bind="msg.id != edited_message_id" innerhtml.bind="msg.message"></span>
-                        <textarea if.bind="msg.id == edited_message_id" rows="3"
-                            css="direction:${theme.rtltr};width:100%;" change.delegate="save_edited_message(msg)"
-                            value.bind="msg.message"></textarea>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div if.bind="user.id > 0">
-            <div class="col-md-12" style="padding:0;">
-                <form role="form" style="padding:12px;">
-                    <textarea rows="3" t="[placeholder]chats.enter-your-message"
-                        css="direction:${theme.rtltr};width:100%;" dir="${theme.rtltr}"
-                        value.bind="user_message"></textarea>
-                    <button class="btn btn-primary btn-block" disabled.bind="user_message==''"
-                        click.trigger="send_message()">${'chats.send-message' & t}</button>
-                </form>
-            </div>
+        <div if.bind="messages.length > 5">
+            <form class="form-horizontal" role="form">
+                <input css="font-size: 95%;margin-bottom:3px;width: 100%;" dir="${theme.rtltr}" type="text"
+                    value.bind="messages_filter" t="[placeholder]chats.enter-search-words"
+                    class="form-control input-small" />
+            </form>
         </div>
     </div>
-</template>
+    <div>
+        <div class="col-sm-12" scroll-glue
+            css="padding:10px;height:${theme.height-311}px;overflow:auto;direction:${theme.rtltr};"
+            ref="scroll_area">
+            <quick-login explanation.bind="'chats.to-participate'" explain_registration.bind="'chats.explain-registration'"></quick-login>
+            <ul class="${theme.rtltr}">
+                <li repeat.for="msg of messages | filter: messages_filter : 'message' : 'sender_name'"
+                    class="chat-message">
+                    <span style="font-weight:bold;display:flex;justify-content:space-between;">${msg.timestamp}: ${msg.sender_name}
+                        <span if.bind="user.privileges.CHAT_MODERATOR"
+                            style="margin-left:10px;cursor:pointer;">
+                            <i class="fa fa-trash" click.trigger="delete_message(msg, $index)"></i>
+                            <i class="fas fa-pencil" click.trigger="edit_message(msg, $index)"></i>
+                        </span>
+                    </span>
+                    <span if.bind="msg.id != edited_message_id" innerhtml.bind="msg.message"></span>
+                    <textarea if.bind="msg.id == edited_message_id" rows="3"
+                        css="direction:${theme.rtltr};width:100%;" change.trigger="save_edited_message(msg)"
+                        value.bind="msg.message"></textarea>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div if.bind="user.id > 0">
+        <div class="col-md-12" style="padding:0;">
+            <form role="form" style="padding:12px;">
+                <textarea rows="3" t="[placeholder]chats.enter-your-message"
+                    css="direction:${theme.rtltr};width:100%;" dir="${theme.rtltr}"
+                    value.bind="user_message"></textarea>
+                <button class="btn btn-primary btn-block" disabled.bind="user_message==''"
+                    click.trigger="send_message()">${'chats.send-message' & t}</button>
+            </form>
+        </div>
+    </div>
+</div>

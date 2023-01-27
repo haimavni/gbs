@@ -10,9 +10,9 @@
                 aubs-tooltip="text.bind:drag_me;position:top;"
                 id="stopper-${side}"
                 interact-draggable.bind="theme.interact_setting"
-                interact-dragmove.delegate="dragmove(side, $event)" 
-                interact-dragstart.delegate="dragstart(side, $event)" 
-                interact-dragend.delegate="dragend(side, $event)">
+                interact-dragmove.trigger="dragmove(side, $event)" 
+                interact-dragstart.trigger="dragstart(side, $event)" 
+                interact-dragend.trigger="dragend(side, $event)">
                 ${side=='left' ? first_year : last_year - 1}
             </li>
         </ul>

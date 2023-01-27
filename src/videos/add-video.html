@@ -1,40 +1,38 @@
-<template>
-    <ux-dialog css="direction:${theme.rtltr};width:43em;">
-        <ux-dialog-header style="padding-right:32px;">
-            <h4 class="panel-title">${'videos.add-video' & t}</h4>
-        </ux-dialog-header>
-        <ux-dialog-body>
-            <div class="panel-body">
-                <form role="form" class="form-vertical">
-                    <div style="margin-bottom:16px">
-                        <div class="form-group" style="margin-bottom:12px" if.bind="! params.id">
-                            <input type="text" value.bind="params.src" class="form-control input-lg"
-                                t="[placeholder]videos.paste-video-address" >
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="name" class="form-control input-lg" value.bind="params.name" t="[placeholder]videos.video-name">
-                        </div>
-                        <div class="form-group">
-                            <date-range
-                                range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
-                                label="videos.video-date-range"
-                                base_date_str.bind="params.video_date_datestr"
-                                span_size.bind="params.video_date_datespan"
-                                is_valid.bind="video_date_valid"
-                                id="video-date">
-                            </date-range>
-                        </div>
+<ux-dialog css="direction:${theme.rtltr};width:43em;">
+    <ux-dialog-header style="padding-right:32px;">
+        <h4 class="panel-title">${'videos.add-video' & t}</h4>
+    </ux-dialog-header>
+    <ux-dialog-body>
+        <div class="panel-body">
+            <form role="form" class="form-vertical">
+                <div style="margin-bottom:16px">
+                    <div class="form-group" style="margin-bottom:12px" if.bind="! params.id">
+                        <input type="text" value.bind="params.src" class="form-control input-lg"
+                            t="[placeholder]videos.paste-video-address" >
                     </div>
-                </form>
-            </div>
-        </ux-dialog-body>
-        <ux-dialog-footer style="padding-right:32px;">
-            <button class="btn btn-danger btn-warning" click.trigger="cancel()">
-                ${'stories.cancel' & t}
-            </button>
-            <button class="btn btn-success btn-primary" click.trigger="send()" disabled.bind="incomplete || ! dirty">
-                ${'videos.send' & t}
-            </button>
-        </ux-dialog-footer>
-    </ux-dialog>
-</template>
+                    <div class="form-group">
+                        <input type="text" id="name" class="form-control input-lg" value.bind="params.name" t="[placeholder]videos.video-name">
+                    </div>
+                    <div class="form-group">
+                        <date-range
+                            range_options.bind="[1,2,3,5,10, 20, 50, 100, 120]"
+                            label="videos.video-date-range"
+                            base_date_str.bind="params.video_date_datestr"
+                            span_size.bind="params.video_date_datespan"
+                            is_valid.bind="video_date_valid"
+                            id="video-date">
+                        </date-range>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ux-dialog-body>
+    <ux-dialog-footer style="padding-right:32px;">
+        <button class="btn btn-danger btn-warning" click.trigger="cancel()">
+            ${'stories.cancel' & t}
+        </button>
+        <button class="btn btn-success btn-primary" click.trigger="send()" disabled.bind="incomplete || ! dirty">
+            ${'videos.send' & t}
+        </button>
+    </ux-dialog-footer>
+</ux-dialog>

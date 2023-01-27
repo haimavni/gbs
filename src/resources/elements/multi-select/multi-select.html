@@ -1,7 +1,7 @@
 <template class="multi-select" dir="${theme.rtltr}">
     <div class="input-group search-filter" if.bind="options.length > 0 || first_time">
         <search-input value.bind="filter" placeholder.bind="place_holder_text" height="32"
-            help_topic.bind="settings.help_topic" filter-change.delegate="enter_word($event)"></search-input>
+            help_topic.bind="settings.help_topic" filter-change.trigger="enter_word($event)"></search-input>
     </div>
     <button if.bind="can_add" class="btn btn-success btn-sm cl-create-btn"
         click.trigger="dispatch_new_item_event($event)" style="width:88%;font-size:110%;">
@@ -36,10 +36,10 @@
                                 click.trigger="move_item(item, $index)">
                             </i>
                         </div>
-                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;"  contextmenu.delegate="edit_option_dialog(item.option, $event)"
+                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;"  contextmenu.trigger="edit_option_dialog(item.option, $event)"
                             class.bind="'option-kind-' + item.option.topic_kind">${item.option.name}</span>
                         <input type="text" if.bind="item.editing" value.bind="item.option.name"
-                            change.delegate="name_changed(item, $event)" style="width:55%">
+                            change.trigger="name_changed(item, $event)" style="width:55%">
                     </div>
                 </li>
             </ul>
@@ -55,7 +55,7 @@
                 <li
                     repeat.for="option of options | filter: filter : 'name' | filterBySet : selected_options_set : 'exclude' : 'name' | take : 999 | spy : agent">
                     <div class="option-item"
-                        contextmenu.delegate="edit_option_dialog(option, $event)"
+                        contextmenu.trigger="edit_option_dialog(option, $event)"
                         aubs-popover="body.bind:option.description;position:right;disabled.bind:!option.description"
                         css="margin:0;padding:0;padding-right:${(option.level || 0) * 16 + 2}px;width:${inner_width}px"
                         if.bind="option.topic_kind > 0 || user.editing">
