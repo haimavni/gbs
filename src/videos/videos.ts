@@ -520,7 +520,7 @@ export class Videos {
         this.editing_filters = true;
     }
 
-    async view_video(video, event, member_id) {
+    async view_video(video, event, member_id, keywords) {
         if (event) {
             event.stopPropagation();
             event.preventDefault();
@@ -532,7 +532,7 @@ export class Videos {
                 n_cue_points = response.cue_points.length;
             })
         if (cuepoints_enabled && (this.user.privileges.VIDEO_EDITOR || n_cue_points > 0)) {
-            let url = this.misc.make_url('annotate-video', `${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true&member_id=${member_id}`)
+            let url = this.misc.make_url('annotate-video', `${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true&member_id=${member_id}&keywords=${keywords}`)
             this.popup.popup('VIDEO', url, "");
         } else {
             if (this.scroll_area)
@@ -542,7 +542,8 @@ export class Videos {
                 video_src: video.src,
                 video_name: video.name,
                 video_type: video.video_type,
-                cuepoints_enabled: cuepoints_enabled
+                cuepoints_enabled: cuepoints_enabled,
+                keywords: keywords
             });
         }
     }
@@ -552,17 +553,18 @@ export class Videos {
             await this.api.call_server_post('videos/story_id_to_video_id', {id: video_id})
                 .then(response => video_id = response.video_id);
         }
+        const keywords = rest ? rest.keywords : [];
         let video;
         if (this.video_list.length > 0) {
             video = this.video_list.find(v => v.id==video_id);
-            this.view_video(video, null, member_id);
+            this.view_video(video, null, member_id, keywords);
             return;
         }
         this.api.call_server_post('videos/get_video_list', this.params)
             .then(response => {
                 this.set_video_list(response.video_list);
                 video = this.video_list.find(v => v.id==video_id);
-                this.view_video(video, null, member_id);
+                this.view_video(video, null, member_id, keywords);
             });
     }
 

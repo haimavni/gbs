@@ -155,8 +155,8 @@
                                 </i>
                             </td>
                             <td>
-                                <span if.bind="!user.editing">
-                                    ${cue.description}
+                                <span if.bind="!user.editing"
+                                    innerHtml.bind="cue.description">
                                 </span>
                                 <span if.bind="user.editing">
                                     <input type="text" value.bind="cue.description"

@@ -16,15 +16,17 @@ import {highlight} from "../services/dom_utils";
 
 class CuePoint {
     time: number;
-    description: string;
+    description;
     is_current;
     member_ids = [];
     cls = '';
 
-    constructor(time, description) {
+    constructor(time, description, keywords?) {
         this.time = time;
-        this.description = description;
+        if (typeof keywords == 'string') keywords = keywords.split(",");
+        this.description = highlight(description, keywords, false);
     }
+
 }
 
 @autoinject()
@@ -127,7 +129,7 @@ export class AnnotateVideo {
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
-        this.member_id = +params.member_id; //will highlight cuepoints with this member
+        this.member_id = params.member_id; //will highlight cuepoints with this member
         this.caller = params.caller;
         if (params.what != 'story') {
             this.video_name = params.video_name;
@@ -175,7 +177,8 @@ export class AnnotateVideo {
                 this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
                 if (this.cuepoints_enabled)
                     this.set_video_source();
-                this.cue_points = response.cue_points;
+                let cue_points = response.cue_points;
+                this.cue_points = cue_points.map(cp => new CuePoint(cp.time, cp.description, this.keywords));
                 if (this.member_id) {
                     this.cue0 = null;
                     for (let cue of this.cue_points) {
