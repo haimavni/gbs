@@ -122,17 +122,18 @@ div.family-buttons {
     flex-direction:row;
     margin-right:-15px;
     button {
-        width: 60px;
+        width: 40px;
+        padding-right:4px;
         height:32px;
         border-radius: 5px;
         font-size: 12px;
         padding-top:2px;
         font-size:16px;
         &.family-type {
-            width: 30px;
+            width: 28px;
             padding: 0px;
             padding-top:2px;
-            margin-right:8px;
+            margin-right:4px;
         }
     }
 }
@@ -452,6 +453,19 @@ ul.filters {
 div.mandatory-missing {
     border: 1px solid red;
     border-radius: 5px;
+}
+
+button.mandatory-missing {
+    border-top: solid 1px red;
+    border-bottom: solid 1px red;
+    &.female {
+        border-left: solid 1px red;
+        border-right: solid 2px white;
+    }
+    &.male {
+        border-right: solid 1px red;
+        border-left: solid 2px white;
+    }
 }
 
 ux-dialog.config-member-stories {

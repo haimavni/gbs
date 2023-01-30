@@ -30,6 +30,19 @@ export class DocPage {
 
     }
 
+    go_full_screen(event: Event) {
+        console.log("enter full screen. event: ", event);
+        event.stopPropagation();
+        event.preventDefault();
+        let el = document.getElementById("doc-area");
+        if (el.requestFullscreen) {
+            el.requestFullscreen();
+        } else {
+            console.log("Fullscreen API is not supported");
+        }
+        return false;
+    }
+
     close_doc() {
         this.dialog.ok();
     }

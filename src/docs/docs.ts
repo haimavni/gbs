@@ -85,6 +85,7 @@ export class Docs {
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
     editing_filters = false;
+    single_doc_entry = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
                 word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -132,6 +133,7 @@ export class Docs {
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
         this.update_doc_list();
+        this.single_doc_entry = this.user.config.single_doc_entry;
     }
 
     created(params, config) {
@@ -469,7 +471,10 @@ export class Docs {
             toastr.success(msg);
             return
         }
-        this.openDialog(doc);
+        if (this.single_doc_entry)
+            this.view_details(doc, event)
+        else
+            this.openDialog(doc);
     }
 
     @computedFrom('user.editing')

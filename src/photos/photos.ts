@@ -217,9 +217,15 @@ export class Photos {
 
         if (params.user_id) {
             this.params.user_id = params.user_id;
+            let key = params.key;
+            if (!this.misc.validate(params.user_id, key)) {
+                alert("Illegal entery");
+                throw "Illegal entry";
+            }
             this.params.selected_uploader = "mine";
             this.params.selected_order_option = UTO;
             this.photo_list = [];
+            this.user.isLoggedIn = true;
         }
         if (this.photo_list.length == 0)
             this.update_photo_list();
@@ -233,7 +239,7 @@ export class Photos {
     get user_editing() {
         if (this.user.editing_mode_changed) {
             this.update_topic_list();
-            if (this.user.editing && this.user.privileges.RESTRICTED) {
+            if (this.user.privileges.RESTRICTED) {
                 this.update_photo_list();
             }
         }

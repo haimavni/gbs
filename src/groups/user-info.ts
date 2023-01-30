@@ -109,6 +109,7 @@ export class UserInfo {
     }
 
     do_register() {
+        this.login_error_message = "";
         this.api.call_server('groups/register_user', this.loginData)
             .then(response => {
                 this.user_id = response.user_id;
@@ -149,7 +150,9 @@ export class UserInfo {
     }
 
     save_photo_info() {
-        this.api.call_server_post('groups/save_photo_info', { photo_id: this.status_record.photo_id, photo_info: this.status_record.photo_info })
+        this.api.call_server_post('groups/save_photo_info', {
+             photo_id: this.status_record.photo_id, 
+             photo_info: this.status_record.photo_info })
             .then(result => {
                 this.status_record.photo_details_saved = true;
                 this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
@@ -171,7 +174,7 @@ export class UserInfo {
     @computedFrom('status_record.photo_info.photo_name', 'status_record.photo_info.photo_story', 'status_record.photo_info.photo_date_str')
     get missing_photo_info() {
         if (!this.status_record.photo_info.photo_name) return true;
-        if (!this.status_record.photo_info.photo_story) return true;
+        //if (!this.status_record.photo_info.photo_story) return true;
         if (!this.status_record.photo_info.photo_date_str) return true;
         return false;
     }
@@ -203,19 +206,6 @@ export class UserInfo {
 
     async expose_map(event) {
         this.status_record.map_visible = ! this.status_record.map_visible;
-        if (this.status_record.map_visible && event.ctrlKey) {
-            this.status_record.calibrating = true;
-            await sleep(100);
-            console.log("CALIBRATING")
-            let old_zoom = this.status_record.photo_info.zoom;
-            for (let zoom = 0; zoom < 24; zoom += 1) {
-                await sleep(10);
-                this.status_record.photo_info.zoom = zoom;
-            }
-            await sleep(10);
-            this.status_record.calibrating = false;
-            this.status_record.photo_info.zoom = old_zoom;
-        }
     }
 
     @computedFrom("status_record.map_visible")

@@ -24,6 +24,7 @@
                     </div>
                 </div>
                 <table class="table table-striped"
+                    id="groups-table"
                     aurelia-table="data.bind: group_list; display-data.bind: $displayData; 
                     current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;filters.bind:filters;">
                     <thead>
@@ -38,13 +39,13 @@
                             <th>${'groups.contacts' & t}</th>
                         </tr>
                     </thead>
-                    <tbody style="height:600px;overflow:auto;">
+                    <tbody style="overflow:auto;" id="">
                         <tr repeat.for="item of $displayData">
                             <td>${item.id}</td>
                             <td>${item.title}</td>
                             <td>${item.description}</td>
                             <td style="margin:0;padding:0;">
-                                <form class="form-inline" submit.delegate="upload_logo(item)">
+                                <form class="form-inline" submit.delegate="upload_logo(item, $event)">
                                     <div class="form-group">
                                         <label for="logo-image-${item.id}" style="margin:0;">
                                             <img height="20" src.bind="item.logo_url"

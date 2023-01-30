@@ -99,10 +99,12 @@ export class DocDetail {
                 this.doc_id = response.doc_id;
                 this.doc = response.doc;
                 this.doc_src = response.doc_src + search_str;
-                this.story_about = response.story_about;
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
+                this.story_about = response.story_about;
+                if (! this.story_about || this.story_about.story_text == "")
+                    this.story_about = this.doc_story;
                 if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
                     this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
                     this.doc_story_about.name = this.doc_name;
@@ -205,10 +207,15 @@ export class DocDetail {
 
     @computedFrom('story_about', 'story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
     get highlightedHtml() {
+        console.log("story  about: ", this.story_about);
         if (!this.story_about) {
             return "";
         }
-        let highlighted_html = highlight(this.story_about.story_text, this.keywords, this.advanced_search);
+        let text;
+        if (this.story_about.story_text.length < this.story_about.preview.length)
+            text = this.story_about.preview
+        else text = this.story_about.story_text;
+        let highlighted_html = highlight(text, this.keywords, this.advanced_search);
         return highlighted_html;
     }
 

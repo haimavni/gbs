@@ -48,6 +48,7 @@ export class MemberDetail {
     sub3;
     sub4;
     sub5;
+    sub6;
     to_story_page;
     expand;
     compress;
@@ -123,8 +124,8 @@ export class MemberDetail {
 
     @computedFrom('member')
     get member_info() {
-        if (this.member) return this.member.member_info
-        return {};
+        if (this.member) return this.member.member_info;
+        return {member_info: {}};
     }
 
     activate(params, config) {
@@ -189,6 +190,9 @@ export class MemberDetail {
         this.sub2 = this.eventAggregator.subscribe('ParentFound', (data) => {
             this.set_parent(data)
         });
+        this.sub6 = this.eventAggregator.subscribe('SpouseFound', (data) => {
+            this.set_spouse(data)
+        });
         this.sub3 = this.eventAggregator.subscribe('DirtyStory', dirty => {
             this.dirty_story = dirty
         });
@@ -218,6 +222,7 @@ export class MemberDetail {
         this.sub3.dispose();
         this.sub4.dispose();
         this.sub5.dispose();
+        this.sub6.dispose();
     }
 
     set_parent(data) {
@@ -229,11 +234,6 @@ export class MemberDetail {
         let key = gender == 'M' ? 'pa' : 'ma';
         if (data.parent_num == 2) key += 2;
         this.member.family_connections.parents[key] = parent;
-        // if (gender == 'M') {
-        //     this.member.family_connections.parents.pa = parent
-        // } else {
-        //     this.member.family_connections.parents.ma = parent
-        // }
         let n = 0;
         let pars = this.member.family_connections.parents;
         for (let g of ['pa', 'ma', 'pa2', 'ma2']){
@@ -244,6 +244,14 @@ export class MemberDetail {
         }
         this.member.family_connections.hasFamilyConnections ||= (n > 0);
             // this.member.family_connections.parents.ma || this.member.family_connections.parents.pa;
+    }
+
+    set_spouse(data) {
+        let spouses = this.member.family_connections.spouses;
+        if (! spouses) spouses = [];
+        spouses.push(data.spouse);
+        this.member.family_connections.spouses = spouses;
+        this.member.family_connections.hasFamilyConnections = true;
     }
 
     tryDelete() {
@@ -289,7 +297,7 @@ export class MemberDetail {
     }
 
     story(idx) {
-        let empty_story = {name: "", story_text: ""};
+        let empty_story = {name: "", story_text: "", dir: "rtl"};
         if (!this.member) return empty_story;
         if (this.stories_base < 0)
             this.stories_base = 0;
@@ -308,7 +316,7 @@ export class MemberDetail {
         }
         if (i < n) {
             let rec = this.member_stories.lst[i];
-            rec.name = rec.name ? rec.name : ""
+            rec.name = rec.name ? rec.name : "";
             rec.dir = this.theme.language_dir(rec.language);
             return rec
         } else {

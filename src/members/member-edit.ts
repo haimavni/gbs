@@ -69,7 +69,8 @@ export class MemberEdit {
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name',
         'member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.NickName', 'member.member_info.mother_id', 'member.member_info.father_id',
         'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 'member.member_info.cause_of_death',
-        'member.member_info.gender', 'member.story_info.life_story', 'member.member_info.visibility', 'member.member_info.approved', 'member.member_info.title')
+        'member.member_info.gender', 'member.story_info.life_story', 'member.member_info.visibility', 'member.member_info.approved', 'member.member_info.title',
+        'member.member_info.spouse_id')
     get dirty_info() {
         let dirty = JSON.stringify(this.member.member_info) != JSON.stringify(this.member_info_orig);
         this.eventAggregator.publish('DirtyInfo', dirty);
@@ -105,19 +106,22 @@ export class MemberEdit {
             return;
         }
         if (this.dirty_info) {
-            this.member.member_info.last_name = this.member.member_info.last_name.trim();
+            if (this.member.member_info.last_name)
+                this.member.member_info.last_name = this.member.member_info.last_name.trim();
             this.member.member_info.first_name = this.member.member_info.first_name.trim();
             data['member_info'] = this.member.member_info;
         } else {
             data['member_id'] = this.member.member_info.id;
         }
         let id = this.member.member_info.id;
+        const new_member = ! id;
         this.api.call_server_post('members/save_member_info', data)
             .then(response => {
                 this.member_info_orig = this.misc.deepClone(this.member.member_info);
 
                 this.life_story_orig = this.member.story_info.story_text;
                 this.member = this.misc.deepClone(this.member);
+                if (new_member) this.router.navigateToRoute('members');
             });
     }
 
@@ -131,6 +135,26 @@ export class MemberEdit {
         else {
             this.member.member_info.gender = 'F'
         }
+    }
+
+    gender_class(gender) {
+        if (this.member.member_info.gender == gender) return "btn-primary";
+        if (!this.member.member_info.gender) return "mandatory-missing";
+        return "btn-default";
+    }
+
+    @computedFrom('member.member_info.gender')
+    get gender_class_f() {
+        return this.gender_class("F");
+    }
+
+    @computedFrom('member.member_info.gender')
+    get gender_class_m() {
+        return this.gender_class("M");
+    }
+
+    set_gender(gender) {
+        this.member.member_info.gender = gender;
     }
 
     trim_first_name() {
@@ -156,7 +180,8 @@ export class MemberEdit {
             return this.remove_parent(parent_gender, parent_num)
         this.dialog.open({
             viewModel: MemberPicker, model: { 
-                gender: parent_gender, 
+                gender: parent_gender,
+                what: "parent",
                 child_name: this.member.member_info.full_name, 
                 child_id: this.member.member_info.id }, 
                 lock: false,
@@ -177,6 +202,32 @@ export class MemberEdit {
             }
             let parent = this.get_member_data(this.member.member_info[key]);
             this.eventAggregator.publish('ParentFound', {parent: parent, parent_num: parent_num});
+        });
+    }
+
+    find_spouse(event) {
+        const spouses = this.member.family_connections.spouses.map(mem => mem.id);
+        const spouse_set = new Set(spouses);
+        spouse_set.add(this.member.member_info.id);
+        this.dialog.open({
+            viewModel: MemberPicker, model: { 
+                gender: this.spouse_gender(),
+                what: "spouse",
+                excluded: spouse_set,
+                child_name: this.member.member_info.full_name, 
+                child_id: this.member.member_info.id }, 
+                lock: false,
+                position: this.setup, 
+                rejectOnCancel: true
+        }).whenClosed(response => {
+            if (response.wasCancelled) return;
+            this.member.member_info.spouse_id = response.output.member_id;
+            let spouse;
+            this.memberList.get_member_by_id(this.member.member_info.spouse_id)
+            .then(spouse1 => {
+                spouse = spouse1;
+                this.eventAggregator.publish('SpouseFound', {spouse: spouse});
+            });
         });
     }
 
@@ -205,6 +256,7 @@ export class MemberEdit {
         if (!this.member.member_info.visibility) return '';
         if (this.date_of_birth_valid != 'valid' || this.date_of_death_valid != 'valid' || (this.member.member_info.gender != "F" && this.member.member_info.gender != "M") || ! this.member.member_info.first_name)
             return "disabled"
+        if (!this.member.member_info.gender) return "disabled";
         return ''
     }
 
@@ -213,6 +265,20 @@ export class MemberEdit {
     
     set_family_type(ft) {
         this.family_type = ft;
+    }
+
+    spouse_gender() {
+        if (this.family_type == "ff") return "F";
+        if (this.family_type == "mm") return "M";
+        if (this.member.member_info.gender == "F") return "M";
+        return "F";
+    }
+
+    @computedFrom('family_type', 'member.member_info.gender')
+    get spouse_label() {
+        const gender = this.spouse_gender();
+        if (gender == "M") return "husband";
+        return "wife";
     }
 
 }

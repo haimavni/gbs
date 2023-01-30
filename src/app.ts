@@ -4,6 +4,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {Theme} from './services/theme';
 import {MemberGateway} from './services/gateway';
 import {User} from './services/user';
+import {Cookies} from './services/cookies';
 import {Misc} from './services/misc';
 import {WatchVersion} from './services/watch_version';
 import {DialogService} from 'aurelia-dialog';
@@ -13,6 +14,7 @@ import {AddCustomer} from './admin/add_customer';
 import {Redirect} from 'aurelia-router';
 import { MemberList } from './services/member_list';
 import { SelectSearch } from './services/select-search';
+import { NotifyLowScreen } from './services/notify-low-screen';
 
 @autoinject
 export class App {
@@ -31,7 +33,8 @@ export class App {
     clear_keywords_timeout = null;
     search_timeout = null;
     search_history = [];
-    misc;
+    misc: Misc;
+    cookies: Cookies;
     member_list: MemberList;
     
     constructor(
@@ -42,6 +45,7 @@ export class App {
         dialog: DialogService, 
         ea: EventAggregator, 
         misc: Misc, 
+        cookies: Cookies,
         member_list: MemberList) {
         this.baseURL = environment.baseURL;
         this.curr_version = environment.version || "just now";
@@ -52,6 +56,7 @@ export class App {
         this.dialog = dialog;
         this.ea = ea;
         this.misc = misc;
+        this.cookies = cookies;
         this.member_list = member_list;
         this.ea.subscribe('GOTO-PHOTO-PAGE', payload => {
             this.router.navigateToRoute('photos', payload);
@@ -59,11 +64,15 @@ export class App {
     }
 
     attached() {
+        if (this.cookies.get('NO-SCREEN-ALERT')) return;
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit('APP');
         if (environment.push_state)
             console.log("app attached");
-        //this.user.get_app_list();
+        const screen_height = document.documentElement.clientHeight;
+        if (screen_height < 900 && this.theme.is_desktop) {
+            this.dialog.open({viewModel: NotifyLowScreen, lock: false});
+        }
     }
 
     bind() {
@@ -92,12 +101,12 @@ export class App {
         config.addAuthorizeStep(AuthorizeStep);
         config.map([
             {route: ['home', ''], name: 'home',  moduleId: './home/home', nav: false, title: '', settings: {auth: true}},
+            {route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories', settings: {auth: true, is_main: 'is_main'}},
             {route: 'docs', name: 'docs', moduleId: './docs/docs', nav: true, title: 'docs.docs', settings: {auth: true}},
             {route: 'terms', moduleId: './terms/terms', nav: true, title: 'terms.terms', settings: {auth: true}},
             {route: 'audios/*', name: 'audios', moduleId: './audios/audios', nav: true, title: 'audios.audios', settings: {auth: true}},
             {route: 'videos', moduleId: './videos/videos', nav: true, title: 'videos.videos', settings: {auth: true}},
             {route: 'photos/*', name: 'photos', moduleId: './photos/photos', nav: true, title: 'photos.photos', settings: {auth: true}},
-            {route: 'stories', name: 'stories', moduleId: './stories/stories', nav: true, title: 'stories.stories', settings: {auth: true}},
             //{ route: 'stories-tool/*', name: 'stories', moduleId: './stories/stories', nav: false, title: 'stories.stories' },
             {
                 route: 'articles',

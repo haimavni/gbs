@@ -11,6 +11,8 @@ export class MyMapCustomElement {
     @bindable can_mark = true;
     @bindable marked = false;
     @bindable ignore = false;
+    @bindable width = 500;
+    @bindable height = 500;
     back;
     tracked_zoom: number = 0;
     longitude_distance = 0;

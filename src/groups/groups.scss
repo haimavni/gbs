@@ -117,3 +117,25 @@
 div.photos-ready {
     cursor: pointer;
 }
+
+table#groups-table {
+    td {
+        height: 38px;
+    }
+    tr {
+        height: 38px;
+    }
+}
+
+google-map {
+    height: 620px!important;
+}
+
+div.uploader-page multi-select {
+    input {
+        width: 198px;
+    }
+    div.options {
+        width: 100%!important;
+    }
+}

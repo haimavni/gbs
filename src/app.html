@@ -14,10 +14,10 @@
                         <span class="router-title">${router.title & t}</span>
                     </a>
                     <div class="menu-items">
-                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}"
+                        <a repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''} ${row.settings.is_main}"
                             href.bind="row.href" draggable="false"
                             if.bind="show_menu_item(row)">
-                            ${row.title & t}. ${row.nav}
+                            ${row.title & t} ${row.nav}
                         </a>
                     </div>
                     <!-- <div class="navbar-controls" if.bind="! theme.is_desktop" >

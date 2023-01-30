@@ -754,6 +754,13 @@
         "select-cover-photo2": "To click the chain icon. then return here.",
         "about-lifestone": "About Lifestone"
     },
+    "screen": {
+        "low-screen": "Improve your viewing experience",
+        "explain": "To improve your viewing experience,  press F11 to change to full screen mode",
+        "explain1": "If still not all page is visible, press control '-' for smaller fonts",
+        "got-it": "Got it",
+        "dont-show-again": "Do not show again"
+    },
     "feedbacks": "Feedback",
     "go-back": "Back",
     "parents": "Parents",
