@@ -26,6 +26,9 @@
     div.cue-points-area {
         height: 250px;
         overflow: auto;
+        span.highlighted {
+            background-color: yellow;
+        }
     }
 
     div.data-area {
