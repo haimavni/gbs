@@ -96,7 +96,8 @@
                             longtouch.delegate="toggle_selection(member, $event)" disabled.bind="not_ready(member)"
                             style="color:black;cursor:pointer;">
                             <img src.bind="member.facePhotoURL"
-                                css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" width.bind="photo_size" height.bind="photo_size"/>
+                                css="border: ${member.selected ? '6px solid lightgreen' : 'none'}" 
+                                width.bind="photo_size" height.bind="photo_size"/>
                             <h6 class="list-group-item-heading">${member.name}</h6>
                         </a>
                     </li>

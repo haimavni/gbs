@@ -116,7 +116,22 @@ export class App {
                 title: 'articles.articles',
                 settings: {auth: true}
             },
-            {route: 'members', name: 'members', moduleId: './members/members', nav: true, title: 'members.members', settings: {auth: true}},
+            {   
+                route: 'memorial', 
+                name: 'memorial', 
+                moduleId: './members/memorial', 
+                nav: true, 
+                title: 'members.memorial', 
+                settings: {auth: true}
+            },
+            {   
+                route: 'members', 
+                name: 'members', 
+                moduleId: './members/members', 
+                nav: true, 
+                title: 'members.members', 
+                settings: {auth: true}
+            },
             {
                 route: 'members/:caller_id/*',
                 name: 'associate-members',
