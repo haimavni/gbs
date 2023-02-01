@@ -83,13 +83,16 @@ export class Memorial {
                     mem1.death_day_since_epoch - mem2.death_day_since_epoch);
                 break;
             case "earliest-first":
-                this.members.sort((mem1, mem2) => mem1.death_day_since_epoch - mem2.death_day_since_epoch);
+                this.members.sort((mem1, mem2) => 
+                    mem1.death_day_since_epoch - mem2.death_day_since_epoch);
                 break;
             case "latest-first":
-                this.members.sort((mem1, mem2) => mem2.death_day_since_epoch - mem1.death_day_since_epoch);
+                this.members.sort((mem1, mem2) => 
+                    mem2.death_day_since_epoch - mem1.death_day_since_epoch);
                 break;
             case "nearest-yarzeit":
-                this.members.sort((mem1, mem2) => mem1.death_day_of_year_relative - mem2.death_day_of_year_relative);
+                this.members.sort((mem1, mem2) => 
+                    mem1.death_day_of_year_relative - mem2.death_day_of_year_relative);
                 break;
         }
     }
