@@ -2,7 +2,6 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { autoinject, computedFrom, singleton } from 'aurelia-framework';
-import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { Misc } from '../services/misc';
@@ -28,6 +27,8 @@ export class Memorial {
     misc: Misc;
     memberList: MemberList;
     members = [];
+    order_option = {value: 'alfabetic'};
+    order_options;
 
     constructor(api: MemberGateway, user: User, i18n: I18N, router: Router, videos: Videos,
         memberList: MemberList, theme: Theme, misc: Misc) {
@@ -38,20 +39,27 @@ export class Memorial {
         this.i18n = i18n;
         this.router = router;
         this.memberList = memberList;
+        this.order_options = [
+            { name: i18n.tr('members.alfabetic-order'), value: 'alfabetic' },
+            { name: i18n.tr('members.earliest-first'), value: 'earliest-first' },
+            { name: i18n.tr('members.latest-first'), value: 'latest-first' },
+            { name: i18n.tr('members.nearest-yarzeit'), value: 'nearest-yarzeit' }
+        ];
     }
 
 
     activate() {
-        this.memberList.getMemberList().then(members => {
-            this.members = members.member_list;
-        }
+        this.api.call_server_post("members/get_deceased_members").then(response => {
+            this.members = response.members;
+            this.handle_order_change();
+        })
     }
 
     attached() {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
-        this.theme.page_title = "stories.place-stories";
+        this.theme.page_title = "members.memorial";
         this.scroll_area.scrollTop = this.scroll_top;
     }
 
@@ -67,6 +75,27 @@ export class Memorial {
     }
 
     handle_order_change() {
+        console.log("order option: ", this.order_option);
+        switch(this.order_option.value) {
+            case "alfabetic": 
+                console.log("sort alfabetic");
+                this.members.sort((mem1, mem2) => 
+                    mem1.last_name < mem2.last_name ? -1 : 
+                    mem1.last_name > mem2.last_name ? +1 : 
+                    mem1.death_day_since_epoch - mem2.death_day_since_epoch);
+                break;
+            case "earliest-first":
+                console.log("sort earlier first");
+                this.members.sort((mem1, mem2) => mem1.death_day_since_epoch - mem2.death_day_since_epoch);
+                break;
+            case "latest-first":
+                this.members.sort((mem1, mem2) => mem2.death_day_since_epoch - mem1.death_day_since_epoch);
+                break;
+            case "nearest-yarzeit":
+                this.members.sort((mem1, mem2) => mem1.death_day_of_year_relative - mem2.death_day_of_year_relative);
+                break;
+                
+        }
     }
 
     @computedFrom('theme.height')
@@ -78,5 +107,6 @@ export class Memorial {
         let div = document.getElementById('story-filters');
         div.scrollTop = h;
     }
+
 
 }

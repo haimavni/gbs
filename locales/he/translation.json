@@ -116,6 +116,7 @@
         "members": "חברים",
         "new": "הוסף את ",
         "add-new-member": "הוסף חבר חדש",
+        "deceased-filter": "הקלידו את שם הנפטר.ת",
         "filter-can-add": "הקלד שם פרטי, שם משפחה או כינוי, או שם של חבר חדש",
         "filter": "הקלד שם פרטי, שם משפחה או כינוי",
         "clear": "נקה",
@@ -197,7 +198,12 @@
         "are-divorced": "פרודים",
         "divorced": "יוצגו כבני זוג פרודים",
         "divorced-hidden": "לא יוצגו כבני זוג",
-        "not-divorced": "לא נפרדו"
+        "not-divorced": "לא נפרדו",
+        "memorial": "לזכרם",
+        "alfabetic-order": "לפי שם המשפחה",
+        "earliest-first": "המוקדמים תחילה",
+        "latest-first": "המאוחרים תחילה",
+        "nearest-yarzeit": "לפי יום השנה הקרוב"
     },
     "articles": {
         "articles": "פריטים",

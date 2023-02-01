@@ -2,14 +2,14 @@
     <section class="container content-area" id="memorial-page">
         <div class="row content-area" dir="${theme.rtltr}">
             <div class="row" id="memorial-list">
-                <div class="col-md-8 col-sm-12">
+                <div class="col-md-9 col-sm-12">
                     <ul
                         ref="scroll_area"
-                        class="story-list unselectable"
+                        class="deceased-list unselectable"
                         style="margin-top: 12px"
                     >
                         <li
-                            repeat.for="member of members"
+                            repeat.for="member of members | filter : filter : 'full_name'"
                             dir="${theme.rtltr}"
                             style="
                                 float: right;
@@ -31,15 +31,45 @@
                                     <div>
                                         <img src.bind="member.facePhotoURL"
                                             style="border-radius: 50%"
-                                            width="120"/>
+                                            width="120"
                                         />
                                     </div>
-                                    <p innerhtml.bind="member.bio_preview">
-                                    </p>
+                                    <div style="display:flex;flex-direction:column">
+                                        <span style="font-weight:bolder;margin-bottom:8px;">
+                                            ${member.full_name}  ${member.birth_date}-${member.death_date}
+                                        </span>
+                                        <p innerhtml.bind="member.bio_preview">
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </li>
                     </ul>
+                </div>
+                <div class="col-md-3 col-sm-12" 
+                    if.bind="theme.is_desktop" 
+                    id="memorial-filters"
+                    style="display:flex;flex-direction:column">
+                    <div>
+                        <div id="members-filter" class="input-group" style="margin-bottom:12px;">
+                            <search-input 
+                                value.bind="filter" 
+                                placeholder="members.deceased-filter" 
+                                height="38"
+                                help_topic="members-help">
+                            </search-input>
+                        </div>                
+                        <select 
+                            value.bind="order_option" 
+                            style="height:32px;width:100%;"
+                            change.delegate="handle_order_change($event)">
+                            <option 
+                                repeat.for="option of order_options" 
+                                model.bind="option">
+                                ${option.name}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

@@ -118,6 +118,7 @@
         "new": "Add ",
         "add-new-member": "Add a new member",
         "filter": "Enter first or last name or nick name",
+        "deceased-filter": "Enter the deceased name",
         "filter-can-add": "Enter first or last name or nick name, or name of new member",
         "clear": "Clear",
         "family-connections": "Family Connections",
@@ -199,7 +200,12 @@
         "are-divorced": "are divorced",
         "divorced": "Divorced",
         "divorced-hidden": "Dont show as spouses",
-        "not-divorced": "Not divorced"
+        "not-divorced": "Not divorced",
+        "memorial": "Memorial",
+        "alfabetic-order": "Alfabetic order",
+        "earliest-first": "Earlier first",
+        "latest-first": "Latest first",
+        "nearest-yarzeit": "By nearest yarzeit"
     },
     "articles": {
         "articles": "Articles",
