@@ -75,17 +75,14 @@ export class Memorial {
     }
 
     handle_order_change() {
-        console.log("order option: ", this.order_option);
         switch(this.order_option.value) {
             case "alfabetic": 
-                console.log("sort alfabetic");
                 this.members.sort((mem1, mem2) => 
                     mem1.last_name < mem2.last_name ? -1 : 
                     mem1.last_name > mem2.last_name ? +1 : 
                     mem1.death_day_since_epoch - mem2.death_day_since_epoch);
                 break;
             case "earliest-first":
-                console.log("sort earlier first");
                 this.members.sort((mem1, mem2) => mem1.death_day_since_epoch - mem2.death_day_since_epoch);
                 break;
             case "latest-first":
@@ -94,7 +91,6 @@ export class Memorial {
             case "nearest-yarzeit":
                 this.members.sort((mem1, mem2) => mem1.death_day_of_year_relative - mem2.death_day_of_year_relative);
                 break;
-                
         }
     }
 
