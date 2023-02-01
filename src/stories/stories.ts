@@ -112,6 +112,7 @@ export class Stories {
     book_list = [];
     pickerSettings: PickerSettings = new PickerSettings({can_add: true});
     stories_date_valid = '';
+    single_doc_entry = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router, videos: Videos,
         word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup, misc: Misc) {
@@ -189,7 +190,8 @@ export class Stories {
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
         this.simple_search(this.params.keywords_str, false);
-    }
+        this.single_doc_entry = this.user.config.single_doc_entry;
+}
 
     created(params, config) {
         if (this.story_list && this.story_list.length > 0 && !this.router.isExplicitNavigation) return;
@@ -444,7 +446,10 @@ export class Stories {
                 this.router.navigateToRoute('help-detail', { id: story.story_id, what: 'help', keywords: keywords, search_type: this.params.search_type });
                 break;
             case this.api.constants.story_type.STORY4DOC:
-                this.openDialog(story.doc_url);
+                if (this.single_doc_entry)
+                    this.view_details(story, event)
+                else
+                    this.openDialog(story.doc_url);
                 break;
             case this.api.constants.story_type.STORY4VIDEO:
                 //this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
