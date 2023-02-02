@@ -39,3 +39,8 @@ div.doc-detail {
         justify-content: space-between;
     }
 }
+
+div#doc-story {
+    height:calc(100vh - 200px);
+    overflow:auto;
+}

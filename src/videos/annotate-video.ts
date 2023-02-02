@@ -242,7 +242,7 @@ export class AnnotateVideo {
     get topic_names() {
         if (!this.video_topics) return "";
         let topic_name_list = this.video_topics.map(itm => itm.name);
-        return topic_name_list.join(';');
+        return topic_name_list.join(';  ');
     }
 
     @computedFrom('photo_story.story_text', 'story_changed', 'keywords', 'advanced_search')

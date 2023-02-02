@@ -202,7 +202,7 @@ export class DocDetail {
     get topic_names() {
         if (!this.doc_topics) return "";
         let topic_name_list = this.doc_topics.map(itm => itm.name);
-        return topic_name_list.join(';');
+        return topic_name_list.join(';  ');
     }
 
     @computedFrom('story_about', 'story_about.story_text', 'story_changed', 'keywords', 'advanced_search')

@@ -204,7 +204,7 @@ export class PhotoDetail {
     get topic_names() {
         if (!this.photo_topics) return "";
         let topic_name_list = this.photo_topics.map(itm => itm.name);
-        return topic_name_list.join(';');
+        return topic_name_list.join(';  ');
     }
 
     async calc_photo_width() {
