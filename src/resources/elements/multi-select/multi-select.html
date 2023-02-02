@@ -27,7 +27,9 @@
                                 if.bind="user.advanced_user && settings.can_set_sign && item.first" t="[title]multi-select.change-sign"
                                 click.delegate="toggle_sign(item.option, $event)">
                             </i>
-                            <i class="far fa-times-circle tool ${highlight_unselectors}" t="[title]multi-select.unselect"
+                            <i class="far fa-times-circle tool ${highlight_unselectors}" 
+                                t="[title]multi-select.unselect"
+                                if.bind="! item.option.undeletable"
                                 css="margin-left:${on_off_button_margin(item.first)}px"
                                 click.delegate="unselect_item(item, $index)">
                             </i>
@@ -36,9 +38,10 @@
                                 click.delegate="move_item(item, $index)">
                             </i>
                         </div>
-                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;"  contextmenu.delegate="edit_option_dialog(item.option, $event)"
+                        <span if.bind="! item.editing" style="height:24px;padding-right:5px;overflow:hidden;"  contextmenu.delegate="edit_option_dialog(item.option, $event)"
                             class.bind="'option-kind-' + item.option.topic_kind">${item.option.name}</span>
                         <input type="text" if.bind="item.editing" value.bind="item.option.name"
+                            style="overflow:hidden;"
                             change.delegate="name_changed(item, $event)" style="width:55%">
                     </div>
                 </li>

@@ -70,6 +70,7 @@ export class UploadPhoto {
     back;
     map_visible = false;
     ignore = true;
+    working = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, ea: EventAggregator,
         i18n: I18N, router: Router, popup: Popup, theme: Theme, misc: Misc) {
@@ -99,6 +100,8 @@ export class UploadPhoto {
             this.status_record.photo_info.photo_date_datespan = msg.photo_date_datespan;
             this.status_record.photo_info.photographer_name = msg.photographer_name || '';
             this.status_record.photo_info.photo_topics = msg.photo_topics;
+            for (let opt of this.status_record.photo_info.photo_topics)
+                opt.undeletable = true;
             this.status_record.photo_info.photographer_id = msg.photographer_id;
             this.status_record.duplicate = msg.duplicate;
             this.status_record.old_data = this.misc.deepClone(this.status_record.photo_info);
@@ -143,6 +146,7 @@ export class UploadPhoto {
 
     save(event: Event) {
         event.stopPropagation();
+        this.working = true;
         this.api.uploadFiles(
             this.status_record.user_id,
             this.photos,
@@ -155,6 +159,8 @@ export class UploadPhoto {
     get phase() {
         if (this.status_record.user_id < 1) return 'not-logged-in';
         this.status_record.photo_uploaded = this.status_record.photo_url != '';
+        if (this.status_record.photo_uploaded)
+            this.working = false;
         if (this.photos.length > 0) return 'ready-to-save';
         if (this.status_record.photo_url) {
             this.status_record.photo_uploaded = true;

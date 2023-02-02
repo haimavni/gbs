@@ -12,7 +12,10 @@
         <div class="info-area">
             <compose view-model="./user-info" model.bind="status_record"></compose>
         </div>
-        <div class="photo-area" id="group-photo-area">
+        <div class="photo-area" id="group-photo-area" style="position:relative;">
+            <span class="loader" css="opacity:${working ? 1.0 : 0};position:absolute;left:48%;top:35%;">
+                <i class="fa fa-spinner fa-spin fa-3x" style="color:blue"></i>
+            </span>
             <div class="buttons" if.bind="phase != 'photo-uploaded' && ! status_record.map_visible">
                 <form submit.delegate="save($event)">
                     <div class="form-group" if.bind="phase=='ready-to-select'">

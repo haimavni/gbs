@@ -117,6 +117,7 @@ export class MultiSelectCustomElement {
     }
 
     select_option(option) {
+        this.filter = "";
         if (option.topic_kind == 1 && this.hide_higher) {
             if (option.expanded) {
                 this.collapse(option)
