@@ -325,6 +325,8 @@
         "registered-only": "האתר פתוח למשתמשים רשומים בלבד",
         "please-login-if": "אם אתה משתמש רשום, אנא התחבר",
         "qrcode-name": "QR code file name (English + digits only)",
+        "topics-file": "רשימת הנושאים",
+        "download-topics-file": "הורד את רשימת הנושאים",
         "sharing": {
             "sharing": "שיתוף",
             "facebook": "שיתוף בפייסבוק",

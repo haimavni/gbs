@@ -326,6 +326,8 @@
         "advanced-options-on": "Enable advanced options",
         "registered-only": "Only registered users may view this site",
         "please-login-if": "If you are registered, please login",
+        "topics-file": "Topics file",
+        "download-download-topics-file": "Download topics file",
         "qrcode-name": "QR code file name (English + digits only)",
         "sharing": {
             "sharing": "Sharing",

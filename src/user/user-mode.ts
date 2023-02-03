@@ -16,6 +16,7 @@ import * as toastr from 'toastr';
 import environment from '../environment';
 import { FacebookCard } from "./facebook-card";
 import { MakeQRCode } from "./make_qrcode";
+import * as download from 'downloadjs';
 
 @autoinject()
 export class UserMode {
@@ -290,6 +291,13 @@ export class UserMode {
             model: {url: this.current_url}, lock: false})
             .whenClosed(response => {
                 this.theme.hide_title = false;
+        })
+    }
+
+    download_topics_file() {
+        this.api.call_server("topics/print_topics_file")
+        .then(response => {
+            download(response.topics_file_url)
         })
     }
 

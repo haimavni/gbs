@@ -226,6 +226,13 @@
                     </span>
                 </a>
             </li>
+            <li if.bind="user.privileges.ADMIN" t="[title]user.topics_file">
+                <a class="dropdown-item" href="#" click.trigger="download_topics_file()">
+                    <span class="${theme.rtltr} float">
+                        ${'user.download-topics-file' & t}
+                    </span>
+                </a>
+            </li>
         </ul>
     </div>
     <style>
