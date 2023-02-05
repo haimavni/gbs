@@ -37,7 +37,7 @@ export class Customize {
     enable_cuepoints_options = ['user.enable-cuepoints-on', 'user.enable-cuepoints-off'];
     allow_publishing_options = ['user.allow-publishing-on', 'user.allow-publishing-off'];
     expose_gallery_options = ['user.expose-gallery-on', 'user.expose-gallery-off'];
-    short_bio_title_options = ['user.short-bio-title-on', 'user.short-bio-title-on'];
+    short_bio_title_options = ['user.short-bio-title-on', 'user.short-bio-title-off'];
     articles_in_menu_options = ['user.articles-in-menu-on', 'user.articles-in-menu-off'];
 
     //-----------
