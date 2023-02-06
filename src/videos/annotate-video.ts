@@ -21,10 +21,11 @@ class CuePoint {
     member_ids = [];
     cls = '';
 
-    constructor(time, description, keywords?) {
+    constructor(time, description, member_ids, keywords?) {
         this.time = time;
         if (typeof keywords == 'string') keywords = keywords.split(",");
         this.description = highlight(description, keywords, false);
+        this.member_ids = member_ids;
     }
 
 }
@@ -178,7 +179,7 @@ export class AnnotateVideo {
                 if (this.cuepoints_enabled)
                     this.set_video_source();
                 let cue_points = response.cue_points;
-                this.cue_points = cue_points.map(cp => new CuePoint(cp.time, cp.description, this.keywords));
+                this.cue_points = cue_points.map(cp => new CuePoint(cp.time, cp.description, cp.member_ids, this.keywords));
                 if (this.member_id) {
                     this.cue0 = null;
                     for (let cue of this.cue_points) {
@@ -269,7 +270,7 @@ export class AnnotateVideo {
 
     add_cue_point() {
         let time = Math.round(this.player.currentTime)
-        let cue = new CuePoint(time, '');
+        let cue = new CuePoint(time, '', []);
         this.cue_points.push(cue);
         this.cue_points = this.cue_points.sort((cue1, cue2) => cue1.time - cue2.time);
         this.api.call_server_post('videos/update_video_cue_points', {
