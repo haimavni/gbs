@@ -138,7 +138,12 @@ export class DocDetail {
                 this.members = response.members;
                 let doc_segments = [];
                 for (let doc_segment of response.doc_segments) {
-                    const ds = new DocSegment(doc_segment.id, doc_segment.name, doc_segment.page_num, doc_segment.story_id);
+                    const ds = new DocSegment(
+                        doc_segment.id, 
+                        doc_segment.name, 
+                        doc_segment.page_num, 
+                        doc_segment.story_id, 
+                        doc_segment.members);
                     doc_segments.push(ds);
                 }
                 this.doc_segments = doc_segments;
@@ -350,5 +355,25 @@ export class DocDetail {
         let story_about_id = this.story_about.story_id;
         this.api.call_server_post("docs/update_story_preview", {story_id: this.story_id, story_about_id: story_about_id});
     }
+
+    select_members(doc_segment) {
+        this.theme.hide_title = true;
+        this.dialog.open({
+            viewModel: MemberPicker,
+            model: {multi: true, back_to_text: 'docs.back-to-doc', preselected: doc_segment.member_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            doc_segment.member_ids = Array.from(response.output.member_ids);
+            this.api.call_server_post('docs/update_doc_segment_members', {
+                doc_id: this.doc_id,
+                page_num: doc_segment.page_num,
+                member_ids: doc_segment.member_ids
+            });
+        });
+    }
+
 
 }
