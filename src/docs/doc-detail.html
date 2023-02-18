@@ -23,7 +23,22 @@
                     <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
                     style="width:40px;position:absolute;left:80px;top:20px;background-color:rgba(0,0,0,0);border:0;color:white;"
                     click.delegate="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
-                    <iframe if.bind="doc_src" src.bind="doc_src" width="100%" height="100%" allow="fullscreen" id="doc-frame"></iframe>
+                    <iframe if.bind="doc_src_ready && !curr_doc_segment" 
+                        src.bind="doc_src" 
+                        width="100%" 
+                        height="100%" 
+                        allow="fullscreen" 
+                        id="doc-frame">
+                    </iframe>
+                    <div repeat.for="doc_segment of doc_segments" if.bind="curr_doc_segment && doc_segment.id==curr_doc_segment.id">
+                        <iframe if.bind="doc_src_ready" 
+                            src.bind="doc_src" 
+                            width="100%" 
+                            height="100%" 
+                            allow="fullscreen" 
+                            id="doc-frame">
+                        </iframe>
+                    </div>
                 </div>
                 <button if.bind="user.editing"
                         class="btn btn-primary btn-framed"
@@ -49,7 +64,7 @@
                         range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]" is_valid.bind="doc_date_valid"
                         change.delegate="update_doc_date($event)">
                     </date-range>
-                    <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}:
+                    <span if.bind="topic_names" style="margin-top: -6px;">${'photos.keywords' & t}:
                         ${topic_names}</span>
                 </div>
             </div>

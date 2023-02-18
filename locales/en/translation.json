@@ -571,7 +571,10 @@
         "new-to-old": "New documents first",
         "old-to-new": "Old documents first",
         "recently-uploaded": "Recently uploaded",
-        "back-to-doc": "Back to the document"
+        "back-to-doc": "Back to the document",
+        "add-doc-segment": "Add segment",
+        "page-num": "Page",
+        "doc-segment-description": "Segment description"
     },
     "terms": {
         "terms": "Terms",

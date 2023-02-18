@@ -9,6 +9,22 @@ import { DialogService } from 'aurelia-dialog';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { MemberPicker } from "../members/member-picker";
 
+class DocSegment {
+    id = 0;
+    name = "";
+    page_num = 0;
+    story_id = 0;
+    member_ids = [];
+
+    constructor(id, name, page_num, story_id, member_ids) {
+        this.id = id;
+        this.name = name;
+        this.page_num = page_num;
+        this.story_id = story_id;
+        this.member_ids = member_ids;
+    } 
+}
+
 @autoinject()
 export class DocDetail {
     api: MemberGateway;
@@ -25,7 +41,8 @@ export class DocDetail {
     no_topics_yet = false;
     advanced_search = false;
     doc_id;
-    doc_src;
+    doc_src_ready = false;
+    _doc_src;
     doc_story;
     doc_story_about;
     doc_date_str;
@@ -55,6 +72,8 @@ export class DocDetail {
     members = [];
     caller;
     fullscreen;
+    doc_segments = []; //Array<DocSegment>;
+    curr_doc_segment: DocSegment = null;
 
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
@@ -98,7 +117,8 @@ export class DocDetail {
                 }
                 this.doc_id = response.doc_id;
                 this.doc = response.doc;
-                this.doc_src = response.doc_src + search_str;
+                this._doc_src = response.doc_src + search_str;
+                this.doc_src_ready = true;
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
@@ -116,6 +136,19 @@ export class DocDetail {
                 this.init_selected_topics();
                 this.undo_list = [];
                 this.members = response.members;
+                let doc_segments = [];
+                if (! response.doc_segments)  // until it works
+                    response.doc_segments = [];
+                for (let doc_segment of response.doc_segments) {
+                    const ds = new DocSegment(
+                        doc_segment.id, 
+                        doc_segment.name, 
+                        doc_segment.page_num, 
+                        doc_segment.story_id, 
+                        doc_segment.members);
+                    doc_segments.push(ds);
+                }
+                this.doc_segments = doc_segments;
             });
     }
 
@@ -306,6 +339,11 @@ export class DocDetail {
         });
     }
 
+    @computedFrom('curr_doc_segment.page_num')
+    get doc_src() {
+        return this._doc_src + (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
+    }
+
     async makeFullScreen() {
         let el = document.getElementById("doc-frame");
         if (el.requestFullscreen) {
@@ -319,5 +357,25 @@ export class DocDetail {
         let story_about_id = this.story_about.story_id;
         this.api.call_server_post("docs/update_story_preview", {story_id: this.story_id, story_about_id: story_about_id});
     }
+
+    select_members(doc_segment) {
+        this.theme.hide_title = true;
+        this.dialog.open({
+            viewModel: MemberPicker,
+            model: {multi: true, back_to_text: 'docs.back-to-doc', preselected: doc_segment.member_ids},
+            lock: false,
+            rejectOnCancel: false
+        }).whenClosed(response => {
+            this.theme.hide_title = false;
+            if (response.wasCancelled) return;
+            doc_segment.member_ids = Array.from(response.output.member_ids);
+            this.api.call_server_post('docs/update_doc_segment_members', {
+                doc_id: this.doc_id,
+                page_num: doc_segment.page_num,
+                member_ids: doc_segment.member_ids
+            });
+        });
+    }
+
 
 }

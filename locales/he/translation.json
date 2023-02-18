@@ -318,7 +318,7 @@
         "version-time-off": "הסתר את תאריך הגרסה",
         "expose-developer-on": "הצג שם החברה",
         "expose-developer-off": "הסתר את שם החברה",
-        "quick-upload-photo": "העלה תמונה משלך לאתר",
+        "quick-upload-photo": "העלה תמונות בעצמך",
         "advanced-options": "אפשרויות מתקדמות",
         "advanced-options-off": "ללא אפשרויות מתקדמות",
         "advanced-options-on": "הצג אפשרויות מתקדמות",
@@ -575,7 +575,10 @@
         "new-to-old": "מסמכים חדשים תחילה",
         "old-to-new": "מסמכים ישנים תחילה",
         "recently-uploaded": "מסמכים שהועלו לאחרונה",
-        "back-to-doc": "חזרה למסמך"
+        "back-to-doc": "חזרה למסמך",
+        "add-doc-segment": "הוסף קטע",
+        "page-num": "עמוד",
+        "doc-segment-description": "תיאור הקטע"
     },
     "terms": {
         "terms": "מונחים",
