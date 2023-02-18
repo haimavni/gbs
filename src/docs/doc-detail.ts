@@ -137,6 +137,8 @@ export class DocDetail {
                 this.undo_list = [];
                 this.members = response.members;
                 let doc_segments = [];
+                if (! response.doc_segments)  // until it works
+                    response.doc_segments = [];
                 for (let doc_segment of response.doc_segments) {
                     const ds = new DocSegment(
                         doc_segment.id, 
