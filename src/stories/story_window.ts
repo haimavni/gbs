@@ -4,6 +4,7 @@ import { MemberGateway } from '../services/gateway';
 import { User } from "../services/user";
 import { Theme } from "../services/theme";
 import { Misc } from "../services/misc";
+import { getOffset } from '../services/dom_utils';
 
 let THIS_EDITOR;
 
@@ -180,6 +181,27 @@ export class StoryWindow {
             return "rtl"
         }
         return "ltr"
+    }
+
+    move_editor(customEvent) {
+        console.log("entered move editor")
+        let event = customEvent.detail;
+        let dx = event.dx;
+        let dy = event.dy;
+        this.move_box(dx, dy);
+    }
+
+    move_box(dx, dy) {
+        const el: Element = document.getElementById("editor-top")
+        const dv = el.parentElement.parentElement;
+        const offset = getOffset(dv);
+        let margin_left_str = dv.style.marginLeft ? dv.style.marginLeft.replace("px", "") : offset.left;
+        let margin_left = parseFloat(margin_left_str);
+        dv.style.marginLeft = (margin_left + dx) + "px";
+        //vertical does not work. important! somewhere...
+        let margin_top_str = dv.style.marginTop ? dv.style.marginTop.replace("px", "") : offset.top;
+        let margin_top = parseFloat(margin_top_str);
+        dv.style.marginTop = (margin_top + dy) + "px";
     }
 
 }
