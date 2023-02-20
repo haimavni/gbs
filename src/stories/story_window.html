@@ -1,6 +1,6 @@
-<template id="bla">
-    <ux-dialog css="direction:${story_dir}" dir="${story_dir}">
-        <ux-dialog-header>
+<template>
+    <ux-dialog css="direction:${story_dir}" dir="${story_dir}" id="editor-top">
+        <ux-dialog-header >
             <div if.bind="show">
                 <h2 class="story-title" style="margin:0;">${story.name}</h2>
             </div>
@@ -13,6 +13,15 @@
                         <input type="text" class="form-control" t="[placeholder]stories.enter-story-source" value.bind="story.source">
                     </div>
                 </form>
+                <div style="width:100%;height:32px;background-color:#f6f6f6;" 
+                    interact-draggable.bind="theme.interact_setting"
+                    interact-dragmove.delegate="move_editor($event)"
+                >
+                    <div style="margin-left:auto;margin-right:auto;width:40px;padding-top:5px;">
+                        <i class="fas fa-arrow-right" style="color:gray;"></i>
+                        <i class="fas fa-arrow-left" style="color:gray;"></i>
+                    </div>
+                </div>
                 <div if.bind="user.privileges.TEXT_AUDITOR" class="form-group" style="margin:0;">
                     <form class="form-inline" role="form" dir="ltr">
                         <label>

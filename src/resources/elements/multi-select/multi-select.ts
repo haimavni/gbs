@@ -24,6 +24,7 @@ export class MultiSelectSettings {
     single = false;
     start_open = false;
     auto_select = true;
+    in_focus = false;
 
     constructor(obj) {
         this.update(obj);
