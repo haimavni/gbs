@@ -23,9 +23,7 @@ export class MultiSelectSettings {
     to_show_untagged = false;
     single = false;
     start_open = false;
-    auto_select = true;
-    in_focus = false;
-
+    auto_select = true;    
     constructor(obj) {
         this.update(obj);
     }
@@ -73,6 +71,7 @@ export class MultiSelectCustomElement {
     misc;
     show_untagged_caption = "";
     i18n;
+    in_focus = false;
 
     constructor(element, i18n: I18N, dialog: DialogService, user: User, theme: Theme, misc: Misc) {
         this.element = element;
@@ -474,6 +473,16 @@ export class MultiSelectCustomElement {
         }
         return ''
     }
+
+    @computedFrom('filter', 'options', 'in_focus')
+    get to_expand_options() {
+        if (! this.options || this.options.length == 0) return false;
+        if (this.filter.length > 0) return true;
+        if (! this.settings.show_only_if_filter) return true;
+        if (this.in_focus && this.options.length < 1000) return true;
+        return false;
+    }
+
 }
 
 function clean(obj) {
