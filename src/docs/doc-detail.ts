@@ -74,7 +74,7 @@ export class DocDetail {
     fullscreen;
     doc_segments = []; //Array<DocSegment>;
     curr_doc_segment: DocSegment = null;
-
+    expanded = "";
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
         this.api = api;
@@ -323,7 +323,7 @@ export class DocDetail {
         let member_ids = this.members.map(member => member.id)
         this.dialog.open({
             viewModel: MemberPicker,
-            model: { multi: true, back_to_text: 'members.back-to-doc', preselected: member_ids },
+            model: { multi: true, back_to_text: 'docs.back-to-doc', preselected: member_ids },
             lock: false,
             rejectOnCancel: false
         }).whenClosed(response => {
@@ -377,5 +377,26 @@ export class DocDetail {
         });
     }
 
+    change_doc_frame_size(customEvent) {
+        console.log("drag event: ", customEvent)
+        const event = customEvent.detail;
+        const el = document.getElementById("doc-frame");
+        const hs = el.style.height.replace("px", "");
+        let h = parseFloat(hs) + event.dy;
+        el.style.height = `${h}px`;
+    }
+
+    toggle_height() {
+        if (this.expanded == "expanded")
+            this.expanded = ""
+        else 
+            this.expanded = "expanded"
+    }
+
+    @computedFrom('expanded')
+    get toggle_size_prompt() {
+        if (this.expanded == "expanded") return "docs.collapse";
+        return "docs.expand"
+    }
 
 }
