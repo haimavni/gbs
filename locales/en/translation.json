@@ -18,6 +18,7 @@
     "app-title": "GB Stories",
     "stories": {
         "stories": "Stories",
+        "all": "All",
         "place-stories": "Place Stories",
         "zoom": "To read in a large window",
         "edit": "To edit the story",
@@ -574,7 +575,9 @@
         "back-to-doc": "Back to the document",
         "add-doc-segment": "Add segment",
         "page-num": "Page",
-        "doc-segment-description": "Segment description"
+        "doc-segment-description": "Segment description",
+        "expand": "Expand",
+        "collapse": "Collapse"
     },
     "terms": {
         "terms": "Terms",

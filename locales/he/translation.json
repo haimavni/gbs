@@ -16,7 +16,8 @@
     },
     "app-title": "סִפּוּרֵי",
     "stories": {
-        "stories": "הכל",
+        "all": "הכל",
+        "stories": "סיפורים",
         "place-stories": "סיפורי המקום",
         "zoom": "לקריאה בחלון גדול",
         "edit": "לעריכת הסיפור",
@@ -578,7 +579,9 @@
         "back-to-doc": "חזרה למסמך",
         "add-doc-segment": "הוסף קטע",
         "page-num": "עמוד",
-        "doc-segment-description": "תיאור הקטע"
+        "doc-segment-description": "תיאור הקטע",
+        "expand": "הגדל",
+        "collapse": "הקטן"
     },
     "terms": {
         "terms": "מונחים",

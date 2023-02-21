@@ -6,7 +6,7 @@ import { WordIndex } from "../services/word_index";
 import { autoinject, computedFrom, singleton } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { I18N } from 'aurelia-i18n';
-import { Router } from 'aurelia-router';
+import { Router, RouterEvent } from 'aurelia-router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
@@ -63,7 +63,8 @@ export class Stories {
         last_year: 2021,
         base_year: 1925,
         num_years: 100,
-        start_name: ""
+        start_name: "",
+        events_only: false
     };
     prev_keywords;
     help_data = {
@@ -159,6 +160,12 @@ export class Stories {
         this.pickerSettings.place_holder_text = 'stories.enter-book-name';
         this.pickerSettings.can_delete = this.user.editing;
         this.pickerSettings.help_topic = "search-book-list";
+        this.ea.subscribe(RouterEvent.Complete, event =>  {
+            const prev_events_only = this.params.events_only;
+            this.params.events_only = document.location.hash.includes("events");
+            if (prev_events_only != this.params.events_only)
+               this.update_story_list("simple")
+        });
 
     }
 
@@ -798,7 +805,8 @@ export class Stories {
             last_year: 2021,
             base_year: 1925,
             num_years: 100,
-            start_name: ""
+            start_name: "",
+            events_only: false //document.location.hash.includes("events")
         };
     }
 

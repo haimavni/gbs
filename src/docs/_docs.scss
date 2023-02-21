@@ -44,3 +44,13 @@ div#doc-story {
     height:calc(100vh - 200px);
     overflow:auto;
 }
+
+div.doc-frame {
+    margin-left:0;
+    width:572px;
+    height: calc(100vh - 600px);
+    position:relative;
+    &.expanded {
+        height: calc(100vh - 250px);
+    }
+}
