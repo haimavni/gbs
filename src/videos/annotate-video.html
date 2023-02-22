@@ -127,7 +127,7 @@
                         disabled.bind="(!player.paused) || already_in">
                     ${'videos.add-cue' & t}
                 </button>
-                <div class="cue-points-area table-scroller"
+                <div id="cue-points-area" class="cue-points-area table-scroller"
                      if.bind="user.editing && user.privileges.VIDEO_EDITOR || cue_points.length>0">
                     <table class="table table-striped table-bordered">
                         <thead>
