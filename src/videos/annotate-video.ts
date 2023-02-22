@@ -20,6 +20,7 @@ class CuePoint {
     is_current;
     member_ids = [];
     cls = '';
+    index = 0;
 
     constructor(time, description, member_ids, keywords?) {
         this.time = time;
@@ -180,10 +181,13 @@ export class AnnotateVideo {
                     this.set_video_source();
                 let cue_points = response.cue_points;
                 this.cue_points = cue_points.map(cp => new CuePoint(cp.time, cp.description, cp.member_ids, this.keywords));
+                let n = 0;
                 if (this.member_id) {
                     this.cue0 = null;
                     for (let cue of this.cue_points) {
-                        if (cue.member_ids.includes(this.member_id)) {
+                        cue.index = n;
+                        n += 1;
+                        if (cue.member_ids.find(mid => mid == this.member_id)) {
                             cue.cls = 'hilited';
                             if (! this.cue0)
                                 this.cue0 = cue;
@@ -296,6 +300,15 @@ export class AnnotateVideo {
             cue.is_current = false;
         }
         cue.is_current = true;
+        let el = document.getElementById("cue-points-area");
+        if (el) {
+            let scroll_top = el.scrollTop;
+            let count = this.cue_points.length;
+            let line_height = el.scrollHeight / count;
+            let h = cue.index * line_height;
+            if (h - scroll_top > el.offsetHeight)
+                el.scrollTop = h - scroll_top - 3 * line_height;
+        }
         this.player.currentTime = cue.time;
         let member_set = new Set(cue.member_ids);
         this.member_list.getMemberList()
