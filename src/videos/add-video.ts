@@ -1,5 +1,6 @@
 import { I18N } from "@aurelia/i18n";
-import { ICustomElementViewModel, IDialogController } from "aurelia";
+import { ICustomElementViewModel } from "aurelia";
+import { IDialogController } from '@aurelia/dialog';
 import { IMemberGateway } from "../services/gateway";
 import { ITheme } from "../services/theme";
 import * as toastr from "toastr";

@@ -1,9 +1,9 @@
 import {
     bindable,
-    IDialogService,
     IEventAggregator,
     BindingMode,
 } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { IUser } from '../../services/user';
 import { IMemberGateway } from '../../services/gateway';
 import { ITheme } from '../../services/theme';

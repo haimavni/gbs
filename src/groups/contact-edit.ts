@@ -1,4 +1,4 @@
-import { IDialogController } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 import { IMemberGateway } from '../services/gateway';
 import { IMisc } from '../services/misc';
 

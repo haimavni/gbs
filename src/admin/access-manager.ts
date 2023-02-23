@@ -1,4 +1,4 @@
-import { IDialogService } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { I18N } from '@aurelia/i18n';
 import { ITheme } from '../services/theme';
 import { IMisc } from '../services/misc';

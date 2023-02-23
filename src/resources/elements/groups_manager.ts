@@ -1,4 +1,5 @@
-import { bindable, IDialogService } from 'aurelia';
+import { bindable } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { IUser } from '../../services/user';
 import { IMemberGateway } from '../../services/gateway';
 

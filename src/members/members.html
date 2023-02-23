@@ -27,7 +27,7 @@
                             <help topic.bind="topic_members" position="bottom"></help>
                         </div>
                         <div if.bind="user.editing && ! caller_type" class="input-group" style="padding-top:16px;">
-                            <a route-href="route: member-details; params.bind: {id:'new'}"
+                            <a load="/member-details/new"
                                 class="btn btn-success cl-create-btn">
                                 <i class="far fa-plus-square"></i>
                                 ${'members.add-new-member' & t}

@@ -1,4 +1,5 @@
-import { ICustomElementViewModel, IDialogController } from "aurelia";
+import { ICustomElementViewModel } from "aurelia";
+import { IDialogController } from '@aurelia/dialog';
 import { I18N } from "@aurelia/i18n";
 import { IMemberGateway } from "../services/gateway";
 import { IUser } from "../services/user";

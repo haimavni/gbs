@@ -1,4 +1,4 @@
-import { IDialogController } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 import { Question, Answer } from './quiz-model';
 import { ITheme } from '../../../services/theme';
 

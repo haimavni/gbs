@@ -1,4 +1,5 @@
-import { bindable, BindingMode, IDialogService, INode } from 'aurelia';
+import { bindable, BindingMode, INode } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { CustomDialog } from '../../services/custom-dialog';
 import { ITheme } from '../../services/theme';
 

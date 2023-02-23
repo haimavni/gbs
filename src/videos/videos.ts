@@ -1,32 +1,33 @@
-import { IMemberGateway } from "../services/gateway";
-import { IUser } from "../services/user";
-import { ITheme } from "../services/theme";
-import { I18N } from "@aurelia/i18n";
-import { IRouter } from "@aurelia/router";
-import { AddVideo } from "./add-video";
-import { MultiSelectSettings } from "../resources/elements/multi-select/multi-select";
-import { format_date } from "../services/my-date";
-import { IPopup } from "../services/popups";
-import { IMisc } from "../services/misc";
-import { DI, IDialogService, IEventAggregator } from "aurelia";
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from '../services/user';
+import { ITheme } from '../services/theme';
+import { I18N } from '@aurelia/i18n';
+import { IRouter } from '@aurelia/router';
+import { AddVideo } from './add-video';
+import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
+import { format_date } from '../services/my-date';
+import { IPopup } from '../services/popups';
+import { IMisc } from '../services/misc';
+import { DI, IEventAggregator } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 
-export const IVideos = DI.createInterface<IVideos>("IVideos", (x) =>
+export const IVideos = DI.createInterface<IVideos>('IVideos', (x) =>
     x.singleton(Videos)
 );
 export type IVideos = Videos;
 
 class Video {
-    photographer_name = "";
-    photographer_name_label = "";
-    video_date_label = "";
-    keywords_label = "";
-    name = "";
-    src = "";
-    thumbnail_url = "";
-    video_type = "";
+    photographer_name = '';
+    photographer_name_label = '';
+    video_date_label = '';
+    keywords_label = '';
+    name = '';
+    src = '';
+    thumbnail_url = '';
+    video_type = '';
     id = 0;
-    keywords = "";
-    video_date_datestr = "";
+    keywords = '';
+    video_date_datestr = '';
     video_date_datespan = 0;
     selected = false;
 
@@ -59,7 +60,7 @@ class Video {
 }
 
 export class Videos {
-    filter = "";
+    filter = '';
     video_list: Video[] = [];
     scroll_area;
     scroll_top = 0;
@@ -70,14 +71,14 @@ export class Videos {
     has_grouped_photographers = false;
     has_grouped_topics = false;
     params = {
-        kind: "V",
+        kind: 'V',
         editing: false,
         selected_topics: [],
         selected_photographers: [],
         selected_days_since_upload: 0,
-        selected_uploader: "anyone",
-        selected_dates_option: "dated-or-not",
-        videos_date_datestr: "",
+        selected_uploader: 'anyone',
+        selected_dates_option: 'dated-or-not',
+        videos_date_datestr: '',
         videos_date_span_size: 3,
         selected_video_list: [],
         user_id: null,
@@ -97,7 +98,7 @@ export class Videos {
     clear_selected_topics_now = false;
     anchor = -1; //for multiple selections
     empty = false;
-    highlight_unselectors = "";
+    highlight_unselectors = '';
     editing_filters = false;
     no_topics_yet = false;
     no_photographers_yet = false;
@@ -116,19 +117,19 @@ export class Videos {
 
     video_data(video_rec) {
         switch (video_rec.video_type) {
-            case "youtube":
+            case 'youtube':
                 video_rec.thumbnail_url = `https://i.ytimg.com/vi/${video_rec.src}/mq2.jpg`;
                 break;
-            case "vimeo":
+            case 'vimeo':
                 //use the sample below
                 // <iframe src="https://player.vimeo.com/video/38324835" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 // <p><a href="https://vimeo.com/38324835">צבעונים ונוריות בשמורת הבונים</a> from <a href="https://vimeo.com/user2289719">Haim Avni</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
-                video_rec.src = "https://vimeo.com/" + video_rec.src;
+                video_rec.src = 'https://vimeo.com/' + video_rec.src;
                 break;
-            case "google_drive":
+            case 'google_drive':
                 video_rec.src = `https://drive.google.com/file/d/${video_rec.src}/preview`;
                 break;
-            case "google_photos":
+            case 'google_photos':
                 video_rec.src = `https://photos.app.goo.gl/${video_rec.src}`;
                 break;
         }
@@ -138,12 +139,12 @@ export class Videos {
         );
         const photographer_name = photographer
             ? photographer.name
-            : this.i18n.tr("videos.unknown-photographer");
+            : this.i18n.tr('videos.unknown-photographer');
         const vr = new Video(
             photographer_name,
-            this.i18n.tr("videos.photographer-name"),
-            this.i18n.tr("videos.video-date-range"),
-            this.i18n.tr("videos.keywords")
+            this.i18n.tr('videos.photographer-name'),
+            this.i18n.tr('videos.video-date-range'),
+            this.i18n.tr('videos.keywords')
         );
         for (const key of Object.keys(vr)) {
             if (video_rec[key]) vr[key] = video_rec[key];
@@ -154,7 +155,7 @@ export class Videos {
     set_video_list(video_list) {
         this.video_list = video_list.map((v) => this.video_data(v));
         this.empty = this.video_list.length == 0;
-        this.highlight_unselectors = this.empty ? "warning" : "";
+        this.highlight_unselectors = this.empty ? 'warning' : '';
         this.length_keeper.len = this.video_list.length;
         this.editing_filters = false;
     }
@@ -170,60 +171,60 @@ export class Videos {
                 this.scroll_area.scrollTo({
                     left: 0,
                     top: 0,
-                    behavior: "auto",
+                    behavior: 'auto',
                 });
                 await this.misc.sleep(100);
                 this.scroll_area.scrollTo({
                     left: 0,
                     top: 0,
-                    behavior: "auto",
+                    behavior: 'auto',
                 });
             }
         }
         this.params.editing = this.user.editing;
         this.api
-            .call_server_post("videos/get_video_list", this.params)
+            .call_server_post('videos/get_video_list', this.params)
             .then((response) => this.set_video_list(response.video_list));
     }
 
     async attached() {
         this.theme.display_header_background = true;
-        this.theme.page_title = "videos.video-clips";
+        this.theme.page_title = 'videos.video-clips';
         //let el = document.getElementById('scroll-area');
         const el = this.scroll_area;
-        el.scrollTo({ left: 0, top: this.scroll_top, behavior: "auto" });
+        el.scrollTo({ left: 0, top: this.scroll_top, behavior: 'auto' });
         await this.misc.sleep(100);
-        el.scrollTo({ left: 0, top: this.scroll_top, behavior: "auto" });
+        el.scrollTo({ left: 0, top: this.scroll_top, behavior: 'auto' });
     }
 
     detached() {
         this.theme.display_header_background = false;
-        this.theme.page_title = "";
+        this.theme.page_title = '';
     }
 
     async created(params, config) {
         await this.update_topic_list();
         this.update_video_list(true);
-        this.ea.subscribe("NEW-VIDEO", (msg: any) => {
+        this.ea.subscribe('NEW-VIDEO', (msg: any) => {
             this.add_video(msg.new_video_rec);
         });
-        this.ea.subscribe("VIDEO-INFO-CHANGED", (msg: any) => {
+        this.ea.subscribe('VIDEO-INFO-CHANGED', (msg: any) => {
             this.refresh_video(msg.changes);
         });
-        this.ea.subscribe("TAGS_MERGED", () => {
+        this.ea.subscribe('TAGS_MERGED', () => {
             this.update_topic_list();
         });
-        this.ea.subscribe("PHOTOGRAPHER_ADDED", () => {
+        this.ea.subscribe('PHOTOGRAPHER_ADDED', () => {
             this.update_topic_list();
         }); //for now topics and photogaphers are handled together...
-        this.ea.subscribe("VIDEO-TAGS-CHANGED", (response: any) => {
+        this.ea.subscribe('VIDEO-TAGS-CHANGED', (response: any) => {
             this.apply_changes(response.changes);
         });
     }
 
     update_topic_list() {
-        const usage = this.user.editing ? {} : { usage: "V" };
-        this.api.call_server("topics/get_topic_list", usage).then((result) => {
+        const usage = this.user.editing ? {} : { usage: 'V' };
+        this.api.call_server('topics/get_topic_list', usage).then((result) => {
             this.topic_list = result.topic_list;
             this.topic_groups = result.topic_groups;
             this.photographer_list = result.photographer_list;
@@ -259,11 +260,11 @@ export class Videos {
     refresh_video(changes) {
         const video = this.video_list.find((vid) => vid.id == changes.id);
         for (const p of [
-            "name",
-            "keywords",
-            "photographer_id",
-            "video_date_datestr",
-            "video_date_datespan",
+            'name',
+            'keywords',
+            'photographer_id',
+            'video_date_datestr',
+            'video_date_datespan',
         ]) {
             if (changes[p]) video[p] = changes[p];
         }
@@ -277,7 +278,7 @@ export class Videos {
     add_topic(event) {
         const new_topic_name = event.detail.new_name;
         this.api
-            .call_server_post("topics/add_topic", {
+            .call_server_post('topics/add_topic', {
                 topic_name: new_topic_name,
             })
             .then(() => this.update_topic_list());
@@ -286,13 +287,13 @@ export class Videos {
     remove_topic(event) {
         const topic_id = event.detail.option.id;
         this.api
-            .call_server_post("topics/remove_topic", { topic_id: topic_id })
+            .call_server_post('topics/remove_topic', { topic_id: topic_id })
             .then(() => this.update_topic_list());
     }
 
     topic_name_changed(event) {
         const t = event.detail.option;
-        this.api.call_server_post("topics/rename_topic", t);
+        this.api.call_server_post('topics/rename_topic', t);
     }
 
     toggle_selection(video, event, index) {
@@ -324,7 +325,7 @@ export class Videos {
                         this.selected_videos.delete(video.id);
                     }
                 } else {
-                    console.log("no itm. i is: ", i);
+                    console.log('no itm. i is: ', i);
                 }
             }
         } else if (video.selected) {
@@ -351,7 +352,7 @@ export class Videos {
     delete_video(video) {
         const selecterd_videos = Array.from(this.selected_videos);
         this.api
-            .call_server("videos/delete_videos", {
+            .call_server('videos/delete_videos', {
                 selected_videos: selecterd_videos,
             })
             .then(() => {
@@ -373,33 +374,33 @@ export class Videos {
     }
 
     get phase() {
-        let result = "photos-not-editing";
+        let result = 'photos-not-editing';
         if (this.user.editing) {
             if (this.selected_videos.size > 0) {
-                result = "videos-were-selected";
+                result = 'videos-were-selected';
             } else {
                 result = this.topics_action();
             }
         }
         this.options_settings.update({
-            mergeable: result != "videos-were-selected",
-            name_editable: result == "photos-ready-to-edit",
+            mergeable: result != 'videos-were-selected',
+            name_editable: result == 'photos-ready-to-edit',
             can_set_sign: true, //result == "photos-ready-to-edit",
-            can_add: result == "photos-ready-to-edit",
-            can_delete: result == "photos-ready-to-edit",
-            empty_list_message: this.i18n.tr("photos.no-topics-yet"),
+            can_add: result == 'photos-ready-to-edit',
+            can_delete: result == 'photos-ready-to-edit',
+            empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             hide_higher_options:
                 this.selected_videos.size > 0 && this.user.editing,
-            help_topic: "topics-help",
+            help_topic: 'topics-help',
         });
         this.photographers_settings.update({
-            mergeable: result == "can-modify-tags" || result == "ready-to-edit",
-            name_editable: result == "photos-ready-to-edit",
-            can_add: result == "photos-ready-to-edit",
-            can_delete: result == "photos-ready-to-edit",
+            mergeable: result == 'can-modify-tags' || result == 'ready-to-edit',
+            name_editable: result == 'photos-ready-to-edit',
+            can_add: result == 'photos-ready-to-edit',
+            can_delete: result == 'photos-ready-to-edit',
             can_group: this.user.editing,
-            empty_list_message: this.i18n.tr("photos.no-photographers-yet"),
-            help_topic: "photographers-help",
+            empty_list_message: this.i18n.tr('photos.no-photographers-yet'),
+            help_topic: 'photographers-help',
         });
         return result;
     }
@@ -410,24 +411,24 @@ export class Videos {
         for (const topic_item of this.params.selected_topics) {
             if (topic_item.first && topic_item.last) {
                 if (topic_item.option.topic_kind == 2)
-                    return "photos-ready-to-edit";
+                    return 'photos-ready-to-edit';
                 has_group_candidate = true;
             }
             if (topic_item.last && !topic_item.first) {
                 n_groups += 1;
             }
         }
-        if (has_group_candidate && n_groups == 1) return "can-create-group";
-        if (n_groups == 1) return "can-merge-topics";
+        if (has_group_candidate && n_groups == 1) return 'can-create-group';
+        if (n_groups == 1) return 'can-merge-topics';
         if (n_groups == 0 && this.has_grouped_photographers)
-            return "can-merge-topics";
-        return "photos-ready-to-edit";
+            return 'can-merge-topics';
+        return 'photos-ready-to-edit';
     }
 
     save_merges(event: Event) {
         //todo: if event.ctrl create a super group rather than merge?
         this.api
-            .call_server_post("topics/save_tag_merges", this.params)
+            .call_server_post('topics/save_tag_merges', this.params)
             .then((response) => {
                 this.has_grouped_topics = false;
                 this.clear_selected_phototgraphers_now = true;
@@ -437,7 +438,7 @@ export class Videos {
 
     save_topic_group(event: Event) {
         this.api
-            .call_server_post("topics/add_topic_group", this.params)
+            .call_server_post('topics/add_topic_group', this.params)
             .then((response) => {
                 this.has_grouped_topics = false;
                 this.clear_selected_topics_now = true;
@@ -447,7 +448,7 @@ export class Videos {
 
     apply_to_selected() {
         this.api
-            .call_server_post("videos/apply_to_selected_videos", this.params)
+            .call_server_post('videos/apply_to_selected_videos', this.params)
             .then((response) => {
                 this.clear_selected_videos();
                 if (response.new_topic_was_added) {
@@ -467,16 +468,16 @@ export class Videos {
 
     add_photographer(event) {
         const new_photographer_name = event.detail.new_name;
-        this.api.call_server_post("topics/add_photographer", {
+        this.api.call_server_post('topics/add_photographer', {
             photographer_name: new_photographer_name,
-            kind: "V",
+            kind: 'V',
         });
     }
 
     remove_photographer(event) {
         const photographer = event.detail.option;
         this.api
-            .call_server_post("topics/remove_photographer", {
+            .call_server_post('topics/remove_photographer', {
                 photographer: photographer,
             })
             .then(() => {
@@ -497,7 +498,7 @@ export class Videos {
 
     promote_videos() {
         this.api
-            .call_server_post("videos/promote_videos", { params: this.params })
+            .call_server_post('videos/promote_videos', { params: this.params })
             .then((response) => {
                 this.clear_selected_videos();
             });
@@ -509,14 +510,14 @@ export class Videos {
     }
 
     video_info_content(video) {
-        const pn = this.i18n.tr("videos.photographer-name");
-        const vdr = this.i18n.tr("videos.video-date-range");
+        const pn = this.i18n.tr('videos.photographer-name');
+        const vdr = this.i18n.tr('videos.video-date-range');
         const date_range = format_date(
             video.video_date_datestr,
             video.video_date_datespan
         );
-        const keywords = video.keywords ? video.keywords : "";
-        const kw_label = this.i18n.tr("videos.keywords");
+        const keywords = video.keywords ? video.keywords : '';
+        const kw_label = this.i18n.tr('videos.keywords');
         const content = `
         <ul>
             <li>${pn}:&nbsp;${video.photographer_name}</li>
@@ -542,7 +543,7 @@ export class Videos {
             this.user.config.enable_cuepoints;
         if (cuepoints_enabled)
             await this.api
-                .call_server_post("videos/video_cue_points", {
+                .call_server_post('videos/video_cue_points', {
                     video_id: video.id,
                 })
                 .then((response) => {
@@ -553,13 +554,13 @@ export class Videos {
             (this.user.privileges.VIDEO_EDITOR || n_cue_points > 0)
         ) {
             const url = this.misc.make_url(
-                "annotate-video",
+                'annotate-video',
                 `${video.id}/*?video_src=${video.src}&video_type=${video.video_type}&video_name=${video.name}&cuepoints_enabled=true&member_id=${member_id}`
             );
-            this.popup.popup("VIDEO", url, "");
+            this.popup.popup('VIDEO', url, '');
         } else {
             if (this.scroll_area) this.scroll_top = this.scroll_area.scrollTop;
-            this.router.load("/annotate-video", {
+            this.router.load('/annotate-video', {
                 video_id: video.id,
                 video_src: video.src,
                 video_name: video.name,
@@ -570,9 +571,9 @@ export class Videos {
     }
 
     async view_video_by_id(video_id, member_id?, caller_type?, rest?) {
-        if (caller_type == "story") {
+        if (caller_type == 'story') {
             await this.api
-                .call_server_post("videos/story_id_to_video_id", {
+                .call_server_post('videos/story_id_to_video_id', {
                     id: video_id,
                 })
                 .then((response) => (video_id = response.video_id));
@@ -584,7 +585,7 @@ export class Videos {
             return;
         }
         this.api
-            .call_server_post("videos/get_video_list", this.params)
+            .call_server_post('videos/get_video_list', this.params)
             .then((response) => {
                 this.set_video_list(response.video_list);
                 video = this.video_list.find((v) => v.id == video_id);

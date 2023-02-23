@@ -1,7 +1,8 @@
 import { IMemberGateway } from '../services/gateway';
 import { IUser } from '../services/user';
 import { ITheme } from '../services/theme';
-import { IDialogService, IEventAggregator } from 'aurelia';
+import { IEventAggregator } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { I18N } from '@aurelia/i18n';
 import { IRouter, IRouteableComponent } from '@aurelia/router';
 import { set_intersection, set_union, set_diff } from '../services/set_utils';

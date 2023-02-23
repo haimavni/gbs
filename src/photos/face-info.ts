@@ -1,12 +1,9 @@
-import { I18N } from "@aurelia/i18n";
-import {
-    ICustomElementViewModel,
-    IDialogController,
-    IDialogService,
-} from "aurelia";
-import { IMemberGateway } from "../services/gateway";
-import { IUser } from "../services/user";
-import { ITheme } from "../services/theme";
+import { I18N } from '@aurelia/i18n';
+import { ICustomElementViewModel } from 'aurelia';
+import { IDialogController, IDialogService } from '@aurelia/dialog';
+import { IMemberGateway } from '../services/gateway';
+import { IUser } from '../services/user';
+import { ITheme } from '../services/theme';
 
 export class FaceInfo implements ICustomElementViewModel {
     face;
@@ -57,32 +54,32 @@ export class FaceInfo implements ICustomElementViewModel {
     }
 
     cancel_identification() {
-        this.controller.ok({ command: "cancel-identification" });
+        this.controller.ok({ command: 'cancel-identification' });
     }
 
     save_face_location() {
-        this.controller.ok({ command: "save-face-location" });
+        this.controller.ok({ command: 'save-face-location' });
     }
 
     move_face(dir) {
         switch (dir) {
-            case "up":
+            case 'up':
                 this.face.y -= this.step;
                 break;
-            case "left":
+            case 'left':
                 this.face.x -= this.step;
                 break;
-            case "down":
+            case 'down':
                 this.face.y += this.step;
                 break;
-            case "right":
+            case 'right':
                 this.face.x += this.step;
                 break;
         }
     }
 
     change_radius(what) {
-        if (what == "bigger") {
+        if (what == 'bigger') {
             this.face.r += this.step;
         } else {
             this.face.r -= this.step;

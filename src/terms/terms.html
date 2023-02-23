@@ -9,7 +9,7 @@
                                 placeholder="terms.filter" help_topic="terms-help" height="38"></search-input>
                         </div>
                         <div class="input-group" if.bind="user.editing && checked_terms.size == 0" style="margin-right:4px;">
-                            <a route-href="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4TERM}"
+                            <a load="route: story-detail; params.bind: {id:'new', used_for: api.constants.story_type.STORY4TERM}"
                                 class="btn btn-success cl-create-btn">
                                 <i class="far fa-plus-square"></i>
                                 ${'terms.new' & t}

@@ -10,7 +10,7 @@ import { QrPhoto } from './qr-photo';
 import * as toastr from 'toastr';
 import { IPopup } from '../services/popups';
 import { ICustomElementViewModel, IEventAggregator } from 'aurelia';import { IRouter } from '@aurelia/router';
-import { IDialogController, IDialogService } from '@aurelia/runtime-html';
+import { IDialogController, IDialogService } from '@aurelia/dialog';
 import { I18N } from '@aurelia/i18n';
 
 let THIS;

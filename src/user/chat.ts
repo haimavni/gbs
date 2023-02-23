@@ -1,4 +1,5 @@
-import { ICustomElementViewModel, IDialogController } from 'aurelia';
+import { ICustomElementViewModel } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 
 export class Chat implements ICustomElementViewModel {
     chatroom_id;

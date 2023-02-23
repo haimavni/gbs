@@ -1,11 +1,11 @@
 import Aurelia, { IEventAggregator } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { IRouteableComponent, IRoute, IRouter } from '@aurelia/router';
 import { ITheme } from './services/theme';
 import { IMemberGateway } from './services/gateway';
 import { IUser } from './services/user';
 import { IMisc } from './services/misc';
 import { IWatchVersion } from './services/watch_version';
-import { IDialogService } from '@aurelia/runtime-html';
 import { Promote } from './user/promote';
 import { Feedback } from './user/feedback';
 import { AddCustomer } from './admin/add_customer';

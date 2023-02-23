@@ -5,7 +5,7 @@
    </div>
    <ul class="list-group">
        <li class="list-group-item" repeat.for="member of members">
-           <a route-href="route: member-details; params.bind: {id:member.id, keywords: ''}">
+           <a load="/member-details/${member.id}">
                <img src.bind="member.facePhotoURL"/>
                <h6 dir="${theme.rtltr}" class="list-group-item-heading">${member.full_name}
                </h6>

@@ -1,9 +1,9 @@
 import { ICustomElementViewModel } from 'aurelia';
-import { IDialogController } from '@aurelia/runtime-html';
+import { IDialogController } from '@aurelia/dialog';
 
 
 export class CustomDialog implements ICustomElementViewModel {
-    model: any;
+    public model: any;
 
     static $view = this.model.html;
 

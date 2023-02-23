@@ -1,4 +1,5 @@
-import { bindable, BindingMode, IDialogService, INode } from 'aurelia';
+import { bindable, BindingMode, INode } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { IMemberGateway } from '../../../services/gateway';
 import { I18N } from '@aurelia/i18n';
 import { Misc } from '../../../services/misc';

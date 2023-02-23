@@ -1,4 +1,4 @@
-import { IDialogController } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 import { IMemberGateway } from '../services/gateway';
 import { I18N } from '@aurelia/i18n';
 import { ITheme } from '../services/theme';

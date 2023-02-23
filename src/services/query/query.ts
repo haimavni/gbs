@@ -1,7 +1,7 @@
 import { IMemberGateway } from "../gateway";
 import { ITheme } from "../theme";
 import { I18N } from "@aurelia/i18n";
-import { IDialogController } from "@aurelia/runtime-html";
+import { IDialogController } from '@aurelia/dialog';
 
 export class Query {
     table_name = "TblMembers";

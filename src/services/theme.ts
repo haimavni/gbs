@@ -2,7 +2,7 @@
 import { IMemberGateway } from '../services/gateway';
 import { I18N } from '@aurelia/i18n';
 import { ICookies } from './cookies';
-import { IDialogService } from '@aurelia/runtime-html';
+import { IDialogService } from '@aurelia/dialog';
 import { DI, IEventAggregator } from "aurelia";
 
 const rtl_langs = new Set(['he', 'ar']);

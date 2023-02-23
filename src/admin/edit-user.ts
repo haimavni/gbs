@@ -1,4 +1,4 @@
-import { IDialogController } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 
 export class EditUser {
     curr_user;

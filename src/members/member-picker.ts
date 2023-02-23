@@ -1,4 +1,4 @@
-import { IDialogController } from '@aurelia/runtime-html';
+import { IDialogController } from '@aurelia/dialog';
 import { ICustomElementViewModel, IEventAggregator } from 'aurelia';
 import { IUser } from '../services/user';
 import { IMemberList } from '../services/member_list';

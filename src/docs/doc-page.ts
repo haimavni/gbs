@@ -1,4 +1,5 @@
-import { ICustomElementViewModel, IDialogController } from "aurelia";
+import { ICustomElementViewModel } from "aurelia";
+import { IDialogController } from '@aurelia/dialog';
 import { ITheme } from "../services/theme";
 
 export class DocPage implements ICustomElementViewModel {

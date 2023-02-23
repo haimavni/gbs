@@ -1,4 +1,5 @@
-import { bindable, IDialogService, INode } from 'aurelia';
+import { bindable, INode } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { StoryWindow } from '../../stories/story_window';
 import { IUser } from '../../services/user';
 import { ITheme } from '../../services/theme';

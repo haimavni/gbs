@@ -1,6 +1,7 @@
 import { ICustomElementViewModel } from 'aurelia';
 /* eslint-disable @typescript-eslint/no-this-alias */
-import { DI, IDialogController } from "aurelia";
+import { DI } from "aurelia";
+import { IDialogController } from '@aurelia/dialog';
 import { IMemberGateway } from "../services/gateway";
 import { IUser } from "../services/user";
 import { ITheme } from "../services/theme";

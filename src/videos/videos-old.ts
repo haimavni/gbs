@@ -6,7 +6,8 @@ import { IRouter } from '@aurelia/router';
 import { AddVideo } from './add-video';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { format_date } from '../services/my-date';
-import { IDialogService, IEventAggregator } from 'aurelia';
+import { IEventAggregator } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 
 class Video {
     photographer_name = '';

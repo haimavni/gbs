@@ -1,5 +1,6 @@
 import { I18N } from '@aurelia/i18n';
-import { bindable, IDialogController } from 'aurelia';
+import { bindable } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 import { IMemberGateway } from '../../services/gateway';
 import { IUser } from '../../services/user';
 import { ITheme } from '../../services/theme';

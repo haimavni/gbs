@@ -1,6 +1,7 @@
 import { IUser } from "../../../services/user";
 import { Chat } from "../../../user/chat";
-import { bindable, BindingMode, INode, IDialogService } from "aurelia";
+import { bindable, BindingMode, INode } from "aurelia";
+import { IDialogService } from '@aurelia/dialog';
 
 export class ChatButtonCustomElement {
     @bindable({ mode: BindingMode.twoWay }) chatroom_id;

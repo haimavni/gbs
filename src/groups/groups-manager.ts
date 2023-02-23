@@ -1,5 +1,6 @@
 import { IRouteableComponent } from '@aurelia/router';
-import { IDialogService, IEventAggregator } from 'aurelia';
+import { IEventAggregator } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { I18N } from '@aurelia/i18n';
 import { ITheme } from '../services/theme';
 import { IMemberGateway } from '../services/gateway';

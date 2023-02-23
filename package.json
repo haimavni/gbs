@@ -8,6 +8,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "@aurelia/dialog": "^2.0.0-beta.1",
     "@aurelia/i18n": "^2.0.0-beta.1",
     "aurelia": "^2.0.0-beta.1",
     "aurelia2-froala-editor": "^1.0.0",

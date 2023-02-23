@@ -2,7 +2,7 @@ import { ICustomElementViewModel } from 'aurelia';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { IMemberGateway } from "./gateway";
 import { IUser } from "./user";
-import { IDialogController } from "@aurelia/runtime-html";
+import { IDialogController } from '@aurelia/dialog';
 import { IMisc } from "./misc";
 
 let This_Uploader;

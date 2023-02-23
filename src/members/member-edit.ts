@@ -1,4 +1,4 @@
-import { IDialogService } from '@aurelia/runtime-html';
+import { IDialogService } from '@aurelia/dialog';
 import { IRouter } from '@aurelia/router';
 import { I18N } from '@aurelia/i18n';
 import { IMemberGateway } from '../services/gateway';

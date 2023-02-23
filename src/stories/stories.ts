@@ -1,4 +1,5 @@
-import { IDialogService, IEventAggregator } from 'aurelia';
+import { IEventAggregator } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { IMemberGateway } from '../services/gateway';
 import { IUser } from '../services/user';
 import { MyDate } from '../services/my-date';

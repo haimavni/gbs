@@ -1,7 +1,8 @@
 import { RoutingInstruction } from '@aurelia/router';
 import { IMemberGateway } from '../services/gateway';
 import { IUser } from '../services/user';
-import { IDialogService, IEventAggregator } from 'aurelia';
+import { IEventAggregator } from 'aurelia';
+import { IDialogService } from '@aurelia/dialog';
 import { IShowPhoto } from '../services/show-photo';
 import { Uploader } from '../services/uploader';
 import { I18N } from '@aurelia/i18n';

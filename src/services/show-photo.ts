@@ -1,5 +1,5 @@
 import { IRouter } from '@aurelia/router';
-import { IDialogService } from '@aurelia/runtime-html';
+import { IDialogService } from '@aurelia/dialog';
 import { FullSizePhoto } from '../photos/full-size-photo';
 import { IUser } from '../services/user';
 import { IMisc } from '../services/misc';
