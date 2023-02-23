@@ -15,6 +15,7 @@ import {YtKeeper} from "../services/yt-keeper";
 import {highlight} from "../services/dom_utils";
 
 class CuePoint {
+    cue_id = 0;
     time: number;
     description;
     is_current;
@@ -22,7 +23,8 @@ class CuePoint {
     cls = '';
     index = 0;
 
-    constructor(time, description, member_ids, keywords?) {
+    constructor(cue_id, time, description, member_ids, keywords?) {
+        this.cue_id = cue_id;
         this.time = time;
         if (typeof keywords == 'string') keywords = keywords.split(",");
         this.description = highlight(description, keywords, false);
@@ -180,7 +182,7 @@ export class AnnotateVideo {
                 if (this.cuepoints_enabled)
                     this.set_video_source();
                 let cue_points = response.cue_points;
-                this.cue_points = cue_points.map(cp => new CuePoint(cp.time, cp.description, cp.member_ids, this.keywords));
+                this.cue_points = cue_points.map(cp => new CuePoint(cp.cue_id, cp.time, cp.description, cp.member_ids, this.keywords));
                 let n = 0;
                 if (this.member_id) {
                     this.cue0 = null;
@@ -274,12 +276,15 @@ export class AnnotateVideo {
 
     add_cue_point() {
         let time = Math.round(this.player.currentTime)
-        let cue = new CuePoint(time, '', []);
+        let cue = new CuePoint(0, time, '', []);
         this.cue_points.push(cue);
         this.cue_points = this.cue_points.sort((cue1, cue2) => cue1.time - cue2.time);
         this.api.call_server_post('videos/update_video_cue_points', {
             video_id: this.video_id,
             cue_points: this.cue_points
+        }).then(response=> {
+            if (response.cue_id)
+                cue.cue_id = response.cue_id;
         });
     }
 
@@ -331,7 +336,7 @@ export class AnnotateVideo {
         this.cue_points.splice(idx, 1);
         this.api.call_server_post('videos/update_video_cue_points', {
             video_id: this.video_id,
-            cue_poins: this.cue_points
+            cue_points: this.cue_points
         });
     }
 
@@ -348,8 +353,14 @@ export class AnnotateVideo {
             cue.member_ids = Array.from(response.output.member_ids);
             this.api.call_server_post('videos/update_cue_members', {
                 video_id: this.video_id,
+                cue_id: cue.cue_id,
+                member_ids: cue.member_ids,
+                //in case cue not saved yet:
                 time: cue.time,
-                member_ids: cue.member_ids
+                description: cue.description
+            }).then(response=>{
+                if (!cue.cue_id)
+                    cue.cue_id=response.cue_id;
             });
         });
     }
