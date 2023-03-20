@@ -169,6 +169,7 @@ export class Videos {
         this.params.editing = this.user.editing;
         this.api.call_server_post('videos/get_video_list', this.params)
             .then(response => {
+                console.log("----=====get video list repsonse: ", response)
                 this.set_video_list(response.video_list);
                 this.handle_order_change(null);
             });
@@ -562,6 +563,7 @@ export class Videos {
         }
         this.api.call_server_post('videos/get_video_list', this.params)
             .then(response => {
+                console.log("=====get video list resonse: ", response)
                 this.set_video_list(response.video_list);
                 video = this.video_list.find(v => v.id==video_id);
                 this.view_video(video, null, member_id, keywords);
