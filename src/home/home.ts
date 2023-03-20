@@ -186,4 +186,11 @@ export class Home {
         this.router.navigateToRoute('annotate-video', { video_id: video.video_id });
     }
 
+    get video_width() {
+        if (this.theme.is_desktop)
+            return 220;
+        return this.theme.width;
+    }
+
+
 }
