@@ -912,4 +912,12 @@ export class Photos {
         if (this.photos_date_valid != 'valid') x = true;
         return x;
     }
+
+    @computedFrom('with_a_member')
+    get search_member_str() {
+        if (this.with_a_member) 
+            return 'photos.show-all-photos'
+        return 'photos.search-member'
+    }
+
 }

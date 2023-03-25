@@ -37,7 +37,7 @@
                                 <button class="btn btn-${with_a_member ? 'warning' : 'basic'} btn-md btn-framed" click.delegate="select_member($event)">
                                     <i class="fa fa-users"></i>
                                     <span if.bind="!user.editing">
-                                        ${'photos.search-member' & t}
+                                        ${search_member_str & t}
                                     </span>
                                 </button>
                             </div>
