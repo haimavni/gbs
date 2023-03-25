@@ -36,6 +36,9 @@
                                  class="form-group hide-if-small toolbar" title.bind="with_a_member_text">
                                 <button class="btn btn-${with_a_member ? 'warning' : 'basic'} btn-md btn-framed" click.delegate="select_member($event)">
                                     <i class="fa fa-users"></i>
+                                    <span if.bind="!user.editing">
+                                        ${'photos.search-member' & t}
+                                    </span>
                                 </button>
                             </div>
                             <div if.bind="params.photo_ids.length > 0" class="form-group hide-if-small toolbar toolbar">

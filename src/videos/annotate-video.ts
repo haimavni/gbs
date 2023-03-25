@@ -96,6 +96,7 @@ export class AnnotateVideo {
     highlight_on= "highlight-on";
     caller;
     cue0: CuePoint = null;
+    track_segment = null;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, misc: Misc, member_list: MemberList,
                 dialog: DialogService, router: Router, ea: EventAggregator, ytKeeper: YtKeeper) {
@@ -149,6 +150,28 @@ export class AnnotateVideo {
         this.cue_points = [];
         await this.update_topic_list();
         await this.get_video_info(this.video_id, params.what);
+    }
+
+    attached() {
+        this.track_segment = setInterval(() => this.detect_segment_change(), 1000)
+    }
+
+    detached() {
+        this.track_segment = null;
+    }
+
+    detect_segment_change() {
+        if (this.player.paused) return;
+        let cue0 = null;
+        for (let cue of this.cue_points) {
+            let t = Math.round(this.player.currentTime);
+            if (cue.time > t) {
+                if (! cue0) cue0 = cue;
+                this.jump_to_cue(cue0, true);
+                break;
+            }
+            cue0 = cue;
+        }
     }
 
     update_topic_list() {
@@ -295,10 +318,13 @@ export class AnnotateVideo {
         });
     }
 
-    jump_to_cue(cue) {
+    jump_to_cue(cue, auto=false) {
+        if (auto && cue.is_current)
+            return;
         if (cue.is_current) {
             cue.is_current = false;
             this.members = this.all_members;
+            this.player.paused = true;
             return;
         }
         for (let cue of this.cue_points) {
@@ -314,7 +340,8 @@ export class AnnotateVideo {
             if (h - scroll_top > el.offsetHeight)
                 el.scrollTop = h - scroll_top - 3 * line_height;
         }
-        this.player.currentTime = cue.time;
+        if (! auto)
+            this.player.currentTime = cue.time;
         let member_set = new Set(cue.member_ids);
         this.member_list.getMemberList()
         .then(response => {
