@@ -324,7 +324,7 @@ export class AnnotateVideo {
         if (cue.is_current) {
             cue.is_current = false;
             this.members = this.all_members;
-            this.player.paused(true);
+            this.player.paused = true;
             return;
         }
         for (let cue of this.cue_points) {
