@@ -24,15 +24,15 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th aut-sort="key: count; default: desc">Count</th>
-                        <th aut-sort="key: new_count; default: desc">New count</th>
+                        <!-- <th aut-sort="key: count; default: desc">Count</th> -->
+                        <th aut-sort="key: new_count; default: desc">count</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr repeat.for="item of $displayData">
                         <td>${item.item_id}</td>
                         <td css="direction:${theme.rtltr}">${item.name}</td>
-                        <td>${item.count}</td>
+                        <!-- <td>${item.count}</td> -->
                         <td>${item.new_count}</td>
                     </tr>
                 </tbody>
