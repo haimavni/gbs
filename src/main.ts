@@ -1,4 +1,5 @@
-import Aurelia, { DialogDefaultConfiguration } from 'aurelia';
+import Aurelia from 'aurelia';
+import { DialogDefaultConfiguration } from '@aurelia/dialog';
 import { RouterConfiguration } from '@aurelia/router';
 import { I18nConfiguration } from '@aurelia/i18n';
 import Fetch from 'i18next-fetch-backend';

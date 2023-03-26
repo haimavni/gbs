@@ -1,8 +1,8 @@
-import {
-    IDialogController,
+import {    
     IEventAggregator,
     ICustomElementViewModel,
 } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 
 import { IUser } from '../services/user';
 import { IArticleList } from '../services/article_list';

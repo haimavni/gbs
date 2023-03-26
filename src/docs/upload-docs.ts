@@ -3,9 +3,10 @@ import { IMemberGateway } from "../services/gateway";
 import { IUser } from "../services/user";
 import {
     ICustomElementViewModel,
-    IDialogController,
     IEventAggregator,
 } from "aurelia";
+
+import { IDialogController } from '@aurelia/dialog';
 
 export class UploadDocs implements ICustomElementViewModel {
     upload_finished = false;

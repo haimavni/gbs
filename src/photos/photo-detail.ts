@@ -6,7 +6,6 @@ import { IMemberGateway } from '../services/gateway';
 import { IUser } from '../services/user';
 import { FullSizePhoto } from './full-size-photo';
 import { highlight } from '../services/dom_utils';
-import { debounce } from '../services/debounce';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 
 export class PhotoDetail {

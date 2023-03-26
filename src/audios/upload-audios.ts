@@ -1,8 +1,8 @@
 import {
     ICustomElementViewModel,
-    IDialogController,
     IEventAggregator,
 } from 'aurelia';
+import { IDialogController } from '@aurelia/dialog';
 import { IRouter } from '@aurelia/router';
 import { IMemberGateway } from '../services/gateway';
 import { IUser } from '../services/user';
