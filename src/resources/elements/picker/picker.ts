@@ -1,5 +1,5 @@
 import { bindable, INode, BindingMode } from 'aurelia';
-import { IDialogService } from '@aurelia/dialog';
+import { DialogDeactivationStatuses, IDialogService } from '@aurelia/dialog';
 import { I18N } from '@aurelia/i18n';
 import { IUser } from '../../../services/user';
 import { ITheme } from '../../../services/theme';
@@ -83,7 +83,7 @@ export class Picker {
         if (!this.user.privileges.ADMIN && !this.user.debugging) return false;
         this.dialog
             .open({
-                viewModel: EditItem,
+                component: () => EditItem,
                 model: {
                     item: option,
                     can_delete: this.can_delete,
@@ -92,10 +92,10 @@ export class Picker {
                 lock: true,
             })
             .whenClosed((result) => {
-                if (result.wasCancelled) return;
-                if (result.output.command == 'remove-item') {
+                if (result.status == DialogDeactivationStatuses.Cancel) return;
+                if (result.value.command == 'remove-item') {
                     this.remove_option(option);
-                } else if (result.output.command == 'modify-item') {
+                } else if (result.value.command == 'modify-item') {
                     this.modify_item(option);
                 }
             });

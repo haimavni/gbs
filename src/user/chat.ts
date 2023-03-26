@@ -13,6 +13,6 @@ export class Chat implements ICustomElementViewModel {
     }
 
     room_deleted() {
-        this.controller.closed(true, 'deleted');
+        this.controller.closed;
     }
 }

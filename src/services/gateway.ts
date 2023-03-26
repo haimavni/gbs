@@ -1,23 +1,24 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-this-alias */
-import { fetch } from 'whatwg-fetch';
 import { DI, IEventAggregator } from 'aurelia';
 import { newInstanceOf } from '@aurelia/kernel';
-import { HttpClient, json, Interceptor } from '@aurelia/fetch-client';
-import environment from '../environment';
-import * as download from 'downloadjs';
+import { HttpClient, Interceptor } from '@aurelia/fetch-client';
 import { I18N } from '@aurelia/i18n';
 import * as toastr from 'toastr';
-import {ThemeA} from './theme-a';
-import { SSL_OP_EPHEMERAL_RSA } from 'constants';
+import { IThemeA } from './theme-a';
 
-export const IMemberGateway = DI.createInterface<IMemberGateway>('IMemberGateway', x => x.singleton(MemberGateway));
+export const IMemberGateway = DI.createInterface<IMemberGateway>(
+    'IMemberGateway',
+    (x) => x.singleton(MemberGateway)
+);
 export type IMemberGateway = MemberGateway;
 
 let THIS;
 
 function params(data) {
-    return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
+    return Object.keys(data)
+        .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+        .join('&');
 }
 
 export class SimpleInterceptor implements Interceptor {
@@ -36,7 +37,7 @@ export class SimpleInterceptor implements Interceptor {
 
     responseError(response: Response) {
         toastr.error('An error has occured! ' + response.statusText);
-        console.log("Server error: ", response);
+        console.log('Server error: ', response);
         THIS.pending -= 1;
         return response;
     }
@@ -48,7 +49,7 @@ export class MemberGateway {
             VIS_NEVER: 0,
             VIS_NOT_READY: 1,
             VIS_VISIBLE: 2,
-            VIS_HIGH: 3
+            VIS_HIGH: 3,
         },
         story_type: {
             STORY4MEMBER: 1,
@@ -59,14 +60,23 @@ export class MemberGateway {
             STORY4HELP: 6,
             STORY4DOC: 7,
             STORY4VIDEO: 8,
+            STORY4ARTICLE: 9,
         },
-        ptp_key: 0
+        ptp_key: 0,
+        cause_of_death: {
+            COD_UNKNOWN: 0,
+        },
     };
 
     pending = 0;
     ptp_connected;
 
-    constructor(@newInstanceOf(HttpClient) readonly httpClient: HttpClient, @IEventAggregator readonly eventAggregator: IEventAggregator, @I18N readonly i18n: I18N, @IThemeA readonly themeA: IThemeA) {
+    constructor(
+        @newInstanceOf(HttpClient) readonly httpClient: HttpClient,
+        @IEventAggregator readonly eventAggregator: IEventAggregator,
+        @I18N readonly i18n: I18N,
+        @IThemeA readonly themeA: IThemeA
+    ) {
         const href = window.location.href;
 
         let app = href.split('/')[3];
@@ -75,7 +85,7 @@ export class MemberGateway {
             app = process.env.app;
         }
 
-        httpClient.configure(config => {
+        httpClient.configure((config) => {
             config
                 .useStandardConfiguration()
                 .withBaseUrl(process.env.baseURL + '/' + app + '/')
@@ -85,7 +95,7 @@ export class MemberGateway {
         });
 
         this.get_constants();
-        
+
         //this.start_listening();
         THIS = this;
     }
@@ -110,8 +120,9 @@ export class MemberGateway {
         if (data) {
             url += '?' + params(data);
         }
-        return this.httpClient.fetch(url) //, {method: "POST", body: json(data))
-            .catch(error => toastr.error(error))
+        return this.httpClient
+            .fetch(url) //, {method: "POST", body: json(data))
+            .catch((error) => toastr.error(error))
             .then((result) => {
                 if (result.error) {
                     toastr.error('Error occurred: ' + result.error);
@@ -126,20 +137,25 @@ export class MemberGateway {
     }
 
     call_server_post(url: string, data?: any) {
-        const t0 = (new Date()).getTime();
+        const t0 = new Date().getTime();
         console.log(t0 + ': ' + url);
         data = data ? data : {};
         data['ptp_key'] = this.constants.ptp_key;
         data['webpSupported'] = this.themeA.webpSupported;
         const x = JSON.stringify(data);
-        return this.httpClient.fetch(url, { method: "POST", body: x })
-            .catch(error => toastr.error(error + ' in ', url))
+        return this.httpClient
+            .fetch(url, { method: 'POST', body: x })
+            .catch((error) => toastr.error(error + ' in ', url))
             .then((result) => {
-                const t1 = (new Date()).getTime();
-                console.log(t1 +  ': ' +  url +  ' Done in ' + (t1 - t0) +  ' milliseconds');
-                console.log("Result: ", result)
+                const t1 = new Date().getTime();
+                console.log(
+                    t1 + ': ' + url + ' Done in ' + (t1 - t0) + ' milliseconds'
+                );
+                console.log('Result: ', result);
                 if (result.error) {
-                    toastr.error("Server error occured: " + this.tr(result.error));
+                    toastr.error(
+                        'Server error occured: ' + this.tr(result.error)
+                    );
                     return result;
                 } else if (result.user_error) {
                     toastr.warning(this.tr(result.user_error));
@@ -151,7 +167,7 @@ export class MemberGateway {
     }
 
     getMemberList() {
-        return this.httpClient.fetch('members/member_list')
+        return this.httpClient.fetch('members/member_list');
     }
 
     getStoryDetail(story) {
@@ -172,77 +188,124 @@ export class MemberGateway {
         for (const file of fileList) {
             const fr = new FileReader();
             fr.readAsBinaryString(file);
-            const payload = { user_id: user_id }
+            const payload = { user_id: user_id };
             fr.onload = function () {
-                payload['file'] = { user_id: user_id, name: file.name, size: file.size, BINvalue: this.result, info: info, webp_supported: THIS.themeA.webpSupported };
+                payload['file'] = {
+                    user_id: user_id,
+                    name: file.name,
+                    size: file.size,
+                    BINvalue: this.result,
+                    info: info,
+                    webp_supported: THIS.themeA.webpSupported,
+                };
                 This.upload(payload, what)
                     .then((response: any) => {
                         if (response.upload_result.failed) {
-                            failed.push(file.name)
+                            failed.push(file.name);
                         } else if (response.upload_result.duplicate) {
-                            duplicates.push(response.upload_result.duplicate)
+                            duplicates.push(response.upload_result.duplicate);
                         } else {
-                            uploaded_file_ids.push(response.upload_result.photo_id)
+                            uploaded_file_ids.push(
+                                response.upload_result.photo_id
+                            );
                         }
                         n -= 1;
-                        This.eventAggregator.publish('FileWasUploaded', { files_left: n });
+                        This.eventAggregator.publish('FileWasUploaded', {
+                            files_left: n,
+                        });
                         if (n == 0) {
-                            This.eventAggregator.publish('FilesUploaded', { failed: failed, duplicates: duplicates, uploaded: uploaded_file_ids });
-                            This.call_server_post('default/notify_new_files', { uploaded_file_ids: uploaded_file_ids, what: what });
+                            This.eventAggregator.publish('FilesUploaded', {
+                                failed: failed,
+                                duplicates: duplicates,
+                                uploaded: uploaded_file_ids,
+                            });
+                            This.call_server_post('default/notify_new_files', {
+                                uploaded_file_ids: uploaded_file_ids,
+                                what: what,
+                            });
                         }
                     })
-                    .catch(e => console.log('error occured ', e));
-            }
+                    .catch((e) => console.log('error occured ', e));
+            };
         }
     }
 
     upload(payload, what) {
         payload = JSON.stringify(payload);
         switch (what) {
-            case 'PHOTOS': return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload });
-            case 'DOCS': return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
-            case 'AUDIOS': return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload });
-            case 'GROUP-LOGO': return this.httpClient.fetch(`groups/upload_logo`, { method: 'POST', body: payload });
-            case 'APPLOGO': return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload });
-            case 'PHOTO': return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload });
-            case 'CONTACTS': return this.httpClient.fetch(`groups/upload_contacts`, { method: 'POST', body: payload });
+            case 'PHOTOS':
+                return this.httpClient.fetch(`photos/upload_photo`, {
+                    method: 'POST',
+                    body: payload,
+                });
+            case 'DOCS':
+                return this.httpClient.fetch(`docs/upload_doc`, {
+                    method: 'POST',
+                    body: payload,
+                });
+            case 'AUDIOS':
+                return this.httpClient.fetch(`audios/upload_audio`, {
+                    method: 'POST',
+                    body: payload,
+                });
+            case 'GROUP-LOGO':
+                return this.httpClient.fetch(`groups/upload_logo`, {
+                    method: 'POST',
+                    body: payload,
+                });
+            case 'APPLOGO':
+                return this.httpClient.fetch(`admin/upload_logo`, {
+                    method: 'POST',
+                    body: payload,
+                });
+            case 'PHOTO':
+                return this.httpClient.fetch(`groups/upload_photo`, {
+                    method: 'POST',
+                    body: payload,
+                });
+            case 'CONTACTS':
+                return this.httpClient.fetch(`groups/upload_contacts`, {
+                    method: 'POST',
+                    body: payload,
+                });
         }
     }
 
     get_constants() {
-        this.call_server_post('starter/get_constants')
-            .then(response => {
-                this.constants = response;
-                this.start_listening();
-            });
+        this.call_server_post('starter/get_constants').then((response) => {
+            this.constants = response;
+            this.start_listening();
+        });
     }
 
     async listen(group) {
         let listener;
-        await this.call_server('default/get_tornado_host', { group: group })
-            .then(data => {
-                const ws = data.ws;
-                listener = this.web2py_websocket(ws, this.handle_ws_message);
-                if (!listener) {
-                    alert("html5 websocket not supported by your browser, try Google Chrome");
-                };
-                if (group == this.constants.ptp_key) {
-                    this.ptp_connected = true;
-                }
-            });
+        await this.call_server('default/get_tornado_host', {
+            group: group,
+        }).then((data) => {
+            const ws = data.ws;
+            listener = this.web2py_websocket(ws, this.handle_ws_message);
+            if (!listener) {
+                alert(
+                    'html5 websocket not supported by your browser, try Google Chrome'
+                );
+            }
+            if (group == this.constants.ptp_key) {
+                this.ptp_connected = true;
+            }
+        });
         return listener;
     }
 
     handle_ws_message(msg) {
-        console.log("web socket message: ", msg)
+        console.log('web socket message: ', msg);
         if (msg.data.startsWith('+anonymous')) return;
         if (msg.data.startsWith('-anonymous')) return;
         let obj;
         try {
             obj = JSON.parse(msg.data);
-        }
-        catch (e) {
-            console.log("ERROR handling ws message ", msg, " Exception ", e);
+        } catch (e) {
+            console.log('ERROR handling ws message ', msg, ' Exception ', e);
             return;
         }
 
@@ -252,22 +315,24 @@ export class MemberGateway {
     }
 
     web2py_websocket(url, onmessage, onopen?, onclose?) {
-        if ("WebSocket" in window) {
+        if ('WebSocket' in window) {
             const ws = new WebSocket(url);
-            ws.onopen = onopen ? onopen : (function () { });
+            ws.onopen = onopen ? onopen : function () {};
             ws.onmessage = onmessage;
-            ws.onclose = onclose ? onclose : (function () { });
-            console.log("url in web socket: ", url);
+            ws.onclose = onclose ? onclose : function () {};
+            console.log('url in web socket: ', url);
             return ws; // supported
         } else return false; // not supported
     }
 
     hit(what, item_id?) {
-        this.call_server('members/count_hit', { what: what, item_id: item_id | 0 })
+        this.call_server('members/count_hit', {
+            what: what,
+            item_id: item_id | 0,
+        });
     }
-
 }
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

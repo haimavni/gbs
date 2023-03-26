@@ -1,3 +1,4 @@
+import { DialogDeactivationStatuses } from '@aurelia/dialog';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { IMemberGateway } from '../services/gateway';
 import { IUser } from "../services/user";
@@ -284,7 +285,7 @@ export class FullSizePhoto implements ICustomElementViewModel {
 
     assign_article(article) {
         this.dialogService.open({
-            component: ArticlePicker,
+            component: () => ArticlePicker,
             model: {
                 face_identifier: true,
                 article_id: article.article_id,
@@ -303,14 +304,14 @@ export class FullSizePhoto implements ICustomElementViewModel {
                     return;
                 }
                 const old_article_id = article.article_id;
-                const mi = (response.output && response.output.new_article) ? response.output.new_article.article_info : null;
+                const mi = (response.value && response.value.new_article) ? response.value.new_article.article_info : null;
                 if (mi) {
                     article.name = article.article_id ? mi.name : mi.first_name + ' ' + mi.last_name;
-                    article.article_id = response.output.new_article.article_info.id;
+                    article.article_id = response.value.new_article.article_info.id;
                     return;
                 }
-                article.article_id = response.output.article_id;
-                const make_profile_photo = response.output.make_profile_photo;
+                article.article_id = response.value.article_id;
+                const make_profile_photo = response.value.make_profile_photo;
                 this.api.call_server_post('photos/save_article', {
                     face: article,
                     make_profile_photo: make_profile_photo,
@@ -329,7 +330,7 @@ export class FullSizePhoto implements ICustomElementViewModel {
 
     assign_member(face) {
         this.dialogService.open({
-            viewModel: MemberPicker,
+            component: () => MemberPicker,
             model: {
                 face_identifier: true,
                 member_id: face.member_id,
@@ -341,7 +342,7 @@ export class FullSizePhoto implements ICustomElementViewModel {
         })
             .whenClosed(response => {
                 this.marking_face_active = false;
-                if (response.wasCancelled) {
+                if (response.status == DialogDeactivationStatuses.Cancel) {
                     if (!face.member_id) {
                         this.hide_face(face);
                     }
@@ -349,14 +350,14 @@ export class FullSizePhoto implements ICustomElementViewModel {
                     return;
                 }
                 const old_member_id = face.member_id;
-                const mi = (response.output && response.output.new_member) ? response.output.new_member.member_info : null;
+                const mi = (response.value && response.value.new_member) ? response.output.new_member.member_info : null;
                 if (mi) {
                     face.name = mi.first_name + ' ' + mi.last_name;
-                    face.member_id = response.output.new_member.member_info.id;
+                    face.member_id = response.value.new_member.member_info.id;
                     return;
                 }
-                face.member_id = response.output.member_id;
-                const make_profile_photo = response.output.make_profile_photo;
+                face.member_id = response.value.member_id;
+                const make_profile_photo = response.value.make_profile_photo;
                 this.api.call_server_post('photos/save_face', {
                     face: face,
                     make_profile_photo: make_profile_photo,
@@ -376,7 +377,6 @@ export class FullSizePhoto implements ICustomElementViewModel {
 
     }
 
-    @computedFrom('marking_face_active', 'marking_articles')
     get instruction() {
         if (this.marking_face_active) {
             return this.i18n.tr('photos.edit-face-location')
@@ -841,7 +841,7 @@ export class FullSizePhoto implements ICustomElementViewModel {
             document.body.classList.remove('semi-black-overlay');
             this.no_new_faces = false;
             if (response.status === 'ok') {
-                const command = response.output.command;
+                const command = response.value.command;
                 if (command == 'cancel-identification') {
                     this.marking_face_active = false;
                     this.remove_face(face)

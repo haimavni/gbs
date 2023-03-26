@@ -36,7 +36,7 @@ export class ChatButtonCustomElement {
         document.body.classList.add("edged-dialog");
         this.dialog
             .open({
-                component: Chat,
+                component: () => Chat,
                 model: { chatroom_id: this.chatroom_id },
                 lock: false,
             })

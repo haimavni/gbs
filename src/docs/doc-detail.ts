@@ -322,7 +322,7 @@ export class DocDetail implements IRouteableComponent {
             .whenClosed((response) => {
                 this.theme.hide_title = false;
                 if (response.status === 'cancel') return;
-                member_ids = Array.from(response.output.member_ids);
+                member_ids = Array.from(response.value.member_ids);
                 this.api
                     .call_server_post('docs/update_doc_members', {
                         doc_id: this.doc_id,

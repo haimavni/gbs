@@ -2,7 +2,7 @@ import { IRouteableComponent } from '@aurelia/router';
 // this file is obsolete now. to be deleted soon
 import { IMemberGateway } from '../services/gateway';
 import { IEventAggregator } from 'aurelia';
-import { IDialogController } from '@aurelia/dialog';
+import { IDialogController, IDialogService } from '@aurelia/dialog';
 import { IRouter } from '@aurelia/router';
 import { IMisc } from '../services/misc';
 import { ITheme } from '../services/theme';

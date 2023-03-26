@@ -5,7 +5,7 @@ import { IDialogController } from '@aurelia/dialog';
 export class CustomDialog implements ICustomElementViewModel {
     public model: any;
 
-    static $view = this.model.html;
+    //static $view = this.model.html;
 
     constructor(@IDialogController readonly controller: IDialogController) {
 

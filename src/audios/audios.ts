@@ -643,7 +643,7 @@ export class Audios implements IRouteableComponent {
     upload_files() {
         this.theme.hide_title = true;
         this.dialog
-            .open({ component: UploadAudios, lock: true })
+            .open({ component: () => UploadAudios, lock: true })
             .whenClosed((result) => {
                 //this.get_uploaded_info({ duplicates: result.output.duplicates, uploaded: result.output.uploaded });
                 this.theme.hide_title = false;

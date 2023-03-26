@@ -246,7 +246,7 @@ export class Videos {
     new_video() {
         this.theme.hide_title = true;
         this.dialog
-            .open({ component: AddVideo, model: { params: {} }, lock: true })
+            .open({ component: () => AddVideo, model: { params: {} }, lock: true })
             .whenClosed((response) => {
                 this.theme.hide_title = false;
             });
@@ -367,7 +367,7 @@ export class Videos {
     edit_video_info(video) {
         this.theme.hide_title = true;
         this.dialog
-            .open({ component: AddVideo, model: { params: video }, lock: true })
+            .open({ component: () => AddVideo, model: { params: video }, lock: true })
             .whenClosed((response) => {
                 this.theme.hide_title = false;
             });
@@ -561,11 +561,13 @@ export class Videos {
         } else {
             if (this.scroll_area) this.scroll_top = this.scroll_area.scrollTop;
             this.router.load('/annotate-video', {
-                video_id: video.id,
-                video_src: video.src,
-                video_name: video.name,
-                video_type: video.video_type,
-                cuepoints_enabled: cuepoints_enabled,
+                parameters : {
+                    video_id: video.id,
+                    video_src: video.src,
+                    video_name: video.name,
+                    video_type: video.video_type,
+                    cuepoints_enabled: cuepoints_enabled,
+                }
             });
         }
     }

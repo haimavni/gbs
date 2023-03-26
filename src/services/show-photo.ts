@@ -16,8 +16,10 @@ export class ShowPhoto {
     public show(photo, event, photo_ids) {
         if (photo.has_story_text || this.user.editing) {
             this.router.load('/photo-detail', {
-                id: photo.photo_id, keywords: "", photo_ids: photo_ids,
-                pop_full_photo: true, has_story_text: photo.has_story_text
+                parameters : {
+                    id: photo.photo_id, keywords: "", photo_ids: photo_ids,
+                    pop_full_photo: true, has_story_text: photo.has_story_text
+                }
             });
         } else {
             this.openDialog(photo, event, photo_ids)
@@ -49,7 +51,7 @@ export class ShowPhoto {
         this.misc.url_shortcut = addr;
         document.body.classList.add('black-overlay');
         this.dialog.open({
-            viewModel: FullSizePhoto,
+            component: () => FullSizePhoto,
             model: {
                 slide: slide, slide_list: photo_ids,
                 hide_details_icon: !(this.user.editing || slide.has_story_text),

@@ -1,4 +1,4 @@
-import { RoutingInstruction } from '@aurelia/router';
+import { Navigation, RoutingInstruction } from '@aurelia/router';
 import { IMemberGateway } from '../services/gateway';
 import { IUser } from '../services/user';
 import { IEventAggregator } from 'aurelia';
@@ -197,7 +197,6 @@ export class Photos implements IRouteableComponent {
             this.caller_type = params.caller_type;
             let arr;
             if (params.associated_photos) {
-                // @ts-expect-error
                 arr = params.associated_photos.map((i) => Number(i));
             } else {
                 arr = [];

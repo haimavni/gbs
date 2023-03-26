@@ -30,7 +30,7 @@ export class Promote {
                 contact_message: this.contact_message,
                 rtltr: this.theme.rtltr,
             })
-            .then(this.controller.ok());
+            .then(this.controller.ok);
     }
 
     cancel() {

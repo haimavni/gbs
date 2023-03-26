@@ -1,5 +1,5 @@
 import { bindable, INode, BindingMode } from 'aurelia';
-import { IDialogService } from '@aurelia/dialog';
+import { DialogDeactivationStatuses, IDialogService } from '@aurelia/dialog';
 import { I18N } from '@aurelia/i18n';
 import { EditTopic } from './edit-topic';
 import { IUser } from '../../../services/user';
@@ -476,7 +476,7 @@ export class MultiSelectCustomElement {
                 lock: true,
             })
             .whenClosed((result) => {
-                if (result.wasCancelled) return;
+                if (result.status == DialogDeactivationStatuses.Cancel) return;
                 if (result.output.command == 'remove-topic') {
                     this.remove_option(option);
                 } else if (result.output.command == 'rename') {
