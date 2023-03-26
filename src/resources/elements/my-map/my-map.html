@@ -9,7 +9,7 @@
     <google-map
             longitude.two-way="longitude"
             latitude.two-way="latitude"
-            map-loaded.call="map_loaded(map, $event)"
+            map-loaded.bind="e => map_loaded(map, e)"
             map-click.trigger="create_marker($event)"
             bounds-change.trigger="bounds_changed($event)"
             markers.bind="markers"
