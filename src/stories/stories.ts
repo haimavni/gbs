@@ -166,6 +166,7 @@ export class Stories {
             this.theme.page_title = this.params.events_only ? "stories.place-stories" : "stories.all-materials";
             if (prev_events_only != this.params.events_only)
                this.update_story_list("simple")
+            this.update_topic_list();
         });
 
     }
@@ -199,16 +200,10 @@ export class Stories {
         this.keywords = this.search_words;
         this.simple_search(this.params.keywords_str, false);
         this.single_doc_entry = this.user.config.single_doc_entry;
-}
+    }
 
     created(params, config) {
         if (this.story_list && this.story_list.length > 0 && !this.router.isExplicitNavigation) return;
-        this.api.call_server('topics/get_topic_list', {})
-            .then(result => {
-                this.topic_list = result.topic_list;
-                this.topic_groups = result.topic_groups;
-                this.no_topics_yet = this.topic_list.length == 0;
-            });
         this.api.call_server('members/get_used_languages')
             .then(response => {
                 this.used_languages = response.used_languages;
@@ -584,7 +579,14 @@ export class Stories {
 
     update_topic_list() {
         this.params.checked_story_list = Array.from(this.checked_stories);
-        this.api.call_server_post('topics/get_topic_list', { params: this.params })
+        let promise;
+        if (this.params.events_only) {
+            let usage = this.user.editing ? {} : {usage: "E"};
+            promise = this.api.call_server_post('topics/get_topic_list', usage);
+        } else {
+            promise = this.api.call_server_post('topics/get_topic_list', { params: this.params });
+        }
+        promise
             .then(response => {
                 this.topic_list = response.topic_list;
                 this.topic_groups = response.topic_groups;
