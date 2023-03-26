@@ -163,6 +163,7 @@ export class Stories {
         this.ea.subscribe(RouterEvent.Complete, event =>  {
             const prev_events_only = this.params.events_only;
             this.params.events_only = document.location.hash.includes("events");
+            this.theme.page_title = this.params.events_only ? "stories.place-stories" : "stories.all-materials";
             if (prev_events_only != this.params.events_only)
                this.update_story_list("simple")
         });
@@ -280,7 +281,6 @@ export class Stories {
         this.win_height = window.outerHeight;
         this.win_width = window.outerWidth;
         this.theme.display_header_background = true;
-        this.theme.page_title = "stories.place-stories";
         this.scroll_area.scrollTop = this.scroll_top;
         if (this.user.advanced)
             this.word_index.get_word_index()
