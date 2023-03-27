@@ -163,7 +163,8 @@ export class Stories {
         this.ea.subscribe(RouterEvent.Complete, event =>  {
             const prev_events_only = this.params.events_only;
             this.params.events_only = document.location.hash.includes("events");
-            this.theme.page_title = this.params.events_only ? "stories.place-stories" : "stories.all-materials";
+            if (document.location.hash.includes("stories"))
+                this.theme.page_title = this.params.events_only ? "stories.place-stories" : "stories.all-materials";
             if (prev_events_only != this.params.events_only)
                this.update_story_list("simple")
             this.update_topic_list();
