@@ -188,8 +188,9 @@ export class FullSizePhoto {
             .then((data) => {
                 this.faces = data.faces;
                 for (let face of this.faces) {
-                    if (face.member_id==this.current_face.member_id)
-                        continue;
+                    if (this.current_face)
+                        if (face.member_id==this.current_face.member_id)
+                            continue;
                     face.name = '<span dir="rtl">' + face.name + '</span>';
                     this.faces_already_identified.add(face.member_id);
                 }
