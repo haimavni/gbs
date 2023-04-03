@@ -968,7 +968,7 @@ export class FullSizePhoto {
 
     @computedFrom('user.editing')
     get hide_details_icon() {
-        return this.theme.is_desktop && ! this.slide.has_story_text && ! this.user.editing;
+        return this.theme.is_desktop && ! this.slide.has_story_text && ! this.model.has_map && ! this.user.editing;
     }
 
     image_loaded() {
