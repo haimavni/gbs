@@ -149,6 +149,7 @@ export class DocDetail {
                     doc_segments.push(ds);
                 }
                 this.doc_segments = doc_segments;
+                this.api.hit('DOC', doc_id);
             });
     }
 
