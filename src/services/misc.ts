@@ -64,7 +64,7 @@ export class Misc {
     }
 
     old_display_name(rec) {
-        let s = rec.Name || "";
+        let s = rec.name || "";
         if (rec.FormerName) s += " (" + rec.FormerName + ")";
         if (rec.NickName) s += " - " + rec.NickName;
         return s;

@@ -175,7 +175,7 @@ export class MemberDetail {
         return this.misc.calc_life_cycle_text(this.member.member_info)
     }
 
-    @computedFrom('member','member.member_info.Name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name',
+    @computedFrom('member','member.member_info.name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name',
         'member.member_info.former_last_name', 'member.member_info.NickName')
     get member_display_name() {
         if (!this.member)
