@@ -1,3 +1,4 @@
+import { Marker } from './../mapa/google-maps';
 import {bindable, bindingMode, DOM, inject} from 'aurelia-framework';
 import { debounce } from '../../../services/debounce';
 
@@ -45,8 +46,11 @@ export class MyMapCustomElement {
         }
         this.map = map;
         this.create_search_box();
-        if (this.marked) {
-            await this.place_marker();
+        //place marker destroys zoom and no recovery found.
+        //the map will be OK, but the location icon is not displayed
+        console.log("=======markers: ", this.map.Markers);
+        if (false && this.marked) {
+            await this.place_marker1();
         }
     }
 
@@ -97,6 +101,22 @@ export class MyMapCustomElement {
         this.zoom = zoom;
         this.map.setZoom(zoom);
         this.update_location_debounced('marker-placed');
+    }
+
+    async place_marker1() {
+        if (!this.map) return;
+        let zoom = this.map.zoom;
+        if (this.markers && this.markers.length > 0) {
+            let tmp = this.markers[0];
+            tmp.latitude = this.latitude;
+            tmp.longitude = this.longitude;
+        } else {
+            this.markers = [{latitude: this.latitude, longitude: this.longitude}];
+        }
+        await sleep(1000);
+        this.map.setZoom(zoom + 1);
+        await sleep(1000);
+        this.map.setZoom(zoom);
     }
 
     dispatch_event(what) {

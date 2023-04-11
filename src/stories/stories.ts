@@ -161,13 +161,14 @@ export class Stories {
         this.pickerSettings.can_delete = this.user.editing;
         this.pickerSettings.help_topic = "search-book-list";
         this.ea.subscribe(RouterEvent.Complete, event =>  {
-            const prev_events_only = this.params.events_only;
-            this.params.events_only = document.location.hash.includes("events");
-            if (document.location.hash.includes("stories"))
+            if (document.location.hash.includes("stories")) {
+                const prev_events_only = this.params.events_only;
+                this.params.events_only = document.location.hash.includes("events");
                 this.theme.page_title = this.params.events_only ? "stories.place-stories" : "stories.all-materials";
-            if (prev_events_only != this.params.events_only)
-               this.update_story_list("simple")
-            this.update_topic_list();
+                if (prev_events_only != this.params.events_only)
+                    this.update_story_list("simple")
+                this.update_topic_list();
+            }
         });
 
     }

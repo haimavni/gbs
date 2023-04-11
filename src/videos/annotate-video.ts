@@ -150,6 +150,7 @@ export class AnnotateVideo {
         this.cue_points = [];
         await this.update_topic_list();
         await this.get_video_info(this.video_id, params.what);
+        this.api.hit('VIDEO', this.video_id);    
     }
 
     attached() {
