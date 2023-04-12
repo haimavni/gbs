@@ -46,7 +46,7 @@ export class HitCounts {
     }
 
     get_statistics() {
-        this.api.call_server('default/get_hit_statistics', {order: this.order_option})
+        this.api.call_server('hits/get_hit_statistics', {order: this.order_option})
             .then(response => {
                 this.total_count = response.total_count;
                 this.itemized_counts = response.itemized_counts;
