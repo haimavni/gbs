@@ -274,7 +274,7 @@ export class MemberGateway {
     }
 
     hit(what, item_id?) {
-        this.call_server('members/count_hit', { what: what, item_id: item_id | 0 })
+        this.call_server('hits/count_hit', { what: what, item_id: item_id | 0 })
     }
 
 }
