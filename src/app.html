@@ -50,8 +50,8 @@
             </div>
         </nav>
 
-        <div class="top-head unselectable" if.bind="theme.page_title != '' && ! theme.hide_title">
-            <div class="page-title" css="background-image:url('${theme.files.top_background}');">
+        <div class="top-head ${theme.alt_top} unselectable" if.bind="theme.page_title != '' && ! theme.hide_title">
+            <div class="page-title ${theme.alt_top}" css="background-image:url('${theme.top_background}');">
                 <span style="padding-left:15px;padding-right:15px">${theme.page_title & t}</span>
             </div>
         </div>

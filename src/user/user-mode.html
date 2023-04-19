@@ -72,7 +72,7 @@
                     </ul>
                 </div>
             </li>
-            <li style="width:170px;padding-bottom:4px;padding-top:6px;">
+            <li style="border-bottom:solid 1px gray;width:170px;padding-bottom:4px;padding-top:6px;">
                 <div class="btn-group dropdown border-right"
                     aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
@@ -91,6 +91,23 @@
                                 css="float:${theme.same_dir}">
                                 <img if.bind="! theme.blue_logo" src="${theme.files.gb_logo_blue}" width="20" />
                                 <img if.bind="theme.blue_logo" src="${theme.files.gb_logo_png}" width="20" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li style="width:170px;padding-bottom:5px;height:32px;padding-top:3px;">
+                <div class="btn-group dropdown border-right"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+                    if.bind="theme.width>458">
+                    <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
+                        <i class="far fa-lg fa-image" style="margin-left:10px;"></i>
+                        <span style="position:absolute; left:40px;top:0px;">${'user.theme-options' & t}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        <li repeat.for="theme_option of theme_options" class.bind="theme_option.cls"> 
+                            <a class="dropdown-item" href="#" click.trigger="change_theme_options(theme_option)">
+                                ${'user.' + theme_option.name & t}
                             </a>
                         </li>
                     </ul>

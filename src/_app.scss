@@ -135,17 +135,25 @@ div.menu-items {
 
 .top-head {
     height: 80px;
+    &.alt-top {
+        height: 64px;
+    }
     z-index: 1;
 
     .page-title {
         @include container;
         display: block;
         height: 96px;
+        line-height: 80px;
+        font-size: 36px;
+        &.alt-top {
+            height: 64px;
+            line-height: 60px;
+            font-size: 28px;
+        }
 		margin: 0 auto;
         padding: 0 6px;
         background-repeat: no-repeat;
-        line-height: 80px;
-        font-size: 36px;
     }
 }
 

@@ -39,6 +39,7 @@ export class UserMode {
     ea;
     share_menu_open = false;
     adv_options = [{name: 'advanced-options-off', cls: ''}, {name: 'advanced-options-on', cls: ''}];
+    theme_options = [{name: 'theme-options-off', cls: ''}, {name: 'theme-options-on', cls: ''}];
     font_size_options = [];
 
     constructor(user: User, theme: Theme, misc: Misc, router: Router, dialog: DialogService, 
@@ -93,6 +94,8 @@ export class UserMode {
     attached() {
         let idx = this.user.advanced ? 1 : 0;
         this.adv_options[idx].cls = 'selected';
+        idx = this.theme.alt_top == "alt-top" ? 1 : 0;
+        this.theme_options[idx].cls = 'selected';
         let s = this.theme.font_size.substr(10, 3);
         let size = parseInt(s);
         this.set_font_size(size); //to set the selected class
@@ -245,6 +248,13 @@ export class UserMode {
         for (let adv of this.adv_options) adv.cls = '';
         let idx = adv_option.name == 'advanced-options-off' ? 0 : 1;
         this.adv_options[idx].cls = 'selected';
+    }
+
+    change_theme_options(theme_option) {
+        this.theme.alt_top = (theme_option.name == 'theme-options-off') ? "" : "alt-top";
+        for (let theme_option of this.theme_options) theme_option.cls = '';
+        let idx = theme_option.name == 'theme-options-off' ? 0 : 1;
+        this.theme_options[idx].cls = 'selected';
     }
 
     async share_on_facebook() {

@@ -4,6 +4,7 @@ import { MemberGateway } from '../services/gateway';
 import { I18N } from 'aurelia-i18n';
 import { Cookies } from './cookies';
 import { DialogService } from 'aurelia-dialog';
+import { format } from "url";
 
 const rtl_langs = new Set(['he', 'ar']);
 let THEME;
@@ -14,7 +15,7 @@ let THEME;
 export class Theme {
     api;
     eventAggregator: EventAggregator;
-    files: {};
+    files: {top_background: ""};
     width = 0;
     height = 0;
     display_header_background = false;
@@ -36,6 +37,7 @@ export class Theme {
     _palette = null;
     palettes = ['palette-default', 'palette-oldie', 'palette-sky', 'palette-earth'];
     _blue_logo = null;
+    _alt_top = null;
     router_view;
     footer;
     search_debounce = 15000;
@@ -149,6 +151,8 @@ export class Theme {
         return this._locale;
     }
 
+
+
     customize(lang, overrides) {
         this.i18n.i18next.addResourceBundle(lang, 'translation', overrides, true, true);
     }
@@ -205,6 +209,21 @@ export class Theme {
         return this._blue_logo == 'blue';
     }
 
+    get alt_top() {
+        if (this._alt_top === null) {
+            this._alt_top = this.cookies.get('alt-top')
+            if (this._alt_top == null) {
+                this._alt_top = '';
+            }
+        }
+        return this._alt_top;
+    }
+
+    set alt_top(alt_top) {
+        this._alt_top = alt_top;
+        this.cookies.put('alt-top', this._alt_top);
+    }
+
     changeLogoColor() {
         this._blue_logo = this._blue_logo == 'blue' ? 'grey' : 'blue'
         this.cookies.put('blue-logo', this._blue_logo);
@@ -252,6 +271,17 @@ export class Theme {
         //key for lifestone.info version3/4:
         //qc1H2pH2A2A1A5B6C5oxI-8prkmuuyC2wqfnD-13C3B2E2E2E3B1A2C7D2F3==
     }
+
+    @computedFrom('this.files.top_background', 'alt_top')
+    get top_background() {
+        let fname: string = this.files.top_background;
+        if (this.alt_top) {
+            let i = fname.indexOf(".png")
+            fname = fname.slice(0, i) + '-alt' + fname.slice(i);
+        }
+        return fname;
+    }
+    
 
 }
 
