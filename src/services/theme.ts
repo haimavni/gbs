@@ -277,7 +277,7 @@ export class Theme {
         let fname: string = this.files.top_background;
         if (this.alt_top) {
             let i = fname.indexOf(".png")
-            fname = fname.slice(0, i) + '-alt' + fname.slice(i);
+            fname = fname.slice(0, i) + '-alt' + fname.slice(i) + "?d=1";
         }
         return fname;
     }
