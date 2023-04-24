@@ -50,6 +50,7 @@ export class Theme {
         this.eventAggregator = eventAggregator;
         this.api.call_server('photos/get_theme_data')
             .then(response => {
+                console.log("response files: ", response);
                 this.files = response.files;
             });
         window.addEventListener('resize', () => {
@@ -277,7 +278,7 @@ export class Theme {
         let fname: string = this.files.top_background;
         if (this.alt_top) {
             let i = fname.indexOf(".png")
-            fname = fname.slice(0, i) + '-alt' + fname.slice(i) + "?d=1";
+            fname = fname.slice(0, i) + '-alt' + fname.slice(i);
         }
         return fname;
     }

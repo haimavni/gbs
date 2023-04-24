@@ -300,6 +300,12 @@ export class App {
                 settings: { auth: true },
             },
             {
+                route: "hit-counts-new",
+                name: "hit-counts-new",
+                moduleId: "./admin/hit-counts-new",
+                settings: { auth: true },
+            },
+            {
                 route: "feedbacks",
                 name: "feedbacks",
                 moduleId: "./admin/show-feedbacks",
