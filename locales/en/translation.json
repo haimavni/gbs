@@ -779,6 +779,14 @@
         "got-it": "Got it",
         "dont-show-again": "Do not show again"
     },
+    "hits": {
+        "hit-list": "Hit list",
+        "apps": "Entries to the site",
+        "all-time": "All times",
+        "last-month": "Last month",
+        "last=week": "Last week",
+        "yesterday": "Yesterday"
+    },
     "feedbacks": "Feedback",
     "go-back": "Back",
     "parents": "Parents",

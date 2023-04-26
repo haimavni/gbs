@@ -3,7 +3,6 @@ import { I18N } from "aurelia-i18n";
 import { Router } from "aurelia-router";
 import { Theme } from "../services/theme";
 import { MemberGateway } from "../services/gateway";
-import { runInThisContext } from "vm";
 
 @autoinject()
 export class HitCountsNew {
@@ -16,12 +15,11 @@ export class HitCountsNew {
     what_options;
     what_option = "MEMBER";
     items = [];
-    _curr_totals = [];
-    _curr_detailed = [];
     pageSize = 15;
     whats = ["APP", "MEMBER", "PHOTO", "EVENT", "TERM", "DOC", "VIDEO"];
     periods = [0, 30, 7, 1];
     curr_what = null;
+    curr_period = 0;
     curr_what_prev = null;
     starter = null;
 
@@ -37,7 +35,7 @@ export class HitCountsNew {
             { value: "EVENT", name: this.i18n.tr("stories.stories") },
             { value: "TERM", name: this.i18n.tr("terms.terms") },
             { value: "DOC", name: this.i18n.tr("docs.docs")},
-            { value: "VIDEO", name: this.i18n.tr("videos.video")}
+            { value: "VIDEO", name: this.i18n.tr("videos.videos")}
         ];
     }
 
@@ -70,11 +68,8 @@ export class HitCountsNew {
     }
 
     change_what(event) {
-        console.log("change what ", this.curr_what);
         if (!this.itemized_counts) return [];
-        this.items = this.itemized_counts[this.curr_what];
-        this._curr_totals = this.items["totals"];
-        this._curr_detailed = this.items["detailed"]
+        this.calc_count_list();
     }
 
     period_name(period) {
@@ -98,7 +93,6 @@ export class HitCountsNew {
 
     @computedFrom('curr_what', 'starter')
     get curr_totals() {
-        //return this._curr_totals;
         console.log("curr what / prev: ", this.curr_what, this.curr_what_prev);
         //if (this.curr_what == this.curr_what_prev) return;
         this.curr_what_prev = this.curr_what;
@@ -109,7 +103,13 @@ export class HitCountsNew {
     }
 
     detailed_of_periods(period) {
+        this.curr_period = period;
+        this.calc_count_list();
+    }
 
+    calc_count_list() {
+        console.log("detailed: ", this.itemized_counts[this.curr_what].detailed)
+        this.items = this.itemized_counts[this.curr_what].detailed[this.curr_period]
     }
 
 }

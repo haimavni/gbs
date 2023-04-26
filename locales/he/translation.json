@@ -779,6 +779,14 @@
         "got-it": "הבנתי",
         "dont-show-again": "אל תציג שוב"
     },
+    "hits": {
+        "hit-list": "סטטיסטיקה של השימוש באתר",
+        "app": "כניסות לאתר",
+        "all-time": "מכל הזמנים",
+        "last-month": "בחודש האחרון",
+        "last-week": "בשבוע האחרון",
+        "yesterday": "אתמול"
+    },
     "go-back": "חזור",
     "parents": "הורים",
     "grand-parents": "סבים/סבתות",
