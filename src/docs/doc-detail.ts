@@ -1,3 +1,4 @@
+import { editableCustomElement } from './../resources/elements/editable';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
@@ -10,16 +11,18 @@ import { MultiSelectSettings } from '../resources/elements/multi-select/multi-se
 import { MemberPicker } from "../members/member-picker";
 
 class DocSegment {
-    id = 0;
+    segment_id = 0;
     name = "";
     page_num = 0;
+    page_part_num = 0;
     story_id = 0;
     member_ids = [];
-
-    constructor(id, name, page_num, story_id, member_ids) {
-        this.id = id;
+    
+    constructor(segment_id, name, page_num, page_part_num, story_id, member_ids) {
+        this.segment_id = segment_id;
         this.name = name;
         this.page_num = page_num;
+        this.page_part_num = page_part_num;
         this.story_id = story_id;
         this.member_ids = member_ids;
     } 
@@ -75,6 +78,14 @@ export class DocDetail {
     doc_segments = []; //Array<DocSegment>;
     curr_doc_segment: DocSegment = null;
     expanded = "";
+    doc_segment_options = [];
+    selected_segment = null;
+    selected_page = null;
+    num_pages = 0;
+    page_options = [];
+    show_page_options = false;
+    select_segment_str;
+    create_segment_str;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
         this.api = api;
@@ -93,7 +104,8 @@ export class DocDetail {
                 empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             });
         this.fullscreen = this.i18n.tr('docs.fullscreen');
-
+        this.select_segment_str = this.i18n.tr("docs.select-segment-str");
+        this.create_segment_str = this.i18n.tr("docs.create-segment-str");
     }
 
     async activate(params, config) {
@@ -123,6 +135,7 @@ export class DocDetail {
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
                 this.story_about = response.story_about;
+                this.num_pages = response.num_pages;
                 if (! this.story_about || this.story_about.story_text == "")
                     this.story_about = this.doc_story;
                 if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
@@ -141,16 +154,62 @@ export class DocDetail {
                     response.doc_segments = [];
                 for (let doc_segment of response.doc_segments) {
                     const ds = new DocSegment(
-                        doc_segment.id, 
+                        doc_segment.segment_id, 
                         doc_segment.name, 
                         doc_segment.page_num, 
+                        doc_segment.page_part_num,
                         doc_segment.story_id, 
                         doc_segment.members);
                     doc_segments.push(ds);
                 }
                 this.doc_segments = doc_segments;
+                this.doc_segment_options = [{name: this.i18n.tr("docs.no-segment-selected"), value: 0}];
+                for (let doc_segment of doc_segments) {
+                    let s = "Page " + doc_segment.page_num + ")  " + doc_segment.name;
+                    this.doc_segment_options.push({name: s, value: doc_segment.segment_id});
+                }
+                this.doc_segment_options.push({name: this.create_segment_str, value: "new-segment"});
+                this.page_options = [];
+                for (let i = 0; i <= this.num_pages; i++) {
+                    let option = {name: "page " + i, value: i}
+                    this.page_options.push(option);
+                }
                 this.api.hit('DOC', doc_id);
             });
+    }
+
+    get_doc_segment_info(doc_segment_id) {
+        this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id })
+        .then(response => {
+            this.curr_doc_segment = new DocSegment(doc_segment_id, response.name, response.page_num, response.page_part_num, 
+                response.story_id, response.members);
+        });
+    }
+
+    doc_segment_selected(event) {
+        console.log("doc segment selected. selected segment: ", this.selected_segment)
+        if (this.selected_segment.value == 0) return;
+        if (this.selected_segment.value == "new-segment") {
+            this.show_page_options = true;
+        } else {
+            this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == this.selected_segment.value);
+        }
+    }
+
+    page_num_selected(event) {
+        console.log("selected page ", this.selected_page)
+        this.show_page_options = false;
+        let page_num = this.selected_page.value;
+        console.log("========page num is: ", page_num);
+        const tmp = this.doc_segments.filter(ds => ds.page_num == page_num);
+        const page_part_num = tmp.length;
+        this.api.call_server_post('docs/create_segment', {doc_id: this.doc_id, page_num: page_num, page_part_num: page_part_num})
+        .then(response => {
+            const doc_segment = new DocSegment(response.segment_id, "noname", page_num, page_part_num, response.story_id, []);
+            this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
+            this.curr_doc_segment = doc_segment;
+        });
+
     }
 
     update_topic_list() {

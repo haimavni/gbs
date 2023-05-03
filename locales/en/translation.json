@@ -580,6 +580,9 @@
         "add-doc-segment": "Add segment",
         "page-num": "Page",
         "doc-segment-description": "Segment description",
+        "select-segment-str": "Select segment",
+        "create-segment-str": "Create segment",
+        "no-segment-selected": "No segment selected",
         "expand": "Expand",
         "collapse": "Collapse"
     },

@@ -22,14 +22,18 @@
                     <button aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;" class="side-tool full-screen"
                     style="width:40px;position:absolute;left:80px;top:20px;background-color:rgba(0,0,0,0);border:0;color:white;"
                     click.delegate="makeFullScreen()"><i class="fa fa-lg fa-expand"></i></button>
-                    <iframe if.bind="doc_src_ready && !curr_doc_segment" 
-                        src.bind="doc_src" 
-                        width="100%" 
-                        height="100%" 
-                        allow="fullscreen" 
-                        id="doc-frame">
-                    </iframe>
-                    <div repeat.for="doc_segment of doc_segments" if.bind="curr_doc_segment && doc_segment.id==curr_doc_segment.id">
+                    <div if.bind="doc_src_ready && !curr_doc_segment" style="height:100%;">
+                        <iframe 
+                            src.bind="doc_src" 
+                            width="100%" 
+                            height="100%" 
+                            allow="fullscreen" 
+                            id="doc-frame">
+                        </iframe>
+                    </div>
+                    <div repeat.for="doc_segment of doc_segments"
+                        style="height:100%;" 
+                        if.bind="curr_doc_segment && doc_segment.segment_id==curr_doc_segment.segment_id">
                         <iframe if.bind="doc_src_ready" 
                             src.bind="doc_src" 
                             width="100%" 
@@ -46,9 +50,9 @@
                     ${toggle_size_prompt & t}
                 </button>
                 <button if.bind="user.editing"
-                        class="btn btn-primary btn-framed"
-                        style="margin-top:8px;font-size:108%;"
-                        click.delegate="select_doc_members()">
+                    class="btn btn-primary btn-framed"
+                    style="margin-top:8px;font-size:108%;"
+                    click.delegate="select_doc_members()">
                     <i style="cursor:pointer"
                        class="fa fa-users"
                        title="${'docs.members-in' & t}">
@@ -100,6 +104,31 @@
                                 saved.delegate="update_story_preview($event)"
                                 story.bind="story_about">
                             </editable>
+                            <h3 style="margin-top:20px;">
+                                ${select_segment_str}
+                            </h3>
+                            <select class="form-control" 
+                                style="width:72%;margin-top:10px;margin-bottom:10px;"
+                                value.bind="selected_segment" style="margin-bottom:14px;"
+                                change.delegate="doc_segment_selected($event)">
+                                <option repeat.for="doc_segment_option of doc_segment_options"
+                                    value.bind="doc_segment_option.value"
+                                    model.bind="doc_segment_option">
+                                    ${doc_segment_option.name=='---' ? create_segment_str : doc_segment_option.name}
+                                </option>
+                            </select> 
+                            <select class="form-control"
+                                if.bind="show_page_options" 
+                                style="width:72%;margin-top:10px;margin-bottom:10px;"
+                                value.bind="selected_page" style="margin-bottom:14px;"
+                                change.delegate="page_num_selected($event)">
+                                <option repeat.for="page_option of page_options" 
+                                    value.bind="page_option.value"
+                                    model.bind="page_option">
+                                    ${page_option.name}
+                                </option>
+                            </select> 
+                                        
                             <div class="multi-select-div"
                                 style="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;">
                                 <div class="multi-select-div" style="margin-bottom:15px;position:relative;"

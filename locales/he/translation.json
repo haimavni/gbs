@@ -584,6 +584,9 @@
         "add-doc-segment": "הוסף קטע",
         "page-num": "עמוד",
         "doc-segment-description": "תיאור הקטע",
+        "select-segment-str": "בחרו קטע",
+        "create-segment-str": "צרו קטע חדש",
+        "no-segment-selected": "טרם נבחר קטע",
         "expand": "הגדל",
         "collapse": "הקטן"
     },
