@@ -51,7 +51,8 @@ export class Docs {
         days_since_upload: 0,
         search_type: 'simple',
         order_option: { value: "by-name" },
-        start_name: ""
+        start_name: "",
+        view_doc_segments: false
     };
     order_options;
     start_name_history = [];
@@ -296,12 +297,15 @@ export class Docs {
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
+        console.log("***** selected topics: ", this.params.selected_topics);
         this.params.show_untagged = event.detail.show_untagged;
         this.update_doc_list();
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', {params: this.params, usage: this.user.editing ? null : 'D'})
+        const topic_type = this.params.view_doc_segments ? "S" : "D";
+        this.api.call_server_post('topics/get_topic_list',
+            {params: this.params, usage: this.user.editing ? null : topic_type})
             .then(response => {
                 this.topic_list = response.topic_list;
                 this.topic_groups = response.topic_groups;
@@ -441,7 +445,8 @@ export class Docs {
             days_since_upload: 0,
             search_type: 'simple',
             order_option: { value: "by-name" },
-            start_name: ""
+            start_name: "",
+            view_doc_segments: false
         };
 
     }

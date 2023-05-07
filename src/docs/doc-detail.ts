@@ -36,7 +36,6 @@ export class DocDetail {
     theme: Theme;
     router: Router;
     doc = { name: 'no-name' };
-    story_about;
     keywords = [];
     doc_ids = [];
     topic_list = [];
@@ -47,19 +46,16 @@ export class DocDetail {
     doc_src_ready = false;
     _doc_src;
     doc_story;
-    doc_story_about;
     doc_date_str;
     doc_date_datespan;
     doc_date_valid = '';
     doc_topics;
-    story_id = null;
+    doc_story_id = null;
     chatroom_id = null;
     options_settings: MultiSelectSettings;
-    params = {
-        selected_topics: [] //,
+    selected_topics: any[]; //,
         //selected_photographers: [],
         //doc_ids: []
-    };
     doc_name: any;
     can_go_forward = false;
     can_go_backward = false;
@@ -114,9 +110,14 @@ export class DocDetail {
         this.keywords = params.keywords;
         this.doc_ids = params.doc_ids;
         this.advanced_search = params.search_type == 'advanced';
+        if(params.segment_id) {
+            await this.get_doc_segment_info(params.segment_id)
+        } else {
+            await this.get_doc_info(this.doc_id);
+        }
         ///this.what = params.what ? params.what : "";
         await this.update_topic_list();
-        await this.get_doc_info(this.doc_id);
+        
     }
 
     get_doc_info(doc_id) {
@@ -134,17 +135,10 @@ export class DocDetail {
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
-                this.story_about = response.story_about;
                 this.num_pages = response.num_pages;
-                if (! this.story_about || this.story_about.story_text == "")
-                    this.story_about = this.doc_story;
-                if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
-                    this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
-                    this.doc_story_about.name = this.doc_name;
-                }
                 this.doc_date_str = response.doc_date_str;
                 this.doc_date_datespan = response.doc_date_datespan;
-                this.story_id = response.story_id
+                this.doc_story_id = response.story_id;
                 this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
                 this.undo_list = [];
@@ -183,24 +177,30 @@ export class DocDetail {
         .then(response => {
             this.curr_doc_segment = new DocSegment(doc_segment_id, response.name, response.page_num, response.page_part_num, 
                 response.story_id, response.members);
+                this.doc_story_id = response.story_id;
+            this.doc_story = response.story;
+            this.doc_name = response.name;
+            this.members = response.members;
         });
     }
 
     doc_segment_selected(event) {
-        console.log("doc segment selected. selected segment: ", this.selected_segment)
         if (this.selected_segment.value == 0) return;
         if (this.selected_segment.value == "new-segment") {
             this.show_page_options = true;
         } else {
             this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == this.selected_segment.value);
+            this.get_doc_segment_info(this.curr_doc_segment.segment_id);
         }
     }
 
     page_num_selected(event) {
-        console.log("selected page ", this.selected_page)
         this.show_page_options = false;
         let page_num = this.selected_page.value;
-        console.log("========page num is: ", page_num);
+        if (page_num == 0) {
+            this.curr_doc_segment = null;
+            return;
+        }
         const tmp = this.doc_segments.filter(ds => ds.page_num == page_num);
         const page_part_num = tmp.length;
         this.api.call_server_post('docs/create_segment', {doc_id: this.doc_id, page_num: page_num, page_part_num: page_part_num})
@@ -208,12 +208,14 @@ export class DocDetail {
             const doc_segment = new DocSegment(response.segment_id, "noname", page_num, page_part_num, response.story_id, []);
             this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
             this.curr_doc_segment = doc_segment;
+            this.get_doc_segment_info(response.segment_id)
         });
 
     }
 
     update_topic_list() {
-        let usage = this.user.editing ? {} : { usage: 'D' };
+        const topic_type = this.curr_doc_segment ? "S" : "D";
+        let usage = this.user.editing ? {} : { usage: topic_type };
         this.api.call_server_post('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -237,12 +239,17 @@ export class DocDetail {
 
     handle_topic_change(event) {
         if (!event.detail) return;
-        this.params.selected_topics = event.detail.selected_options
-        let topics = this.params.selected_topics.map(top => top.option);
+        const selected_topics = event.detail.selected_options
+        let topics = selected_topics.map(top => top.option);
         this.doc_topics = topics;
         this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.doc_topics });
         this.curr_info.doc_topics = topics.slice(0);
-        this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
+        if (this.curr_doc_segment) {
+            this.api.call_server_post('docs/apply_topics_to_doc',
+                {doc_segment_id: this.curr_doc_segment.segment_id, topics: this.doc_topics });
+        } else {
+            this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
+        }
     }
 
     init_selected_topics() {
@@ -254,7 +261,7 @@ export class DocDetail {
             selected_topics.push(itm);
             i += 1;
         }
-        this.params.selected_topics = selected_topics;
+        this.selected_topics = selected_topics;
     }
 
     undo() {
@@ -298,16 +305,13 @@ export class DocDetail {
         return topic_name_list.join(';  ');
     }
 
-    @computedFrom('story_about', 'story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
+    @computedFrom('doc_story', 'doc_story.story_text', 'story_changed', 'keywords', 'advanced_search')
     get highlightedHtml() {
-        console.log("story  about: ", this.story_about);
-        if (!this.story_about) {
+        if (!this.doc_story) {
             return "";
         }
         let text;
-        if (this.story_about.story_text.length < this.story_about.preview.length)
-            text = this.story_about.preview
-        else text = this.story_about.story_text;
+        text = this.doc_story.story_text;
         let highlighted_html = highlight(text, this.keywords, this.advanced_search);
         return highlighted_html;
     }
@@ -367,14 +371,14 @@ export class DocDetail {
     }
 
     create_chatroom() {
-        this.api.call_server_post('chats/add_chatroom', { story_id: this.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
+        this.api.call_server_post('chats/add_chatroom', { story_id: this.doc_story_id, new_chatroom_name: this.i18n.tr('user.chats') })
             .then((data) => {
                 this.chatroom_id = data.chatroom_id;
             });
     }
 
     chatroom_deleted(event) {
-        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story_id });
+        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.doc_story_id });
     }
 
 
@@ -390,12 +394,21 @@ export class DocDetail {
             this.theme.hide_title = false;
             if (response.wasCancelled) return;
             member_ids = Array.from(response.output.member_ids);
-            this.api.call_server_post('docs/update_doc_members', {
-                doc_id: this.doc_id,
-                member_ids: member_ids
-            }).then(response => {
-                this.members = response.members;
-            });
+            if (this.curr_doc_segment) {
+                this.api.call_server_post('docs/update_doc_segment_members', {
+                    doc_segment_id: this.curr_doc_segment.segment_id,
+                    member_ids: member_ids
+                }).then(response => {
+                    this.members = response.members;
+                });
+            } else {
+                this.api.call_server_post('docs/update_doc_members', {
+                    doc_id: this.doc_id,
+                    member_ids: member_ids
+                }).then(response => {
+                    this.members = response.members;
+                });
+            }   
         });
     }
 
@@ -414,8 +427,9 @@ export class DocDetail {
     }
 
     update_story_preview(event) {
-        let story_about_id = this.story_about.story_id;
-        this.api.call_server_post("docs/update_story_preview", {story_id: this.story_id, story_about_id: story_about_id});
+        return;
+        let story_id = this.doc_story.story_id;
+        this.api.call_server_post("docs/update_story_preview", {story_id: story_id});
     }
 
     select_members(doc_segment) {
@@ -438,7 +452,6 @@ export class DocDetail {
     }
 
     change_doc_frame_size(customEvent) {
-        console.log("drag event: ", customEvent)
         const event = customEvent.detail;
         const el = document.getElementById("doc-frame");
         const hs = el.style.height.replace("px", "");
