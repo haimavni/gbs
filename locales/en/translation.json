@@ -584,7 +584,9 @@
         "create-segment-str": "Create segment",
         "no-segment-selected": "No segment selected",
         "expand": "Expand",
-        "collapse": "Collapse"
+        "collapse": "Collapse",
+        "page": "Page",
+        "untitled": "Untitled"
     },
     "terms": {
         "terms": "Terms",

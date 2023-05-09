@@ -105,6 +105,39 @@
                             <h3 style="margin-top:20px;">
                                 ${select_segment_str}
                             </h3>
+                            <div class="btn-group dropdown border-right"
+                                aubs-dropdown="auto-close.bind: autoClose;is-open.bind: select_segment_open">
+                                <button class="btn dropdown-toggle seg-button" 
+                                    stylexx="padding: 0;float:right;font-size:x-large;border:solid 1px lightblue;border-radius:4px;" 
+                                    aubs-dropdown-toggle title="${'docs.segment-selection' & t}">
+                                    <span stylexx="color:#0f0f0f">
+                                        ${select_segment_str}
+                                    </span> 
+                                    <span class="caret"></span>
+                                </button>                            
+                                <ul class="dropdown-menu dropdown-menu-right segment-list"
+                                    stylexx="width:410px;">
+                                    <li repeat.for="doc_segment of doc_segments"
+                                        stylexx="border-bottom:solid 1px lightgrey;height:24px;">
+                                        <!-- <div> -->
+                                        <a click.delegate="select_segment(doc_segment)"
+                                            class="resp-sharing-button__link"
+                                            stylexx="cursor:pointer;">
+                                            <span stylexx="float:right">
+                                                ${doc_segment.name}
+                                            </span>
+                                        </a>
+                                    <!-- </div> -->
+                                    </li>
+                                    <li class="new-segment">
+                                        <a click.delegate="create_segment()">
+                                            <span>
+                                                ${create_segment_str}
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                             <select class="form-control" 
                                 style="width:72%;margin-top:10px;margin-bottom:10px;"
                                 value.bind="selected_segment" style="margin-bottom:14px;"

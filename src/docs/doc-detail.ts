@@ -82,6 +82,8 @@ export class DocDetail {
     show_page_options = false;
     select_segment_str;
     create_segment_str;
+    autoClose = true;
+    select_segment_open = false;
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
         this.api = api;
@@ -105,6 +107,7 @@ export class DocDetail {
     }
 
     async activate(params, config) {
+        this.user.editing = false;  //work around a strange bug
         this.doc_id = params.id;
         this.caller = params.caller;
         this.keywords = params.keywords;
@@ -123,6 +126,7 @@ export class DocDetail {
     get_doc_info(doc_id) {
         this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id, caller: this.caller })
             .then(response => {
+                console.log("=====get doc info. response: ", response);
                 let search_str = "";
                 if (this.keywords && this.keywords.length > 0) {
                     const keywords = this.keywords.join(' ');
@@ -157,19 +161,24 @@ export class DocDetail {
                     doc_segments.push(ds);
                 }
                 this.doc_segments = doc_segments;
-                this.doc_segment_options = [{name: this.i18n.tr("docs.no-segment-selected"), value: 0}];
-                for (let doc_segment of doc_segments) {
-                    let s = "Page " + doc_segment.page_num + ")  " + doc_segment.name;
-                    this.doc_segment_options.push({name: s, value: doc_segment.segment_id});
-                }
-                this.doc_segment_options.push({name: this.create_segment_str, value: "new-segment"});
+                this.make_doc_segment_options();
                 this.page_options = [];
                 for (let i = 0; i <= this.num_pages; i++) {
-                    let option = {name: "page " + i, value: i}
+                    let option = {name: this.i18n.tr("docs.page") + " " + i, value: i}
                     this.page_options.push(option);
                 }
                 this.api.hit('DOC', doc_id);
+                console.log("....doc_segments: ", this.doc_segments);
             });
+    }
+
+    make_doc_segment_options() {
+        this.doc_segment_options = [{name: this.i18n.tr("docs.no-segment-selected"), value: 0}];
+        for (let doc_segment of this.doc_segments) {
+            let s = this.i18n.tr("docs.page") + doc_segment.page_num + ")  " + doc_segment.name;
+            this.doc_segment_options.push({name: s, value: doc_segment.segment_id});
+        }
+        this.doc_segment_options.push({name: this.create_segment_str, value: "new-segment"});
     }
 
     get_doc_segment_info(doc_segment_id) {
@@ -181,6 +190,8 @@ export class DocDetail {
             this.doc_story = response.story;
             this.doc_name = response.name;
             this.members = response.members;
+            this.doc_topics = response.doc_topics;
+            this.init_selected_topics();
         });
     }
 
@@ -203,14 +214,20 @@ export class DocDetail {
         }
         const tmp = this.doc_segments.filter(ds => ds.page_num == page_num);
         const page_part_num = tmp.length;
-        this.api.call_server_post('docs/create_segment', {doc_id: this.doc_id, page_num: page_num, page_part_num: page_part_num})
+        const untitled = this.i18n.tr("docs.untitled");
+        this.api.call_server_post('docs/create_segment', 
+            {doc_id: this.doc_id, 
+            page_num: page_num, 
+            page_part_num: page_part_num,
+            untitled: this.i18n.tr("docs.untitled")
+        })
         .then(response => {
-            const doc_segment = new DocSegment(response.segment_id, "noname", page_num, page_part_num, response.story_id, []);
+            const doc_segment = new DocSegment(response.segment_id, untitled, page_num, page_part_num, response.story_id, []);
             this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
             this.curr_doc_segment = doc_segment;
             this.get_doc_segment_info(response.segment_id)
+            this.make_doc_segment_options();
         });
-
     }
 
     update_topic_list() {
@@ -472,4 +489,19 @@ export class DocDetail {
         return "docs.expand"
     }
 
+    select_segment(doc_segment) {
+        console.log("=======doc segment: ", doc_segment)
+        console.log("this.select_segment_open: ", this.select_segment_open)
+        this.select_segment_open = false;
+        this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == doc_segment.segment_id);
+        this.get_doc_segment_info(this.curr_doc_segment.segment_id);
+    }
+
+    create_segment() {
+        console.log("create new segment");
+        this.select_segment_open = false;
+        this.show_page_options = true;    
+    }
+
 }
+
