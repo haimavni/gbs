@@ -74,7 +74,6 @@ export class DocDetail {
     doc_segments = []; //Array<DocSegment>;
     curr_doc_segment: DocSegment = null;
     expanded = "";
-    doc_segment_options = [];
     selected_segment = null;
     selected_page = null;
     num_pages = 0;
@@ -161,7 +160,6 @@ export class DocDetail {
                     doc_segments.push(ds);
                 }
                 this.doc_segments = doc_segments;
-                this.make_doc_segment_options();
                 this.page_options = [];
                 for (let i = 0; i <= this.num_pages; i++) {
                     let option = {name: this.i18n.tr("docs.page") + " " + i, value: i}
@@ -170,15 +168,6 @@ export class DocDetail {
                 this.api.hit('DOC', doc_id);
                 console.log("....doc_segments: ", this.doc_segments);
             });
-    }
-
-    make_doc_segment_options() {
-        this.doc_segment_options = [{name: this.i18n.tr("docs.no-segment-selected"), value: 0}];
-        for (let doc_segment of this.doc_segments) {
-            let s = this.i18n.tr("docs.page") + doc_segment.page_num + ")  " + doc_segment.name;
-            this.doc_segment_options.push({name: s, value: doc_segment.segment_id});
-        }
-        this.doc_segment_options.push({name: this.create_segment_str, value: "new-segment"});
     }
 
     get_doc_segment_info(doc_segment_id) {
@@ -195,15 +184,15 @@ export class DocDetail {
         });
     }
 
-    doc_segment_selected(event) {
-        if (this.selected_segment.value == 0) return;
-        if (this.selected_segment.value == "new-segment") {
-            this.show_page_options = true;
-        } else {
-            this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == this.selected_segment.value);
-            this.get_doc_segment_info(this.curr_doc_segment.segment_id);
-        }
-    }
+    // doc_segment_selected(event) {
+    //     if (this.selected_segment.value == 0) return;
+    //     if (this.selected_segment.value == "new-segment") {
+    //         this.show_page_options = true;
+    //     } else {
+    //         this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == this.selected_segment.value);
+    //         this.get_doc_segment_info(this.curr_doc_segment.segment_id);
+    //     }
+    // }
 
     page_num_selected(event) {
         this.show_page_options = false;
@@ -222,11 +211,11 @@ export class DocDetail {
             untitled: this.i18n.tr("docs.untitled")
         })
         .then(response => {
-            const doc_segment = new DocSegment(response.segment_id, untitled, page_num, page_part_num, response.story_id, []);
+            console.log("===========created segment. response is ", response);
+            const doc_segment = new DocSegment(response.segment_id, response.name, page_num, page_part_num, response.story_id, []);
             this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
             this.curr_doc_segment = doc_segment;
             this.get_doc_segment_info(response.segment_id)
-            this.make_doc_segment_options();
         });
     }
 
@@ -503,5 +492,18 @@ export class DocDetail {
         this.show_page_options = true;    
     }
 
+    remove_segment(doc_segment) {
+        console.log("remove segment ", doc_segment);
+        this.api.call_server("docs/remove_doc_segment", {doc_segment_id: doc_segment.segment_id})
+        .then(response => {
+            const idx = this.doc_segments.findIndex(ds => ds.segment_id==doc_segment.segment_id);
+            this.doc_segments.splice(idx, 1);
+            console.log("remove segment response: ", response);
+        })
+    }
+
+    edit_segment(doc_segment) {
+        console.log("edit segment ", doc_segment);
+    }
 }
 

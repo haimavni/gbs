@@ -56,6 +56,14 @@ div.doc-frame {
 }
 
 div#doc-story {
+    div.topics-selection {
+        margin-bottom:0px;
+        position:relative;
+        width:80%;
+        height:54vh;
+        overflow:auto;
+        margin-top:12px;
+    }
     button.seg-button {
         padding: 0;
         float:right;
@@ -71,14 +79,30 @@ div#doc-story {
         li {
             border-bottom:solid 1px lightgrey;
             height:24px;
+            display: flex;
+            justify-content: space-between;
             &.new-segment {
                 font-weight: bold;
-            }
-            a {
                 cursor: pointer;
+                padding-right: 10px;
+                background-color: green;
                 span {
-                    float: right;
+                    width: 100%;
+                    a {
+                        color: white;
+                        float: right;
+                    }
                 }
+            }
+            span.seg-name {
+                justify-self: flex-start;
+                padding-right: 10px;
+                cursor: pointer;
+            }
+            span.remove-seg {
+                padding-left: 10px;
+                justify-self: flex-end;
+                cursor: pointer;
             }
         }
     }

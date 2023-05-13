@@ -102,9 +102,6 @@
                                 saved.delegate="update_story_preview($event)"
                                 story.bind="doc_story">
                             </editable>
-                            <h3 style="margin-top:20px;">
-                                ${select_segment_str}
-                            </h3>
                             <div class="btn-group dropdown border-right"
                                 aubs-dropdown="auto-close.bind: autoClose;is-open.bind: select_segment_open">
                                 <button class="btn dropdown-toggle seg-button" 
@@ -118,36 +115,39 @@
                                 <ul class="dropdown-menu dropdown-menu-right segment-list"
                                     stylexx="width:410px;">
                                     <li repeat.for="doc_segment of doc_segments"
-                                        stylexx="border-bottom:solid 1px lightgrey;height:24px;">
+                                        style="display: flex;">
                                         <!-- <div> -->
-                                        <a click.delegate="select_segment(doc_segment)"
-                                            class="resp-sharing-button__link"
-                                            stylexx="cursor:pointer;">
-                                            <span stylexx="float:right">
+                                            
+                                        <span class="seg-name" stylexx="float:right">
+                                            <a click.delegate="select_segment(doc_segment)"
+                                                class="resp-sharing-button__link"
+                                                stylexx="cursor:pointer;">
                                                 ${doc_segment.name}
+                                            </a>
+                                        </span>
+                                        <span class="remove-seg">
+                                            <span style="align-self:flex-end" >
+                                                <a click.delegate="remove_segment(doc_segment)">
+                                                    <i class="far fa-trash"></i>
+                                                </a>
                                             </span>
-                                        </a>
+                                            <span style="align-self:flex-end">
+                                                <a click.delegate="edit_segment(doc_segment)">
+                                                    <i class="far fa-pencil"></i>
+                                                </a>
+                                            </span>
+                                        </span>
                                     <!-- </div> -->
                                     </li>
-                                    <li class="new-segment">
-                                        <a click.delegate="create_segment()">
-                                            <span>
+                                    <li class="new-segment" click.delegate="create_segment()">
+                                        <span>
+                                            <a clickkkk.delegate="create_segment()">
                                                 ${create_segment_str}
-                                            </span>
-                                        </a>
+                                            </a>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
-                            <select class="form-control" 
-                                style="width:72%;margin-top:10px;margin-bottom:10px;"
-                                value.bind="selected_segment" style="margin-bottom:14px;"
-                                change.delegate="doc_segment_selected($event)">
-                                <option repeat.for="doc_segment_option of doc_segment_options"
-                                    value.bind="doc_segment_option.value"
-                                    model.bind="doc_segment_option">
-                                    ${doc_segment_option.name=='---' ? create_segment_str : doc_segment_option.name}
-                                </option>
-                            </select> 
                             <select class="form-control"
                                 if.bind="show_page_options" 
                                 style="width:72%;margin-top:10px;margin-bottom:10px;"
@@ -160,8 +160,8 @@
                                 </option>
                             </select> 
                                         
-                            <div class="multi-select-div"
-                                style="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;">
+                            <div class="multi-select-div topics-selection"
+                                stylexx="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;margin-top:12px;">
                                 <div class="multi-select-div" style="margin-bottom:15px;position:relative;"
                                     dir="${theme.rtltr}">
                                     <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">
