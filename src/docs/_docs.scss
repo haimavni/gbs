@@ -42,6 +42,12 @@ div.doc-detail {
 
 div#doc-story {
     height:calc(100vh - 200px);
+    &.editing-segments {
+        height: calc(100vh - 600px);
+    }
+    &.show-segments {
+        height: calc(100vh - 350px);
+    }
     overflow:auto;
 }
 

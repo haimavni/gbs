@@ -163,6 +163,10 @@ div.family-buttons {
         &.divorced {
             box-shadow: 5px 5px lightgray;
         }
+        &.dead {
+            border: solid 2px black;
+        }
+
     }
     ul {
         list-style-type: none;

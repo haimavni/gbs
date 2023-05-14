@@ -125,7 +125,6 @@ export class DocDetail {
     get_doc_info(doc_id) {
         this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id, caller: this.caller })
             .then(response => {
-                console.log("=====get doc info. response: ", response);
                 let search_str = "";
                 if (this.keywords && this.keywords.length > 0) {
                     const keywords = this.keywords.join(' ');
@@ -166,7 +165,6 @@ export class DocDetail {
                     this.page_options.push(option);
                 }
                 this.api.hit('DOC', doc_id);
-                console.log("....doc_segments: ", this.doc_segments);
             });
     }
 
@@ -181,18 +179,10 @@ export class DocDetail {
             this.members = response.members;
             this.doc_topics = response.doc_topics;
             this.init_selected_topics();
+            this.doc_date_str = response.doc_seg_date_str;
+            this.doc_date_datespan = response.doc_seg_date_datespan;
         });
     }
-
-    // doc_segment_selected(event) {
-    //     if (this.selected_segment.value == 0) return;
-    //     if (this.selected_segment.value == "new-segment") {
-    //         this.show_page_options = true;
-    //     } else {
-    //         this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == this.selected_segment.value);
-    //         this.get_doc_segment_info(this.curr_doc_segment.segment_id);
-    //     }
-    // }
 
     page_num_selected(event) {
         this.show_page_options = false;
@@ -211,7 +201,6 @@ export class DocDetail {
             untitled: this.i18n.tr("docs.untitled")
         })
         .then(response => {
-            console.log("===========created segment. response is ", response);
             const doc_segment = new DocSegment(response.segment_id, response.name, page_num, page_part_num, response.story_id, []);
             this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
             this.curr_doc_segment = doc_segment;
@@ -240,7 +229,13 @@ export class DocDetail {
         this.undo_list.push({ what: 'doc-date', doc_date: { doc_date_str: this.curr_info.doc_date_str, doc_date_datespan: this.curr_info.doc_date_datespan } });
         this.curr_info.doc_date_str = this.doc_date_str.slice(0);
         this.curr_info.doc_date_datespan = this.doc_date_datespan;
-        this.api.call_server_post('docs/update_doc_date', { doc_date_str: event.date_str, doc_date_datespan: event.date_span, doc_id: this.doc_id });
+        const story_id = (this.curr_doc_segment) ? this.curr_doc_segment.story_id : this.doc_story_id
+        this.api.call_server_post('docs/update_doc_date', { 
+            doc_date_str: event.date_str, 
+            doc_date_datespan: event.date_span, 
+            // doc_id: this.doc_id,
+            story_id: story_id
+         });
     }
 
     handle_topic_change(event) {
@@ -479,31 +474,40 @@ export class DocDetail {
     }
 
     select_segment(doc_segment) {
-        console.log("=======doc segment: ", doc_segment)
-        console.log("this.select_segment_open: ", this.select_segment_open)
         this.select_segment_open = false;
         this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == doc_segment.segment_id);
         this.get_doc_segment_info(this.curr_doc_segment.segment_id);
     }
 
     create_segment() {
-        console.log("create new segment");
         this.select_segment_open = false;
         this.show_page_options = true;    
     }
 
     remove_segment(doc_segment) {
-        console.log("remove segment ", doc_segment);
         this.api.call_server("docs/remove_doc_segment", {doc_segment_id: doc_segment.segment_id})
         .then(response => {
             const idx = this.doc_segments.findIndex(ds => ds.segment_id==doc_segment.segment_id);
             this.doc_segments.splice(idx, 1);
-            console.log("remove segment response: ", response);
         })
     }
 
     edit_segment(doc_segment) {
-        console.log("edit segment ", doc_segment);
+        alert("not ready yet");
+    }
+
+    @computedFrom("user.editing", "doc_segments")
+    get show_segments() {
+        if (this.user.editing) return true;
+        if (this.doc_segments.length > 0) return true;
+        return false;
+    }
+
+    @computedFrom("user.editing", "doc_segments")
+    get doc_story_class() {
+        if (this.user.editing) return "editing-segments";
+        if (this.doc_segments.length > 0) return "show-segments"
+        return ""
     }
 }
 
