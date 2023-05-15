@@ -183,31 +183,25 @@
                                 autoClose;is-open.bind: select_segment_open">
                                 <button
                                     class="btn dropdown-toggle seg-button"
-                                    stylexx="padding:
                                     0;float:right;font-size:x-large;border:solid
                                     1px lightblue;border-radius:4px;"
                                     aubs-dropdown-toggle
                                     title="${'docs.segment-selection' & t}">
-                                    <span stylexx="color:#0f0f0f">
+                                    <span>
                                         ${select_segment_str}
                                     </span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul
                                     class="dropdown-menu dropdown-menu-right
-                                    segment-list"
-                                    stylexx="width:410px;">
+                                    segment-list">
                                     <li
-                                        repeat.for="doc_segment of doc_segments"
-                                        stylexxx="display: flex">
-                                        <!-- <div> -->
-
+                                        repeat.for="doc_segment of doc_segments">
                                         <span
                                             class="seg-name">
                                             <a
                                                 click.delegate="select_segment(doc_segment)"
-                                                class="resp-sharing-button__link"
-                                                stylexx="cursor:pointer;">
+                                                class="resp-sharing-button__link">
                                                 ${doc_segment.name}
                                             </a>
                                         </span>
@@ -221,12 +215,10 @@
                                             <span style="align-self: flex-end">
                                                 <a
                                                     click.delegate="edit_segment(doc_segment)">
-                                                    <i
-                                                        class="far fa-pencil"></i>
+                                                    <i class="far fa-pencil"></i>
                                                 </a>
                                             </span>
                                         </span>
-                                        <!-- </div> -->
                                     </li>
                                     <li
                                         if.bind="user.editing"
@@ -272,10 +264,8 @@
                                 </select>
 
                                 <div
-                                    class="multi-select-div topics-selection"
-                                    stylexx="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;margin-top:12px;">
+                                    class="multi-select-div topics-selection">
                                     <div
-                                        claxxxxss="multi-select-div"
                                         style="
                                         margin-bottom: 15px;
                                         position: relative;
