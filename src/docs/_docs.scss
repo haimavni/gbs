@@ -43,7 +43,7 @@ div.doc-detail {
 div#doc-story {
     //height:calc(100vh - 200px);
     div.doc-story-area {
-        max-height:calc(100vw - 670px);
+        max-height:calc(100vw - 800px);
         overflow:auto;
         div.multi-select-div {
             max-height: calc(100vw - 850px);
@@ -72,7 +72,7 @@ div#doc-story {
         margin-bottom:0px;
         position:relative;
         width:80%;
-        height:54vh;
+        height:51vh;
         overflow:auto;
         margin-top:12px;
     }
@@ -87,7 +87,9 @@ div#doc-story {
         }
     }
     ul.segment-list {
-        width:410px;
+        width:450px;
+        max-height: 180px;
+        overflow: auto;
         li {
             border-bottom:solid 1px lightgrey;
             height:24px;
@@ -125,6 +127,8 @@ div#doc-story {
                 justify-self: flex-start;
                 padding-right: 10px;
                 cursor: pointer;
+                text-align: right;
+                width: 90%;
             }
             span.remove-seg {
                 padding-left: 10px;

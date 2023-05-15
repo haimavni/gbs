@@ -3,33 +3,32 @@
         <div class="detail-header">
             <div
                 style="cursor: pointer; padding: 0; margin: 0"
-                if.bind="theme.is_desktop"
-            >
+                if.bind="theme.is_desktop">
                 <chat-button
                     chatroom_id.two-way="chatroom_id"
                     caption.bind="'photos.add-details'"
                     new-chatroom.delegate="create_chatroom()"
-                    chatroom-deleted.delegate="chatroom_deleted($event)"
-                >
+                    chatroom-deleted.delegate="chatroom_deleted($event)">
                 </chat-button>
                 <i
-                    class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='rtl' ? 90 : 270} ${next_class}"
+                    class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='rtl'
+                    ? 90 : 270} ${next_class}"
                     t="[title]photos.next-slide"
                     click.trigger="go_next($event)"
-                    if.bind="doc_ids.length > 1"
-                ></i>
+                    if.bind="doc_ids.length> 1"
+                    ></i>
                 <i
                     class="far fa-lg fa-arrow-up"
                     t="[title]go-back"
                     click.trigger="go_back()"
-                    if.bind="theme.is_desktop"
-                ></i>
+                    if.bind="theme.is_desktop"></i>
                 <i
-                    class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr' ? 90 : 270} ${prev_class}"
+                    class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='ltr'
+                    ? 90 : 270} ${prev_class}"
                     t="[title]photos.prev-slide"
                     click.trigger="go_prev($event)"
-                    if.bind="doc_ids.length > 1"
-                ></i>
+                    if.bind="doc_ids.length> 1"
+                    ></i>
             </div>
             <h3 dir="${theme.rtltr}" style="float: right; margin: 0px">
                 ${doc_name || ''}
@@ -39,63 +38,57 @@
             <div
                 class="col-md-6"
                 style="display: flex; flex-direction: column; margin-top: 16px"
-                id="photo-box"
-            >
+                id="photo-box">
                 <div id="doc-frame" class="doc-frame ${expanded}">
                     <button
                         aubs-tooltip="text.bind:fullscreen;position.bind:hint_position;"
                         class="side-tool full-screen"
                         style="
-                            width: 40px;
-                            position: absolute;
-                            left: 80px;
-                            top: 20px;
-                            background-color: rgba(0, 0, 0, 0);
-                            border: 0;
-                            color: white;
+                        width: 40px;
+                        position: absolute;
+                        left: 80px;
+                        top: 20px;
+                        background-color: rgba(0, 0, 0, 0);
+                        border: 0;
+                        color: white;
                         "
-                        click.delegate="makeFullScreen()"
-                    >
+                        click.delegate="makeFullScreen()">
                         <i class="fa fa-lg fa-expand"></i>
                     </button>
                     <div
                         if.bind="doc_src_ready && !curr_doc_segment"
-                        style="height: 100%"
-                    >
+                        style="height: 100%">
                         <iframe
                             src.bind="doc_src"
                             width="100%"
                             height="100%"
                             allow="fullscreen"
-                            id="doc-frame"
-                        >
+                            id="doc-frame">
                         </iframe>
                     </div>
                     <div
                         repeat.for="doc_segment of doc_segments"
                         style="height: 100%"
-                        if.bind="curr_doc_segment && doc_segment.segment_id==curr_doc_segment.segment_id"
-                    >
+                        if.bind="curr_doc_segment &&
+                        doc_segment.segment_id==curr_doc_segment.segment_id">
                         <iframe
                             if.bind="doc_src_ready"
                             src.bind="doc_src"
                             width="100%"
                             height="100%"
                             allow="fullscreen"
-                            id="doc-frame"
-                        >
+                            id="doc-frame">
                         </iframe>
                     </div>
                 </div>
                 <button
                     style="
-                        width: 100%;
-                        height: 32px;
-                        background-color: lightgreen;
+                    width: 100%;
+                    height: 32px;
+                    background-color: lightgreen;
                     "
                     if.bind="user.editing"
-                    click.delegate="toggle_height()"
-                >
+                    click.delegate="toggle_height()">
                     <!-- interact-dragmove.delegate="change_doc_frame_size($event)"> -->
                     ${toggle_size_prompt & t}
                 </button>
@@ -103,35 +96,29 @@
                     if.bind="user.editing"
                     class="btn btn-primary btn-framed"
                     style="margin-top: 8px; font-size: 108%"
-                    click.delegate="select_doc_members()"
-                >
+                    click.delegate="select_doc_members()">
                     <i
                         style="cursor: pointer"
                         class="fa fa-users"
-                        title="${'docs.members-in' & t}"
-                    >
+                        title="${'docs.members-in' & t}">
                     </i>
                     ${'docs.select-members' & t}
                 </button>
                 <div if.bind="members.length>0">
                     <compose
                         view-model="../members/member-faces"
-                        model.bind="members"
-                    ></compose>
+                        model.bind="members"></compose>
                 </div>
                 <!-- <img src.bind="photo_src" width="${photo_width}" click.trigger="open_full_size_photo()" /> -->
                 <div
                     style="
-                        margin-left: 15px;
-                        margin-right: 15px;
-                        display: flex;
-                        flex-direction: column;
-                    "
-                >
+                    margin-left: 15px;
+                    margin-right: 15px;
+                    display: flex;
+                    flex-direction: column;
+                    ">
                     <span>
-                        <span dir="${theme.rtltr}" if.bind="doc_name"
-                            >${doc_name}</span
-                        >
+                        <span dir="${theme.rtltr}" if.bind="doc_name">${doc_name}</span>
                     </span>
                     <date-range
                         label="docs.doc-date"
@@ -142,12 +129,10 @@
                         span_size.bind="doc_date_datespan"
                         range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]"
                         is_valid.bind="doc_date_valid"
-                        change.delegate="update_doc_date($event)"
-                    >
+                        change.delegate="update_doc_date($event)">
                     </date-range>
-                    <span if.bind="topic_names" style="margin-top: -6px"
-                        >${'photos.keywords' & t}: ${topic_names}</span
-                    >
+                    <span if.bind="topic_names" style="margin-top: -6px">${'photos.keywords'
+                        & t}: ${topic_names}</span>
                 </div>
             </div>
             <div id="doc-story" class="col-md-6">
@@ -155,9 +140,7 @@
                     <div class="col-md-4 col-md-offset-8">
                         <span
                             style="float: right; direction: rtl"
-                            if.bind="photo_story.source"
-                            >${photo_story.source}:</span
-                        >
+                            if.bind="photo_story.source">${photo_story.source}:</span>
                         <span if.bind="! photo_story.source">&nbsp;</span>
                     </div>
                 </div>
@@ -166,89 +149,80 @@
                         <div
                             if.bind="! user.editing"
                             class="doc-story"
-                            style="margin-top: 8px"
-                        >
+                            style="margin-top: 8px">
                             <div class="fr-view" dir="${story_dir}">
                                 <div
-                                    class="${theme.font_size} doc-story-area"
-                                >
+                                    class="${theme.font_size} doc-story-area">
                                     <p
                                         class="${story_dir} ${highlight_on}"
                                         innerhtml.bind="highlightedHtml"
-                                        if.bind="doc_story && doc_story.story_text"
-                                    ></p>
+                                        if.bind="doc_story &&
+                                        doc_story.story_text"></p>
                                 </div>
                             </div>
                         </div>
                         <div
                             if.bind="user.editing"
-                            style="display: flex; flex-direction: column"
-                        >
+                            style="display: flex; flex-direction: column">
                             <editable
                                 style="
-                                    background-color: beige;
-                                    margin-bottom: 12px;
+                                background-color: beige;
+                                margin-bottom: 12px;
                                 "
-                                settings.bind="{show_date:false, class:'story-section', checkable: false}"
+                                settings.bind="{show_date:false,
+                                class:'story-section', checkable: false}"
                                 saved.delegate="update_story_preview($event)"
-                                story.bind="doc_story"
-                            >
+                                story.bind="doc_story">
                             </editable>
                         </div>
                         <div>
                             <div
                                 class="btn-group dropdown border-right"
                                 style="margin-top:20px;"
-                                aubs-dropdown="auto-close.bind: autoClose;is-open.bind: select_segment_open"
-                            >
+                                aubs-dropdown="auto-close.bind:
+                                autoClose;is-open.bind: select_segment_open">
                                 <button
                                     class="btn dropdown-toggle seg-button"
-                                    stylexx="padding: 0;float:right;font-size:x-large;border:solid 1px lightblue;border-radius:4px;"
+                                    stylexx="padding:
+                                    0;float:right;font-size:x-large;border:solid
+                                    1px lightblue;border-radius:4px;"
                                     aubs-dropdown-toggle
-                                    title="${'docs.segment-selection' & t}"
-                                >
+                                    title="${'docs.segment-selection' & t}">
                                     <span stylexx="color:#0f0f0f">
                                         ${select_segment_str}
                                     </span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul
-                                    class="dropdown-menu dropdown-menu-right segment-list"
-                                    stylexx="width:410px;"
-                                >
+                                    class="dropdown-menu dropdown-menu-right
+                                    segment-list"
+                                    stylexx="width:410px;">
                                     <li
                                         repeat.for="doc_segment of doc_segments"
-                                        style="display: flex"
-                                    >
+                                        stylexxx="display: flex">
                                         <!-- <div> -->
 
                                         <span
-                                            class="seg-name"
-                                            style="align-text:right"
-                                        >
+                                            class="seg-name">
                                             <a
                                                 click.delegate="select_segment(doc_segment)"
                                                 class="resp-sharing-button__link"
-                                                stylexx="cursor:pointer;"
-                                            >
+                                                stylexx="cursor:pointer;">
                                                 ${doc_segment.name}
                                             </a>
                                         </span>
                                         <span class="remove-seg">
                                             <span style="align-self: flex-end">
                                                 <a
-                                                    click.delegate="remove_segment(doc_segment)"
-                                                >
+                                                    click.delegate="remove_segment(doc_segment)">
                                                     <i class="far fa-trash"></i>
                                                 </a>
                                             </span>
                                             <span style="align-self: flex-end">
                                                 <a
-                                                    click.delegate="edit_segment(doc_segment)"
-                                                >
+                                                    click.delegate="edit_segment(doc_segment)">
                                                     <i
-                                                        class="far fa-pencil"
-                                                    ></i>
+                                                        class="far fa-pencil"></i>
                                                 </a>
                                             </span>
                                         </span>
@@ -257,21 +231,19 @@
                                     <li
                                         if.bind="user.editing"
                                         class="new-segment"
-                                        click.delegate="create_segment()"
-                                    >
+                                        click.delegate="create_segment()">
                                         <span>
                                             <a
-                                                clickkkk.delegate="create_segment()"
-                                            >
+                                                clickkkk.delegate="create_segment()">
                                                 ${create_segment_str}
                                             </a>
                                         </span>
                                     </li>
                                     <li
-                                        class="view-full-doc"            
-                                        if.bind="curr_doc_segment"
-                                    >
-                                        <a click.delegate="view_full_document()">
+                                        class="view-full-doc"
+                                        if.bind="curr_doc_segment">
+                                        <a
+                                            click.delegate="view_full_document()">
                                             <span>
                                                 ${'docs.view-full-doc' & t}
                                             </span>
@@ -284,76 +256,67 @@
                                     class="form-control"
                                     if.bind="show_page_options"
                                     style="
-                                        width: 72%;
-                                        margin-top: 10px;
-                                        margin-bottom: 10px;
+                                    width: 72%;
+                                    margin-top: 10px;
+                                    margin-bottom: 10px;
                                     "
                                     value.bind="selected_page"
                                     style="margin-bottom: 14px"
-                                    change.delegate="page_num_selected($event)"
-                                >
+                                    change.delegate="page_num_selected($event)">
                                     <option
                                         repeat.for="page_option of page_options"
                                         value.bind="page_option.value"
-                                        model.bind="page_option"
-                                    >
+                                        model.bind="page_option">
                                         ${page_option.name}
                                     </option>
                                 </select>
 
                                 <div
                                     class="multi-select-div topics-selection"
-                                    stylexx="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;margin-top:12px;"
-                                >
+                                    stylexx="margin-bottom:0px;position:relative;width:80%;height:54vh;overflow:auto;margin-top:12px;">
                                     <div
                                         claxxxxss="multi-select-div"
                                         style="
-                                            margin-bottom: 15px;
-                                            position: relative;
+                                        margin-bottom: 15px;
+                                        position: relative;
                                         "
-                                        dir="${theme.rtltr}"
-                                    >
+                                        dir="${theme.rtltr}">
                                         <div
                                             style="
-                                                margin-top: 0px;
-                                                margin-bottom: 2px;
-                                                font-size: 120%;
-                                            "
-                                        >
+                                            margin-top: 0px;
+                                            margin-bottom: 2px;
+                                            font-size: 120%;
+                                            ">
                                             ${'stories.categories' & t}
                                         </div>
                                         <help
                                             if.bind="phase=='photos-ready-to-edit'"
                                             topic="photos.ready-to-edit"
-                                            ,
                                             position="bottom"
                                             style="
-                                                position: absolute;
-                                                left: 2px;
-                                                top: 2px;
-                                            "
-                                        ></help>
+                                            position: absolute;
+                                            left: 2px;
+                                            top: 2px;
+                                            "></help>
                                         <help
                                             if.bind="phase=='applying-to-photos'"
                                             topic="apply-to-selected-photos"
-                                            ,
                                             position="bottom"
                                             style="
-                                                position: absolute;
-                                                left: 2px;
-                                                top: 2px;
-                                            "
-                                        ></help>
+                                            position: absolute;
+                                            left: 2px;
+                                            top: 2px;
+                                            "></help>
                                         <help
                                             if.bind="phase=='photos-not-editing'"
                                             topic="tags"
-                                            position="${theme.is_desktop ? 'bottom' : 'right'}"
+                                            position="${theme.is_desktop ?
+                                            'bottom' : 'right'}"
                                             style="
-                                                position: absolute;
-                                                left: 2px;
-                                                top: 2px;
-                                            "
-                                        ></help>
+                                            position: absolute;
+                                            left: 2px;
+                                            top: 2px;
+                                            "></help>
                                         <multi-select
                                             options.bind="topic_list"
                                             category="topic"
@@ -364,27 +327,25 @@
                                             settings.bind="options_settings"
                                             has_groups.bind="has_grouped_topics"
                                             place_holder_text="photos.click-topic"
-                                            ms-change.delegate="handle_topic_change($event) "
-                                        >
+                                            ms-change.delegate="handle_topic_change($event)
+                                            ">
                                         </multi-select>
                                     </div>
                                     <div
                                         style="
-                                            margin-top: 10px;
-                                            margin-bottom: 2px;
-                                            font-size: 120%;
-                                        "
-                                    >
+                                        margin-top: 10px;
+                                        margin-bottom: 2px;
+                                        font-size: 120%;
+                                        ">
                                         <button
-                                            if.bind="undo_list.length > 0"
+                                            if.bind="undo_list.length> 0"
                                             class="btn btn-warning"
                                             style="width: 90%"
                                             click.delegate="undo()"
-                                        >
+                                            >
                                             <i class="fa fa-lg fa-undo">
                                                 ${'photos.undo-last-change' &
-                                                t}</i
-                                            >
+                                                t}</i>
                                         </button>
                                     </div>
                                 </div>
