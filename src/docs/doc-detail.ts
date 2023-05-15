@@ -496,6 +496,11 @@ export class DocDetail {
         alert("not ready yet");
     }
 
+    view_full_document() {
+        this.curr_doc_segment = null;
+        this.get_doc_info(this.doc_id);
+    }
+
     @computedFrom("user.editing", "doc_segments")
     get show_segments() {
         if (this.user.editing) return true;

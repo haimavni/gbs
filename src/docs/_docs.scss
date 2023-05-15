@@ -41,14 +41,20 @@ div.doc-detail {
 }
 
 div#doc-story {
-    height:calc(100vh - 200px);
+    //height:calc(100vh - 200px);
+    div.doc-story-area {
+        max-height:calc(100vw - 670px);
+        overflow:auto;
+        div.multi-select-div {
+            max-height: calc(100vw - 850px);
+        }
+    }
     &.editing-segments {
         height: calc(100vh - 600px);
     }
     &.show-segments {
         height: calc(100vh - 350px);
     }
-    overflow:auto;
 }
 
 div.doc-frame {
@@ -96,6 +102,21 @@ div#doc-story {
                     width: 100%;
                     a {
                         color: white;
+                        float: right;
+                    }
+                }
+            }
+            &.view-full-doc {
+                font-weight: bold;
+                cursor: pointer;
+                padding-right: 0px;
+                background-color: lightblue;
+                a {
+                    width: 100%;
+                    padding-right: 10px;
+                    text-align: right;
+                    span {
+                        width: 100%;
                         float: right;
                     }
                 }

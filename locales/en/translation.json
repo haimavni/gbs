@@ -586,7 +586,8 @@
         "expand": "Expand",
         "collapse": "Collapse",
         "page": "Page",
-        "untitled": "Untitled"
+        "untitled": "Untitled",
+        "view-full-doc": "View the full document"
     },
     "terms": {
         "terms": "Terms",
