@@ -591,7 +591,9 @@
         "collapse": "הקטן",
         "page": "עמוד",
         "untitled": "ללא כותרת",
-        "view-full-doc": "צפו במסמך המלא"
+        "view-full-doc": "צפו במסמך המלא",
+        "view-full-docs": "מסמכים שלמים",
+        "view-segments": "קטעי מסמכים"
     },
     "terms": {
         "terms": "מונחים",

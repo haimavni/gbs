@@ -52,7 +52,7 @@
                     <h3 if.bind="no_results" innerhtml.bind="'no-results' & t">
                     </h3>
                     <ul ref="scroll_area" class="unselectable doc-list ${no_results ? 'empty-docs' : ''}">
-                        <li repeat.for="doc of doc_list | filter: filter : 'name' : 'author' | take : 9999" dir="${theme.rtltr}">
+                        <li repeat.for="doc of curr_doc_list | filter: filter : 'name' : 'author' | take : 9999" dir="${theme.rtltr}">
                             <div class="one-doc ${theme.rtltr}">
                                 <div>
                                     <a if.bind="! theme.is_desktop" href="${doc.doc_url}">
@@ -79,6 +79,11 @@
 
                 </div>
                 <div id="doc-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.is_desktop">
+                    <button class="btn btn-secondary"
+                    style="font-size:large;border:1px solid grey;margin-right:-15px;width:100%;"
+                        click.delegate="toggle_doc_types()">
+                        ${(view_doc_segments ? 'docs.view-full-docs' : 'docs.view-segments') & t}
+                    </button>
                     <div class="row" style="position:relative;">
                         <div style="margin-top: 0px;margin-bottom:2px;font-size:120%">${'stories.categories' & t}</div>
                         <help if.bind="user.advanced_user && phase=='not-editing'" topic="tags" position="bottom" style="position:absolute;left:0px;top:26px;"></help>

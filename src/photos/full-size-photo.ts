@@ -357,13 +357,15 @@ export class FullSizePhoto {
     }
 
     assign_member(face) {
+        let excluded = this.faces_already_identified;
+        if (excluded) excluded.delete(face.member_id);
         this.dialogService.open({
             viewModel: MemberPicker,
             model: {
                 face_identifier: true,
                 member_id: face.member_id,
                 candidates: this.candidates,
-                excluded: this.faces_already_identified,
+                excluded: excluded,
                 current_face: this.current_face,
                 help_topic: "pick-member"
             }, lock: false

@@ -587,7 +587,9 @@
         "collapse": "Collapse",
         "page": "Page",
         "untitled": "Untitled",
-        "view-full-doc": "View the full document"
+        "view-full-doc": "View the full document",
+        "view-full-docs": "View full docs",
+        "view-segments": "View segments"
     },
     "terms": {
         "terms": "Terms",

@@ -83,6 +83,7 @@ export class DocDetail {
     create_segment_str;
     autoClose = true;
     select_segment_open = false;
+    full_doc = true
 
     constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
         this.api = api;
@@ -113,7 +114,9 @@ export class DocDetail {
         this.doc_ids = params.doc_ids;
         this.advanced_search = params.search_type == 'advanced';
         if(params.segment_id) {
-            await this.get_doc_segment_info(params.segment_id)
+            await this.get_doc_segment_info(params.segment_id);
+            this.full_doc = false;
+
         } else {
             await this.get_doc_info(this.doc_id);
         }
@@ -137,6 +140,8 @@ export class DocDetail {
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
+                console.log("+++++++++++doc story: ", this.doc_story);
+                //this.doc_story.story_text = this.doc_story.story;
                 this.num_pages = response.num_pages;
                 this.doc_date_str = response.doc_date_str;
                 this.doc_date_datespan = response.doc_date_datespan;
