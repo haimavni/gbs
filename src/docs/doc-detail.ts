@@ -116,7 +116,6 @@ export class DocDetail {
         if(params.segment_id) {
             await this.get_doc_segment_info(params.segment_id);
             this.full_doc = false;
-
         } else {
             await this.get_doc_info(this.doc_id);
         }
@@ -140,8 +139,6 @@ export class DocDetail {
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
-                console.log("+++++++++++doc story: ", this.doc_story);
-                //this.doc_story.story_text = this.doc_story.story;
                 this.num_pages = response.num_pages;
                 this.doc_date_str = response.doc_date_str;
                 this.doc_date_datespan = response.doc_date_datespan;
@@ -178,7 +175,9 @@ export class DocDetail {
         .then(response => {
             this.curr_doc_segment = new DocSegment(doc_segment_id, response.name, response.page_num, response.page_part_num, 
                 response.story_id, response.members);
-                this.doc_story_id = response.story_id;
+            this.doc_story_id = response.story_id;
+            this._doc_src = response.doc_src;
+            this.doc_src_ready = true;
             this.doc_story = response.story;
             this.doc_name = response.name;
             this.members = response.members;
@@ -418,9 +417,12 @@ export class DocDetail {
         });
     }
 
-    @computedFrom('curr_doc_segment.page_num')
+    @computedFrom('curr_doc_segment.page_num', '_doc_src', 'doc_src_ready')
     get doc_src() {
-        return this._doc_src + (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
+        let src = this._doc_src;
+        if (this.full_doc)
+            src += (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
+        return src;
     }
 
     async makeFullScreen() {

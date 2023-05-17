@@ -56,7 +56,7 @@
                         <i class="fa fa-lg fa-expand"></i>
                     </button>
                     <div
-                        if.bind="doc_src_ready && !curr_doc_segment"
+                        if.bind="doc_src_ready && ! (full_doc && curr_doc_segment)"
                         style="height: 100%">
                         <iframe
                             src.bind="doc_src"
@@ -177,6 +177,7 @@
                         </div>
                         <div>
                             <div
+                                if.bind="full_doc"
                                 class="btn-group dropdown border-right"
                                 style="margin-top:20px;"
                                 aubs-dropdown="auto-close.bind:

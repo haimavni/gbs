@@ -225,7 +225,6 @@ export class Docs {
                 }
                 this.scroll_top = 0;
                 this.handle_order_change(null);
-                console.log("------=== doc_list: ", this.doc_list);
                 if (! this.view_doc_segments)
                     this._curr_doc_list = this.doc_list;
             });
@@ -255,7 +254,6 @@ export class Docs {
                 this.handle_order_change(null);
                 if (this.view_doc_segments)
                     this._curr_doc_list = this.doc_segment_list;
-                console.log("------=== doc_segment_list: ", this.doc_segment_list);
             });
     }
     apply_topics_to_checked_docs() {
@@ -331,7 +329,6 @@ export class Docs {
 
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
-        console.log("***** selected topics: ", this.params.selected_topics);
         this.params.show_untagged = event.detail.show_untagged;
         this.update_doc_list();
     }
@@ -525,7 +522,6 @@ export class Docs {
 
     @computedFrom("view_doc_segments", "_curr_doc_list")
     get curr_doc_list() {
-        console.log("    curr doc list. view doc segs ", this.view_doc_segments);
         if (this.view_doc_segments) this._curr_doc_list = this.doc_segment_list
         else this._curr_doc_list = this.doc_list;
         return this._curr_doc_list;
