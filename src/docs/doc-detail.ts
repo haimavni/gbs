@@ -1,4 +1,3 @@
-import { editableCustomElement } from './../resources/elements/editable';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
@@ -9,6 +8,7 @@ import { Router } from 'aurelia-router';
 import { DialogService } from 'aurelia-dialog';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { MemberPicker } from "../members/member-picker";
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 class DocSegment {
     segment_id = 0;
@@ -83,15 +83,22 @@ export class DocDetail {
     create_segment_str;
     autoClose = true;
     select_segment_open = false;
-    full_doc = true
+    full_doc = true;
+    thumbnails: FileList;
+    working = false;
+    ea;
+    subscriber;
+    photo_uploaded = false;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
+    constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme, 
+        router: Router, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
         this.router = router;
         this.dialog = dialog;
+        this.ea = ea;
         this.options_settings = new MultiSelectSettings
             ({
                 hide_higher_options: true,
@@ -104,6 +111,16 @@ export class DocDetail {
         this.fullscreen = this.i18n.tr('docs.fullscreen');
         this.select_segment_str = this.i18n.tr("docs.select-segment-str");
         this.create_segment_str = this.i18n.tr("docs.create-segment-str");
+    }
+
+    attached() {
+        this.subscriber = this.ea.subscribe('DOC-SEG-THUMB-UPLOADED', msg => {
+            this.photo_uploaded = msg.good;
+        });
+    }
+
+    detached() {
+        this.subscriber.dispose();
     }
 
     async activate(params, config) {
@@ -176,6 +193,7 @@ export class DocDetail {
             this.curr_doc_segment = new DocSegment(doc_segment_id, response.name, response.page_num, response.page_part_num, 
                 response.story_id, response.members);
             this.doc_story_id = response.story_id;
+            this.doc_id = response.doc_id;
             this._doc_src = response.doc_src;
             this.doc_src_ready = true;
             this.doc_story = response.story;
@@ -186,6 +204,13 @@ export class DocDetail {
             this.doc_date_str = response.doc_seg_date_str;
             this.doc_date_datespan = response.doc_seg_date_datespan;
         });
+    }
+
+    get_doc_or_segment_info() {
+        if (this.curr_doc_segment) {
+            return this.get_doc_segment_info(this.curr_doc_segment.segment_id);
+        }
+        return this.get_doc_info(this.doc_id);
     }
 
     page_num_selected(event) {
@@ -202,7 +227,7 @@ export class DocDetail {
             {doc_id: this.doc_id, 
             page_num: page_num, 
             page_part_num: page_part_num,
-            untitled: this.i18n.tr("docs.untitled")
+            untitled: untitled
         })
         .then(response => {
             const doc_segment = new DocSegment(response.segment_id, response.name, page_num, page_part_num, response.story_id, []);
@@ -521,5 +546,31 @@ export class DocDetail {
         if (this.doc_segments.length > 0) return "show-segments"
         return ""
     }
+
+    save_thumbnail(event: Event) {
+        event.stopPropagation();
+        this.working = true;
+        this.api.uploadFiles(
+            this.user.id,
+            this.thumbnails,
+            'DOC-SEG-THUMB',
+            { doc_id: this.doc_id, segment_id: this.curr_doc_segment.segment_id, ptp_key: this.api.constants.ptp_key }
+        )
+    }
+
+    @computedFrom('thumbnails', 'photo_uploaded')
+    get phase() {
+        console.log("enered phase. photos: ", this.thumbnails);
+        // this.status_record.photo_uploaded = this.status_record.photo_url != '';
+        // if (this.status_record.photo_uploaded)
+        //     this.working = false;
+        if (this.thumbnails && this.thumbnails.length > 0) return 'ready-to-save';
+        if (this.photo_uploaded) {
+            return 'photo-uploaded';
+        }
+        return 'ready-to-select';
+    }
+
+
 }
 
