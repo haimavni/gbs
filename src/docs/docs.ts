@@ -136,8 +136,7 @@ export class Docs {
         this.params.keywords_str = params.keywords;
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
-        this.update_doc_list();
-        this.update_doc_segment_list();
+        this.update_list();
         this.single_doc_entry = this.user.config.single_doc_entry;
     }
 
@@ -314,14 +313,14 @@ export class Docs {
             this.num_of_docs = doc_list.length;
             if (doc_list.length == 0) return;
             this.params.selected_docs = doc_list;
-            this.update_doc_list();
+            this.update_list();
         } else if (result) {
             this.num_of_docs = 0;
             this.no_results = true;
             this.doc_list = Array.from(result);
         } else {
             this.params.selected_docs = [];
-            this.update_doc_list();
+            this.update_list();
             this.num_of_docs = 0;
         }
         this.keywords = this.params.selected_words.map(item => item.option.name);
@@ -330,7 +329,13 @@ export class Docs {
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
         this.params.show_untagged = event.detail.show_untagged;
-        this.update_doc_list();
+        this.update_list();
+    }
+
+    update_list() {
+        if (this.view_doc_segments)
+            this.update_doc_segment_list()
+        else this.update_doc_list()
     }
 
     update_topic_list() {
@@ -386,7 +391,7 @@ export class Docs {
     }
 
     handle_age_change() {
-        this.update_doc_list();
+        this.update_list();
     }
 
     delete_checked_docs() {
@@ -394,13 +399,13 @@ export class Docs {
             .then(response => {
                 this.params.checked_doc_list = [];
                 this.checked_docs = new Set();
-                this.update_doc_list();
+                this.update_list();
             });
     }
 
     toggle_deleted_docs() {
         this.params.deleted_docs = !this.params.deleted_docs;
-        this.update_doc_list();
+        this.update_list();
     }
 
     @computedFrom('user.editing', 'has_grouped_topics', 'params.selected_topics', 'user.editing', 'params.checked_doc_list', 'checked_docs')
@@ -543,7 +548,6 @@ export class Docs {
             });
     }
 
-
     show_filters_only() {
         this.editing_filters = true;
     }
@@ -555,9 +559,6 @@ export class Docs {
     }
 
     handle_order_change(event) {
-        // this.params.start_name = ""; if order is done in server...
-        // this.start_name_history = [];
-        // this.update_doc_list();
         switch(this.params.order_option.value) {
             case 'by-name': 
                 this.doc_list.sort((doc1, doc2) => doc1.name < doc2.name ? -1 : doc1.name > doc2.name ? +1 : 0);

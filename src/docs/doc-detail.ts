@@ -377,7 +377,9 @@ export class DocDetail {
     }
     get_doc_by_idx(idx) {
         let did = this.doc_ids[idx];
-        this.get_doc_info(did);
+        if (this.full_doc)
+            this.get_doc_info(did);
+        else this.get_doc_segment_info(did);
     }
 
     public go_next(event) {
