@@ -136,7 +136,8 @@ export class Docs {
         this.params.keywords_str = params.keywords;
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
-        this.update_list();
+        this.update_doc_list();
+        this.update_doc_segment_list();
         this.single_doc_entry = this.user.config.single_doc_entry;
     }
 
