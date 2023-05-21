@@ -177,7 +177,7 @@
                         </div>
                         <div>
                             <div
-                                if.bind="full_doc"
+                                if.bind="full_doc && (doc_segments.length > 1 || user.editing)"
                                 class="btn-group dropdown border-right"
                                 style="margin-top:20px;"
                                 aubs-dropdown="auto-close.bind:

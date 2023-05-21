@@ -188,7 +188,7 @@ export class DocDetail {
     }
 
     get_doc_segment_info(doc_segment_id) {
-        this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id })
+        this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id, caller: this.caller })
         .then(response => {
             this.curr_doc_segment = new DocSegment(doc_segment_id, response.name, response.page_num, response.page_part_num, 
                 response.story_id, response.members);

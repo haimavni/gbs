@@ -455,19 +455,28 @@ export class Stories {
                 else
                     this.openDialog(story.doc_url);
                 break;
+            case this.api.constants.story_type.STORY4DOCSEGMENT:
+                if (this.single_doc_entry)
+                    this.view_details(story, event, true )
+                else
+                    this.openDialog(story.doc_segment_url);
+                break;
             case this.api.constants.story_type.STORY4VIDEO:
-                //this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
+            //this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: keywords, search_type: this.params.search_type });
                 this.videos.view_video_by_id(story.story_id, 0, 'story', {keywords: keywords, search_type: this.params.search_type });
                 break;
         }
     }
 
-    view_details(story, event) {
+    view_details(story, event, for_segment_id=false)  {
         let doc_ids = []; //this.doc_list.map(doc => doc.id);
         this.scroll_top = this.scroll_area.scrollTop;
-        this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: doc_ids, keywords: this.keywords, caller: 'stories' });
+        let params = { id: story.story_id, doc_ids: doc_ids, segment_id: null, keywords: this.keywords, caller: 'stories'} ;
+        if (for_segment_id) {
+            params.segment_id = story.story_id;
+        }
+        this.router.navigateToRoute('doc-detail', params);
     }
-
 
     private openDialog(doc_url) {
         this.dialog.open({ viewModel: DocPage, model: { doc_src: doc_url }, lock: false, keyboard: ['Enter', 'Escape'] })
