@@ -115,6 +115,7 @@ export class DocDetail {
 
     attached() {
         this.subscriber = this.ea.subscribe('DOC-SEG-THUMB-UPLOADED', msg => {
+            this.working = false;
             this.photo_uploaded = msg.good;
         });
     }
@@ -562,14 +563,12 @@ export class DocDetail {
 
     @computedFrom('thumbnails', 'photo_uploaded')
     get phase() {
-        console.log("enered phase. photos: ", this.thumbnails);
-        // this.status_record.photo_uploaded = this.status_record.photo_url != '';
-        // if (this.status_record.photo_uploaded)
-        //     this.working = false;
-        if (this.thumbnails && this.thumbnails.length > 0) return 'ready-to-save';
         if (this.photo_uploaded) {
-            return 'photo-uploaded';
+            this.photo_uploaded = false;
+            this.thumbnails = null;
+            //return 'photo-uploaded';
         }
+        if (this.thumbnails && this.thumbnails.length > 0) return 'ready-to-save';
         return 'ready-to-select';
     }
 
