@@ -43,10 +43,10 @@ div.doc-detail {
 div#doc-story {
     //height:calc(100vh - 200px);
     div.doc-story-area {
-        max-height:calc(100vw - 800px);
+        max-height:calc(100vh - 400px);
         overflow:auto;
         div.multi-select-div {
-            max-height: calc(100vw - 850px);
+            max-height: calc(100vh - 450px);
         }
     }
     &.editing-segments {

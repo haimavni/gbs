@@ -15,8 +15,7 @@
                     ? 90 : 270} ${next_class}"
                     t="[title]photos.next-slide"
                     click.trigger="go_next($event)"
-                    if.bind="doc_ids.length> 1"
-                    ></i>
+                    if.bind="doc_ids.length> 1"></i>
                 <i
                     class="far fa-lg fa-arrow-up"
                     t="[title]go-back"
@@ -27,8 +26,7 @@
                     ? 90 : 270} ${prev_class}"
                     t="[title]photos.prev-slide"
                     click.trigger="go_prev($event)"
-                    if.bind="doc_ids.length> 1"
-                    ></i>
+                    if.bind="doc_ids.length> 1"></i>
             </div>
             <h3 dir="${theme.rtltr}" style="float: right; margin: 0px">
                 ${doc_name || ''}
@@ -180,8 +178,7 @@
                                 if.bind="full_doc && (doc_segments.length > 1 || user.editing)"
                                 class="btn-group dropdown border-right"
                                 style="margin-top:20px;"
-                                aubs-dropdown="auto-close.bind:
-                                autoClose;is-open.bind: select_segment_open">
+                                aubs-dropdown="auto-close.bind:autoClose;is-open.bind: select_segment_open">
                                 <button
                                     class="btn dropdown-toggle seg-button"
                                     0;float:right;font-size:x-large;border:solid
@@ -243,6 +240,9 @@
                                         </a>
                                     </li>
                                 </ul>
+                                <help topic="edit-doc-segments"
+                                    style="margin-right:40px;"
+                                    if.bind="user.editing"></help>
                             </div>
                             <div if.bind="user.editing">
                                 <select
@@ -332,30 +332,34 @@
                                             if.bind="undo_list.length> 0"
                                             class="btn btn-warning"
                                             style="width: 90%"
-                                            click.delegate="undo()"
-                                            >
+                                            click.delegate="undo()">
                                             <i class="fa fa-lg fa-undo">
                                                 ${'photos.undo-last-change' &
                                                 t}</i>
                                         </button>
                                     </div>
-                                    <span class="loader" 
+                                    <span class="loader"
                                         css="opacity:${working ? 1.0 : 0};position:absolute;left:48%;top:35%;">
                                         <i class="fa fa-spinner fa-spin fa-3x"
                                             style="color:blue"></i>
                                     </span>
-                                    <div class="buttons" 
+                                    <div class="buttons"
                                         if.bind="true || phase != 'photo-uploaded'">
                                         <form
                                             submit.delegate="save_thumbnail($event)">
                                             <div class="form-group"
+                                                style="position:relative"
                                                 if.bind="phase=='ready-to-select'">
-                                                <label 
+                                                <label
                                                     class="control-label
                                                     for="photos">
-                                                    <i class="far fa-browser fa-lg">&nbsp;&nbsp;</i>
-                                                        ${'groups.select-photo' & t}
+                                                    <i class="far fa-browser fa-lg">&nbsp;&nbsp;
+                                                    </i>
+                                                    ${'groups.select-photo' & t}
                                                 </label>
+                                                <help topic="upload-doc-thumbnail"
+                                                    style="top:-6px;right:120px;">
+                                                </help>
                                                 <div>
                                                     <input
                                                         type="file" id="photos"
@@ -365,7 +369,7 @@
                                             </div>
                                             <div class="form-group"
                                                 if.bind="phase == 'ready-to-save'">
-                                                <button type="submit" 
+                                                <button type="submit"
                                                     class="btn btn-success">
                                                     <i class="fas fa-upload fa-sm">&nbsp;&nbsp;</i>
                                                     ${'groups.upload' & t}
