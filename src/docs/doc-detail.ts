@@ -90,7 +90,7 @@ export class DocDetail {
     subscriber;
     photo_uploaded = false;
 
-    constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme, 
+    constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme, misc: Misc,
         router: Router, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
@@ -570,6 +570,11 @@ export class DocDetail {
         }
         if (this.thumbnails && this.thumbnails.length > 0) return 'ready-to-save';
         return 'ready-to-select';
+    }
+
+    dropdown_toggled() {
+        //black magic. without this a wrong page is displayed
+        this.view_full_document();
     }
 
 

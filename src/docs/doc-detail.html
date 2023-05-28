@@ -178,7 +178,7 @@
                                 if.bind="full_doc && (doc_segments.length > 1 || user.editing)"
                                 class="btn-group dropdown border-right"
                                 style="margin-top:20px;"
-                                aubs-dropdown="auto-close.bind:autoClose;is-open.bind: select_segment_open">
+                                aubs-dropdown="auto-close.bind:autoClose;is-open.bind: select_segment_open;on-toggle.call: dropdown_toggled();">
                                 <button
                                     class="btn dropdown-toggle seg-button"
                                     0;float:right;font-size:x-large;border:solid
