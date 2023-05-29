@@ -146,6 +146,7 @@ export class MemberDetail {
         this.api.call_server_post('members/get_member_details', {member_id: params.id, what: params.what})
             .then(member => {
                 this.member = member;
+                this.user.editing_enabled(member.member_info.editing_ok);
                 this.member_stories.lst = [];
                 for (let st of this.member.member_stories) {
                     this.member_stories.lst.push(st)
@@ -159,6 +160,10 @@ export class MemberDetail {
                 this.set_heights();
                 let x = this.stories_base_changed;
             });
+    }
+
+    deactivate() {
+        this.user.editing_enabled(true);
     }
 
     init_member() {

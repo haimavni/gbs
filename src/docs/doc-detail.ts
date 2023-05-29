@@ -90,7 +90,7 @@ export class DocDetail {
     subscriber;
     photo_uploaded = false;
 
-    constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme, misc: Misc,
+    constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme,
         router: Router, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
