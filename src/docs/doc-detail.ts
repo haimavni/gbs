@@ -448,8 +448,8 @@ export class DocDetail {
     @computedFrom('curr_doc_segment.page_num', '_doc_src', 'doc_src_ready')
     get doc_src() {
         let src = this._doc_src;
-        if (this.full_doc)
-            src += (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
+        // if (this.full_doc)
+        //     src += (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
         return src;
     }
 
