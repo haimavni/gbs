@@ -132,6 +132,7 @@ export class StoryDetail {
         this.api.call_server_post('members/get_story', { story_id: story_id })
             .then(response => {
                 this.story = response.story;
+                this.user.editing_enabled(this.story.editing_ok);
                 this.story_changed = true;
             });
     }
@@ -140,6 +141,7 @@ export class StoryDetail {
         this.subscriber.dispose();
         this.subscriber1.dispose();
         this.nudnik = 0;
+        this.user.editing_enabled();
     }
 
     async activate(params, config) {
@@ -171,6 +173,7 @@ export class StoryDetail {
             .then(response => {
                 this.api.hit(what, story_id);
                 this.story = response.story;
+                this.user.editing_enabled(this.story.editing_ok);
                 this.chatroom_id = this.story.chatroom_id;
                 if (this.story.story_id == 'new') {
                     this.story.name = this.i18n.tr('stories.new-story');

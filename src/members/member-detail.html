@@ -167,7 +167,13 @@
                         class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
                     </button>
                     <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;display:flex;">
-                        <i if.bind="user.privileges.EDITOR" class="fas fa-pencil is-link" style="font-size:0.5em;padding-top:8px;padding-left:4px;" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
+                        <i if.bind="user.privileges.EDITOR && bio.editing_ok" 
+                            class="fas fa-pencil is-link" 
+                            style="font-size:0.5em;padding-top:8px;padding-left:4px;" 
+                            t="[title]stories.edit" 
+                            click.trigger="zoom_out(story_0, 'edit', 'life')">
+                            &nbsp;
+                        </i>
                         ${story_0.name}
                     </h3>
                     <div class="member-story-panel biography" ref="life_summary_content" dir="${biography_dir}">

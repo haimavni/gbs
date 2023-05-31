@@ -46,8 +46,7 @@ export class Terms {
             .then((data) => {
                 this.results = data.results;
                 if (! this.results) {
-                    let txt = JSON.stringify(data.results);
-                    this.results = txt;
+                    this.results = data;
                 }
                 let node = this.hj.display(this.results);
                 this.output.innerHTML = "";

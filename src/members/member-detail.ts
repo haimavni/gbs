@@ -41,6 +41,7 @@ export class MemberDetail {
     story_box_height = 260;
     stories_base = -1;
     member_stories = {lst: [], changed: 0};
+    bio;
     life_summary;
     source;
     sub1;
@@ -323,6 +324,9 @@ export class MemberDetail {
             let rec = this.member_stories.lst[i];
             rec.name = rec.name ? rec.name : "";
             rec.dir = this.theme.language_dir(rec.language);
+            if (this.member_stories.lst && this.member_stories.lst.length > 0)
+                this.bio = this.member_stories.lst[0];
+            else this.bio = {};
             return rec
         } else {
             return empty_story;
