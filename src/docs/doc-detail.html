@@ -200,10 +200,10 @@
                                             <a
                                                 click.delegate="select_segment(doc_segment)"
                                                 class="resp-sharing-button__link">
-                                                ${doc_segment.name}
+                                                ${doc_segment.page_num}: ${doc_segment.name}
                                             </a>
                                         </span>
-                                        <span class="remove-seg">
+                                        <span class="remove-seg" if.bind="user.editing">
                                             <span style="align-self: flex-end">
                                                 <a
                                                     click.delegate="remove_segment(doc_segment)">
