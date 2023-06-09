@@ -266,7 +266,7 @@ export class Stories {
         this.params.selected_stories = [];
         this.params.keywords_str = keywords;
         let typ = 'simple'
-        if (local) {
+        if (local) {  //search from inside the stories page
             this.keywords_to_selected_words();
         } else {
             typ = 'menu';
@@ -451,13 +451,13 @@ export class Stories {
                 break;
             case this.api.constants.story_type.STORY4DOC:
                 if (this.single_doc_entry)
-                    this.view_details(story, event)
+                    this.view_doc(story, false, keywords)
                 else
                     this.openDialog(story.doc_url);
                 break;
             case this.api.constants.story_type.STORY4DOCSEGMENT:
                 if (this.single_doc_entry)
-                    this.view_details(story, event, true )
+                    this.view_doc(story, true, keywords )
                 else
                     this.openDialog(story.doc_segment_url);
                 break;
@@ -474,6 +474,21 @@ export class Stories {
         let params = { id: story.story_id, doc_ids: doc_ids, segment_id: null, keywords: this.keywords, caller: 'stories'} ;
         if (for_segment_id) {
             params.segment_id = story.story_id;
+        }
+        this.router.navigateToRoute('doc-detail', params);
+    }
+
+    view_doc(story, for_segment, keywords) {
+        this.scroll_top = this.scroll_area.scrollTop;
+        let params = { id: story.story_id, segment_id: null, keywords: keywords, caller: 'stories'};
+        let doc_ids = [];
+        if (for_segment) {
+            params.segment_id = story.story_id;
+            let doc_seg_list = this.story_list.filter(itm => itm.used_for == this.api.constants.story_type.STORY4DOCSEGMENT);
+            doc_ids = doc_seg_list.map(itm => itm.story_id);
+        } else {
+            let doc_list = this.story_list.filter(itm => itm.used_for == this.api.constants.story_type.STORY4DOC);
+            doc_ids = doc_list.map(itm => itm.story_id);
         }
         this.router.navigateToRoute('doc-detail', params);
     }
