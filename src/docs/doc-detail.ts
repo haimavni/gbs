@@ -3,23 +3,27 @@ import { I18N } from 'aurelia-i18n';
 import { MemberGateway } from '../services/gateway';
 import { User } from '../services/user';
 import { Theme } from '../services/theme';
+import { Misc } from '../services/misc';
 import { highlight } from '../services/dom_utils';
 import { Router } from 'aurelia-router';
 import { DialogService } from 'aurelia-dialog';
 import { MultiSelectSettings } from '../resources/elements/multi-select/multi-select';
 import { MemberPicker } from "../members/member-picker";
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 class DocSegment {
-    id = 0;
+    segment_id = 0;
     name = "";
     page_num = 0;
+    page_part_num = 0;
     story_id = 0;
     member_ids = [];
-
-    constructor(id, name, page_num, story_id, member_ids) {
-        this.id = id;
+    
+    constructor(segment_id, name, page_num, page_part_num, story_id, member_ids) {
+        this.segment_id = segment_id;
         this.name = name;
         this.page_num = page_num;
+        this.page_part_num = page_part_num;
         this.story_id = story_id;
         this.member_ids = member_ids;
     } 
@@ -31,9 +35,9 @@ export class DocDetail {
     i18n: I18N;
     user: User;
     theme: Theme;
+    misc: Misc;
     router: Router;
     doc = { name: 'no-name' };
-    story_about;
     keywords = [];
     doc_ids = [];
     topic_list = [];
@@ -44,19 +48,16 @@ export class DocDetail {
     doc_src_ready = false;
     _doc_src;
     doc_story;
-    doc_story_about;
     doc_date_str;
     doc_date_datespan;
     doc_date_valid = '';
     doc_topics;
-    story_id = null;
+    doc_story_id = null;
     chatroom_id = null;
     options_settings: MultiSelectSettings;
-    params = {
-        selected_topics: [] //,
+    selected_topics: any[]; //,
         //selected_photographers: [],
         //doc_ids: []
-    };
     doc_name: any;
     can_go_forward = false;
     can_go_backward = false;
@@ -75,14 +76,32 @@ export class DocDetail {
     doc_segments = []; //Array<DocSegment>;
     curr_doc_segment: DocSegment = null;
     expanded = "";
+    selected_segment = null;
+    selected_page = null;
+    num_pages = 0;
+    page_options = [];
+    show_page_options = false;
+    select_segment_str;
+    create_segment_str;
+    autoClose = true;
+    select_segment_open = false;
+    full_doc = true;
+    thumbnails: FileList;
+    working = false;
+    ea;
+    subscriber;
+    photo_uploaded = false;
 
-    constructor(api: MemberGateway, i18n: I18N, user: User, theme: Theme, router: Router, dialog: DialogService) {
+    constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme, misc: Misc,
+        router: Router, dialog: DialogService) {
         this.api = api;
         this.i18n = i18n;
         this.user = user;
         this.theme = theme;
+        this.misc = misc;
         this.router = router;
         this.dialog = dialog;
+        this.ea = ea;
         this.options_settings = new MultiSelectSettings
             ({
                 hide_higher_options: true,
@@ -93,18 +112,37 @@ export class DocDetail {
                 empty_list_message: this.i18n.tr('photos.no-topics-yet'),
             });
         this.fullscreen = this.i18n.tr('docs.fullscreen');
+        this.select_segment_str = this.i18n.tr("docs.select-segment-str");
+        this.create_segment_str = this.i18n.tr("docs.create-segment-str");
+    }
 
+    attached() {
+        this.subscriber = this.ea.subscribe('DOC-SEG-THUMB-UPLOADED', msg => {
+            this.working = false;
+            this.photo_uploaded = msg.good;
+        });
+    }
+
+    detached() {
+        this.subscriber.dispose();
     }
 
     async activate(params, config) {
+        this.user.editing = false;  //work around a strange bug
         this.doc_id = params.id;
         this.caller = params.caller;
         this.keywords = params.keywords;
         this.doc_ids = params.doc_ids;
         this.advanced_search = params.search_type == 'advanced';
+        if(params.segment_id) {
+            await this.get_doc_segment_info(params.segment_id);
+            this.full_doc = false;
+        } else {
+            await this.get_doc_info(this.doc_id);
+        }
         ///this.what = params.what ? params.what : "";
         await this.update_topic_list();
-        await this.get_doc_info(this.doc_id);
+        
     }
 
     get_doc_info(doc_id) {
@@ -122,16 +160,10 @@ export class DocDetail {
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
                 this.doc_story = response.doc_story;
-                this.story_about = response.story_about;
-                if (! this.story_about || this.story_about.story_text == "")
-                    this.story_about = this.doc_story;
-                if (this.doc_story_about && this.doc_story_about.story_id == 'new') {
-                    this.doc_story_about.story_text = this.i18n.tr('photos.new-story-content');
-                    this.doc_story_about.name = this.doc_name;
-                }
+                this.num_pages = response.num_pages;
                 this.doc_date_str = response.doc_date_str;
                 this.doc_date_datespan = response.doc_date_datespan;
-                this.story_id = response.story_id
+                this.doc_story_id = response.story_id;
                 this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
                 this.undo_list = [];
@@ -141,20 +173,77 @@ export class DocDetail {
                     response.doc_segments = [];
                 for (let doc_segment of response.doc_segments) {
                     const ds = new DocSegment(
-                        doc_segment.id, 
+                        doc_segment.segment_id, 
                         doc_segment.name, 
                         doc_segment.page_num, 
+                        doc_segment.page_part_num,
                         doc_segment.story_id, 
                         doc_segment.members);
                     doc_segments.push(ds);
                 }
                 this.doc_segments = doc_segments;
+                this.page_options = [];
+                for (let i = 0; i <= this.num_pages; i++) {
+                    let option = {name: this.i18n.tr("docs.page") + " " + i, value: i}
+                    this.page_options.push(option);
+                }
                 this.api.hit('DOC', doc_id);
             });
     }
 
+    get_doc_segment_info(doc_segment_id) {
+        this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id, caller: this.caller })
+        .then(response => {
+            this.curr_doc_segment = new DocSegment(doc_segment_id, response.name, response.page_num, response.page_part_num, 
+                response.story_id, response.members);
+            this.doc_story_id = response.story_id;
+            this.doc_id = response.doc_id;
+            this._doc_src = response.doc_src;
+            this.doc_src_ready = true;
+            this.doc_story = response.story;
+            this.doc_name = response.name;
+            this.members = response.members;
+            this.doc_topics = response.doc_topics;
+            this.init_selected_topics();
+            this.doc_date_str = response.doc_seg_date_str;
+            this.doc_date_datespan = response.doc_seg_date_datespan;
+        });
+    }
+
+    get_doc_or_segment_info() {
+        if (this.curr_doc_segment) {
+            return this.get_doc_segment_info(this.curr_doc_segment.segment_id);
+        }
+        return this.get_doc_info(this.doc_id);
+    }
+
+    page_num_selected(event) {
+        this.show_page_options = false;
+        let page_num = this.selected_page.value;
+        if (page_num == 0) {
+            this.curr_doc_segment = null;
+            return;
+        }
+        const tmp = this.doc_segments.filter(ds => ds.page_num == page_num);
+        const page_part_num = tmp.length;
+        const untitled = this.i18n.tr("docs.untitled");
+        this.api.call_server_post('docs/create_segment', 
+            {doc_id: this.doc_id, 
+            page_num: page_num, 
+            page_part_num: page_part_num,
+            untitled: untitled
+        })
+        .then(response => {
+            const doc_segment = new DocSegment(response.segment_id, response.name, page_num, page_part_num, response.story_id, []);
+            this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
+            this.curr_doc_segment = doc_segment;
+            this.get_doc_segment_info(response.segment_id)
+        });
+    }
+
     update_topic_list() {
-        let usage = this.user.editing ? {} : { usage: 'D' };
+        const topic_type = this.curr_doc_segment ? "S" : "D";
+        let usage = this.user.editing ? {} : { usage: topic_type };
         this.api.call_server_post('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
@@ -173,17 +262,28 @@ export class DocDetail {
         this.undo_list.push({ what: 'doc-date', doc_date: { doc_date_str: this.curr_info.doc_date_str, doc_date_datespan: this.curr_info.doc_date_datespan } });
         this.curr_info.doc_date_str = this.doc_date_str.slice(0);
         this.curr_info.doc_date_datespan = this.doc_date_datespan;
-        this.api.call_server_post('docs/update_doc_date', { doc_date_str: event.date_str, doc_date_datespan: event.date_span, doc_id: this.doc_id });
+        const story_id = (this.curr_doc_segment) ? this.curr_doc_segment.story_id : this.doc_story_id
+        this.api.call_server_post('docs/update_doc_date', { 
+            doc_date_str: event.date_str, 
+            doc_date_datespan: event.date_span, 
+            // doc_id: this.doc_id,
+            story_id: story_id
+         });
     }
 
     handle_topic_change(event) {
         if (!event.detail) return;
-        this.params.selected_topics = event.detail.selected_options
-        let topics = this.params.selected_topics.map(top => top.option);
+        const selected_topics = event.detail.selected_options
+        let topics = selected_topics.map(top => top.option);
         this.doc_topics = topics;
         this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.doc_topics });
         this.curr_info.doc_topics = topics.slice(0);
-        this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
+        if (this.curr_doc_segment) {
+            this.api.call_server_post('docs/apply_topics_to_doc',
+                {doc_segment_id: this.curr_doc_segment.segment_id, topics: this.doc_topics });
+        } else {
+            this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
+        }
     }
 
     init_selected_topics() {
@@ -195,7 +295,7 @@ export class DocDetail {
             selected_topics.push(itm);
             i += 1;
         }
-        this.params.selected_topics = selected_topics;
+        this.selected_topics = selected_topics;
     }
 
     undo() {
@@ -239,16 +339,13 @@ export class DocDetail {
         return topic_name_list.join(';  ');
     }
 
-    @computedFrom('story_about', 'story_about.story_text', 'story_changed', 'keywords', 'advanced_search')
+    @computedFrom('doc_story', 'doc_story.story_text', 'story_changed', 'keywords', 'advanced_search')
     get highlightedHtml() {
-        console.log("story  about: ", this.story_about);
-        if (!this.story_about) {
+        if (!this.doc_story) {
             return "";
         }
         let text;
-        if (this.story_about.story_text.length < this.story_about.preview.length)
-            text = this.story_about.preview
-        else text = this.story_about.story_text;
+        text = this.doc_story.story_text;
         let highlighted_html = highlight(text, this.keywords, this.advanced_search);
         return highlighted_html;
     }
@@ -284,7 +381,9 @@ export class DocDetail {
     }
     get_doc_by_idx(idx) {
         let did = this.doc_ids[idx];
-        this.get_doc_info(did);
+        if (this.full_doc)
+            this.get_doc_info(did);
+        else this.get_doc_segment_info(did);
     }
 
     public go_next(event) {
@@ -308,14 +407,14 @@ export class DocDetail {
     }
 
     create_chatroom() {
-        this.api.call_server_post('chats/add_chatroom', { story_id: this.story_id, new_chatroom_name: this.i18n.tr('user.chats') })
+        this.api.call_server_post('chats/add_chatroom', { story_id: this.doc_story_id, new_chatroom_name: this.i18n.tr('user.chats') })
             .then((data) => {
                 this.chatroom_id = data.chatroom_id;
             });
     }
 
     chatroom_deleted(event) {
-        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.story_id });
+        this.api.call_server_post('chats/chatroom_deleted', { story_id: this.doc_story_id });
     }
 
 
@@ -331,18 +430,30 @@ export class DocDetail {
             this.theme.hide_title = false;
             if (response.wasCancelled) return;
             member_ids = Array.from(response.output.member_ids);
-            this.api.call_server_post('docs/update_doc_members', {
-                doc_id: this.doc_id,
-                member_ids: member_ids
-            }).then(response => {
-                this.members = response.members;
-            });
+            if (this.curr_doc_segment) {
+                this.api.call_server_post('docs/update_doc_segment_members', {
+                    doc_segment_id: this.curr_doc_segment.segment_id,
+                    member_ids: member_ids
+                }).then(response => {
+                    this.members = response.members;
+                });
+            } else {
+                this.api.call_server_post('docs/update_doc_members', {
+                    doc_id: this.doc_id,
+                    member_ids: member_ids
+                }).then(response => {
+                    this.members = response.members;
+                });
+            }   
         });
     }
 
-    @computedFrom('curr_doc_segment.page_num')
+    @computedFrom('curr_doc_segment.page_num', '_doc_src', 'doc_src_ready')
     get doc_src() {
-        return this._doc_src + (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
+        let src = this._doc_src;
+        if (this.full_doc)
+            src += (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
+        return src;
     }
 
     async makeFullScreen() {
@@ -355,8 +466,9 @@ export class DocDetail {
     }
 
     update_story_preview(event) {
-        let story_about_id = this.story_about.story_id;
-        this.api.call_server_post("docs/update_story_preview", {story_id: this.story_id, story_about_id: story_about_id});
+        return;
+        let story_id = this.doc_story.story_id;
+        this.api.call_server_post("docs/update_story_preview", {story_id: story_id});
     }
 
     select_members(doc_segment) {
@@ -379,7 +491,6 @@ export class DocDetail {
     }
 
     change_doc_frame_size(customEvent) {
-        console.log("drag event: ", customEvent)
         const event = customEvent.detail;
         const el = document.getElementById("doc-frame");
         const hs = el.style.height.replace("px", "");
@@ -400,4 +511,74 @@ export class DocDetail {
         return "docs.expand"
     }
 
+    select_segment(doc_segment) {
+        this.select_segment_open = false;
+        this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == doc_segment.segment_id);
+        this.get_doc_segment_info(this.curr_doc_segment.segment_id);
+    }
+
+    create_segment() {
+        this.select_segment_open = false;
+        this.show_page_options = true;    
+    }
+
+    remove_segment(doc_segment) {
+        this.api.call_server("docs/remove_doc_segment", {doc_segment_id: doc_segment.segment_id})
+        .then(response => {
+            const idx = this.doc_segments.findIndex(ds => ds.segment_id==doc_segment.segment_id);
+            this.doc_segments.splice(idx, 1);
+        })
+    }
+
+    edit_segment(doc_segment) {
+        alert("not ready yet");
+    }
+
+    view_full_document() {
+        this.curr_doc_segment = null;
+        this.get_doc_info(this.doc_id);
+    }
+
+    @computedFrom("user.editing", "doc_segments")
+    get show_segments() {
+        if (this.user.editing) return true;
+        if (this.doc_segments.length > 0) return true;
+        return false;
+    }
+
+    @computedFrom("user.editing", "doc_segments")
+    get doc_story_class() {
+        if (this.user.editing) return "editing-segments";
+        if (this.doc_segments.length > 0) return "show-segments"
+        return ""
+    }
+
+    save_thumbnail(event: Event) {
+        event.stopPropagation();
+        this.working = true;
+        this.api.uploadFiles(
+            this.user.id,
+            this.thumbnails,
+            'DOC-SEG-THUMB',
+            { doc_id: this.doc_id, segment_id: this.curr_doc_segment.segment_id, ptp_key: this.api.constants.ptp_key }
+        )
+    }
+
+    @computedFrom('thumbnails', 'photo_uploaded')
+    get phase() {
+        if (this.photo_uploaded) {
+            this.photo_uploaded = false;
+            this.thumbnails = null;
+            //return 'photo-uploaded';
+        }
+        if (this.thumbnails && this.thumbnails.length > 0) return 'ready-to-save';
+        return 'ready-to-select';
+    }
+
+    dropdown_toggled() {
+        //black magic. without this a wrong page is displayed
+        this.view_full_document();
+    }
+
 }
+

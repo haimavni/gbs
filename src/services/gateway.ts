@@ -198,13 +198,14 @@ export class MemberGateway {
     upload(payload, what) {
         payload = JSON.stringify(payload);
         switch (what) {
-            case 'PHOTOS': return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload });
-            case 'DOCS'     : return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
-            case 'AUDIOS'   : return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload });
-            case 'GROUPLOGO': return this.httpClient.fetch(`groups/upload_group_logo`, { method: 'POST', body: payload });
-            case 'APPLOGO'  : return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload });
-            case 'PHOTO'    : return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload });
-            case 'CONTACTS' : return this.httpClient.fetch(`groups/upload_contacts`, { method: 'POST', body: payload });
+            case 'PHOTOS'       : return this.httpClient.fetch(`photos/upload_photo`, { method: 'POST', body: payload });
+            case 'DOCS'         : return this.httpClient.fetch(`docs/upload_doc`, { method: 'POST', body: payload })
+            case 'AUDIOS'       : return this.httpClient.fetch(`audios/upload_audio`, { method: 'POST', body: payload });
+            case 'GROUPLOGO'    : return this.httpClient.fetch(`groups/upload_group_logo`, { method: 'POST', body: payload });
+            case 'APPLOGO'      : return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload });
+            case 'PHOTO'        : return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload });
+            case 'CONTACTS'     : return this.httpClient.fetch(`groups/upload_contacts`, { method: 'POST', body: payload });
+            case 'DOC-SEG-THUMB': return this.httpClient.fetch(`docs/upload_thumbnail`, { method: 'POST', body: payload });
         }
     }
 

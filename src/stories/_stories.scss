@@ -214,6 +214,14 @@ div.outer-story-preview {
 ul.story-list {
     padding:0;
     list-style-type: none;
+    li {
+        float:right;
+        border-bottom:2px solid lightgray;
+        padding-bottom:20px;
+        position:relative;
+        width:100%;
+        margin-bottom:16px;
+    }
 }
 
 .container .content-area {

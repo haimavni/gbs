@@ -580,8 +580,16 @@
         "add-doc-segment": "Add segment",
         "page-num": "Page",
         "doc-segment-description": "Segment description",
+        "select-segment-str": "Select segment",
+        "create-segment-str": "Create segment",
+        "no-segment-selected": "No segment selected",
         "expand": "Expand",
-        "collapse": "Collapse"
+        "collapse": "Collapse",
+        "page": "Page",
+        "untitled": "Untitled",
+        "view-full-doc": "View the full document",
+        "view-full-docs": "View full docs",
+        "view-segments": "View segments"
     },
     "terms": {
         "terms": "Terms",
@@ -830,6 +838,7 @@
     "result9": "Document",
     "result10": "Audio",
     "result12": "Articles",
+    "result14": "Document Segments",
     "change-cache": "just to cause different name",
     "and": " and ",
     "name": "Name",

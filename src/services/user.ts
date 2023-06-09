@@ -12,6 +12,7 @@ export class User {
     public isLoggedIn: boolean;
     public eventAggregator: EventAggregator;
     public editing: boolean;
+    public enable_editing = true;
     public user_name;
     public privileges;
     public config = {
@@ -206,6 +207,15 @@ export class User {
         if (this.editing && this.privileges.ADMIN) return true;
         let lst = this.app_list.filter(app => app.active);
         return lst.length > 0;
+    }
+
+    editing_enabled(allowed=true) {
+        if (allowed)
+            this.enable_editing = true
+        else {
+            this.enable_editing = false;
+            this.editing = false;
+        }
     }
 
 

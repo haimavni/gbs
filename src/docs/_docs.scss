@@ -41,16 +41,100 @@ div.doc-detail {
 }
 
 div#doc-story {
-    height:calc(100vh - 200px);
-    overflow:auto;
+    //height:calc(100vh - 200px);
+    div.doc-story-area {
+        max-height:calc(100vh - 430px);
+        overflow:auto;
+        div.multi-select-div {
+            max-height: calc(100vh - 450px);
+        }
+    }
+    &.editing-segments {
+        height: calc(100vh - 600px);
+    }
+    &.show-segments {
+        height: calc(100vh - 350px);
+    }
 }
 
 div.doc-frame {
     margin-left:0;
     width:572px;
-    height: calc(100vh - 600px);
+    height: calc(100vh - 500px);
     position:relative;
     &.expanded {
         height: calc(100vh - 250px);
+    }
+}
+
+div#doc-story {
+    div.topics-selection {
+        margin-bottom:0px;
+        position:relative;
+        width:80%;
+        height:51vh;
+        overflow:auto;
+        margin-top:12px;
+    }
+    button.seg-button {
+        padding: 0;
+        float:right;
+        font-size:larger;
+        border:solid 1px lightblue;
+        border-radius:4px;
+        span {
+            color:#0f0f0f;
+        }
+    }
+    ul.segment-list {
+        width:450px;
+        max-height: 180px;
+        overflow: auto;
+        li {
+            border-bottom:solid 1px lightgrey;
+            height:24px;
+            display: flex;
+            justify-content: space-between;
+            &.new-segment {
+                font-weight: bold;
+                cursor: pointer;
+                padding-right: 10px;
+                background-color: green;
+                span {
+                    width: 100%;
+                    a {
+                        color: white;
+                        float: right;
+                    }
+                }
+            }
+            &.view-full-doc {
+                font-weight: bold;
+                cursor: pointer;
+                padding-right: 0px;
+                background-color: lightblue;
+                a {
+                    width: 100%;
+                    padding-right: 10px;
+                    text-align: right;
+                    span {
+                        width: 100%;
+                        float: right;
+                    }
+                }
+            }
+            span.seg-name {
+                justify-self: flex-start;
+                padding-right: 10px;
+                cursor: pointer;
+                text-align: right;
+                width: 90%;
+            }
+            span.remove-seg {
+                padding-left: 10px;
+                justify-self: flex-end;
+                cursor: pointer;
+            }
+        }
     }
 }

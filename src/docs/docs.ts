@@ -20,6 +20,7 @@ import {Uploader} from "../services/uploader";
 export class Docs {
     filter = "";
     doc_list = [];
+    doc_segment_list = [];
     docs_index;
     api;
     user;
@@ -51,7 +52,8 @@ export class Docs {
         days_since_upload: 0,
         search_type: 'simple',
         order_option: { value: "by-name" },
-        start_name: ""
+        start_name: "",
+        view_doc_segments: false
     };
     order_options;
     start_name_history = [];
@@ -86,6 +88,8 @@ export class Docs {
     anchor = -1; //for multiple selections
     editing_filters = false;
     single_doc_entry = false;
+    view_doc_segments = false;
+    _curr_doc_list = [];
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
                 word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -133,6 +137,7 @@ export class Docs {
         this.search_words = params.keywords ? params.keywords.split(/\s+/) : [];
         this.keywords = this.search_words;
         this.update_doc_list();
+        this.update_doc_segment_list();
         this.single_doc_entry = this.user.config.single_doc_entry;
     }
 
@@ -220,9 +225,37 @@ export class Docs {
                 }
                 this.scroll_top = 0;
                 this.handle_order_change(null);
+                if (! this.view_doc_segments)
+                    this._curr_doc_list = this.doc_list;
             });
     }
 
+    update_doc_segment_list() {
+        this.no_results = false;
+        this.params.editing = this.user.editing;
+        return this.api.call_server_post('docs/get_doc_segment_list', {params: this.params})
+            .then(result => {
+                this.editing_filters = false;
+                this.no_results = result.no_results;
+                this.highlight_unselectors = this.no_results ? "warning" : "";
+                if (this.no_results) {
+                    this.doc_segment_list = [];
+                }
+                this.doc_segment_list = result.doc_segment_list;
+                for (let doc_seg of this.doc_segment_list) {
+                    doc_seg.title = '<span dir="rtl">' + doc_seg.title + '</span>';
+                    if (doc_seg.story) {
+                        doc_seg.story.checked = doc_seg.checked;
+                    } else {
+                        console.log("doc_seg has no story: ", doc_seg);
+                    }
+                }
+                this.scroll_top = 0;
+                this.handle_order_change(null);
+                if (this.view_doc_segments)
+                    this._curr_doc_list = this.doc_segment_list;
+            });
+    }
     apply_topics_to_checked_docs() {
         this.api.call_server_post('docs/apply_to_checked_docs', {params: this.params})
             .then(response => {
@@ -281,14 +314,14 @@ export class Docs {
             this.num_of_docs = doc_list.length;
             if (doc_list.length == 0) return;
             this.params.selected_docs = doc_list;
-            this.update_doc_list();
+            this.update_list();
         } else if (result) {
             this.num_of_docs = 0;
             this.no_results = true;
             this.doc_list = Array.from(result);
         } else {
             this.params.selected_docs = [];
-            this.update_doc_list();
+            this.update_list();
             this.num_of_docs = 0;
         }
         this.keywords = this.params.selected_words.map(item => item.option.name);
@@ -297,11 +330,19 @@ export class Docs {
     handle_topic_change(event) {
         this.params.selected_topics = event.detail.selected_options;
         this.params.show_untagged = event.detail.show_untagged;
-        this.update_doc_list();
+        this.update_list();
+    }
+
+    update_list() {
+        if (this.view_doc_segments)
+            this.update_doc_segment_list()
+        else this.update_doc_list()
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', {params: this.params, usage: this.user.editing ? null : 'D'})
+        const topic_type = this.params.view_doc_segments ? "S" : "D";
+        this.api.call_server_post('topics/get_topic_list',
+            {params: this.params, usage: this.user.editing ? null : topic_type})
             .then(response => {
                 this.topic_list = response.topic_list;
                 this.topic_groups = response.topic_groups;
@@ -351,7 +392,7 @@ export class Docs {
     }
 
     handle_age_change() {
-        this.update_doc_list();
+        this.update_list();
     }
 
     delete_checked_docs() {
@@ -359,13 +400,13 @@ export class Docs {
             .then(response => {
                 this.params.checked_doc_list = [];
                 this.checked_docs = new Set();
-                this.update_doc_list();
+                this.update_list();
             });
     }
 
     toggle_deleted_docs() {
         this.params.deleted_docs = !this.params.deleted_docs;
-        this.update_doc_list();
+        this.update_list();
     }
 
     @computedFrom('user.editing', 'has_grouped_topics', 'params.selected_topics', 'user.editing', 'params.checked_doc_list', 'checked_docs')
@@ -441,7 +482,8 @@ export class Docs {
             days_since_upload: 0,
             search_type: 'simple',
             order_option: { value: "by-name" },
-            start_name: ""
+            start_name: "",
+            view_doc_segments: false
         };
 
     }
@@ -484,6 +526,17 @@ export class Docs {
         return this.user.editing;
     }
 
+    @computedFrom("view_doc_segments", "_curr_doc_list")
+    get curr_doc_list() {
+        if (this.view_doc_segments) this._curr_doc_list = this.doc_segment_list
+        else this._curr_doc_list = this.doc_list;
+        return this._curr_doc_list;
+    }
+
+    toggle_doc_types() {
+        this.view_doc_segments = ! this.view_doc_segments;
+    }
+
     private openDialog(doc) {
         this.dialog.open({
             viewModel: DocPage,
@@ -496,7 +549,6 @@ export class Docs {
             });
     }
 
-
     show_filters_only() {
         this.editing_filters = true;
     }
@@ -504,13 +556,10 @@ export class Docs {
     view_details(doc, event) {
         this.scroll_top = this.scroll_area.scrollTop;
         let doc_ids = this.doc_list.map(doc => doc.id);
-        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs' });
+        this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs', segment_id: doc.segment_id });
     }
 
     handle_order_change(event) {
-        // this.params.start_name = ""; if order is done in server...
-        // this.start_name_history = [];
-        // this.update_doc_list();
         switch(this.params.order_option.value) {
             case 'by-name': 
                 this.doc_list.sort((doc1, doc2) => doc1.name < doc2.name ? -1 : doc1.name > doc2.name ? +1 : 0);

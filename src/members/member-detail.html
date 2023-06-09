@@ -28,7 +28,7 @@
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}"
+                                            <a type="button" class="btn btn-default ${disabled_if} ${grand.life_status}"
                                                 repeat.for="grand of member.family_connections.grand_parents" 
                                                     route-href="route: member-details; params.bind: {id:grand.id, keywords: ''}">
                                                 <img src.bind="get_profile_photo(grand)" />
@@ -46,14 +46,18 @@
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.par1"
+                                            <a type="button" 
+                                                class="btn btn-default ${disabled_if}  ${member.family_connections.parents.par1.life_status}"
+                                                if.bind="member.family_connections.parents && member.family_connections.parents.par1"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.par1.id, keywords: ''}" style="float:right;">
                                                 <img src.bind="get_profile_photo(member.family_connections.parents.par1)" />
                                                 <span>
                                                     ${member.family_connections.parents.par1.name}
                                                 </span>
                                             </a>
-                                            <a type="button" class="btn btn-default ${disabled_if}" if.bind="member.family_connections.parents && member.family_connections.parents.par2"
+                                            <a type="button" 
+                                                class="btn btn-default ${disabled_if} ${member.family_connections.parents.par2.life_status}"
+                                                if.bind="member.family_connections.parents && member.family_connections.parents.par2"
                                                 route-href="route: member-details; params.bind: {id:member.family_connections.parents.par2.id, keywords: ''}" style="float:right;">
                                                 <img src.bind="get_profile_photo(member.family_connections.parents.par2)" />
                                                 <span>
@@ -69,7 +73,8 @@
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}"
+                                            <a type="button" 
+                                                class="btn btn-default ${disabled_if} ${sibling.life_status}"
                                                 repeat.for="sibling of member.family_connections.siblings" 
                                                     route-href="route: member-details; params.bind: {id:sibling.id, keywords: ''}">
                                                 <img src.bind="get_profile_photo(sibling)" />
@@ -87,7 +92,7 @@
                                     <ul class="family">
                                         <li>
                                             <a type="button" 
-                                                class="btn btn-default ${disabled_if} ${spouse.marital_status}" 
+                                                class="btn btn-default ${disabled_if} ${spouse.marital_status} ${spouse.life_status}" 
                                                 repeat.for="spouse of member.family_connections.spouses" 
                                                 route-href="route: member-details; params.bind: {id:spouse.id, keywords: ''}"
                                                 contextmenu.delegate="divorce(spouse.id, 'spouse')">
@@ -105,7 +110,9 @@
                                 <div>
                                     <ul class="family">
                                         <li>
-                                            <a type="button" class="btn btn-default ${disabled_if}" repeat.for="child of member.family_connections.children" 
+                                            <a type="button" 
+                                                class="btn btn-default ${disabled_if} ${child.life_status}"
+                                                repeat.for="child of member.family_connections.children" 
                                                 route-href="route: member-details; params.bind: {id:child.id, keywords: ''}"
                                                 contextmenu.delegate="divorce(child.id, 'child')">
                                                 <img src.bind="get_profile_photo(child)" />
@@ -160,7 +167,13 @@
                         class="word-highlighter ${highlight_on}" click.trigger="toggle_highlight_on()" t="[title]stories.highlight-on">
                     </button>
                     <h3 show.bind="story_0.name || story_0.topic" dir="rtl" style="padding:0;margin:0;margin-bottom:8px;display:flex;">
-                        <i if.bind="user.privileges.EDITOR" class="fas fa-pencil is-link" style="font-size:0.5em;padding-top:8px;padding-left:4px;" t="[title]stories.edit" click.trigger="zoom_out(story_0, 'edit', 'life')">&nbsp;</i>
+                        <i if.bind="user.privileges.EDITOR && bio.editing_ok" 
+                            class="fas fa-pencil is-link" 
+                            style="font-size:0.5em;padding-top:8px;padding-left:4px;" 
+                            t="[title]stories.edit" 
+                            click.trigger="zoom_out(story_0, 'edit', 'life')">
+                            &nbsp;
+                        </i>
                         ${story_0.name}
                     </h3>
                     <div class="member-story-panel biography" ref="life_summary_content" dir="${biography_dir}">

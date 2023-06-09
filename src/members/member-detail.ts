@@ -41,6 +41,7 @@ export class MemberDetail {
     story_box_height = 260;
     stories_base = -1;
     member_stories = {lst: [], changed: 0};
+    bio;
     life_summary;
     source;
     sub1;
@@ -146,6 +147,7 @@ export class MemberDetail {
         this.api.call_server_post('members/get_member_details', {member_id: params.id, what: params.what})
             .then(member => {
                 this.member = member;
+                this.user.editing_enabled(member.member_info.editing_ok);
                 this.member_stories.lst = [];
                 for (let st of this.member.member_stories) {
                     this.member_stories.lst.push(st)
@@ -159,6 +161,10 @@ export class MemberDetail {
                 this.set_heights();
                 let x = this.stories_base_changed;
             });
+    }
+
+    deactivate() {
+        this.user.editing_enabled(true);
     }
 
     init_member() {
@@ -318,6 +324,9 @@ export class MemberDetail {
             let rec = this.member_stories.lst[i];
             rec.name = rec.name ? rec.name : "";
             rec.dir = this.theme.language_dir(rec.language);
+            if (this.member_stories.lst && this.member_stories.lst.length > 0)
+                this.bio = this.member_stories.lst[0];
+            else this.bio = {};
             return rec
         } else {
             return empty_story;
@@ -391,6 +400,9 @@ export class MemberDetail {
                 break;
             case this.api.constants.story_type.STORY4DOC:
                 this.router.navigateToRoute('doc-detail', { id: story.story_id, doc_ids: [], keywords: [], caller: 'member' });
+                break;
+            case this.api.constants.story_type.STORY4DOCSEGMENT:
+                this.router.navigateToRoute('doc-detail', { id: story.story_id, segment_id: story.story_id, doc_ids: [], keywords: [], caller: 'member' });
                 break;
             case this.api.constants.story_type.STORY4VIDEO:
                 this.router.navigateToRoute('annotate-video', { video_id: story.story_id, what: 'story', keywords: [], search_type: "", caller: 'member' });
