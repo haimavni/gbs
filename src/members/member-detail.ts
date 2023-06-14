@@ -136,7 +136,10 @@ export class MemberDetail {
         this.advanced_search = params.search_type == 'advanced';
         if (this.member && this.member.member_info &&
             this.member.member_info.id == params.id &&
-            !this.photo_list_changes_pending) return;
+            !this.photo_list_changes_pending) {
+                this.user.editing_enabled(this.member.member_info.editing_ok);
+                return;
+            }
         this.photo_list_changes_pending = false;
         this.new_member = params.id == 'new' ? this.i18n.tr('members.new-member') : '';
         this.init_member(); //So that changing to a new member does not display most recent one
