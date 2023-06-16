@@ -7,6 +7,9 @@ div.member-list.content-area li.list-group-item {
     font-size: 9px;
     vertical-align: text-bottom;
     background-color:rgba(0,0,0,0);
+    &.odd-level {
+        background-color: rgba(173, 216, 230, 0.4);
+    }
     a {
          vertical-align: text-bottom;
          align-content: center;
