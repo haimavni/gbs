@@ -340,7 +340,7 @@ export class Docs {
     }
 
     update_topic_list() {
-        const topic_type = this.params.view_doc_segments ? "S" : "D";
+        const topic_type = this.view_doc_segments ? "S" : "D";
         this.api.call_server_post('topics/get_topic_list',
             {params: this.params, usage: this.user.editing ? null : topic_type})
             .then(response => {
@@ -535,6 +535,7 @@ export class Docs {
 
     toggle_doc_types() {
         this.view_doc_segments = ! this.view_doc_segments;
+        this.update_topic_list();
     }
 
     private openDialog(doc) {

@@ -202,7 +202,7 @@ export class Audios {
     }
 
     update_topic_list() {
-        let usage = this.user.editing ? {} : { usage: 'A' };
+        let usage = this.user.editing ? {} : { usage: 'U' };
         this.api.call_server('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
