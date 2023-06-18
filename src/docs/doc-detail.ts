@@ -45,6 +45,7 @@ export class DocDetail {
     no_topics_yet = false;
     advanced_search = false;
     doc_id;
+    doc_segment_id;
     doc_src_ready = false;
     _doc_src;
     doc_story;
@@ -136,6 +137,7 @@ export class DocDetail {
         this.advanced_search = params.search_type == 'advanced';
         if(params.segment_id) {
             await this.get_doc_segment_info(params.segment_id);
+            this.doc_segment_id = params.segment_id;
             this.full_doc = false;
         } else {
             await this.get_doc_info(this.doc_id);
@@ -192,10 +194,17 @@ export class DocDetail {
     }
 
     get_doc_segment_info(doc_segment_id) {
+        this.doc_segment_id = doc_segment_id;
         this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id, caller: this.caller })
         .then(response => {
-            this.curr_doc_segment = new DocSegment(doc_segment_id, response.name, response.page_num, response.page_part_num, 
-                response.story_id, response.members);
+
+            this.curr_doc_segment = new DocSegment(
+                doc_segment_id, 
+                response.name, 
+                response.page_num, 
+                response.page_part_num, 
+                response.story_id, 
+                response.members);
             this.doc_story_id = response.story_id;
             this.doc_id = response.doc_id;
             this._doc_src = response.doc_src;
@@ -234,7 +243,13 @@ export class DocDetail {
             untitled: untitled
         })
         .then(response => {
-            const doc_segment = new DocSegment(response.segment_id, response.name, page_num, page_part_num, response.story_id, []);
+            const doc_segment = new DocSegment(
+                response.segment_id, 
+                response.name, 
+                page_num, 
+                page_part_num, 
+                response.story_id, 
+                []);
             this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
             this.curr_doc_segment = doc_segment;
             this.get_doc_segment_info(response.segment_id)
@@ -360,7 +375,8 @@ export class DocDetail {
     }
 
     doc_idx() {
-        return this.doc_ids.findIndex(pid => pid == this.doc_id);
+        let doc_id = this.full_doc ? this.doc_id : this.doc_segment_id;
+        return this.doc_ids.findIndex(pid => pid == doc_id);
     }
 
     public has_next(step) {
@@ -383,7 +399,9 @@ export class DocDetail {
         let did = this.doc_ids[idx];
         if (this.full_doc)
             this.get_doc_info(did);
-        else this.get_doc_segment_info(did);
+        else {
+            this.get_doc_segment_info(did);
+        }
     }
 
     public go_next(event) {

@@ -556,7 +556,14 @@ export class Docs {
 
     view_details(doc, event) {
         this.scroll_top = this.scroll_area.scrollTop;
-        let doc_ids = this.doc_list.map(doc => doc.id);
+        let doc_ids;
+        if (doc.segment_id) {
+            let doc_list = this.doc_segment_list;
+            doc_ids = doc_list.map(doc => doc.id);
+        } else {
+            let doc_list = this.doc_list;
+            doc_ids = doc_list.map(doc => doc.id);
+        }
         this.router.navigateToRoute('doc-detail', { id: doc.id, doc_ids: doc_ids, keywords: this.keywords, caller:'docs', segment_id: doc.segment_id });
     }
 
