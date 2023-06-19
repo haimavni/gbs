@@ -92,6 +92,7 @@ export class DocDetail {
     ea;
     subscriber;
     photo_uploaded = false;
+    counter = 0;
 
     constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme, misc: Misc,
         router: Router, dialog: DialogService) {
@@ -151,13 +152,13 @@ export class DocDetail {
         this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id, caller: this.caller })
             .then(response => {
                 let search_str = "";
-                if (this.keywords && this.keywords.length > 0) {
-                    const keywords = this.keywords.join(' ');
-                    search_str = '#search=%22' + keywords + '%22';
-                }
+                // if (this.keywords && this.keywords.length > 0) {
+                //     const keywords = this.keywords.join(' ');
+                //     search_str = '#search=%22' + keywords + '%22';
+                // }
                 this.doc_id = response.doc_id;
                 this.doc = response.doc;
-                this._doc_src = response.doc_src + search_str;
+                this._doc_src = response.doc_src; // + search_str
                 this.doc_src_ready = true;
                 this.doc_name = response.doc_name;
                 this.doc_topics = response.doc_topics;
@@ -381,16 +382,16 @@ export class DocDetail {
 
     public has_next(step) {
         let idx = this.doc_idx();
-        return 0 <= (idx + step) && (idx + step) < this.doc_ids.length;
+        return (0 <= (idx + step)) && ((idx + step) < this.doc_ids.length - 1);
     }
 
-    @computedFrom('doc_id')
+    @computedFrom('doc_id', 'doc_segment_id')
     get prev_class() {
         if (this.has_next(-1)) return '';
         return 'disabled'
     }
 
-    @computedFrom('doc_id')
+    @computedFrom('doc_id', 'doc_segment_id')
     get next_class() {
         if (this.has_next(+1)) return '';
         return 'disabled'
@@ -469,8 +470,9 @@ export class DocDetail {
     @computedFrom('curr_doc_segment.page_num', '_doc_src', 'doc_src_ready')
     get doc_src() {
         let src = this._doc_src;
-        if (this.full_doc)
-            src += (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
+        src += `?d=${this.counter}`;
+        this.counter += 1;
+        src += (this.curr_doc_segment ? `#page=${this.curr_doc_segment.page_num}` : "");
         return src;
     }
 
