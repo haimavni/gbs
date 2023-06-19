@@ -480,8 +480,8 @@ export class Stories {
 
     view_doc(story, for_segment, keywords) {
         this.scroll_top = this.scroll_area.scrollTop;
-        let params = { id: story.story_id, segment_id: null, keywords: keywords, caller: 'stories'};
         let doc_ids = [];
+        let params = { id: story.story_id, segment_id: null, keywords: keywords, caller: 'stories', doc_ids: doc_ids};
         if (for_segment) {
             params.segment_id = story.story_id;
             let doc_seg_list = this.story_list.filter(itm => itm.used_for == this.api.constants.story_type.STORY4DOCSEGMENT);
@@ -490,6 +490,7 @@ export class Stories {
             let doc_list = this.story_list.filter(itm => itm.used_for == this.api.constants.story_type.STORY4DOC);
             doc_ids = doc_list.map(itm => itm.story_id);
         }
+        params.doc_ids = doc_ids;
         this.router.navigateToRoute('doc-detail', params);
     }
 

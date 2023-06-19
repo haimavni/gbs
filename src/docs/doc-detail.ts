@@ -134,7 +134,7 @@ export class DocDetail {
         this.doc_id = params.id;
         this.caller = params.caller;
         this.keywords = params.keywords;
-        this.doc_ids = params.doc_ids;
+        this.doc_ids = params.doc_ids || [];
         this.advanced_search = params.search_type == 'advanced';
         if(params.segment_id) {
             await this.get_doc_segment_info(params.segment_id);
@@ -144,8 +144,7 @@ export class DocDetail {
             await this.get_doc_info(this.doc_id);
         }
         ///this.what = params.what ? params.what : "";
-        await this.update_topic_list();
-        
+        await this.update_topic_list();        
     }
 
     get_doc_info(doc_id) {
