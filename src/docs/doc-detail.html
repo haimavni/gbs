@@ -66,20 +66,6 @@
                             id="doc-frame">
                         </iframe>
                     </div>
-                    <!-- <div
-                        repeat.for="doc_segment of doc_segments"
-                        style="height: 100%"
-                        if.bind="false && curr_doc_segment &&
-                        doc_segment.segment_id==curr_doc_segment.segment_id">
-                        <iframe
-                            if.bind="doc_src_ready"
-                            src.bind="doc_src"
-                            width="100%"
-                            height="100%"
-                            allow="fullscreen"
-                            id="doc-frame">
-                        </iframe>
-                    </div> -->
                 </div>
                 <button
                     style="
@@ -179,25 +165,12 @@
                             <div
                                 if.bind="full_doc && (doc_segments.length > 1 || user.editing)"
                                 class="btn-group dropdown border-right"
-                                style="margin-top:20px;"
-                                aubs1-dropdown="auto-close.bind:autoClose;is-open.bind: select_segment_open;on-toggle.call: dropdown_toggled();">
-                                <!-- <button
-                                    class="btn dropdown-toggle seg-button"
-                                    0;float:right;font-size:x-large;border:solid
-                                    1px lightblue;border-radius:4px;"
-                                    aubs-dropdown-toggle
-                                    title="${'docs.segment-selection' & t}">
-                                    <span>
-                                        ${select_segment_str}
-                                    </span>
-                                    <span class="caret"></span>
-                                </button> -->
+                                style="margin-top:20px;">
                                 <h3>
                                     ${select_segment_str}:
                                 </h3>
                                 <ul
-                                    class="dropdown-menu1 dropdown-menu-right
-                                    segment-list">
+                                    class="dropdown-menu-right segment-list">
                                     <li
                                         repeat.for="doc_segment of doc_segments">
                                         <span
