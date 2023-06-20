@@ -84,8 +84,8 @@ export class DocDetail {
     show_page_options = false;
     select_segment_str;
     create_segment_str;
-    autoClose = true;
-    select_segment_open = false;
+    // autoClose = false;
+    // select_segment_open = true;
     full_doc = true;
     thumbnails: FileList;
     working = false;
@@ -531,13 +531,13 @@ export class DocDetail {
     }
 
     select_segment(doc_segment) {
-        this.select_segment_open = false;
+        //this.select_segment_open = true;
         this.curr_doc_segment = this.doc_segments.find(ds => ds.segment_id == doc_segment.segment_id);
         this.get_doc_segment_info(this.curr_doc_segment.segment_id);
     }
 
     create_segment() {
-        this.select_segment_open = false;
+        //this.select_segment_open = true;
         this.show_page_options = true;    
     }
 
