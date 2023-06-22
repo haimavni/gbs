@@ -153,7 +153,7 @@ export class MemberPicker {
         await this.api.call_server('members/member_by_name', { name: this.filter.trim() })
             .then(response => { member_ids = response.member_ids });
         if (this.what == "spouse") {
-            this.api.call_server('members/create_spouse', { gender: this.gender, name: this.filter})
+            this.api.call_server('members/create_spouse', { gender: this.gender, name: this.filter.trim()})
                 .then(response => {
                     this.dialogController.ok({
                         member_id: response.member_id, new_member: response.member

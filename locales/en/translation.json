@@ -539,6 +539,7 @@
     },
     "docs": {
         "docs": "Docs",
+        "docsegs": "Doc segments",
         "upload": "Add documents",
         "upload-files": "Documents upload",
         "select-docs": "Select documents",

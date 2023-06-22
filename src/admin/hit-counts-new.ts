@@ -35,6 +35,7 @@ export class HitCountsNew {
             { value: "EVENT", name: this.i18n.tr("stories.stories") },
             { value: "TERM", name: this.i18n.tr("terms.terms") },
             { value: "DOC", name: this.i18n.tr("docs.docs")},
+            { value: "DOCSEG", name: this.i18n.tr("docs.docsegs")},
             { value: "VIDEO", name: this.i18n.tr("videos.videos")}
         ];
     }

@@ -542,6 +542,7 @@
     },
     "docs": {
         "docs": "מסמכים",
+        "docsegs": "כתבות",
         "upload": "הוסף מסמכים",
         "upload-files": "העלאת מסמכים",
         "select-docs": "בחר מסמכים",

@@ -73,6 +73,7 @@ export class DocDetail {
     dialog: DialogService;
     members = [];
     caller;
+    doc_id_updated = false;
     fullscreen;
     doc_segments = []; //Array<DocSegment>;
     curr_doc_segment: DocSegment = null;
@@ -133,6 +134,7 @@ export class DocDetail {
         this.user.editing = false;  //work around a strange bug
         this.doc_id = params.id;
         this.caller = params.caller;
+        this.doc_id_updated = false;
         this.keywords = params.keywords;
         this.doc_ids = params.doc_ids || [];
         this.advanced_search = params.search_type == 'advanced';
@@ -156,6 +158,7 @@ export class DocDetail {
                 //     search_str = '#search=%22' + keywords + '%22';
                 // }
                 this.doc_id = response.doc_id;
+                this.doc_id_updated = true;
                 this.doc = response.doc;
                 this._doc_src = response.doc_src; // + search_str
                 this.doc_src_ready = true;
@@ -195,7 +198,8 @@ export class DocDetail {
 
     get_doc_segment_info(doc_segment_id) {
         this.doc_segment_id = doc_segment_id;
-        this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id, caller: this.caller })
+        const caller = this.doc_id_updated ? "" : this.caller;
+        this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id, caller: caller })
         .then(response => {
 
             this.curr_doc_segment = new DocSegment(
@@ -216,6 +220,7 @@ export class DocDetail {
             this.init_selected_topics();
             this.doc_date_str = response.doc_seg_date_str;
             this.doc_date_datespan = response.doc_seg_date_datespan;
+            this.api.hit('DOCSEG', this.doc_segment_id);
         });
     }
 

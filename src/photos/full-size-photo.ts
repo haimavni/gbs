@@ -362,6 +362,7 @@ export class FullSizePhoto {
         this.dialogService.open({
             viewModel: MemberPicker,
             model: {
+                what: 'face',
                 face_identifier: true,
                 member_id: face.member_id,
                 candidates: this.candidates,
