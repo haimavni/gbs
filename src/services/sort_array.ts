@@ -9,8 +9,8 @@ export function sort_array(array, properties) {
                 property = property.slice(1);
                 factor = -1;
             }
-            let textA = a[property];
-            let textB = b[property];
+            let textA = a[property] || "";
+            let textB = b[property] || "";
             if (textA < textB) {
                 return -factor;
             } else if (textA > textB) {
