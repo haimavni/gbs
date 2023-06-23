@@ -491,9 +491,10 @@ export class DocDetail {
 
     update_story_preview(event) {
         this.doc_name = this.doc_story.name;
-        if (this.doc_segments && this.doc_segments.length > 0) {
-            const doc_segment = this.doc_segments[this.doc_segments.length - 1];
-            doc_segment.name = this.doc_name;
+        if (this.curr_doc_segment) {
+            const doc_segment = this.doc_segments.find(ds => ds.segment_id == this.curr_doc_segment.segment_id);
+            if (doc_segment)
+                doc_segment.name = this.doc_name;
         }
         let story_id = this.doc_story.story_id;
         this.api.call_server_post("docs/update_story_preview", {story_id: story_id});
