@@ -255,7 +255,7 @@ export class DocDetail {
                 page_part_num, 
                 response.story_id, 
                 []);
-            this.doc_segments.splice(this.doc_segments.length - 1, 0, doc_segment);
+            this.doc_segments.splice(this.doc_segments.length, 0, doc_segment);
             this.curr_doc_segment = doc_segment;
             this.get_doc_segment_info(response.segment_id)
         });
@@ -491,6 +491,10 @@ export class DocDetail {
 
     update_story_preview(event) {
         this.doc_name = this.doc_story.name;
+        if (this.doc_segments && this.doc_segments.length > 0) {
+            const doc_segment = this.doc_segments[this.doc_segments.length - 1];
+            doc_segment.name = this.doc_name;
+        }
         let story_id = this.doc_story.story_id;
         this.api.call_server_post("docs/update_story_preview", {story_id: story_id});
     }
