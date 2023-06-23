@@ -490,7 +490,7 @@ export class DocDetail {
     }
 
     update_story_preview(event) {
-        return;
+        this.doc_name = this.doc_story.name;
         let story_id = this.doc_story.story_id;
         this.api.call_server_post("docs/update_story_preview", {story_id: story_id});
     }

@@ -594,7 +594,8 @@
         "untitled": "ללא כותרת",
         "view-full-doc": "צפו במסמך המלא",
         "view-full-docs": "להצגת מסמכים שלמים",
-        "view-segments": "להצגת כתבות"
+        "view-segments": "להצגת כתבות",
+        "filter": "הקלידו שם מסמך או מקור"
     },
     "terms": {
         "terms": "מונחים",

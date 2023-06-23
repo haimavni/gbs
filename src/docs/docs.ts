@@ -18,7 +18,7 @@ import {Uploader} from "../services/uploader";
 @autoinject
 @singleton()
 export class Docs {
-    filter = "";
+    docs_filter = "";
     doc_list = [];
     doc_segment_list = [];
     docs_index;
