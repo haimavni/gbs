@@ -591,7 +591,8 @@
         "view-full-doc": "View the full document",
         "view-full-docs": "View full docs",
         "view-segments": "View segments",
-        "filter": "Enter document name or source"
+        "docs-filter": "Enter document name or author",
+        "doc-segments-filter": "Enter document segment name or author"
     },
     "terms": {
         "terms": "Terms",

@@ -588,4 +588,13 @@ export class Docs {
             this.scroll_area.scrollTop = 0;
     }
 
+    @computedFrom("view_doc_segments")
+    get filter_placeholder() {
+        let txt;
+        if (this.view_doc_segments)
+            txt = this.i18n.tr("docs.doc-segments-filter")
+        else txt = this.i18n.tr("docs.docs-filter");
+        return txt
+    }
+
 }
