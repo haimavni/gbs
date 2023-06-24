@@ -597,4 +597,13 @@ export class Docs {
         return txt
     }
 
+    @computedFrom("view_doc_segments")
+    get fast_search() {
+        let txt;
+        if (this.view_doc_segments)
+            txt = this.i18n.tr("docs.doc-segments-search")
+        else txt = this.i18n.tr("docs.docs-search");
+        return txt
+    }
+
 }

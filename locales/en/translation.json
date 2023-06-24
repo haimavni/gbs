@@ -592,7 +592,9 @@
         "view-full-docs": "View full docs",
         "view-segments": "View segments",
         "docs-filter": "Enter document name or author",
-        "doc-segments-filter": "Enter document segment name or author"
+        "doc-segments-filter": "Enter document segment name or author",
+        "doc-segments-search": "Fast search in document segments",
+        "doc-search": "Fast search in documents"
     },
     "terms": {
         "terms": "Terms",

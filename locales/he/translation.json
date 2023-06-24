@@ -596,7 +596,9 @@
         "view-full-docs": "להצגת מסמכים שלמים",
         "view-segments": "להצגת כתבות",
         "docs-filter": "הקלידו שם מסמך או שם המחבר",
-        "doc-segments-filter": "הקלידו שם כתבה או שם המחבר"
+        "doc-segments-filter": "הקלידו שם כתבה או שם המחבר",
+        "doc-segments-search": "חיפוש מהיר ברשימת הכתבות",
+        "docs-search": "חיפוש מהיר ברשימת המסמכים"
     },
     "terms": {
         "terms": "מונחים",
