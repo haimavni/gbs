@@ -1,0 +1,30 @@
+div.roller {
+    height:fit-content;
+    padding:0;
+    margin:0;
+    position:relative;
+    >div {
+        display:none;
+        color: #eeeeee;
+        :hover {
+            color: gray;
+            cursor: pointer;
+        }
+        position: absolute;
+        &.top {
+            top: -15px;
+        }
+        &.bottom {
+            top: 22px;
+        }
+        >i {
+            font-size:70%;
+        }
+    }
+    >input {
+        border:1px solid lightgray;
+        text-align:center;
+        height:28px;
+        margin:0;
+    }
+}

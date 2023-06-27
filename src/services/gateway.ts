@@ -1,15 +1,16 @@
-import { fetch } from 'whatwg-fetch';
-import { autoinject } from 'aurelia-framework';
-import { HttpClient, json, Interceptor } from 'aurelia-fetch-client';
+import { IHttpClient, json, Interceptor } from '@aurelia/fetch-client';
 import environment from '../environment';
-import { EventAggregator } from 'aurelia-event-aggregator';
 import * as download from 'downloadjs';
-import { I18N } from 'aurelia-i18n';
+import { I18N } from '@aurelia/i18n';
 import * as toastr from 'toastr';
 import {ThemeA} from './theme-a';
+import { DI, IEventAggregator } from 'aurelia';
 
 let THIS;
 let init_websocket;
+
+export type IMemberGateway= MemberGateway;
+export const IMemberGateway = DI.createInterface<IMemberGateway>('IMemberGateway', x => x.singleton(MemberGateway));
 
 function params(data) {
     return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
@@ -36,12 +37,9 @@ export class SimpleInterceptor implements Interceptor {
         return response;
     }
 }
-
-@autoinject()
 export class MemberGateway {
 
     httpClient;
-    eventAggregator;
     i18n;
     themeA: ThemeA;
     constants = {
@@ -65,7 +63,7 @@ export class MemberGateway {
     ptp_connected;
     timezone;
 
-    constructor(httpClient: HttpClient, eventAggregator: EventAggregator, i18n: I18N, themeA: ThemeA) {
+    constructor(@IHttpClient private readonly httpClient: IHttpClient, @IEventAggregator private readonly eventAggregator: IEventAggregator, i18n: I18N, themeA: ThemeA) {
         this.httpClient = httpClient;
         this.eventAggregator = eventAggregator;
         this.i18n = i18n;

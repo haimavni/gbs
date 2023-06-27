@@ -1,0 +1,13 @@
+<template>
+    <require from="./roller.css"></require>
+    <div class="roller" css="width:${width}px;">
+        <div class="top" css="left:${left}px;">
+            <i class="fa fa-play fa-rotate-270" click.trigger="shift(1)" ></i>
+        </div>
+        <input onfocus="this.select()" type="text" value.two-way="current" css="width:${width}px;" maxlength="${maxlen}" />
+        <div class="bottom" css="left:${left}px;">
+            <i class="fa fa-play fa-rotate-90" click.trigger="shift(-1)"></i>
+        </div>
+    </div>
+
+</template>

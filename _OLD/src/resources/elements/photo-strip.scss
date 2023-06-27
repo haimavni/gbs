@@ -1,0 +1,61 @@
+photo-strip {
+    position: relative; // Makes all sub-content relative to this element.
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    background-color: #ccc;
+
+    help {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+.slide-list {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    cursor: pointer;
+    &.dragging {
+        cursor: all-scroll;
+    }
+
+    img {
+        display: inline-block;
+        max-height: 100%;
+        user-select: none;
+        &.video {
+            cursor: url(https://tol.life/gbs__test/static/apps_data/images/play.png),pointer;
+        }
+    }
+}
+
+.slide-control
+{
+    position: absolute;
+    z-index: 1;
+
+    // INFO [Matt] These top & margin-top styles are the quintessential "vertical center" pattern.
+    top: 50%;
+    margin-top: -21px;
+
+    color: white;
+    opacity: 0.6;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 1.0;
+    }
+}
+
+.slide-control.next
+{
+    right: 0%;
+}
+
+.slide-control.prev
+{
+    left: 0%;
+}
+

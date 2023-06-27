@@ -1,14 +1,10 @@
-import { autoinject, noView, bindable, InlineViewStrategy } from 'aurelia-framework';
-import { Popup } from '../services/popups';
+import { IPopup } from '../services/popups';
 
-@noView
-@autoinject
 export class RenderStory {
     html;
-    popup;
 
-    constructor(popup: Popup) {
-        this.popup = popup;
+    constructor(@IPopup private readonly popup: IPopup) {
+
     }
 
     activate(params) {
@@ -31,10 +27,6 @@ export class RenderStory {
         let h = window.outerHeight - 200;
         let params = "height=" + h + ",width=" + w + ",left=100,top=100";
         this.popup.popup(name, url, params);
-    }
-
-    getViewStrategy() {
-        return new InlineViewStrategy(this.html);
     }
 
 }

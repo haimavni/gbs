@@ -1,22 +1,20 @@
-import { bindable, inject, DOM, bindingMode, BindingEngine } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { IEventAggregator, INode, bindable } from "aurelia";
 
-@inject(DOM.Element, EventAggregator, BindingEngine)
 export class VideoBoxCustomElement {
     @bindable width = 360;
     @bindable src: string;
-    @bindable aspectRatio = [16,9];
-    height = 160;
-    element;
-    eventAggregator;
+    @bindable aspectRatio = [16, 9];
+    height = 0;
 
-    constructor(element, eventAggregator: EventAggregator, bindingEngine) {
-        this.element = element;
-        this.eventAggregator = eventAggregator;
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @IEventAggregator private readonly eventAggregator: IEventAggregator
+    ) {
+
     }
 
     attached() {
-        let h = this.aspectRatio[1] * this.width / this.aspectRatio[0];
-        this.height = Math.round(h)
+        let h = (this.aspectRatio[1] * this.width) / this.aspectRatio[0];
+        this.height = Math.round(h);
     }
 }

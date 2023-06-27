@@ -1,3 +1,8 @@
+import { DI } from "aurelia";
+
+export type ICookies = Cookies;
+export const ICookies = DI.createInterface<ICookies>('ICookies', x => x.singleton(Cookies));
+
 export class Cookies {
   
   get(key) {

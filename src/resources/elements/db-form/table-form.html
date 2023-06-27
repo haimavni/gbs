@@ -1,16 +1,14 @@
-<template>
-    <div>
-        <ul>
-            <li repeat.for="field of field_list">
-                <field-control 
-                    name.bind="field.name" 
-                    type.bind="field.type", 
-                    description.bind="field.description"
-                    options.bind="field.options"
-                    val.bind="field.val"
-                    change.delegate="handle_change(field)">
-                </field-control>
-            </li>
-        </ul>
-    </div>
-</template>
+<div>
+    <ul>
+        <li repeat.for="field of field_list">
+            <field-control 
+                name.bind="field.name" 
+                type.bind="field.type", 
+                description.bind="field.description"
+                options.bind="field.options"
+                val.bind="field.val"
+                change.delegate="handle_change(field)">
+            </field-control>
+        </li>
+    </ul>
+</div>

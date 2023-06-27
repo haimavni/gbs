@@ -1,0 +1,29 @@
+<template class="unselectable">
+    <require from="./timeline.css"></require>
+    <div css="width: ${timeline_width}px;position:relative;">
+        <span style="float:right;position:absolute;top:-30px;font-size:130%;">
+            <b>${'timeline' & t}:</b>
+            ${'select-years-range' & t}&nbsp;
+            <help topic='select-years-range'></help>
+        </span>
+        <ul class="timeline-stoppers-box">
+            <li repeat.for="side of sides" css="left:${side=='left' ? first_year_position : last_year_position}px;"
+                aubs-tooltip="text.bind:drag_me;position:top;"
+                id="stopper-${side}"
+                interact-draggable.bind="theme.interact_setting"
+                interact-dragmove.delegate="dragmove(side, $event)" 
+                interact-dragstart.delegate="dragstart(side, $event)" 
+                interact-dragend.delegate="dragend(side, $event)">
+                ${side=='left' ? first_year : last_year - 1}
+            </li>
+        </ul>
+        <br>
+        <ul class="timeline-box">
+            <li aubs-tooltip="text.bind:item.year;position:bottom;" 
+                class="timeline-item ${first_year <= item.year && item.year < last_year ? 'in-range' : ''}"
+                repeat.for="item of items">
+            </li>
+        </ul>
+    </div>
+
+</template>

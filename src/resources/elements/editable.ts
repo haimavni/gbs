@@ -1,18 +1,18 @@
-import { bindable, inject, DOM, computedFrom } from 'aurelia-framework';
-import { StoryWindow } from '../../stories/story_window';
-import { User } from '../../services/user';
-import { Theme } from '../../services/theme';
-import { DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
+import { StoryWindow } from "../../stories/story_window";
+import { IUser } from "../../services/user";
+import { ITheme } from "../../services/theme";
+import { IDialogService } from "@aurelia/dialog";
+import { I18N } from "@aurelia/i18n";
+import { watch } from "@aurelia/runtime-html";
+import { INode, bindable } from "aurelia";
 
-@inject(DOM.Element, User, Theme, DialogService, I18N)
 export class editableCustomElement {
     @bindable story;
     @bindable settings = {
         show_date: false,
         show_time: false,
         show_author: true,
-        class: 'story-panel',
+        class: "story-panel",
         divclass: null,
         checkable: false,
         deletable: false,
@@ -20,55 +20,54 @@ export class editableCustomElement {
         pushable: false,
         pinnable: false,
         confirmable: false,
-        has_details: false
+        has_details: false,
     };
     @bindable info_title = "";
     @bindable info_content = "";
     @bindable pinned = false;
-    element;
-    user;
-    theme;
-    dialog;
     width;
-    i18n;
     updated_by;
 
-    constructor(element, user, theme, dialog, i18n) {
-        this.element = element;
-        this.dialog = dialog;
-        this.user = user;
-        this.theme = theme;
-        this.i18n = i18n;
-        this.updated_by = this.i18n.tr('stories.updated-by')
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @IUser private readonly user: IUser,
+        @ITheme private readonly theme: ITheme,
+        @IDialogService private readonly dialog: IDialogService,
+        @I18N private readonly i18n: I18N
+    ) {
+        this.updated_by = this.i18n.tr("stories.updated-by");
     }
 
     zoom_out(story, what, event) {
         event.stopPropagation(); //todo: attempt to prevent the default selection
         event.preventDefault();
         this.theme.hide_title = true;
-        this.dialog.open({ viewModel: StoryWindow, 
-            model: { 
-                story: story, 
-                edit: what == 'edit'
-            }, 
-            lock: what == 'edit' }).
-            whenClosed(response => {
+        this.dialog
+            .open({
+                component: () => StoryWindow,
+                model: {
+                    story: story,
+                    edit: what == "edit",
+                },
+                lock: what == "edit",
+            })
+            .whenClosed((response) => {
                 this.theme.hide_title = false;
-                this.dispatch_event('saved', 'saved', {})
+                this.dispatch_event("saved", "saved", {});
             });
         return false;
     }
 
     delete_story(story) {
         this.story.deleted = true;
-        this.dispatch_event('delete', 'change', {});
+        this.dispatch_event("delete", "change", {});
     }
 
     attached() {
         const elementRect = this.element.getBoundingClientRect();
         this.width = elementRect.width;
         if (!this.settings.divclass) {
-            this.settings.divclass = 'editable';
+            this.settings.divclass = "editable";
         }
     }
 
@@ -76,25 +75,29 @@ export class editableCustomElement {
         event.stopPropagation(); //todo: attempt to prevent the default selection
         event.preventDefault();
         this.story.checked = !this.story.checked;
-        let keys = { altKey: event.altKey, ctrlKey: event.ctrlKey, shiftKey: event.shiftKey };
-        this.dispatch_event('check', 'change', keys);
+        let keys = {
+            altKey: event.altKey,
+            ctrlKey: event.ctrlKey,
+            shiftKey: event.shiftKey,
+        };
+        this.dispatch_event("check", "change", keys);
         return false;
     }
 
     push_story() {
-        this.dispatch_event('pushup', 'pushup', {});
+        this.dispatch_event("pushup", "pushup", {});
     }
 
     approve_story() {
-        this.dispatch_event('confirm', 'confirm', {});
+        this.dispatch_event("confirm", "confirm", {});
     }
 
     pin_story() {
-        this.dispatch_event('pin', 'pin', {});
+        this.dispatch_event("pin", "pin", {});
     }
 
     view_details(story) {
-        this.dispatch_event('view_details', 'view_details', {});
+        this.dispatch_event("view_details", "view_details", {});
     }
 
     dispatch_event(action, what, keys) {
@@ -102,23 +105,22 @@ export class editableCustomElement {
             detail: {
                 checked: this.story.checked,
                 action: action,
-                keys: keys
+                keys: keys,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
     }
 
-    @computedFrom('story.checked')
+    @watch("story.checked")
     get checked() {
         if (this.story) return this.story.checked;
         return false;
     }
 
-    @computedFrom('story.name')
+    @watch("story.name")
     get story_name() {
         if (this.story) return this.story.name;
-        return this.i18n.tr('stories.new-story');
+        return this.i18n.tr("stories.new-story");
     }
-
 }

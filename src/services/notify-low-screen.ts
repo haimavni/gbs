@@ -1,22 +1,14 @@
-import { autoinject } from "aurelia-framework";
-import { DialogController } from "aurelia-dialog";
-import { Theme } from "../services/theme";
-import {Cookies} from "../services/cookies";
+import { IDialogController } from '@aurelia/dialog';
+import { ITheme } from "../services/theme";
+import { ICookies } from "../services/cookies";
 
-@autoinject
 export class NotifyLowScreen {
-    controller: DialogController;
-    theme: Theme;
-    cookies: Cookies;
-
     constructor(
-        controller: DialogController, 
-        theme: Theme,
-        cookies: Cookies
+        @IDialogController private readonly controller: IDialogController, 
+        @ITheme private readonly theme: ITheme,
+        @ICookies private readonly cookies: ICookies
     ) {
-        this.controller = controller;
-        this.theme = theme;
-        this.cookies = cookies;
+
     }
 
     public got_it() {

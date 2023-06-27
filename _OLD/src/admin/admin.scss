@@ -1,0 +1,47 @@
+.aut-sort::before{
+    font-family: "Font Awesome 5 Pro";
+    padding-right: 0.5em;
+    width: 1.28571429em;
+    display: inline-block;
+    text-align: center;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.aut-sortable::before{
+    content: "\f0dc";
+}
+
+.aut-asc::before{
+    content: "\f160";
+}
+
+.aut-desc::before{
+    content: "\f161";
+}
+
+th {
+    background-color: lightgray;
+}
+
+.success {
+    background-color: lightgreen;
+}
+
+.error {
+    background-color: red;
+    color: white;
+}
+
+div.custom-options { 
+    display: flex;
+    flex-direction: column;
+}
+
+div.description-panel {
+    width: 540px;
+    margin-top: 10px;
+}
+

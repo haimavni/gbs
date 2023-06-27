@@ -1,5 +1,3 @@
-import {autoinject, singleton} from "aurelia-framework";
-
 let YT;
 enum PlayerStates {
     UNSTARTED = -1,
@@ -10,8 +8,6 @@ enum PlayerStates {
     CUED = 5
 }
 
-@autoinject()
-@singleton()
 export class YtKeeper {
     player;
     player_is_ready;

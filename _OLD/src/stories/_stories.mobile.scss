@@ -1,0 +1,19 @@
+ul.story-list {
+    margin-left: -16px;
+}
+
+div.big-story-panel {
+    &.rtl {
+        padding-left: 30px;
+        padding-right: 15px;
+    }
+    &.ltr {
+        padding-left: 15px;
+        padding-right: 30px;
+    }
+    font-size: 0.95em;
+}
+
+#story-filters {
+    padding-right: 46px;
+}

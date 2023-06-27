@@ -1,0 +1,56 @@
+<template>
+    <div id="quick-login" class="centered-form" dir="${theme.rtltr}">
+        <div class="panel panel-default" if.bind="! user.isLoggedIn">
+            <button if.bind="login_phase=='init'" class="btn btn-primary btn-block" click.delegate="open_dialog()">
+                ${explanation & t}
+            </button>
+            <div class="panel-body" if.bind="login_phase != 'init'">
+                <form role="form">
+                    <div class="form-group" if.bind="login_phase=='attempting' || login_phase=='registering'">
+                        <input required type="email" name="email" id="email" class="form-control input-sm lowercase"
+                            value.bind="loginData.email" t="[placeholder]user.email-address">
+                    </div>
+                    <div if.bind="login_error_message" class="warning">
+                        ${login_error_message & t}
+                    </div>
+                    <button id="login-button" if.bind="login_phase=='attempting' || login_phase=='registering'"
+                        class="btn btn-primary btn-block ${login_phase}" disabled="${loginData.email ? '' : 'disabled'}"
+                        click.trigger="attempt_login()">
+                        ${"groups.login" & t}
+                    </button>
+                    <div if.bind="login_phase=='registering'">
+                        <p>
+                            ${explain_registration & t}
+                        </p>
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" autocomplete="off"
+                                class="form-control input-sm" value.bind="loginData.password"
+                                t="[placeholder]user.password">
+                        </div>
+                        <div class="form-group ${loginData.password != loginData.confirm_password ? 'warning' : ''}">
+                            <input type="password" name="confirm_password" id="password2" class="form-control input-sm"
+                                autocomplete="off" value.bind="loginData.confirm_password"
+                                t="[placeholder]user.confirm-password">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="first_name" id="first_name" class="form-control input-sm"
+                                value.bind="loginData.first_name" t="[placeholder]user.first-name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="last_name" id="last_name" class="form-control input-sm"
+                                value.bind="loginData.last_name" t="[placeholder]user.last-name">
+                        </div>
+                        <button name="register" click.trigger="do_register()" class="btn btn-info btn-block"
+                            disabled.bind="missing_fields">
+                            ${"user.register" & t}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div show.bind="false">
+            ${is_logged_in}
+        </div>
+    </div>
+
+</template>

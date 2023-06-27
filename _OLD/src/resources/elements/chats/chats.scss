@@ -1,0 +1,64 @@
+
+div.chatroom {
+    width: 320px;
+    &.rtl {
+        direction: rtl;
+    }
+    &.ltr {
+        direction: ltr;
+    }
+    div.box {
+        overflow-y: auto;
+        max-height: 780px;
+        margin-bottom: 10px;
+        padding: 5px;
+    }
+
+    a:disabled {
+        color: lightgray;
+        background: yellow;
+    }
+
+    ul.rtl {
+        direction: rtl;
+        padding-right: 8px;
+        padding-left: 0px;
+    }
+
+    ul.ltr {
+        direction: ltr;
+        padding-right: 0px;
+        padding-left: 8px;
+    }
+
+    li.chat-message {
+        padding-bottom: 8px;
+        border-bottom: solid 2px white;
+        margin-bottom: 8px;
+    }
+
+    div.row.messages-area {
+        margin:0;
+    }
+
+}
+
+chat-button button {
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color:rgba(0,0,0,0.16);
+    border: solid 1px white;
+    border-radius: 8px;
+    // margin-top: -16px;
+    color:white;
+    font-size: large;
+}
+
+chat-button button.empty {
+    background-color: rgba(0,0,0,0)
+}
+
+i.disabled {
+    opacity: 0.5;
+    cursor: no-drop;
+}

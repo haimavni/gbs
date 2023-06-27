@@ -1,26 +1,28 @@
-import { FrameworkConfiguration } from 'aurelia-framework';
-import { PLATFORM, DOM } from 'aurelia-pal';
+import { IContainer, IRegistry, noop } from '@aurelia/kernel';
+import { ConfigInterface, IConfigure } from './configure';
+import { GoogleMaps } from './google-maps';
 
-import { Configure } from './configure';
-import { GoogleMaps, Marker } from './google-maps';
-import { GoogleMapsAPI } from './google-maps-api';
+export { GoogleMaps } from './google-maps';
+export { IConfigure } from './configure';
+export { IMarkerClustering } from './marker-clustering';
 
-export function configure(aurelia: FrameworkConfiguration, configCallback?: (config: Configure) => Promise<any>) {
-    let instance = aurelia.container.get(Configure) as Configure;
+const DefaultComponents: IRegistry[] = [
+    GoogleMaps as unknown as IRegistry,
+];
 
-    DOM.injectStyles(`google-map { display: block; height: 350px; }`);
+function createGoogleMapsConfiguration(options: Partial<ConfigInterface>) {
+    return {
+        register(container: IContainer) {
+            const configClass = container.get(IConfigure);
 
-    // Do we have a callback function?
-    if (configCallback !== undefined && typeof (configCallback) === 'function') {
-        configCallback(instance);
-    }
+            configClass.options(options);
 
-    aurelia.globalResources([
-        PLATFORM.moduleName('./google-maps')
-    ]);
+            return container.register(...DefaultComponents)
+        },
+        configure(options: ConfigInterface) {
+            return createGoogleMapsConfiguration(options);
+        }
+    };
 }
 
-export { Configure };
-export { GoogleMaps };
-export { GoogleMapsAPI };
-export { Marker };
+export const GoogleMapsConfiguration = createGoogleMapsConfiguration({});

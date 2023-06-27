@@ -1,0 +1,54 @@
+quiz {
+    div.quiz>div>button {
+        padding:5px;
+        height:36px;
+        font-size:90%;
+        margin-top:16px;
+        margin-right:5px;
+        border:solid 1px lightgray;
+    }
+    div.quiz {
+        ul.filters {
+             min-width: 180px;
+             li {
+                 height: 20px;
+             }
+             >li>div {
+                padding:0;
+                margin-right:6px;
+                >button>span.question {
+                    float:right;
+                    display:flex;
+                    width:100%;
+                    &.open {
+                        background-color: yellow;
+                    }
+                }
+             }
+        }
+        div.checked {
+            background: lightblue;
+        }
+        button.checked {
+            background: lightblue;
+        }
+        li.answer.checked {
+            background: lightblue;
+        }
+        button:focus,
+        span:focus {
+            outline: none;
+        }
+    }
+    span.checked {
+        font-weight: bolder;
+    }
+    button.dirty {
+        background-color: orange;
+    }
+
+    li a {
+        display: block;
+        padding: 5px;
+    }
+}

@@ -1,22 +1,19 @@
-import { inject, noView, singleton } from "aurelia-framework";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { MemberGateway } from './gateway';
+
+import { DI, IEventAggregator } from 'aurelia';
 import { sort_array } from './sort_array';
 
-@inject(EventAggregator, MemberGateway)
-@noView()
-@singleton()
-export class ArticleList {
+export type IArticleList = ArticleList;
+export const IArticleList = DI.createInterface<IArticleList>('IArticleList', x => x.singleton(ArticleList));
 
-    eventAggregator;
+export class ArticleList {
     articles = { article_list: null };
     api;
     recent = [];
 
-    constructor(eventAggregator, api) {
+    constructor(@IEventAggregator private readonly eventAggregator: IEventAggregator, api) {
         this.eventAggregator = eventAggregator;
         this.api = api;
-        this.eventAggregator.subscribe('ARTICLE_LISTS_CHANGED', payload => {
+        this.eventAggregator.subscribe('ARTICLE_LISTS_CHANGED', (payload: any) => {
             let flds = ['id', 'name', 'has_profile'];
             let mi = payload.article_rec;
             if (payload.new_article) {
@@ -36,10 +33,10 @@ export class ArticleList {
             }
         });
 
-        this.eventAggregator.subscribe('ARTICLE_PROFILE_CHANGED', payload => {
+        this.eventAggregator.subscribe('ARTICLE_PROFILE_CHANGED', (payload: any) => {
             this.set_profile_photo(payload.article_id, payload.face_photo_url);
         });
-        this.eventAggregator.subscribe('ARTICLE_DELETED', payload => {
+        this.eventAggregator.subscribe('ARTICLE_DELETED', (payload: any) => {
             let idx = this.articles.article_list.findIndex((article) => article.id==payload.article_id);
             if (idx >= 0) {
                 this.articles.article_list.splice(idx, 1);

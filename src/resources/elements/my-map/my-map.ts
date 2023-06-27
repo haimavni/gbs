@@ -1,14 +1,12 @@
 import { Marker } from './../mapa/google-maps';
-import {bindable, bindingMode, DOM, inject} from 'aurelia-framework';
 import { debounce } from '../../../services/debounce';
+import { BindingMode, INode, bindable } from 'aurelia';
 
-@inject(DOM.Element)
 export class MyMapCustomElement {
-    element;
     has_location = false;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) longitude = 35.22;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) latitude = 31.77;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) zoom = 12;
+    @bindable({ mode: BindingMode.twoWay }) longitude = 35.22;
+    @bindable({ mode: BindingMode.twoWay }) latitude = 31.77;
+    @bindable({ mode: BindingMode.twoWay }) zoom = 12;
     @bindable can_mark = true;
     @bindable marked = false;
     @bindable ignore = false;
@@ -35,8 +33,7 @@ export class MyMapCustomElement {
         this.update_location_debounced("bounds-changed");
     }
 
-    constructor(element) {
-        this.element = element;
+    constructor(@INode private readonly element: HTMLElement) {
         this.update_location_debounced = debounce(this.update_location, 1500, false);
     }
 

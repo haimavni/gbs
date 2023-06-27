@@ -1,18 +1,12 @@
-import { MemberGateway } from "./gateway";
-import { autoinject } from "aurelia-framework";
-import { User } from "./user";
-import { DialogController } from "aurelia-dialog";
-import { Misc } from "./misc";
+import { IMemberGateway } from "./gateway";
+import { IUser } from "./user";
+import { IDialogController } from "@aurelia/dialog";
+import { IMisc } from "./misc";
 
 let This_Uploader;
 
-@autoinject()
 export class Uploader {
-    api: MemberGateway;
-    user: User;
-    misc: Misc;
     files: FileList;
-    dlg: DialogController;
     endpoint;
     what = "";
     file_types = "image/*";
@@ -37,15 +31,11 @@ export class Uploader {
     crc_values = {};
 
     constructor(
-        api: MemberGateway,
-        user: User,
-        dlg: DialogController,
-        misc: Misc
+        @IMemberGateway private readonly api: IMemberGateway,
+        @IUser private readonly user: IUser,
+        @IDialogController private readonly dlg: IDialogController,
+        @IMisc private readonly misc: IMisc
     ) {
-        this.api = api;
-        this.user = user;
-        this.misc = misc;
-        this.dlg = dlg;
         This_Uploader = this;
     }
 

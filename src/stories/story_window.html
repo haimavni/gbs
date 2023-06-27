@@ -1,60 +1,57 @@
-<template>
-    <ux-dialog css="direction:${story_dir}" dir="${story_dir}" id="editor-top">
-        <ux-dialog-header >
-            <div if.bind="show">
-                <h2 class="story-title" style="margin:0;">${story.name}</h2>
+<ux-dialog css="direction:${story_dir}" dir="${story_dir}" id="editor-top">
+    <ux-dialog-header >
+        <div if.bind="show">
+            <h2 class="story-title" style="margin:0;">${story.name}</h2>
+        </div>
+        <div class="story-title" if.bind="edit">
+            <form class="form-horizontal" role="form">
+                <div class="form-group" style="margin:0;">
+                    <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name">
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <input type="text" class="form-control" t="[placeholder]stories.enter-story-source" value.bind="story.source">
+                </div>
+            </form>
+            <div style="width:100%;height:32px;background-color:#f6f6f6;" 
+                interact-draggable.bind="theme.interact_setting"
+                interact-dragmove.delegate="move_editor($event)"
+            >
+                <div style="margin-left:auto;margin-right:auto;width:40px;padding-top:5px;">
+                    <i class="fas fa-arrow-right" style="color:gray;"></i>
+                    <i class="fas fa-arrow-left" style="color:gray;"></i>
+                </div>
             </div>
-            <div class="story-title" if.bind="edit">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group" style="margin:0;">
-                        <input type="text" class="form-control" t="[placeholder]stories.enter-story-name" value.bind="story.name">
-                    </div>
-                    <div class="form-group" style="margin:0;">
-                        <input type="text" class="form-control" t="[placeholder]stories.enter-story-source" value.bind="story.source">
-                    </div>
+            <div if.bind="user.privileges.TEXT_AUDITOR" class="form-group" style="margin:0;">
+                <form class="form-inline" role="form" dir="ltr">
+                    <label>
+                        ${story.last_update_date}story updated
+                    </label>
                 </form>
-                <div style="width:100%;height:32px;background-color:#f6f6f6;" 
-                    interact-draggable.bind="theme.interact_setting"
-                    interact-dragmove.delegate="move_editor($event)"
-                >
-                    <div style="margin-left:auto;margin-right:auto;width:40px;padding-top:5px;">
-                        <i class="fas fa-arrow-right" style="color:gray;"></i>
-                        <i class="fas fa-arrow-left" style="color:gray;"></i>
-                    </div>
-                </div>
-                <div if.bind="user.privileges.TEXT_AUDITOR" class="form-group" style="margin:0;">
-                    <form class="form-inline" role="form" dir="ltr">
-                        <label>
-                            ${story.last_update_date}story updated
-                        </label>
-                    </form>
-                </div>
             </div>
-        </ux-dialog-header>
-        <ux-dialog-body>
-            <div class="fr-view" if.bind="show">
-                <div class="justified-story">
-                    <p class="${theme.font_size}">
-                        <compose if.bind="story_text" view-model='./render-story' model.bind="{html:story_text,raw:raw}"></compose>
-                    </p>
-                </div>
+        </div>
+    </ux-dialog-header>
+    <ux-dialog-body>
+        <div class="fr-view" if.bind="show">
+            <div class="justified-story">
+                <p class="${theme.font_size}">
+                    <compose if.bind="story_text" view-model='./render-story' model.bind="{html:story_text,raw:raw}"></compose>
+                </p>
             </div>
-            <div class="big-story-panel ${theme.rtltr} fr-view" if.bind="edit">
-                <froala-editor 
-                    value.two-way="story_text"
-                    event-handlers.bind="{
-                        contentChanged:content_changed,
-                        initialized:initialized
-                    }" 
-                    config.bind="froala_config">
-                </froala-editor>
-            </div>
-        </ux-dialog-body>
-        <ux-dialog-footer if.bind="edit" style="padding-right:16px;">
-            <button class="btn btn-danger btn-warning" click.trigger="cancel()">${'stories.cancel' & t}</button>
-            <button class="btn btn-success btn-primary ${dirty_story ? 'btn-warning' : 'disabled'}" click.delegate="save()">${'stories.save' & t}</button>
-            <button if.bind="! story.editable_preview" class="btn btn-basic btn-primary" click.delegate="clean()">${'stories.clean' & t}</button>
-        </ux-dialog-footer>
-    </ux-dialog>
-
-</template>
+        </div>
+        <div class="big-story-panel ${theme.rtltr} fr-view" if.bind="edit">
+            <froala-editor 
+                value.two-way="story_text"
+                event-handlers.bind="{
+                    contentChanged:content_changed,
+                    initialized:initialized
+                }" 
+                config.bind="froala_config">
+            </froala-editor>
+        </div>
+    </ux-dialog-body>
+    <ux-dialog-footer if.bind="edit" style="padding-right:16px;">
+        <button class="btn btn-danger btn-warning" click.trigger="cancel()">${'stories.cancel' & t}</button>
+        <button class="btn btn-success btn-primary ${dirty_story ? 'btn-warning' : 'disabled'}" click.delegate="save()">${'stories.save' & t}</button>
+        <button if.bind="! story.editable_preview" class="btn btn-basic btn-primary" click.delegate="clean()">${'stories.clean' & t}</button>
+    </ux-dialog-footer>
+</ux-dialog>

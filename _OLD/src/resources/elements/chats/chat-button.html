@@ -1,0 +1,5 @@
+<template>
+    <button if.bind="can_chat" click.trigger="chat($event)" class="chat-button ${empty_class}" t="[title]user.chats">
+        ${caption & t}
+    </button>
+</template>

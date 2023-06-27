@@ -1,3 +1,10 @@
+import { DI } from "aurelia";
+
+export type IPopup = Popup;
+export const IPopup = DI.createInterface<IPopup>("IPopup", (x) =>
+    x.singleton(Popup)
+);
+
 export class Popup {
     popupWindows = {};
 

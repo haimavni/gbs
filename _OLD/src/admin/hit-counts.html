@@ -1,0 +1,62 @@
+<template>
+    <require from="./admin.css"></require>
+    <section class="container content-area" style="padding-right:30px;" dir="ltr">
+        <div css="direction:${theme.rtltr1}">
+            <span class="boom">Total Hits Count: ${total_count}</span>
+        </div>
+        <!-- <form class="form-inline" style="padding-top:16px;direction:rtl1;">
+            <div class="input-group" style="padding-top:16px;">
+                <select value.bind="what_option" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.delegate="change_what($event)">
+                    <option dir="rtl" repeat.for="option of what_options" model.bind="option.value">${option.name}</option>
+                </select>
+                <select value.bind="order_option" style="height:38px;border-top:solid 2px gray;border-left:solid 2px gray" dir="rtl" change.delegate="change_order_option($event)">
+                    <option dir="rtl" repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
+                </select>
+
+            </div>
+        </form> -->
+    </section>
+    <section class="container content-area" style="padding-right:30px;" dir="ltr">
+        <!-- <div style="width: 740px;margin-right:auto;margin-left:auto;height:600px;overflow:auto;">
+            <table class="table table-striped" aurelia-table="data.bind: items; display-data.bind: $displayData;
+                current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <!-- <th aut-sort="key: count; default: desc">Count</th> -->
+                        <th aut-sort="key: new_count; default: desc">count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of $displayData">
+                        <td>${item.item_id}</td>
+                        <td css="direction:${theme.rtltr}">${item.name}</td>
+                        <!-- <td>${item.count}</td> -->
+                        <td>${item.new_count}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row" style="margin-right:0;">
+            <div class="col-md-9">
+                <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems" pagination-size.bind="15"
+                    boundary-links.bind="true"> </aut-pagination>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-inline">
+                    <div class="form-group pull-right">
+                        <label for="pageSize">Page Size: </label>
+                        <select value.bind="pageSize" id="pageSize" class="form-control">
+                            <option model.bind="5">5</option>
+                            <option model.bind="10">10</option>
+                            <option model.bind="15">15</option>
+                            <option model.bind="50">50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </section>
+</template>

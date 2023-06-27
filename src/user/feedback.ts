@@ -1,35 +1,32 @@
-import { DialogController } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
-import { autoinject, computedFrom} from 'aurelia-framework';
-import { MemberGateway } from '../services/gateway';
-import { Theme } from "../services/theme";
-import { EventAggregator } from 'aurelia-event-aggregator';
-import environment from '../environment';
-import * as toastr from 'toastr';
+import { IDialogController } from "@aurelia/dialog";
+import { watch } from "@aurelia/runtime-html";
+import { I18N } from "@aurelia/i18n";
+import { IMemberGateway } from "../services/gateway";
+import { ITheme } from "../services/theme";
+import environment from "../environment";
+import * as toastr from "toastr";
 
-@autoinject()
 export class Feedback {
-    controller;
-    api;
-    theme;
-    i18n;
     header_text;
     params = {
-        feedback_message: '',
-        feedback_name: '',
-        feedback_email: '',
-        code_version: environment.version //,
+        feedback_message: "",
+        feedback_name: "",
+        feedback_email: "",
+        code_version: environment.version, //,
         // device_type:'any-device',
         // device_details: ''
-    }
+    };
     //device_type_options;
 
-    constructor(controller: DialogController, api: MemberGateway, theme: Theme, i18n: I18N) {
-        this.controller = controller;
-        this.api = api;
-        this.theme = theme;
-        this.i18n = i18n;
-        this.header_text = this.i18n.tr('feedback.header-text') + this.i18n.tr('feedback.header-text1');
+    constructor(
+        @IDialogController private readonly controller: IDialogController,
+        @IMemberGateway private readonly api: IMemberGateway,
+        @ITheme private readonly theme: ITheme,
+        @I18N private readonly i18n: I18N
+    ) {
+        this.header_text =
+            this.i18n.tr("feedback.header-text") +
+            this.i18n.tr("feedback.header-text1");
         // this.device_type_options = [
         //     // { value: "any-device", name: 'feedback.any-device' },
         //     // { value: "desktop", name: 'feedback.desktop' },
@@ -39,10 +36,17 @@ export class Feedback {
     }
 
     send() {
-        if (this.params.feedback_message=='') return;
-        this.api.call_server_post('default/save_feedback', this.params)
+        if (this.params.feedback_message == "") return;
+        this.api
+            .call_server_post("default/save_feedback", this.params)
             .then(() => {
-                toastr.success("<p dir='rtl'>" + this.i18n.tr('feedback.message-successful') + "</p>", '', 6000);
+                toastr.success(
+                    "<p dir='rtl'>" +
+                        this.i18n.tr("feedback.message-successful") +
+                        "</p>",
+                    "",
+                    6000
+                );
                 this.controller.ok();
             });
     }
@@ -51,10 +55,10 @@ export class Feedback {
         this.controller.cancel();
     }
 
-    @computedFrom('params.feedback_message', 'params.feedback_email')
+    @watch(vm => vm.params.feedback_message || vm.params.feedback_email)
     get is_disabled() {
-        return (this.params.feedback_message=='' || ! this.params.feedback_email);
+        return (
+            this.params.feedback_message == "" || !this.params.feedback_email
+        );
     }
-
-
 }

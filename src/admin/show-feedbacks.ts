@@ -1,18 +1,12 @@
-import { autoinject } from "aurelia-framework";
-import { Theme } from "../services/theme";
-import { MemberGateway } from "../services/gateway";
+import { ITheme } from "../services/theme";
+import { IMemberGateway } from "../services/gateway";
 
-@autoinject()
 export class ShowFeedbacks {
-    theme;
-    api;
-    router;
     items = [];
     pageSize = 15;
 
-    constructor(theme: Theme, api: MemberGateway) {
-        this.theme = theme;
-        this.api = api;
+    constructor(@ITheme private readonly theme: ITheme, @IMemberGateway private readonly api: IMemberGateway) {
+
     }
 
     attached() {

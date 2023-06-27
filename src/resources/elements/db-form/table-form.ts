@@ -1,38 +1,25 @@
-import {
-    bindable,
-    inject,
-    DOM,
-    bindingMode,
-    computedFrom,
-} from "aurelia-framework";
-import { DialogService } from "aurelia-dialog";
-import { I18N } from "aurelia-i18n";
-import { User } from "../../../services/user";
-import { Theme } from "../../../services/theme";
+import { I18N } from "@aurelia/i18n";
+import { IUser } from "../../../services/user";
+import { ITheme } from "../../../services/theme";
 import { Misc } from "../../../services/misc";
 import { data_type } from "./field-control";
 import { Query } from "../../../services/query/query";
-import { MemberGateway } from "../../../services/gateway";
+import { IMemberGateway } from "../../../services/gateway";
 import { forEach } from "typescript-collections/dist/lib/arrays";
+import { INode, bindable } from "aurelia";
 
-@inject(User, Theme, DOM.Element, I18N, MemberGateway)
 export class TableFormCustomElement {
-    i18n: I18N;
-    user: User;
-    theme: Theme;
-    api: MemberGateway;
-    element;
     field_list = [];
     @bindable table_name = "";
     @bindable record_id = null;
 
-    constructor(user: User, theme: Theme, element, i18n, api) {
-        this.i18n = i18n;
-        this.user = user;
-        this.theme = theme;
-        this.element = element;
-        this.api = api;
-    }
+    constructor(
+        @IUser private readonly user: IUser,
+        @ITheme private readonly theme: ITheme,
+        @INode private readonly element: HTMLElement,
+        @I18N private readonly i18n: I18N,
+        @IMemberGateway private readonly api: IMemberGateway
+    ) {}
 
     attached() {
         this.api

@@ -66,10 +66,10 @@ class Player {
 
 @customElement('yt-player')
 export class YtPlayerCustomElement {
-    @bindable({defaultBindingMode: bindingMode.twoWay}) player;
-    @bindable({defaultBindingMode: bindingMode.twoWay}) videoId;
-    @bindable({defaultBindingMode: bindingMode.twoWay}) player_is_ready;
-    @bindable({defaultBindingMode: bindingMode.twoWay}) currentTime;
+    @bindable({mode: BindingMode.twoWay}) player;
+    @bindable({mode: BindingMode.twoWay}) videoId;
+    @bindable({mode: BindingMode.twoWay}) player_is_ready;
+    @bindable({mode: BindingMode.twoWay}) currentTime;
     ytKeeper;
 
     constructor(ytKeeper: YtKeeper) {

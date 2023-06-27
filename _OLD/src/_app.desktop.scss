@@ -1,0 +1,101 @@
+$navbar-height: 60px;
+
+.navbar {
+    height: $navbar-height;
+
+    &.navbar-default.navbar-fixed-top {
+        width: 1170px;
+    }
+
+    > * {
+        align-self: center;
+
+        + * {
+            margin-left: 0rem;
+        }
+    }
+
+    .nav-item {
+        font-size: 1.50rem;
+        line-height: 2.1rem;
+        padding: 0.5rem 0.38rem;
+    }
+
+    .navbar-logo {
+        font-size: 2.9rem;
+        padding-bottom: 1rem;
+
+        img {
+            width: 3.4rem;
+            margin-left: 0.00rem;
+        }
+    }
+
+    .navbar-search {
+        flex: 1;
+
+        .search-box,
+        .search-box-container {
+            width: 100%;
+        }
+    }
+
+    .navbar-controls {
+        align-self: flex-end;
+    }
+}
+
+#router-view {
+    height: calc(100vh - 63px);
+    &.hide-footer {
+        height: 100vh;
+    }
+    overflow: auto;
+}
+
+.top-head {
+    position: absolute;
+    top: $navbar-height;
+    width: 100%;
+    .page-title {
+        width:1170px;
+    }
+}
+
+.navbar + #router-view {
+    padding-top: $navbar-height;
+}
+
+.top-head + #router-view {
+    padding-top: $navbar-height + 80px;
+}
+
+.detail-header {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 9px;
+    height:45px;
+    padding-left:12px;
+    padding-right:12px;
+    &.story-detail {
+        width: 1167px;
+        margin-right: -12px;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
+}
+
+.content-area {
+    width: 1170px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.search-box-input {
+    font-size: 90%;
+}
+
+div.page-container {
+    background-image: url(https://tol.life/gbs__test/static/apps_data/images/body-bg.jpg)
+}

@@ -1,0 +1,15 @@
+div#quick-login {
+    background-color:lightgray;
+    padding-top:0px;
+    div.options, div.search-filter {
+        width: 100%;
+    }
+    div.warning {
+        border: solid 1px #aa00;
+        width: 100%;
+        height: 32px;
+        padding: 4px 6px;
+        margin-bottom: 12px;
+    }
+
+}

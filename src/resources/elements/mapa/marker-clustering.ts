@@ -1,13 +1,17 @@
-import { inject } from 'aurelia-dependency-injection';
-import { Configure } from './configure';
+import { DI } from 'aurelia';
+import { IConfigure } from './configure';
 
-@inject(Configure)
+export type IMarkerClustering = MarkerClustering;
+export const IMarkerClustering = DI.createInterface<IMarkerClustering>(
+    "IMarkerClustering",
+    (x) => x.singleton(MarkerClustering)
+);
+
 export class MarkerClustering {
-    private config: Configure;
     private markerClusterer: any;
 
-    constructor(config) {
-        this.config = config;
+    constructor(@IConfigure private readonly config: IConfigure) {
+
     }
 
     isEnabled() {

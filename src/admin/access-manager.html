@@ -1,105 +1,103 @@
-<template>
-    <require from="./admin.css"></require>
-    <div style="height:95%;margin-top:0px;direction:ltr" dir="ltr">
-        <div style="width:400px;margin-left:auto;margin-right:auto">
-            <h3 class="center">${'admin.access-manager' & t}</h3>
-        </div>
-        <div style="height:730px;width:1200px;margin-left:auto;margin-right:auto;overflow:auto;">
-            <div class="form-inline">
-                <div class="form-group">
-                    <a href class="btn btn-primary" click.delegate="add_or_update()"style="margin-bottom:1em;">
-                        ${'admin.add-user' & t}
-                    </a>
-                </div>
-                <div class="form-group" style="margin-bottom:14px;">
-                    <input type="text" value.bind="filters[0].value" placeholder="${'admin.enter-filter-text' & t}" class="form-control"/>
-                </div>
-                <select class="form-control" value.bind="filters[1].value" style="margin-bottom:14px;">
-                    <option repeat.for="status of statuses" value.bind="status">${'admin.' + status & t}</option>
-                </select> 
+<import from="./admin.css"></import>
+<div style="height:95%;margin-top:0px;direction:ltr" dir="ltr">
+    <div style="width:400px;margin-left:auto;margin-right:auto">
+        <h3 class="center">${'admin.access-manager' & t}</h3>
+    </div>
+    <div style="height:730px;width:1200px;margin-left:auto;margin-right:auto;overflow:auto;">
+        <div class="form-inline">
+            <div class="form-group">
+                <a href class="btn btn-primary" click.trigger="add_or_update()"style="margin-bottom:1em;">
+                    ${'admin.add-user' & t}
+                </a>
             </div>
-            <table class="table table-striped" 
-                aurelia-table="data.bind: authorized_users; display-data.bind: $displayData; 
-                current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;
-                filters.bind:filters;">
-                <thead>
-                    <tr>
-                        <th aut-sort="key: id">ID</th>
-                        <th aut-sort="key: email">${'admin.email' & t}</th>
-                        <th aut-sort="key: first_name">${'admin.first-name' & t}</th>
-                        <th aut-sort="key: last_name">${'admin.last-name' & t}</th>
-                        <!--<th>Created></th>-->
-                        <th>${'admin.privileges' & t}</th>
-                        <th>${'admin.edit' & t}</th>
-                        <th>${'admin.delete' & t}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr repeat.for="item of $displayData">
-                        <td>${item.id}</td>
-                        <td>${item.email}</td>
-                        <td>${item.first_name}</td>
-                        <td>${item.last_name}</td>
-                        <td class="center">
-                            <span repeat.for="r of item.roles">
-                                <a href title="${role_title(r)}" click.delegate="toggle_membership(r, item.id)">
-                                    <i class="far ${role_class(r)} ${r.active ? 'is_active' : ''}"></i>
-                                </a>
-                            </span>
-                        </td>
-                        <!--<td>${item.created}</td>-->
-                        <td class="center">
-                            <a href click.delegate="add_or_update(item)">
-                                <i class="fas fa-pencil" title="Edit User Data" ></i>
+            <div class="form-group" style="margin-bottom:14px;">
+                <input type="text" value.bind="filters[0].value" placeholder="${'admin.enter-filter-text' & t}" class="form-control"/>
+            </div>
+            <select class="form-control" value.bind="filters[1].value" style="margin-bottom:14px;">
+                <option repeat.for="status of statuses" value.bind="status">${'admin.' + status & t}</option>
+            </select> 
+        </div>
+        <table class="table table-striped" 
+            aurelia-table="data.bind: authorized_users; display-data.bind: $displayData; 
+            current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;
+            filters.bind:filters;">
+            <thead>
+                <tr>
+                    <th aut-sort="key: id">ID</th>
+                    <th aut-sort="key: email">${'admin.email' & t}</th>
+                    <th aut-sort="key: first_name">${'admin.first-name' & t}</th>
+                    <th aut-sort="key: last_name">${'admin.last-name' & t}</th>
+                    <!--<th>Created></th>-->
+                    <th>${'admin.privileges' & t}</th>
+                    <th>${'admin.edit' & t}</th>
+                    <th>${'admin.delete' & t}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="item of $displayData">
+                    <td>${item.id}</td>
+                    <td>${item.email}</td>
+                    <td>${item.first_name}</td>
+                    <td>${item.last_name}</td>
+                    <td class="center">
+                        <span repeat.for="r of item.roles">
+                            <a href title="${role_title(r)}" click.trigger="toggle_membership(r, item.id)">
+                                <i class="far ${role_class(r)} ${r.active ? 'is_active' : ''}"></i>
                             </a>
-                            <a href click.delegate="unlock_user(item.id)" show.bind="item.status=='Unconfirmed'">
-                                <i class="far fa-unlock" title="Unlock User" ></i>
-                            </a>
-                        </td>
-                        <td class="center">
-                            <a href click.delegate="resend_verification_email(item.id)" show.bind="item.status=='Unconfirmed'">
-                                <i class="far fa-envelope" title="Resend Verification Email"></i>
-                            </a>
-                            <a href title="Delete" click.delegate="delete_user(item)">
-                                <i class="far fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </span>
+                    </td>
+                    <!--<td>${item.created}</td>-->
+                    <td class="center">
+                        <a href click.trigger="add_or_update(item)">
+                            <i class="fas fa-pencil" title="Edit User Data" ></i>
+                        </a>
+                        <a href click.trigger="unlock_user(item.id)" show.bind="item.status=='Unconfirmed'">
+                            <i class="far fa-unlock" title="Unlock User" ></i>
+                        </a>
+                    </td>
+                    <td class="center">
+                        <a href click.trigger="resend_verification_email(item.id)" show.bind="item.status=='Unconfirmed'">
+                            <i class="far fa-envelope" title="Resend Verification Email"></i>
+                        </a>
+                        <a href title="Delete" click.trigger="delete_user(item)">
+                            <i class="far fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="row" style="margin-right:0;">
-                <div class="col-md-9">
-                    <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems"
-                        pagination-size.bind="15" boundary-links.bind="true"> 
-                    </aut-pagination>
-                </div>
+        <div class="row" style="margin-right:0;">
+            <div class="col-md-9">
+                <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems"
+                    pagination-size.bind="15" boundary-links.bind="true"> 
+                </aut-pagination>
+            </div>
 
-                <div class="col-md-3">
-                    <div class="form-inline">
-                        <div class="form-group pull-right">
-                            <label for="pageSize">Page Size: </label>
-                            <select value.bind="pageSize" id="pageSize" class="form-control">
-                                <option model.bind="5">5</option>
-                                <option model.bind="10">10</option>
-                                <option model.bind="15">15</option>
-                                <option model.bind="50">50</option>
-                            </select>
-                        </div>
+            <div class="col-md-3">
+                <div class="form-inline">
+                    <div class="form-group pull-right">
+                        <label for="pageSize">Page Size: </label>
+                        <select value.bind="pageSize" id="pageSize" class="form-control">
+                            <option model.bind="5">5</option>
+                            <option model.bind="10">10</option>
+                            <option model.bind="15">15</option>
+                            <option model.bind="50">50</option>
+                        </select>
                     </div>
                 </div>
-            </div>        
-        </div>
+            </div>
+        </div>        
     </div>
-    <style>
-        i.is_active
-        {
-            font-weight: bold;
-            color: orange;
-        }
-        h3.center
-        {
-            text-align: center;
-        }
-    </style>
-</template> 
+</div>
+<style>
+    i.is_active
+    {
+        font-weight: bold;
+        color: orange;
+    }
+    h3.center
+    {
+        text-align: center;
+    }
+</style>

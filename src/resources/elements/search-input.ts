@@ -1,23 +1,19 @@
-import { bindable, bindingMode, inject, DOM } from 'aurelia-framework';
-import {Theme} from '../../services/theme';
-import {Misc} from '../../services/misc';
+import { ITheme } from "../../services/theme";
+import { IMisc } from "../../services/misc";
+import { BindingMode, INode, bindable } from "aurelia";
 
-@inject(DOM.Element, Theme, Misc)
 export class SearchInputCustomElement {
-    @bindable({defaultBindingMode: bindingMode.twoWay}) value;
-    @bindable placeholder = 'type something';
+    @bindable({ mode: BindingMode.twoWay }) value;
+    @bindable placeholder = "type something";
     @bindable height;
-    @bindable help_topic = 'search-input';
-    element;
-    theme: Theme;
-    misc: Misc;
-    @bindable({defaultBindingMode: bindingMode.twoWay}) in_focus = false;
+    @bindable help_topic = "search-input";
+    @bindable({ mode: BindingMode.twoWay }) in_focus = false;
 
-    constructor(element, theme, misc) {
-        this.element = element;
-        this.theme = theme;
-        this.misc = misc;
-    }
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @ITheme private readonly theme: ITheme,
+        @IMisc private readonly misc: IMisc
+    ) {}
 
     clear_text(event) {
         this.value = "";
@@ -33,20 +29,17 @@ export class SearchInputCustomElement {
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('filter-change', {
+        let changeEvent = new CustomEvent("filter-change", {
             detail: {
                 value: this.value,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
     }
 
     async is_in_focus(b) {
-        if (! b) 
-           await this.misc.sleep(1000);
+        if (!b) await this.misc.sleep(1000);
         this.in_focus = b;
     }
-    
-
 }

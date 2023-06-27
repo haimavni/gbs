@@ -1,0 +1,15 @@
+<template>
+    <button style="border-radius:50%;width:22px;margin:4px;" class="btn btn-info btn-xs" 
+        click.delegate="edit_help_message($event)"
+        aubs-popover="custom-popover.bind: customPopover;position.bind: position;" >
+        <i class="fa fa-${icon}"></i>
+    </button>
+
+    <div ref="customPopover">
+        <h2 class="popover-title" innerhtml.bind="story_info.name || ''" dir="rtl" style="font-weight:bolder;">
+        </h2>
+
+        <div class="popover-content" style="text-align:justify;" innerhtml.bind="story_text || ''" dir="rtl">
+        </div>
+    </div>
+</template>

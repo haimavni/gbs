@@ -1,71 +1,67 @@
-import { autoinject, computedFrom } from 'aurelia-framework';
-import { DialogController } from 'aurelia-dialog';
-import { MemberGateway } from '../../../services/gateway';
-import { I18N, TCustomAttribute } from 'aurelia-i18n';
-import { Misc } from '../../../services/misc';
-import { Theme } from '../../../services/theme';
-import { User } from '../../../services/user';
+import { IDialogController } from "@aurelia/dialog";
+import { watch } from "@aurelia/runtime-html";
+import { IMemberGateway } from "../../../services/gateway";
+import { I18N } from "@aurelia/i18n";
+import { IMisc } from "../../../services/misc";
+import { ITheme } from "../../../services/theme";
+import { IUser } from "../../../services/user";
 
-@autoinject
 export class EditTopic {
-    api;
-    i18n;
-    controller: DialogController;
     error_message = "";
     topic;
     old_data;
     can_delete = false;
     has_description = false;
-    category = '';
+    category = "";
     title;
     name_placeholder = "";
     description_placeholder = "";
-    misc;
-    theme;
-    user: User;
 
-    constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc, theme: Theme, user: User) {
-        this.controller = controller;
-        this.api = api;
-        this.i18n = i18n;
-        this.misc = misc;
-        this.theme = theme;
-        this.user = user;
-    }
+    constructor(
+        @IDialogController private readonly controller: IDialogController,
+        @IMemberGateway private readonly api: IMemberGateway,
+        @I18N private readonly i18n: I18N,
+        @IMisc private readonly misc: IMisc,
+        @ITheme private readonly theme: ITheme,
+        @IUser private readonly user: IUser
+    ) {}
 
     activate(params) {
         this.topic = params.topic;
         this.can_delete = params.can_delete;
         this.old_data = this.misc.deepClone(this.topic);
         this.category = params.category;
-        this.has_description = this.category == 'topic';
-        let key = 'multi-select.' + this.category + '-title';
+        this.has_description = this.category == "topic";
+        let key = "multi-select." + this.category + "-title";
         this.title = this.i18n.tr(key);
-        key = 'multi-select.' + this.category + '-name';
+        key = "multi-select." + this.category + "-name";
         this.name_placeholder = this.i18n.tr(key);
         if (this.has_description) {
-            key = 'multi-select.' + this.category + '-description'
+            key = "multi-select." + this.category + "-description";
             this.description_placeholder = this.i18n.tr(key);
         }
     }
 
     save() {
-        if (this.category != 'topic') {
-            this.controller.ok({command: 'rename'});
+        if (this.category != "topic") {
+            this.controller.ok({ command: "rename" });
             return;
         }
-        this.api.call_server_post('topics/update_topic_name_and_description', {topic: this.topic})
+        this.api
+            .call_server_post("topics/update_topic_name_and_description", {
+                topic: this.topic,
+            })
             .then((data) => {
                 if (data.user_error) {
                     this.error_message = this.i18n.tr(data.user_error);
                     return;
                 }
-                this.controller.ok({command: 'skip'});
+                this.controller.ok({ command: "skip" });
             });
     }
 
     remove_topic() {
-        this.controller.ok({command: 'remove-topic'})
+        this.controller.ok({ command: "remove-topic" });
     }
 
     cancel() {
@@ -74,11 +70,14 @@ export class EditTopic {
         this.controller.cancel();
     }
 
-    @computedFrom('topic.name', 'topic.description')
+    @watch((vm) => vm.topic.name || vm.topic.description)
     get ready_to_save() {
-        if (! this.topic.name) return false;
-        if (this.topic.name == this.old_data.name && this.topic.description == this.old_data.description) return false;
+        if (!this.topic.name) return false;
+        if (
+            this.topic.name == this.old_data.name &&
+            this.topic.description == this.old_data.description
+        )
+            return false;
         return true;
     }
-
 }

@@ -1,0 +1,281 @@
+/* Includes */
+@import 'breakpoints';
+@import 'palettes';
+@import 'scrollbox';
+@import 'grid';
+
+/* Variables */
+$slide-height: 220px;
+$list-group-border:none;
+$list-group-bg: #eeeeee;
+$navbar-default-link-active-color: blue;
+$navbar-default-link-active-bg: inherit;
+
+/* Pages */
+@import 'app';
+@import 'home/home';
+@import 'members/members';
+@import 'articles/articles';
+@import 'photos/photos';
+@import 'stories/stories';
+@import 'terms/terms';
+@import 'videos/videos';
+@import 'docs/docs';
+@import 'audios/audios';
+@import 'gallery/gallery';
+@import 'groups/groups';
+
+/* Elements */
+@import 'resources/elements/multi-select/multi-select';
+@import 'resources/elements/picker/picker';
+@import 'resources/elements/photo-strip';
+@import 'resources/elements/quiz/quiz';
+@import 'resources/elements/quick-login';
+
+/* Globals */
+html, body {
+    //height: 100vh;
+    width: 100vw;
+    font-family: "Alef Hebrew",
+                 “Helvetica Neue”,
+                 Helvetica,
+                 Arial,
+                 sans-serif !important;
+    overflow-x: hidden;
+}
+
+body > .page-container {
+    height: 100%;
+    width: 100%;
+}
+
+@include mobile {
+    body > .page-container {
+        overflow: auto;  //whould be none???
+    }
+}
+
+div, footer, main {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+a.border-right
+{
+    border-right:solid gray 1px;
+    margin-right:4px;
+    padding-right:4px;
+}
+
+ux-dialog-overlay.active {
+    background-color: black;
+    opacity: .5;
+}
+
+ux-dialaog-container {
+    >div {
+        width: fit-content;
+        height: fit-content;
+    }
+}
+
+ux-dialog-footer>button {
+    min-width: 90px;
+}
+
+.full {
+  background: url(https://placehold.it/1920x1080) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.disabled {
+    opacity: 0.5;
+}
+
+ux-dialog {
+    background-color: beige;
+    ux-dialog-header {
+        background-color: bisque;
+    }
+}
+
+ux-dialog-container.active {
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 1.0;
+    > div {
+        margin-left: auto;
+        margin-right: auto;
+        //background-color: lightgray;
+        background-color:rgba(0,0,0,0) !important;
+        margin-top: 60px !important;
+        height: fit-content !important;
+        width: fit-content !important;
+        margin-bottom: auto !important;
+        >div {
+            background-color: rgba(0,0,0,0) !important;
+        }
+    }
+}
+
+body.edged-dialog ux-dialog-container.active {
+    > div {
+        margin-left:0;
+    }
+}
+
+ux-dialog>ux-dialog-header>button {
+    display: none !important;
+}
+
+
+// ------right to left or left to right matters
+
+.rtl {
+    direction: rtl;
+    &.float {
+        float: right;
+        &.anti {
+            float: left;
+        }
+    }
+}
+
+.ltr {
+    direction: ltr;
+    &.float {
+        float: left;
+        &.anti {
+            float: right;
+        }
+    }
+}
+
+//----------------
+
+i.is-link {
+    cursor: pointer;
+}
+
+.error {
+    background-color: red;
+    color: white;
+}
+
+.warning {
+    background-color: orange;
+    color: black;
+}
+
+.info {
+    background-color: lightblue;
+    color: black;
+}
+
+.success {
+    background-color: green;
+    color: black;
+}
+
+a {
+    color: blue;
+    text-decoration: none !important;
+}
+
+ul.nav {
+    a {
+        color: black;
+    }
+}
+
+ul.nav > li > a {
+    padding-right:10px;
+    padding-left:10px;
+}
+
+.my-container {
+    position: relative;
+    background: #5C97FF;
+    overflow: hidden;
+}
+.my-container:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.6;
+    background-image: url('https://placekitten.com/1500/1000');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.unselectable {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;    
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.font-size-100 {
+    font-size: 100%;
+}
+.font-size-110 {
+    font-size: 110%;
+}
+.font-size-120 {
+    font-size: 120%;
+}
+.font-size-130 {
+    font-size: 130%;
+}
+.font-size-140 {
+    font-size: 140%;
+}
+.font-size-150 {
+    font-size: 150%;
+}
+.font-size-180 {
+    font-size: 180%;
+}
+
+button.btn-framed {
+    border: 1px solid gray;
+}
+
+.hide-scroll-bar {
+    -webkit-scrollbar: {width: 0 !important }
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+
+.fr-quick-insert {
+    display: none;
+}
+
+/* Dependencies */
+@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../node_modules/froala-editor/css/froala_editor.pkgd.min';
+@import '../node_modules/froala-editor/css/froala_style.min';
+@import '../node_modules/json.human/css/json.human';
+@import url(https://fonts.googleapis.com/earlyaccess/alefhebrew.css);

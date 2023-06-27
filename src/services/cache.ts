@@ -1,15 +1,10 @@
+import { DI } from 'aurelia';
 import * as Collections from 'typescript-collections';
-import { autoinject, singleton, noView } from "aurelia-framework";
 
-@autoinject()
-@singleton()
-@noView()
+export type ICache = Cache;
+export const ICache = DI.createInterface<ICache>('ICache', x => x.singleton(Cache));
+
 export class Cache {
-
-    constructor () {
-
-    }
-
     cacheStorage = new Collections.Dictionary<string, any>();
 
     setValue(key, data) {

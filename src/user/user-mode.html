@@ -13,7 +13,7 @@
     </help>
 
     <div class="btn-group dropdown border-right"
-        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)" if.bind="theme.width>458">
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: state => toggled(state)" if.bind="theme.width>458">
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle
             t="[title]user.personalize">
             <i class="fas fa-user-cog"></i>
@@ -22,7 +22,7 @@
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
             <li style="border-bottom:solid 1px gray;width:170px;margin-bottom:8px;padding-top:6px;">
                 <div class="btn-group dropdown border-right" style="padding:0;margin-right:18px;"
-                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: state => toggled(state)">
                     <button class="btn btn-link btn-md dropdown-toggle"
                         style="text-decoration:none;position:relative;margin-bottom:10px;" aubs-dropdown-toggle>
                         <span style="position:absolute;left:20px;top:-8px;" class="font-size-150">${'a' & t}</span>
@@ -40,7 +40,7 @@
             </li>
             <li style="border-bottom:solid 1px gray;width:170px;padding-bottom:5px;">
                 <div class="btn-group dropdown border-right"
-                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: state => toggled(state)"
                     if.bind="theme.width>458">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-lg fa-globe" style="margin-left:10px;"></i>
@@ -57,7 +57,7 @@
             </li>
             <li style="border-bottom:solid 1px gray;width:170px;padding-bottom:5px;height:32px;padding-top:3px;">
                 <div class="btn-group dropdown border-right"
-                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: state => toggled(state)"
                     if.bind="theme.width>458">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-lg fa-glasses-alt" style="margin-left:10px;"></i>
@@ -74,7 +74,7 @@
             </li>
             <li style="border-bottom:solid 1px gray;width:170px;padding-bottom:4px;padding-top:6px;">
                 <div class="btn-group dropdown border-right"
-                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)">
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: state => toggled(state)">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-tint" style="margin-left:12px;"></i>
                         <span style="position:absolute; left:40px;top:0px;">${'user.select-colors' & t}</span>
@@ -98,7 +98,7 @@
             </li>
             <li style="width:170px;padding-bottom:5px;height:32px;padding-top:3px;">
                 <div class="btn-group dropdown border-right"
-                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+                    aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: state => toggled(state)"
                     if.bind="theme.width>458">
                     <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
                         <i class="far fa-lg fa-image" style="margin-left:10px;"></i>
@@ -117,7 +117,7 @@
     </div>
 
     <div class="btn-group dropdown border-right"
-        aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: share_toggled(); is-open.bind: share_menu_open" if.bind="theme.width>458" >
+        aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: () => share_toggled(); is-open.bind: share_menu_open" if.bind="theme.width>458" >
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle title="${'user.sharing.sharing' & t}">
             <i class="fas fa-share-alt"></i>
             <span class="caret"></span>
@@ -125,7 +125,7 @@
         <ul class="dropdown-menu dropdown-menu-left" disabled.bind="isChangingLocale">
             <li style="border-bottom:solid 1px gray;">
                 <a class="resp-sharing-button__link"
-                   click.delegate="share_on_facebook()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
+                   click.trigger="share_on_facebook()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;Facebook
                 </a>
             </li>
             <li style="border-bottom:solid 1px gray;">
@@ -147,13 +147,13 @@
                 </a>
             </li>
             <li style="border-bottom:solid 1px gray;">
-                <a class="resp-sharing-button__link" href="#" click.delegate="notify_link_copied()"
+                <a class="resp-sharing-button__link" href="#" click.trigger="notify_link_copied()"
                     disabled="${current_url ? '' : 'disabled'}">
                     <i class="far fa-link"></i>&nbsp;&nbsp;Copy link
                 </a>
             </li>
             <li>
-                <a class="resp-sharing-button__link" href=""#" click.delegate="create_qrcode()">
+                <a class="resp-sharing-button__link" href=""#" click.trigger="create_qrcode()">
                     <i class="far fa-qrcode"></i>&nbsp;&nbsp;Create QR code
                 </a>
             </li>
@@ -172,7 +172,7 @@
         <i class="fas fa-comments"></i>
     </a>
 
-    <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: toggled(state)"
+    <div class="btn-group dropdown" aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: state => toggled(state)"
         if.bind="user.debugging || user.privileges.HELP_AUTHOR ||user.privileges.ADMIN || user.privileges.DEVELOPER || user.privileges.ACCESS_MANAGER">
         <button class="btn btn-link dropdown-toggle" style="padding: 0;" aubs-dropdown-toggle>
             <i class="fas fa-cog"></i>

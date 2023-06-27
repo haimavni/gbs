@@ -1,35 +1,33 @@
-import { bindable, inject, bindingMode, computedFrom, DOM } from 'aurelia-framework';
-import { User } from '../../services/user';
-import { Theme } from '../../services/theme';
-import { I18N } from 'aurelia-i18n';
-import { MyDate } from '../../services/my-date';
+import { IUser } from "../../services/user";
+import { ITheme } from "../../services/theme";
+import { I18N } from "@aurelia/i18n";
+import { MyDate } from "../../services/my-date";
+import { BindingMode, INode, bindable } from "aurelia";
+import { watch } from "@aurelia/runtime-html";
 
 const date_sep = ".";
 
-@inject(User, Theme, DOM.Element, I18N)
 export class DateRangeCustomElement {
-    user;
-    theme;
-    i18n;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) base_date_str = "";
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) span_size = 1;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) is_valid = '';
+    @bindable({ mode: BindingMode.twoWay }) base_date_str = "";
+    @bindable({ mode: BindingMode.twoWay }) span_size = 1;
+    @bindable({ mode: BindingMode.twoWay }) is_valid = "";
     @bindable label;
     @bindable range_options: any = [];
     @bindable hide_label_if_no_date = false;
     @bindable enable_days_range = false;
-    _end_date_str="";
+    _end_date_str = "";
     end_date_options = [];
     partial;
     element;
     hint;
 
-    constructor(user: User, theme: Theme, element, i18n) {
-        this.user = user;
-        this.theme = theme;
-        this.element = element;
-        this.i18n = i18n;
-        this.hint = this.i18n.tr('date-hint')
+    constructor(
+        @IUser private readonly user: IUser,
+        @ITheme private readonly theme: ITheme,
+        @INode element: HTMLElement,
+        @I18N private readonly i18n: I18N
+    ) {
+        this.hint = this.i18n.tr("date-hint");
     }
 
     attached() {
@@ -37,27 +35,27 @@ export class DateRangeCustomElement {
     }
 
     build_end_date_options() {
-        if (! this.base_date_str) {
-            this.is_valid = 'valid';
+        if (!this.base_date_str) {
+            this.is_valid = "valid";
             return;
         }
-        this.base_date_str = this.base_date_str.replace('/', date_sep);
+        this.base_date_str = this.base_date_str.replace("/", date_sep);
         let date = new MyDate(this.base_date_str);
-        this.is_valid = date.is_valid()
-        if (this.is_valid != 'valid') return;
+        this.is_valid = date.is_valid();
+        if (this.is_valid != "valid") return;
         let arr;
         let today = new Date();
         let cur_year = today.getFullYear();
-        if (typeof this.range_options === 'number') {
+        if (typeof this.range_options === "number") {
             let N = this.range_options;
-            arr = Array.apply(null, {length: N}).map(Number.call, Number);
-        } else if (typeof this.range_options == 'object') {
-            arr = this.range_options
+            arr = Array.apply(null, { length: N }).map(Number.call, Number);
+        } else if (typeof this.range_options == "object") {
+            arr = this.range_options;
         } else {
             return;
         }
-        this.partial = date.detail_level() != 'D';
-        if (! this.partial && ! this.enable_days_range) {
+        this.partial = date.detail_level() != "D";
+        if (!this.partial && !this.enable_days_range) {
             return;
         }
         this.end_date_options = [];
@@ -65,11 +63,12 @@ export class DateRangeCustomElement {
         for (let i of arr) {
             if (i == 1) continue;
             let dif = date._year - cur_year;
-            if (dif >= 0) {  //no future dates!
+            if (dif >= 0) {
+                //no future dates!
                 i0 -= dif;
                 date.incr(-dif);
             }
-            let option = {name: date.toString(), value: i0};
+            let option = { name: date.toString(), value: i0 };
             this.end_date_options.push(option);
             if (dif >= 0) break;
             date.incr(i - i0);
@@ -83,7 +82,7 @@ export class DateRangeCustomElement {
     base_date_changed(event) {
         event.stopPropagation();
         this.build_end_date_options();
-        if (this.is_valid != 'valid') return;
+        if (this.is_valid != "valid") return;
         this.dispatch_event();
     }
 
@@ -94,14 +93,14 @@ export class DateRangeCustomElement {
     }
 
     calc_end_date() {
-        if (this.span_size <= 1) return ""
+        if (this.span_size <= 1) return "";
         let date = new MyDate(this.base_date_str);
         date.incr(this.span_size - 1);
         this._end_date_str = date.toString();
         return this._end_date_str;
     }
 
-    @computedFrom('base_date_str', 'span_size')
+    @watch(vm => vm.base_date_str || vm.span_size)
     get end_date_str() {
         let date = new MyDate(this.base_date_str);
         date.incr(this.span_size);
@@ -114,53 +113,59 @@ export class DateRangeCustomElement {
         if (key == "Enter") {
             return true;
         }
-        let m = key.match(/[0-9/.]/) || key == 'Backspace' || key == 'Delete';
-        if (! m) {
+        let m = key.match(/[0-9/.]/) || key == "Backspace" || key == "Delete";
+        if (!m) {
             event.preventDefault();
         }
         return m != null;
     }
 
-    @computedFrom("user.editing", "partial", "is_valid", "range_options", "base_date_str")
+    @watch(vm => vm.user.editing || vm.partial || vm.is_valid || vm.range_options.length || vm.base_date_str)
     get show_edit_end_date() {
-        return this.base_date_str && this.is_valid == 'valid' && this.user.editing && (this.partial || this.enable_days_range) && this.range_options.length > 1;
+        return (
+            this.base_date_str &&
+            this.is_valid == "valid" &&
+            this.user.editing &&
+            (this.partial || this.enable_days_range) &&
+            this.range_options.length > 1
+        );
     }
 
-    @computedFrom("user.editing", "partial", "is_valid")
+    @watch(vm => vm.user.editing || vm.partial || vm.is_valid)
     get dont_show_edit_end_date() {
-        return ! (this.is_valid == 'valid' && this.user.editing && this.partial);
+        return !(this.is_valid == "valid" && this.user.editing && this.partial);
     }
-    
-    @computedFrom("user.editing","base_date_str", "span_size")
+
+    @watch(vm => vm.user.editing || vm.base_date_str || vm.span_size)
     get show_date() {
         if (this.user.editing) return false;
         this.build_end_date_options();
         let s = this.base_date_str;
         if (this.partial && this.span_size > 1) {
-            s += '-';
+            s += "-";
             s += this.calc_end_date();
         }
         return s;
     }
 
-    @computedFrom("user.editing", "base_date_str")
+    @watch(vm => vm.user.editing || vm.base_date_str)
     get show_label() {
-        return this.user.editing; // || this.base_date_str || ! this.hide_label_if_no_date; 
+        return this.user.editing; // || this.base_date_str || ! this.hide_label_if_no_date;
     }
 
-    @computedFrom("base_date_str", "user.editing")
+    @watch(vm => vm.user.editing || vm.base_date_str)
     get build_now() {
         this.build_end_date_options();
         return true;
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('change', {
+        let changeEvent = new CustomEvent("change", {
             detail: {
                 date_str: this.base_date_str,
                 date_span: this.span_size,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
     }

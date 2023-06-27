@@ -1,4 +1,11 @@
+import { DI } from "aurelia";
+
 const date_sep = ".";
+
+export type IMyDate = MyDate;
+export const IMyDate = DI.createInterface<IMyDate>("IMyDate", (x) =>
+    x.singleton(MyDate)
+);
 
 export class MyDate {
     _day;

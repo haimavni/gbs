@@ -1,10 +1,11 @@
-import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
-import { DialogService } from 'aurelia-dialog';
-import { I18N } from 'aurelia-i18n';
-import { User } from '../../../services/user';
-import { Theme } from '../../../services/theme';
-import { Misc } from '../../../services/misc';
-import { EditTopic } from './edit-topic';
+import { IDialogService } from "@aurelia/dialog";
+import { watch } from "@aurelia/runtime-html";
+import { I18N } from "@aurelia/i18n";
+import { IUser } from "../../../services/user";
+import { ITheme } from "../../../services/theme";
+import { IMisc } from "../../../services/misc";
+import { EditTopic } from "./edit-topic";
+import { BindingMode, INode, bindable } from "aurelia";
 
 export class MultiSelectSettings {
     clear_filter_after_select = false;
@@ -17,68 +18,72 @@ export class MultiSelectSettings {
     show_only_if_filter = false;
     height_selected = 120;
     height_unselected = 132;
-    hide_higher_options = false;  //hide options that are collections of lower level options
-    empty_list_message = 'Empty list of options';
-    help_topic = 'search-input';
+    hide_higher_options = false; //hide options that are collections of lower level options
+    empty_list_message = "Empty list of options";
+    help_topic = "search-input";
     to_show_untagged = false;
     single = false;
     start_open = false;
-    auto_select = true;    
+    auto_select = true;
+
     constructor(obj) {
         this.update(obj);
     }
 
     update(obj) {
         for (let key of Object.keys(obj)) {
-            this[key] = obj[key]
+            this[key] = obj[key];
         }
         return this;
     }
-};
+}
 
-@inject(DOM.Element, I18N, DialogService, User, Theme, Misc)
 export class MultiSelectCustomElement {
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) options = [];
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) selected_options = [];
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) settings;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) has_groups;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) clear_selections_now;
+    @bindable({ mode: BindingMode.twoWay }) options = [];
+    @bindable({ mode: BindingMode.twoWay }) selected_options = [];
+    @bindable({ mode: BindingMode.twoWay }) settings;
+    @bindable({ mode: BindingMode.twoWay }) has_groups;
+    @bindable({ mode: BindingMode.twoWay }) clear_selections_now;
 
     @bindable highlight_unselectors;
     @bindable place_holder_text = "";
     @bindable can_edit = true;
-    @bindable option_groups = [];  // list looks like [(parent, children)...]
+    @bindable option_groups = []; // list looks like [(parent, children)...]
     @bindable first_time = false;
-    @bindable category = '';
+    @bindable category = "";
     selected_options_set = new Set();
     open_group = 0;
-    element;
-    dialog;
     new_item_placeholder;
     new_item_title;
     filter = "";
     width;
     inner_width;
-    anchor = '<button class="btn btn-success" style="padding-top:9px;"><i class="far fa-lg fa-plus-square"></i></button>';
+    anchor =
+        '<button class="btn btn-success" style="padding-top:9px;"><i class="far fa-lg fa-plus-square"></i></button>';
     new_item_name;
     lineHeight = 20;
     scroll_area;
-    user;
-    theme;
     to_show_untagged = false;
     agent = { size: 0 };
     group_selected = false;
-    misc;
     show_untagged_caption = "";
-    i18n;
     in_focus = false;
 
-    constructor(element, i18n: I18N, dialog: DialogService, user: User, theme: Theme, misc: Misc) {
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @I18N private readonly i18n: I18N,
+        @IDialogService private readonly dialog: IDialogService,
+        @IUser private readonly user: IUser,
+        @ITheme private readonly theme: ITheme,
+        @IMisc private readonly misc: IMisc
+    ) {
         this.element = element;
         this.dialog = dialog;
         this.i18n = i18n;
-        this.new_item_placeholder = i18n.tr('multi-select.new-item-placeholder');
-        this.new_item_title = i18n.tr('multi-select.new-item-title');
+        this.new_item_placeholder = i18n.tr(
+            "multi-select.new-item-placeholder"
+        );
+        this.new_item_title = i18n.tr("multi-select.new-item-title");
         this.user = user;
         this.theme = theme;
         this.misc = misc;
@@ -92,26 +97,29 @@ export class MultiSelectCustomElement {
 
     expand(option) {
         for (let opt of this.options) {
-            if (!opt.level)
-                opt.level = 0;
+            if (!opt.level) opt.level = 0;
         }
-        this.options = this.options.filter(opt => opt.level <= option.level);
-        for (let opt of this.options) { opt.expanded = false };
+        this.options = this.options.filter((opt) => opt.level <= option.level);
+        for (let opt of this.options) {
+            opt.expanded = false;
+        }
         let sub_options = this.get_sub_options(option);
         sub_options = this.misc.deepClone(sub_options);
-        let idx = this.options.findIndex(item => (item.name == option.name) && (item.level == option.level));
+        let idx = this.options.findIndex(
+            (item) => item.name == option.name && item.level == option.level
+        );
         let level = option.level ? option.level + 1 : 1;
-        sub_options = sub_options.filter(opt => Boolean(opt)); //irrelevant options must be filtered out
+        sub_options = sub_options.filter((opt) => Boolean(opt)); //irrelevant options must be filtered out
         for (let opt of sub_options) {
             opt.level = level;
-            opt.parent = option.id
+            opt.parent = option.id;
         }
         this.options.splice(idx + 1, 0, ...sub_options);
         option.expanded = true;
     }
 
     collapse(option) {
-        this.options = this.options.filter(opt => opt.level <= option.level);
+        this.options = this.options.filter((opt) => opt.level <= option.level);
         option.expanded = false;
         //filter out all children
     }
@@ -120,7 +128,7 @@ export class MultiSelectCustomElement {
         this.filter = "";
         if (option.topic_kind == 1 && this.hide_higher) {
             if (option.expanded) {
-                this.collapse(option)
+                this.collapse(option);
             } else {
                 this.expand(option);
             }
@@ -133,24 +141,30 @@ export class MultiSelectCustomElement {
         this.to_show_untagged = false;
         let g;
         let b = false;
-        if (this.user.editing && option.topic_kind == 0) {  //ready to add sub topics to new topic
+        if (this.user.editing && option.topic_kind == 0) {
+            //ready to add sub topics to new topic
             g = 1;
             this.open_group = 2;
             b = true;
         } else if (this.group_selected) {
-            g = 2;  // add it to the sub options
+            g = 2; // add it to the sub options
         } else {
             g = this.assign_group_number();
         }
-        option.sign = 'plus';
+        option.sign = "plus";
         let item = { option: option, group_number: g };
-        if (this.settings.start_open && this.selected_options.length == 0  && ! b) this.open_group = 1;
+        if (this.settings.start_open && this.selected_options.length == 0 && !b)
+            this.open_group = 1;
         this.selected_options.push(item);
-        if (this.user.editing && (option.topic_kind == 1) && (this.selected_options.length == 1)) {
+        if (
+            this.user.editing &&
+            option.topic_kind == 1 &&
+            this.selected_options.length == 1
+        ) {
             this.group_selected = true;
             let sub_options = this.get_sub_options(option);
             for (let opt of sub_options) {
-                item = { option: opt, group_number: 2 }
+                item = { option: opt, group_number: 2 };
                 this.selected_options.push(item);
             }
         }
@@ -170,25 +184,31 @@ export class MultiSelectCustomElement {
         let sub_option_indexes = itm[1];
         let result = [];
         for (let i of sub_option_indexes) {
-            let opt = this.options.find((op) => op.id == i)
+            let opt = this.options.find((op) => op.id == i);
             result.push(opt);
         }
-        return result
+        return result;
     }
 
     enter_word(event) {
-        let option = this.options.find(opt => opt.name == event.detail.value);
+        let option = this.options.find((opt) => opt.name == event.detail.value);
         if (!option) return;
         if (this.selected_options_set.has(option.name)) return;
         //if option was entered automatically from search box, it is not in the set, so:
-        if (this.selected_options.find(item => item.option.name == option.name)) return;
+        if (
+            this.selected_options.find(
+                (item) => item.option.name == option.name
+            )
+        )
+            return;
         if (option && option.name.length > 2 && this.settings.auto_select) {
             this.select_option(option);
         }
     }
 
     unselect_item(item, index) {
-        if (this.group_selected && item.option.topic_kind == 1) {  //removing the top clears all selected
+        if (this.group_selected && item.option.topic_kind == 1) {
+            //removing the top clears all selected
             this.group_selected = false;
             this.selected_options = [];
             this.selected_options_set = new Set();
@@ -208,7 +228,7 @@ export class MultiSelectCustomElement {
         this.sort_items();
     }
 
-    @computedFrom('clear_selections_now')
+    @watch("clear_selections_now")
     get clear_selections() {
         if (!this.clear_selections_now) return false;
         this.clear_all_selections();
@@ -226,16 +246,16 @@ export class MultiSelectCustomElement {
     }
 
     toggle_sign(option, event) {
-        option.sign = (option.sign == 'plus') ? 'minus' : 'plus';
+        option.sign = option.sign == "plus" ? "minus" : "plus";
         this.dispatch_event();
     }
 
     remove_option(option) {
-        let customEvent = new CustomEvent('remove-option', {
+        let customEvent = new CustomEvent("remove-option", {
             detail: {
-                option: option
+                option: option,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(customEvent);
     }
@@ -245,23 +265,22 @@ export class MultiSelectCustomElement {
     }
 
     name_changed(option) {
-        let customEvent = new CustomEvent('name-changed', {
+        let customEvent = new CustomEvent("name-changed", {
             detail: {
-                option: option
+                option: option,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(customEvent);
     }
 
-
     dispatch_new_item_event(event) {
         event.stopPropagation();
-        let customEvent = new CustomEvent('new-name', {
+        let customEvent = new CustomEvent("new-name", {
             detail: {
-                new_name: this.filter
+                new_name: this.filter,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(customEvent);
         return false;
@@ -272,9 +291,11 @@ export class MultiSelectCustomElement {
     }
 
     move_item(item) {
-        if (this.open_group == item.group_number) {  // remove item from the open group
+        if (this.open_group == item.group_number) {
+            // remove item from the open group
             item.group_number = this.find_free_group_number();
-        } else if (this.open_group) {                // 
+        } else if (this.open_group) {
+            //
             item.group_number = this.open_group;
         } // else do nothing?
         this.sort_items();
@@ -282,7 +303,10 @@ export class MultiSelectCustomElement {
 
     find_free_group_number() {
         if (this.selected_options.length == 0) return 1;
-        return this.selected_options[this.selected_options.length - 1].group_number + 1;
+        return (
+            this.selected_options[this.selected_options.length - 1]
+                .group_number + 1
+        );
     }
 
     assign_group_number() {
@@ -294,7 +318,9 @@ export class MultiSelectCustomElement {
     }
 
     sort_items() {
-        this.selected_options = this.selected_options.sort((item1, item2) => item1.group_number - item2.group_number);
+        this.selected_options = this.selected_options.sort(
+            (item1, item2) => item1.group_number - item2.group_number
+        );
         for (let item of this.selected_options) item.last = false;
         let n = this.selected_options.length;
         if (n == 0) {
@@ -336,7 +362,7 @@ export class MultiSelectCustomElement {
         }
     }
 
-    @computedFrom('selected_options_set.size', 'filter')
+    @computedFrom("selected_options_set.size", "filter")
     get option_list_height() {
         if (this.filter || !this.settings.show_only_if_filter) {
             return this.settings.height_unselected;
@@ -344,7 +370,7 @@ export class MultiSelectCustomElement {
         return 0;
     }
 
-    @computedFrom('selected_options_set.size', 'filter')
+    @computedFrom("selected_options_set.size", "filter")
     get total_size() {
         let h = this.selected_options_set.size * this.lineHeight;
         if (this.filter || !this.settings.show_only_if_filter) {
@@ -353,26 +379,27 @@ export class MultiSelectCustomElement {
         return h;
     }
 
-    @computedFrom('settings.hide_higher_options')
+    @computedFrom("settings.hide_higher_options")
     get hide_higher() {
         return this.settings.hide_higher_options;
     }
 
     can_move_item(item) {
-        if (! this.settings.can_group) return false;
+        if (!this.settings.can_group) return false;
         if (this.selected_options.length < 2) return false;
         if (!this.open_group) return false;
-        if (item.group_number == this.open_group && item.first && item.last) return false;
+        if (item.group_number == this.open_group && item.first && item.last)
+            return false;
         return true;
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('ms-change', {
+        let changeEvent = new CustomEvent("ms-change", {
             detail: {
                 selected_options: this.selected_options,
-                show_untagged: this.to_show_untagged
+                show_untagged: this.to_show_untagged,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
     }
@@ -381,55 +408,67 @@ export class MultiSelectCustomElement {
         //clear all selected options
         this.to_show_untagged = !this.to_show_untagged;
         this.calc_untagged_caption();
-        if (this.to_show_untagged)
-            this.clear_all_selections();
+        if (this.to_show_untagged) this.clear_all_selections();
         this.dispatch_event();
     }
 
     calc_untagged_caption() {
-        let show_untagged_caption = this.to_show_untagged ? 'show-tagged-and-untagged' : 'show-untagged';
-        this.show_untagged_caption = this.i18n.tr('multi-select.' + show_untagged_caption);
+        let show_untagged_caption = this.to_show_untagged
+            ? "show-tagged-and-untagged"
+            : "show-untagged";
+        this.show_untagged_caption = this.i18n.tr(
+            "multi-select." + show_untagged_caption
+        );
     }
 
-    @computedFrom('settings.mergeable')
+    @computedFrom("settings.mergeable")
     get can_merge() {
         return this.settings.mergeable;
     }
 
-    @computedFrom('settings.name_editable')
+    @computedFrom("settings.name_editable")
     get can_edit_name() {
         return this.settings.name_editable;
     }
 
-    @computedFrom('settings.can_set_sign')
+    @computedFrom("settings.can_set_sign")
     get can_set_sign() {
         return this.settings.can_set_sign;
     }
 
-    @computedFrom('settings.can_add', 'filter_size', 'filter')
+    @computedFrom("settings.can_add", "filter_size", "filter")
     get can_add() {
-        let filter_selected = this.selected_options.find(opt=>opt.option.name==this.filter);
-        return this.settings.can_add && this.filter_size == 0 && this.filter && !filter_selected;
+        let filter_selected = this.selected_options.find(
+            (opt) => opt.option.name == this.filter
+        );
+        return (
+            this.settings.can_add &&
+            this.filter_size == 0 &&
+            this.filter &&
+            !filter_selected
+        );
     }
 
-    @computedFrom('settings.can_delete')
+    @computedFrom("settings.can_delete")
     get can_delete() {
         return this.settings.can_delete;
     }
 
-    @computedFrom('settings.show_untagged', 'selected_options_set.size')
+    @computedFrom("settings.show_untagged", "selected_options_set.size")
     get can_show_untagged() {
-        return this.settings.show_untagged && this.selected_options_set.size == 0;
+        return (
+            this.settings.show_untagged && this.selected_options_set.size == 0
+        );
     }
 
-    @computedFrom('agent.size')
+    @computedFrom("agent.size")
     get filter_size() {
         return this.agent.size;
     }
 
-    @computedFrom('selected_options')
+    @computedFrom("selected_options")
     get refresh() {
-        let arr = this.selected_options.map(opt => opt.option.name)
+        let arr = this.selected_options.map((opt) => opt.option.name);
         this.selected_options_set = new Set(arr);
         return false;
     }
@@ -444,45 +483,56 @@ export class MultiSelectCustomElement {
 
     edit_option_dialog(option, event) {
         event.stopPropagation();
-        if (! this.category) return false;
-        if (! this.user.privileges.ADMIN) return false;
-        if (! this.user.editing && this.category != 'locale') return false;
-        this.dialog.open({
-            viewModel: EditTopic, model: { topic: option, can_delete: this.can_delete, category: this.category }, lock: true
-        }).whenClosed(result => {
-            if (result.wasCancelled) return;
-            if (result.output.command == "remove-topic") {
-                this.remove_option(option);
-            } else if (result.output.command == "rename") {
-                this.name_changed(option)
-            }
-        });
+        if (!this.category) return false;
+        if (!this.user.privileges.ADMIN) return false;
+        if (!this.user.editing && this.category != "locale") return false;
+        this.dialog
+            .open({
+                viewModel: EditTopic,
+                model: {
+                    topic: option,
+                    can_delete: this.can_delete,
+                    category: this.category,
+                },
+                lock: true,
+            })
+            .whenClosed((result) => {
+                if (result.wasCancelled) return;
+                if (result.output.command == "remove-topic") {
+                    this.remove_option(option);
+                } else if (result.output.command == "rename") {
+                    this.name_changed(option);
+                }
+            });
     }
 
     on_off_button_margin(first) {
-        if (first || ! this.user.advanced) return 0;
-        return this.settings.can_set_sign ? 40 : this.settings.can_group ? 20 : 0;
+        if (first || !this.user.advanced) return 0;
+        return this.settings.can_set_sign
+            ? 40
+            : this.settings.can_group
+            ? 20
+            : 0;
     }
 
     option_class(first, last) {
         if (first) {
-            if (last) return 'opt-single'
-            return 'opt-top'
+            if (last) return "opt-single";
+            return "opt-top";
         } else if (last) {
-            return 'opt-bottom'
+            return "opt-bottom";
         }
-        return ''
+        return "";
     }
 
-    @computedFrom('filter', 'options', 'in_focus')
+    @computedFrom("filter", "options", "in_focus")
     get to_expand_options() {
-        if (! this.options || this.options.length == 0) return false;
+        if (!this.options || this.options.length == 0) return false;
         if (this.filter.length > 0) return true;
-        if (! this.settings.show_only_if_filter) return true;
+        if (!this.settings.show_only_if_filter) return true;
         if (this.in_focus && this.options.length < 1000) return true;
         return false;
     }
-
 }
 
 function clean(obj) {

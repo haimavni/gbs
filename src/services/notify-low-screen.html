@@ -1,34 +1,32 @@
-<template >
-    <ux-dialog css="padding:12px;direction:${theme.rtltr}">
-        <ux-dialog-header>
-            <h3>${'screen.low-screen' & t}</h3>
-        </ux-dialog-header>
-        <ux-dialog-body
-            css="padding:10px;max-width:300px;direction:${theme.rtltr};"
+<ux-dialog css="padding:12px;direction:${theme.rtltr}">
+    <ux-dialog-header>
+        <h3>${'screen.low-screen' & t}</h3>
+    </ux-dialog-header>
+    <ux-dialog-body
+        css="padding:10px;max-width:300px;direction:${theme.rtltr};"
+    >
+        <!-- ${'members.explain-search-options' & t} -->
+        <p>
+            ${'screen.explain' & t}
+            <br>
+            ${'screen.explain1' & t}
+        </p>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+        <button
+            type="button"
+            class="btn btn-primary ${disabled_if}"
+            click.delegate="got_it()"
         >
-            <!-- ${'members.explain-search-options' & t} -->
-            <p>
-                ${'screen.explain' & t}
-                <br>
-                ${'screen.explain1' & t}
-            </p>
-        </ux-dialog-body>
-        <ux-dialog-footer>
-            <button
-                type="button"
-                class="btn btn-primary ${disabled_if}"
-                click.delegate="got_it()"
-            >
-                ${'screen.got-it' & t}
-            </button>
-            <button
-                type="button"
-                if.bind="!done"
-                class="btn btn-info"
-                click.delegate="dont_show_again()"
-            >
-            ${'screen.dont-show-again' & t}
-            </button>
-        </ux-dialog-footer>
-    </ux-dialog>
-</template>
+            ${'screen.got-it' & t}
+        </button>
+        <button
+            type="button"
+            if.bind="!done"
+            class="btn btn-info"
+            click.delegate="dont_show_again()"
+        >
+        ${'screen.dont-show-again' & t}
+        </button>
+    </ux-dialog-footer>
+</ux-dialog>

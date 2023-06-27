@@ -1,23 +1,19 @@
-import { DialogService } from 'aurelia-dialog';
-import { inject, DOM, noView, bindable, InlineViewStrategy, bindingMode } from 'aurelia-framework';
-import { CustomDialog } from '../../services/custom-dialog';
-import { Theme } from '../../services/theme';
+import { IDialogService } from "@aurelia/dialog";
+import { CustomDialog } from "../../services/custom-dialog";
+import { ITheme } from "../../services/theme";
+import { BindingMode, INode, bindable } from "aurelia";
 
-@inject(DOM.Element, DialogService, Theme)
 export class DlgStringCustomElement {
     @bindable title;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) str;
+    @bindable({ mode: BindingMode.twoWay }) str;
     @bindable placeholder;
     @bindable anchor;
-    element;
-    dialogService: DialogService;
-    theme;
 
-    constructor(element, dialogService: DialogService, theme: Theme) {
-        this.element = element;
-        this.dialogService = dialogService;
-        this.theme = theme;
-    }
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @IDialogService private readonly dialogService: IDialogService,
+        @ITheme private readonly theme: ITheme
+    ) {}
 
     inputString() {
         let model = {
@@ -32,31 +28,34 @@ export class DlgStringCustomElement {
                             <button click.trigger="controller.ok(model.str)" style="margin:15px"><i class="fa fa-check"></i></button>
                         </form>
                         </div>
-                </template>`
-        }
+                </template>`,
+        };
+
         this.theme.hide_title = true;
-        this.dialogService.open({ viewModel: CustomDialog, model: model, lock: false })
-            .whenClosed(response => {
+        this.dialogService
+            .open({
+                component: () => CustomDialog,
+                template: model.html,
+                model: model,
+                lock: false,
+            })
+            .whenClosed((response) => {
                 this.theme.hide_title = false;
-                if (!response.wasCancelled) {
+                if (response.status === "ok") {
                     this.str = model.str;
                     this.dispatch_event();
-                } else {
                 }
-
             });
     }
 
     dispatch_event() {
-        let changeEvent = new CustomEvent('str-change', {
+        let changeEvent = new CustomEvent("str-change", {
             detail: {
-                string_value: this.str
+                string_value: this.str,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(changeEvent);
         this.str = "";
     }
-
-
 }

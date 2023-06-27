@@ -1,23 +1,23 @@
-import { autoinject, noView, singleton } from "aurelia-framework";
-import { MemberGateway } from "./gateway";
-import { I18N } from "aurelia-i18n";
+import { IMemberGateway } from "./gateway";
+import { I18N } from "@aurelia/i18n";
 import environment from "../environment";
+import { DI } from "aurelia";
 
-@autoinject()
-@singleton()
-@noView()
+export type IMisc = Misc;
+export const IMisc = DI.createInterface<IMisc>("IMisc", (x) =>
+    x.singleton(Misc)
+);
+
 export class Misc {
-    i18n;
-    api;
     crc_table;
     storage = {};
     _url_shortcut = null;
     recent_photo_ids = [];
 
-    constructor(api: MemberGateway, i18n: I18N) {
-        this.api = api;
-        this.i18n = i18n;
-        //this.create_table();
+    constructor(
+        @IMemberGateway private readonly api: IMemberGateway,
+        @I18N private readonly i18n: I18N
+    ) {
     }
 
     calc_life_cycle_text(member_info) {

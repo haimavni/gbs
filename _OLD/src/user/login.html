@@ -1,0 +1,58 @@
+<template>
+    <div class="centered-form" dir="${theme.rtltr}" style="background-color:lightgray;padding-top:0px;">
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">${"user.please-login" & t}</h3>
+                </div>
+                <div class="panel-body" style="max-width:300px;">
+                    <form role="form">
+                        <div class="form-group">
+                            <input required type="email" name="email" id="email" class="form-control input-sm lowercase" value.bind="loginData.email"
+                                t="[placeholder]user.email-address">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" autocomplete="off" 
+                                class="form-control input-sm" value.bind="loginData.password" t="[placeholder]user.password">
+                        </div>
+                        <div if.bind="registering">
+                            <div class="form-group">
+                                <input type="password" name="confirm_password" id="password"
+                                    autocomplete="off"
+                                    class="form-control input-sm ${loginData.password != loginData.confirm_password ? 'warning' : ''}" 
+                                    value.bind="loginData.confirm_password"
+                                    t="[placeholder]user.confirm-password">
+                            </div>
+                            <div class="form-group" if.bind="registering != PASSWORD_RESET">
+                                <input type="text" name="first_name" id="first_name" class="form-control input-sm" value.bind="loginData.first_name" t="[placeholder]user.first-name">
+                            </div>
+                            <div class="form-group" if.bind="registering != PASSWORD_RESET">
+                                <input type="text" name="last_name" id="last_name" class="form-control input-sm" value.bind="loginData.last_name" t="[placeholder]user.last-name">
+                            </div>
+                        </div>
+                        <div if.bind="message" class.bind="message_type" style="margin-top:8px;margin-bottom:12px;padding:8px;">
+                            ${message & t}
+                        </div>
+                        <button if.bind="! registering" id="login" name="login" class="btn btn-primary btn-block" click.trigger="do_login()">
+                            ${"user.login" & t}
+                        </button>
+                        <button id="register" if.bind="user.config.enable_auto_registration && registering < REGISTERING_DONE" name="register" click.trigger="do_register()" class="btn btn-info btn-block">
+                            ${"user.register" & t}
+                        </button>
+                        <button id="gotit" if.bind="registering == REGISTERING_DONE" name="gotit" click.trigger="finish_registration()" class="btn btn-info btn-block">
+                            ${"user.register-done" & t}
+                        </button>
+                        <button if.bind="login_failed && registering != PASSWORD_RESET" id="forgot_password" click.trigger="do_reset_password()" name="forgot_password" class="btn btn-info btn-block">
+                            ${"user.forgot-password" & t}
+                        </button>
+                        <button if.bind="registering == PASSWORD_RESET" disabled.bind="loginData.password != loginData.confirm_password" id="reset_password" click.trigger="do_reset_password()" name="reset_password" class="btn btn-info btn-block">
+                            ${"user.reset-password" & t}
+                        </button>
+    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

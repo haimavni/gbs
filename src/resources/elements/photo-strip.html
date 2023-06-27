@@ -1,29 +1,26 @@
-<template>
-    <div id="slide-list" class="row slide-list" css="height: ${height}px;" element.ref="slideList"
-        interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="drag_photos($event)"
-        interact-dragstart.delegate="on_drag_start($event)" interact-dragend.delegate="on_drag_end($event)"
-        click.delegate="dragging = false">
-        <img repeat.for="slide of slides" draggable="false" id="img-${slide.photo_id}" src="${slide.src}" height="${height}"
-            aubs-tooltip="text.bind:slide.title" click.delegate="on_click($event, slide)"
-             class="${slide.video_id ? 'video' : ''}"
-            />
-    </div>
-    <div class="slide-control prev" style="top:87%;left:6px;" click.delegate="goto_photo_table()" t="[title]photos.show-in-photo-page" >
-        <i class="fas fa-table" style="font-size:1.3em;color:yellow;"></i>
-    </div>
-    <help topic.bind="photo-strip" position="right"></help>
-    <template if.bind="settings.arrows && show_arrows">
-        <div class="slide-control next" click.trigger="next_slide($event)">
-            <i class="fa fa-chevron-right fa-3x"></i>
-            <i class="fa fa-chevron-right fa-2x" style="color:black;top:6px;left:0px;position:absolute;"></i>
-        </div>
-        <div if.bind="settings.arrows" class="slide-control prev" click.trigger="prev_slide($event)">
-            <i class="fa fa-chevron-left fa-3x"></i>
-            <i class="fa fa-chevron-left fa-2x" style="color:black;top:6px;left:10px;position:absolute;"></i>
-        </div>
-        <div show.bind="false" class.bind="dummy"></div>
-    </template>
-    <div show.bind="false" class.bind="move_to_triggered"></div>
-    <div show.bind="false" class.bind="restart_triggered"></div>
-
+<div id="slide-list" class="row slide-list" css="height: ${height}px;" element.ref="slideList"
+interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="drag_photos($event)"
+interact-dragstart.delegate="on_drag_start($event)" interact-dragend.delegate="on_drag_end($event)"
+click.delegate="dragging = false">
+<img repeat.for="slide of slides" draggable="false" id="img-${slide.photo_id}" src="${slide.src}" height="${height}"
+    aubs-tooltip="text.bind:slide.title" click.trigger="on_click($event, slide)"
+     class="${slide.video_id ? 'video' : ''}"
+    />
+</div>
+<div class="slide-control prev" style="top:87%;left:6px;" click.trigger="goto_photo_table()" t="[title]photos.show-in-photo-page" >
+<i class="fas fa-table" style="font-size:1.3em;color:yellow;"></i>
+</div>
+<help topic.bind="photo-strip" position="right"></help>
+<template if.bind="settings.arrows && show_arrows">
+<div class="slide-control next" click.trigger="next_slide($event)">
+    <i class="fa fa-chevron-right fa-3x"></i>
+    <i class="fa fa-chevron-right fa-2x" style="color:black;top:6px;left:0px;position:absolute;"></i>
+</div>
+<div if.bind="settings.arrows" class="slide-control prev" click.trigger="prev_slide($event)">
+    <i class="fa fa-chevron-left fa-3x"></i>
+    <i class="fa fa-chevron-left fa-2x" style="color:black;top:6px;left:10px;position:absolute;"></i>
+</div>
+<div show.bind="false" class.bind="dummy"></div>
 </template>
+<div show.bind="false" class.bind="move_to_triggered"></div>
+<div show.bind="false" class.bind="restart_triggered"></div>

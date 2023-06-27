@@ -1,0 +1,84 @@
+.palette-default {
+    .top-head, .footer-area {
+        background: rgba(80, 80, 80, 0.3);
+    }
+    .editable, .story-preview, .member-story-preview, .outer-story-preview {
+        background-color: inherit;
+    }
+    .detail-header {
+        background-color: #bbbbbb;
+    }
+    .member-of-the-day {
+        background-color: #3e4142;
+    }
+}
+    
+.palette-oldie {
+    .top-head, .footer-area {
+        background: rgba(160, 100, 0, 0.3);
+    }
+    .editable, .story-preview, .member-story-preview, .outer-story-preview {
+        background-color:beige;
+    }
+    .detail-header {
+        background-color: rgba(180, 80, 0, 0.5);
+    }
+    .member-of-the-day {
+        background-color: rgb(151, 108, 0);
+    }
+}
+    
+.palette-sky {
+    .top-head, .footer-area {
+        background: rgba(0, 80, 180, 0.3);
+    }
+    .editable, .story-preview, .member-story-preview, .outer-story-preview {
+        background-color: lightblue;
+    }
+    .detail-header {
+        background-color: rgba(0, 80, 180, 0.5);
+    }
+    .member-of-the-day {
+        background-color: #5e7056;
+    }
+}
+
+.palette-earth {
+    .top-head, .footer-area {
+        background: rgba(80, 180, 0, 0.3);
+    }
+    .editable, .story-preview, .member-story-preview, .outer-story-preview {
+        background-color: lightseagreen;
+    }
+    .detail-header {
+        background-color: rgba(80, 180, 0, 0.5);
+    }
+    .member-of-the-day {
+        background-color: mediumaquamarine;
+    }
+}
+
+.editable .checkable {
+    padding-right: 8px;
+    padding-left:8px;
+}
+
+.no-theme .preview-header {
+    padding:0;
+}
+
+.palette-selector .palette-default {
+    background-color: default;
+}
+
+.palette-selector .palette-oldie {
+    background-color: beige;
+} 
+
+.palette-selector .palette-sky {
+    background-color: lightblue;
+} 
+
+.palette-selector .palette-earth {
+    background-color: lightseagreen;
+} 

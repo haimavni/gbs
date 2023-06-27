@@ -1,0 +1,33 @@
+$desktop-width: 1200px;
+
+@mixin container {
+    display: flex;
+
+    @include desktop {
+        //min-width: 900px;
+        width: $desktop-width;
+        //max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @include mobile {
+        width: 100%;
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
+}
+
+@mixin flex($grow: 1, $shrink: 1, $basis: auto) {
+    flex: $grow $shrink $basis;
+}
+
+.expand {
+    @include flex(1, 0, auto);
+}
+
+.container {
+    @include desktop {
+        width: $desktop-width - 30 !important;
+    }
+}

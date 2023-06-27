@@ -1,14 +1,16 @@
-import { inject } from "aurelia-dependency-injection";
-import { Configure } from "./configure";
+import { DI } from "aurelia";
+import { IConfigure } from "./configure";
 
-@inject(Configure)
+export type IGoogleMapsAPI = GoogleMapsAPI;
+export const IGoogleMapsAPI = DI.createInterface<IGoogleMapsAPI>(
+    "IGoogleMapsAPI",
+    (x) => x.singleton(GoogleMapsAPI)
+);
+
 export class GoogleMapsAPI {
     _scriptPromise = null;
-    private config;
 
-    constructor(config) {
-        this.config = config;
-    }
+    constructor(@IConfigure private readonly config: IConfigure) {}
 
     getMapsInstance() {
         if (this._scriptPromise !== null) {

@@ -1,31 +1,30 @@
-import { bindable, inject, computedFrom, DOM, bindingMode } from 'aurelia-framework';
-import { User } from '../../../services/user';
-import { DialogService } from 'aurelia-dialog';
-import { Chat } from '../../../user/chat';
+import { IUser } from "../../../services/user";
+import { DialogDeactivationStatuses, IDialogService } from "@aurelia/dialog";
+import { Chat } from "../../../user/chat";
+import { BindingMode, INode, bindable } from "aurelia";
+import { watch } from '@aurelia/runtime-html';
 
-@inject(DOM.Element, User, DialogService, Chat)
 export class ChatButtonCustomElement {
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) chatroom_id;
-    @bindable caption = 'user.chats';
-    user;
-    dialog;
-    element;
+    @bindable({ mode: BindingMode.twoWay }) chatroom_id;
+    @bindable caption = "user.chats";
 
-    constructor(element, user: User, dialog: DialogService) {
-        this.user = user;
-        this.dialog = dialog;
-        this.element = element;
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @IUser private readonly user: IUser,
+        @IDialogService private readonly dialog: IDialogService
+    ) {
+
     }
 
-    //@computedFrom('user.isLoggedIn', 'chatroom_id')
+    @watch("user.config.show_chat_buttons")
     get can_chat() {
-        return this.user.config.show_chat_buttons; //this.user.isLoggedIn || this.chatroom_id;
+        return this.user.config.show_chat_buttons;
     }
 
-    @computedFrom('chatroom_id')
+    @watch("chatroom_id")
     get empty_class() {
-        let result = this.chatroom_id ? '' : 'empty';
-        return this.chatroom_id ? '' : 'empty';
+        let result = this.chatroom_id ? "" : "empty";
+        return this.chatroom_id ? "" : "empty";
     }
 
     async chat(event) {
@@ -39,38 +38,43 @@ export class ChatButtonCustomElement {
             }
         }
         if (!this.chatroom_id) return;
-        document.body.classList.add('edged-dialog');
-        this.dialog.open({ viewModel: Chat, model: { chatroom_id: this.chatroom_id }, lock: false })
-            .whenClosed(result => { 
-                document.body.classList.remove('edged-dialog');
-                if (result.output == "deleted") {
+        document.body.classList.add("edged-dialog");
+        this.dialog
+            .open({
+                component: () => Chat,
+                model: { chatroom_id: this.chatroom_id },
+                lock: false,
+            })
+            .whenClosed((result) => {
+                document.body.classList.remove("edged-dialog");
+
+                if ((result.value as any).status === 'deleted') {
                     this.dispatch_chatroom_deleted_event();
                 }
-             });
+            });
     }
 
     dispatch_new_chatroom_event() {
-        let customEvent = new CustomEvent('new-chatroom', {
+        let customEvent = new CustomEvent("new-chatroom", {
             detail: {
-                new_name: 'new chatroom'
+                new_name: "new chatroom",
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(customEvent);
     }
 
     dispatch_chatroom_deleted_event() {
-        let customEvent = new CustomEvent('chatroom-deleted', {
+        let customEvent = new CustomEvent("chatroom-deleted", {
             detail: {
-                chatroom_id: this.chatroom_id
+                chatroom_id: this.chatroom_id,
             },
-            bubbles: true
+            bubbles: true,
         });
         this.element.dispatchEvent(customEvent);
     }
-
 }
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

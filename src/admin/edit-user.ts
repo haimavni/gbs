@@ -1,13 +1,10 @@
-import { autoinject } from 'aurelia-framework';
-import { DialogController } from 'aurelia-dialog';
+import { IDialogController } from '@aurelia/dialog';
 
-@autoinject
 export class EditUser {
     curr_user;
-    controller: DialogController;
 
-    constructor(controller: DialogController) {
-        this.controller = controller;
+    constructor(@IDialogController private readonly controller: IDialogController) {
+
     }
 
     activate(params) {

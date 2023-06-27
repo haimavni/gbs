@@ -1,16 +1,17 @@
-<template>
-    <require from="./my-map.css">
-
-    </require>
-    <div id="mapa" css="margin-left:auto;margin-right:auto;width:${width}px;height:${height}px">
-        <input
+<import from="./my-map.css"
+    ><import>
+        <div
+            id="mapa"
+            css="margin-left:auto;margin-right:auto;width:${width}px;height:${height}px"
+        >
+            <input
                 id="pac-input"
                 class="controls"
                 type="text"
                 placeholder="${'search-location' & t}"
                 value.bind="search_pattern"
-        />
-        <google-map
+            />
+            <google-map
                 longitude.two-way="longitude"
                 latitude.two-way="latitude"
                 map-loaded.call="map_loaded(map, $event)"
@@ -18,7 +19,8 @@
                 bounds-change.delegate="bounds_changed($event)"
                 markers.bind="markers"
                 zoom.bind="zoom"
-                auto-update-bounds="true">
-        </google-map>
-    </div>
-</template>
+                auto-update-bounds="true"
+            >
+            </google-map>
+        </div> </import
+></import>

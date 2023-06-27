@@ -1,54 +1,52 @@
-<template>
-    <require from="./admin.css"></require>
-    <section class="container content-area" style="padding-right:30px;" dir="rtl">
-        <div style="width: 100%;margin-right:auto;margin-left:auto;height:100%;overflow:auto;">
-            <table class="table table-striped" aurelia-table="data.bind: items; display-data.bind: $displayData;
-                current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">
-                <col style="width:8%">
-                <col style="width:26%">
-                <col style="width:54%">
-                <col style="width:12%">
-                <thead>
-                    <tr dir="rtl">
-                        <th style="text-align: right;">${'name' & t}</th>
-                        <th style="text-align: right;">${'email' & t}</th>
-                        <th style="text-align: right;">${'message' & t}</th>
-                        <th style="text-align: right;">${'date' & t}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr repeat.for="item of $displayData">
-                        <td css="direction:${theme.rtltr}">${item.name}</td>
-                        <td>
-                            <a href="mailto:${item.email}">${item.email}</a>
-                        </td>
-                        <td style="direction:rtl">
-                            <span style="overflow-wrap:anywhere" innerhtml.bind="item.message"></span>
-                        </td>
-                        <td>${item.date}</td>
-                    </tr>
-                </tbody>
-            </table>
+<import from="./admin.css"></import>
+<section class="container content-area" style="padding-right:30px;" dir="rtl">
+    <div style="width: 100%;margin-right:auto;margin-left:auto;height:100%;overflow:auto;">
+        <table class="table table-striped" aurelia-table="data.bind: items; display-data.bind: $displayData;
+            current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">
+            <col style="width:8%">
+            <col style="width:26%">
+            <col style="width:54%">
+            <col style="width:12%">
+            <thead>
+                <tr dir="rtl">
+                    <th style="text-align: right;">${'name' & t}</th>
+                    <th style="text-align: right;">${'email' & t}</th>
+                    <th style="text-align: right;">${'message' & t}</th>
+                    <th style="text-align: right;">${'date' & t}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="item of $displayData">
+                    <td css="direction:${theme.rtltr}">${item.name}</td>
+                    <td>
+                        <a href="mailto:${item.email}">${item.email}</a>
+                    </td>
+                    <td style="direction:rtl">
+                        <span style="overflow-wrap:anywhere" innerhtml.bind="item.message"></span>
+                    </td>
+                    <td>${item.date}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row" style="margin-right:0;">
+        <div class="col-md-9">
+            <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems" pagination-size.bind="15"
+                boundary-links.bind="true"> </aut-pagination>
         </div>
-        <div class="row" style="margin-right:0;">
-            <div class="col-md-9">
-                <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems" pagination-size.bind="15"
-                    boundary-links.bind="true"> </aut-pagination>
-            </div>
 
-            <div class="col-md-3">
-                <div class="form-inline">
-                    <div class="form-group pull-right">
-                        <label for="pageSize">Page Size: </label>
-                        <select value.bind="pageSize" id="pageSize" class="form-control">
-                            <option model.bind="5">5</option>
-                            <option model.bind="10">10</option>
-                            <option model.bind="15">15</option>
-                            <option model.bind="50">50</option>
-                        </select>
-                    </div>
+        <div class="col-md-3">
+            <div class="form-inline">
+                <div class="form-group pull-right">
+                    <label for="pageSize">Page Size: </label>
+                    <select value.bind="pageSize" id="pageSize" class="form-control">
+                        <option model.bind="5">5</option>
+                        <option model.bind="10">10</option>
+                        <option model.bind="15">15</option>
+                        <option model.bind="50">50</option>
+                    </select>
                 </div>
             </div>
         </div>
-    </section>
-</template>
+    </div>
+</section>

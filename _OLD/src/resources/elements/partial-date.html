@@ -1,0 +1,22 @@
+<template>
+    <form class="form-inline" dir="ltr">
+        <div id="day" class="form-group day" style="float:left;margin-right:0px;" >
+            <roller current.two-way="day" maxlen="2"></roller>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <label>-</label>
+        </div>
+        <div id="month" class="form-group month" style="float:left;margin-right:0px;">
+            <roller current.two-way="month" maxlen="2"></roller>
+        </div>
+        <div class="form-group" style="float:left;margin-right:0px;">
+            <label>-</label>
+        </div>
+        <div id="decade" class="form-group decade" style="float:left;margin-right:0px;">
+            <roller current.two-way="decade" maxlen="3"></roller>
+        </div>
+        <div id="year" class="form-group year" style="float:left;margin-right:0px;" onfocus="onfocus('year')" `>
+            <roller current.two-way="year" maxlen="1"></roller>
+        </div>
+    </form>
+</template>

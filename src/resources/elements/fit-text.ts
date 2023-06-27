@@ -1,30 +1,33 @@
-import { bindable, inject, DOM, computedFrom } from 'aurelia-framework';
-import { Misc } from '../../services/misc';
-import { Theme } from '../../services/theme';
+import { INode, bindable } from "aurelia";
+import { watch } from "@aurelia/runtime-html";
+import { IMisc } from "../../services/misc";
+import { ITheme } from "../../services/theme";
 
-@inject(DOM.Element, Misc, Theme)
 export class fitTextCustomElement {
-    element;
     @bindable txt = "";
     @bindable width;
     @bindable height;
     truncated_text = "";
     canvas: HTMLCanvasElement;
-    misc: Misc;
-    theme: Theme;
     font_size;
 
-    constructor(element, misc: Misc, theme: Theme) {
-        this.element = element;
-        this.misc = misc;
-        this.theme = theme;
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @IMisc private readonly misc: IMisc,
+        @ITheme private readonly theme: ITheme
+    ) {
         console.log("theme is ", this.theme);
     }
 
     async attached() {
-        let style = window.getComputedStyle(this.element, null)
+        let style = window.getComputedStyle(this.element, null);
         console.log("style is ", style);
-        console.log("style font/family/size: ", style.font, style.fontFamily, style.fontSize);
+        console.log(
+            "style font/family/size: ",
+            style.font,
+            style.fontFamily,
+            style.fontSize
+        );
         console.log("style line height ", style.lineHeight);
         this.font_size = style.fontSize;
         let parent = this.element.parentElement;
@@ -33,7 +36,7 @@ export class fitTextCustomElement {
         console.log("offset height: ", parent.offsetHeight);
         console.log("offset width: ", parent.offsetWidth);
         console.log("bc is ", bc);
-        for (let i=0; i< 10; i+=1) {
+        for (let i = 0; i < 10; i += 1) {
             if (this.theme) {
                 await this.misc.sleep(20);
             }
@@ -41,17 +44,20 @@ export class fitTextCustomElement {
     }
 
     getLineHeight() {
-        let lineHeight = window.getComputedStyle(this.element)['line-height'];
-        if (lineHeight === 'normal') {
+        let lineHeight = window.getComputedStyle(this.element)["line-height"];
+        if (lineHeight === "normal") {
             // sucky chrome
-            return 1.16 * parseFloat(window.getComputedStyle(this.element)['font-size']);
+            return (
+                1.16 *
+                parseFloat(window.getComputedStyle(this.element)["font-size"])
+            );
         } else {
             return parseFloat(lineHeight);
         }
     }
 
     getLineWidth() {
-        let lineWidth = window.getComputedStyle(this.element)['line-width'];
+        let lineWidth = window.getComputedStyle(this.element)["line-width"];
         return parseFloat(lineWidth);
     }
 
@@ -65,7 +71,7 @@ export class fitTextCustomElement {
         let line = "";
         let line0 = "";
         if (!this.txt) return;
-        let parts = this.txt.split(' ');
+        let parts = this.txt.split(" ");
         let finito = false;
         for (let wrd of parts) {
             line0 = line;
@@ -74,12 +80,13 @@ export class fitTextCustomElement {
             if (this.text_width(line) > lineWidth) {
                 console.log(line0, " width=", this.text_width(line0));
                 //console.log("line break ", lines.length*lineHeight);
-                finito = lines.length * lineHeight >= element_height
+                finito = lines.length * lineHeight >= element_height;
                 if (finito) {
-                    while (line0 && line0[line.length - 1] == '.') line0 = line0.substr(0, line0.length - 1);
-                    line0 += '...'
+                    while (line0 && line0[line.length - 1] == ".")
+                        line0 = line0.substr(0, line0.length - 1);
+                    line0 += "...";
                 }
-                lines.push(line0)
+                lines.push(line0);
                 if (finito) {
                     break;
                 }
@@ -87,36 +94,37 @@ export class fitTextCustomElement {
             }
         }
         if (!finito) {
-            while (line && line[line.length - 1] == '.') line = line.substr(0, line.length - 1);
-            line += '...'
+            while (line && line[line.length - 1] == ".")
+                line = line.substr(0, line.length - 1);
+            line += "...";
             lines.push(line);
         }
-        this.truncated_text = lines.join(' ');
+        this.truncated_text = lines.join(" ");
         console.log("truncated_text: ", lines);
         //this.element.innerHTML = truncated_text;
     }
 
     text_width(txt) {
         //const canvas = <HTMLCanvasElement> document.getElementById('myC');
-        let ctx = this.canvas.getContext('2d');
+        let ctx = this.canvas.getContext("2d");
         //console.log("ctx: ", ctx);
         //this.font_size = "36px"; //temp..
         ctx.font = this.font_size + " Alef Hebrew";
         return ctx.measureText(txt).width * this.factor;
     }
 
-    @computedFrom('txt')
+    @watch("txt")
     get dummy() {
         if (this.txt) this.fit();
         return;
     }
 
-    @computedFrom('theme.font_size')
+    @watch("theme.font_size")
     get factor() {
-        switch(this.theme.font_size) {
-            case 'font-size-100': 
+        switch (this.theme.font_size) {
+            case "font-size-100":
                 return 0.9;
-            case 'font-size-150':
+            case "font-size-150":
                 return 1.3;
         }
         return 1.0;

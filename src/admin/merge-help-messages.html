@@ -1,45 +1,43 @@
-<template>
-    <require from="./admin.css"></require>
-    <div if.bind="empty" style="width: 1200px;margin: 10px auto auto;">
-        <h2>
-            ${'admin.no-messages-to-merge' & t}
-        </h2>
-    </div>
-    <div style="width: 1200px;margin: 10px auto auto;" if.bind="message_list.length > 0">
-        <div style="height:220px;display:flex;">
-            <div style="width:50%">
-                <form style="display:flex;margin-right:20px;" class="fast-term-search">
-                    <div class="input-group" style="width:236px;">
-                        <search-input value.bind="filter" t="[placeholder]admin.merge-help-filter" help_topic="merge-help"
-                            height="38">
-                        </search-input>
-                    </div>
-                </form>
-                <ul style="height:170px;overflow:auto;margin-top:5px;width:420px;margin-right:-20px;">
-                    <li repeat.for="message of message_list | filter : filter : 'name'">
-                        <button click.delegate="select_message(message)" class="btn btn-default ${message.done}" style="width:300px;text-align:right;" disabled.bind="dirty ? 'disabled' : ''">
-                            ${message.name}
-                        </button>
-                        <button class="btn btn-success" style="width:36px;height:32px;" click.delegate="accept_system(message)" 
-                            aubs-popover="body.bind:explain_accept_system;position:left;"
-                            title.bind="explain_accept_system"
-                            disabled.bind="message.done || dirty ? 'disabled' : '' ">
-                            <i class="fas fa-check"></i>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-            <!-- <div innerhtml.bind="right_text" style="width:50%;">
-
-            </div> -->
+<import from="./admin.css"></import>
+<div if.bind="empty" style="width: 1200px;margin: 10px auto auto;">
+    <h2>
+        ${'admin.no-messages-to-merge' & t}
+    </h2>
+</div>
+<div style="width: 1200px;margin: 10px auto auto;" if.bind="message_list.length > 0">
+    <div style="height:220px;display:flex;">
+        <div style="width:50%">
+            <form style="display:flex;margin-right:20px;" class="fast-term-search">
+                <div class="input-group" style="width:236px;">
+                    <search-input value.bind="filter" t="[placeholder]admin.merge-help-filter" help_topic="merge-help"
+                        height="38">
+                    </search-input>
+                </div>
+            </form>
+            <ul style="height:170px;overflow:auto;margin-top:5px;width:420px;margin-right:-20px;">
+                <li repeat.for="message of message_list | filter : filter : 'name'">
+                    <button click.trigger="select_message(message)" class="btn btn-default ${message.done}" style="width:300px;text-align:right;" disabled.bind="dirty ? 'disabled' : ''">
+                        ${message.name}
+                    </button>
+                    <button class="btn btn-success" style="width:36px;height:32px;" click.trigger="accept_system(message)" 
+                        aubs-popover="body.bind:explain_accept_system;position:left;"
+                        title.bind="explain_accept_system"
+                        disabled.bind="message.done || dirty ? 'disabled' : '' ">
+                        <i class="fas fa-check"></i>
+                    </button>
+                </li>
+            </ul>
         </div>
-        <edit-side-by-side if.bind="curr_story_id" fixed_str.bind="left_text" edited_str.bind="right_text" height.bind="520" init.bind="init" dirty.bind="dirty" save.delegate="saved()">
+        <!-- <div innerhtml.bind="right_text" style="width:50%;">
 
-        </edit-side-by-side>
+        </div> -->
     </div>
-    <style>
-        .done {
-            background-color: lightblue;
-        }
-    </style>
-</template>
+    <edit-side-by-side if.bind="curr_story_id" fixed_str.bind="left_text" edited_str.bind="right_text" height.bind="520" init.bind="init" dirty.bind="dirty" save.delegate="saved()">
+
+    </edit-side-by-side>
+</div>
+<style>
+    .done {
+        background-color: lightblue;
+    }
+</style>

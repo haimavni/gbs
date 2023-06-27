@@ -1,0 +1,94 @@
+<template>
+    <div class="row" style="padding:5px;height:750px;width:1500px;margin-left:auto;margin-right:auto;" dir="ltr">
+        <div class="col-sm-3" style="height:100%;">
+            <h3 class="center">Log Files</h3>
+            <div class="form-inline">
+                <div class="form-group" style="margin-bottom:14px;">
+                    <input type="text" value.bind="filters[0].value" placeholder="Enter filter text"
+                        class="form-control" />
+                </div>
+            </div>
+            <table class="table table-striped" aurelia-table="data.bind: log_files; display-data.bind: $displayData; 
+                current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;
+                filters.bind:filters;">
+                <thead>
+                    <tr>
+                        <th aut-sort="key:fn">File Name</th>
+                        <th>Delete</th>
+                        <th>Download</th>
+                        <th>Show</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of $displayData">
+                        <td class="center">
+                            ${item.fn}
+                        </td>
+                        <td class="center">
+                            <a href="#" title="Delete" click.delegate="delete_log_file(item.fn)">
+                                <i class="far fa-trash"></i>
+                            </a>
+                        </td>
+                        <td class="center">
+                            <a href="#" title="Download" click.delegate="download_log_file(item.fn)">
+                                <i class="far fa-download"></i>
+                            </a>
+                        </td>
+                        <td class="border-right center">
+                            <a href="" click.delegate="show_log_file(item.fn)">
+                                <i class="fa fa-play fa-lg ${item.fn==displayed_log_file ? 'selected-file fa-2x': ''}"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-8" style="height:90%;">
+            <h3 class="center">${ displayed_log_file }</h3>
+            <div innerhtml.bind="log_html" style="max-height:700px;overflow:auto;width:100%;">
+            </div>
+        </div>
+
+        <div class="row" style="margin-right:0;">
+            <div class="col-md-9">
+                <aut-pagination current-page.bind="currentPage" 
+                    page-size.bind="pageSize" 
+                    total-items.bind="totalItems"
+                    pagination-size.bind="15" 
+                    boundary-links.bind="true"> 
+                </aut-pagination>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-inline">
+                    <div class="form-group pull-right">
+                        <label for="pageSize">Page Size: </label>
+                        <select value.bind="pageSize" class="form-control">
+                            <option model.bind="5">5</option>
+                            <option model.bind="10">10</option>
+                            <option model.bind="15">15</option>
+                            <option model.bind="50">50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        i.is_active {
+            font-weight: bold;
+            color: orange;
+        }
+
+        h3.center {
+            text-align: center;
+        }
+
+        i.selected-file {
+            color: orange;
+        }
+    </style>
+</template>

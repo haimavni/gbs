@@ -1,34 +1,33 @@
-import { bindable, inject, DOM, bindingMode, computedFrom } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
-import { User } from '../../services/user';
+import { I18N } from "@aurelia/i18n";
+import { watch } from '@aurelia/runtime-html';
+import { IUser } from "../../services/user";
+import { INode, bindable } from "aurelia";
 
-@inject(DOM.Element, I18N, User)
 export class SelectorCustomElement {
     @bindable dict;
     @bindable selectedval;
     @bindable suffix;
     @bindable width = "100%";
     selected;
-    //options;
-    i18n;
-    user;
-    element;
     selector;
 
-    constructor(element, i18n, user) {
-        this.element = element;
-        this.i18n = i18n;
-        this.user = user;
+    constructor(
+        @INode private readonly element: HTMLElement,
+        @I18N private readonly i18n: I18N,
+        @IUser private readonly user: IUser
+    ) {
+
     }
 
-    @computedFrom('suffix')
+    @watch("suffix")
     get options() {
         let keys = Object.keys(this.dict);
-        let suffix = this.suffix ? '-' + this.suffix : '';
+        let suffix = this.suffix ? "-" + this.suffix : "";
         let options = [];
         for (let key of keys) {
-            let name = 'consts.' + (key.replace(/_/g, '-') + suffix).toLowerCase();
-            let selected = { name: this.i18n.tr(name), value: this.dict[key] }
+            let name =
+                "consts." + (key.replace(/_/g, "-") + suffix).toLowerCase();
+            let selected = { name: this.i18n.tr(name), value: this.dict[key] };
             options.push(selected);
         }
         options.sort((option1, option2) => option1.value - option2.value);
@@ -37,9 +36,11 @@ export class SelectorCustomElement {
         return options;
     }
 
-    @computedFrom('selectedval')
+    @watch("selectedval")
     get display() {
-        let selected = this.options.find(opt=>opt.value==this.selectedval);
+        let selected = this.options.find(
+            (opt) => opt.value == this.selectedval
+        );
         if (selected) {
             return selected.name;
         } else {
@@ -54,6 +55,4 @@ export class SelectorCustomElement {
     selectedChanged(newValue, oldValue) {
         //console.log("selected changed from ", oldValue, " to ", newValue, " this value: ", this.selected);
     }
-
 }
-

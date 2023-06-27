@@ -1,64 +1,62 @@
-<template>
-    <require from="./chats.css"></require>
-    <div class="row" style="margin:0;" dir="${theme.rtltr}">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-1" style="padding-top:5px;">
-            <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_left()">
-                <i class="fa fa-chevron-left fa-lg ${can_move_left ? '' : 'disabled'}"></i>
-            </a>
-        </div>
-        <div class="col-md-2" style="text-align:center">
-            <h3 style="margin-top: 0;font-weight:600;">${'chats.chats' & t}</h3>
-        </div>
-        <div class="col-md-1" style="padding-top:5px;">
-            <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_right()" style="float:left;">
-                <i class="fa fa-chevron-right fa-lg ${can_move_right ? '' : 'disabled'}"></i>
-            </a>
-        </div>
-        <div class="col-md-4" style="text-align:center">
-            <form class="form-horizontal" role="form" onsubmit="return false;">
-                <div if.bind="user.privileges.CHAT_MODERATOR || user.debugging"
-                    disabled.bind="new_chatroom_name == '' ? 'disabled' : ''"
-                    style="padding-top:0px;margin-right:10px;">
-                    <button class="btn btn-default"
-                        if.bind="new_chatroom_name_visible"
-                        style="padding:0;margin:0;height:32px;float:left;margin-right:6px;padding-top:5px;border:none;" 
-                        click.trigger="add_chatroom()">
-                        <i class="fas fa-lg fa-save"></i>
-                    </button>
-                    <button class="btn btn-default"
-                        if.bind="! new_chatroom_name_visible"
-                        style="padding:4px;margin:4px;margin-top: 6px;
-                            background-color: green; color: white;float:left;margin-right:6px;padding-top:px;" 
-                        click.trigger="add_chatroom()">
-                        <i class="fas fa-lg fa-plus"></i> ${'chats.open-new-chatroom' & t}
-                    </button>
-                    <button class="btn btn-default" style="padding:0;margin:0;height:32px;float:left;padding-top:5px;border:none;" 
-                        if.bind="new_chatroom_name_visible"
-                        click.trigger="cancel_add_chatroom()">
-                        <i class="far fa-lg fa-times-circle"></i>
-                    </button>
-                </div>
-                <div 
-                    style="margin:5px;" 
-                    show.bind="new_chatroom_name_visible">
-                    <input
-                        id="chatroom-name"
-                        style="font-size: 95%;margin-bottom:3px;margin-left:16px;float:left;width: 240px;height:28px;"
-                        dir="rtl" type="text" value.bind="new_chatroom_name" placeholder="${'chats.enter-chatroom-name' & t}"
-                        class="form-control input-small" />
-                </div>
-            </form>
-        </div>
+<import from="./chats.css"></import>
+<div class="row" style="margin:0;" dir="${theme.rtltr}">
+    <div class="col-md-4">
     </div>
-    <div class="messages-area" style="margin:0px 0px;display:flex;justify-content:flex-start;">
-        <div repeat.for="chatroom of chatrooms">
-            <chatroom room_index.bind="$index" room_number.bind="chatroom.id"
-                show.bind="first_chatroom_number <= $index && $index < first_chatroom_number + chats_per_page"
-                onload="room_number=chatroom.id;room_index=$index;read_chatroom()" class="col-md-3"
-                style="width:inherit;">
-            </chatroom>
-        </div>
+    <div class="col-md-1" style="padding-top:5px;">
+        <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_left()">
+            <i class="fa fa-chevron-left fa-lg ${can_move_left ? '' : 'disabled'}"></i>
+        </a>
     </div>
-</template>
+    <div class="col-md-2" style="text-align:center">
+        <h3 style="margin-top: 0;font-weight:600;">${'chats.chats' & t}</h3>
+    </div>
+    <div class="col-md-1" style="padding-top:5px;">
+        <a href show.bind="chatrooms.length > chats_per_page" click.trigger="move_right()" style="float:left;">
+            <i class="fa fa-chevron-right fa-lg ${can_move_right ? '' : 'disabled'}"></i>
+        </a>
+    </div>
+    <div class="col-md-4" style="text-align:center">
+        <form class="form-horizontal" role="form" onsubmit="return false;">
+            <div if.bind="user.privileges.CHAT_MODERATOR || user.debugging"
+                disabled.bind="new_chatroom_name == '' ? 'disabled' : ''"
+                style="padding-top:0px;margin-right:10px;">
+                <button class="btn btn-default"
+                    if.bind="new_chatroom_name_visible"
+                    style="padding:0;margin:0;height:32px;float:left;margin-right:6px;padding-top:5px;border:none;" 
+                    click.trigger="add_chatroom()">
+                    <i class="fas fa-lg fa-save"></i>
+                </button>
+                <button class="btn btn-default"
+                    if.bind="! new_chatroom_name_visible"
+                    style="padding:4px;margin:4px;margin-top: 6px;
+                        background-color: green; color: white;float:left;margin-right:6px;padding-top:px;" 
+                    click.trigger="add_chatroom()">
+                    <i class="fas fa-lg fa-plus"></i> ${'chats.open-new-chatroom' & t}
+                </button>
+                <button class="btn btn-default" style="padding:0;margin:0;height:32px;float:left;padding-top:5px;border:none;" 
+                    if.bind="new_chatroom_name_visible"
+                    click.trigger="cancel_add_chatroom()">
+                    <i class="far fa-lg fa-times-circle"></i>
+                </button>
+            </div>
+            <div 
+                style="margin:5px;" 
+                show.bind="new_chatroom_name_visible">
+                <input
+                    id="chatroom-name"
+                    style="font-size: 95%;margin-bottom:3px;margin-left:16px;float:left;width: 240px;height:28px;"
+                    dir="rtl" type="text" value.bind="new_chatroom_name" placeholder="${'chats.enter-chatroom-name' & t}"
+                    class="form-control input-small" />
+            </div>
+        </form>
+    </div>
+</div>
+<div class="messages-area" style="margin:0px 0px;display:flex;justify-content:flex-start;">
+    <div repeat.for="chatroom of chatrooms">
+        <chatroom room_index.bind="$index" room_number.bind="chatroom.id"
+            show.bind="first_chatroom_number <= $index && $index < first_chatroom_number + chats_per_page"
+            onload="room_number=chatroom.id;room_index=$index;read_chatroom()" class="col-md-3"
+            style="width:inherit;">
+        </chatroom>
+    </div>
+</div>

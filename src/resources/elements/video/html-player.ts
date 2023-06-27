@@ -1,9 +1,9 @@
-import {bindable, bindingMode, customElement} from 'aurelia-framework';
+import { BindingMode } from 'aurelia';
 
 @customElement('html-player')
 export class HtmlPlayerCustomElement {
     @bindable video_source;
-    @bindable({defaultBindingMode: bindingMode.twoWay}) player: HTMLVideoElement;
+    @bindable({mode: BindingMode.twoWay}) player: HTMLVideoElement;
 
     constructor() {
         console.log("construct html5 player")
