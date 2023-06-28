@@ -1,0 +1,53 @@
+<template>
+    <require from="./member-picker.css"></require>
+    <div id="member-picker">
+        <div class="header">
+            <div>
+                <button if.bind="user.editing && filter && agent.size==0 && ! multi && ! is_excluded" 
+                    click.delegate="create_new_member()" 
+                    class="btn btn-success cl-create-btn" 
+                    disabled.bind="(! gender && ! filter)" 
+                    if.bind="user.editing">
+                    ${'members.new' & t} ${filter}
+                </button>
+            </div>
+            <div if.bind="multi && selected_member_ids.size > 0 || ! was_empty">
+                <button click.delegate="save()" class="btn btn-success cl-create-btn">
+                    ${back_to_text & t}
+                </button>
+            </div>
+            <div if.bind="help_topic">
+                <help topic.bind="help_topic" position="bottom"></help>
+            </div>
+            <div if.bind="face_identifier && member_id && 0 < agent.size && agent.size < 7" style="padding-left:0px;">
+                <div class="checkbox">
+                    <label t="[title]members.make-profile-photo" for="set-as-profile-photo">
+                    <input id="set-as-profile-photo" type="checkbox" value.bind="make_profile_photo" checked.bind="make_profile_photo">
+                        ${'members.set-as-profile-photo' & t}
+                    </label>
+                </div>
+            </div>
+            <div>
+                <div class="input-group">
+                    <input dir="rtl" type="search" class="form-control" placeholder.bind="place_holder" value.bind="filter & debounce" style="float:right;width:350px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="member-list popup">
+            <div style="padding-right:75px;">
+                <ul class="list-group">
+                    <li repeat.for="member of members | filter : filter : '*selected' : 'first_name': 'last_name' : 'nick_name' : 'former_last_name' | take : 500 | spy : agent" 
+                        class="list-group-item ${member.id === $parent.selectedId ? 'active' : ''} ${member.selected}">
+
+                        <a click.delegate="select(member)" style="vertical-align: text-bottom;align-content: center;cursor:pointer;" aubs-tooltip="text.bind:member.name">
+                            <img src.bind="member.facePhotoURL" />
+                            <h6 dir="rtl" class="list-group-item-heading" style="text-align: center;">${member.name}</h6>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</template>

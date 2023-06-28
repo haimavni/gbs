@@ -1,0 +1,207 @@
+<template>
+    <div class="row" style="margin-top: 15px;margin-bottom:10px;" dir="rtl">
+        <div class="col-md-8" if.bind="update_info" style="color: gray;padding-left:5px;padding-top:4px;padding-right:0;">
+            <span style="font-size:18px;">${update_info}</span>
+        </div>
+        <div class="col-md-8" if.bind="! update_info">
+        </div>
+        <div class="col-md-4" style="padding-right:0;">
+            <span style="font-size:22px;">${'members.editing-member' & t}</span>
+        </div>
+    </div>
+    <div class="row unselectable">
+        <div class="col-md-6 family-buttons">
+            <div style="display:flex;flex-direction:row;margin-right:-15px;">
+                <!-- <div> -->
+                <!-- style="display:flex;flex-direction:row;margin-right:-15px;" -->
+                <div if.bind="family_type=='mf' || family_type=='mm'">
+                    <button 
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'M', 1)">${'members.father' & t}
+                    </button>
+                </div>
+                <div style="padding-right:0px;" if.bind="family_type=='mf' || family_type=='ff'">
+                    <button
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'F', 1)">${'members.mother' & t}
+                    </button>
+                </div>
+                <div if.bind="family_type=='mm'">
+                    <button  
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'M', 2)">${'members.father' & t}
+                    </button>
+                </div>
+                <div style="padding-right:0px;" if.bind="family_type=='ff'">
+                    <button
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;" 
+                        click.trigger="find_parent($event, 'F', 2)">${'members.mother' & t}
+                    </button>
+                </div>
+                <div>
+                    <button  
+                        class="btn btn-default" 
+                        style="height:32px;padding-top:2px;font-size:16px;margin-left:8px;width:100%;padding-left:2px;padding-right:2px;a" 
+                        click.trigger="find_spouse($event)">${spouse_label & t}
+                    </button>
+                </div>
+                <div style="padding-right:0px;margin-right:24px;align-self:flex-end;">
+                    <button
+                        class="btn btn-sm btn-${family_type=='mf' ? 'primary' : 'default'} family-type" 
+                        click.trigger="set_family_type('mf')">
+                        <i class="fas fa-male fa-sm"></i>
+                        <i class="fas fa-female fa-sm"></i>
+                    </button>
+                </div>
+                <div style="padding-right:0px;">
+                    <button
+                        class="btn btn-sm btn-${family_type=='mm' ? 'primary' : 'default'} family-type" 
+                        click.trigger="set_family_type('mm')">
+                        <i class="fas fa-male fa-sm"></i>
+                        <i class="fas fa-male fa-sm"></i>
+                    </button>
+                </div>
+                <div style="padding-right:0px;">
+                    <button
+                        class="btn btn-sm btn-${family_type=='ff' ? 'primary' : 'default'} family-type" 
+                        click.trigger="set_family_type('ff')">
+                        <i class="fas fa-female fa-sm"></i>
+                        <i class="fas fa-female fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="font-size:14px;float:right">
+            <div class="row toolbar">
+                <div class="col-md-12" style="padding-right:0px">
+                    <div class="btn-group" style="margin-bottom:15px;">
+                        <button type="button" tabindex="-1" class="btn btn-default ${dirty_story || dirty_info ? 'disabled' : ''}" click.trigger="next_member()">
+                            <i class="fa fa-large fa-chevron-left" ></i>
+                        </button>
+                        <button type="button" tabindex="-1" class="btn btn-default ${dirty_story || dirty_info ? 'disabled' : ''}" click.trigger="prev_member()">
+                            <i class="fa fa-large fa-chevron-right" ></i>
+                        </button>
+                        <!-- <button type="button" class="btn btn-default ${member.member_info.gender ? '' : 'btn-danger'}" href 
+                            click.trigger="toggle_gender()"
+                            t="[title]members.gender">
+                            <i class="fa fa-male fa-small" if.bind="member.member_info.gender=='M' || !member.member_info.gender"></i>
+                            <i class="fa fa-female fa-small" if.bind="member.member_info.gender=='F'"></i>
+                        </button> -->
+                        <button type="button" class="btn ${gender_class_f} female" href 
+                            click.trigger="set_gender('F')"
+                            style="margin-left:8px;"
+                            t="[title]members.gender">
+                            <i class="fa fa-female fa-small"></i>
+                        </button>
+                        <button type="button" class="btn ${gender_class_m} male" href 
+                            click.trigger="set_gender('M')"
+                            t="[title]members.gender">
+                            <i class="fa fa-male fa-small"></i>
+                        </button>
+                        <button class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" type="button" type="button" class="btn btn-default"
+                            disabled.bind="incomplete"
+                            style="margin-left:8px;"
+                            click.trigger="save_edited_data()" t="[title]members.save">
+                            <i class="fa  fa-large fa-save"></i>
+                        </button>
+                        <button type="button" type="button" class="btn btn-default ${dirty_story || dirty_info ? 'btn-warning' : 'disabled'}" click.trigger="cancel_edit_mode()"
+                            t="[title]members.cancel">
+                            <i class="fa fa-large fa-undo"></i>
+                        </button>
+                        <button if.bind="user.privileges.ADMIN" type="button" type="button" class="btn btn-warning ${dirty_story || dirty_info ? 'disabled' : btn-warning'}"
+                            click.trigger="tryDelete(member.member_info.id)" t="[title]members.delete-member">
+                            <i class="far fa-large fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row unselectable" style="margin-bottom:70px;">
+        <form class="form-horizontal member-info" role="form">
+            <!--The left wing of the form-->
+            <div class="col-md-6 member-info-left">
+                <div class="form-group" if.bind="member.member_info.name">
+                    <input type="text" class="form-control" id="former_name" t="[placeholder]members.former-name" value.bind="member.member_info.FormerName"
+                        disabled.bind="true">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="former_first_name" t="[placeholder]members.former-first-name" value.bind="member.member_info.former_first_name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="former_last_name" t="[placeholder]members.former-last-name" value.bind="member.member_info.former_last_name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="place_of_death" t="[placeholder]members.death-place" value.bind="member.member_info.place_of_death">
+                </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <div class="col-md-6" style="padding-left:0;min-width:100%">
+                        <date-range
+                            label="members.date-of-death"
+                            base_date_str.bind="member.member_info.date_of_death.date"
+                            span_size.bind="member.member_info.date_of_death.span"
+                            is_valid.bind="date_of_death_valid"
+                            id="date-of-death">
+                        </date-range>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:10px;" if.bind="member.member_info.date_of_death.date">
+                    <div class="col-md-6" style="padding-left:0;">
+                        <selector dict.bind="api.constants.cause_of_death" 
+                            selectedval.two-way="member.member_info.cause_of_death" 
+                            suffix.bind="member.member_info.gender || 'm'">
+                        </selector>
+                    </div>
+                    <label class="control-label col-md-6" style="padding-right:0;" >${'members.cause-of-death' & t}</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="title" t="[placeholder]members.title" value.bind="member.member_info.title">
+                </div>
+            </div>
+            <!--The right wing of the form-->
+            <div class="col-md-6 member-info-right">
+                <div class="form-group" if.bind="member.member_info.name">
+                    <input type="text" class="form-control" id="member_name" t="[placeholder]members.member-name" value.bind="member.member_info.name"
+                        disabled.bind="true">
+                </div>
+                <div class="form-group ${member.member_info.first_name ? '' : 'mandatory-missing'}">
+                    <input type="text" class="form-control" id="first_name" t="[placeholder]members.first-name" 
+                    value.bind="member.member_info.first_name" 
+                    change.delegate="trim_first_name()">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="last_name" t="[placeholder]members.last-name" 
+                    value.bind="member.member_info.last_name"
+                    change.delegate="trim_last_name()">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="birth_place" t="[placeholder]members.birth-place" value.bind="member.member_info.PlaceOfBirth">
+                </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <div class="col-md-6" style="padding-left:0;min-width:100%;">
+                        <date-range
+                            label="members.date-of-birth"
+                            base_date_str.bind="member.member_info.date_of_birth.date"
+                            is_valid.bind="date_of_birth_valid"
+                            span_size.bind="member.member_info.date_of_birth.span"
+                            id="date-of-birth">
+                        </date-range>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nick_name" t="[placeholder]members.nick-name" value.bind="member.member_info.NickName">
+                </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <div class="col-md-6" style="padding-left:0;">
+                        <selector dict.bind="api.constants.visibility" selectedval.two-way="member.member_info.visibility"></selector>
+                    </div>
+                    <label class="control-label col-md-6" style="padding-right:0;" for="date-of-birth">${'members.visibility' & t}</label>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>

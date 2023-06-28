@@ -1,0 +1,28 @@
+.photo-detail {
+    width:100%;
+}
+
+#photo-filters-panel {
+    &.rtl {
+        padding-right: 50px;
+    }
+    &.ltr {
+        padding-left: 50px;
+    }
+    padding-bottom: 12px;
+    width: 100vw;
+}
+
+.content-area.photos {
+    width: 100vw;
+    margin: 0;
+    padding:0;
+}
+
+#photos-container {
+    width: 100vw;
+}
+
+div#full-size-photo-toolbar {
+    padding-top: 40px;
+}

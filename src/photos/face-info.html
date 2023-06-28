@@ -1,0 +1,31 @@
+<template>
+    <ux-dialog ref="ux_dialog">
+        <ux-dialog-header>
+            <div class="centered-form" dir="${theme.rtltr}" style="background-color:rgba(0,0,0,0);padding-top:0px;"
+                innerHtml="${face.name}">
+            </div>
+        </ux-dialog-header>
+        <ux-dialog-body style="width:100%">
+            <button class="btn btn-warning" style="width:100%;" click.delegate="cancel_identification()">
+                ${'photos.cancel-indentification' & t}
+            </button>
+            <table style="width:100%;margin-left:auto;margin-right:auto;">
+                <tr>
+                  <td><i class="fas fa-expand" click.delegate="change_radius('bigger')" t="[title]photos.larger" style="color:grey;"></i></td>
+                  <td><i class="fas fa-arrow-up" click.delegate="move_face('up')"></i></td>
+                  <td><i class="fas fa-compress" click.delegate="change_radius('smaller')" t="[title]photos.smaller" style="color:grey;"></i></td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-arrow-up fa-rotate-90" click.delegate="move_face('right')"></i></td>
+                  <td><i class="fas fa-save" click.delegate="save_face_location()" style="color:grey;" t="[title]photos.save"></i></td>
+                  <td><i class="fas fa-arrow-up fa-rotate-270" click.delegate="move_face('left')"></i></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><i class="fas fa-arrow-up fa-rotate-180" click.delegate="move_face('down')"></i></td>
+                  <td></td>
+                </tr>
+              </table>
+        </ux-dialog-body>
+    </ux-dialog>
+</template>
