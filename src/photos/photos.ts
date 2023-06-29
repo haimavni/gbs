@@ -228,7 +228,7 @@ export class Photos {
             this.user.isLoggedIn = true;
             this.user.privileges.EDITOR = true;
             this.user.privileges.RESTRICTED = true;
-            this.theme.hide_menu = true;
+            //this.theme.hide_menu = true;
         }
         if (this.photo_list.length == 0)
             this.update_photo_list();
@@ -236,7 +236,7 @@ export class Photos {
 
     deactivate() {
         this.clear_photo_group();
-        //this.theme.hide_menu = false;
+        this.theme.hide_menu = false;
     }
 
     @computedFrom('user.editing')
