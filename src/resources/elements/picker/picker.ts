@@ -1,5 +1,4 @@
 import { IDialogService } from "@aurelia/dialog";
-import { watch } from "@aurelia/runtime-html";
 import { I18N } from "@aurelia/i18n";
 import { IUser } from "../../../services/user";
 import { ITheme } from "../../../services/theme";
@@ -126,12 +125,10 @@ export class Picker {
         this.element.dispatchEvent(customEvent);
     }
 
-    @watch("settings.can_delete")
     get can_delete() {
         return this.settings.can_delete;
     }
 
-    @watch(vm => vm.settings.can_add || vm.filter || vm.filter_size || vm.first_time || vm.user.editing)
     get can_add() {
         return (
             this.user.editing &&
@@ -165,12 +162,10 @@ export class Picker {
         this.element.dispatchEvent(customEvent);
     }
 
-    @watch("agent.size")
     get filter_size() {
         return this.agent.size;
     }
 
-    @watch("selected_option")
     get check_option_selected() {
         if (!this.selected_option) this.option_was_selected = false;
         this.filter = "";

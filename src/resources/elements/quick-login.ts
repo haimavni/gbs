@@ -1,6 +1,5 @@
 import { IDialogController } from "@aurelia/dialog";
 import { I18N } from "@aurelia/i18n";
-import { watch } from "@aurelia/runtime-html";
 import { IMemberGateway } from "../../services/gateway";
 import { IUser } from "../../services/user";
 import { ITheme } from "../../services/theme";
@@ -70,13 +69,6 @@ export class QuickLogin {
             });
     }
 
-    @watch(
-        (vm) =>
-            vm.loginData.first_name ||
-            vm.loginData.last_name ||
-            vm.loginData.password ||
-            vm.loginData.confirm_password
-    )
     get missing_fields() {
         if (
             this.loginData.first_name &&
@@ -88,9 +80,6 @@ export class QuickLogin {
         return "disabled";
     }
 
-    @watch(
-        (vm) => vm.user_id || vm.loginData.email || vm.new_user || vm.started
-    )
     get login_phase() {
         if (!this.started) return "init";
         if (!this.loginData.email) return "attempting";
@@ -109,7 +98,6 @@ export class QuickLogin {
         this.started = true;
     }
 
-    @watch((vm) => vm.user.isLoggedIn)
     get is_logged_in() {
         if (!this.user.isLoggedIn) this.started = false;
         return "bla";

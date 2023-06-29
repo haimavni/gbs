@@ -4,7 +4,7 @@
         <div class="detail-header">
             <div style="cursor:pointer;padding:0;margin:0;" if.bind="theme.is_desktop">
                 <chat-button chatroom_id.two-way="chatroom_id" caption.bind="'photos.add-details'"
-                    new-chatroom.delegate="create_chatroom()" chatroom-deleted.delegate="chatroom_deleted($event)">
+                    new-chatroom.trigger="create_chatroom()" chatroom-deleted.trigger="chatroom_deleted($event)">
                 </chat-button>
                 <i class="far fa-lg fa-arrow-up fa-rotate-${theme.rtltr=='rtl' ? 90 : 270} ${next_class}" t="[title]photos.next-slide"
                     click.trigger="go_next($event)" if.bind="photo_ids.length > 1"></i>
@@ -27,7 +27,7 @@
                 <div style="margin-left:15px;margin-right:15px;display:flex;flex-direction:column;">
                     <span>
                         <span dir="${theme.rtltr}" if.bind="photo_story.name">${photo_story.name}</span>
-                        <button class="btn btn-basic" if.bind="user.editing || marked" click.delegate="expose_map()"
+                        <button class="btn btn-basic" if.bind="user.editing || marked" click.trigger="expose_map()"
                             style="margin-top:8px;border:solid 2px lightgray;float:left;">
                             <i class="fa fa-map-marker-alt" style="color:dodgerblue"></i> ${view_hide_map}
                         </button>
@@ -38,7 +38,7 @@
                         base_date_str.bind="photo_date_str" hide_label_if_no_date.bind="true" enable_days_range.bind="true"
                         span_size.bind="photo_date_datespan" range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]"
                         is_valid.bind="photo_date_valid"
-                        change.delegate="update_photo_date($event)">
+                        change.trigger="update_photo_date($event)">
                     </date-range>
                     <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}: ${topic_names}</span>
                 </div>
@@ -60,7 +60,7 @@
                                 zoom.bind="zoom"
                                 can_mark.bind="user.editing"
                                 marked.bind="marked"
-                                location-changed.delegate="location_changed($event)"
+                                location-changed.trigger="location_changed($event)"
                         >
                         </my-map>
 
@@ -99,9 +99,9 @@
                                         <multi-select options.bind="topic_list" category="topic"
                                             selected_options.bind="params.selected_topics"
                                             first_time.bind="no_topics_yet" option_groups.bind="topic_groups"
-                                            new-name.delegate="add_topic($event)" settings.bind="options_settings"
+                                            new-name.trigger="add_topic($event)" settings.bind="options_settings"
                                             has_groups.bind="has_grouped_topics" place_holder_text="photos.click-topic"
-                                            ms-change.delegate="handle_topic_change($event) ">
+                                            ms-change.trigger="handle_topic_change($event) ">
                                         </multi-select>
                                     </div>
                                     <div class="multi-select-div" dir="${theme.rtltr}">
@@ -112,14 +112,14 @@
                                             selected_options.bind="params.selected_photographers"
                                             settings.bind="photographers_settings"
                                             first_time.bind="no_photographers_yet"
-                                            new-name.delegate="add_photographer($event)"
-                                            name-changed.delegate="photographer_name_changed($event)"
-                                            ms-change.delegate="handle_photographer_change($event)">
+                                            new-name.trigger="add_photographer($event)"
+                                            name-changed.trigger="photographer_name_changed($event)"
+                                            ms-change.trigger="handle_photographer_change($event)">
                                         </multi-select>
                                     </div>
                                     <div style="margin-top: 10px;margin-bottom:2px;font-size:120%">
                                         <button if.bind="undo_list.length > 0" class="btn btn-warning"
-                                            style="width:90%;" click.delegate="undo()">
+                                            style="width:90%;" click.trigger="undo()">
                                             <i class="fa fa-lg fa-undo"> ${'photos.undo-last-change' & t}</i>
                                         </button>
                                     </div>

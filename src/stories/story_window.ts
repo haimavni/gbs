@@ -4,7 +4,6 @@ import { ITheme } from "../services/theme";
 import { IMisc } from "../services/misc";
 import { getOffset } from "../services/dom_utils";
 import { IDialogController } from "@aurelia/dialog";
-import { watch } from "@aurelia/runtime-html";
 
 let THIS_EDITOR;
 
@@ -153,7 +152,6 @@ export class StoryWindow {
         THIS_EDITOR.dirty = s != THIS_EDITOR.edited_str_orig;
     }
 
-    @watch(vm => vm.story_text || vm.story.name || vm.story.source || vm.dirty)
     get dirty_story() {
         let dirty =
             this.dirty ||
@@ -210,7 +208,6 @@ export class StoryWindow {
         console.log("before update. images: ", images, " this: ", this);
     }
 
-    @watch("story.language")
     get story_dir() {
         if (!this.story) return "";
         if (this.story.language == "he" || this.story.language == "ar") {

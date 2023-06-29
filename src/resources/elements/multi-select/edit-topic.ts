@@ -1,5 +1,4 @@
 import { IDialogController } from "@aurelia/dialog";
-import { watch } from "@aurelia/runtime-html";
 import { IMemberGateway } from "../../../services/gateway";
 import { I18N } from "@aurelia/i18n";
 import { IMisc } from "../../../services/misc";
@@ -70,7 +69,6 @@ export class EditTopic {
         this.controller.cancel();
     }
 
-    @watch((vm) => vm.topic.name || vm.topic.description)
     get ready_to_save() {
         if (!this.topic.name) return false;
         if (

@@ -2,7 +2,6 @@ import { IDialogController } from "@aurelia/dialog";
 import { IMemberGateway } from "../services/gateway";
 import { I18N } from "@aurelia/i18n";
 import { ITheme } from "../services/theme";
-import { watch } from '@aurelia/runtime-html';
 export class AddCustomer {
     customer_data = {
         first_name: "",
@@ -61,7 +60,6 @@ export class AddCustomer {
         this.controller.cancel();
     }
 
-    @watch(vm => vm.customer_data.first_name || vm.customer_data.last_name || vm.customer_data.email || vm.customer_data.password || vm.customer_data.app_name)
     get disabled_if() {
         this.message = "";
         return this.all_fields_given() ? "" : "disabled";

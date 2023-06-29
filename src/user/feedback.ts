@@ -1,5 +1,4 @@
 import { IDialogController } from "@aurelia/dialog";
-import { watch } from "@aurelia/runtime-html";
 import { I18N } from "@aurelia/i18n";
 import { IMemberGateway } from "../services/gateway";
 import { ITheme } from "../services/theme";
@@ -55,7 +54,6 @@ export class Feedback {
         this.controller.cancel();
     }
 
-    @watch(vm => vm.params.feedback_message || vm.params.feedback_email)
     get is_disabled() {
         return (
             this.params.feedback_message == "" || !this.params.feedback_email

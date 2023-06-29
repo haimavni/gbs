@@ -57,7 +57,7 @@
             </div>
             <div class="row multi-select-div">
                 <multi-select options.bind="key_value_list" settings.bind="options_settings" category="locale"
-                    name-changed.delegate="dic_item_changed($event)" place_holder_text="user.enter-text-to-replace">
+                    name-changed.trigger="dic_item_changed($event)" place_holder_text="user.enter-text-to-replace">
                 </multi-select>
             </div>
             <div class="row">

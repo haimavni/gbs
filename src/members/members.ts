@@ -1,34 +1,29 @@
-import { autoinject, singleton, computedFrom } from "aurelia-framework";
-import { DialogService } from "aurelia-dialog";
-import { User } from "../services/user";
-import { Theme } from "../services/theme";
+import { IDialogService } from "@aurelia/dialog";
+import { IUser } from "../services/user";
+import { ITheme } from "../services/theme";
 import { Query } from "../services/query/query";
-import { EventAggregator } from "aurelia-event-aggregator";
-import { MemberList } from "../services/member_list";
-import { ArticleList } from "../services/article_list";
-import { I18N } from "aurelia-i18n";
-import { Router } from "aurelia-router";
-import { MemberGateway } from "../services/gateway";
+import { IMemberList } from "../services/member_list";
+import { IArticleList } from "../services/article_list";
+import { I18N } from "@aurelia/i18n";
+import {
+    IRouteableComponent,
+    IRouter,
+    Navigation,
+    Parameters,
+    RoutingInstruction,
+} from "@aurelia/router";
+import { IMemberGateway } from "../services/gateway";
 import { QState, Question } from "../resources/elements/quiz/quiz-model";
 import * as toastr from "toastr";
+import { IEventAggregator } from "aurelia";
 
-@autoinject()
-@singleton()
-export class Members {
+export class Members implements IRouteableComponent {
     filter = "";
-    user;
-    api;
-    i18n;
-    router;
-    eventAggregator;
     _members = [];
-    memberList;
-    articleList;
     articles_exist = false;
     selectedId;
     faces_per_line = 8;
     win_width;
-    theme;
     sorting_options;
     selected_members = new Set([]);
     order = "";
@@ -53,29 +48,20 @@ export class Members {
     old_editing_mode = false;
     anchor = -1; //for multiple selections
     agent = { size: 9999 };
-    dialog: DialogService;
 
     constructor(
-        user: User,
-        api: MemberGateway,
-        eventAggregator: EventAggregator,
-        memberList: MemberList,
-        articleList: ArticleList,
-        theme: Theme,
-        i18n: I18N,
-        router: Router,
-        dialog: DialogService
+        @IUser private user: IUser,
+        @IMemberGateway private readonly api: IMemberGateway,
+        @IEventAggregator private readonly eventAggregator: IEventAggregator,
+        @IMemberList private readonly memberList: IMemberList,
+        @IArticleList private readonly articleList: IArticleList,
+        @ITheme private readonly theme: ITheme,
+        @I18N private readonly i18n: I18N,
+        @IRouter private readonly router: IRouter,
+        @IDialogService private readonly dialog: IDialogService
     ) {
-        this.user = user;
-        this.api = api;
-        this.theme = theme;
-        this.i18n = i18n;
-        this.router = router;
-        this.eventAggregator = eventAggregator;
-        this.memberList = memberList;
-        this.articleList = articleList;
         this._members = [];
-        this.eventAggregator.subscribe("EditModeChange", (payload) => {
+        this.eventAggregator.subscribe("EditModeChange", (payload: any) => {
             this.user = payload;
         });
         this.dialog = dialog;
@@ -121,16 +107,20 @@ export class Members {
         this.quiz_help_data = { items: this.i18n.tr("members.members") };
     }
 
-    activate(params, routeConfig) {
+    loading(
+        params: Parameters,
+        instruction: RoutingInstruction,
+        navigation: Navigation
+    ): void | Promise<void> {
         if (params.filter) {
-            this.filter = params.filter;
+            this.filter = params.filter as string;
         }
         return this.memberList.getMemberList().then((members) => {
             this._members = members.member_list;
             for (let member of this._members) {
                 member.rand = Math.random() * 1000;
             }
-            if (routeConfig.name == "associate-members") {
+            if (instruction.route.id == "associate-members") {
                 this.caller_id = params.caller_id;
                 this.caller_type = params.caller_type;
                 let arr;
@@ -346,15 +336,19 @@ export class Members {
             .then((response) => {
                 this.clear_member_group();
                 if (caller_type == "story") {
-                    this.router.navigateToRoute("story-detail", {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4EVENT,
+                    this.router.load("story-detail", {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4EVENT,
+                        }
                     });
                 }
                 if (caller_type == "term") {
-                    this.router.navigateToRoute("term-detail", {
-                        id: this.caller_id,
-                        used_for: this.api.constants.story_type.STORY4TERM,
+                    this.router.load("term-detail", {
+                        parameters: {
+                            id: this.caller_id,
+                            used_for: this.api.constants.story_type.STORY4TERM,
+                        }
                     });
                 }
             });
@@ -367,7 +361,6 @@ export class Members {
         this.selected_members = new Set();
     }
 
-    @computedFrom("_members", "relative_list", "relatives_path", "order")
     get members() {
         if (this.relatives_path) {
             return { ignore: true, arr: this.relatives_path };
@@ -395,7 +388,6 @@ export class Members {
         }
     }
 
-    @computedFrom("user.editing", "selected_members.size")
     get q_state() {
         if (this.old_editing_mode != this.user.editing) {
             this.qualified_members = null;
@@ -463,10 +455,9 @@ export class Members {
     }
 
     goto_articles() {
-        this.router.navigateToRoute("articles");
+        this.router.load("articles");
     }
 
-    @computedFrom("theme.width")
     get photo_size() {
         let size = 130;
         if (!this.theme.is_desktop) {
@@ -477,7 +468,6 @@ export class Members {
         return size - 20;
     }
 
-    @computedFrom("theme.height")
     get member_list_height() {
         if (this.theme.is_desktop) return this.theme.height - 320;
         return null;
@@ -515,16 +505,14 @@ export class Members {
 
     open_query_editor() {
         console.log("dialog: ", this.dialog);
-        this.dialog.open({ viewModel: Query, model: {}, lock: false });
+        this.dialog.open({ component: () => Query, model: {}, lock: false });
     }
 
-    @computedFrom("user.advanced")
     get max_members_displayed() {
         if (this.user.advanced) return 10000;
         return 1000;
     }
 
-    @computedFrom("user.editing", "articles_exist")
     get show_objects_button() {
         let b =
             this.user.config.enable_articles &&

@@ -16,7 +16,7 @@
         <button
             type="button"
             class="btn btn-primary ${disabled_if}"
-            click.delegate="got_it()"
+            click.trigger="got_it()"
         >
             ${'screen.got-it' & t}
         </button>
@@ -24,7 +24,7 @@
             type="button"
             if.bind="!done"
             class="btn btn-info"
-            click.delegate="dont_show_again()"
+            click.trigger="dont_show_again()"
         >
         ${'screen.dont-show-again' & t}
         </button>

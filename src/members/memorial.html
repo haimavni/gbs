@@ -22,7 +22,7 @@
                         >
                             <div
                                 class="outer-story-preview"
-                                click.delegate="member_clicked(member, $event, $index)"
+                                click.trigger="member_clicked(member, $event, $index)"
                             >
                                 <div
                                     class="story-preview"
@@ -62,7 +62,7 @@
                         <select 
                             value.bind="order_option" 
                             style="height:32px;width:100%;"
-                            change.delegate="handle_order_change($event)">
+                            change.trigger="handle_order_change($event)">
                             <option 
                                 repeat.for="option of order_options" 
                                 model.bind="option">

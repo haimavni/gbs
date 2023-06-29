@@ -3,7 +3,6 @@ import { ITheme } from "../../../services/theme";
 import { IMemberGateway } from "../../../services/gateway";
 import { I18N } from "@aurelia/i18n";
 import { IEventAggregator, INode, bindable } from "aurelia";
-import { watch } from "@aurelia/runtime-html";
 
 //@singleton()
 export class ChatroomCustomElement {
@@ -133,7 +132,6 @@ export class ChatroomCustomElement {
         });
     }
 
-    @watch("user.isLoggedIn")
     get readonly() {
         return !this.user.isLoggedIn;
     }

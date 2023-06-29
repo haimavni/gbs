@@ -105,7 +105,7 @@ const delegate = function (criteria, listener) {
         let el = evt.target;
         do {
             if (criteria && !criteria(el)) continue;
-            evt.delegateTarget = el;
+            evt.triggerTarget = el;
             listener.apply(this, arguments);
             return;
         } while ((el = el.parentNode));
@@ -326,13 +326,13 @@ export class Analytics {
         }
         if (
             !evt ||
-            !evt.delegateTarget ||
-            !criteria.hasTrackingInfo(evt.delegateTarget)
+            !evt.triggerTarget ||
+            !criteria.hasTrackingInfo(evt.triggerTarget)
         ) {
             return;
         }
 
-        const element = evt.delegateTarget;
+        const element = evt.triggerTarget;
         const tracking = {
             category: element.getAttribute("data-analytics-category"),
             action: element.getAttribute("data-analytics-action"),

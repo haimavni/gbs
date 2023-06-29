@@ -1,5 +1,4 @@
 import { IDialogController, IDialogService } from "@aurelia/dialog";
-import { watch } from "@aurelia/runtime-html";
 import { I18N } from "@aurelia/i18n";
 import { IMemberGateway } from "../services/gateway";
 import { ITheme } from "../services/theme";
@@ -71,14 +70,6 @@ export class Promote {
         });
     }
 
-    @watch(
-        (vm) =>
-            vm.contact_first_name ||
-            vm.contact_last_name ||
-            vm.contact_email ||
-            vm.contact_message ||
-            vm.create_app
-    )
     get disabled_if() {
         return this.all_fields_given() ? "" : "disabled";
     }

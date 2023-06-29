@@ -1,6 +1,5 @@
 import { IMemberGateway } from "../../../services/gateway";
 import { I18N } from "@aurelia/i18n";
-import { watch } from '@aurelia/runtime-html';
 import { IMisc, Misc } from "../../../services/misc";
 import { IDialogService } from "@aurelia/dialog";
 import { EditQuestion } from "./edit-question";
@@ -290,7 +289,6 @@ export class QuizCustomElement {
         }
     }
 
-    @watch("q_state")
     get dummy() {
         this.questions = this.questions.filter((q) => q.prompt);
         for (let q of this.questions) {
@@ -319,7 +317,6 @@ export class QuizCustomElement {
         return false;
     }
 
-    @watch("to_clear_now")
     get clear_now() {
         if (this.to_clear_now) {
             this.clear_all();

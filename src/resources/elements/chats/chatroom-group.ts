@@ -1,4 +1,3 @@
-import { watch } from "@aurelia/runtime-html";
 import { IUser } from "../../../services/user";
 import { ITheme } from "../../../services/theme";
 import { IMemberGateway } from "../../../services/gateway";
@@ -78,7 +77,6 @@ export class ChatroomGroupCustomElement {
         this.new_chatroom_name_visible = false;
     }
 
-    @watch("first_chatroom_number")
     get can_move_left() {
         return this.first_chatroom_number > 0;
     }
@@ -89,7 +87,6 @@ export class ChatroomGroupCustomElement {
         }
     }
 
-    @watch((vm) => vm.first_chatroom_number || vm.chatrooms.length)
     get can_move_right() {
         return (
             this.first_chatroom_number <
@@ -103,7 +100,6 @@ export class ChatroomGroupCustomElement {
         }
     }
 
-    @watch("theme.width")
     get chats_per_page() {
         return Math.round((this.theme.width - 100) / 350);
     }

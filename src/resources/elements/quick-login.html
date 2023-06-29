@@ -1,6 +1,6 @@
 <div id="quick-login" class="centered-form" dir="${theme.rtltr}">
     <div class="panel panel-default" if.bind="! user.isLoggedIn">
-        <button if.bind="login_phase=='init'" class="btn btn-primary btn-block" click.delegate="open_dialog()">
+        <button if.bind="login_phase=='init'" class="btn btn-primary btn-block" click.trigger="open_dialog()">
             ${explanation & t}
         </button>
         <div class="panel-body" if.bind="login_phase != 'init'">

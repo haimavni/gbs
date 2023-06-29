@@ -24,17 +24,17 @@
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>
                             <div class="input-group" if.bind="user.privileges.EDITOR" style="width:144px;margin-right:6px;">
-                                <select value.bind="params.selected_order_option" style="height:32px;width:90%;" change.delegate="handle_order_change($event)">
+                                <select value.bind="params.selected_order_option" style="height:32px;width:90%;" change.trigger="handle_order_change($event)">
                                     <option repeat.for="option of order_options" model.bind="option.value">${option.name}</option>
                                 </select>
                             </div>
                             <div class="input-group" if.bind="params.selected_order_option != 'random-order'">
-                                <button t="[title]videos.next" class="btn btn-default" click.delegate="next($event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
-                                <button t="[title]videos.prev" class="btn btn-default" click.delegate="prev($event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
+                                <button t="[title]videos.next" class="btn btn-default" click.trigger="next($event)" disabled.bind="next_disabled"><i class="fas fa-chevron-right"></i></button>
+                                <button t="[title]videos.prev" class="btn btn-default" click.trigger="prev($event)" disabled.bind="prev_disabled"><i class="fas fa-chevron-left"></i></button>
                             </div>
                             <div if.bind="(! got_duplicates) && params.photo_ids.length == 0 && params.selected_order_option == 'random-order'"
                                  class="form-group hide-if-small toolbar" title.bind="with_a_member_text">
-                                <button class="btn btn-${with_a_member ? 'warning' : 'basic'} btn-md btn-framed" click.delegate="select_member($event)">
+                                <button class="btn btn-${with_a_member ? 'warning' : 'basic'} btn-md btn-framed" click.trigger="select_member($event)">
                                     <i class="fa fa-users"></i>
                                     <span if.bind="!user.editing">
                                         ${search_member_str & t}
@@ -42,7 +42,7 @@
                                 </button>
                             </div>
                             <div if.bind="params.photo_ids.length > 0" class="form-group hide-if-small toolbar toolbar">
-                                <button class="btn btn-basic btn-md btn-framed" click.delegate="show_all_photos($event)">
+                                <button class="btn btn-basic btn-md btn-framed" click.trigger="show_all_photos($event)">
                                     ${'photos.any-photo' & t}
                                 </button>
                             </div>
@@ -60,17 +60,17 @@
                             </div>
                             <div class="form-group toolbar" if.bind="selected_photos.size > 0 && !user.editing">
                                 <button t="[title]photos.download" class="btn btn-basic btn-md btn-framed"
-                                    click.delegate="download_photos()"><i class="fa fa-upload fa-rotate-180 fa-xs"></i></button>
+                                    click.trigger="download_photos()"><i class="fa fa-upload fa-rotate-180 fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.ADMIN && user.editing && selected_photos.size > 0">
-                                <button t="[title]photos.delete" class="btn btn-warning btn-md btn-framed" click.delegate="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
+                                <button t="[title]photos.delete" class="btn btn-warning btn-md btn-framed" click.trigger="delete_selected_photos()"><i class="far fa-trash-alt fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.ADMIN && selected_photos.size > 0">
-                                <button t="[title]photos.rotate" class="btn btn-basic btn-md btn-framed" click.delegate="rotate_selected_photos($event)"><i class="fa fa-undo fa-xs"></i></button>
+                                <button t="[title]photos.rotate" class="btn btn-basic btn-md btn-framed" click.trigger="rotate_selected_photos($event)"><i class="fa fa-undo fa-xs"></i></button>
                             </div>
                             <div class="form-group toolbar" if.bind="user.privileges.TESTER">
                                 <button t="[title]photos.set-slideshow-topics" class="btn btn-basic btn-md btn-framed"
-                                        click.delegate="set_slideshow_topics($event)"><i class="fa fa-eye"></i></button>
+                                        click.trigger="set_slideshow_topics($event)"><i class="fa fa-eye"></i></button>
                             </div>
                             <div class="form-group toolbar"
                                 if.bind="user.editing && selected_photos.size > 0 && user.privileges.ADMIN">
@@ -83,12 +83,12 @@
                                 <button class="btn btn-basic btn-sm btn-framed" 
                                     style="margin-right:20px;margin-left:20px;"
                                     if.bind="! theme.is_desktop" 
-                                    click.delegate="show_filters_only()">${'photos.edit-filters' & t}
+                                    click.trigger="show_filters_only()">${'photos.edit-filters' & t}
                                 </button>
                             </div>
                             <div class="form-group toolbar" if.bind="can_pair_photos">
                                 <button t="[title]photos.pair" class="btn btn-basic btn-md btn-framed"
-                                        click.delegate="pair_selected_photos()">
+                                        click.trigger="pair_selected_photos()">
                                     <i class="far fa-yin-yang"></i>
                                 </button>
                             </div>
@@ -161,7 +161,7 @@
                         <div css="width:${photo_size}px;height:${photo_size}px;"
                             class="${photo.photo_id==curr_photo_id ? 'current-photo' : ''}"
                             repeat.for="photo of photo_list | filter : filter : '*selected' : 'name' : 'original_file_name' | take : 9999">
-                            <a style="position:relative;width:100%" click.delegate="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.delegate="toggle_selection(photo)" 
+                            <a style="position:relative;width:100%" click.trigger="maximize_photo(photo, $event, $index)" tapandhold="500" longtouch.trigger="toggle_selection(photo)" 
                                 class.bind="photo.selected" >
                                 <info css="position:absolute;top:${7 - photo_size / 2}px;left:${photo_size-20}px;"
                                     if.bind="theme.is_desktop"
@@ -187,14 +187,14 @@
                             has_groups.bind="has_grouped_topics"
                             option_groups.bind="topic_groups"
                             first_time.bind="no_topics_yet"
-                            new-name.delegate="add_topic($event)"
-                            remove-option.delegate="remove_topic($event)"
-                            name-changed.delegate="topic_name_changed($event)"
+                            new-name.trigger="add_topic($event)"
+                            remove-option.trigger="remove_topic($event)"
+                            name-changed.trigger="topic_name_changed($event)"
                             highlight_unselectors.bind="highlight_unselectors"
                             name="topics"
                             place_holder_text="photos.click-topic"
                             clear_selections_now.bind="clear_selected_topics_now"
-                            ms-change.delegate="handle_topic_change($event) ">
+                            ms-change.trigger="handle_topic_change($event) ">
                         </multi-select>
                     </div>
                     <div class="row multi-select-div">
@@ -206,37 +206,37 @@
                             first_time.bind="no_photographers_yet"
                             settings.bind="photographers_settings"
                             has_groups.bind="has_grouped_photographers"
-                            new-name.delegate="add_photographer($event)"
-                            remove-option.delegate="remove_photographer($event)"
-                            name-changed.delegate="photographer_name_changed($event)"
+                            new-name.trigger="add_photographer($event)"
+                            remove-option.trigger="remove_photographer($event)"
+                            name-changed.trigger="photographer_name_changed($event)"
                             clear_selections_now.bind="clear_selected_phototgraphers_now"
-                            ms-change.delegate="handle_photographer_change($event)">
+                            ms-change.trigger="handle_photographer_change($event)">
                         </multi-select>
                     </div>
                     <div class="row" style="margin-top: 10px;">
                         <form role="form">
-                            <select value.bind="params.selected_days_since_upload" style="height:32px;width:90%;" change.delegate="handle_change($event)">
+                            <select value.bind="params.selected_days_since_upload" style="height:32px;width:90%;" change.trigger="handle_change($event)">
                                 <option repeat.for="option of days_since_upload_options" model.bind="option">${option.name}</option>
                             </select>
                         </form>
                     </div>
                     <div class="row" style="margin-top: 10px;" if.bind="user.isLoggedIn">
                         <form role="form">
-                            <select value.bind="params.selected_uploader" style="height:32px;width:90%;" change.delegate="handle_change($event)">
+                            <select value.bind="params.selected_uploader" style="height:32px;width:90%;" change.trigger="handle_change($event)">
                                 <option repeat.for="option of uploader_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
                     </div>
                     <div class="row" style="margin-top: 10px;" if.bind="user.isLoggedIn">
                         <form role="form">
-                            <select value.bind="params.selected_dates_option" style="height:32px;width:90%;" change.delegate="handle_change($event)">
+                            <select value.bind="params.selected_dates_option" style="height:32px;width:90%;" change.trigger="handle_change($event)">
                                 <option repeat.for="option of dates_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
                     </div>
                     <div class="row" style="margin-top: 10px;" if.bind="user.editing">
                         <form role="form">
-                            <select value.bind="params.selected_recognition" style="height:32px;width:90%;" change.delegate="handle_change($event)">
+                            <select value.bind="params.selected_recognition" style="height:32px;width:90%;" change.trigger="handle_change($event)">
                                 <option repeat.for="option of recognition_options" model.bind="option.value">${option.name}</option>
                             </select>
                         </form>
@@ -253,7 +253,7 @@
                 </div>
             </div>
             <div class="row hide-if-small" style="width:100%;margin:0px;">
-                <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.delegate="time_range_changed($event)"></timeline>
+                <timeline first_year.bind="params.first_year" last_year.bind="params.last_year" change.trigger="time_range_changed($event)"></timeline>
             </div>
         </div>
         <div show.bind="user_editing"></div> <!-- To ensure response to editing mode change -->

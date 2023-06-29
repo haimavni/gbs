@@ -9,7 +9,7 @@
                     <a
                         class="page-link"
                         aria-label="Previous"
-                        click.delegate="firstPage()"
+                        click.trigger="firstPage()"
                     >
                         <span
                             aria-hidden="true"
@@ -25,7 +25,7 @@
                     <a
                         class="page-link"
                         aria-label="Previous"
-                        click.delegate="previousPage()"
+                        click.trigger="previousPage()"
                     >
                         <span
                             aria-hidden="true"
@@ -38,7 +38,7 @@
                     repeat.for="page of displayPages"
                     class="page-item ${currentPage === page.value ? 'active' : ''}"
                 >
-                    <a class="page-link" click.delegate="selectPage(page.value)"
+                    <a class="page-link" click.trigger="selectPage(page.value)"
                         >${page.title}</a
                     >
                 </li>
@@ -50,7 +50,7 @@
                     <a
                         class="page-link"
                         aria-label="Next"
-                        click.delegate="nextPage()"
+                        click.trigger="nextPage()"
                     >
                         <span
                             aria-hidden="true"
@@ -66,7 +66,7 @@
                     <a
                         class="page-link"
                         aria-label="Previous"
-                        click.delegate="lastPage()"
+                        click.trigger="lastPage()"
                     >
                         <span
                             aria-hidden="true"

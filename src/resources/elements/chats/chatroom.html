@@ -51,19 +51,19 @@
                 <i
                     class="fas fa-trash"
                     if.bind="user.privileges.CHAT_MODERATOR || user.debugging"
-                    click.delegate="delete_chatroom()"
+                    click.trigger="delete_chatroom()"
                 ></i>
                 <i
                     class="fas fa-pencil"
                     if.bind="(user.privileges.CHAT_MODERATOR || user.debugging) && ! editing"
-                    click.delegate="edit_chatroom_name()"
+                    click.trigger="edit_chatroom_name()"
                 ></i>
                 <i
                     class="fas fa-save"
                     if.bind="editing"
                     style="background-color: green; color: white"
                     disabled.bind="chatroom_name == '' ? 'disabled' : ''"
-                    click.delegate="save_chatroom_name()"
+                    click.trigger="save_chatroom_name()"
                 >
                 </i>
             </div>
@@ -110,12 +110,12 @@
                         >
                             <i
                                 class="fa fa-trash"
-                                click.delegate="delete_message(msg, $index)"
+                                click.trigger="delete_message(msg, $index)"
                             ></i>
                             <i
                                 class="fas fa-pencil"
                                 if.bind="edited_message_id == 0"
-                                click.delegate="edit_message(msg, $index)"
+                                click.trigger="edit_message(msg, $index)"
                             ></i>
                             <i
                                 class="fas fa-save"
@@ -131,7 +131,7 @@
                         if.bind="msg.id == edited_message_id"
                         rows="3"
                         css="direction:${theme.rtltr};width:100%;"
-                        change.delegate="save_edited_message(msg)"
+                        change.trigger="save_edited_message(msg)"
                         value.bind="msg.message"
                     ></textarea>
                 </li>

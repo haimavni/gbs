@@ -7,7 +7,7 @@
                         <!--<div class="input-group" style="width:400px;" if.bind="user.privileges.DEVELOPER">
                             <search-input value.bind="filter"
                                 placeholder="stories.filter" height="38"
-                                change.delegate="update_story_list()">
+                                change.trigger="update_story_list()">
                             </search-input>
                         </div>-->
                         <div if.bind="phase=='can-merge-topics'" class="form-group">
@@ -73,7 +73,7 @@
                     style="width:90%;margin-right:auto;margin-left:auto;">
                 </h3>
                 <button class="btn btn-basic btn-sm btn-framed" if.bind="! theme.is_desktop"
-                    click.delegate="show_filters_only()"
+                    click.trigger="show_filters_only()"
                     style="margin-bottom:12px;margin-right:20px">${'stories.edit-filters' & t}
                 </button>
 
@@ -82,11 +82,11 @@
                     <button repeat.for="uf of active_result_types"
                         class="btn btn-${uf==used_for ? 'primary' : 'secondary'}"
                         style="margin-left:4px;"
-                        click.delegate="select_used_for(uf)">
+                        click.trigger="select_used_for(uf)">
                         <span style="font-size:70%;">${result_type_counters[uf]}</span>&nbsp;&nbsp;<span
                             style="font-weight:bolder">${'result' + uf & t}</span>
                     </button>
-                    <button if.bind="used_for==3" class="btn btn-basic" click.delegate="goto_photos_page()">
+                    <button if.bind="used_for==3" class="btn btn-basic" click.trigger="goto_photos_page()">
                         ${'photos.show-in-photo-page' & t}
                     </button>
                 </form>
@@ -95,7 +95,7 @@
                     <li repeat.for="story of story_list | filter: filter : '*selected' : 'name' : 'author' | take : 9999"
                         dir="${theme.rtltr}" 
                         if.bind="story.used_for==used_for">
-                        <div class="outer-story-preview" click.delegate="jump_to_the_full_story($event, story)">
+                        <div class="outer-story-preview" click.trigger="jump_to_the_full_story($event, story)">
                             <div class="story-preview" style="margin-bottom: 10px;" if.bind="used_for!=18">
                                 <div>
                                     <img if.bind="used_for==3" src.bind="story.photo_src" width="140" />
@@ -116,9 +116,9 @@
                                         confirmable: params.approval_state.id==2, 
                                         has_details: used_for==9 && ! single_doc_entry }"
                                     story.bind="story"
-                                    view_details.delegate="view_details(story, $event)"
-                                    change.delegate="toggle_story_selection(story, $event, $index)"
-                                    confirm.delegate="approve_story(story, $event)"
+                                    view_details.trigger="view_details(story, $event)"
+                                    change.trigger="toggle_story_selection(story, $event, $index)"
+                                    confirm.trigger="approve_story(story, $event)"
                                     info_title.bind="story.name" info_content.bind="story.topics"
                                     class="story-body">
                                 </editable>
@@ -130,7 +130,7 @@
             </div>
             <div class="col-md-4 col-sm-12" if.bind="theme.is_desktop || editing_filters" id="story-filters"
                 css="height:${panel_height}px;overflow:auto;">
-                <button class="btn btn-basic btn-framed" click.delegate="init_params(true)"
+                <button class="btn btn-basic btn-framed" click.trigger="init_params(true)"
                     if.bind="is_filtered"
                     style="margin-right:-16px;margin-left:-16px;">
                     ${'stories.clear-all-filters' & t}
@@ -146,9 +146,9 @@
                         selected_options.bind="params.selected_topics" height.bind="220"
                         first_time.bind="no_topics_yet" settings.bind="options_settings"
                         has_groups.bind="has_grouped_topics" highlight_unselectors.bind="highlight_unselectors"
-                        option_groups.bind="topic_groups" ms-change.delegate="handle_topic_change($event)"
-                        new-name.delegate="add_topic($event)" name-changed.delegate="topic_name_changed($event)"
-                        remove-option.delegate="remove_topic($event)"
+                        option_groups.bind="topic_groups" ms-change.trigger="handle_topic_change($event)"
+                        new-name.trigger="add_topic($event)" name-changed.trigger="topic_name_changed($event)"
+                        remove-option.trigger="remove_topic($event)"
                         clear_selections_now.bind="clear_selected_topics_now" style="margin-top:5px;">
                     </multi-select>
                 </div>
@@ -184,12 +184,12 @@
                 <div class="row" style="margin-top: 20px;" if.bind="user.advanced_user">
                     <form role="form" onsubmit="return false">
                         <select value.bind="params.order_option" style="height:32px;width:90%;"
-                            change.delegate="handle_order_change($event)">
+                            change.trigger="handle_order_change($event)">
                             <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
                         </select>
                         <div if.bind="params.order_option.value =='by-name' && start_name_history.length > 0">
                             <input type="text" value.bind="params.start_name" list="start-name-history"
-                                change.delegate="handle_start_name_change($event)"
+                                change.trigger="handle_start_name_change($event)"
                                 style="width:90%;margin-top:8px;height:32px;" t="[placeholder]stories.start-name" />
                             <datalist id="start-name-history">
                                 <option repeat.for="option of start_name_history" value.bind="option"></option>
@@ -201,7 +201,7 @@
                 <div class="row" style="margin-top: 20px;" if.bind="user.editing">
                     <form role="form">
                         <select value.bind="params.days_since_update" style="height:32px;width:90%;"
-                            change.delegate="handle_age_change($event)">
+                            change.trigger="handle_age_change($event)">
                             <option repeat.for="option of days_since_update_options" model.bind="option">
                                 ${option.name}</option>
                         </select>
@@ -210,7 +210,7 @@
                 <div class="row" style="margin-top: 20px;" if.bind="user.privileges.TEXT_AUDITOR && user.editing">
                     <form role="form">
                         <select value.bind="params.approval_state" style="height:32px;width:90%;"
-                            change.delegate="handle_approval_state_change($event)">
+                            change.trigger="handle_approval_state_change($event)">
                             <option repeat.for="option of approval_state_options" model.bind="option">${option.name}
                             </option>
                         </select>
@@ -223,11 +223,11 @@
                         settings.bind="pickerSettings"
                         category="book"
                         first_time.bind="book_list.length == 0"
-                        new-name.delegate="create_new_book($event)"
-                        item-selected.delegate="book_selected($event)"
-                        unselect.delegate="unselect_book($event)"
-                        item-modified.delegate="modify_book_info($event)"
-                        remove-item.delegate="remove_book($event)"
+                        new-name.trigger="create_new_book($event)"
+                        item-selected.trigger="book_selected($event)"
+                        unselect.trigger="unselect_book($event)"
+                        item-modified.trigger="modify_book_info($event)"
+                        remove-item.trigger="remove_book($event)"
                         selected_option.bind="params.selected_book">
                     </picker>
                 </div>
@@ -242,7 +242,7 @@
         </div>
         <div class="row hide-if-small" style="width:100%;margin-right:5px;" if.bind="!can_set_dates">
             <timeline first_year.bind="params.first_year" last_year.bind="params.last_year"
-                change.delegate="time_range_changed($event)"></timeline>
+                change.trigger="time_range_changed($event)"></timeline>
         </div>
     </div>
 </section>

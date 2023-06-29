@@ -1,5 +1,4 @@
 import { INode, bindable } from "aurelia";
-import { watch } from "@aurelia/runtime-html";
 import { IMisc } from "../../services/misc";
 import { ITheme } from "../../services/theme";
 
@@ -113,13 +112,11 @@ export class fitTextCustomElement {
         return ctx.measureText(txt).width * this.factor;
     }
 
-    @watch("txt")
     get dummy() {
         if (this.txt) this.fit();
         return;
     }
 
-    @watch("theme.font_size")
     get factor() {
         switch (this.theme.font_size) {
             case "font-size-100":

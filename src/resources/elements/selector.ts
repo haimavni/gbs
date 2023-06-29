@@ -1,5 +1,4 @@
 import { I18N } from "@aurelia/i18n";
-import { watch } from '@aurelia/runtime-html';
 import { IUser } from "../../services/user";
 import { INode, bindable } from "aurelia";
 
@@ -19,7 +18,6 @@ export class SelectorCustomElement {
 
     }
 
-    @watch("suffix")
     get options() {
         let keys = Object.keys(this.dict);
         let suffix = this.suffix ? "-" + this.suffix : "";
@@ -36,7 +34,6 @@ export class SelectorCustomElement {
         return options;
     }
 
-    @watch("selectedval")
     get display() {
         let selected = this.options.find(
             (opt) => opt.value == this.selectedval

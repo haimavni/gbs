@@ -14,14 +14,14 @@
                 <button repeat.for="styp of story_type_arr"
                     style="margin-left:8px;width:100px;"
                     class="btn btn-${active_story_types['result' + styp] ? 'primary' : 'default'}"
-                    click.delegate="toggle(styp)">
+                    click.trigger="toggle(styp)">
                     <span style="font-weight:bolder">${'result' + styp & t}</span>
                 </button>
             </div>
             <div show.bind="filter_changed"></div>
         </ux-dialog-body>
         <ux-dialog-footer>   
-            <button click.delegate="save()">${'continue' & t}</button>
+            <button click.trigger="save()">${'continue' & t}</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>

@@ -1,7 +1,6 @@
 import { ITheme } from "../../services/theme";
 import { IMisc } from "../../services/misc";
 import { BindingMode, IEventAggregator, INode, IObserverLocator, bindable } from "aurelia";
-import { watch } from "@aurelia/runtime-html";
 
 const WAIT = 50;
 
@@ -321,7 +320,6 @@ export class PhotoStripCustomElement {
         });
     }
 
-    @watch("theme.height")
     get dummy() {
         if (!this.theme.is_desktop) {
             let height = Math.round(this.theme.height / 3);
@@ -330,7 +328,6 @@ export class PhotoStripCustomElement {
         return "";
     }
 
-    @watch("move_to")
     get move_to_triggered() {
         if (!this.move_to) return;
         this.place_photos(this.move_to);
@@ -338,7 +335,6 @@ export class PhotoStripCustomElement {
         return false;
     }
 
-    @watch("restart")
     get restart_triggered() {
         if (!this.restart) return;
         this.ready("restart");

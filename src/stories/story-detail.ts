@@ -1,5 +1,4 @@
 import { I18N } from "@aurelia/i18n";
-import { watch } from "@aurelia/runtime-html";
 import { IMemberGateway } from "../services/gateway";
 import { IUser } from "../services/user";
 import { ITheme } from "../services/theme";
@@ -447,7 +446,6 @@ export class StoryDetail {
         });
     }
 
-    @watch(vm => vm.story.story_text || vm.story_changed)
     get highlightedHtml() {
         this.story_changed = false;
         if (!this.story) {
@@ -471,19 +469,16 @@ export class StoryDetail {
     //     this.story_box.scrollTop = t;
     // }
 
-    @watch("story_idx")
     get prev_disabled() {
         if (this.story_idx <= 0) return "disabled";
         return "";
     }
 
-    @watch("story.name")
     get story_name() {
         if (this.story) return this.story.name;
         return "";
     }
 
-    @watch("story_idx")
     get next_disabled() {
         if (this.story_idx >= this.story_list.length - 1) return "disabled";
         return "";

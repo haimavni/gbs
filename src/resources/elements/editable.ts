@@ -3,7 +3,6 @@ import { IUser } from "../../services/user";
 import { ITheme } from "../../services/theme";
 import { IDialogService } from "@aurelia/dialog";
 import { I18N } from "@aurelia/i18n";
-import { watch } from "@aurelia/runtime-html";
 import { INode, bindable } from "aurelia";
 
 export class editableCustomElement {
@@ -112,13 +111,11 @@ export class editableCustomElement {
         this.element.dispatchEvent(changeEvent);
     }
 
-    @watch("story.checked")
     get checked() {
         if (this.story) return this.story.checked;
         return false;
     }
 
-    @watch("story.name")
     get story_name() {
         if (this.story) return this.story.name;
         return this.i18n.tr("stories.new-story");

@@ -1,9 +1,9 @@
 <template>
     <div style="margin-bottom:8px;display:flex">
-        <button class="btn btn-md btn-success btn-framed" click.delegate="go_back()" style="margin-right:8px;">
+        <button class="btn btn-md btn-success btn-framed" click.trigger="go_back()" style="margin-right:8px;">
             ${'photos.save-selected-photos' & t}
         </button>
-        <button class="btn btn-md btn-bassic btn-framed" click.delegate="cancel()">
+        <button class="btn btn-md btn-bassic btn-framed" click.trigger="cancel()">
             ${'photos.cancel-selected-photos' & t}
         </button>
     </div>

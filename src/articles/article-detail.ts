@@ -11,7 +11,6 @@ import environment from "../environment";
 import { IArticleList } from "../services/article_list";
 import { highlight } from "../services/dom_utils";
 import { IEventAggregator } from "aurelia";
-import { watch } from "@aurelia/runtime-html";
 
 export class ArticleDetail {
     article;
@@ -93,7 +92,6 @@ export class ArticleDetail {
         }
     }
 
-    @watch("dirty_info")
     get disabled_if() {
         return this.dirty_info ? "disabled" : "";
     }
@@ -388,7 +386,6 @@ export class ArticleDetail {
         this.set_heights();
     }
 
-    @watch("story_0.story_text")
     get biography() {
         let highlighted_html = highlight(
             this.story_0.story_text,
@@ -407,7 +404,6 @@ export class ArticleDetail {
         document.getElementById("word-highlighter").blur();
     }
 
-    @watch(vm => vm.article.article_info.date_start.date || vm.article.article_info.date_end.date)
     get life_cycle_text() {
         if (!this.article) return "";
         let ai = this.article.article_info;

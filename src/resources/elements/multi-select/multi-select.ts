@@ -1,5 +1,4 @@
 import { IDialogService } from "@aurelia/dialog";
-import { watch } from "@aurelia/runtime-html";
 import { I18N } from "@aurelia/i18n";
 import { IUser } from "../../../services/user";
 import { ITheme } from "../../../services/theme";
@@ -228,7 +227,6 @@ export class MultiSelectCustomElement {
         this.sort_items();
     }
 
-    @watch("clear_selections_now")
     get clear_selections() {
         if (!this.clear_selections_now) return false;
         this.clear_all_selections();

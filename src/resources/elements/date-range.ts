@@ -3,7 +3,6 @@ import { ITheme } from "../../services/theme";
 import { I18N } from "@aurelia/i18n";
 import { MyDate } from "../../services/my-date";
 import { BindingMode, INode, bindable } from "aurelia";
-import { watch } from "@aurelia/runtime-html";
 
 const date_sep = ".";
 
@@ -100,7 +99,6 @@ export class DateRangeCustomElement {
         return this._end_date_str;
     }
 
-    @watch(vm => vm.base_date_str || vm.span_size)
     get end_date_str() {
         let date = new MyDate(this.base_date_str);
         date.incr(this.span_size);
@@ -120,7 +118,6 @@ export class DateRangeCustomElement {
         return m != null;
     }
 
-    @watch(vm => vm.user.editing || vm.partial || vm.is_valid || vm.range_options.length || vm.base_date_str)
     get show_edit_end_date() {
         return (
             this.base_date_str &&
@@ -131,12 +128,10 @@ export class DateRangeCustomElement {
         );
     }
 
-    @watch(vm => vm.user.editing || vm.partial || vm.is_valid)
     get dont_show_edit_end_date() {
         return !(this.is_valid == "valid" && this.user.editing && this.partial);
     }
 
-    @watch(vm => vm.user.editing || vm.base_date_str || vm.span_size)
     get show_date() {
         if (this.user.editing) return false;
         this.build_end_date_options();
@@ -148,12 +143,10 @@ export class DateRangeCustomElement {
         return s;
     }
 
-    @watch(vm => vm.user.editing || vm.base_date_str)
     get show_label() {
         return this.user.editing; // || this.base_date_str || ! this.hide_label_if_no_date;
     }
 
-    @watch(vm => vm.user.editing || vm.base_date_str)
     get build_now() {
         this.build_end_date_options();
         return true;

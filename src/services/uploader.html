@@ -26,7 +26,7 @@
                             <div style="padding-left:191px">
                                 <button
                                     style="margin-left:auto; margin-right:auto;width:150px;"
-                                    click.delegate="save()"
+                                    click.trigger="save()"
                                     class="btn btn-success">
                                     ${'photos.send' & t}
                                 </button>
@@ -34,7 +34,7 @@
                         </div>
                         <div style="padding-left:175px;margin-top:16px;" if.bind="! working">
                             <button style="margin-left:auto; margin-right:auto;width:150px;"
-                                click.delegate="cancel()" class="btn btn-warning">${'photos.cancel' & t}
+                                click.trigger="cancel()" class="btn btn-warning">${'photos.cancel' & t}
                             </button>
                         </div>
                     </div>

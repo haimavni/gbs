@@ -18,21 +18,21 @@
             </div>
             <div style="margin:10px 10px;">
                 <button class="btn btn-primary" style="width: 80px;"
-                    click.delegate="save_changes($event)" 
+                    click.trigger="save_changes($event)" 
                     disabled.bind="dirty ? '' : 'disabled'">
                     ${'stories.save' & t}
                 </button>
                 <button class="btn btn-warning" style="width: 80px;"
-                    click.delegate="cancel_changes($event)" 
+                    click.trigger="cancel_changes($event)" 
                     disabled.bind="dirty ? '' : 'disabled'">
                     ${'stories.cancel' & t}
                 </button>
                 <button class="btn btn-success" style="width: 80px;"
-                    click.delegate="approve_changes($event)">
+                    click.trigger="approve_changes($event)">
                     ${'stories.approve' & t}
                 </button>
                 <button class="btn btn-default" style="width: 80px;"
-                    click.delegate="skip_story($event)">
+                    click.trigger="skip_story($event)">
                     ${'stories.skip' & t}
                 </button>
             </div>

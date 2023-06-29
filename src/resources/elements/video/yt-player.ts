@@ -1,4 +1,3 @@
-import {bindable, bindingMode, customElement} from 'aurelia-framework';
 import {YtKeeper} from '../../../services/yt-keeper';
 
 enum PlayerStates {

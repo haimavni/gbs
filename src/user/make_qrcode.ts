@@ -1,5 +1,4 @@
 import { IDialogController } from "@aurelia/dialog";
-import { watch } from "@aurelia/runtime-html";
 import { IMemberGateway } from "../services/gateway";
 import { I18N } from "@aurelia/i18n";
 import { IMisc } from "../services/misc";
@@ -43,7 +42,6 @@ export class MakeQRCode {
         this.controller.cancel();
     }
 
-    @watch("qrname")
     get ready_to_save() {
         if (!this.qrname) return false;
         return true;

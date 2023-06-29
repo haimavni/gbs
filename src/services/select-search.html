@@ -11,7 +11,7 @@
         <button
             type="button"
             class="btn btn-primary ${disabled_if}"
-            click.delegate="go_search_members()"
+            click.trigger="go_search_members()"
         >
             ${'members.search-members' & t}
         </button>
@@ -19,7 +19,7 @@
             type="button"
             if.bind="!done"
             class="btn btn-info"
-            click.delegate="go_search_stories()"
+            click.trigger="go_search_stories()"
         >
         ${'members.search-stories' & t}
         </button>

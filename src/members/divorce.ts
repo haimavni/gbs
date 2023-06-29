@@ -1,27 +1,19 @@
-import { autoinject, computedFrom } from "aurelia-framework";
-import { DialogController } from "aurelia-dialog";
-import { Theme } from "../services/theme";
-import { MemberList } from "../services/member_list";
-
-@autoinject()
+import { IDialogController } from "@aurelia/dialog";
+import { ITheme } from "../services/theme";
+import { IMemberList } from "../services/member_list";
 export class Divorce {
     member_stories = { lst: [], changed: 0 };
-    dialogController;
-    theme: Theme;
     member_id;
     member_name: string;
     spouse_name: string;
     spouse_id;
-    member_list;
 
     constructor(
-        dialogController: DialogController,
-        theme: Theme,
-        member_list: MemberList
+        @IDialogController private readonly dialogController: IDialogController,
+        @ITheme private readonly theme: ITheme,
+        @IMemberList private readonly member_list: IMemberList
     ) {
-        this.dialogController = dialogController;
-        this.theme = theme;
-        this.member_list = member_list;
+
     }
 
     async activate(model) {

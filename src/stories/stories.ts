@@ -5,7 +5,6 @@ import { ITheme } from "../services/theme";
 import { IWordIndex } from "../services/word_index";
 import { IDialogService } from "@aurelia/dialog";
 import { I18N } from "@aurelia/i18n";
-import { watch } from "@aurelia/runtime-html";
 import { IRouter, RouterNavigationCompleteEvent } from "@aurelia/router";
 import { set_intersection, set_union, set_diff } from "../services/set_utils";
 import { MultiSelectSettings } from "../resources/elements/multi-select/multi-select";
@@ -894,13 +893,6 @@ export class Stories {
         this.update_story_list("other");
     }
 
-    @watch(
-        (vm) =>
-            vm.user.editing ||
-            vm.has_grouped_topics ||
-            vm.params.selected_topics ||
-            vm.checked_stories.size
-    )
     get phase() {
         let result = "not-editing";
         if (this.user.editing) {
@@ -1077,12 +1069,10 @@ export class Stories {
         this.editing_filters = true;
     }
 
-    @watch((vm) => vm.user.editing || vm.checked_stories.size)
     get can_set_dates() {
         return this.user.editing && this.checked_stories.size > 0;
     }
 
-    @watch("params.stories_date_str")
     get date_is_valid() {
         let date = new MyDate(this.params.stories_date_str);
         return date.is_valid();
@@ -1095,7 +1085,6 @@ export class Stories {
         this.update_story_list("other");
     }
 
-    @watch("theme.height")
     get panel_height() {
         return this.theme.height - 350;
     }
@@ -1156,25 +1145,11 @@ export class Stories {
         div.scrollTop = h;
     }
 
-    @watch("stories_date_valid")
     get incomplete() {
         if (this.stories_date_valid != "valid") return "disabled";
         return "";
     }
 
-    @watch(
-        (vm) =>
-            vm.params.keywords_str ||
-            vm.params.selected_topics.length ||
-            vm.params.show_untagged ||
-            vm.params.selected_words.length ||
-            vm.params.selected_uploader ||
-            vm.params.selected_story_visibility ||
-            vm.params.from_date ||
-            vm.params.to_date ||
-            vm.params.selected_stories.length ||
-            vm.params.days_since_update
-    )
     get is_filtered() {
         if (
             this.params.keywords_str != "" ||

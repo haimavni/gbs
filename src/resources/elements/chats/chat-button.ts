@@ -1,8 +1,7 @@
 import { IUser } from "../../../services/user";
-import { DialogDeactivationStatuses, IDialogService } from "@aurelia/dialog";
+import { IDialogService } from "@aurelia/dialog";
 import { Chat } from "../../../user/chat";
 import { BindingMode, INode, bindable } from "aurelia";
-import { watch } from '@aurelia/runtime-html';
 
 export class ChatButtonCustomElement {
     @bindable({ mode: BindingMode.twoWay }) chatroom_id;
@@ -16,12 +15,10 @@ export class ChatButtonCustomElement {
 
     }
 
-    @watch("user.config.show_chat_buttons")
     get can_chat() {
         return this.user.config.show_chat_buttons;
     }
 
-    @watch("chatroom_id")
     get empty_class() {
         let result = this.chatroom_id ? "" : "empty";
         return this.chatroom_id ? "" : "empty";

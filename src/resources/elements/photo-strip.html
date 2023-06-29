@@ -1,7 +1,7 @@
 <div id="slide-list" class="row slide-list" css="height: ${height}px;" element.ref="slideList"
-interact-draggable.bind="theme.interact_setting" interact-dragmove.delegate="drag_photos($event)"
-interact-dragstart.delegate="on_drag_start($event)" interact-dragend.delegate="on_drag_end($event)"
-click.delegate="dragging = false">
+interact-draggable.bind="theme.interact_setting" interact-dragmove.trigger="drag_photos($event)"
+interact-dragstart.trigger="on_drag_start($event)" interact-dragend.trigger="on_drag_end($event)"
+click.trigger="dragging = false">
 <img repeat.for="slide of slides" draggable="false" id="img-${slide.photo_id}" src="${slide.src}" height="${height}"
     aubs-tooltip="text.bind:slide.title" click.trigger="on_click($event, slide)"
      class="${slide.video_id ? 'video' : ''}"
