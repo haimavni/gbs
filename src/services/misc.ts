@@ -58,7 +58,7 @@ export class Misc {
             if (death_place) {
                 s += this.i18n.tr("members.in-place") + death_place + " ";
             }
-            s += this.i18n.tr("members.in-date") + death_date + ".";
+            s += this.i18n.tr("members.in-date") + death_date;
         }
         return s;
     }

@@ -20,6 +20,13 @@
                 <div class="col-md-8">
                     <div class="row" style="margin-bottom:15px;padding-right:15px;">
                         <form style="display:flex;height:34px;">
+                            <div class="input-group" if.bind="theme.hide_menu">
+                                <button click.trigger="toggle_edit_mode()"
+                                class="btn btn-sm btn-defalt"
+                                    title="${user.editing ? 'user.no-edit' : 'user.can-edit' & t}">
+                                    <i class="fas ${user.editing ? 'fa-eye highlight' : 'fa-pencil' }"></i>
+                                </button>
+                            </div>
                             <div class="input-group search-box ${theme.rtltr}" if.bind="user.advanced_user">
                                 <search-input value.bind="filter" placeholder="photos.filter" height="32"></search-input>
                             </div>

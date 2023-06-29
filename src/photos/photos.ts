@@ -226,6 +226,9 @@ export class Photos {
             this.params.selected_order_option = UTO;
             this.photo_list = [];
             this.user.isLoggedIn = true;
+            this.user.privileges.EDITOR = true;
+            this.user.privileges.RESTRICTED = true;
+            this.theme.hide_menu = true;
         }
         if (this.photo_list.length == 0)
             this.update_photo_list();
@@ -233,6 +236,7 @@ export class Photos {
 
     deactivate() {
         this.clear_photo_group();
+        //this.theme.hide_menu = false;
     }
 
     @computedFrom('user.editing')
@@ -429,6 +433,10 @@ export class Photos {
     }
 
     handle_change(event) {
+        console.log("............handle change. uploader: ", 
+            this.params.selected_uploader, " restricted: ", this.user.privileges.RESTRICTED);
+        if (this.params.selected_uploader != "mine" && this.user.privileges.RESTRICTED)
+            this.user.editing_enabled(false);
         this.update_photo_list();
     }
 
@@ -918,6 +926,10 @@ export class Photos {
         if (this.with_a_member) 
             return 'photos.show-all-photos'
         return 'photos.search-member'
+    }
+
+    toggle_edit_mode() {
+        this.user.editing = ! this.user.editing;
     }
 
 }

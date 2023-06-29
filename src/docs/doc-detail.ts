@@ -500,25 +500,6 @@ export class DocDetail {
         this.api.call_server_post("docs/update_story_preview", {story_id: story_id});
     }
 
-    select_members(doc_segment) {
-        this.theme.hide_title = true;
-        this.dialog.open({
-            viewModel: MemberPicker,
-            model: {multi: true, back_to_text: 'docs.back-to-doc', preselected: doc_segment.member_ids},
-            lock: false,
-            rejectOnCancel: false
-        }).whenClosed(response => {
-            this.theme.hide_title = false;
-            if (response.wasCancelled) return;
-            doc_segment.member_ids = Array.from(response.output.member_ids);
-            this.api.call_server_post('docs/update_doc_segment_members', {
-                doc_id: this.doc_id,
-                page_num: doc_segment.page_num,
-                member_ids: doc_segment.member_ids
-            });
-        });
-    }
-
     change_doc_frame_size(customEvent) {
         const event = customEvent.detail;
         const el = document.getElementById("doc-frame");
