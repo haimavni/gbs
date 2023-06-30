@@ -173,7 +173,6 @@ export class StoryDetail {
             .then(response => {
                 this.api.hit(what, story_id);
                 this.story = response.story;
-                console.log("============get story detail ", this.story);
                 this.user.editing_enabled(this.story.editing_ok);
                 this.chatroom_id = this.story.chatroom_id;
                 if (this.story.story_id == 'new') {
