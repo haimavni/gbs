@@ -7,13 +7,13 @@
 
     <div class="panel main-panel unselectable" css="height:${panel_height}px;"
          interact-draggable.bind="theme.interact_setting"
-         interact-dragend.delegate="drag_end_panel($event)">
+         interact-dragend.trigger="drag_end_panel($event)">
         <div class="panel-messages" ref="scroll_area" if.bind="theme.is_desktop || active_part== 3">
             <i class="fas fa-caret-right fa-4x" style="position:absolute;left: 0;top:0;color:lightblue;"
                if.bind="! theme.is_desktop"></i>
             <h2 class="messages-header" style="margin-top:-2px;">
                 <span>${'home.messages' & t}</span>
-                <span class="is-link" if.bind="user.editing" click.delegate="add_message()">
+                <span class="is-link" if.bind="user.editing" click.trigger="add_message()">
                     <i class="fa fa-plus-square"></i>
                 </span>
             </h2>
@@ -22,10 +22,10 @@
                     show.bind="msg.name.substr(0,2) != '__'">
                     <editable story.bind="msg"
                               settings.bind="{show_date:false, show_author: false, deletable: true, divclass: 'no-theme', pushable: true, pinnable: true}"
-                              change.delegate="hande_story_change(msg, $event)"
-                              pushup.delegate="push_story(msg, $event)"
+                              change.trigger="hande_story_change(msg, $event)"
+                              pushup.trigger="push_story(msg, $event)"
                               pinned.bind="msg.pinned"
-                              pin.delegate="pin_story(msg, $event)">
+                              pin.trigger="pin_story(msg, $event)">
                     </editable>
                 </li>
             </ul>
@@ -37,14 +37,14 @@
                 <i class="fas fa-caret-left fa-2x" style="position:absolute;right: 0;top:-16px;color:lightblue;"
                    if.bind="! theme.is_desktop"></i>
                 <span class="expand">${'home.sample-stories' & t}</span>
-                <span class="full-collection-button" click.delegate="goto_full_collection()">
+                <span class="full-collection-button" click.trigger="goto_full_collection()">
                     ${'home.full-collection' & t}
                     <i class="fa fa-play ${theme.rtltr=='rtl' ? 'fa-rotate-180' : ''}"> </i>
                 </span>
             </h2>
             <ul class="panel-story-segments">
                 <li class="panel-story-segment" repeat.for="story of stories_sample" draggable="false"
-                    click.delegate="jump_to_the_full_story(story)">
+                    click.trigger="jump_to_the_full_story(story)">
                     <div class="story-preview">
                         <h4 class="panel-story-header">
                             ${story.name}
@@ -64,7 +64,7 @@
             <span repeat.for="video of video_list" class="fr-video fr-fvc fr-draggable fr-dvi"
                   contenteditable="false" draggable="true"
                   style="position:relative;">
-                <div click.delegate="jump_to_video(video)" style="cursor:pointer;">
+                <div click.trigger="jump_to_video(video)" style="cursor:pointer;">
                     <span style="position:absolute;top:40%;right:10%;color:white;background-color:rgba(0,0,0,0);font-size:110%;font-weight: bold;">
                         ${video.name}
                     </span>
@@ -88,7 +88,7 @@
             <span class="hidden-xs hidden-sm member-text">
                 ${member_of_the_day_life_cycle_text}
             </span>
-            <span class="member-link" click.delegate="jump_to_member_of_the_day_page(member_of_the_day.id)">
+            <span class="member-link" click.trigger="jump_to_member_of_the_day_page(member_of_the_day.id)">
                 ${'home.to-the-page-of' & t} ${member_of_the_day.short_name}
             </span>
         </div>

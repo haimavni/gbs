@@ -6,7 +6,7 @@
                     <div class="col-md-12 ctrls-group">
                         <button class="btn btn-basic btn-sm btn-framed"
                                 if.bind="! theme.is_desktop"
-                                click.delegate="show_filters_only()"
+                                click.trigger="show_filters_only()"
                                 css="margin-${theme.other_dir}:6px;margin-${theme.same_dir}:-16px;">
                             ${'videos.edit-filters' & t}
                         </button>
@@ -15,7 +15,7 @@
                                           height="30"></search-input>
                         </div>
                         <div if.bind="phase=='photos-ready-to-edit'" class="ctrl">
-                            <button click.delegate="new_video()" class="btn btn-success cl-create-btn"
+                            <button click.trigger="new_video()" class="btn btn-success cl-create-btn"
                                     style="height:32px;margin-right:4px;">
                                 <i class="far fa-plus-square"></i>
                                 ${'videos.new' & t}
@@ -81,7 +81,7 @@
                             class="fr-video fr-fvc fr-draggable fr-dvi"
                             contenteditable="false" draggable="true">
                             <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;">
-                                <img src.bind="video.thumbnail_url" width="257" click.delegate="view_video(video, $event)"/>
+                                <img src.bind="video.thumbnail_url" width="257" click.trigger="view_video(video, $event)"/>
                                 <span class="video-name" style="margin-top:-6px;">
                                     <span>
                                         <info title.bind="video_info_title(video)"
@@ -89,8 +89,8 @@
                                     </span>
                                     <span if.bind="user.editing">
                                         <i class="fa${video.selected ? 's' : 'r'} fa-circle"
-                                           click.delegate="toggle_selection(video, $event, $index)"></i>
-                                        <i class="fas fa-pencil" click.delegate="edit_video_info(video)"></i>
+                                           click.trigger="toggle_selection(video, $event, $index)"></i>
+                                        <i class="fas fa-pencil" click.trigger="edit_video_info(video)"></i>
                                     </span>
                                     <span>
                                         ${video.name}
@@ -123,12 +123,12 @@
                                   option_groups.bind="topic_groups"
                                   name="topics"
                                   highlight_unselectors.bind="highlight_unselectors"
-                                  new-name.delegate="add_topic($event)"
-                                  remove-option.delegate="remove_topic($event)"
-                                  name-changed.delegate="topic_name_changed($event)"
+                                  new-name.trigger="add_topic($event)"
+                                  remove-option.trigger="remove_topic($event)"
+                                  name-changed.trigger="topic_name_changed($event)"
                                   place_holder_text="photos.click-topic"
                                   clear_selections_now.bind="clear_selected_topics_now"
-                                  ms-change.delegate="handle_topic_change($event) ">
+                                  ms-change.trigger="handle_topic_change($event) ">
                     </multi-select>
                 </div>
                 <div class="row">
@@ -141,17 +141,17 @@
                                   first_time.bind="no_photographers_yet"
                                   settings.bind="photographers_settings"
                                   has_groups.bind="has_grouped_photographers"
-                                  new-name.delegate="add_photographer($event)"
-                                  remove-option.delegate="remove_photographer($event)"
-                                  name-changed.delegate="photographer_name_changed($event)"
+                                  new-name.trigger="add_photographer($event)"
+                                  remove-option.trigger="remove_photographer($event)"
+                                  name-changed.trigger="photographer_name_changed($event)"
                                   clear_selections_now.bind="clear_selected_phototgraphers_now"
-                                  ms-change.delegate="handle_photographer_change($event)">
+                                  ms-change.trigger="handle_photographer_change($event)">
                     </multi-select>
                 </div>
                 <div class="row" style="margin-top: 20px;">
                     <form role="form" onsubmit="return false">
                         <select value.bind="params.order_option" style="height:32px;width:90%;"
-                            change.delegate="handle_order_change($event)">
+                            change.trigger="handle_order_change($event)">
                             <option repeat.for="option of order_options" model.bind="option">${option.name}</option>
                         </select>
                     </form>

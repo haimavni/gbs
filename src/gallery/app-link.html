@@ -7,7 +7,7 @@
             </span>
             <div class="checkbox" if.bind="user.editing">
                 <input id="app-is-active" type="checkbox" value.bind="params.active"
-                       change.delegate="set_app_activity()"
+                       change.trigger="set_app_activity()"
                        checked.bind="params.active">
                 <span> ${'gallery.set-app-active' & t}</span>
             </div>
