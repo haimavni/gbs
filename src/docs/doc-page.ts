@@ -1,15 +1,10 @@
-import { Theme } from "../services/theme";
-import { autoinject } from 'aurelia-framework';
-import {DialogController} from 'aurelia-dialog';
+import { ITheme } from "../services/theme";
+import {IDialogController} from '@aurelia/dialog';
 
-
-@autoinject
 export class DocPage {
     doc_src;
-    theme;
-    dialog;
 
-    constructor(theme: Theme, dialog: DialogController) {
+    constructor(@ITheme private readonly theme: ITheme, @IDialogController private readonly dialog: IDialogController) {
         this.theme = theme;
         this.dialog = dialog;
     }

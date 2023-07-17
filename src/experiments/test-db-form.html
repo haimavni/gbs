@@ -1,0 +1,36 @@
+<div style="display: flex; flex-direction: row" class="content-area">
+    <button
+        class="btn btn-${what=='data-entry' ? 'primary' : 'default'}"
+        click.trigger="select_what('data-entry')"
+    >
+        Data Entry
+    </button>
+    <button
+        class="btn btn-${what=='query-builder' ? 'primary' : 'default'}"
+        click.trigger="select_what('query-builder')"
+    >
+        Query Builder
+    </button>
+    <button
+        class="btn btn-${what=='fields-adder' ? 'primary' : 'default'}"
+        click.trigger="select_what('fields-adder')"
+    >
+        Fields Adder
+    </button>
+    <div if.bind="what=='query-builder'">
+        <button
+            class="btn btn-default"
+            if.bind="user.debugging || user.privileges.DEVELOPER"
+            style="
+                height: 36px;
+                margin-top: 16px;
+                font-size: small;
+                border: 1px solid lightgray;
+                margin-left: 4px;
+            "
+            click.trigger="open_query_editor()"
+        >
+            Select members by query
+        </button>
+    </div>
+</div>

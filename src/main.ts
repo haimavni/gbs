@@ -13,6 +13,7 @@ import { GoogleMapsConfiguration } from './resources/elements/mapa';
 import { FroalaConfiguration } from './plugins/froala-editor';
 import { GoogleAnalyticsConfiguration } from './plugins/aurelia-google-analytics';
 import { AureliaTableConfiguration } from './plugins/aurelia-table/configuration';
+import { UxDialogConfiguration } from './plugins/ux-dialog';
 
 const lst = location.href.split('/');
 const app = lst[3];
@@ -37,6 +38,7 @@ Aurelia.register(
             },
         };
     }),
+    UxDialogConfiguration,
     GoogleMapsConfiguration.configure({
         apiKey: tolife_google_api_key, // use `false` to disable the key
         apiLibraries: 'drawing,geometry,places', //get optional libraries like drawing, geometry, ... - comma seperated list

@@ -1,0 +1,70 @@
+<div class="uploader-page container">
+    <div class="logo-area">
+        <img src="${logo_url}" height="128" class="logo-image" />
+    </div>
+    <div class="header-area">
+        <div class="titles">
+            <h1>${title}</h1>
+            <h3>${description}</h3>
+        </div>
+    </div>
+    <div class="info-area">
+        <compose view-model="./user-info" model.bind="status_record"></compose>
+    </div>
+    <div class="photo-area" id="group-photo-area" style="position:relative;">
+        <span class="loader" css="opacity:${working ? 1.0 : 0};position:absolute;left:48%;top:35%;">
+            <i class="fa fa-spinner fa-spin fa-3x" style="color:blue"></i>
+        </span>
+        <div class="buttons" if.bind="phase != 'photo-uploaded' && ! status_record.map_visible">
+            <form submit.delegate="save($event)">
+                <div class="form-group" if.bind="phase=='ready-to-select'">
+                    <label class="control-label ${status_record.user_id <= 0 ? 'disabled' : ''}" for="photos">
+                        <i class="far fa-browser fa-sm">&nbsp;&nbsp;</i>${'groups.select-photo' & t}
+                    </label>
+                    <div>
+                        <input style="display:none" type="file" id="photos" accept="image/*" files.bind="photos"
+                            disabled="${status_record.user_id <= 0 ? 'disabled' : ''}">
+                    </div>
+                </div>
+                <div class="form-group" if.bind="phase == 'ready-to-save'">
+                    <button type="submit" class="btn btn-success"><i
+                            class="fas fa-upload fa-sm">&nbsp;&nbsp;</i>${'groups.upload' & t}</i></button>
+                </div>
+            </form>
+        </div>
+        <div if.bind="phase=='photo-uploaded' && ! status_record.map_visible"
+            class="picture ${photo_list.length > 0 ? 'photos-ready' : 'photos-not-ready'}">
+            <a click.delegate="openDialog()">
+                <img src.bind="status_record.photo_url" height.bind="photo_height" id="uploaded-photo" />
+            </a>
+        </div>
+        <div show.bind="status_record.map_visible">
+            <my-map
+                ignore.bind="ignore"
+                longitude.bind="status_record.photo_info.longitude"
+                latitude.bind="status_record.photo_info.latitude"
+                zoom.bind="status_record.photo_info.zoom"
+                can_mark.bind="user.editing"
+                marked.bind="marked"
+                location-changed.delegate="location_changed($event)"
+                width.bind="width"
+                height.bind="height"
+            >
+            </my-map>
+            </div>
+    </div>
+    <!--end photo area-->
+    <div class="footer-area1">
+        <span style="font-size: 150%;padding:6px;" innerhtml.bind="help_message"></span>
+        <p if.bind="status_record.duplicate" style="font-size:120%;color:red;padding:6px;">${'groups.duplicate' & t}
+        </p>
+        <!-- phase: ${phase} ${duplicate ? 'duplicate' : ''} -->
+    </div>
+    <div class="gallery-area">
+        <p innerhtml.bind="explain_gallery"></p>
+        <button class="btn btn-primary btn-block" disabled="${status_record.user_id < 1 ? 'disabled' : ''}"
+            click.delegate="view_gallery()">
+            ${"groups.view-gallery" & t}
+        </button>
+    </div>
+</div>

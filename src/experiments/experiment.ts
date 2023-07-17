@@ -1,15 +1,9 @@
-import { autoinject, singleton } from "aurelia-framework";
-import { User } from "../services/user";
-import { Misc } from "../services/misc";
-import { MemberGateway } from "../services/gateway";
+import { IUser } from "../services/user";
+import { IMisc } from "../services/misc";
+import { IMemberGateway } from "../services/gateway";
 
-@autoinject
-@singleton()
 export class Experiment {
     val: any;
-    user: User;
-    misc: Misc;
-    api;
     options = [
         { name: "No", value: false },
         { name: "Yes", value: true },
@@ -30,11 +24,11 @@ export class Experiment {
     message_content = "";
     channel = "all";
 
-    constructor(user: User, misc: Misc, api: MemberGateway) {
-        this.user = user;
-        this.misc = misc;
-        this.api = api;
-    }
+    constructor(
+        @IUser private readonly user: IUser,
+        @IMisc private readonly misc: IMisc,
+        @IMemberGateway private readonly api: IMemberGateway
+    ) {}
 
     handle_data_change(event) {
         let detail = event.detail;
@@ -42,29 +36,32 @@ export class Experiment {
     }
 
     async init() {
-        if (this.eventSource)
-            return
+        if (this.eventSource) return;
         this.eventSource = new EventSource(
             `sse/subscribe?channel=${this.channel}`
         );
-        this.eventSource.onmessage = (event) => this.handle_incoming_message(event);
-        this.eventSource.onopen = (event) => {console.log("connection has been established ", event)}
+        this.eventSource.onmessage = (event) =>
+            this.handle_incoming_message(event);
+        this.eventSource.onopen = (event) => {
+            console.log("connection has been established ", event);
+        };
         this.eventSource.onerror = (event) => {
             console.log("an error has occured ", event);
             this.api.call_server("sse/close");
-        }
+        };
         await this.misc.sleep(2000);
     }
 
     tease_server() {
-        if (!this.eventSource) {}
-            this.init()
+        if (!this.eventSource) {
+        }
+        this.init();
         this.api
             .call_server_post("sse/tease", {
                 data: this.message_content,
                 channel: this.channel,
             })
-            .then(response => {
+            .then((response) => {
                 this.message_content = "";
                 console.log("response: ", response);
             });

@@ -1,5 +1,5 @@
 <div class="btn-group dropdown quiz"
-aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled(); is-open.bind: filter_menu_open">
+aubs-dropdown="auto-close.bind: autoClose; on-toggle.bind: () => main_filter_toggled(); is-open.bind: filter_menu_open">
 <div style="display:flex" if.bind="to_show_menu">
     <button class="btn btn-basic btn-lg dropdown-toggle ${dirty}" aubs-dropdown-toggle t="[title]quiz.filters">
         ${main_button_text}
@@ -18,7 +18,7 @@ aubs-dropdown="auto-close.bind: autoClose; on-toggle.call: main_filter_toggled()
 <ul class="dropdown-menu dropdown-menu-right filters">
     <li class="dropdown-item" repeat.for="question of questions" title.bind="question.description">
         <div class="btn-group dropdown border-right"
-            aubs-dropdown="auto-close.bind: autoClose; is-open.bind: question.is_open; on-toggle.call: q_toggled(question, $event)">
+            aubs-dropdown="auto-close.bind: autoClose; is-open.bind: question.is_open; on-toggle.bind: () => q_toggled(question, $event)">
             <button class="btn btn-link btn-md dropdown-toggle"
                 style="text-decoration:none;position:relative;margin-bottom:10px;width:100%;"
                 aubs-dropdown-toggle>
