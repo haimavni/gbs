@@ -1,4 +1,4 @@
-import {ValidationRules} from 'aurelia-validation';
+import { ValidationRules } from 'aurelia-validation';
 
 export class PhoneNumber {
 

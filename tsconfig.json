@@ -6,6 +6,9 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "target": "ES2017",
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "importHelpers": true,
@@ -14,6 +17,14 @@
   "include": [
     "test",
     "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "filesGlob": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "./custom_typings/**/*.d.ts"
   ],
   "files": [
     "src/resource.d.ts"
