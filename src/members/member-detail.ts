@@ -176,7 +176,7 @@ export class MemberDetail {
         this.life_summary_expanded = false;
     }
 
-    @computedFrom('member', 'member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 
+    @computedFrom('member', 'member.member_info.placeofbirth', 'member.member_info.place_of_death', 'member.member_info.date_of_birth.date', 
         'member.member_info.date_of_death.date',
         'member.member_info.cause_of_death', 'member.member_info.gender', 'theme.rtltr')
     get life_cycle_text() {
@@ -185,7 +185,7 @@ export class MemberDetail {
     }
 
     @computedFrom('member','member.member_info.name', 'member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_first_name',
-        'member.member_info.former_last_name', 'member.member_info.NickName')
+        'member.member_info.former_last_name', 'member.member_info.nickname')
     get member_display_name() {
         if (!this.member)
             return "";

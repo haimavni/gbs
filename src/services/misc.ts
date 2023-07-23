@@ -22,7 +22,7 @@ export class Misc {
 
     calc_life_cycle_text(member_info) {
         let s = "";
-        let birth_place = member_info.PlaceOfBirth;
+        let birth_place = member_info.placeofbirth;
         let birth_date = member_info.date_of_birth
             ? member_info.date_of_birth.date
             : "";
@@ -65,8 +65,8 @@ export class Misc {
 
     old_display_name(rec) {
         let s = rec.name || "";
-        if (rec.FormerName) s += " (" + rec.FormerName + ")";
-        if (rec.NickName) s += " - " + rec.NickName;
+        if (rec.formername) s += " (" + rec.formername + ")";
+        if (rec.nickname) s += " - " + rec.nickname;
         return s;
     }
 
@@ -86,7 +86,7 @@ export class Misc {
             }
             s += ")";
         }
-        if (rec.NickName) s += " - " + rec.NickName;
+        if (rec.nickname) s += " - " + rec.nickname;
         return s;
     }
 

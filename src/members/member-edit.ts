@@ -67,7 +67,7 @@ export class MemberEdit {
     }
 
     @computedFrom('member.member_info.first_name', 'member.member_info.last_name', 'member.member_info.former_last_name', 'member.member_info.former_first_name',
-        'member.member_info.PlaceOfBirth', 'member.member_info.place_of_death', 'member.member_info.NickName', 'member.member_info.mother_id', 'member.member_info.father_id',
+        'member.member_info.placeofbirth', 'member.member_info.place_of_death', 'member.member_info.nickname', 'member.member_info.mother_id', 'member.member_info.father_id',
         'member.member_info.date_of_birth.date', 'member.member_info.date_of_death.date', 'member.member_info.cause_of_death',
         'member.member_info.gender', 'member.story_info.life_story', 'member.member_info.visibility', 'member.member_info.approved', 'member.member_info.title',
         'member.member_info.spouse_id')
