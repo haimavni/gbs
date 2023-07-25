@@ -252,6 +252,8 @@ export class AnnotateVideo {
             if (this.cue0) {
                 await this.misc.sleep(1000);
                 this.jump_to_cue(this.cue0)
+            } else {
+                this.player.currentTime = 0;
             }
         }
         else console.log("yt keeper not ready")
