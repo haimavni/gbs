@@ -287,8 +287,8 @@ export class MemberDetail {
     }
 
     get_profile_photo(member) {
-        if (member && member.facePhotoURL) {
-            return member.facePhotoURL;
+        if (member && member.facephotourl) {
+            return member.facephotourl;
         } else {
             return 'x' //environment.baseURL + "/gbs/static/images/dummy_face.png";
         }

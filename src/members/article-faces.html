@@ -7,7 +7,7 @@
         <ul class="list-group">
             <li class="list-group-item" repeat.for="article of articles">
                 <a route-href="route: article-details; params.bind: {id:article.id, keywords: ''}">
-                    <img src.bind="article.facePhotoURL"/>
+                    <img src.bind="article.facephotourl"/>
                     <h6 dir="${theme.rtltr}" class="list-group-item-heading">${article.name}</h6>
                 </a>
             </li>

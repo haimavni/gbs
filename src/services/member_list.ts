@@ -36,7 +36,7 @@ export class MemberList {
                 for (let k of flds) {
                     new_member[k] = mi[k];
                 }
-                new_member["facePhotoURL"] = mi.facePhotoURL;
+                new_member["facephotourl"] = mi.facephotourl;
                 this.members.member_list.splice(0, 0, new_member);
             } else {
                 this.get_member_by_id(mi.id).then((member) => {
@@ -129,7 +129,7 @@ export class MemberList {
     set_profile_photo(member_id, face_photo_url) {
         this.get_member_by_id(member_id).then((member) => {
             if (face_photo_url) {
-                member.facePhotoURL = face_photo_url;
+                member.facephotourl = face_photo_url;
             }
         });
     }

@@ -197,7 +197,7 @@ export class MemberEdit {
                     gender: parent_gender, 
                     id: this.member.member_info[key], 
                     name: response.output.new_member.name, 
-                    facePhotoURL: response.output.new_member.face_url};
+                    facephotourl: response.output.new_member.face_url};
                 this.memberList.add_member(new_member);
             }
             let parent = this.get_member_data(this.member.member_info[key]);
