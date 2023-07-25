@@ -141,7 +141,7 @@ export class AnnotateVideo {
             this.video_src = params.video_src;
             this.video_type = params.video_type || "youtube";
             if (this.video_type == 'youtube')
-                this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
+                this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque&t=0"
         }
         this.cuepoints_enabled = params.cuepoints_enabled;
         if (this.video_type == 'youtube' && this.cuepoints_enabled) {

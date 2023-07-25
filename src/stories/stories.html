@@ -103,7 +103,7 @@
                                         <img if.bind="used_for==9" src.bind="story.doc_jpg_url" width="140" />
                                         <img if.bind="used_for==14" src.bind="story.doc_jpg_url" width="140" />
                                         <img if.bind="used_for==1" src.bind="story.profile_photo_path" width="120" style="border-radius: 50%;" />
-                                        <img if.bind="used_for==8" src.bind="thumbnail(story.video_src)" width="140"/>
+                                        <img if.bind="used_for==8" src.bind="story.thumbnail_url" width="140"/>
                                         <audio controls if.bind="used_for==10">
                                             <source src="${story.audio_path}" type="audio/mpeg">
                                         </audio>
