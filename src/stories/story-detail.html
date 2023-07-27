@@ -68,7 +68,7 @@
                         <ul class="list-group">
                             <li class="list-group-item" repeat.for="candidate of candidates">
                                 <a click.delegate="accept_candidate(candidate.id, $index)" style="cursor:pointer;">
-                                    <img src.bind="candidate.facePhotoURL" />
+                                    <img src.bind="candidate.facephotourl" />
                                     <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.full_name}
                                     </h6>
                                 </a>
@@ -82,7 +82,7 @@
                             <li class="list-group-item" repeat.for="candidate of article_candidates">
                                 <a click.delegate="accept_article_candidate(candidate.id, $index)"
                                     style="cursor:pointer;">
-                                    <img src.bind="candidate.facePhotoURL" />
+                                    <img src.bind="candidate.facephotourl" />
                                     <h6 dir="${theme.rtltr}" class="list-group-item-heading">${candidate.name}</h6>
                                 </a>
                             </li>

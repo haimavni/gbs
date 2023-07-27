@@ -24,7 +24,7 @@ export class ArticleList {
                 for (let k of flds) {
                     new_article[k] = mi[k];
                 }
-                new_article['facePhotoURL'] = mi.facePhotoURL;
+                new_article['facephotourl'] = mi.facephotourl;
                 this.articles.article_list.splice(0, 0, new_article);
             } else {
                 this.get_article_by_id(mi.id)
@@ -96,7 +96,7 @@ export class ArticleList {
         this.get_article_by_id(article_id)
             .then(article => {
                 if (face_photo_url) {
-                    article.facePhotoURL = face_photo_url;
+                    article.facephotourl = face_photo_url;
                 }
             });
     }

@@ -126,7 +126,7 @@
             <!--The left wing of the form-->
             <div class="col-md-6 member-info-left">
                 <div class="form-group" if.bind="member.member_info.name">
-                    <input type="text" class="form-control" id="former_name" t="[placeholder]members.former-name" value.bind="member.member_info.FormerName"
+                    <input type="text" class="form-control" id="former_name" t="[placeholder]members.former-name" value.bind="member.member_info.formername"
                         disabled.bind="true">
                 </div>
                 <div class="form-group">
@@ -179,7 +179,7 @@
                     change.delegate="trim_last_name()">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="birth_place" t="[placeholder]members.birth-place" value.bind="member.member_info.PlaceOfBirth">
+                    <input type="text" class="form-control" id="birth_place" t="[placeholder]members.birth-place" value.bind="member.member_info.placeofbirth">
                 </div>
                 <div class="form-group" style="margin-top:10px;">
                     <div class="col-md-6" style="padding-left:0;min-width:100%;">
@@ -193,7 +193,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="nick_name" t="[placeholder]members.nick-name" value.bind="member.member_info.NickName">
+                    <input type="text" class="form-control" id="nick_name" t="[placeholder]members.nick-name" value.bind="member.member_info.nickname">
                 </div>
                 <div class="form-group" style="margin-top:10px;">
                     <div class="col-md-6" style="padding-left:0;">
