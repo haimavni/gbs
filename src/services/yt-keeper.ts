@@ -1,4 +1,5 @@
 import {autoinject, singleton} from "aurelia-framework";
+import { Misc } from '../services/misc';
 
 let YT;
 enum PlayerStates {
@@ -16,9 +17,11 @@ export class YtKeeper {
     player;
     player_is_ready;
     playerState;
+    misc;
 
-    constructor() {
-        console.log("yt keeper constructed")
+    constructor(misc: Misc) {
+        console.log("yt keeper constructed");
+        this.misc = misc;
         YT = this;
         //this.create();
     }
@@ -56,6 +59,7 @@ export class YtKeeper {
     }
 
     onPlayerReady(event) {
+        console.log("--------------===player is ready?")
         YT.player_is_ready = true;
     }
 
@@ -81,15 +85,29 @@ export class YtKeeper {
     }
 
     get paused() {
-        return this.playerState == PlayerStates.PAUSED;
+        return this.playerState != PlayerStates.PLAYING;
+    }
+
+    get buffering() {
+        return this.playerState == PlayerStates.BUFFERING;
     }
 
     set paused(p) {
         if (p) {
-            this.player.pauseVideo();
+            this.pause();
         } else {
             this.player.playVideo();
         }
+    }
+
+    async pause() {
+        console.log("Pause now!")
+        for (let i=0; i<100; i+=1) {
+            if (YT.player_is_ready) break;
+            console.log("waiting ", i*10)
+            await this.misc.sleep(10);
+        }
+        this.player.pauseVideo();
     }
 
 }

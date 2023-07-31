@@ -154,7 +154,7 @@ export class AnnotateVideo {
     }
 
     attached() {
-        this.track_segment = setInterval(() => this.detect_segment_change(), 1000)
+        // this.track_segment = setInterval(() => this.detect_segment_change(), 1000)
     }
 
     detached() {
@@ -253,9 +253,20 @@ export class AnnotateVideo {
                 await this.misc.sleep(1000);
                 this.jump_to_cue(this.cue0)
             } else {
-                await this.misc.sleep(1000);
+                for (let i = 0; i<100; i+= 1) {
+                    if(this.player.player_is_ready) // && ! this.player.buffering)
+                        break;
+                    console.log("Waiting ", i)
+                    await this.misc.sleep(50);
+                }
+                await this.misc.sleep(500);
                 this.player.currentTime = 0;
                 this.player.paused = true;
+                console.log("initially pause................");
+                for (let cue of this.cue_points) {
+                    cue.is_current = false;
+                }
+                this.track_segment = setInterval(() => this.detect_segment_change(), 1000);
             }
         }
         else console.log("yt keeper not ready")
@@ -336,6 +347,7 @@ export class AnnotateVideo {
             cue.is_current = false;
         }
         cue.is_current = true;
+        //this.player.paused = false;
         let el = document.getElementById("cue-points-area");
         if (el) {
             let scroll_top = el.scrollTop;
