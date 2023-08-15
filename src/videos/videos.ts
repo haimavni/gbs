@@ -526,7 +526,7 @@ export class Videos {
             event.preventDefault();
         }
         let n_cue_points = 0;
-        let cuepoints_enabled = this.user.privileges.VIDEO_EDITOR || this.user.config.enable_cuepoints;
+        let cuepoints_enabled = this.user.config.enable_cuepoints;
         if (cuepoints_enabled)
             await this.api.call_server_post('videos/video_cue_points', {video_id: video.id}).then(response=> {
                 n_cue_points = response.cue_points.length;
