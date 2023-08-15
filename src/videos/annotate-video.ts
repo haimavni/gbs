@@ -144,6 +144,11 @@ export class AnnotateVideo {
                 this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque&t=0"
         }
         this.cuepoints_enabled = params.cuepoints_enabled;
+        if (this.cuepoints_enabled == 'false')
+            this.cuepoints_enabled = false;
+        else if(this.cuepoints_enabled == 'true')
+            this.cuepoints_enabled = true;
+        else console.log("unknown value cuepoints enabled")
         if (this.video_type == 'youtube' && this.cuepoints_enabled) {
             this.player = this.ytKeeper;
         }
