@@ -41,6 +41,11 @@ export class Misc {
             }
         }
         if (death_date) {
+            const n = death_date.length;
+            const s = death_date.substring(n - 4, n);
+            if (s == "1000") death_date = null;
+        }
+        if (death_date) {
             let cod_idx = member_info.cause_of_death || 0;
             if (!this.api.constants.cause_of_death) return s;
             let keys = Object.keys(this.api.constants.cause_of_death);
