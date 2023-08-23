@@ -14,6 +14,7 @@ import {DocPage} from './doc-page';
 import {copy_to_clipboard} from '../services/dom_utils';
 import * as toastr from 'toastr';
 import {Uploader} from "../services/uploader";
+import { timeStamp } from 'console';
 
 @autoinject
 @singleton()
@@ -90,6 +91,7 @@ export class Docs {
     single_doc_entry = false;
     view_doc_segments = false;
     _curr_doc_list = [];
+    active_doc_segments = false;
 
     constructor(api: MemberGateway, user: User, dialog: DialogService, i18n: I18N, router: Router,
                 word_index: WordIndex, theme: Theme, ea: EventAggregator, popup: Popup) {
@@ -254,7 +256,8 @@ export class Docs {
                 this.handle_order_change(null);
                 if (this.view_doc_segments)
                     this._curr_doc_list = this.doc_segment_list;
-            });
+                this.active_doc_segments = this.doc_segment_list.length > 0;
+                });
     }
     apply_topics_to_checked_docs() {
         this.api.call_server_post('docs/apply_to_checked_docs', {params: this.params})

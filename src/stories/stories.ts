@@ -336,6 +336,7 @@ export class Stories {
         if (this.params.selected_book && this.user.editing) {
             this.clear_all_filters();
         }
+        this.params.events_only = document.location.hash.includes("events");
         let promise = this.api.call_server_post('members/get_story_list', { params: this.params, used_for: used_for })
         this.params.start_name = "";
         promise

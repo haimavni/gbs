@@ -80,7 +80,8 @@
                 </div>
                 <div id="doc-filters" class="col-md-3 col-sm-12" if.bind="editing_filters || theme.is_desktop">
                     <button class="btn btn-secondary"
-                    style="font-size:large;border:1px solid grey;margin-right:-15px;width:100%;"
+                        if.bind="active_doc_segments"
+                        style="font-size:large;border:1px solid grey;margin-right:-15px;width:100%;"
                         click.delegate="toggle_doc_types()">
                         ${(view_doc_segments ? 'docs.view-full-docs' : 'docs.view-segments') & t}
                     </button>
