@@ -276,6 +276,7 @@ export class Docs {
     }
 
     handle_words_change(event) {
+        console.log("-------------remove me soon-----------")
         this.scroll_top = this.scroll_area.scrollTop;
         let result = null;
         if (!event.detail) {
