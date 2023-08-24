@@ -205,18 +205,15 @@ export class Docs {
     }
 
     update_doc_list() {
-        this.no_results = false;
+        if (!this.view_doc_segments)
+            this.no_results = false;
         this.params.editing = this.user.editing;
         return this.api.call_server_post('docs/get_doc_list', {params: this.params})
             .then(result => {
-                //this.doc_list = result.doc_list;
                 this.editing_filters = false;
-                this.no_results = result.no_results;
-                this.highlight_unselectors = this.no_results ? "warning" : "";
-                if (this.no_results) {
-                    this.doc_list = [];
-                }
                 this.doc_list = result.doc_list;
+                this.no_results = (!this.view_doc_segments) && this.doc_list.length == 0;
+                this.highlight_unselectors = this.no_results ? "warning" : "";
                 for (let doc of this.doc_list) {
                     doc.title = '<span dir="rtl">' + doc.title + '</span>';
                     if (doc.story) {
@@ -229,21 +226,21 @@ export class Docs {
                 this.handle_order_change(null);
                 if (! this.view_doc_segments)
                     this._curr_doc_list = this.doc_list;
+                this.active_doc_segments = result.active_doc_segments;
             });
     }
 
     update_doc_segment_list() {
-        this.no_results = false;
+        if (this.view_doc_segments)
+            this.no_results = false;
         this.params.editing = this.user.editing;
         return this.api.call_server_post('docs/get_doc_segment_list', {params: this.params})
             .then(result => {
                 this.editing_filters = false;
-                this.no_results = result.no_results;
-                this.highlight_unselectors = this.no_results ? "warning" : "";
-                if (this.no_results) {
-                    this.doc_segment_list = [];
-                }
                 this.doc_segment_list = result.doc_segment_list;
+                if (this.view_doc_segments && this.doc_segment_list.length == 0)
+                    this.no_results = true
+                this.highlight_unselectors = this.no_results ? "warning" : "";
                 for (let doc_seg of this.doc_segment_list) {
                     doc_seg.title = '<span dir="rtl">' + doc_seg.title + '</span>';
                     if (doc_seg.story) {
@@ -256,7 +253,6 @@ export class Docs {
                 this.handle_order_change(null);
                 if (this.view_doc_segments)
                     this._curr_doc_list = this.doc_segment_list;
-                this.active_doc_segments = this.doc_segment_list.length > 0;
                 });
     }
     apply_topics_to_checked_docs() {
@@ -576,7 +572,7 @@ export class Docs {
                 this.doc_list.sort((doc1, doc2) => doc1.name < doc2.name ? -1 : doc1.name > doc2.name ? +1 : 0);
                 break
             case 'old-to-new':
-                this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? -1 : doc1.doc_date > doc2.doc_date ? -1 : 0);
+                this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? -1 : doc1.doc_date > doc2.doc_date ? +1 : 0);
                 break;
             case 'new-to-old':
                 this.doc_list.sort((doc1, doc2) => doc1.doc_date < doc2.doc_date ? +1 : doc1.doc_date > doc2.doc_date ? -1 : 0);
