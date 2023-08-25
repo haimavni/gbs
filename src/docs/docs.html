@@ -54,7 +54,7 @@
                     <ul ref="scroll_area" class="unselectable doc-list ${no_results ? 'empty-docs' : ''}">
                         <li repeat.for="doc of curr_doc_list | filter: docs_filter : 'name' : 'source' | take : 9999" dir="${theme.rtltr}">
                             <div class="one-doc ${theme.rtltr}">
-                                <div>
+                                <div contextmenu.delegate="replace_thumbnail_dialog(doc, $event)">
                                     <a if.bind="! theme.is_desktop" href="${doc.doc_url}">
                                         <img src.bind="doc.doc_jpg_url" width="128px"/>
                                     </a>

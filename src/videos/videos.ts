@@ -11,6 +11,7 @@ import {MultiSelectSettings} from '../resources/elements/multi-select/multi-sele
 import {format_date} from '../services/my-date';
 import {Popup} from '../services/popups';
 import {Misc} from '../services/misc';
+import { ReplaceThumbnail } from './replace-thumbnail';
 
 @autoinject
 @singleton()
@@ -591,4 +592,13 @@ export class Videos {
         if (event)  //order was really changed
             this.scroll_area.scrollTop = 0;
     }
+
+    replace_thumbnail_dialog(video, event) {
+        console.log("============replace thumbnail")
+        event.stopPropagation();
+        this.dialog.open({
+            viewModel: ReplaceThumbnail, model: { video: video }, lock: true
+        });
+    }
+
 }

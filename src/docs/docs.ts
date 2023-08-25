@@ -14,7 +14,7 @@ import {DocPage} from './doc-page';
 import {copy_to_clipboard} from '../services/dom_utils';
 import * as toastr from 'toastr';
 import {Uploader} from "../services/uploader";
-import { timeStamp } from 'console';
+import { ReplaceThumbnail } from './replace-thumbnail';
 
 @autoinject
 @singleton()
@@ -604,6 +604,16 @@ export class Docs {
             txt = this.i18n.tr("docs.doc-segments-search")
         else txt = this.i18n.tr("docs.docs-search");
         return txt
+    }
+
+    replace_thumbnail_dialog(doc, event) {
+        event.stopPropagation();
+        this.dialog.open({
+            viewModel: ReplaceThumbnail, model: { doc: doc }, lock: true
+        }).whenClosed(result => {
+            if (result.wasCancelled) return;
+            doc.thumbnail_url = result.thumbnail_url;
+        });
     }
 
 }

@@ -81,7 +81,8 @@
                             <div repeat.for="video of video_list | filter: filter : '*selected' : 'name'"
                                 class="fr-video fr-fvc fr-draggable fr-dvi"
                                 contenteditable="false" draggable="true">
-                                <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;">
+                                <div style="margin:0px 6px 6px;cursor:pointer;width:257px;overflow:hidden;"
+                                    contextmenu.delegate="replace_thumbnail_dialog(video, $event)">
                                     <img src.bind="video.thumbnail_url" width="257" click.delegate="view_video(video, $event)"/>
                                     <span class="video-name" style="margin-top:-6px;">
                                         <span>

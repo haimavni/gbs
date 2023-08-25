@@ -513,7 +513,8 @@
         "by-name": "Sort by name",
         "new-to-old": "New videos first",
         "old-to-new": "Old videos first",
-        "recently-uploaded": "Recently uploaded videos"
+        "recently-uploaded": "Recently uploaded videos",
+        "enter-thumbnail": "Enter thumbnail URL for "
     },
     "audios": {
         "audios": "Audios",
@@ -594,7 +595,8 @@
         "docs-filter": "Enter document name or author",
         "doc-segments-filter": "Enter document segment name or author",
         "doc-segments-search": "Fast search in document segments",
-        "doc-search": "Fast search in documents"
+        "doc-search": "Fast search in documents",
+        "enter-thumbnail": "Enter thumbnail URL for "
     },
     "terms": {
         "terms": "Terms",
