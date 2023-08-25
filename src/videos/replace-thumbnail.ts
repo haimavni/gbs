@@ -45,6 +45,7 @@ export class ReplaceThumbnail {
     save() {
        this.video.thumbnail_url = this.thumbnail_url;
        this.api.call_server_post("videos/replace_thumbnail_url", {"video_id": this.video.id, "thumbnail_url": this.thumbnail_url});
+       this.controller.ok();
     }
 
     cancel() {
