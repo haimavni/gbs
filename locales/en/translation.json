@@ -596,7 +596,8 @@
         "doc-segments-filter": "Enter document segment name or author",
         "doc-segments-search": "Fast search in document segments",
         "doc-search": "Fast search in documents",
-        "enter-thumbnail": "Enter thumbnail URL for "
+        "enter-thumbnail": "Enter thumbnail URL for ",
+        "select-thumbnail": "Select thumbnail"
     },
     "terms": {
         "terms": "Terms",

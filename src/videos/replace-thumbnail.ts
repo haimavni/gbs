@@ -32,9 +32,8 @@ export class ReplaceThumbnail {
 
     activate(params) {
         this.video = params.video;
-        console.log("------this video is ", this.video);
         this.curr_thumbnail_url = this.video.thumbnail_url;
-        this.title = this.i18n.tr('videos.enter-thumbnail') + this.video.name;
+        this.title = this.i18n.tr('videos.enter-thumbnail') + ' ' + this.video.name;
     }
 
     url_changed(event) {
@@ -56,6 +55,21 @@ export class ReplaceThumbnail {
     get ready_to_save() {
         if (! this.thumbnail_url) return false;
         return true;
+    }
+
+    set_thumbnail(key, video_id) {
+        switch(key) {
+            case "max-res":
+                this.curr_thumbnail_url = `https://i3.ytimg.com/vi/${video_id}/maxresdefault.jpg`;
+                break;
+            case "hq":
+                this.curr_thumbnail_url = `http://i3.ytimg.com/vi/${video_id}/hqdefault.jpg`;
+                break;
+            case "curr":
+                this.curr_thumbnail_url = this.video.thumbnail_url;
+                break;
+        }
+        this.thumbnail_url = this.curr_thumbnail_url;
     }
 
 }
