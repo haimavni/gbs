@@ -1,8 +1,14 @@
-import { bindable, inject, bindingMode, computedFrom, DOM } from 'aurelia-framework';
-import { User } from '../../../services/user';
-import { Theme } from '../../../services/theme';
-import { I18N } from 'aurelia-i18n';
-import { MemberGateway } from '../../../services/gateway';
+import {
+    bindable,
+    inject,
+    bindingMode,
+    computedFrom,
+    DOM,
+} from "aurelia-framework";
+import { User } from "../../../services/user";
+import { Theme } from "../../../services/theme";
+import { I18N } from "aurelia-i18n";
+import { MemberGateway } from "../../../services/gateway";
 
 @inject(User, Theme, DOM.Element, I18N, MemberGateway)
 export class PhotoUploaderCustomElement {
@@ -13,9 +19,10 @@ export class PhotoUploaderCustomElement {
     api: MemberGateway;
     working = false;
     photo_uploaded = false;
-    thumbnails: FileList;
+    photos: FileList;
     @bindable key = "";
     @bindable payload;
+    @bindable help_topic: string = "unknown";
 
     constructor(user: User, theme: Theme, element, i18n, api) {
         this.user = user;
@@ -25,27 +32,28 @@ export class PhotoUploaderCustomElement {
         this.api = api;
     }
 
-    save_thumbnail(event: Event) {
+    save_photo(event: Event) {
         event.stopPropagation();
         this.working = true;
-        this.api.uploadFiles(
+        console.log(
+            "uid, photos, key, payload ",
             this.user.id,
-            this.thumbnails,
+            this.photos,
             this.key,
             this.payload
-        )
+        );
+        this.api.uploadFiles(this.user.id, this.photos, this.key, this.payload);
     }
 
-    @computedFrom('thumbnails', 'photo_uploaded')
+    @computedFrom("photos", "photo_uploaded")
     get phase() {
         if (this.photo_uploaded) {
             this.photo_uploaded = false;
-            this.thumbnails = null;
+            this.photos = null;
+            this.working = false;
             //return 'photo-uploaded';
         }
-        if (this.thumbnails && this.thumbnails.length > 0) return 'ready-to-save';
-        return 'ready-to-select';
+        if (this.photos && this.photos.length > 0) return "ready-to-save";
+        return "ready-to-select";
     }
-
-
 }

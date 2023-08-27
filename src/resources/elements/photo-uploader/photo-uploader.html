@@ -7,7 +7,7 @@
     <div class="buttons"
         if.bind="true || phase != 'photo-uploaded'">
         <form
-            submit.delegate="save_thumbnail($event)">
+            onsubmit="return false">
             <div class="form-group"
                 style="position:relative"
                 if.bind="phase=='ready-to-select'">
@@ -18,19 +18,20 @@
                     </i>
                     ${'groups.select-photo' & t}
                 </label>
-                <help topic="upload-doc-thumbnail"
+                <help topic.bind="help_topic"
                     style="top:-6px;right:120px;">
                 </help>
                 <div>
                     <input
                         type="file" id="photos"
                         accept="image/*"
-                        files.bind="thumbnails">
+                        files.bind="photos">
                 </div>
             </div>
             <div class="form-group"
                 if.bind="phase == 'ready-to-save'">
-                <button type="submit"
+                <button
+                    click.delegate="save_photo($event)"
                     class="btn btn-success">
                     <i class="fas fa-upload fa-sm">&nbsp;&nbsp;</i>
                     ${'groups.upload' & t}

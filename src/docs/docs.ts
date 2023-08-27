@@ -608,6 +608,9 @@ export class Docs {
 
     replace_thumbnail_dialog(doc, event) {
         event.stopPropagation();
+        event.preventDefault();
+        if (! this.user.editing)
+            return;
         this.dialog.open({
             viewModel: ReplaceThumbnail, model: { doc: doc }, lock: true
         }).whenClosed(result => {

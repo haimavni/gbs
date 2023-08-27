@@ -39,6 +39,7 @@ export function configure(config) {
         './elements/video/yt-player',
         './elements/video/html-player',
         './elements/db-form/field-control',
-        './elements/db-form/table-form'
+        './elements/db-form/table-form',
+        './elements/photo-uploader/photo-uploader'
     ]);
 }

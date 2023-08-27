@@ -204,7 +204,8 @@ export class MemberGateway {
             case 'APPLOGO'      : return this.httpClient.fetch(`admin/upload_logo`, { method: 'POST', body: payload });
             case 'PHOTO'        : return this.httpClient.fetch(`groups/upload_photo`, { method: 'POST', body: payload });
             case 'CONTACTS'     : return this.httpClient.fetch(`groups/upload_contacts`, { method: 'POST', body: payload });
-            case 'DOC-SEG-THUMB': return this.httpClient.fetch(`docs/upload_thumbnail`, { method: 'POST', body: payload });
+            case 'DOC-SEG-THUMB': return this.httpClient.fetch(`docs/upload_doc_segment_thumbnail`, { method: 'POST', body: payload });
+            case 'DOC-THUMBNAIL': return this.httpClient.fetch(`docs/upload_doc_thumbnail`, { method: 'POST', body: payload });
         }
     }
 

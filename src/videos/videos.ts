@@ -594,7 +594,8 @@ export class Videos {
     }
 
     replace_thumbnail_dialog(video, event) {
-        console.log("============replace thumbnail")
+        if (! this.user.editing)
+            return;
         event.stopPropagation();
         this.dialog.open({
             viewModel: ReplaceThumbnail, model: { video: video }, lock: true
