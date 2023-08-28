@@ -144,7 +144,7 @@ export class Docs {
     }
 
     created(params, config) {
-        this.ea.subscribe('DOCS_WERE_UPLOADED', () => {
+        this.ea.subscribe('DOCS-UPLOADED', () => {
             this.update_doc_list();
         });
         if (this.doc_list && this.doc_list.length > 0 && !this.router.isExplicitNavigation) return;

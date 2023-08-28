@@ -57,4 +57,9 @@ export class ReplaceThumbnail {
         return true;
     }
 
+    on_uploaded() {
+        // force refresh
+        this.curr_doc_jpg_url += 'z';
+    }
+
 }

@@ -17,6 +17,7 @@
                 <photo-uploader
                     key="DOC-THUMBNAIL" 
                     payload.bind="{doc_id: doc.id}"
+                    uploaded.delegate="on_uploaded()"
                     help_topic="upload-doc-thumbnail">
                 </photo-uploader>
                 <div class="form-group">

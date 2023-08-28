@@ -9,20 +9,14 @@
         <form
             onsubmit="return false">
             <div class="form-group"
-                style="position:relative"
+                style="position:relative;display:flex;"
                 if.bind="phase=='ready-to-select'">
-                <label
-                    class="control-label
-                for="photos">
-                    <i class="far fa-browser fa-lg">&nbsp;&nbsp;
-                    </i>
-                    ${'groups.select-photo' & t}
-                </label>
                 <help topic.bind="help_topic"
                     style="top:-6px;right:120px;">
                 </help>
                 <div>
                     <input
+                        class="custom-file-input"
                         type="file" id="photos"
                         accept="image/*"
                         files.bind="photos">
