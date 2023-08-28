@@ -601,7 +601,7 @@
         "doc-segments-filter": "הקלידו שם כתבה או שם המחבר",
         "doc-segments-search": "חיפוש מהיר ברשימת הכתבות",
         "docs-search": "חיפוש מהיר ברשימת המסמכים",
-        "enter-thumbnail": " הכנס את כתובת התמונה הממוזערת של"
+        "enter-thumbnail": " בחרו תמונה ממוזערת ל"
     },
     "terms": {
         "terms": "מונחים",
@@ -850,5 +850,6 @@
     "name": "שם",
     "email": "דואר אלקטרוני",
     "message": "הודעה",
-    "date": "תאריך"
+    "date": "תאריך",
+    "select-a-photo": "בחרו תמונה"
 }

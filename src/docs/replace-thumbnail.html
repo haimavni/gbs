@@ -5,15 +5,6 @@
         </ux-dialog-header>
         <ux-dialog-body>
             <form class="form-horizontal" role="form" onsubmit="return false">
-                <div class="form-group" style="display:flex">
-                    <input type="text" class="form-control"
-                        style="width:90%"
-                        change.delegate="url_changed($event)" 
-                        placeholder="${name_placeholder}" value.bind="doc_jpg_url" />
-                    <button class="btn btn-defalt btn-sm" style="margin-right: 12px;">
-                        <i class="fas fa-save"></i>
-                    </button>
-                </div>
                 <photo-uploader
                     key="DOC-THUMBNAIL" 
                     payload.bind="{doc_id: doc.id}"

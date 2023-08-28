@@ -26,6 +26,7 @@ export class PhotoUploaderCustomElement {
     @bindable help_topic: string = "unknown";
     ea: EventAggregator;
     subscriber;
+    prompt = "Search a photo"
 
     constructor(
         user: User,
@@ -41,6 +42,7 @@ export class PhotoUploaderCustomElement {
         this.i18n = i18n;
         this.api = api;
         this.ea = ea;
+        this.prompt = this.i18n.tr("select-a-photo")
     }
 
     save_photo(event: Event) {

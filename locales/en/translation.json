@@ -852,5 +852,6 @@
     "name": "Name",
     "email": "Email",
     "message": "Message",
-    "date": "Date"
+    "date": "Date",
+    "select-a-photo": "Select a photo"
 }
