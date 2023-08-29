@@ -7,30 +7,37 @@
     <div class="buttons"
         if.bind="true || phase != 'photo-uploaded'">
         <form
+            class="form-inline" 
             onsubmit="return false">
             <div class="form-group"
                 style="position:relative;display:flex;"
-                if.bind="phase=='ready-to-select'">
-                <help topic.bind="help_topic"
-                    style="top:-6px;right:120px;">
-                </help>
+                if.bind="true || phase=='ready-to-select'">
                 <div>
+                    <label for="photo-uploader" style="margin:0;">
+                        <img height.bind="height" src.bind="image_url"
+                            style="padding:0;cursor:pointer;margin-top:6px;" />
+                    </label>
                     <input
-                        class="custom-file-input"
-                        type="file" id="photos"
-                        data-content="${prompt}"
+                        id="photo-uploader"
+                        style="display:none;"
+                        type="file"
                         accept="image/*"
                         files.bind="photos">
                 </div>
-            </div>
-            <div class="form-group"
-                if.bind="phase == 'ready-to-save'">
-                <button
-                    click.delegate="save_photo($event)"
-                    class="btn btn-success">
-                    <i class="fas fa-upload fa-sm">&nbsp;&nbsp;</i>
-                    ${'groups.upload' & t}
-                </button>
+                <div class="form-group"
+                    style="margin:6px;"
+                    if.bind="phase == 'ready-to-save'">
+                    <button
+                        click.delegate="save_photo($event)"
+                        class="btn btn-success">
+                        <i class="fas fa-upload fa-sm">&nbsp;&nbsp;</i>
+                        ${'upload-the-photo' & t}
+                    </button>
+                </div>
+                <help topic.bind="help_topic"
+                    if.bind="help_topic"
+                    style="margin-top:4px;">
+                </help>
             </div>
         </form>
 

@@ -20,6 +20,7 @@ export class ReplaceThumbnail {
     doc: any;
     doc_jpg_url: string = "";
     curr_doc_jpg_url: string = "";
+    ready_to_save = false;
     
     constructor(controller: DialogController, api: MemberGateway, i18n: I18N, misc: Misc, theme: Theme, user: User) {
         this.controller = controller;
@@ -44,22 +45,20 @@ export class ReplaceThumbnail {
 
     save() {
        this.doc.doc_jpg_url = this.doc_jpg_url;
-       this.api.call_server_post("docs/replace_doc_jpg_url", {"doc_id": this.doc.id, "doc_jpg_url": this.doc_jpg_url});
+       this.api.call_server_post("docs/doc_thumbnail_confirm", {"doc_id": this.doc.id, "doc_jpg_url": this.doc_jpg_url});
+       this.doc.doc_jpg_url = this.curr_doc_jpg_url;
+       this.controller.ok()
     }
 
     cancel() {
+        this.api.call_server_post("docs/doc_thumbnail_restore", {"doc_id": this.doc.id});
         this.controller.cancel();
-    }
-
-    @computedFrom('doc_jpg_url')
-    get ready_to_save() {
-        if (! this.doc_jpg_url) return false;
-        return true;
     }
 
     on_uploaded() {
         // force refresh
         this.curr_doc_jpg_url += 'z';
+        this.ready_to_save = true
     }
 
 }

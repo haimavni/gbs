@@ -24,6 +24,8 @@ export class PhotoUploaderCustomElement {
     @bindable key = "";
     @bindable payload;
     @bindable help_topic: string = "unknown";
+    @bindable image_url: string;
+    @bindable height: number = 20;
     ea: EventAggregator;
     subscriber;
     prompt = "Search a photo"

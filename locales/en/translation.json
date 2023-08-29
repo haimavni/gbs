@@ -853,5 +853,6 @@
     "email": "Email",
     "message": "Message",
     "date": "Date",
-    "select-a-photo": "Select a photo"
+    "select-a-photo": "Select a photo",
+    "upload-the-photo": "Upload the new photo"
 }

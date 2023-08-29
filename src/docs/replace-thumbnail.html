@@ -9,15 +9,14 @@
                     key="DOC-THUMBNAIL" 
                     payload.bind="{doc_id: doc.id}"
                     uploaded.delegate="on_uploaded()"
+                    height.bind="120"
+                    image_url.bind="curr_doc_jpg_url"
                     help_topic="upload-doc-thumbnail">
                 </photo-uploader>
                 <div class="form-group">
                     <span class="error" if.bind="error_message">${error_message}</span>
                 </div>
             </form>
-            <div>
-                <img src.bind="curr_doc_jpg_url" />
-            </div>
         </ux-dialog-body>
         <ux-dialog-footer>
             <button type="button" class="btn btn-primary"
