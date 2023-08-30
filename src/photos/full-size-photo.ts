@@ -200,6 +200,7 @@ export class FullSizePhoto {
 
     get_articles(photo_id) {
         this.articles = [];
+        this.articles_already_identified = new Set();
         this.api.call_server('photos/get_articles', { photo_id: photo_id })
             .then((data) => {
                 this.articles = data.articles;
