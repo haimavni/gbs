@@ -854,8 +854,7 @@ export class Photos {
     }
 
     replace_duplicate_photos() {
-        let spl = set_intersection(this.selected_photos, this.candidates);
-        let selected_photo_list = Array.from(spl);
+        let selected_photo_list = Array.from(this.selected_photos);
         this.working = true;
         this.api.call_server_post('photos/replace_duplicate_photos', {photos_to_keep: selected_photo_list})
             .then(result => {
