@@ -26,6 +26,7 @@ export class WatchVersion {
     }
 
     verify_latest_version() {
+        return;
         let enversion = environment.version;
         if (!enversion) {
             return
