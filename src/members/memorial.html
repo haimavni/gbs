@@ -35,8 +35,11 @@
                                         />
                                     </div>
                                     <div style="display:flex;flex-direction:column">
-                                        <span style="font-weight:bolder;margin-bottom:8px;">
+                                        <span style="font-weight:bolder;margin-bottom:8px;" if.bind="member.death_date != '1000'">
                                             ${member.full_name}  ${member.birth_date} - ${member.death_date}
+                                        </span>
+                                        <span style="font-weight:bolder;margin-bottom:8px;" if.bind="member.death_date == '1000'">
+                                            ${member.full_name}
                                         </span>
                                         <p innerhtml.bind="member.bio_preview">
                                         </p>
