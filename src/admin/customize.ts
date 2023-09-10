@@ -121,7 +121,8 @@ export class Customize {
         this.enable_articles_option = this.user.config.enable_articles ? 'user.enable-articles-on' : 'user.enable-articles-off';
         this.version_time_option = this.user.config.expose_version_time ? 'user.version-time-on' : 'user.version-time-off';
         this.enable_books_option = this.user.config.enable_books ? 'user.enable-books-on' : 'user.enable-books-off';
-        this.enable_member_of_the_day_option = this.user.config.enable_member_of_the_day_option ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
+        console.log("this.user.config.enable_member_of_the_day ", this.user.config.enable_member_of_the_day)
+        this.enable_member_of_the_day_option = this.user.config.enable_member_of_the_day ? 'user.enable-member-of-the-day-on' : 'user.enable-member-of-the-day-off';
         this.enable_cuepoints_option = this.user.config.enable_cuepoints ? 'user.enable-cuepoints-on' : 'user.enable-cuepoints-off';
         this.allow_publishing_option = this.user.config.allow_publishing ? 'user.allow-publishing-on' : 'user.allow-publishing-off';
         this.expose_gallery_option = this.user.config.expose_gallery ? 'user.expose-gallery-on' : 'user.expose-gallery-off';
