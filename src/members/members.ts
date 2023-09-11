@@ -521,7 +521,7 @@ export class Members {
     @computedFrom("user.advanced")
     get max_members_displayed() {
         if (this.user.advanced) return 10000;
-        return 1000;
+        return 4000;
     }
 
     @computedFrom("user.editing", "articles_exist")
