@@ -54,7 +54,7 @@ export class Photos {
         selected_uploader: "anyone",
         selected_dates_option: "dated-or-not",
         selected_order_option: "random-order",
-        selected_recognition: 'recognized',
+        selected_recognition: 'recognized-or-not',
         last_photo_id: null,
         last_photo_date: null,
         photos_date_str: "",
