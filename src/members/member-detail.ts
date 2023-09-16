@@ -443,12 +443,13 @@ export class MemberDetail {
 
     async set_heights() {
         for (let i = 0; i < 470; i++) {
-            if (i > 7 && this.member) break;
-            if (this.member && this.life_summary_box) break;
+            if (this.member) break;
             await sleep(20);
         }
-        if (this.member && this.life_summary_box)
+        if (this.member)
              this._set_heights();
+        else 
+            console.log("============ heights not set. member: ", this.member, "lsb: ", this.life_summary_box);
     }
 
     _set_heights() {
