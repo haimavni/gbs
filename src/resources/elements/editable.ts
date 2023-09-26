@@ -66,7 +66,7 @@ export class editableCustomElement {
 
     attached() {
         const elementRect = this.element.getBoundingClientRect();
-        this.width = elementRect.width;
+        this.width = elementRect.width || 270;
         if (!this.settings.divclass) {
             this.settings.divclass = 'editable';
         }

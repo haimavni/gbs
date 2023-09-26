@@ -256,6 +256,7 @@ export class DocDetail {
                 response.story_id, 
                 []);
             this.doc_segments.splice(this.doc_segments.length, 0, doc_segment);
+            this.doc_segments.sort((ds1, ds2) => (ds1.page_num*1000 - ds2.page_num*1000 + ds1.page_part_num - ds2.page_part_num));
             this.curr_doc_segment = doc_segment;
             this.get_doc_segment_info(response.segment_id)
         });
