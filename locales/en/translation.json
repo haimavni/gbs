@@ -597,7 +597,8 @@
         "doc-segments-search": "Fast search in document segments",
         "doc-search": "Fast search in documents",
         "enter-thumbnail": "Enter thumbnail URL for ",
-        "select-thumbnail": "Select thumbnail"
+        "select-thumbnail": "Select thumbnail",
+        "copy-date-to-segments": "Copy doc date to segments"
     },
     "terms": {
         "terms": "Terms",

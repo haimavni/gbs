@@ -601,7 +601,8 @@
         "doc-segments-filter": "הקלידו שם כתבה או שם המחבר",
         "doc-segments-search": "חיפוש מהיר ברשימת הכתבות",
         "docs-search": "חיפוש מהיר ברשימת המסמכים",
-        "enter-thumbnail": " בחרו תמונה ממוזערת ל"
+        "enter-thumbnail": " בחרו תמונה ממוזערת ל",
+        "copy-date-to-segments": "העתיקו את תאריך המסמך לכתבות"
     },
     "terms": {
         "terms": "מונחים",

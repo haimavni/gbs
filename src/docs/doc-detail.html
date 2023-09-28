@@ -166,9 +166,20 @@
                                 if.bind="full_doc && (doc_segments.length > 0 || user.editing)"
                                 class="btn-group dropdown border-right"
                                 style="margin-top:20px;">
-                                <h3>
-                                    ${select_segment_str}:
-                                </h3>
+                                <div style="display:flex">
+                                    <h3>
+                                        ${select_segment_str}:
+                                    </h3>
+                                    <help topic="edit-doc-segments"
+                                        position="bottom"
+                                        style="margin-right:40px;margin-top:16px;"
+                                        if.bind="user.editing"></help>
+                                    <button class="btn btn-basic"
+                                        style="height:36px;margin-top:16px;margin-right:12px;"
+                                        click.delegate="copy_doc_dates_to_segments()">
+                                        ${'docs.copy-date-to-segments' & t}
+                                    </button>
+                                </div>
                                 <ul
                                     class="dropdown-menu-right segment-list">
                                     <li
@@ -217,9 +228,6 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <help topic="edit-doc-segments"
-                                    style="margin-right:40px;"
-                                    if.bind="user.editing"></help>
                             </div>
                             <div if.bind="user.editing">
                                 <select

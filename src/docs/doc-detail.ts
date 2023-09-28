@@ -171,6 +171,10 @@ export class DocDetail {
                 this.doc_story_id = response.story_id;
                 this.chatroom_id = response.chatroom_id;
                 this.init_selected_topics();
+                // for the undo to work
+                this.curr_info.doc_topics = this.doc_topics.slice(0);
+                this.curr_info.doc_date_str = this.doc_date_str.slice(0);
+                this.curr_info.doc_date_datespan = this.doc_date_datespan;
                 this.undo_list = [];
                 this.members = response.members;
                 let doc_segments = [];
@@ -220,6 +224,10 @@ export class DocDetail {
             this.init_selected_topics();
             this.doc_date_str = response.doc_seg_date_str;
             this.doc_date_datespan = response.doc_seg_date_datespan;
+            // for the undo to work
+            this.curr_info.doc_topics = this.doc_topics.slice(0);
+            this.curr_info.doc_date_str = this.doc_date_str.slice(0);
+            this.curr_info.doc_date_datespan = this.doc_date_datespan;
             this.api.hit('DOCSEG', this.doc_segment_id);
         });
     }
@@ -280,31 +288,25 @@ export class DocDetail {
         if (this.doc_date_valid != 'valid') return;
         let event = customEvent.detail;
         let s = typeof event;
-        this.undo_list.push({ what: 'doc-date', doc_date: { doc_date_str: this.curr_info.doc_date_str, doc_date_datespan: this.curr_info.doc_date_datespan } });
+        this.undo_list.push({ what: 'doc-date', 
+            doc_date: { doc_date_str: this.curr_info.doc_date_str, doc_date_datespan: this.curr_info.doc_date_datespan } });
         this.curr_info.doc_date_str = this.doc_date_str.slice(0);
         this.curr_info.doc_date_datespan = this.doc_date_datespan;
-        const story_id = (this.curr_doc_segment) ? this.curr_doc_segment.story_id : this.doc_story_id
         this.api.call_server_post('docs/update_doc_date', { 
+            story_id: this.doc_story_id,
             doc_date_str: event.date_str, 
-            doc_date_datespan: event.date_span, 
-            // doc_id: this.doc_id,
-            story_id: story_id
+            doc_date_datespan: event.date_span 
          });
     }
 
     handle_topic_change(event) {
         if (!event.detail) return;
+        this.undo_list.push({ what: 'topics', doc_topics: this.curr_info.doc_topics });
         const selected_topics = event.detail.selected_options
-        let topics = selected_topics.map(top => top.option);
-        this.doc_topics = topics;
-        this.undo_list.push({ what: 'topics', photo_topics: this.curr_info.doc_topics });
-        this.curr_info.doc_topics = topics.slice(0);
-        if (this.curr_doc_segment) {
-            this.api.call_server_post('docs/apply_topics_to_doc',
-                {doc_segment_id: this.curr_doc_segment.segment_id, topics: this.doc_topics });
-        } else {
-            this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
-        }
+        this.doc_topics = selected_topics.map(top => top.option);
+        this.curr_info.doc_topics = this.doc_topics.slice(0);
+        this.api.call_server_post('docs/apply_topics_to_doc', 
+            { story_id: this.doc_story_id, topics: this.doc_topics, is_doc_segment: Boolean(this.doc_segment_id) });
     }
 
     init_selected_topics() {
@@ -323,19 +325,23 @@ export class DocDetail {
         let command = this.undo_list.pop();
         switch (command.what) {
             case "topics":
-                this.doc_topics = command.photo_topics.slice(0);
+                this.doc_topics = command.doc_topics;
                 this.curr_info.doc_topics = this.doc_topics.slice(0);
                 this.init_selected_topics();
-                this.api.call_server_post('docs/apply_topics_to_doc', { doc_id: this.doc_id, topics: this.doc_topics });
+                this.api.call_server_post('docs/apply_topics_to_doc', 
+                    { story_id: this.doc_story_id, topics: this.doc_topics, is_doc_segment: Boolean(this.doc_segment_id) });
                 break;
             case "doc-date":
-                this.curr_info.doc_date_str = this.doc_date_str = command.doc_date.doc_date_str;
+                this.doc_date_str = command.doc_date.doc_date_str;
                 this.doc_date_datespan = command.doc_date.doc_date_datespan;
+                this.curr_info.doc_date_str = this.doc_date_str.slice(0);
+                this.curr_info.doc_date_datespan = this.doc_date_datespan;
                 this.api.call_server_post('docs/update_doc_date',
-                    { doc_date_str: this.doc_date_str, doc_date_datespan: this.doc_date_datespan, doc_id: this.doc_id });
+                    { story_id: this.doc_story_id, doc_date_str: this.doc_date_str, doc_date_datespan: this.doc_date_datespan });
                 break;
         }
     }
+    
 
     go_back() {
         if (this.caller == 'docs')
@@ -589,6 +595,10 @@ export class DocDetail {
     dropdown_toggled() {
         //black magic. without this a wrong page is displayed
         this.view_full_document();
+    }
+
+    copy_doc_dates_to_segments() {
+        this.api.call_server_post("docs/copy_doc_date_to_doc_segments", {doc_id: this.doc_id});
     }
 
 }
