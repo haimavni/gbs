@@ -232,13 +232,6 @@ export class DocDetail {
         });
     }
 
-    get_doc_or_segment_info() {
-        if (this.curr_doc_segment) {
-            return this.get_doc_segment_info(this.curr_doc_segment.segment_id);
-        }
-        return this.get_doc_info(this.doc_id);
-    }
-
     page_num_selected(event) {
         this.show_page_options = false;
         let page_num = this.selected_page.value;
@@ -271,7 +264,8 @@ export class DocDetail {
     }
 
     update_topic_list() {
-        const topic_type = this.curr_doc_segment ? "S" : "D";
+        const dsi = this.calc_doc_segment_id();
+        const topic_type = dsi ? "S" : "D";
         let usage = this.user.editing ? {} : { usage: topic_type };
         this.api.call_server_post('topics/get_topic_list', usage)
             .then(result => {
@@ -281,6 +275,14 @@ export class DocDetail {
                 this.no_topics_yet = this.topic_list.length == 0;
                 //this.no_photographers_yet = this.photographer_list.length == 0;
             });
+    }
+
+    calc_doc_segment_id() {
+        if (this.doc_segment_id) 
+            return this.doc_segment_id;
+        if (this.curr_doc_segment) 
+            return this.curr_doc_segment.segment_id;
+        return null; 
     }
 
     update_doc_date(customEvent) {
@@ -460,9 +462,10 @@ export class DocDetail {
             this.theme.hide_title = false;
             if (response.wasCancelled) return;
             member_ids = Array.from(response.output.member_ids);
-            if (this.curr_doc_segment) {
+            const dsi = this.calc_doc_segment_id();
+            if (dsi) {
                 this.api.call_server_post('docs/update_doc_segment_members', {
-                    doc_segment_id: this.curr_doc_segment.segment_id,
+                    doc_segment_id: dsi,
                     member_ids: member_ids
                 }).then(response => {
                     this.members = response.members;
