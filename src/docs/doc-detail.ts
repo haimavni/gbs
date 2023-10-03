@@ -40,6 +40,7 @@ export class DocDetail {
     doc = { name: 'no-name' };
     keywords = [];
     doc_ids = [];
+    doc_segment_ids = [];
     topic_list = [];
     topic_groups = [];
     no_topics_yet = false;
@@ -56,9 +57,7 @@ export class DocDetail {
     doc_story_id = null;
     chatroom_id = null;
     options_settings: MultiSelectSettings;
-    selected_topics: any[]; //,
-        //selected_photographers: [],
-        //doc_ids: []
+    selected_topics: any[]; 
     doc_name: any;
     can_go_forward = false;
     can_go_backward = false;
@@ -132,15 +131,23 @@ export class DocDetail {
 
     async activate(params, config) {
         this.user.editing = false;  //work around a strange bug
-        this.doc_id = params.id;
         this.caller = params.caller;
+        if (params.by_story_id)
+            await this.convert_story_ids(params);
+        else {
+            this.doc_id = params.id;
+            this.doc_segment_id = params.segment_id;
+            if (this.doc_segment_id) {
+                this.doc_segment_ids = params.doc_ids || [];
+            } else {
+                this.doc_ids = params.doc_ids || [];
+            }
+        }
         this.doc_id_updated = false;
         this.keywords = params.keywords;
-        this.doc_ids = params.doc_ids || [];
         this.advanced_search = params.search_type == 'advanced';
-        if(params.segment_id) {
-            await this.get_doc_segment_info(params.segment_id);
-            this.doc_segment_id = params.segment_id;
+        if(this.doc_segment_id) {
+            await this.get_doc_segment_info(this.doc_segment_id);
             this.full_doc = false;
         } else {
             await this.get_doc_info(this.doc_id);
@@ -149,14 +156,26 @@ export class DocDetail {
         await this.update_topic_list();        
     }
 
+    convert_story_ids(params) {
+        return this.api.call_server_post('docs/convert_story_ids', params)
+        .then(response => {
+            this.doc_id = response.doc_id;
+            this.doc_segment_id = response.doc_segment_id;
+            if (this.doc_segment_id)
+                this.doc_segment_ids = response.doc_segment_ids || [];
+            else
+                this.doc_ids = response.doc_ids || [];
+        })
+    }
+
     get_doc_info(doc_id) {
-        this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id, caller: this.caller })
+        if (! doc_id) {
+            alert("no doc id");
+            return;
+        }
+        return this.api.call_server_post('docs/get_doc_info', { doc_id: doc_id })
             .then(response => {
                 let search_str = "";
-                // if (this.keywords && this.keywords.length > 0) {
-                //     const keywords = this.keywords.join(' ');
-                //     search_str = '#search=%22' + keywords + '%22';
-                // }
                 this.doc_id = response.doc_id;
                 this.doc_id_updated = true;
                 this.doc = response.doc;
@@ -202,10 +221,8 @@ export class DocDetail {
 
     get_doc_segment_info(doc_segment_id) {
         this.doc_segment_id = doc_segment_id;
-        const caller = this.doc_id_updated ? "" : this.caller;
-        this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id, caller: caller })
+        return this.api.call_server_post('docs/get_doc_segment_info', { doc_segment_id: doc_segment_id })
         .then(response => {
-
             this.curr_doc_segment = new DocSegment(
                 doc_segment_id, 
                 response.name, 
@@ -267,7 +284,7 @@ export class DocDetail {
         const dsi = this.calc_doc_segment_id();
         const topic_type = dsi ? "S" : "D";
         let usage = this.user.editing ? {} : { usage: topic_type };
-        this.api.call_server_post('topics/get_topic_list', usage)
+        return this.api.call_server_post('topics/get_topic_list', usage)
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
@@ -389,13 +406,17 @@ export class DocDetail {
     }
 
     doc_idx() {
-        let doc_id = this.full_doc ? this.doc_id : this.doc_segment_id;
-        return this.doc_ids.findIndex(pid => pid == doc_id);
+        // let doc_id = this.full_doc ? this.doc_id : this.doc_segment_id;
+        // return this.doc_ids.findIndex(pid => pid == doc_id);
+        if (this.full_doc)
+            return this.doc_ids.findIndex(pid => pid == this.doc_id);
+        return this.doc_segment_ids.findIndex(pid => pid == this.doc_segment_id);
     }
 
     public has_next(step) {
         let idx = this.doc_idx();
-        return (0 <= (idx + step)) && ((idx + step) < this.doc_ids.length - 1);
+        let n = this.full_doc ? this.doc_ids.length : this.doc_segment_ids.length;
+        return (0 <= (idx + step)) && ((idx + step) < n - 1);
     }
 
     @computedFrom('doc_id', 'doc_segment_id')
@@ -410,20 +431,23 @@ export class DocDetail {
         return 'disabled'
     }
     get_doc_by_idx(idx) {
-        let did = this.doc_ids[idx];
-        if (this.full_doc)
+        let did;
+        if (this.full_doc) {
+            did = this.doc_ids[idx]
             this.get_doc_info(did);
-        else {
+        } else {
+            did = this.doc_segment_ids[idx];
             this.get_doc_segment_info(did);
         }
     }
 
     public go_next(event) {
         event.stopPropagation();
+        let ids_arr = this.full_doc ? this.doc_ids : this.doc_segment_ids;
         let idx = this.doc_idx();
-        if (idx + 1 < this.doc_ids.length) {
+        if (idx + 1 < ids_arr.length) {
             this.get_doc_by_idx(idx + 1);
-            this.can_go_forward = idx + 2 < this.doc_ids.length;
+            this.can_go_forward = idx + 2 < ids_arr.length;
             this.can_go_backward = true;
         }
     }

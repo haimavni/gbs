@@ -472,7 +472,7 @@ export class Stories {
     view_details(story, event, for_segment_id=false)  {
         let doc_ids = []; //this.doc_list.map(doc => doc.id);
         this.scroll_top = this.scroll_area.scrollTop;
-        let params = { id: story.story_id, doc_ids: doc_ids, segment_id: null, keywords: this.keywords, caller: 'stories'} ;
+        let params = { id: story.story_id, doc_ids: doc_ids, segment_id: null, keywords: this.keywords, by_story_id: true } ;
         if (for_segment_id) {
             params.segment_id = story.story_id;
         }
@@ -482,7 +482,7 @@ export class Stories {
     view_doc(story, for_segment, keywords) {
         this.scroll_top = this.scroll_area.scrollTop;
         let doc_ids = [];
-        let params = { id: story.story_id, segment_id: null, keywords: keywords, caller: 'stories', doc_ids: doc_ids};
+        let params = { id: story.story_id, segment_id: null, keywords: keywords, by_story_id: true, doc_ids: doc_ids};
         if (for_segment) {
             params.segment_id = story.story_id;
             let doc_seg_list = this.story_list.filter(itm => itm.used_for == this.api.constants.story_type.STORY4DOCSEGMENT);

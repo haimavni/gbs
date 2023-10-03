@@ -94,7 +94,6 @@ export class AnnotateVideo {
     };
     video_date_valid = '';
     highlight_on= "highlight-on";
-    caller;
     cue0: CuePoint = null;
     track_segment = null;
 
@@ -135,7 +134,6 @@ export class AnnotateVideo {
         this.advanced_search = params.search_type == 'advanced';
         this.video_id = params.video_id;
         this.member_id = params.member_id; //will highlight cuepoints with this member
-        this.caller = params.caller;
         if (params.what != 'story') {
             this.video_name = params.video_name;
             this.video_src = params.video_src;
