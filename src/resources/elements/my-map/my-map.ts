@@ -48,9 +48,9 @@ export class MyMapCustomElement {
         this.create_search_box();
         //place marker destroys zoom and no recovery found.
         //the map will be OK, but the location icon is not displayed
-        console.log("=======markers: ", this.map.Markers);
         if (false && this.marked) {
             await this.place_marker1();
+            console.log("=======markers: ", this.map.Markers);
         }
     }
 

@@ -130,8 +130,10 @@ export class MemberDetail {
     }
 
     activate(params, config) {
+        const member_changed = this.member_id != params.id;
         this.member_id = params.id;
-        this.stories_base = -1;
+        if (member_changed)
+            this.stories_base = -1;
         this.keywords = params.keywords;
         this.advanced_search = params.search_type == 'advanced';
         if (this.member && this.member.member_info &&
