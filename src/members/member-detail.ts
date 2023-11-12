@@ -98,7 +98,7 @@ export class MemberDetail {
             this.refresh_story(payload)
         });
         this.eventAggregator.subscribe('WINDOW-RESIZED', payload => {
-            this.set_heights()
+            this.set_heights('WINDOW-RESIZED')
         });
         this.eventAggregator.subscribe('PHOTO_PHOTO_LIST_CHANGED', payload => {
             this.photo_list_changes_pending = true
@@ -163,7 +163,7 @@ export class MemberDetail {
                     life_story.topic = this.life_summary + ' ' + this.member.member_info.name; //the first one is always the biography
                 }
                 this.api.hit('MEMBER', this.member.member_info.id);
-                this.set_heights();
+                this.set_heights('activate');
                 let x = this.stories_base_changed;
             });
     }
@@ -221,7 +221,7 @@ export class MemberDetail {
                 this.show_photo.show(payload.slide, payload.event, photo_ids); //payload.slide_list);
             }
         });
-        this.set_heights();
+        this.set_heights('attached');
         if (! this.member) return;
         let offset = this.misc.load(['member_slides_offset', this.member.member_info.id]);
         if (offset) this.move_to = offset;
@@ -422,13 +422,13 @@ export class MemberDetail {
         let {new_height} = event.detail;
         this.photo_strip_height = new_height;
         //this.panel_height = 680 - new_height;
-        this.set_heights();
+        this.set_heights('height change');
     }
 
     toggle_life_summary_size(event) {
         event.stopPropagation();
         this.life_summary_expanded = !this.life_summary_expanded;
-        this.set_heights();
+        this.set_heights('toggle bio size');
     }
 
     calc_px(s) {
@@ -443,18 +443,19 @@ export class MemberDetail {
         this.life_summary_content.scrollTop = t + h;
     }
 
-    async set_heights() {
+    async set_heights(phase?) {
         for (let i = 0; i < 470; i++) {
-            if (this.member) break;
+            if (this.member && this.family_connections_panel && this.photo_strip) break;
             await sleep(20);
         }
-        if (this.member)
-             this._set_heights();
+        if (this.member && this.family_connections_panel && this.photo_strip)
+             this._set_heights(phase);
         else 
             console.log("============ heights not set. member: ", this.member, "lsb: ", this.life_summary_box);
     }
 
-    _set_heights() {
+    _set_heights(phase) {
+        // console.log("set height phase: ", phase);
         let footer_height = 63;
         let ps_offset;
         let ps_height;
@@ -474,10 +475,16 @@ export class MemberDetail {
             this.member_detail_panel.style.marginRight = '-32px';
         }
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
-        if (this.life_summary_content && this.theme.is_desktop) {
-            let lsco = this.life_summary_content.offsetTop + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
-            this.life_summary_content.style.height = `${tph - lsco}px`;
-            this.family_connections_panel.style.height = `${tph - lsco}px`;
+        if (this.theme.is_desktop) {
+            if (this.life_summary_content) {
+                let lsco = (this.life_summary_content.offsetTop | 63) + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
+                this.life_summary_content.style.height = `${tph - lsco}px`;
+            }
+            if (this.family_connections_panel) {
+                let fcpo = this.family_connections_panel.offsetTop | 63;
+                let lsco = fcpo + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin           
+                this.family_connections_panel.style.height = `${tph - lsco}px`;
+            }
         }
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
@@ -502,7 +509,6 @@ export class MemberDetail {
                 }
             if (this.life_summary_box1 && !this.user.editing)
                 this.life_summary_box1.style.height = '99%'// `${lsb}px`;
-            //this.family_connections_panel.style.height = '100%'; //`${lsh+d}px`;
         }
     }
 

@@ -21,7 +21,7 @@
             <div id="member-detail-content" class="row" ref="top_panel">
                 <div class="col-md-6 col-sm-12">
                     <h3 if.bind="member.family_connections.hasFamilyConnections">${'members.family-connections' & t}</h3>
-                    <div class="family-chains" ref="family_connections_panel" style="display:flex;flex-direction:column;">
+                    <div class="family-chains" ref="family_connections_panel">
                         <div class="noborder">
                             <div if.bind="member.family_connections.grand_parents.length > 0" style="display:flex;flex-direction:row;">
                                 <div class="relation-kind">${'grand-parents' & t}</div>
