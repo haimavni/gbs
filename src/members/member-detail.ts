@@ -477,11 +477,11 @@ export class MemberDetail {
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
         if (this.theme.is_desktop) {
             if (this.life_summary_content) {
-                let lsco = (this.life_summary_content.offsetTop | 63) + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
+                let lsco = (this.life_summary_content.offsetTop | 64) + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
                 this.life_summary_content.style.height = `${tph - lsco}px`;
             }
             if (this.family_connections_panel) {
-                let fcpo = this.family_connections_panel.offsetTop | 63;
+                let fcpo = this.family_connections_panel.offsetTop | 64;
                 let lsco = fcpo + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin           
                 this.family_connections_panel.style.height = `${tph - lsco}px`;
             }
