@@ -488,7 +488,7 @@ export class MemberDetail {
         }
         let bph = panel_height - tph;
         if (this.theme.height >= 800 && this.theme.width >= 1000) {
-            let n = (this.member_stories.lst.length > 1) ? 5 : 100;
+            let n = (this.member_stories.lst.length > 1) ? 6 : 101;
             this.top_panel.style.height = `${tph - n}px`;
             this.bottom_panel.style.height = `${bph}px`;
             this.bottom_panel.style.width = '1166px';
