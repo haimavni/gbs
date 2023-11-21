@@ -39,6 +39,7 @@ export class StoryWindow {
         videoDefaultAlign: 'left',
         VideoDefaultWidth: 160,
         charCounterCount: false,
+        htmlUntouched: true,
         linkAlwaysBlank: true,
         language: 'he', heightMin: 400, heightMax: 400,
         imageUploadRemoteUrls: false,
