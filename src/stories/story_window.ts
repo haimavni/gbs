@@ -177,11 +177,11 @@ export class StoryWindow {
 
     @computedFrom('story', 'story.language')
     get story_dir() {
-        if (! this.story) return "";
+        if (! this.story) return this.theme.rtltr;
         if (this.story.language == 'he' || this.story.language == 'ar') {
             return "rtl"
         }
-        return "ltr"
+        return this.theme.rtltr;
     }
 
     move_editor(customEvent) {
