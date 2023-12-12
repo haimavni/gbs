@@ -235,7 +235,6 @@ export class MemberDetail {
         this.sub5.dispose();
         this.sub6.dispose();
     }
-
     set_parent(data) {
         let parent = data.parent;
         let gender = parent.gender;
@@ -445,7 +444,7 @@ export class MemberDetail {
 
     async set_heights(phase?) {
         for (let i = 0; i < 470; i++) {
-            if (this.member && this.family_connections_panel && this.photo_strip) break;
+            if (this.member && this.family_connections_panel && this.photo_strip && this.life_summary_content != null) break;
             await sleep(20);
         }
         if (this.member && this.family_connections_panel && this.photo_strip)
@@ -455,7 +454,6 @@ export class MemberDetail {
     }
 
     _set_heights(phase) {
-        // console.log("set height phase: ", phase);
         let footer_height = 63;
         let ps_offset;
         let ps_height;
@@ -475,13 +473,14 @@ export class MemberDetail {
             this.member_detail_panel.style.marginRight = '-32px';
         }
         let tph = this.life_summary_expanded || no_member_stories ? panel_height : Math.round(panel_height / 2);
+
         if (this.theme.is_desktop) {
             if (this.life_summary_content) {
-                let lsco = (this.life_summary_content.offsetTop | 64) + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
+                let lsco = (this.life_summary_content.offsetTop) + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin
                 this.life_summary_content.style.height = `${tph - lsco}px`;
             }
             if (this.family_connections_panel) {
-                let fcpo = this.family_connections_panel.offsetTop | 64;
+                let fcpo = this.family_connections_panel.offsetTop;
                 let lsco = fcpo + 16 + 16 + 2;  //16 for the top margin, 16 for bottom margin           
                 this.family_connections_panel.style.height = `${tph - lsco}px`;
             }
