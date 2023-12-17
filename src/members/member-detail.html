@@ -1,6 +1,6 @@
 <template>
     <div id="member-detail" class="content-area ${theme.rtltr}" ref="member_detail_container">
-        <div class="row ${member_is_dead}" ref="member_header">
+        <div class="row ${member_is_dead}">
             <div id="breadcrumb" class="col-xs-12 font-size-150 detail-header" style="padding-top:6px;" dir="${theme.rtltr}">
                 <i class="far fa-arrow-up pull-${theme.other_dir}" style="cursor:pointer;" data-role="button" t="[title]go-back" click.trigger="go_back()" if.bind="theme.is_desktop"></i>
                 <span if.bind="member_info.id">${member_display_name}</span>
@@ -134,7 +134,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12 fr-view life-summary has-life"
                      ref="life_summary_box"
-                     if.bind="(user.privileges.EDITOR || story_0 &&  story_0.story_text != '') && ! user.editing">
+                     if.bind="has_life_box">
                     <h4 style="margin-top:16px;margin-bottom:0px;color:gray;" if.bind="user.config.short_bio_title">
                         ${'members.life-summary' & t} ${member_info.first_name}
                     </h4>

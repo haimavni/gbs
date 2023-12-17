@@ -442,12 +442,38 @@ export class MemberDetail {
         this.life_summary_content.scrollTop = t + h;
     }
 
+    @computedFrom('user.privileges.EDITOR', 'story_0.story_text', 'user.editing')
+    get has_life_box() {
+        let result =  (this.user.privileges.EDITOR || this.story_0 &&  this.story_0.story_text != '') && ! this.user.editing;
+        return result;
+    }
+
     async set_heights(phase?) {
-        for (let i = 0; i < 470; i++) {
-            if (this.member && this.family_connections_panel && this.photo_strip && this.life_summary_content != null) break;
-            await sleep(20);
+        let refs = [
+            this.member_detail_container,
+            this.member_detail_panel,
+            this.photo_strip,
+            this.top_panel,
+            this.family_connections_panel,
+            this.bottom_panel
+        ]
+        await sleep(20);
+        if (this.has_life_box) {
+            refs.push(this.life_summary_box);
+            refs.push(this.life_summary_content);
         }
-        if (this.member && this.family_connections_panel && this.photo_strip)
+        let ready;
+        for (let i = 0; i < 470; i++) {
+            await sleep(20);
+            ready = true;
+            for (let itm of refs)
+                if (!itm) {
+                    ready = false;
+                    break;
+                }
+            if (ready) break;
+        }
+        if (ready)
              this._set_heights(phase);
         else 
             console.log("============ heights not set. member: ", this.member, "lsb: ", this.life_summary_box);
