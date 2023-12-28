@@ -1,7 +1,7 @@
 export default {
     debug: true,
     testing: false,
-    baseURL: "localhost:8000",
+    baseURL: "http://localhost:8000",
     app: 'demo',
     version: "",
     i18n_ver: '',

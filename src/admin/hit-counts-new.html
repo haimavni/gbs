@@ -85,7 +85,11 @@
                 <tbody>
                     <tr repeat.for="item of $displayData">
                         <td>${item.item_id}</td>
-                        <td css="direction:${theme.rtltr}">${item.name}</td>
+                        <td css="direction:${theme.rtltr}">
+                            <a href.bind="item.url" target="_blank">
+                                <span style="width:100%">${item.name}</span>
+                            </a>
+                        </td>
                         <td>${item.count}</td>
                     </tr>
                 </tbody>
