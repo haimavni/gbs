@@ -438,7 +438,7 @@ export class StoryDetail {
     }
 
     update_topic_list() {
-        this.api.call_server_post('topics/get_topic_list', { usage: 'ET' })
+        this.api.call_server_post('topics/get_topic_list', { })
             .then(result => {
                 this.topic_list = result.topic_list;
                 this.topic_groups = result.topic_groups;
@@ -538,5 +538,14 @@ export class StoryDetail {
         this.api.call_server_post('topics/remove_story_from_book', {story_id: this.story.story_id, book_id: this.book_id})
             .then(response => {this.book_id = null});
     }
+
+    @computedFrom('story_topics')
+    get topic_names() {
+        if (!this.story_topics) return "";
+        let topic_name_list = this.story_topics.map(itm => itm.name);
+        return topic_name_list.join(';  ');
+    }
+
+
 
 }

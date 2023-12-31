@@ -89,6 +89,15 @@
                         </ul>
                     </div>
                 </div>
+                <div id="info">
+                    <date-range label="stories.story-date" if.bind="story_date_str || user.editing"
+                        base_date_str.bind="story_date_str" hide_label_if_no_date.bind="true" enable_days_range.bind="true"
+                        span_size.bind="story_date_datespan" range_options.bind="[1,2,3,5,10,15,20,25,30,50,100,120]"
+                        is_valid.bind="story_date_valid"
+                        change.delegate="update_story_date($event)">
+                    </date-range>
+                    <span if.bind="topic_names" style="margin-top: 12px;">${'photos.keywords' & t}: ${topic_names}</span>
+                </div>
             </div>
             <div class="col-md-7" ref="story_box" style="padding-right:0;">
                 <div class="justified-story full-story">
