@@ -86,9 +86,9 @@
                     <tr repeat.for="item of $displayData">
                         <td>${item.item_id}</td>
                         <td css="direction:${theme.rtltr}">
-                            <a href.bind="item.url" target="_blank">
-                                <span style="width:100%">${item.name}</span>
-                            </a>
+                            <div click.trigger="popup_page(item.url)">
+                                <span style="width:100%;color:blue;cursor:pointer;">${item.name}</span>
+                            </div>
                         </td>
                         <td>${item.count}</td>
                     </tr>

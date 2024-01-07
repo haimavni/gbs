@@ -32,9 +32,9 @@
                     <tr repeat.for="item of $displayData">
                         <td>${item.item_id}</td>
                         <td css="direction:${theme.rtltr}">
-                            <a href="item.url">
-                                <span style="width:100%">${item.name}</span>
-                            </a>
+                            <div href="item.url" style="cursor:pointer">
+                                <span style="width:100%;color:blue;">${item.name}</span>
+                            </div>
                         </td>
                         <!-- <td>${item.count}</td> -->
                         <td>${item.new_count}</td>

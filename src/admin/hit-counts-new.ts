@@ -3,6 +3,7 @@ import { I18N } from "aurelia-i18n";
 import { Router } from "aurelia-router";
 import { Theme } from "../services/theme";
 import { MemberGateway } from "../services/gateway";
+import {Popup} from '../services/popups';
 
 @autoinject()
 export class HitCountsNew {
@@ -22,12 +23,14 @@ export class HitCountsNew {
     curr_period = 0;
     curr_what_prev = null;
     starter = null;
+    popup: Popup;
 
-    constructor(theme: Theme, router: Router, api: MemberGateway, i18n: I18N) {
+    constructor(theme: Theme, router: Router, api: MemberGateway, i18n: I18N, popup: Popup) {
         this.theme = theme;
         this.router = router;
         this.api = api;
         this.i18n = i18n;
+        this.popup = popup;
         this.what_options = [
             { value: "APP", name: this.i18n.tr("hits.app")},
             { value: "MEMBER", name: this.i18n.tr("members.members") },
@@ -111,6 +114,10 @@ export class HitCountsNew {
     calc_count_list() {
         console.log("detailed: ", this.itemized_counts[this.curr_what].detailed)
         this.items = this.itemized_counts[this.curr_what].detailed[this.curr_period]
+    }
+
+    popup_page(url) {
+        this.popup.popup('HITPAGE', url, "height=860,width=1700,left=100,top=100")
     }
 
 }
