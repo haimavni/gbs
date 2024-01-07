@@ -211,6 +211,9 @@ export class MemberDetail {
             this.dirty_info = dirty
         });
         this.sub5 = this.eventAggregator.subscribe('Zoom', payload => {
+            if (payload.event.ctrlKey && payload.event.shiftKey) {
+                console.log("-------detach slide ", payload.slide.photo_id, " from ", this.member_id)
+            }
             let photo_ids = payload.slide_list.map(photo => photo.photo_id);
             let offset = payload.offset;
             this.misc.save(['member_slides_offset', this.member.member_info.id], offset);
