@@ -65,11 +65,11 @@ export class App {
     }
 
     attached() {
-        if (this.cookies.get("NO-SCREEN-ALERT")) return;
         this.router_view_height = this.theme.height - 60 - 117;
         this.api.hit("APP");
         if (environment.push_state) console.log("app attached");
         const screen_height = document.documentElement.clientHeight;
+        if (this.cookies.get("NO-SCREEN-ALERT")) return;
         if (screen_height < 900 && this.theme.is_desktop) {
             this.dialog.open({ viewModel: NotifyLowScreen, lock: false });
         }
