@@ -198,7 +198,7 @@ export class UserMode {
     }
 
     show_hit_counts() {
-        let url = this.misc.make_url('hit-counts-new');
+        let url = this.misc.make_url('hit-counts');
         this.popup.popup('ADHOC', url, "height=960,width=1800,left=50,top=50");
     }
 

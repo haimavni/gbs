@@ -24,6 +24,7 @@ export class HitCountsNew {
     curr_what_prev = null;
     starter = null;
     popup: Popup;
+    hit_map;
 
     constructor(theme: Theme, router: Router, api: MemberGateway, i18n: I18N, popup: Popup) {
         this.theme = theme;
@@ -31,17 +32,18 @@ export class HitCountsNew {
         this.api = api;
         this.i18n = i18n;
         this.popup = popup;
-        this.what_options = [
-            { value: "APP", name: this.i18n.tr("hits.app")},
-            { value: "MEMBER", name: this.i18n.tr("members.members") },
-            { value: "ARTICLE", name: this.i18n.tr("articles.articles") },
-            { value: "PHOTO", name: this.i18n.tr("photos.photos") },
-            { value: "EVENT", name: this.i18n.tr("stories.stories") },
-            { value: "TERM", name: this.i18n.tr("terms.terms") },
-            { value: "DOC", name: this.i18n.tr("docs.docs")},
-            { value: "DOCSEG", name: this.i18n.tr("docs.docsegs")},
-            { value: "VIDEO", name: this.i18n.tr("videos.videos")}
-        ];
+        this.what_options = [];
+        this.hit_map = {
+            "APP": this.i18n.tr("hits.app"),
+            "MEMBER": this.i18n.tr("members.members"),
+            "ARTICLE": this.i18n.tr("articles.articles"),
+            "PHOTO": this.i18n.tr("photos.photos"),
+            "EVENT": this.i18n.tr("stories.stories"),
+            "TERM": this.i18n.tr("terms.terms"),
+            "DOC": this.i18n.tr("docs.docs"),
+            "DOCSEG": this.i18n.tr("docs.docsegs"),
+            "VIDEO": this.i18n.tr("videos.videos")
+        }
     }
 
     attached() {
@@ -65,10 +67,16 @@ export class HitCountsNew {
             .call_server("hits/get_hit_statistics", {})
             .then((response) => {
                 console.log("hits response is ", response);
-                this.itemized_counts = response;
+                this.itemized_counts = response.result;
                 console.log("itemized counts: ", this.itemized_counts);
                 this.starter = 'starter';
-                
+                const hit_kinds = response.hit_kinds;
+                // this.what_options = hit_kinds.map(what => {value: what, name: this.hit_map[what]})
+                this.what_options = [];
+                for (let what of hit_kinds) {
+                    const obj = {value: what, name: this.hit_map[what]}
+                    this.what_options.push(obj)
+                }
             });
     }
 
