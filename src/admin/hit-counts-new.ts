@@ -34,6 +34,7 @@ export class HitCountsNew {
         this.what_options = [
             { value: "APP", name: this.i18n.tr("hits.app")},
             { value: "MEMBER", name: this.i18n.tr("members.members") },
+            { value: "ARTICLE", name: this.i18n.tr("articles.articles") },
             { value: "PHOTO", name: this.i18n.tr("photos.photos") },
             { value: "EVENT", name: this.i18n.tr("stories.stories") },
             { value: "TERM", name: this.i18n.tr("terms.terms") },
