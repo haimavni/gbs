@@ -342,7 +342,7 @@
             "continue": "Continue",
             "share-on-facebook": "Share on Facebook",
             "photo-link-copied": "Photo address successfully copied",
-            "replace-photo": "To display a different photo, press Esc and then<br>click on the desired photo and then<b>click the chain icon",
+            "replace-photo": "To display a different photo, press Esc and then<br>click on the desired photo and then<b>click the chain icon.<br>To share a photo, use the f button in the photo page.",
             "missing-photo": "No photo was selected! press Esc and then<br>click on the desired photo and then<b>click the chain icon"
         }
     },

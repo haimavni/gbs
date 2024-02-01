@@ -16,8 +16,8 @@
                             <img src.bind="img_src" width="270px" />
                         </div>
                         <div if.bind="message" class.bind="message_type"
-                             style="margin-top:8px;margin-bottom:12px;padding:8px;">
-                            ${message & t}
+                             style="margin-top:8px;margin-bottom:12px;padding:8px;"
+                             innerHtml="${message & t}">
                         </div>
                         <button if.bind="img_src && description && ! card_url" class="btn btn-primary btn-block"
                                 style="margin-top:6px;width: 100%;"
