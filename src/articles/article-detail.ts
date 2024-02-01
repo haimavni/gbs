@@ -115,6 +115,7 @@ export class ArticleDetail {
                 this.api.hit('ARTICLE', this.article.article_info.id);
                 this.set_heights();
             });
+            //just to force commit
     }
 
     init_article() {
