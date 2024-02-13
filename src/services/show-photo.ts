@@ -26,6 +26,11 @@ export class ShowPhoto {
                 pop_full_photo: true, has_story_text: photo.has_story_text
             });
         } else {
+            const url = this.router.generate('photo-detail', {
+                id: photo.photo_id, keywords: "", photo_ids: photo_ids,
+                pop_full_photo: true, has_story_text: photo.has_story_text
+            })
+            console.log("---url is ", url);
             this.openDialog(photo, event, photo_ids)
         }
     }
