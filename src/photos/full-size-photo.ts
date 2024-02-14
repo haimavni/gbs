@@ -730,7 +730,7 @@ export class FullSizePhoto {
             { img_src: img_src, url: current_url, title: title, description: description })
             .then(response => {
                 card_url = response.card_url;
-                copy_to_clipboard(card_url);
+                // copy_to_clipboard(card_url);
             });
         let href = `https://facebook.com/sharer/sharer.php?u=${card_url}&t=${title}`;
         let width = this.theme.width;
