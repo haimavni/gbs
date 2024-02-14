@@ -433,8 +433,6 @@ export class Photos {
     }
 
     handle_change(event) {
-        console.log("............handle change. uploader: ", 
-            this.params.selected_uploader, " restricted: ", this.user.privileges.RESTRICTED);
         if (this.params.selected_uploader != "mine" && this.user.privileges.RESTRICTED)
             this.user.editing_enabled(false);
         this.update_photo_list();

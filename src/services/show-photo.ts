@@ -26,16 +26,15 @@ export class ShowPhoto {
                 pop_full_photo: true, has_story_text: photo.has_story_text
             });
         } else {
-            const url = this.router.generate('photo-detail', {
+            const photo_url = this.router.generate('photo-detail', {
                 id: photo.photo_id, keywords: "", photo_ids: photo_ids,
                 pop_full_photo: true, has_story_text: photo.has_story_text
             })
-            console.log("---url is ", url);
-            this.openDialog(photo, event, photo_ids)
+            this.openDialog(photo, event, photo_ids, photo_url)
         }
     }
 
-    private async openDialog(slide, event, photo_ids) {
+    private async openDialog(slide, event, photo_ids, photo_url) {
         if (event)
             event.stopPropagation();
         let width = 60;  // section width
@@ -65,6 +64,7 @@ export class ShowPhoto {
                 slide: slide, slide_list: photo_ids,
                 hide_details_icon: !(this.user.editing || slide.has_story_text),
                 list_of_ids: true,
+                photo_url: photo_url,
                 topic_names: slide.keywords
             }, lock: false
         }).whenClosed(response => {

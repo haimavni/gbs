@@ -86,6 +86,7 @@ export class FullSizePhoto {
     keypress_handler;
     popup: Popup;
     topic_names;
+    photo_url;
 
     constructor(dialogController: DialogController,
         dialogService: DialogService,
@@ -139,6 +140,7 @@ export class FullSizePhoto {
         this.list_of_ids = model.list_of_ids;
         this.topic_names = model.topic_names;
         this.baseURL = environment.baseURL;
+        this.photo_url = model.photo_url;
         document.addEventListener('keyup', this.keypress_handler);
     }
 
@@ -713,7 +715,8 @@ export class FullSizePhoto {
             .then(response => img_src = response.padded_photo_url);
         let title = this.i18n.tr('app-title');
         let description = this.photo_info.name;
-        let url = `${location.pathname}${location.hash}`;
+        let hash = (this.photo_url) ? this.photo_url : location.hash;
+        let url = `${location.pathname}${hash}`;
         let current_url;
         await this.api.call_server_post('default/get_shortcut', { url: url })
             .then(response => {
