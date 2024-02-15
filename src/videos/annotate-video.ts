@@ -205,6 +205,7 @@ export class AnnotateVideo {
                 this.members=response.members;
                 this.all_members = this.members;
                 //if (this.video_type == 'youtube')
+                this.user.set_photo_link(response.thumbnail_url, 0);  //so thumbnail will be used when sharing
                 this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
                 if (this.cuepoints_enabled)
                     this.set_video_source();
