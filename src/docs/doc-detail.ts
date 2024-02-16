@@ -93,6 +93,7 @@ export class DocDetail {
     subscriber;
     photo_uploaded = false;
     counter = 0;
+    orig_photo_link;
 
     constructor(api: MemberGateway, ea: EventAggregator, i18n: I18N, user: User, theme: Theme, misc: Misc,
         router: Router, dialog: DialogService) {
@@ -123,10 +124,12 @@ export class DocDetail {
             this.working = false;
             this.photo_uploaded = msg.good;
         });
+        this.orig_photo_link = this.user.get_photo_link();
     }
 
     detached() {
         this.subscriber.dispose();
+        this.user.set_photo_link(this.orig_photo_link, 0);
     }
 
     async activate(params, config) {
@@ -216,6 +219,7 @@ export class DocDetail {
                     this.page_options.push(option);
                 }
                 this.api.hit('DOC', doc_id);
+                this.user.set_photo_link(response.doc_thumbnail_url, 0);
             });
     }
 
@@ -246,6 +250,7 @@ export class DocDetail {
             this.curr_info.doc_date_str = this.doc_date_str.slice(0);
             this.curr_info.doc_date_datespan = this.doc_date_datespan;
             this.api.hit('DOCSEG', this.doc_segment_id);
+            this.user.set_photo_link(response.doc_segment_thumbnail_url, 0);
         });
     }
 
