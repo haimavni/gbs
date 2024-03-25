@@ -138,15 +138,13 @@ export class AnnotateVideo {
             this.video_name = params.video_name;
             this.video_src = params.video_src;
             this.video_type = params.video_type || "youtube";
-            if (this.video_type == 'youtube')
-                this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque&t=0"
         }
         this.cuepoints_enabled = params.cuepoints_enabled;
         if (this.cuepoints_enabled == 'false')
             this.cuepoints_enabled = false;
         else if(this.cuepoints_enabled == 'true')
-            this.cuepoints_enabled = true;
-        else console.log("unknown value cuepoints enabled")
+            this.cuepoints_enabled = this.video_type == 'youtube';
+        else console.log("unknown value cuepoints enabled");
         if (this.video_type == 'youtube' && this.cuepoints_enabled) {
             this.player = this.ytKeeper;
         }
@@ -202,11 +200,11 @@ export class AnnotateVideo {
             .then(response => {
                 this.video_id = response.video_id;
                 this.video_src = response.video_source;
-                this.members=response.members;
+                this.video_url = response.video_url;
+                this.members = response.members;
                 this.all_members = this.members;
                 //if (this.video_type == 'youtube')
                 this.user.set_photo_link(response.thumbnail_url, 0);  //so thumbnail will be used when sharing
-                this.video_url = "https://www.youtube.com/embed/" + this.video_src + "?wmode=opaque"
                 if (this.cuepoints_enabled)
                     this.set_video_source();
                 let cue_points = response.cue_points;
