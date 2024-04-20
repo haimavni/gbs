@@ -133,7 +133,7 @@
                             <div if.bind="user.privileges.ADMIN && user.editing && ! caller_type && ! got_duplicates && ! working" class="input-group">
                                 <button
                                     t="[title]photos.find-duplicates"
-                                    click.trigger="find_duplicates()"
+                                    click.trigger="find_duplicates($event)"
                                     class="btn btn-basic btn-md btn-framed">
                                     <i class="fa fa-clone"></i>
                                 </button>

@@ -96,7 +96,8 @@
                 </div>
             </div>
             <div class="video-area" if.bind="!cuepoints_enabled">
-                <iframe src.bind="video_url" frameborder="0" width.bind="video_width" height.bind="video_height" allowfullscreen="x">
+                <iframe src.bind="video_url" frameborder="0" width.bind="video_width" height.bind="video_height" 
+                     allow.bind="allow" allowfullscreen="x">
                 </iframe>
                 <button if.bind="user.editing"
                         class="btn btn-primary btn-framed"

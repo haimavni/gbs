@@ -52,6 +52,7 @@ export class AnnotateVideo {
     video_src = "";
     video_type = "youtube";
     video_url;
+    allow;
     cuepoints_enabled;
     video_is_ready;
     options_settings: MultiSelectSettings;
@@ -201,6 +202,7 @@ export class AnnotateVideo {
                 this.video_id = response.video_id;
                 this.video_src = response.video_source;
                 this.video_url = response.video_url;
+                this.allow = response.allow;
                 this.members = response.members;
                 this.all_members = this.members;
                 //if (this.video_type == 'youtube')

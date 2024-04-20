@@ -7,7 +7,6 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import * as toastr from 'toastr';
 import { User } from '../services/user';
 import { Misc } from '../services/misc';
-import { timingSafeEqual } from 'crypto';
 
 @autoinject()
 export class AddVideo {
@@ -47,7 +46,7 @@ export class AddVideo {
     }
 
     send() {
-        this.api.call_server_post('videos/save_video', {params: this.params, user_id: this.user.id})
+        this.api.call_server_post('videos/save_video', {params: this.params, user_id: this.user.id, thumbnail_src: this.user.get_photo_link()})
             .then((response: { user_error: any; error: any; }) => {
                 if (response.user_error || response.error) {
                     //toastr.warning("<p dir='rtl'>" + this.i18n.tr(response.user_error) + "</p>", '', 10000);

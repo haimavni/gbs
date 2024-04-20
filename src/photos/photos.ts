@@ -809,10 +809,13 @@ export class Photos {
         return content;
     }
 
-    find_duplicates() {
+    async find_duplicates(event) {
         let selected_photos = Array.from(this.selected_photos);
         this.working = true
         let lst = (selected_photos.length > 0) ? selected_photos : null;
+        if (event.altKey && lst.length == 2) {  //force marking as duplicates when the algorithm does not work
+            await this.api.call_server_post('photos/mark_duplicates', {selected_photos: lst});
+        }
         this.api.call_server_post('photos/find_duplicates', {selected_photos: lst})
             .then(result => {
                 this.working = false
