@@ -261,23 +261,19 @@ export class UserMode {
         this.theme.hide_title = true;
         let padded_photo_url;
         let photo_url = this.user.get_photo_link();
-        let photo_id;
-        if (photo_url) {
-            photo_id = this.user.get_curr_photo_id();
-        } else {
+        let photo_id = this.user.get_curr_photo_id();
+        if (! photo_url) {
             photo_url = this.user.config.cover_photo;
-            //photo_id = this.user.config.cover_photo_id;
+            photo_id = this.user.config.cover_photo_id;
         }
-        if (photo_id) {
-            await this.api.call_server_post('photos/get_padded_photo_url', 
-                {photo_url: photo_url, 
-                photo_id: photo_id})
-                .then(response => {
-                    padded_photo_url = response.padded_photo_url;
-                })
-            } else {
-                padded_photo_url = photo_url;
-            }
+       
+        await this.api.call_server_post('photos/get_padded_photo_url', 
+            {photo_url: photo_url, 
+            photo_id: photo_id})
+            .then(response => {
+                padded_photo_url = response.padded_photo_url;
+            })
+        
         this.dialog.open({ viewModel: FacebookCard,
             model: {current_url: this.current_url,
                 img_src: padded_photo_url}, lock: false })

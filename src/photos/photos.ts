@@ -87,6 +87,7 @@ export class Photos {
     options_settings: MultiSelectSettings;
     photographers_settings: MultiSelectSettings;
     caller_type;
+    sender;
     caller_id: number;
     with_a_member = false;
     with_a_member_text = "";
@@ -185,6 +186,7 @@ export class Photos {
     }
 
     activate(params, routeConfig) {
+        this.sender = params.sender;
         this.selected_photo_container = params;
         if (routeConfig && routeConfig.name == 'associate-photos') {
             this.caller_id = params.caller_id;
@@ -280,6 +282,10 @@ export class Photos {
     detached() {
         this.theme.display_header_background = false;
         this.theme.page_title = "";
+        if (this.sender == "photo-strip") {
+            this.photo_list = [];
+            this.sender = null;
+        }
     }
 
     update_photo_list() {
